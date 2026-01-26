@@ -1,0 +1,117 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-adding-a-sparkline-to-an-excel-worksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Exporting"],
+    "guid": "6621af60-43b5-4ba1-94d0-85367c0064b9",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7787089Z"
+}
+|metadata|
+////
+
+= スパークラインをワークシートに追加 ({ExcelEngineName})
+
+このトピックは、以下のセクションで構成されます。
+
+[start=1]
+* <<purpose,目的>>
+* <<required_background,前提条件>>
+
+
+* <<adding_sparkline,スパークラインを Excel ワークシートに追加>>
+** <<supported_sparklines,サポートされるスパークライン>>
+** <<introduction,はじめに>>
+** <<preview,プレビュー>>
+** <<codesnippets,コード スニペット>>
+
+[[purpose]]
+== 目的
+
+このトピックでは、データ トレンドを視覚的に表示するためにコードを使用して Excel® ワークシート (.xlsx) にスパークラインを追加する方法を表します。 スパークラインでデータでの変更を簡単にビジュアル化できます。スパークラインはワークシート内のセル内にどこでも配置できます。
+
+[[required_background]]
+== 前提条件
+*注： XLSX 形式は必要です。現在他の形式はサポートされていません。*
+
+
+以下のトピックがあります。
+ifdef::wpf[]
+
+* link:excelengine-creating-a-workbook.html[ワークブックの作成 (Infragistics Excel Engine)]
+
+* link:excelengine-save-a-workbook.html[ワークブックの保存 (Infragistics Excel Engine)]
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+* link:excelengine-create-a-workbook.html[ワークブックを作成 (Infragistics Excel Engine)]
+
+* link:excelengine-write-a-workbook-to-an-excel-file[ワークブックを Excel ファイルに書き出す (Infragistics Excel Engine)]
+
+endif::win-forms[]
+
+[[adding_sparkline]]
+== スパークラインを Excel ワークシートに追加
+
+[[supported_sparklines]]
+=== サポートされるスパークライン
+
+以下はサポートされる定義済スパークラインのタイプです。
+
+[options="header", cols="a,a,a,a"]
+|====
+|SparklineType|外観||
+
+|Line
+|image::images/ExcelChart_Sparkline_Line.png[]
+||
+|Column
+|image::images/ExcelChart_Sparkline_Column.png[]
+||
+|Stacked
+|image::images/ExcelChart_Sparkline_Stacked.png[]
+||
+|====
+
+[[introduction]]
+=== はじめに
+
+ワークシートにスパークラインを追加する前に SparklineGroup の Add メソッドで Worksheet.SparklineGroups コレクションに新しい SparklineGroup を追加する必要があります。SparklineGroups の Add メソッドはスパークラインのタイプ、位置とデータの位置を表す 3 つのパラメーターを取得します。
+
+[[preview]]
+=== プレビュー
+
+以下に、Microsoft Excel 2016 で表示した Sheet1: Sparklines の最終的な結果のプレビューを示します。データは Sheet2: Data にあり、A1 から A10 までのデータは (4, 5, 2, 7, -1, 3, -2, 5, 2, and 6) です。
+
+image::images/ExcelChart_Sparklines.png[]
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+[[codesnippets]]
+=== コード スニペット
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim workbook As Workbook = New Workbook(WorkbookFormat.Excel2007)
+Dim sheet1 As Worksheet = workbook.Worksheets.Add("Sparklines")
+Dim sheet2 As Worksheet = workbook.Worksheets.Add("Data")
+sheet1.SparklineGroups.Add(SparklineType.Line, "Sparklines!A1:A1", "Data!A1:A10")
+sheet1.SparklineGroups.Add(SparklineType.Column, "Sparklines!B1:B1", "Data!A1:A10")
+sheet1.SparklineGroups.Add(SparklineType.Stacked, "Sparklines!C1:C1", "Data!A1:A10")
+----
+
+*C# の場合:*
+[source,csharp]
+----
+Workbook workbook = new Workbook(WorkbookFormat.Excel2007);
+Worksheet sheet1 = workbook.Worksheets.Add("Sparklines");
+Worksheet sheet2 = workbook.Worksheets.Add("Data");  
+sheet1.SparklineGroups.Add(SparklineType.Line, "Sparklines!A1:A1", "Data!A1:A10");
+sheet1.SparklineGroups.Add(SparklineType.Column, "Sparklines!B1:B1", "Data!A1:A10");
+sheet1.SparklineGroups.Add(SparklineType.Stacked, "Sparklines!C1:C1", "Data!A1:A10");
+----

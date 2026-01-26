@@ -1,0 +1,45 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-bookmarks",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{925EE8B7-A15A-4712-90E7-48C67FCAD856}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Bookmarks
+
+
+
+Bookmarks are a feature of the Adobe® Acrobat® Reader and serve no purpose on printed media; however, they are extremely useful to your reader when viewing your report in Acrobat Reader. The Report element uses the  pick:[win-forms=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]  enumeration to help generate the bookmarks. The Text element exposes a  pick:[win-forms=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]  property, which allows you to choose a heading based on the TextHeading enumeration. These headings are seen by the Report element as hierarchical. The Report element will gather all Text elements in your report that have their Heading property set and compile a list of bookmarks based on them. H1 headings will become first-level bookmarks while H2 headings will be included in their corresponding H1 bookmarks -- this logic is applied all the way through the heading hierarchy to H9. For more information, see link:documentengine-table-of-contents.html[Table of Contents], as much of this logic is very similar.
+
+image::images/DocumentEngine_Bookmarks_01.png[Shows a PDF that demonstrates Bookmarks, and is the result of the code listed below.]
+
+'''
+
+Add the following code to the code in the Table of Contents topic and you will have bookmarks matching your headings similar to the screen shot above.
+
+*In Visual Basic:*
+
+----
+' Assuming 'report' is your main Report element.
+' Passing true as AddLevel's parameter displays
+' the bookmark's second level, if it exists.
+report.Bookmarks.AddLevel(True)
+report.Bookmarks.AddLevel()
+----
+
+*In C#:*
+
+----
+// Assuming 'report' is your main Report element.
+// Passing true as AddLevel's parameter displays
+// the bookmark's second level, if it exists.
+report.Bookmarks.AddLevel(true);
+report.Bookmarks.AddLevel();
+----

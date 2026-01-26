@@ -1,0 +1,195 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-chart-crosshair",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Styling"],
+    "guid": "a21637d5-bc6b-4061-894f-2cd1f1755938",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.6593812Z"
+}
+|metadata|
+////
+
+= チャートの十字線
+
+このトピックは、コード例を示して、 link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールで十字線を有効にし、カスタマイズする方法を説明します。
+
+== 概要
+
+{DataChartName} コントロールでは、十字線は 2 つの垂直 (縦と横) 線のセットであり、特定の点をチャート上に正確に配置するために使用されます。十字線は、同じ軸の値上、またはその値近くに並べられたチャート上のポイント間の関係を識別する際に役立ちます。十字線は、 pick:[sl,wpf,win-rt,win-forms="マウス カーソル"]  または  pick:[win-rt,win-phone,xamarin="タップする指"] の、水平 (x 軸) または垂直 (y 軸) ロケーションに対応する位置で交わります。
+
+image::images/xamDataChart_RT_Chart_Crosshair_01.png[]
+
+図 1: 十字線ライン用のカスタム スタイルを含む {DataChartName} コントロール
+
+== 十字線を有効にする
+
+ifdef::wpf,win-universal,win-forms[]
+{DataChartName} の十字線はデフォルトでは非表示です。これを可視化するには、{DataChartName} コントロールの  pick:[wpf,win-universal="link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairvisibility.html[CrosshairVisibility]"]  pick:[win-forms="link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairvisibility.html[CrosshairVisibility]"]  プロパティを設定します。これによって、ユーザーがチャート プロット エリアで pick:[sl,wpf,win-rt,win-forms="マウス カーソルをホバーすると"]  pick:[win-rt="または pick:[win-phone,win-rt="タップ上に置き、指を抑えたままにすると"] "] 十字線が現れます。
+endif::wpf,win-universal,win-forms[]
+
+以下のコード スニペットは、十字線を {DataChartName} コントロールに追加する方法を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="Chart" CrosshairVisibility="Visible" />
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+var chart = new {DataChartName}();
+chart.CrosshairVisibility = Visibility.Visible;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+var chart = new {DataChartName}();
+chart.CrosshairVisibility = Visibility.Visible;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+var chart = new {DataChartName}();
+chart.CrosshairVisibility = Visibility.Visible;
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Dim chart As New {DataChartName}()
+chart.CrosshairVisibility = Visibility.Visible
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Dim chart As New {DataChartName}()
+chart.CrosshairVisibility = Visibility.Visible
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+CrosshairLayer c = new CrosshairLayer();
+c.setTargetSeries(series);
+c.setIsHorizontalLineVisible(true);
+c.setIsVerticalLineVisible(true);
+----
+
+endif::android[]
+
+ifdef::wpf,win-universal[]
+== 十字線のカスタマイズ
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+十字ポインターは以下の特性をカスタマイズできます。
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+* 線のスタイル
+* 線の色
+* 線の太さ
+
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+これらの特性は、テーブル 1 で説明されるプロパティのセットによって管理されます。
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+表 1: 十字線のカスタマイズ プロパティ。
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+
+[options="header", cols="a,a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明|デフォルト値
+
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairlinestyle.html[CrosshairLineStyle]
+|Style
+|十字線のスタイル。Line ターゲット タイプのリソース スタイルに設定します。
+|グレーのストローク、1.5 ピクセル幅の線
+
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairlinestyle.html[CrosshairLineStyle].Stroke
+|Brush
+|十字線の色。
+|グレー
+
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairlinestyle.html[CrosshairLineStyle].StrokeThickness
+|double
+|十字線の太さ (ピクセル)。
+|1.5
+
+|====
+
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+以下のコードは、5 ピクセル幅の通常の赤い直線を持つ十字線を有効にし、構成する方法を示します。
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="DataChart"
+                 CrosshairVisibility="Visible" >
+            <ig:{DataChartName}.CrosshairLineStyle>
+                <Style TargetType="Line">
+                    <Setter Property="Stroke" Value="Gray" />
+                    <Setter Property="StrokeThickness" Value="1.5" />
+                </Style>
+            </ig:{DataChartName}.CrosshairLineStyle> 
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:datachart-chart-navigation.html[チャート ナビゲーション]
+
+ifdef::wpf,win-universal[]
+* link:datachart-chart-tooltips.html[チャート ツールチップ]
+
+endif::wpf,win-universal[]
+
+* link:datachart-series-types.html[シリーズ タイプ]
+* link:datachart-series-requirements.html[シリーズ要件]

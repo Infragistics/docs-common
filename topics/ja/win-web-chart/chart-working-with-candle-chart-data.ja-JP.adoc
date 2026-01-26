@@ -1,0 +1,244 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-candle-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{F8C9CC9C-C0C6-414B-BCFE-4A4418B12D16}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ローソク足チャート データでの作業
+
+このトピックでは、ローソク足チャートでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、ローソク足チャートのデータ要件のリストです。
+
+* データ セットには、少なくともひとつ以上の DateTime 列と 5 つの数値列が含まれます。
+* 5 つの数値列は Open、High、Low、Close、Volume の順に名前が指定されます。列は順序付けられる必要があります。カスタムのビジネス オブジェクトへのバインドでは、正しい順序でプロパティを返すために ICustomTypeDescriptor を実装する必要があります。
+* ローソク足チャートを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+* link:chart-composite-chart.html[合成チャート]でローソク足チャートを使用する場合には、チャートの軸要件の詳細は、 link:chart-axis-requirements-for-composite-charts.html[「合成チャートの軸要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データをローソク足チャートにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* データの各行は、ひとつの「ローソク」を表します。
+* 「Date」列の値は、x 軸（水平軸）のラベルに使用されます。
+* 四角形の上下として「開始」および「終了」値をプロットするために y 軸を使用して四角形枠を描画します。
+* 「開始」値が「終了」値よりも大きい場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~negativerangecolor.html[NegativeRangeColor]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~negativerangecolor.html[NegativeRangeColor]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~negativerangecolor.html[NegativeRangeColor]"]  は、枠を塗りつぶすために使用されます。「終了」値が「開始」値よりも大きい場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~positiverangecolor.html[PositiveRangeColor]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~positiverangecolor.html[PositiveRangeColor]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~positiverangecolor.html[PositiveRangeColor]"]  は、枠を塗りつぶすために使用されます。
+* 線の上下として「高値」および「安値」をプロットするために y 軸を使用して縦線を描画します。この線は「芯」と呼ばれます。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~volumevisible.html[VolumeVisible]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~volumevisible.html[VolumeVisible]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~volumevisible.html[VolumeVisible]"]  プロパティが True に設定された場合に限り、ボリューム列のコンテンツが描画されます（デフォルトでこのプロパティは False に設定されます）。Y2 軸はボリューム値をプロットするために使用されます。デフォルトで、Y2 軸は表示されませんが、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~visible.html[UltraChart.Axis.Y2.Visible]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~visible.html[UltraChart.Axis.Y2.Visible]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~visible.html[UltraChart.Axis.Y2.Visible]"]  プロパティを使用してこの設定を変更できます。
+* DataTable にバインドする場合、CandleSeries を使用してどの列を Open、Close、High、Low および Volume として使用するかを明示的に指定します。
+
+描画されたローソク足チャートとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockDate|StockOpen|StockHigh|StockLow|StockClose|StockVolume
+
+|1/3/2006
+|82
+|83
+|81
+|82
+|11715100
+
+|12/27/2005
+|83
+|84
+|82
+|82
+|4405500
+
+|12/19/2005
+|83
+|84
+|82
+|83
+|5459640
+
+|12/12/2005
+|87
+|87
+|83
+|83
+|7861060
+
+|12/5/2005
+|88
+|90
+|86
+|87
+|5285560
+
+|11/28/2005
+|89
+|90
+|88
+|89
+|5153080
+
+|11/21/2005
+|88
+|89
+|87
+|89
+|4548275
+
+|11/14/2005
+|84
+|88
+|84
+|88
+|6143900
+
+|11/7/2005
+|83
+|85
+|82
+|85
+|4352520
+
+|10/31/2005
+|82
+|83
+|81
+|83
+|6230800
+
+|10/24/2005
+|83
+|84
+|80
+|81
+|5158680
+
+|10/17/2005
+|82
+|85
+|82
+|83
+|7857220
+
+|10/10/2005
+|81
+|84
+|81
+|82
+|7269860
+
+|10/3/2005
+|80
+|81
+|79
+|80
+|6184360
+
+|9/26/2005
+|78
+|81
+|77
+|80
+|6023340
+
+|9/19/2005
+|78
+|81
+|77
+|80
+|6023340
+
+|9/12/2005
+|81
+|82
+|80
+|80
+|5022080
+
+|9/6/2005
+|80
+|82
+|80
+|81
+|4670325
+
+|8/29/2005
+|80
+|82
+|79
+|79
+|5034300
+
+|8/22/2005
+|83
+|83
+|80
+|80
+|4442100
+
+|8/15/2005
+|80
+|83
+|81
+|83
+|4577160
+
+|8/8/2005
+|83
+|84
+|82
+|82
+|4513760
+
+|8/1/2005
+|83
+|84
+|83
+|83
+|4453140
+
+|7/25/2005
+|84
+|85
+|83
+|83
+|4876580
+
+|7/18/2005
+|82
+|85
+|82
+|84
+|9002840
+
+|7/11/2005
+|79
+|83
+|79
+|82
+|9132500
+
+|7/5/2005
+|74
+|80
+|74
+|79
+|9347200
+
+|====
+
+image::images/Chart_Candle_Chart_04.png[]

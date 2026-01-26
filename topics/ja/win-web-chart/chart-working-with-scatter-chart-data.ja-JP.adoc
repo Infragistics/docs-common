@@ -1,0 +1,112 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-scatter-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{39693507-C2F9-47D0-8F66-AA843C7F66DE}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= 散布図データでの作業
+
+このトピックでは、散布図でデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、散布図のデータ要件のリストです。
+
+* データ セットには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  プロパティによって識別される 2 つの数値列が含まれます。
+* 散布図を Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+* link:chart-composite-chart.html[合成チャート]で散布図を使用する場合には、チャートの軸要件の詳細は、 link:chart-axis-requirements-for-composite-charts.html[「合成チャートの軸要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が x および y 値を表し、各列に各シリーズの点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを散布図にマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* ColumnX と ColumnY として指定される最初の 2 つの数値列は、表示する順番に使用されます。
+* ColumnX と ColumnY に代替えの列（または行）を選択できます。
+* 散布図では x 軸（水平軸）と y 軸（垂直軸）は両方とも数値であるため、データは平面上にプロットされます。両方の軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+
+UltraChart.Axis.X.Labels.ItemFormatString = “<DATA_VALUE:##.##>” UltraChart.Axis.Y.Labels.ItemFormatString = “<DATA_VALUE:##.##>”
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  プロパティが True に設定される場合、線分は後続の行で識別される点を結びます。
+* 各行はひとつの散布点を表します。
+* ColumnX と ColumnY プロパティで指定したインデックスの列を使用し、各散布点の水平（X）位置と垂直（Y）位置を決定します。
+* 散布点は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  プロパティを指定して、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  プロパティを True に設定することによって、特定の列の値に応じてグループ化できます。異なるグループの散布点に異なるアイコン/色が使用されます。ConnectWithLines プロパティが True に設定されると、線は同じグループ内の散布点を結びます。
+* データ内で現れる最初の文字列の列は行ラベルに使用されます。
+* 行ラベルに使用する代替の列を選択して、プライマリ/セカンダリ ラベルを切り替えることができます。
+* 開発者は、UltraChart.Data. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用して、任意の列をチャートに追加または削除できます。
+
+描画された散布図とともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a"]
+|====
+|緯度|経度|Crimerate
+
+|0
+|0
+|2.36
+
+|120
+|25
+|6.69
+
+|-25
+|100
+|3.65
+
+|-80
+|-100
+|5.36
+
+|63
+|-12
+|8.56
+
+|156
+|75
+|5.36
+
+|-129
+|166
+|7.29
+
+|-175
+|-86
+|1.23
+
+|96
+|-177
+|4.69
+
+|36
+|111
+|2.354
+
+|-75
+|69
+|5.58
+
+|-99
+|-50
+|4.36
+
+|29
+|-143
+|6.24
+
+|====
+
+image::images/Chart_Scatter_Chart_01.png[]

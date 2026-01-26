@@ -1,0 +1,63 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-publish-a-report",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{C69A04A1-A486-447F-ABAF-288743AF0550}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= レポートをパブリッシュ
+
+レポートのパブリッシュは、PDF または XPS ファイルを書き出すことと同義語です。レポートを作成およびデザインしたら、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  オブジェクトから  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  メソッドを使用して、パブリッシュすることができます。Publish メソッドには 2 つのオーバーロードがあります。
+
+* 最初のオーバーロードの最初のパラメータは、レポートをパブリッシュするファイル名のフル パスに文字列を認めます。
+* 2 番目のオーバーロードの最初のパラメータはファイル ストリームを認めます。
+* 両方のオーバーロードの 2 番目のパラメータは、レポートとしてパブリッシュする FileFormat を認めます（PDF、XPS、プレーン テキスト）。
+
+以下のコードは、現在のユーザーのマイ ドキュメント フォルダ内にあるレポート（Report オブジェクトが「レポート」として定義されることを前提とします）を PDF ファイルとしてパブリッシュします。レポートがパブリッシュされたら、System.Diagnostics 名前空間から Process.Start メソッドを使用して、新しい PDF ファイルを開くことができます。ボタン、ツールバー、メニュー、またはその他の任意のクリック可能な UI エレメントから Start メソッドを呼び出すことも可能です。
+
+[NOTE]
+====
+*注:* プロセスを開始する前にエンド ユーザーのシステムに Adobe Acrobat Reader がインストールされていることを確認してください。Acrobat Reader がインストールされていない場合には、トライ/キャッチ ブロックを使用して、例外をキャッチするといいでしょう。また、XPS ドキュメントを表示したい場合には、エンド ユーザーのシステムに .NET Framework 3.0 がインストールされている必要があります。
+====
+
+*Visual Basic の場合：*
+
+----
+' 現在のユーザーのマイ ドキュメント フォルダ
+' へのパスを含む文字列を定義します。
+Dim myDocuments As String = _
+  System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)
+' TestReport.pdf の名前で、現在のユーザーの 
+' マイ ドキュメント フォルダにレポートをパブリッシュします。
+' XPS またはプレーン テキスト ファイルでレポートをパブリッシュするために 
+' FileFormat 列挙体を使用できます。
+report.Publish(myDocuments + "\Report.pdf", FileFormat.PDF)
+' Process.Start メソッドは、そのファイルを実行するために
+' 登録されたアプリケーションを使用して、指定されたファイルを実行します。
+System.Diagnostics.Process.Start((myDocuments + "\Report.pdf"))
+----
+
+*C# の場合：*
+
+----
+// 現在のユーザーのマイ ドキュメント フォルダ
+// へのパスを含む文字列を定義します。
+string myDocuments =
+  System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+// TestReport.pdf の名前で、現在のユーザーの 
+// マイ ドキュメント フォルダにレポートをパブリッシュします。
+// XPS またはプレーン テキスト ファイルでレポートをパブリッシュするために 
+// FileFormat 列挙体を使用できます。ファイルのフォーマットを 
+// 変更する場合には、ファイル拡張子を変更することを忘れないでください。
+report.Publish(myDocuments + "\\Report.pdf", FileFormat.PDF);
+// Process.Start メソッドは、そのファイルを実行するために
+// 登録されたアプリケーションを使用して、指定されたファイルを実行します。
+System.Diagnostics.Process.Start(myDocuments + "\\Report.pdf");
+----

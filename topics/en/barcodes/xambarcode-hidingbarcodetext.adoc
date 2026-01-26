@@ -1,0 +1,146 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-hidingbarcodetext",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "0b29a5da-85ec-4144-bdf6-c32999525c71",
+    "buildFlags": ["XAML","WINFORMS"],
+    "createdOn": "2015-09-23T20:37:53.1741392Z"
+}
+|metadata|
+////
+
+= Hiding Barcode Text
+
+== Topic Overview
+
+=== Purpose
+
+A demonstration on using the {Barcode128Name}™ control to hide the human-readable text.
+
+=== Required background
+
+Prerequisite topics required to understand this material.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:xambarcode-about-xambarcode.html[About {BarcodesName}]
+|Describes the control and related topics.
+
+|====
+
+== Hiding Human Readable Text – Conceptual Overview
+
+=== Introduction
+
+The {Barcode128Name} exposes the Boolean link:{BarcodesLink}.{Barcode128Name}{ApiProp}showtext.html[ShowText] property. When this property is set to  _true_  , its default value, the human readable text or data of the bar code, as it is sometimes called, is visible under the barcode. This property must be set to  _false_   to stop the human readable text from being rendered on the screen.
+
+[options="header", cols="a,a"]
+|====
+|Human-readable text enabled:|Human-readable text disabled:
+
+|image::images/xamBarcode_HidingBarcodeText_01.png[]
+|image::images/xamBarcode_HidingBarcodeText_02.png[]
+
+|====
+
+=== Supported Types of Symbologies
+
+_{BarcodesName}_   supported link:http://en.wikipedia.org/wiki/Barcode#Symbologies[Symbologies]
+
+ifdef::xaml,win-forms[]
+* link:{BarcodesLink}.{BarcodeGS1DataBarName}.html[{BarcodeGS1DataBarName}]
+endif::xaml,win-forms[]
+
+* link:xambarcode-configuring-code128.html[{Barcode128Name}]
+
+ifdef::xaml,win-forms[]
+
+* link:{BarcodesLink}.{Barcode39Name}.html[{Barcode39Name}]
+
+* link:{BarcodesLink}.{BarcodeEanUpcName}.html[{BarcodeEanUpcName}]
+
+* link:{BarcodesLink}.{BarcodeInterleaved2of5Name}.html[{BarcodeInterleaved2of5Name}]
+
+* link:{BarcodesLink}.{BarcodeRoyalMailName}.html[{BarcodeRoyalMailName}]
+
+endif::xaml,win-forms[]
+
+== Hiding the Barcode Text – Code Example
+
+=== Description
+
+The following code samples demonstrate how to use _{Barcode128Name}_ link:{BarcodesLink}.{Barcode128Name}{ApiProp}showtext.html[ShowText] property to either display or hide the human-readable barcode text. By default, the property is set to  _true_   _,_    _which displays the text._   This property must be set to  _false_   in order to hide the human-readable text.
+
+=== Code
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamGs1DataBarBarcode 
+    CodeType="Expanded"
+    Data="1234567890"
+    ShowText=" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+ifdef::xaml[]
+----
+XamGs1DataBarBarcode   
+Barcode = new XamGs1DataBarBarcode ;
+Barcode.Data = "1234567890";
+Barcode.CodeType = 
+ifdef::win-forms[]
+Code128CodeType
+endif::win-forms[]
+GS1CodeType.Expanded;
+Barcode.ShowText = false;
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+UltraCode128Barcode Barcode = new UltraCode128Barcode();
+Barcode.Data = "1234567890";
+Barcode.CodeType = Code128CodeType.Standard;
+Barcode.ShowText = false;
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+
+*In Visual Basic:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamGs1DataBarBarcode()
+Barcode.Data = "1234567890"
+Barcode.CodeType =
+GS1CodeType  .Expanded   
+Barcode.ShowText = false
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+Dim Barcode As New UltraCode128Barcode()
+Barcode.Data = "1234567890"
+Barcode.CodeType = Code128CodeType.Standard
+Barcode.ShowText = False
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]

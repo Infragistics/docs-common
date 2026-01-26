@@ -1,0 +1,792 @@
+﻿////
+|metadata|
+{
+    "name": "bulletgraph-overview",
+    "controlName": ["{BulletGraphName}"],
+    "tags": ["API","Charting","Data Presentation","Getting Started","How Do I"],
+    "guid": "e814ac4f-aa81-4605-94ea-12b7301084ed",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:11.9898602Z"
+}
+|metadata|
+////
+
+= Overview of Bullet Graph Features
+
+
+
+=== Purpose
+
+This topic provides conceptual information about the link:{BulletGraphLink}.{BulletGraphName}.html[_{BulletGraphName}_]™ control including its main features, minimum requirements, and user functionality.
+
+=== Required background
+
+The following concept is required for understanding this topic.
+
+* link:http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf[Bullet graph Specification]
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref357610654, Introduction >>
+
+** <<_BulletGraphSummary, _{BulletGraphName}_ summary>>
+
+* <<_Ref357610659, Main Features >>
+
+** <<_Ref361167396,Main features summary>>
+** <<_Ref361167400,Main features summary chart>>
+
+* <<_Configurable_Visual_Elements, Logical areas and Configurable Visual Elements Summary >>
+
+** <<_Logical_areas,Logical areas>>
+** <<_Configurable_visual_elements_1,Configurable visual elements>>
+
+* <<_ConfigurableVisualElementsAndRelatedProperties, Configurable Visual Elements and Related Properties >>
+
+** <<_Ref361168497,Configurable visual elements and related properties summary>>
+
+ifdef::sl,wpf[]
+** <<_TitleSubtitleOverview,Title/subtitle>>
+
+endif::sl,wpf[]
+
+** <<_ScaleOverview,Scale>>
+** <<_PerformanceBarOverview,Performance bar>>
+** <<_ComparativeMarkerOverview,Comparative marker>>
+** <<_ComparativeRangesOverview,Comparative ranges>>
+** <<_BackgroundOverview,Background>>
+
+ifdef::sl,wpf[]
+** <<_TooltipsOverview,Tooltips>>
+
+endif::sl,wpf[]
+
+* <<Animated_Transitions_Heading, Animated Transitions Configuration >>
+* <<_Ref361168550, Default Configuration >>
+* <<_Ref361168555, Requirements >>
+* <<_RelatedContent, Related Content >>
+   
+[[_Ref357610654]]
+== Introduction
+
+[[_BulletGraphSummary]]
+
+=== {BulletGraphName} summary
+
+The _{BulletGraphName}_ control is an {ProductName} control which allows for visualizing data in the form of a bullet graph. Linear by design, it provides a simple and concise view of a primary measure compared against a scale and, optionally, some other measure.
+
+image::images/BulletGraph_Overview_1.png[]
+
+The _{BulletGraphName}_ control provides you with the ability to create attractive data presentations, replacing meters and gauges that are used on dashboards with simple yet straightforward and clear bar charts. A bullet graph is one of the most effective and efficient ways to present progress towards goals, good/better/best ranges, or compare multiple measurements in as little horizontal or vertical space as possible.
+
+[[_Ref357610659]]
+== Main Features
+
+[[_Ref361167396]]
+
+=== Main features summary
+
+The features of _{BulletGraphName}_ include configurable orientation and direction, configurable visual elements, and more. The control has also a built-in support for animated transitions.
+
+[[_Ref361167400]]
+
+=== Main features summary chart
+
+The following table summarizes the main features of the _{BulletGraphName}_ control.
+
+[options="header", cols="a,a"]
+|====
+|Feature|Description
+
+|Configurable orientation and direction
+|The _{BulletGraphName}_ control exposes an API for setting the state of its scale’s orientation and direction, so that the look of the graph can be largely customized. (For details, see the link:bulletgraph-configuring-the-orientation-and-direction.html[Configuring the Orientation and Direction] topic.)
+
+|Configurable visual elements
+|Each of the <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> of the bullet graph can be configured in several aspects. (For details, see <<_ConfigurableVisualElementsAndRelatedProperties,Configurable Visual Elements of _{BulletGraphName}_ and Related Properties>>.)
+
+|[[_AnimatedTransitions]] 
+
+Animated transitions
+|The _{BulletGraphName}_ control provides built-in support for animation by its link:{BulletGraphLink}.{BulletGraphName}{ApiProp}transitionduration.html[TransitionDuration] property. The animation effect occurs on loading the control as well as when the value of any of its properties is changed. (For details, see <<Animated_Transitions_Heading,Animated Transitions Configuration>>.)
+
+ifdef::sl,wpf[]
+|Support for tooltips
+|The built-in tooltips of the _{BulletGraphName}_ control show the values used to create the performance bar, the target value or the values, corresponding to the different ranges respectively. They are initially styled in accordance with the default look of the control, but their look can be customized by templates. By default, tooltips are disabled. (For details, see link:bulletgraph-configuring-the-tooltips.html[Configuring Tooltips])
+endif::sl,wpf[]
+
+|====
+
+[[_Ref357610667]]
+[[_Configurable_Visual_Elements]]
+[[_Ref361087347]]
+[[_Ref357610672]]
+== Logical areas and Configurable Visual Elements Summary
+
+[[_Logical_areas]]
+
+=== Logical areas
+
+The user-visible area of the _{BulletGraphName}_ control is logically divided into the following areas:  pick:[sl,wpf="Title area,"]  Reserved area, and Graph area.
+
+ifdef::sl,wpf[]
+
+[options="header", cols="a,a"]
+|====
+|Horizontal orientation|Vertical orientation
+
+|image::images/BulletGraph_Overview_2.png[]
+|image::images/BulletGraph_Overview_3.png[]
+
+|====
+
+endif::sl,wpf[]
+
+Each of them serves different purpose related to some of the <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> of the _{BulletGraphName}_ control.
+
+ifdef::sl,wpf[]
+[[_TitleAreaLink]]
+* *Title area* (0) - The Title area is the area in which the title/subtitle of the bullet graph are displayed. This area cannot overlap the scale (i.e. the <<_ReservedAreaLink,Reserved area>> and the <<_GraphAreaLink,Graph area>>).
+
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+Not set by default, when the bullet graph is oriented horizontally, the Title area configures its width automatically to fit the title and/or subtitle (whichever is longer). In addition to that, you can set the width of the Title area explicitly, a capability which comes handy when you have several _{BulletGraphName}_ controls placed on top of each other and you want their Title areas to have the same widths for a well-aligned look-and-feel.
+endif::sl,wpf[]
+
+[[_ReservedAreaLink]]
+* *Reserved area* pick:[sl,wpf="(1)"]  – This area spreads:
+
+** Along the scale – the Reserved area begins either at the edge of the control  pick:[sl,wpf="(when no Title area exists) or at the edge of the Title area (as in the pictures above)"]  and ends at the edge of the control.
+** Across the scale –
+
+*** In horizontal orientation: the Reserved area begins at the bottom edge of the control and spreads upward as much as the height of the numbering labels is (depending on the size and the other formatting of the font used in the labels)
+*** In vertical orientation: the Reserved area begins at the left edge of the control and spreads to the right as much as the width of the numbering labels is (depending on how large the numbers of the measurements of the scale are and the size and the other formatting of the font used in the labels).
+
+The main purpose of the Reserved area is to provide enough space for the numbering labels of the scale at any orientation – horizontal or vertical (The Reserved area automatically re-sizes when the orientation changes in order to accommodate the specific space requirements for displaying the numbering labels in each of the orientations: in horizontal orientation, the area has to fit the labels’ height and in vertical orientation – their maximum width.) This doesn’t mean that you must necessarily place the numbering labels in the Reserved area: actually, you can position the label row across-the-scale anywhere within the <<_GraphAreaLink,Graph area>>. However, even if you place the label row outside Reserved area, this will have no bearing on the spread and location of the Reserved area itself – it remains where it is, automatically defined through the height/width (depending on the orientation) of the numbering labels.
+
+Another aspect in which the Reserved area is significant is the fact that its inner edge specifies the beginning edge of the <<_GraphAreaLink,Graph area>> in the across-the-scale dimension. This is important, because this edge serves as a reference mark for the extent-related properties that position some <<_Configurable_visual_elements_1,>><<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> across the scale. (Positive values for these properties – the most common case – position the visual elements inside the <<_GraphAreaLink,Graph area>> and negative values – inside the Reserved area.)
+
+[[_GraphAreaLink]]
+* *Graph area* pick:[sl,wpf="(2)"]  – The area for displaying the performance bar, the tick marks, the ranges, and, optionally, the numbering labels of the bullet graph. All extent-related properties for these visual elements (except for labels) are measured against its edges. The Graph area serves not as a placeholder but as a frame of reference for positioning the scale inside the control (More precisely, for positioning the <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> of the scale).
+
+Spread of the Graph area:
+
+* Along the scale – the Graph area begins  pick:[sl,wpf="either"]  at the edge of the control  pick:[sl,wpf="(when no <<_TitleAreaLink,Title area>> exists) or at the edge of the Title area (as in the pictures above)"]  and ends at the edge of the control. Both the starting and ending positions of the scale are measured against the starting edge of the Graph area (the left edge at horizontal orientation or bottom edge at vertical orientation).
+* Across the scale – the Graph area begins at the edge of the <<_ReservedAreaLink,Reserved area>> (this is the bottom edge of the Graph area at horizontal orientation or its left edge at vertical orientation). The edge of the Graph area that borders with the Reserved area serves as reference point for the extent-related properties of some of the visual elements of the scale (for positioning these elements across the scale).
+
+ifdef::sl,wpf[]
+Note that the Title area, on one side, and the Graph and Reserved areas, on the other, can be configured with swapped positions (e.g. the Graph and Reserved areas on the left and the Title area on the right at horizontal orientation): in this case, the Title area starts at the end of the scale so the Graph and Reserved areas begin at the edge of the control and end where the Title area begins. (For details, refer to the link:bulletgraph-configuring-the-title-subtitle.html[Configuring the Title/Subtitle] topic.)
+endif::sl,wpf[]
+
+[[_Configurable_visual_elements_1]]
+
+=== Configurable visual elements
+
+The _{BulletGraphName}_ control features the following visual elements  pick:[sl,wpf="(See the picture below.):"]
+
+*  *Performance bar*   pick:[sl,wpf="(3)"]  – This is the primary measure displayed by the control and is visualized as a bar.
+*  *Comparative marker*   pick:[sl,wpf="(4)"]  – A measure which the performance bar measure compares against. It is visualized as a marker that runs perpendicular to the orientation of the performance bar.
+*  *Comparative range(s)*   pick:[sl,wpf="(5)"]  – The ranges are visual elements that highlight a specified range of values on a scale. Their purpose is to visually communicate the qualitative state of the performance bar measure, illustrating at the same times the degree to which it resides within that state.
+*  *Tick marks*   pick:[sl,wpf="(6)"]  –The tick marks serve as a visual division of the scale into intervals in order to increase the readability of the bullet graph.
+
+**  *Major tick marks*  – The major tick marks are used as primary delimiters on the scale. The frequency they appear at, their extents and style can be controlled by setting the corresponding properties.
+**  *Minor tick marks*  – The minor tick marks represent helper tick marks, which might be used to additionally improve the readability of the scale and can be customized in a way similar to the major ones.
+
+*  *Scale labels*   pick:[sl,wpf="(7)"]  – The labels indicate the measures on the scale.
+*  *Border*   pick:[sl,wpf="(8)"]  – The line visually delimiting the dimensions of the control.
+*  *Background*   pick:[sl,wpf="(9)"]  – The background on which visual elements is placed is configurable in terms of pattern and color.
+
+ifdef::sl,wpf[]
+*  *Title/subtitle*  (10) – Title of the graph and additional details in the form of a subtitle. Both elements are displayed in the Title Area and their position on the control is adjusted against it.
+
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+image::images/BulletGraph_Overview_6.png[]
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+*  *Tooltips*  – show the values used to create the performance bar, the target value or the values, corresponding to the different ranges respectively.
+
+endif::sl,wpf[]
+
+[[_ConfigurableVisualElementsAndRelatedProperties]]
+== Configurable Visual Elements and Related Properties
+
+[[_Ref361168497]]
+
+=== Configurable visual elements and related properties summary
+
+There are several specific aspects in which each element can be configured.
+
+The following table provides an overview of the configurable aspects of the visual elements of the _{BulletGraphName}_ control. Further details about the configurable aspects with illustrations and the properties that configure them are available, for each visual element, in the blocks that follow the table:
+
+[options="header", cols="a,a"]
+|====
+|Visual element|Main configurable aspects
+
+ifdef::sl,wpf[]
+|<<_TitleSubtitleOverview,Title/subtitle>>
+|
+* Title area width (horizontal orientation only) 
+
+* Text 
+
+* Starting position of the text 
+
+endif::sl,wpf[]
+
+|<<_ScaleOverview,Scale>>
+|
+* Position 
+
+* Tick marks 
+
+* Labels 
+
+|<<_PerformanceBarOverview,Performance bar>>
+|
+* Value indicated 
+
+* Width and position 
+
+* Look-and-feel 
+
+|<<_ComparativeMarkerOverview,Comparative marker>>
+|
+* Value indicated 
+
+* Width 
+
+* Look-and-feel 
+
+|<<_ComparativeRangesOverview,Comparative ranges>>
+|
+* Number (of ranges in the graph) 
+
+* Length, width, and position 
+
+* Look-and-feel 
+
+|<<_BackgroundOverview,Background>>
+|
+* Size and position 
+
+* Look-and-feel 
+
+ifdef::sl,wpf[]
+|<<_TooltipsOverview,Tooltips>>
+|
+* Display delay 
+
+endif::sl,wpf[]
+
+|====
+
+[[_Hlk361768585]]
+
+ifdef::sl,wpf[]
+
+[[_TitleSubtitleOverview]]
+
+=== Title/subtitle
+
+ifdef::sl,wpf[]
+
+The following picture illustrates the <<_Logical_areas,>><<_TitleAreaLink,Title-area>>-related extents, listed in the table below.
+
+image::images/BulletGraph_Overview_8.png[]
+
+The following table maps the configurable aspects related to the title/subtitle of the bullet graph to the _{BulletGraphName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Title area breadth  (horizontal orientation only)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TitlesHorizontalRatio.html[TitlesHorizontalRatio]
+|Not set
+
+| Title area position  (relative to the <<_GraphAreaLink,Graph area>>)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TitlesPosition.html[TitlesPosition]
+|_TitlesPosition. ScaleStart_
+
+| Title Text
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}Title.html[Title]
+| _null_ 
+
+|Look-and-feel (configurable through style)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TitleStyle.html[TitleStyle]
+|Not set
+
+| Subtitle Text
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}Subtitle.html[Subtitle]
+| _null_ 
+
+|Look-and-feel (configurable through style)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}SubtitleStyle.html[SubtitleStyle]
+|Not set
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-the-title-subtitle.html[Configuring the Title/Subtitle]
+
+endif::sl,wpf[]
+
+endif::sl,wpf[]
+
+[[_ScaleOverview]]
+
+=== Scale
+
+The following pictures illustrate the scale-related extents, listed in the table below.
+
+[cols="a,a"]
+|====
+|Extent positioning the scale within the Graph area|Extents configuring the position of the labels
+
+|image::images/BulletGraph_Overview_9.png[]
+|image::images/BulletGraph_Overview_10.png[]
+
+|====
+
+[cols="a,a"]
+|====
+|Extents configuring the major tick marks along the scale|Extents configuring the major tick marks across the scale
+
+|image::images/BulletGraph_Overview_11.png[]
+|image::images/BulletGraph_Overview_12.png[]
+
+|====
+
+[cols="a"]
+|====
+|Extents configuring the minor tick marks across the scale
+
+|image::images/BulletGraph_Overview_13.png[]
+
+|====
+
+The following table maps the configurable aspects related to the scale of the bullet graph to the _{BulletGraphName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Position 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleStartExtent.html[ScaleStartExtent]
+| _0.05_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleEndExtent.html[ScaleEndExtent]
+| _0.95_ 
+
+| Min value 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MinimumValue.html[MinimumValue]
+| _0_ 
+
+| Max value 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MaximumValue.html[MaximumValue]
+| _100_ 
+
+| Major tick marks 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}Interval.html[Interval]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TicksPostInitial.html[TicksPostInitial]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TicksPreTerminal.html[TicksPreTerminal]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TickStartExtent.html[TickStartExtent]
+| _0.02_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TickEndExtent.html[TickEndExtent]
+| _0.2_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TickBrush.html[TickBrush]
+|Defined in the default theme
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TickStrokeThickness.html[TickStrokeThickness]
+| _2.0_ 
+
+|Minor tick marks
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MinorTickCount.html[MinorTickCount]
+|_3.0_
+
+| 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MinorTickStartExtent.html[MinorTickStartExtent]
+| _0.06_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MinorTickEndExtent.html[MinorTickEndExtent]
+| _0.2_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MinorTickBrush.html[MinorTickBrush]
+|Defined in the default theme
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}MinorTickStrokeThickness.html[MinorTickStrokeThickness]
+| _1.0_ 
+
+| Labels
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}LabelExtent.html[LabelExtent]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}LabelInterval.html[LabelInterval]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}LabelsPostInitial.html[LabelsPostInitial]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}LabelsPreTerminal.html[LabelsPreTerminal]
+| _0_ 
+
+ifdef::sl,wpf[]
+|  
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}LabelFormat.html[LabelFormat]
+|Not set
+endif::sl,wpf[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}FontBrush.html[FontBrush]
+|Defined in the default theme
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-the-scale.html[Configuring the Scale]
+
+[[_PerformanceBarOverview]]
+
+=== Performance bar
+
+The following picture illustrates the performance-bar-related extents, listed in the table below.
+
+image::images/BulletGraph_Overview_88.png[]
+
+The following table maps the configurable aspects related to the performance bar of the bullet graph to the _{BulletGraphName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects |Property|Default value
+
+ifdef::sl,wpf[]
+|Name 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueName.html[ValueName]
+|Not set
+endif::sl,wpf[]
+
+|Value to indicate 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}Value.html[Value]
+|Not set
+
+|Breadth and position 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueInnerExtent.html[ValueInnerExtent]
+| _0.5_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueOuterExtent.html[ValueOuterExtent]
+| _0.65_ 
+
+| Fill color
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueBrush.html[ValueBrush]
+|Defined in the default theme
+
+|Border color
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueOutline.html[ValueOutline]
+|Defined in the default theme
+
+|Border thickness
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueStrokeThickness.html[ValueStrokeThickness]
+| _1.0_ 
+
+ifdef::sl,wpf[]
+2|pick:[sl,wpf="Tooltip"]
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueToolTip.html[ValueToolTip]
+|Depends on whether link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ValueName.html[ValueName] has been initialized
+endif::sl,wpf[]
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-the-performance-bar.html[Configuring the Performance Bar]
+
+[[_ComparativeMarkerOverview]]
+
+=== Comparative marker
+
+The following picture illustrates the comparative-market-related extents, listed in the table below.
+
+image::images/BulletGraph_Overview_15.png[]
+
+The following table maps the configurable aspects related to the comparative marker of the bullet graph to the _{BulletGraphName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+| Value indicated 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TargetValue.html[TargetValue]
+|Not set
+
+| Breadth 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TargetValueBreadth.html[TargetValueBreadth]
+| _3.0_ 
+
+| Fill color
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TargetValueBrush.html[TargetValueBrush]
+|Defined in the default theme
+
+|Border color
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TargetValueOutline.html[TargetValueOutline]
+|Defined in the default theme
+
+|Border thickness
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}TargetValueStrokeThickness.html[TargetValueStrokeThickness]
+| _1.0_ 
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-the-comparative-marker.html[Configuring the Comparative Marker]
+
+[[_ComparativeRangesOverview]]
+
+=== Comparative ranges
+
+The following picture illustrates the comparative-ranges-related extents, listed in the table below.
+
+image::images/BulletGraph_Overview_16.png[]
+
+The following table maps the configurable aspects related to the comparative ranges of the bullet graph to the _{BulletGraphName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Number  (of ranges in the graph)
+|link:{BulletGraphLink}.{BulletGraphName}{ApiProp}Ranges.html[{BulletGraphName}.Ranges]
+|Not set
+
+|Length, width, and position
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}StartValue.html[{BulletGraphRange}.StartValue]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}EndValue.html[{BulletGraphRange}.EndValue]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}InnerStartExtent.html[{BulletGraphRange}.InnerStartExtent]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}InnerEndExtent.html[{BulletGraphRange}.InnerEndExtent]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}OuterStartExtent.html[{BulletGraphRange}.OuterStartExtent]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}OuterEndExtent.html[{BulletGraphRange}.OuterEndExtent]
+|Not set
+
+|Fill color
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}Brush.html[{BulletGraphRange}.Brush]
+|Defined in the default theme
+
+|Border color
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}Outline.html[{BulletGraphRange}.Outline]
+|Defined in the default theme
+
+|Border thickness
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}StrokeThickness.html[{BulletGraphRange}.StrokeThickness]
+|_1.0_
+
+ifdef::sl,wpf[]
+|Tooltip
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}RangeToolTip.html[{BulletGraphName}.RangeToolTip]
+|The start and end values of the range separated by a hyphen (-).
+endif::sl,wpf[]
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-comparative-ranges.html[Configuring Comparative Ranges]
+
+[[_BackgroundOverview]]
+
+=== Background
+
+The following picture illustrates the background-related extents, listed in the table below.
+
+image::images/BulletGraph_Overview_17.png[]
+
+The following table maps the configurable aspects related to the background of the bullet graph to the _{BulletGraphName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Spread and position  (across the scale)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}BackingInnerExtent.html[BackingInnerExtent]
+|_0_
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}BackingOuterExtent.html[BackingOuterExtent]
+|_1.0_
+
+| Color
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}BackingBrush.html[BackingBrush]
+|Defined in the default theme
+
+|Border color
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}BackingOutline.html[BackingOutline]
+|Defined in the default theme
+
+|Border thickness
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}BackingStrokeThickness.html[BackingStrokeThickness]
+| _2.0_ 
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-the-background.html[Configuring the Background]
+
+ifdef::sl,wpf[]
+
+[[_TooltipsOverview]]
+
+=== Tooltips
+
+The following table maps the configurable aspects of the _{BulletGraphName}_ control related to tooltips to the properties that manage them.
+
+[options="header", cols="a,a,a,a"]
+|====
+|Configurable aspects|Details|Properties / Events|Default value
+
+|Visibility
+|You can enable/disable tooltips for the _{BulletGraphName}_ control.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltip.html[ShowToolTip]
+|_False_
+
+|Delay
+|The timeout before the tooltip appears upon the visual element at mouse hovering is configurable in milliseconds.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltiptimeout.html[ShowToolTipTimeout]
+|_500_
+
+|Value
+|You can provide a custom value for the respective tooltip property. The value can be: 
+
+* Template 
+
+* String 
+
+* UI element 
+|
+|
+
+|
+| link:bulletgraph-configuring-the-tooltips.html#_Ref363478171[*Performance bar* ]
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuetooltip.html[ValueToolTip]
+|Depends on whether link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuename.html[ValueName] has been initialized pick:[sl="(see"] pick:[sl=" link:bulletgraph-configuring-the-tooltips.html[Configuring a Custom Tooltip for the Performance Bar]"] pick:[sl=")"]
+
+|
+| link:bulletgraph-configuring-the-tooltips.html#_Ref363158489[*Comparative marker* ]
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}targetvaluetooltip.html[TargetValueToolTip]
+|The value indicated by the comparative marker
+
+|
+| link:bulletgraph-configuring-the-tooltips.html#_Ref363158616[*Comparative Range(s)* ]
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[RangeToolTip]
+|The start and end values of the range separated by a hyphen.
+
+|====
+
+==== Related Topics
+
+* link:bulletgraph-configuring-the-tooltips.html[Configuring the Tooltips]
+
+endif::sl,wpf[]
+
+[[Animated_Transitions_Heading]]
+== Animated Transitions Configuration
+
+[[Animated_Transitions_Summary]]
+
+=== Animated transitions configuration summary
+
+The _{BulletGraphName}_ control provides built-in support for animation by its link:{BulletGraphLink}.{BulletGraphName}{ApiProp}transitionduration.html[TransitionDuration] property. The animation effect occurs on loading the control as well as when the value of any of its properties is changed. By default, animated transitions are disabled. Providing a value in milliseconds for the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}transitionduration.html[TransitionDuration] property of the control determines the timeframe for swiping the control into view by smoothly visualizing all its visual elements through a slide effect (from bottom-left to top-right). Setting the value to  _0_   disables the animated transition. 
+[[_Ref361168550]]
+[[_Ref349815332]]
+== Default Configuration
+
+[[_DefaultConfigurationSummary]]
+
+=== Default configuration summary
+
+By default, the _{BulletGraphName}_ control is oriented horizontally. It displays with a scale starting at 0 and ending at 100. The major tick marks of the control are located at an interval of 10 and the count of minor tick marks between each pair of major tick marks is 3. There is no title/subtitle displayed, the background color is a variety of light grey. The border is 2 pixels thick colored in dark grey. No comparative marker or ranges are displayed. Animated transitions are disabled.
+
+The following picture demonstrates a _{BulletGraphName}_ displayed with default settings.
+
+image::images/BulletGraph_Overview_18.png[]
+
+[[_Ref361168555]]
+== Requirements
+ 
+The _{BulletGraphName}_ is a {PlatformName} control and apart from the  pick:[android="jars"] pick:[wpf,win-universal,win-forms="assembly"] containing the control itself, it depends on several other  pick:[android="jars"]  pick:[wpf,win-universal,win-forms="assemblies"]. In order for the bullet graph to display the performance bar, the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}value.html[Value] property has to be set.
+
+For the full requirements listing, refer to the link:bulletgraph-adding.html[Adding _{BulletGraphName}_ ] topic.
+
+[[_RelatedContent]]
+== Related Content
+
+[[_Ref361168569]]
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+ifdef::sl,wpf[]
+|pick:[sl,wpf=" link:bulletgraph-adding.html[Adding _{BulletGraphName}_ ]"] 
+|This topic explains how to add the _{BulletGraphName}_ control to a {PlatformName} application.
+endif::sl,wpf[]
+
+ifdef::xamarin[]
+| link:bulletgraph-adding.html[Adding _{BulletGraphName}_ ]
+|This topic explains how to add the _{BulletGraphName}_ control to a {PlatformName} application.
+endif::xamarin[]
+
+| link:bulletgraph-configuring.html[Configuring _{BulletGraphName}_ ]
+|This is a group of topics explaining how to configure the various aspects of the _{BulletGraphName}_ control including its orientation and direction and visual elements.
+
+| link:bulletgraph-api-reference.html[API Reference( _{BulletGraphName}_ )]
+|This topic provides reference information about the key classes and properties related to the _{BulletGraphName}_ control.
+
+|====
+ 
+
+[[_Ref361168581]]
+
+=== Resource
+
+The following material (available outside the Infragistics family of content) provides additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Title|Purpose
+
+| link:http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf[Bullet Graph Design Specification]
+|This is a PDF document explaining the bullet graph conceptually and providing design recommendations.
+
+|====

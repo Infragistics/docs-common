@@ -1,0 +1,219 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-selection",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting", "Selection", "Data Binding","Getting Started"],
+    "guid": "3d087135-84b0-4f6e-b3eb-afe7e962e406",
+    "buildFlags": [],
+    "createdOn": "2024-07-29T19:39:00.6883931Z"
+}
+|metadata|
+////
+
+= チャート選択
+
+=== 目的
+このトピックは、チャートの選択機能の概念を紹介し、利用可能なオプションの種類について説明します。この機能を使用すると、ユーザーはチャート内の単一または複数のシリーズを対話的に選択、ハイライト表示、アウトライン表示したり、その逆の選択を解除したりできます。これにより、提示されたデータをユーザーがより意味のある方法で操作するさまざまな可能性が提供されます。
+
+== 選択の設定
+デフォルトの動作 link:{DataChartLink}.{DataChartName}{ApiProp}SelectionMode.html[SelectionMode] はオフになっており、次のいずれかのオプションを選択する必要があります。link:{DataChartLink}.{DataChartName}.html[{DataChartName}] では、いくつかの選択モードを使用できます:
+
+- `Auto`
+- `None`
+- `Brighten`
+- `FadeOthers`
+- `GrayscaleOthers`
+- `FocusColorThickOutline`
+- `FocusColorOutline`
+- `SelectionColorThickOutline`
+- `SelectionColorOutline`
+- `FocusColorFill`
+- `SelectionColorFill`
+- `ThickOutline`
+
+Brighten は選択した項目をフェードアウトしますが、FadeOthers は反対の効果を引き起こします。`GrayscaleOthers` は FadeOthers と同様に動作しますが、シリーズの残りの部分にはグレー色を表示します。これは SelectionBrush 設定をオーバーライドすることに注意してください。`SelectionColorOutline` と `SelectionColorThickOutline` はシリーズの周囲に境界線を描画します。
+
+併せて、どの項目を選択するかをより細かく制御できる link:{DataChartLink}.{DataChartName}{ApiProp}SelectionBehavior.html[SelectionBehavior] も利用できます。`Auto` のデフォルトの動作は `PerSeriesAndDataItemMultiSelect` です。
+
+- `Auto`
+- `PerDataItemMultiSelect`
+- `PerDataItemSingleSelect`
+- `PerSeriesAndDataItemMultiSelect`
+- `PerSeriesAndDataItemSingleSelect`
+- `PerSeriesAndDataItemGlobalSingleSelect`
+- `PerSeriesMultiSelect`
+- `PerSeriesSingleSelect`
+
+`PerSeriesAndDataItemGlobalSingleSelect` を使用すると、すべてのカテゴリで一度に 1 つのシリーズを選択できます。一方、`PerSeriesSingleSelect` では、すべてのカテゴリで一度に同じシリーズを選択できます。
+
+以下は、すべてのカテゴリにわたって単一のシリーズ選択を実装するコード例です。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" SelectionMode="SelectionColorFill" SelectionBehavior="PerSeriesSingleSelect">
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new XamDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesSingleSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new UltraDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesSingleSelect;
+----
+
+endif::win-forms[]
+
+== 複数選択の構成
+データ項目の選択では、名前にシリーズが含まれるように設定しない限り、チャート全体で選択できるシリーズは 1 つに制限されます (例: `PerSeriesAndDataItemMultiSelect`)。これには制約はありません。
+
+その他の選択モードでは、さまざまな選択方法が提供されます。たとえば、PerDataItemMultiSelect とともに link:{DataChartLink}.{DataChartName}{ApiProp}SelectionBehavior.html[SelectionBehavior] を使用すると、複数のシリーズが存在する場合にカテゴリ全体のすべてのシリーズが選択されますが、一度に選択できるカテゴリは 1 つだけであり、以前に選択されていたものはすべて選択解除されます。
+
+シリーズが同じデータ ソースにバインドされていて、そのデータ ソースのレコード内のすべての項目を選択する場合は、「PerDataItemSingleSelect」 選択を使用します。たとえば、データ ソースのレコードにラベル、値 1、値 2 のフィールドがあり、シリーズ 1 が値 1 にバインドされ、シリーズ 2 が値 2 にバインドされている場合、どちらかのシリーズのポイントを選択すると、両方のシリーズから値が選択されます。
+
+以下は、すべてのデータ項目とシリーズにわたって複数選択を実装するコード例です。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" SelectionMode="SelectionColorFill" SelectionBehavior="PerSeriesAndDataItemMultiSelect">
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new XamDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new UltraDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+== アウトライン選択の構成
+`FocusBrush` は、選択モードとともにシリーズのアウトラインのスタイルを設定するために適用できます。link:{DataChartLink}.{DataChartName}{ApiProp}SelectionMode.html[SelectionMode] プロパティがフォーカス オプションの 1 つに設定されている場合に、選択されたシリーズが境界線付きで表示されます。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" FocusBrush="Green" SelectionMode="FocusColorThickOutline" SelectionBehavior="PerSeriesAndDataItemMultiSelect">
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new XamDataChart();
+this.ColumnChart.FocusBrush = new SolidColorBrush(Colors.Green);
+chart.SelectionMode = SeriesSelectionMode.FocusColorThickOutline;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new UltraDataChart();
+this.ColumnChart.FocusBrush = Colors.Green; 
+chart.SelectionMode = SeriesSelectionMode.FocusColorThickOutline;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+== 関連コンテンツ
+
+このセクションは、{DataChartName} コントロールのシリーズでの作業に関するタスクベースの手順についての役立つ情報を提供します。
+
+ifdef::sl,wpf[]
+* link:datachart-creating-custom-series.html[カスタム シリーズの作成]
+endif::sl,wpf[]
+
+* link:datachart-multiple-series.html[複数シリーズの追加]
+
+ifdef::sl,wpf,win-phone[]
+* link:datachart-series-data-correlation.html[シリーズ データの相関]
+endif::sl,wpf,win-phone[]
+
+ifdef::sl,wpf,win-phone[]
+* link:datachart-series-error-bars.html[シリーズ誤差範囲]
+endif::sl,wpf,win-phone[]
+
+* link:datachart-trend-lines.html[シリーズ トレンドライン]
+
+ifdef::sl,wpf,win-universal[]
+* link:datachart-series-highlighting.html[シリーズ強調表示]
+endif::sl,wpf,win-universal[]
+
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-series-types.html[シリーズ タイプ]

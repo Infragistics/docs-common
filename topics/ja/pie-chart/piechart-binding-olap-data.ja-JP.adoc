@@ -1,0 +1,202 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-binding-olap-data",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Charting","Getting Started","Layouts"],
+    "guid": "72ea0f26-9bdb-4459-a24f-729f6343de37",
+    "buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:53:12.0859032Z"
+}
+|metadata|
+////
+
+= OLAP データのバインディング
+
+=== 目的
+
+OLAP データを表示するために {PieChartName} コントロールを構成する方法紹介します。
+
+=== 前提条件
+
+このトピックを理解するための必須条件となる資料。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|
+* link:http://msdn.microsoft.com/ja-jp/library/ms175367(v=SQL.90).aspx[OLAP] (オンライン分析処理) 
+|====
+トピック
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+| link:piechart.html[{PieChartName}] 
+
+|これは、円をスライスに分割した円チャートを描画する特殊なコントロールです。スライスはそれぞれ円弧の長さが基になるデータ値に比例しています。 
+
+| link:piechart-visualizing-olap-data-piechart.html[OLAP データの視覚化] 
+
+|このトピックでは、OLAP データを含む {PieChartName} コントロール使用の詳細を説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<OLE_LINK26,OLAP データを含む {PieChartName} の使用>>
+
+** <<_Ref321135670,OLAP Visuals>>
+** <<_Ref321135684,サポートされる OLAP データ タイプ>>
+** <<_Ref321135696,プロパティの設定>>
+** <<_Ref321135704,コード例>>
+
+* <<_Ref321135713,関連コンテンツ>>
+
+== OLAP データを含む {PieChartName} の使用
+
+[[_Ref321135670]]
+
+=== OLAP Visuals
+
+{PieChartName} を使用した OLAP データの可視化は、 link:{ApiPlatform}controls.charts.olap{ApiVersion}~{PieChartNamespace}.olapaxis_members.html[OlapAxis] と呼ばれる新しい軸タイプによって行います。
+
+OlapAxis は link:{ApiPlatform}controls.charts.olap{ApiVersion}~{PieChartNamespace}.olapaxis~datasource.html[DataSource] および link:{ApiPlatform}controls.charts.olap{ApiVersion}~{PieChartNamespace}.olapaxis~olapaxissource.html[OlapAxisSource] の 2 つの主要なプロパティで構成されています。
+
+DataSoure はデータ バインディングに使用し、OlapAxisSource はデータ描画の際の軸タイプを決定する場合に使用します。円チャートで OLAP データを視覚化するには、これらのプロパティを両方とも設定することが重要です。
+
+軸タイプは Columns または Rows、つまりデータ ソースからの列または行になります。
+
+データ ソースの各列は個別の円チャートとして描画され、円チャートの行は以下の図に示すようにスライスとして表されます。
+
+image::images/PieChart_Binding_OLAP_Data_01.png[]
+
+{PieChartName} コントロールは、複数の列を含むデータを複数の円チャートとして描画します。円チャートはデータ ソースから列ごとに 1 つあります。前述の例のように、列の行は、対応する円でスライスとして描画されます。この動作は以下のスクリーン ショットで示しています。
+
+image::images/PieChart_Binding_OLAP_Data_02.png[]
+
+デフォルトでは、円チャートは 1 方向の列と 1 方向の行を表示し、1 つの円チャートになります。列と行は展開されません。
+
+詳細については、 link:piechart-user-interactions-with-olap-data.html[OLAP データを視覚化するための {PieChartName} でのユーザー操作]を参照してください。
+
+[[_Ref321135684]]
+
+=== サポートされる OLAP データ タイプ
+
+以下のデータ ソースのタイプのみサポートされています。
+
+* link:http://msdn.microsoft.com/ja-jp/library/ms187178(v=SQL.90).aspx[XMLA]
+
+* link:{ApiPlatform}olap.flatdata{ApiVersion}~infragistics.olap.flatdata.flatdatasource_members.html[FlatDataSource]
+
+[[_Ref321135696]]
+
+=== プロパティの設定
+
+OLAP データを使用して円チャートを表示するためのプロパティ設定に必要な最小要件です。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|OLAP データ ソースを使用してデータ バインディングを設定します
+| link:{ApiPlatform}controls.charts.olap{ApiVersion}~{PieChartNamespace}.olapaxis~datasource.html[DataSource]
+|OLAP データ
+
+|軸タイプの指定
+| link:{ApiPlatform}controls.charts.olap{ApiVersion}~{PieChartNamespace}.olapaxis~olapaxissource.html[OlapAxisSource]
+|列または行
+
+|====
+
+=== コード例
+
+このコーディング例は、OLAP データの表示に最低限必要な {PieChartName} コントロールのプロパティ設定を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamOlapPieChart 
+    DataSource="{Binding DataSource}" 
+    OlapAxisSource="Columns" />
+----
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+XamOlapPieChart chart = new XamOlapPieChart();
+chart.DataSource = new MainViewModel().DataSource;
+chart.OlapAxisSource = OlapAxisSource.Columns;
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+XamOlapPieChart chart = new XamOlapPieChart();
+chart.DataSource = new MainViewModel().DataSource;
+chart.OlapAxisSource = OlapAxisSource.Columns;
+----
+
+endif::win-forms[]
+
+ifdef::xaml[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim chart As New XamOlapPieChart()
+chart.DataSource = New MainViewModel().DataSource
+chart.OlapAxisSource = OlapAxisSource.Columns
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim chart As New XamOlapPieChart()
+chart.DataSource = New MainViewModel().DataSource
+chart.OlapAxisSource = OlapAxisSource.Columns
+----
+
+endif::win-forms[]
+
+[[_Ref321135713]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:piechart-user-interactions-with-olap-data.html[OLAP データのユーザー インタラクション]
+|このトピックは、{PieChartName} コントロールを使用して OLAP データを視覚化する方法を示します。
+
+|====

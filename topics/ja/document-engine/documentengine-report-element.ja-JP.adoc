@@ -1,0 +1,108 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-report-element",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{DB1FF707-8008-4AAF-98E6-BA669C69F701}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Report 要素
+
+Report エレメントは、レポート全体を定義する最上位オブジェクトです。すべてのコンテンツは、Section エレメントを介してレポートに追加する必要があります。ほとんどのレイアウト エレメントは追加のネストされたレイアウト エレメントを作成するためのメソッドを使用します。これは、Report エレメントでも同じですが、Report エレメントに追加できる唯一のレイアウト エレメント タイプは Section エレメントです。この概念をオブジェクト モデル図のように視覚化するとより分かりやすくなります。たとえば、レポートのレイアウトが以下のツリーと同じ位シンプルな場合があります。
+
+* レポート
+
+** セクション
+
+*** レイアウト エレメント（タイトル ページのための Group エレメント）
+
+** セクション
+
+*** ナビゲーション ヘルパー（目次のための TOC エレメント）
+
+** セクション
+
+*** レイアウト エレメント（レポート コンテンツのための Band エレメント）
+
+**** レイアウト エレメント（複数の列の Flow エレメント）
+
+** セクション
+
+*** パターン コンテンツ（関連データを示す Table エレメント）
+
+** セクション
+
+*** ナビゲーション ヘルパー（Index）
+
+上記のツリーから、Section が Report エレメントに追加可能な唯一のレイアウト エレメントであることが分かります。Section エレメントは別の Section エレメントに加えて任意のコンテンツ エレメントを含むことができます。論理的に、Report エレメントに追加できるのが Section エレメントのみの場合には、すべてを Section エレメントに追加可能であることが必要となります。
+
+Report エレメントにもレポートの記述に重要ないくつかのその他のプロパティとメソッドがあります。以下は頻繁に使用する可能性が高いレポート機能の簡潔なリストです。
+
+* *ブックマーク* –  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~bookmarks.html[Bookmarks]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~bookmarks.html[Bookmarks]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~bookmarks.html[Bookmarks]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~bookmarks.html[Bookmarks]"]  プロパティを使用して、ブックマークを PDF ドキュメントに追加します。
+* *情報* – Author、Company、Copyright、Title、Subject などのレポートに関する情報を追加できます。
+* *XML として保存およびロード* –  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  メソッドを使用して完全なレポートを XML ファイルとして保存できます。後で、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~load.html[Load]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~load.html[Load]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~load.html[Load]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~load.html[Load]"]  メソッドを使用して、保存した XML ファイルからレポートのコンテンツをロードできます。
+* *レポートをパブリッシュ* – レポートを完成し、レポートから PDF ドキュメントを作成する準備が整ったら、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Publish]"]  メソッドを使用して PDF、XPS、またはプレーン テキスト ドキュメントを書き出します。Publish メソッドの詳細は、 link:documentengine-publish-a-report.html[「レポートをパブリッシュ」]を参照してください。
+
+'''
+
+以下のコードは、上記のツリーと同じ構造でレポートを作成します。この例はその他のプロパティを設定せずに、オブジェクトをインスタンス化するだけです。詳細を示す例のコードについては、個々のエレメントのヘルプ トピックを参照してください。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+Imports Infragistics.Documents.Reports.Reports.Report.Section
+Imports Infragistics.Documents.Reports.Reports.Report.TOC
+Imports Infragistics.Documents.Reports.Reports.Report.Index
+Imports Infragistics.Documents.Reports.Reports.Report.Band
+Imports Infragistics.Documents.Reports.Reports.Report.Flow
+Imports Infragistics.Documents.Reports.Reports.Report.Table
+.
+.
+.
+Dim report As Report = new Report()
+Dim section1 As ISection = report.AddSection()
+Dim group1 As IGroup = section1.AddGroup()
+Dim seciton2 As ISection = report.AddSection()
+Dim tableOfContents As ITOC = section2.AddTOC()
+Dim section3 As ISection = report.AddSection()
+Dim band1 As IReportBand = section3.AddBand()
+Dim flow1 As IFlow = band1.AddFlow()
+Dim section4 As ISection = report.AddSection()
+Dim table1 As ITable = section4.AddTable()
+Dim section5 As ISection = report.AddSection()
+Dim index1 As IIndex = section5.AddIndex()
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+using Infragistics.Documents.Reports.Reports.Report.Section;
+using Infragistics.Documents.Reports.Reports.Report.TOC;
+using Infragistics.Documents.Reports.Reports.Report.Index;
+using Infragistics.Documents.Reports.Reports.Report.Band;
+using Infragistics.Documents.Reports.Reports.Report.Flow;
+using Infragistics.Documents.Reports.Reports.Report.Table;
+.
+.
+.
+Report report = new Report();
+ISection section1 = report.AddSection();
+IGroup group1 = section1.AddGroup();
+ISection section2 = report.AddSection();
+ITOC tableOfContents = section2.AddTOC();
+ISection section3 = report.AddSection();
+IReportBand band1 = section3.AddBand();
+IFlow flow1 = band1.AddFlow();
+ISection section4 = report.AddSection();
+ITable table1 = section4.AddTable();
+ISection section5 = report.AddSection();
+IIndex index1 = section5.AddIndex();
+----

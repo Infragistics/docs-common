@@ -1,0 +1,322 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-selection",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Charting","Data Presentation","How Do I"],
+    "guid": "",
+    "buildFlags": ["SL","WPF","win-phone","WINFORMS","ANDROID","XAMARIN"],
+    "createdOn": "2014-06-05T19:53:12.0788999Z"
+}
+|metadata|
+////
+
+= 強調表示
+
+このトピックでは、link:{DataPieChartLink}.{DataPieChartName}.html[{DataPieChartName}] コントロールのさまざまな強調表示機能を有効にして使用する方法について説明します。
+
+このトピックは、以下のセクションで構成されています。
+
+* <<Requirements,要件>>
+* <<Overview,強調表示の概要>>
+* <<HighlightBehaviors, 強調表示動作>>
+* <<HighlightModes,強調表示モード>>
+* <<HighlightFilter,強調表示フィルター>>
+* <<ExampleData, サンプルデータ>>
+* <<RelatedTopics,関連コンテンツ>>
+
+[[Requirements]]
+== 要件
+
+このトピックは、ユーザーがlink:data-pie-chart-data-binding.html[データ バインディング] トピックを既に読んでいることを前提とし、はじめにそのコードを使用します。
+
+[[Overview]]
+== 強調表示の概要
+
+{DataPieChartName} は、マウス オーバーによる強調表示と、別のデータ ソースを提供することで設定できる強調表示オーバーレイをサポートしています。以下のセクションでは、これらの機能について詳しく説明します:
+
+[[HighlightBehaviors]]
+=== 強調表示動作
+
+`HighlightingBehavior` プロパティは、スライスがどのように強調表示されるかを決定します。これは `SeriesHighlightingBehavior` 列挙体で表されます。以下はその列挙体のオプションとその機能です。
+
+- `DirectlyOver`: スライスは、マウスがその上に直接置かれている場合にのみ強調表示されます。
+- `NearestItems`: マウスの位置に最も近いスライスが強調表示されます。
+- `NearestItemsAndSeries`: マウスの位置に最も近いスライスとシリーズが強調表示されます。
+- `NearestItemsRetainMainShapes`: マウスの位置に最も近い項目が強調表示され、シリーズのメイン図形は強調表示されなくなります。
+
+
+[[HighlightModes]]
+=== 強調表示モード
+
+`HighlightingMode` プロパティは、データ円チャートのスライスが強調表示されたときにどのように反応するかを決定します。このプロパティは、`SeriesHighlightingMode` 列挙体によって定義されます。以下はその列挙体のオプションとその機能です。
+
+- `Brighten`: マウスの位置がそのシリーズ上または近くにあると、そのシリーズの色が明るくなります。
+- `BrightenSpecific`: マウスの位置が特定のスライスの上または近くにある場合、そのスライスの色が明るくなります。
+- `FadeOthers`: マウスの位置がそのシリーズ上または近くにある場合、そのシリーズは色を保持しますが、他の部分は薄く表示されます。
+- `FadeOthersSpecific`: マウスの位置がそのスライスの上または近くにある場合、そのスライスの色は保持されますが、他のスライスの色は薄く表示されます。
+- `None`: シリーズとスライスは強調表示されません。
+
+[[CodeExample]]
+== コード例
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataPieChartName} ItemsSource="{Binding Data}"
+                       HighlightingBehavior="NearestItems"
+                       HighlightingMode="BrightenSpecific" />
+----
+
+*C# の場合:*
+
+[source, csharp]
+----
+{DataPieChartName} dataPieChart = new {DataPieChartName}()
+{                
+    ItemsSource = data,
+    HighlightingMode = SeriesHighlightingMode.BrightenSpecific,
+    HighlightingBehavior = SeriesHighlightingBehavior.NearestItems
+};
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+{DataPieChartName} dataPieChart = new {DataPieChartName}()
+{                
+    Dock = DockStyle.Fill,
+    DataSource = data,
+    HighlightingMode = SeriesHighlightingMode.BrightenSpecific,
+    HighlightingBehavior = SeriesHighlightingBehavior.NearestItems
+};
+----
+
+endif::win-forms[]
+
+[[HighlightFilter]]
+=== 強調表示フィルター
+
+{DataPieChartName} の強調表示フィルターは、コントロールの `HighlightedDataSource` を指定し、`HighlightedValuesDisplayMode` プロパティを `Overlay` に設定することで適用されます。`HighlightedDataSource` は、{DataPieChartName} の `DataSource` プロパティに割り当てられたデータのサブセットを想定しています。
+
+これらの条件が満たされると、サブセットの値が強調表示され、データの全セットの残りの部分はフェードアウトされます。これにより、サブセットが効果的にハイライトされ、同じコントロール内でデータのサブセットをより簡単に視覚化できるようになります。
+
+image::images/data-pie-highlight-filter.png[]
+
+[[CodeExample]]
+== コード例
+
+ifdef::wpf[]
+
+*XAML の場合:**
+
+[source,xaml]
+----
+<ig:{DataPieChartName} 
+    ItemsSource="{Binding OnlineTrafficHighlightTotals}"
+    HighlightedItemsSource="{Binding OnlineTrafficHighlightDesktopOnly}"
+    HighlightedValuesDisplayMode="Overlay" />
+----
+
+*C# の場合:*
+
+[source, csharp]
+----
+{DataPieChartName} dataPieChart = new {DataPieChartName}()
+{          
+    DataContext = new SampleViewModel();   
+    //OR   
+    ItemsSource = new OnlineTrafficHighlightTotals(),
+    HighlightedItemsSource = new OnlineTrafficHighlightDesktopOnly(),
+    HighlightedValuesDisplayMode="Overlay"
+};
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+{DataPieChartName} dataPieChart = new {DataPieChartName}()
+{                
+    Dock = DockStyle.Fill,
+    DataSource = new OnlineTrafficHighlightTotals(),
+    HighlightedItemsSource = new OnlineTrafficHighlightDesktopOnly(),
+    HighlightedValuesDisplayMode="Overlay"
+};
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*C# の場合: SampleViewModel*
+
+[source, csharp]
+----
+public class SampleViewModel
+    : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        PropertyChangedEventHandler handler = PropertyChanged;
+        if (handler != null)
+        {
+            handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    private OnlineTrafficHighlightTotals _onlineTrafficHighlightTotals = null;
+    public OnlineTrafficHighlightTotals OnlineTrafficHighlightTotals
+    {
+        get
+        {
+            if (_onlineTrafficHighlightTotals == null)
+            {
+                _onlineTrafficHighlightTotals = new OnlineTrafficHighlightTotals(); 
+            }
+            return _onlineTrafficHighlightTotals;
+        }
+    }
+    
+    private OnlineTrafficHighlightDesktopOnly _onlineTrafficHighlightDesktopOnly = null;
+    public OnlineTrafficHighlightDesktopOnly OnlineTrafficHighlightDesktopOnly
+    {
+        get
+        {
+            if (_onlineTrafficHighlightDesktopOnly == null)
+            {
+                _onlineTrafficHighlightDesktopOnly = new OnlineTrafficHighlightDesktopOnly(); 
+            }
+            return _onlineTrafficHighlightDesktopOnly;
+        }
+    }
+    
+}
+----
+
+endif::wpf[]
+
+[[ExampleData]]
+=== サンプル データ
+
+*C# の場合:*
+
+[source, csharp]
+----
+public class OnlineTrafficHighlightTotalsItem
+{
+    public string Category { get; set; }
+    public double Value { get; set; }
+}
+
+public class OnlineTrafficHighlightTotals
+    : List<OnlineTrafficHighlightTotalsItem>
+{
+    public OnlineTrafficHighlightTotals()
+    {
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Apparel",
+            Value = 56
+        });
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Beauty",
+            Value = 67
+        });
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Travel",
+            Value = 80
+        });
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Grocery",
+            Value = 62
+        });
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Energy",
+            Value = 74
+        });
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Home Supply",
+            Value = 65
+        });
+        this.Add(new OnlineTrafficHighlightTotalsItem()
+        {
+            Category = @"Financial",
+            Value = 88
+        });
+    }
+}
+
+public class OnlineTrafficHighlightDesktopOnlyItem
+{
+    public string Category { get; set; }
+    public double Value { get; set; }
+}
+
+public class OnlineTrafficHighlightDesktopOnly
+    : List<OnlineTrafficHighlightDesktopOnlyItem>
+{
+    public OnlineTrafficHighlightDesktopOnly()
+    {
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Apparel",
+            Value = 27
+        });
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Beauty",
+            Value = 29
+        });
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Travel",
+            Value = 41
+        });
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Grocery",
+            Value = 37
+        });
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Energy",
+            Value = 58
+        });
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Home Supply",
+            Value = 35
+        });
+        this.Add(new OnlineTrafficHighlightDesktopOnlyItem()
+        {
+            Category = @"Financial",
+            Value = 58
+        });
+    }
+}
+----
+
+[[RelatedTopics]]
+== 関連コンテンツ
+
+* link:data-pie-chart-data-binding.html[データ バインディング]
+* link:data-pie-chart-others-category.html[その他カテゴリ]

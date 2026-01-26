@@ -1,0 +1,338 @@
+﻿////
+|metadata|
+{
+    "name": "resources-3d-surface-data",
+    "controlName": [],
+    "tags": [],
+    "guid": "",
+    "buildFlags": []
+}
+|metadata|
+////
+
+= サンプル 3D サーフェイス データ
+ 
+=== 目的
+
+このトピックでは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールおよびそのlink:datachart-scatter-area-series.html[散布エリア シリーズ]およびlink:datachart-scatter-contour-series.html[散布等高線シリーズ] タイプで使用するデータおよびデータ モデルを提供します。
+
+=== このトピックの内容
+ 
+このトピックは、以下のセクションで構成されます。
+
+* <<RequiredNamespaces,必須の名前空間>>
+* <<DataModel,データ モデル>>
+* <<DataSource,データ ソース>>  
+
+[[RequiredNamespaces]]
+=== 必須の名前空間
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel; 
+using System.ComponentModel;
+using System.Linq;
+
+namespace Infragistics.Models
+{
+  // TODO add data model
+  // TODO add data source 
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Imports System
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+Imports System.Linq 
+
+Namespace Infragistics.Models
+   ' TODO add data model
+   ' TODO add data source
+End Namespace
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+*Java の場合:*
+[source,java]
+----
+import java.util.ArrayList;
+import java.util.Random;
+
+// TODO add data model
+// TODO add data source 
+----
+endif::android[]
+
+
+[[DataModel]]
+=== データ モデル
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+public class ShapePoint3D
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double Z { get; set; }
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+ 
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class ShapePoint3D
+    Public Property X As Double
+    Public Property Y As Double
+    Public Property Z As Double
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+
+ifdef::android[]
+*Java の場合:*
+[source,java]
+----
+public class ScatterDataPoint
+{
+    private double _x;
+    public double getX(){
+        return _x;
+    }
+    public double setX(double value) {
+        _x = value;
+        return _x;
+    }
+    private double _y;
+    public double getY(){
+        return _y;
+    }
+    public double setY(double value) {
+        _y = value;
+        return _y;
+    }
+    public ScatterDataPoint(double x, double y){
+        _x = x;
+        _y = y;
+    }
+}
+----
+endif::android[]
+
+[[DataSourcel]]
+=== データ ソース
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+public abstract class Surface3D : ObservableCollection<ShapePoint3D>
+{
+    public Surface3D() 
+        : this(11, 11)
+    {
+    }
+    public Surface3D(int xCount, int yCount)
+        : this(-100, 100, -100, 100, xCount, yCount)
+    {
+    }
+    public Surface3D(double xMin, double xMax,
+                     double yMin, double yMax,
+                     int xCount = 11, int yCount = 11)
+    {
+        XMin = xMin;
+        XMax = xMax;
+        YMin = xMin;
+        YMax = yMax;
+        XCount = xCount;
+        YCount = yCount;
+        Generate();
+    }
+
+    public double XMin { get; private set; }
+    public double XMax { get; private set; }
+    public double YMin { get; private set; }
+    public double YMax { get; private set; }
+    public double XCount { get; private set; }
+    public double YCount { get; private set; }
+    protected void Generate()
+    {
+        var xStep = (XMax - XMin) / (XCount - 1);
+        var yStep = (YMax - YMin) / (YCount - 1);
+        for (var x = XMin; x <= XMax; x += xStep)
+        {
+            for (var y = YMin; y <= YMax; y += yStep)
+            {
+                this.Add(new ShapePoint3D { X = x, Y = y, Z = this.Z(x, y) });
+            }
+        }
+    }
+    protected abstract new double Z(double x, double y);
+}
+public class CosXPlusCosY : Surface3D
+{
+    protected override double Z(double x, double y)
+    {
+        return Math.Cos(x) + Math.Cos(y);
+    }
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Public MustInherit Class Surface3D
+    Inherits ObservableCollection(Of ShapePoint3D)
+    Public Sub New()
+    	Me.New(11, 11)
+    End Sub
+    Public Sub New(xCount As Integer, yCount As Integer)
+    	Me.New(-100, 100, -100, 100, xCount, yCount)
+    End Sub
+    Public Sub New(xMin__1 As Double, xMax__2 As Double,
+                   yMin__3 As Double, yMax__4 As Double,
+                   Optional xCount__5 As Integer = 11,
+                   Optional yCount__6 As Integer = 11)
+    	XMin = xMin__1
+    	XMax = xMax__2
+    	YMin = xMin__1
+    	YMax = yMax__4
+    	XCount = xCount__5
+    	YCount = yCount__6
+    	Generate()
+    End Sub
+
+    Public Property XMin() As Double
+    	Get
+    	    Return m_XMin
+    	End Get
+    	Private Set
+    	    m_XMin = Value
+    	End Set
+    End Property
+    Private m_XMin As Double
+    Public Property XMax() As Double
+        Get
+            Return m_XMax
+    	End Get
+    	Private Set
+    	    m_XMax = Value
+    	End Set
+    End Property
+    Private m_XMax As Double
+    Public Property YMin() As Double
+    	Get
+    	    Return m_YMin
+    	End Get
+    	Private Set
+    	    m_YMin = Value
+    	End Set
+	End Property
+	Private m_YMin As Double
+    Public Property YMax() As Double
+        Get
+            Return m_YMax
+        End Get
+        Private Set
+            m_YMax = Value
+        End Set
+    End Property
+    Private m_YMax As Double
+    Public Property XCount() As Double
+        Get
+            Return m_XCount
+        End Get
+        Private Set
+            m_XCount = Value
+        End Set
+    End Property
+    Private m_XCount As Double
+    Public Property YCount() As Double
+        Get
+            Return m_YCount
+        End Get
+        Private Set
+            m_YCount = Value
+        End Set
+    End Property
+    Private m_YCount As Double
+    Protected Sub Generate()
+        Dim xStep = (XMax - XMin) / (XCount - 1)
+        Dim yStep = (YMax - YMin) / (YCount - 1)
+        Dim x = XMin
+        While x <= XMax
+            Dim y = YMin
+            While y <= YMax
+                Me.Add(New ShapePoint3D() With { _
+                    Key .X = x, _
+                    Key .Y = y, _
+                    Key .Z = Me.Z(x, y) _
+                })
+                y += yStep
+            End While
+            x += xStep
+        End While
+    End Sub
+    Protected MustOverride Shadows Function Z(x As Double, y As Double) As Double
+End Class
+
+Public Class CosXPlusCosY
+    Inherits Surface3D
+    Protected Overrides Function Z(x As Double, y As Double) As Double
+        Return Math.Cos(x) + Math.Cos(y)
+    End Function
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+
+ifdef::android[]
+*Java の場合:*
+[source,java]
+----
+public class ScatterDataSource extends ArrayList<ScatterDataPoint> 
+{
+    public static Random rand = new Random();
+    public ScatterDataSource()
+    {
+        int value = 50;
+        for(int i=0; i<100;i++)
+        {
+            double change = rand.nextDouble();
+            if(change > .5)
+            {
+                value+=(int)(change*20);
+            }
+            else
+            {
+                value -= (int)(change * 20);
+            }
+            value %= 100;
+            //Using Java Random within specified range:  rand.nextInt(upperbound-lowerbound) + lowerbound;
+            double x = (rand.nextInt(i+5-i)+i);
+            double y = (rand.nextInt((value+50)-(value-50))+Math.abs(value-50));
+            this.add(new ScatterDataPoint(x,y));
+        }
+    }
+}
+----
+endif::android[]

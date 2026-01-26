@@ -1,0 +1,203 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-context-menu",
+    "tags": ["Application Blocks","Editing","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "52e45388-27db-4452-bf2e-e4d99b637bfa",
+    "buildFlags": ["XAML","SL","WPF"],
+    "createdOn": "2015-11-06T16:53:37.0914077Z"
+}
+|metadata|
+////
+
+= カスタム コンテキスト メニューの作成 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、カスタム コンテキスト メニューを作成する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:xamcontextmenu-about-xamcontextmenu.html[xamContextMenu について] 
+
+|このトピックでは、 _xamContextMenu_ コントロールの機能を理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+| link:spreadsheet-uiu-context-menu.html[コンテキスト メニューのインタラクション ({SpreadsheetName})] 
+
+|このトピックでは、コントロールのコンテキスト メニューを使用してユーザーが実行できる操作を説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref396466832, カスタム コンテキスト メニューの作成 >>
+* <<_Ref396466850, コード例:カスタム コンテキスト メニューの作成 >>
+* <<_Ref396466858, 関連コンテンツ >>
+
+[[_Ref396466832]]
+== カスタム コンテキスト メニューの作成
+
+=== 処理の概要
+
+{SpreadsheetName} コントロールはすべての主要な領域の組み込みコンテキスト メニューをサポートしますが、独自のカスタム コンテキスト メニューを定義することができます。
+
+カスタム コンテキスト メニューを作成するには、以下を実行します。
+
+[start=1]
+. link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.spreadsheetcontextmenuprovider_members.html[SpreadsheetContextMenuProvider] のインスタンスを作成し、それを  _{SpreadsheetName}_   の link:{SpreadsheetLink}.{SpreadsheetName}~contextmenuprovider.html[ContextMenuProvider] プロパティとして設定します。
+[start=2]
+. `ResourceDictionary` を作成し、それを link:{SpreadsheetLink}.spreadsheetcontextmenuprovider~resourceoverrides.html[SpreadsheetContextMenuProvider.ResourceOverrides] として設定します。
+[start=3]
+. link:{ApiPlatform}controls.menus.xammenu{ApiVersion}~infragistics.controls.menus.xamcontextmenu.html[xamContextMenu] の 1 つ以上のインスタンスを手順 2 のリソース ディレクトリに追加して、任意の  _{SpreadsheetName}_   のコンテキスト メニューをカスタマイズします。
+
+注:
+
+[NOTE]
+====
+コントロールが正しいコンテキスト メニューを適切にオーバーライドできるようにするには、`xamContextMenu` インスタンスに、 link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.spreadsheetcontextmenuarea.html[SpreadsheetContextMenuArea] 列挙体からの事前定義された値で指定される「x:Key」が必要です。
+====
+
+[[_Ref396466850]]
+== コード例:カスタム コンテキスト メニューの作成
+
+=== 説明
+
+この例は、以下のオプションを使用して  _{SpreadsheetName}_   の「セル」領域のコンテキスト メニューを定義する方法を説明します。
+
+* 太字の切り替え
+* 斜体の切り替え
+* セルを上にナビゲート
+* セルを下にナビゲート
+* セルを左にナビゲート
+* セルを右にナビゲート
+
+=== コード
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+  xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives">
+<ig:XamSpreadsheet>
+  <ig:XamSpreadsheet.ContextMenuProvider>
+    <ig:SpreadsheetContextMenuProvider>
+      <ig:SpreadsheetContextMenuProvider.ResourceOverrides>
+        <ResourceDictionary>
+          <ig:XamContextMenu x:Key="Cell">
+            <ig:XamContextMenu.DataContext>
+              <igPrim:SpreadsheetMenuDataContext />
+            </ig:XamContextMenu.DataContext>
+            <ig:XamMenuItem Header="Bold">
+              <ig:XamMenuItem.Icon>
+                <Image Source="/Assembly;component/Folder/Bold.png" />
+              </ig:XamMenuItem.Icon>
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="ToggleBold" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Italic">
+              <ig:XamMenuItem.Icon>
+                <Image Source="/Assembly;component/Folder/Italic.png" />
+              </ig:XamMenuItem.Icon>
+              <ig:Commanding.Command>
+              <igPrim:SpreadsheetCommandSource
+                CommandType="ToggleItalic" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuSeparator />
+            <ig:XamMenuItem Header="Navigate Up">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellAbove" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Navigate Down">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellBelow" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Navigate Left">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellLeft" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Navigate Right">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellRight" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+          </ig:XamContextMenu>
+        </ResourceDictionary>
+      </ig:SpreadsheetContextMenuProvider.ResourceOverrides>
+    </ig:SpreadsheetContextMenuProvider>
+  </ig:XamSpreadsheet.ContextMenuProvider>
+</ig:XamSpreadsheet>
+----
+
+[[_Ref396466858]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-commands.html[コマンドの操作 ({SpreadsheetName})]
+|このトピックでは、コマンドによりコントロールを使用してさまざまな操作を実行する方法を説明します。
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-selection.html[選択の操作 ({SpreadsheetName})]
+|このトピックでは、選択機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-undo-redo.html[元に戻す / やり直しの操作 ({SpreadsheetName})]
+|このトピックでは、コントロールを使用して元に戻す / やり直し操作を設定し実行する方法を説明します。
+
+|====

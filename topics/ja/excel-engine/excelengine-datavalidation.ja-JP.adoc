@@ -1,0 +1,183 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-datavalidation",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "51124d15-4a0c-4393-93da-6b69bc33ecc5",  
+    "buildFlags": [],
+    "createdOn": "2011-10-18T18:39:13.2454635Z"
+}
+|metadata|
+////
+
+= データ検証
+
+このトピックは、Infragistics Excel Engine におけるデータ検証のサポートの概要を説明し、使い方のコード例を示します。
+
+トピックは以下のとおりです。
+
+* <<One,はじめに>>
+* <<Two,データ検証>>
+
+** <<TwoOne,概要>>
+** <<TwoTwo,コード例>>
+
+* <<Three,関連トピック>>
+
+[[One]]
+== はじめに
+
+データ検証は、ユーザーが入力したデータをコミットする前に特定な条件によって確認するプロセスです。Infragistics Excel Engine では、ワークシート、個々のセル、または複数のセルに対しても検証ルールを設定できます。データ検証の使用は、指定された基準内にとどめる必要があるデータをユーザーに入力させたい時に役に立ちます。
+
+[NOTE]
+====
+*注:* Excel Engine では、Microsoft Excel をインストールしなくても Microsoft Excel ファイルを作成できますが、Microsoft Excel 形式と互換性のあるアプリケーションを用意する必要があります。
+====
+
+以下の表は、サポートされている検証ルールタイプのリストと説明です。
+
+[options="header", cols="a,a"]
+|====
+|ルールのタイプ|説明
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] 
+|ターゲット セル上に任意の値を設定できます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] 
+|ターゲット セル上では特定の値セットのみを設定できます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] 
+|カスタム式を使用して、ターゲット セル上で値セットを検証します。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] 
+|特定のタイプである場合、ターゲット セル上で任意の値を設定し、その他の 1 つの値に対して条件付テストを渡すことができます。値は、以下のいずれかのタイプであるよう強制することができます: 日付、時間、小数、整数、またはテキストテキスト タイプの場合、条件付制約をテストする際にテキストの長さが使用されます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] 
+|特定のタイプである場合、ターゲット セル上で任意の値を設定し、その他の 2 つの値に対して条件付テストを渡すことができます。値は、以下のいずれかのタイプであるよう強制することができます: 日付、時間、小数、整数、またはテキストテキスト タイプの場合、条件付制約をテストする際にテキストの長さが使用されます。
+
+|====
+
+[[Two]]
+== データ検証
+
+[[TwoOne]]
+== 概要
+
+以下のコード スニペットは、次のパラメータでワークブックを作成します:
+
+* ワークブック名: output.xls
+* ワークシート名: Validation
+* ルールのタイプ: ListDataValidationRule
+* 有効な値: cat、dog、bird、goat、sheep、 turtle、horse、chicken
+* 検証されるセル: A1
+
+[[TwoTwo]]
+== コード例
+
+*C# の場合：*
+
+----
+// Validation というワークシートを持つワークブックを作成します
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("Validation");
+// 基本のデータ検証ルールのための変数を作成します
+DataValidationRule dataRule = null;
+// ワークシートの参照コレクションのための変数を作成します
+WorksheetReferenceCollection cellCollection = null;
+// ワークシートのセルのための変数を作成します
+WorksheetCell wsc = null;
+// 新しいリスト データ検証ルールを作成します
+ListDataValidationRule ld = new ListDataValidationRule();
+// 検証ルール参照を基本データ ルール変数にコピーします
+dataRule = ld;
+// ワークシートのセルに Null 値を含めることができます
+ld.AllowNull = true;
+// 有効なセル値をドロップダウンで表示できます
+ld.ShowDropdown = true;
+// A1 セルの有効な値を設定します
+ld.SetValuesFormula("=\"cat, dog, bird, goat, sheep, turtle, horse, chicken\"", "A1");
+// コレクション内のワークシートのセルを参照します
+cellCollection = new WorksheetReferenceCollection(worksheet, "A1");
+// エラー メッセージ情報を追加します
+dataRule.ErrorMessageDescription = "Invalid value entered.";
+dataRule.ErrorMessageTitle = "Validation Error";
+dataRule.ErrorStyle = DataValidationErrorStyle.Stop;
+// 入力メッセージ情報を追加します
+dataRule.InputMessageDescription = "Type or select a value from the list.";
+dataRule.InputMessageTitle = "Value Selection";
+// 無効な値が入力された後にエラー メッセージを表示するかどうかを設定します
+dataRule.ShowErrorMessageForInvalidValue = true;
+// 入力メッセージを表示するかどうかを設定します
+dataRule.ShowInputMessage = true;
+// データ検証をワークシートに追加します
+worksheet.DataValidationRules.Add(dataRule, cellCollection);
+try
+{
+    // 作成したワークブックを保存します
+    workbook.Save("output.xls");
+    // ワークブックを開いて結果を表示します
+    System.Diagnostics.Process.Start("output.xls");
+}
+catch
+{
+    MessageBox.Show("Please close any open instances of Excel.",
+        "Error Opening Workbook",
+        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+}
+----
+
+*Visual Basic の場合:*
+
+----
+' Validation というワークシートを持つワークブックを作成します
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("Validation")
+' 基本のデータ検証ルールのための変数を作成します
+Dim dataRule As DataValidationRule = Nothing
+' ワークシートの参照コレクションのための変数を作成します
+Dim cellCollection As WorksheetReferenceCollection = Nothing
+' ワークシートのセルのための変数を作成します
+Dim wsc As WorksheetCell = Nothing
+' 新しいリスト データ検証ルールを作成します
+Dim ld As New ListDataValidationRule()
+' 検証ルール参照を基本データ ルール変数にコピーします
+dataRule = ld
+' ワークシートのセルに Null 値を含めることができます
+ld.AllowNull = True
+' 有効なセル値をドロップダウンで表示できます
+ld.ShowDropdown = True
+' A1 セルの有効な値を設定します
+ld.SetValuesFormula("=""cat, dog, bird, goat, sheep, turtle, horse, chicken""", "A1")
+' コレクション内のワークシートのセルを参照します
+cellCollection = New WorksheetReferenceCollection(worksheet, "A1")
+' エラー メッセージ情報を追加します
+dataRule.ErrorMessageDescription = "Invalid value entered."
+dataRule.ErrorMessageTitle = "Validation Error"
+dataRule.ErrorStyle = DataValidationErrorStyle.[Stop]
+' 入力メッセージ情報を追加します
+dataRule.InputMessageDescription = "Type or select a value from the list."
+dataRule.InputMessageTitle = "Value Selection"
+' 無効な値が入力された後にエラー メッセージを表示するかどうかを設定します
+dataRule.ShowErrorMessageForInvalidValue = True
+' 入力メッセージを表示するかどうかを設定します
+dataRule.ShowInputMessage = True
+' データ検証をワークシートに追加します
+worksheet.DataValidationRules.Add(dataRule, cellCollection)
+Try
+    ' 作成したワークブックを保存します。
+    workbook.Save("output.xls")
+    ' ワークブックを開いて結果を表示します。
+    System.Diagnostics.Process.Start("output.xls")
+Catch
+    MessageBox.Show("Please close any open instances of Excel.", "Error Opening Workbook", MessageBoxButtons.OK, MessageBoxIcon.[Stop])
+End Try
+----
+
+[[Three]]
+== 関連トピック
+
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Reference Strings による Cells および Regions のアクセス]
+* link:excelengine-create-a-workbook.html[ワークブックを作成]
+* link:excelengine-write-a-workbook-to-an-excel-file.html[ワークブックを Excel ファイルに書き出す]

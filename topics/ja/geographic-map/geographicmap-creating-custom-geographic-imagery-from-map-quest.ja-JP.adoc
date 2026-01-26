@@ -1,0 +1,324 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Map Quest からカスタムの地理的画像を作成
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで Map Quest からカスタムの地理的画像を作成および表示する方法を提供します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、 {GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====
+
+=== このトピックの構成
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320388672,Map Quest からの地理的画像>>
+
+** <<_Ref320618582,概要>>
+** <<_Ref320388681,プレビュー>>
+** <<_Ref320618599,手順>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320388672]]
+== Map Quest からの地理的画像
+
+[[_Ref320618582]]
+
+=== 概要
+
+Map Quest の地理的画像は、MapQuest 社が作成した無料の地図サービスです。この地理的画像サービスは、 link:http://www.mapquest.com[http://www.mapquest.com] に直接アクセスして利用できます。
+
+デフォルトでは、{GeoMapName} コントロールは、Map Quest サービスからの地理的画像をサポートしていません。ただし、 link:{GeoMapLink}.geographicmapimagery_members.html[GeographicMapImagery] クラスは、他の地理的画像ソースから地理的画像タイルの実装を提供するように拡張できます。
+
+[[_Ref320388681]]
+
+=== プレビュー
+
+以下の画像は、Map Quest サービスからの地理的画像タイルがある {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Creating_Custom_Geographic_Imagery_from_Map_Quest_1.png[]
+
+[[_Ref320618599]]
+
+=== 手順
+
+以下の手順は、 link:{ApiPlatform}datavisualization{ApiVersion}~infragistics.controls.maps.maptilesource_members.html[MapTileSource] および link:{GeoMapLink}.geographicmapimagery_members.html[GeographicMapImagery] クラスを拡張して、 {GeoMapName}     コントロールの背景コンテンツで Map Quest から地理的画像を作成および表示する方法を示します。
+
+=== Map Quest 地理的画像用にマルチスケール タイル ソースを作成
+
+link:{APIPlatform}datavisualization~{GeoMapNamespace}.maptilesource_members.html[MapTileSource] クラスを継承することによって、Map Quest 地理的画像のマルチスケール タイル ソースを作成します。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Namespace IGGeographicMap.Extensions
+      ''' <summary>
+      ''' Map Quest サービスからの地理的画像のタイル ソースを表します
+      ''' </summary>
+      Public Class MapQuestTileSource
+            Inherits Infragistics.Controls.Maps.MapTileSource
+            Public Sub New()
+                  MyBase.New(134217728, 134217728, 256, 256, 0)
+            End Sub
+            #Region "TileMapStyle"
+            ''' <summary>
+            ''' MapQuest 地理的画像のタイル ソースのマップ スタイルを取得または設定します
+            ''' </summary>
+            Public Property TileMapStyle() As MapQuestImageryStyle
+                  Get
+                        Return _TileMapStyle
+                  End Get
+                  Set
+                        _TileMapStyle = Value
+                  End Set
+            End Property
+            Private _TileMapStyle As MapQuestImageryStyle
+            #End Region
+            Private Const TileStreetPath As String = "http://otile4.mqcdn.com/tiles/1.0.0/osm/{Z}/{X}/{Y}.png"
+            Private Const TileAerialPath As String = "http://oatile3.mqcdn.com/naip/{Z}/{X}/{Y}.png"
+            ''' <summary>
+            ''' 地理的画像タイルの種類のパスを取得します
+            ''' </summary>
+            ''' <returns></returns>
+            Private Function GetTileType() As String
+                  Return If(Me.TileMapStyle = MapQuestImageryStyle.SatelliteMapStyle, TileAerialPath, TileStreetPath)
+            End Function
+            ''' <summary>
+            ''' マップの特定の位置で、地理的画像タイルを取得するためにオーバーライドされたメソッド
+            ''' </summary>
+            Protected Overrides Sub GetTileLayers(tileLevel As Integer, tilePositionX As Integer, tilePositionY As Integer, tileImageLayerSources As System.Collections.Generic.IList(Of Object))
+                  Dim tilePath = GetTileType()
+                  Dim zoom As Integer = tileLevel - 8
+                  If zoom > 0 Then
+                        Dim uriString As String = tilePath
+                        uriString = uriString.Replace("{Z}", zoom.ToString())
+                        uriString = uriString.Replace("{X}", tilePositionX.ToString())
+                        uriString = uriString.Replace("{Y}", tilePositionY.ToString())
+                        tileImageLayerSources.Add(New Uri(uriString))
+                  End If
+            End Sub
+      End Class
+      ''' <summary>
+      ''' MapQuest 地理的画像のスタイルを定義します。 
+      ''' </summary>
+      Public Enum MapQuestImageryStyle
+            ''' <summary>
+            ''' Map Quest サービスからの地理的画像の通りのスタイルを指定します
+            ''' </summary>
+            StreetMapStyle
+            ''' <summary>
+            ''' Map Quest サービスからの地理的画像の衛星スタイルを指定します
+            ''' </summary>
+            SatelliteMapStyle
+      End Enum
+End Namespace
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+using System;
+namespace IGGeographicMap.Extensions
+{
+    /// <summary>
+    /// Map Quest サービスからの地理的画像のタイル ソースを表します
+    /// </summary>
+    public class MapQuestTileSource : Infragistics.Controls.Maps.MapTileSource
+    {
+        public MapQuestTileSource()
+            : base(134217728, 134217728, 256, 256, 0)
+        { }
+        #region TileMapStyle
+        /// <summary>
+        /// MapQuest 地理的画像のタイル ソースのマップ スタイルを取得または設定します
+        /// </summary>
+        public MapQuestImageryStyle TileMapStyle { get; set; }
+        #endregion
+        private const string TileStreetPath = "http://otile4.mqcdn.com/tiles/1.0.0/osm/{Z}/{X}/{Y}.png";
+        private const string TileAerialPath = "http://oatile3.mqcdn.com/naip/{Z}/{X}/{Y}.png";
+        /// <summary>
+        /// 地理的画像タイルの種類のパスを取得します
+        /// </summary>
+        /// <returns></returns>
+        private string GetTileType()
+        {
+            return this.TileMapStyle == MapQuestImageryStyle.SatelliteMapStyle ?TileAerialPath : TileStreetPath;
+        }
+        /// <summary>
+        /// マップの特定の位置で、地理的画像タイルを取得するためにオーバーライドされたメソッド
+        /// </summary>
+        protected override void GetTileLayers(int tileLevel, int tilePositionX, int tilePositionY, System.Collections.Generic.IList<object> tileImageLayerSources)
+        {
+            var tilePath = GetTileType();
+            int zoom = tileLevel - 8;
+            if (zoom > 0)
+            {
+                string uriString = tilePath;
+                uriString = uriString.Replace("{Z}", zoom.ToString());
+                uriString = uriString.Replace("{X}", tilePositionX.ToString());
+                uriString = uriString.Replace("{Y}", tilePositionY.ToString());
+                tileImageLayerSources.Add(new Uri(uriString));
+            }
+        }
+    }
+    /// <summary>
+    /// MapQuest 地理的画像のスタイルを定義します 
+    /// </summary>
+    public enum MapQuestImageryStyle
+    {
+        /// <summary>
+        /// Map Quest サービスからの地理的画像の通りのスタイルを指定します
+        /// </summary>
+        StreetMapStyle,
+        /// <summary>
+        /// Map Quest サービスからの地理的画像の衛星スタイルを指定します
+        /// </summary>
+        SatelliteMapStyle,
+    }
+}
+----
+
+=== Map Quest サービスのサポートされる種類のマップ スタイルに対して地理的画像クラスを作成
+
+link:{GeoMapLink}.geographicmapimagery_members.html[GeographicMapImagery] クラスから継承し、Map Quest の画像ソースを提供することによって、Map Quest サービスのサポートされている種類のマップ スタイルに対して地理的画像クラスを作成します。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports Infragistics.Controls.Maps
+Namespace IGGeographicMap.Extensions
+      ''' <summary>
+      ''' Map Quest サービスからの street map スタイルと共に地理的画像を表します
+      ''' </summary>
+      Public Class MapQuestStreetImagery
+            Inherits GeographicMapImagery
+            Public Sub New()
+                  MyBase.New(New MapQuestTileSource() With { .TileMapStyle = MapQuestImageryStyle.StreetMapStyle       })
+            End Sub
+      End Class
+      ''' <summary>
+      ''' Map Quest サービスからの satellite map スタイルと共に地理的画像を表します
+      ''' </summary>
+      Public Class MapQuestSatelliteImagery
+            Inherits GeographicMapImagery
+            Public Sub New()
+                  MyBase.New(New MapQuestTileSource() With { .TileMapStyle = MapQuestImageryStyle.SatelliteMapStyle })
+            End Sub
+      End Class
+End Namespace
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+using Infragistics.Controls.Maps;
+namespace IGGeographicMap.Extensions
+{
+    /// <summary>
+    /// Map Quest サービスからの street map スタイルと共に地理的画像を表します
+    /// </summary>
+    public class MapQuestStreetImagery : GeographicMapImagery
+    {
+        public MapQuestStreetImagery()
+            : base(new MapQuestTileSource { TileMapStyle = MapQuestImageryStyle.StreetMapStyle })
+        { }
+    }
+    /// <summary>
+    /// Map Quest サービスからの satellite map スタイルと共に地理的画像を表します
+    /// </summary>
+    public class MapQuestSatelliteImagery : GeographicMapImagery
+    {
+        public MapQuestSatelliteImagery()
+            : base(new MapQuestTileSource { TileMapStyle = MapQuestImageryStyle.SatelliteMapStyle })
+        { }
+    }
+}
+----
+
+=== Map Background コンテンツを MapQuestStreetImagery に設定します
+
+MapQuestStreetImagery オブジェクトのインスタンスを作成し、{GeoMapName} コントロールの Map Background コンテンツに設定します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap">
+      <ig:XamGeographicMap.BackgroundContent>
+            <custom:MapQuestStreetImagery />
+      </ig:XamGeographicMap.BackgroundContent>
+</ig:XamGeographicMap>
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim geoImagery = New MapQuestStreetImagery()
+Me.GeoMap.BackgroundContent = geoImagery
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+var geoImagery = new MapQuestStreetImagery();
+this.GeoMap.BackgroundContent = geoImagery;
+----
+
+=== 結果を確認する
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、{GeoMapName}   は上記の<<_Ref320388681,プレビュー>> セクションで示したように表示されるはずです。
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、 {GeoMapName} コントロールで地理的画像を使用する方法に関する情報を提供します。
+
+|====

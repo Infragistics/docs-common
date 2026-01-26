@@ -1,0 +1,241 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-excel-2007-color-model",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "2bdb3a8a-ae16-4e3f-a17f-2636184cd679","buildFlags": [],
+    "createdOn": "2012-03-29T13:29:35.9752323Z"
+}
+|metadata|
+////
+
+= Excel 2007 Color Model ({ExcelEngineName})
+
+== Topic Overview
+
+=== Purpose
+
+This topic explains how to set colors on various cells format properties.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320017019,Main Features>>
+** <<_Ref320017090,Features Overview>>
+** <<_Ref320017100,Workbook palette>>
+** <<_Ref320877494,Filling a cell>>
+
+* <<_Ref320715825,Specifying a Color>>
+** <<_Ref320715856,Overview>>
+** <<_Ref320715864,Tint>>
+** <<_Ref320715868,Theme Colors>>
+** <<_Ref320715877,WorkbookColorInfo>>
+** <<_Ref320715882,GetResolvedColor>>
+** <<_Ref320715886,Saving in new file formats>>
+
+* <<_Ref320017114,Related Content>>
+
+[[_Ref320017019]]
+== Main Features
+
+[[_Ref320017090]]
+
+=== Features Overview
+
+The following table summarizes the main features of the Excel 2007 Color Model. Additional details are available after the following summary table.
+
+[options="header", cols="a,a"]
+|====
+|Feature|Description
+
+|Workbook palette
+|The color palette is exposed publicly, via the `Workbook` pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~palette.html[Palette]"] property, so you can choose which colors to use when opening saved files in an earlier version of Excel.
+
+|Filling cells
+|pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill_members.html[CellFill]"] is an abstract class representing a fill of a cell. There are some derived types representing the various fills which can be created.
+
+|====
+
+[[_Ref320017100]]
+
+=== Workbook palette
+
+The Color palette has been exposed publicly, via the `Workbook`{empty}'s  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~palette.html[Palette]"]  property, so that you can choose which colors to use when finding the closest matching color. The palette has an indexer to get and set the 56 colors in it, as well as a  _Reset_   method to reset it back to its preset state.
+
+The color palette is analogous to the color dialog in Microsoft Excel 2007 UI. You can open this color dialog by navigating to Excel Options>Save>Colors.
+
+.Note:
+[NOTE]
+====
+The color dialog in Excel does not display colors in the order they are represented in a color palette.
+====
+
+[[_Ref320877494]]
+
+=== Filling a cell
+
+.Note:
+[NOTE]
+====
+In previous versions, the cell fill was defined by three properties on the `IWorksheetCellFormat` interface: `FillPattern`, `FillPatternBackgroundColor`, and `FillPatternForegroundColor`. They are all replaced by a single  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill_members.html[Fill]"]  property, which is a reference to a `CellFill` instance.
+====
+
+The derived types, representing the various fills which can be created, are as follows:
+
+[options="header", cols="a,a"]
+|====
+|Derived type|Description
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"]
+|Represents one of the following: 
+
+* no color 
+
+* solid color 
+
+* pattern fill for a cell 
+
+It has background color info and a pattern color info which correspond directly to the color sections in the Fill tab of the Format Cells dialog of Excel. It also has a pattern style.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"]
+|Represents a linear gradient fill. It has an angle, which is degrees clockwise of the left to right linear gradient, and a gradients stops collection which describes two or more color transitions along the length of the gradient.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"]
+|Represents a rectangular gradient fill. It has top, left, right, and bottom values, which describe, in relative coordinates, the inner rectangle from which the gradient starts and goes out to the cell edges. It also has a gradient stops collection which describes two or more color transitions along the path from the inner rectangle to the cell edges.
+
+|====
+
+You can create all possible fill types using static properties and methods on the `CellFill` class. They are as follows:
+
+[options="header", cols="a,a"]
+|====
+|Property|Description
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~nocolor.html[NoColor]"]
+|Represent a fill with no color, which allows a background image of the worksheet, if any, to show through.
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|Method|Description
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"]
+|Returns a `CellFillPattern` instance which has a pattern style of Solid and a background color set to the `Color` or `WorkbookColorInfo` specified in the method.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"]
+|Returns a `CellFillPattern` instance which has the specified pattern style and the `Color` or `WorkbookColorInfo` values, specified for the background and pattern colors. These methods can also be used to create solid and no color fills.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"]
+|Returns a `CellFillLinearGradient` instance with the specified angle and gradient stops.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] 
+|Returns a `CellFillRectangularGradient` instance with the specified left, top, right, and bottom of the inner rectangle and gradient stops. If the inner rectangle values are not specified, the center of the cell is used as the inner rectangle.
+
+|====
+
+[[_Ref320715825]]
+== Specifying a Color
+
+[[_Ref320715856]]
+
+=== Overview
+
+You can specify a color (the color of Excel cells background, border, etc) using linear and rectangular gradients in cells. When workbooks with these gradients are saved in XLS file format and opened in Microsoft Excel 2007/2010, the gradients will be visible, but when these files are opened in Microsoft Excel 2003, the cell will be filled with the solid color from the first gradient stop.
+
+These are the ways a color can be defined, as follows:
+
+* The automatic color (which is the `WindowText` system color)
+* Any user defined RGB color
+* A theme color
+
+[[_Ref320715864]]
+
+=== Tint
+
+If an RGB or a theme color is used, an optional tint can be applied to lighten or darken the color. This tint cannot be set directly in Microsoft Excel 2007 UI, but various colors in the color palette displayed to the user are actually theme colors with tints applied.
+
+[[_Ref320715868]]
+
+=== Theme Colors
+
+Each workbook has 12 associated theme colors. They are the following:
+
+*  _Light 1_  
+*  _Light 2_  
+*  _Dark 1_  
+*  _Dark 2_  
+*  _Accent1_  
+*  _Accent2_  
+*  _Accent3_  
+*  _Accent4_  
+*  _Accent5_  
+*  _Accent6_  
+*  _Hyperlink_  
+*  _Followed Hyperlink_  
+
+* They have default values when a workbook is created, and they can be customized via Excel UI.
+
+[[_Ref320715877]]
+
+=== WorkbookColorInfo
+
+* Colors are defined by the `WorkbookColorInfo` class, which is a sealed immutable class. The class has a static Automatic property, which returns the automatic color, and there are various constructors which allow you to create a `WorkbookColorInfo` instance with a color or a theme value and an optional tint.
+
+[[_Ref320715882]]
+
+=== GetResolvedColor
+
+The `GetResolvedColor` method allows you to determine what color will actually be seen by the user when they open the file in Excel.
+
+* If the `WorkbookColorInfo` represents a theme color, you must pass in a Workbook instance to the method so it can get the theme color’s RGB value from the workbook.
+
+[[_Ref320715886]]
+
+=== Saving in new file formats
+
+When saving out in the newer file formats (Microsoft Excel 2007 and later versions), the newer color information is saved directly into the file. When saving out in an older file format, the index to the closest color in the palette will be saved out. In addition, the older formats have future feature records that can be saved out to indicate the newer color information.
+
+* When the older formats are opened in Microsoft Excel 2003 and earlier versions, these future features records are ignored. But when the older file formats are opened in Excel 2007 and later, there records are read and the color information from them overwrites the indexed color that was previously loaded from the normal format records.
+
+[[_Ref320017114]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:excelengine-excel-format-support.html[Excel Format Support]
+|This topic explains {ExcelEngineName} support for cell formats.
+
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="| "] pick:[win-forms=" link:win-breaking-changes-in-2012-volume-1.html[Breaking changes]"] pick:[win-forms-old=""] pick:[win-forms-old=" link:win-breaking-changes-in-2012-volume-1.html[Breaking changes]"] pick:[asp-net=" link:known-issues-known-issues-and-breaking-changes.html[Breaking changes]"] pick:[aspnet-old=" link:known-issues-known-issues-and-breaking-changes.html[Breaking changes]"] 
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="|This topic describes breaking changes in {ExcelEngineName} Format support. "]
+
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="| link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding the {ExcelEngineName}]"]
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="|This section is your gateway to important task-based information that will help you to effectively use the various features and functionalities provided by the {ExcelEngineName}."]
+
+pick:[wpf,xamarin="| link:excelengine-using-the-infragistics-excel-engine.html[Using the {ExcelEngineName}]"]
+pick:[wpf,xamarin="|This section is your gateway to important task-based information that will help you to effectively use the various features and functionalities provided by the {ExcelEngineName}."]
+
+|====
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+=== Samples
+
+The following samples provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Sample|Purpose
+
+|New Color Model
+|This sample demonstrates a way of working with the newer color model on cell formats. You can specify the RGB color and a tint value on all color properties of a cell format. You can use linear and rectangular gradients in cells.
+
+|====
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]

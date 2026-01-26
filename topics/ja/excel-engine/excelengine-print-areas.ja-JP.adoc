@@ -1,0 +1,126 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-print-areas",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "faba24ff-51bd-4ec3-a56f-f5e7d2b1d24c",  
+    "buildFlags": [],
+    "createdOn": "2011-10-10T14:03:38.6026395Z"
+}
+|metadata|
+////
+
+= 印刷範囲
+
+このトピックは、Infragistics Excel Engine における印刷範囲のサポートの概要を説明し、使い方のコード例を示します。
+
+トピックは以下のとおりです。
+
+* <<One,はじめに>>
+* <<Two,印刷範囲の作成>>
+
+** <<TwoOne,概要>>
+** <<TwoTwo,プレビュー>>
+** <<TwoThree,コード例>>
+
+* <<Three,関連トピック>>
+
+[[One]]
+== はじめに
+
+Infragistics Excel Engine では、Microsoft Excel にみられる印刷範囲機能のように、1 つ以上の四角形領域 (重ならないこと) を印刷範囲として設定できます。これらの範囲は、ワークシートの印刷時にユーザー自身のページ上に置かれます。さらに、印刷範囲に挿入される改ページは、その特定の印刷範囲にのみ適用されます。
+
+[NOTE]
+====
+*注:*
+
+印刷範囲を構成するときは、以下の要件を満たす必要があります。満たされないと例外がスローされます:
+
+. ワークシート上の印刷範囲コレクションには、印刷オプションが属するワークシートからの領域のみが含まれます。
+. 範囲は重なってはなりません。
+====
+
+[[Two]]
+== 印刷範囲の作成
+
+[[TwoOne]]
+== 概要
+
+以下のコード例では、以下のパラメータでワークブックを使用して 2 つの印刷範囲を作成します:
+
+* ワークブック名: output.xls
+* ワークシート名: PrintAreas
+* 印刷範囲 1: A1:I11
+* 印刷範囲 2: A1:I11
+
+[[TwoTwo]]
+== プレビュー
+
+以下は最終結果のプレビューです。
+
+image::images/ExcelEngine_Print_Areas_01.png[]
+
+図1: コード例の最終結果を示す Microsoft Excel: 印刷範囲は 2 カ所
+
+[[TwoThree]]
+== コード例
+
+*C# の場合：*
+
+----
+// PrintAreas というワークシートを持つワークブックを作成します
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("PrintAreas");
+// 印刷範囲: A1: I11 を定義するワークシート領域を作成します
+WorksheetRegion wsr_one = worksheet.GetRegion("A1:I11");
+// 印刷範囲: A13:I23 を定義する別のワークシート領域を作成します
+WorksheetRegion wsr_two = worksheet.GetRegion("A13:I23");
+// 印刷範囲の領域をワークシートに追加します
+worksheet.PrintOptions.PrintAreas.Add(wsr_one);
+worksheet.PrintOptions.PrintAreas.Add(wsr_two);
+try
+{
+    // 作成したワークブックを保存します
+    workbook.Save("output.xls");
+    // ワークブックを開いて結果を表示します
+    System.Diagnostics.Process.Start("output.xls");
+}
+catch
+{
+    MessageBox.Show("If the workbook is open, please close it before saving.", "Save Error",
+        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+}
+----
+
+*Visual Basic の場合:*
+
+----
+' PrintAreas というワークシートを持つワークブックを作成します
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("PrintAreas")
+' 印刷範囲を定義するワークシート領域を作成します: A1: I11
+Dim wsr_one As WorksheetRegion = worksheet.GetRegion("A1:I11")
+' 印刷範囲を定義する別のワークシート領域を作成します: A13:I23
+Dim wsr_two As WorksheetRegion = worksheet.GetRegion("A13:I23")
+' 印刷範囲の領域をワークシートに追加します
+worksheet.PrintOptions.PrintAreas.Add(wsr_one)
+worksheet.PrintOptions.PrintAreas.Add(wsr_two)
+Try
+    ' 作成したワークブックを保存します。
+    workbook.Save("output.xls")
+    ' ワークブックを開いて結果を表示します。
+    System.Diagnostics.Process.Start("output.xls")
+Catch
+    MessageBox.Show("If the workbook is open, please close it before saving.", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.[Stop])
+End Try
+----
+
+[[Three]]
+== 関連トピック
+
+* link:excelengine-page-breaks.html[改ページ]
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Reference Strings による Cells および Regions のアクセス]
+* link:excelengine-create-a-workbook.html[ワークブックを作成]
+* link:excelengine-write-a-workbook-to-an-excel-file.html[ワークブックを Excel ファイルに書き出す]

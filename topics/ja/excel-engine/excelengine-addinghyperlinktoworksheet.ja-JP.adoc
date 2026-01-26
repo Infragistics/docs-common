@@ -1,0 +1,154 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-addinghyperlinktoworksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["How Do I"],
+    "guid": "3bbc3e5b-4e2d-4f42-889f-f5c80a737963",
+    "buildFlags": [],
+    "createdOn": "2014-10-30T07:49:17.9363554Z"
+}
+|metadata|
+////
+
+= ハイパーリンクをワークシートに追加 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 {ExcelEngineName}   を使用してワークシートにハイパーリンクを追加する方法について、手順を追って説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:excelengine-creating-a-workbook.html[ワークブックの作成 ({ExcelEngineName})]
+|{ExcelEngineName} を使用し素早く起動して実行するために、このトピックではワークブックを作成する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref389575564, ワークシートへのハイパーリンクの追加 >>
+* <<_Ref389575572, 関連コンテンツ >>
+
+[[_Ref389575564]]
+== ワークシートへのハイパーリンクの追加
+
+=== 概要
+
+この手順では、ワークシートにハイパーリンクを追加する方法を紹介します。ハイパーリンクは link:{ExcelEngineApiLink}infragistics.documents.excel.worksheethyperlink_members.html[WorksheetHyperlink] クラスで表され、ワークシートの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~hyperlinks.html[Hyperlinks] コレクションに追加されます。
+
+=== プレビュー
+
+以下のスクリーンショットは結果のプレビューです。
+
+image::images/ExcelEngine_05.png[]
+
+=== 前提条件
+
+この手順を実行するには、以下が必要です。
+
+「ws」と名付けられた少なくとも 1 つのワークシートを持つ初期化されたワークブック。
+
+=== 概要
+
+以下はプロセスの概要です。
+
+[start=1]
+. WorksheetHyperlink の作成
+[start=2]
+. ハイパーリンクのソースの構成
+[start=3]
+. ハイパーリンクのターゲットの構成
+[start=4]
+. ハイパーリンクの表示テキストの構成 (オプション)
+[start=5]
+. ハイパーリンクのツールチップの構成 (オプション)
+[start=6]
+. ワークシートの Hyperlink コレクションへの WorksheetHyperlink オブジェクトの追加
+
+=== 手順
+
+以下のステップでは、ワークシートにハイパーリンクを追加する方法を紹介します。
+
+=== 1.WorksheetHyperlink オブジェクトの作成
+
+`WorksheetHyperlink` オブジェクトを作成し、必要な引数を指定します。次のステップで引数の詳細を指定します。
+
+=== 2.ハイパーリンクのソースの構成
+
+`WorksheetHyperlink` のソースとは、ハイパーリンクにより占められる場所です。単一のセルまたは複数のセルとすることができます。ソースは、文字列 ("B2"、"B2:C5") として指定、あるいは link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell_members.html[WorksheetCell] または link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetregion_members.html[WorksheetRegion] により指定することができます。
+
+=== 3.ハイパーリンクのターゲットの構成
+
+`WorksheetHyperlink` のターゲットは、`WorksheetCell`、`WorksheetRegion`、 link:{ExcelEngineApiLink}infragistics.documents.excel.namedreference_members.html[NamedReference]、または文字列値のいずれかとすることができます。文字列値により、メール アドレス、インターネット アドレス、ワークシートのセル、名前付き参照のようなターゲットを指定できます。詳細は link:{ExcelEngineApiLink}infragistics.documents.excel.worksheethyperlink~target.html[Target] プロパティの説明を参照してください。
+
+=== 4.ハイパーリンクの表示テキストの構成 (オプション)
+
+`WorksheetHyperlink` の表示テキストは、ワークシート セルに表示されるテキストです。このオプションの引数が指定されていない場合、ターゲット テキストが表示されます。
+
+=== 5.ハイパーリンクのツールチップの構成 (オプション)
+
+`WorksheetHyperlink` のツールチップは、ソースのセルまたは領域の上をホバーしているときに表示されます。これはオプションの引数です。
+
+=== 6.ワークシートの Hyperlink コレクションへの WorksheetHyperlink オブジェクトの追加
+
+ハイパーリンクが表示されるようにするには、対応する`ワークシート`の Hyperlinks コレクションにハイパーリンクを追加します。
+
+以下のコードはこの例を実装します。
+
+*C# の場合:*
+[source,csharp]
+----
+WorksheetHyperlink link = new WorksheetHyperlink(
+  "B2",
+  "http://www.infragistics.com",
+  "Infragistics",
+  "Visit the Infragistics website");
+this.ws.Hyperlinks.Add(link);
+----
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim link As New WorksheetHyperlink( _
+  "B2", _
+  "http://www.infragistics.com", _
+  "Infragistics", _
+  "Visit the Infragistics website")
+Me.ws.Hyperlinks.Add(link)
+----
+endif::wpf[]
+
+[[_Ref389575572]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-adding-a-shape-to-an-excel-worksheet.html[図形をワークシートに追加 ({ExcelEngineName})]
+|このトピックでは、事前定義された図形をワークシートに追加する方法を説明します。
+
+ifdef::wpf[]
+| link:excelengine-addingimagetoworksheet.html[画像をワークシートに追加 ({ExcelEngineName})]
+|このトピックでは、ワークシートに画像を追加する方法を示します。
+endif::wpf[]
+
+|====

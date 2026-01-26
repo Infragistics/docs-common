@@ -1,0 +1,53 @@
+﻿= Binding to Data
+
+The {FinancialChartName} uses a data adapter to analyze the data sources and apply rules to them to plot the data, whether you use a single data set or multiple.
+
+In some cases you may need to explicitly define whether or not a particular property associated with your data model needs to plot. You can either set the property in the  link:{FinancialChartLink}.{FinancialChartName}{ApiProp}includedProperties{HtmlApiExtension}[IncludedProperties] or link:{FinancialChartLink}.{FinancialChartName}{ApiProp}excludedProperties{HtmlApiExtension}[ExcludedProperties] to tell the chart if they should be included or excluded:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamFinancialChart ItemsSource="{Binding ChartData}"
+                      IncludedProperties="{Binding IncludedDataFields}"
+                      ExcludedProperties="{Binding ExcludedDataFields}" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In C#:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.IncludedProperties = new string[] { "Open", "High", "Low", "Close", "Volume", "Date" };
+chart.ExcludedProperties = new string[] { "PercentChange", "SellOrders", "BuyOrders", "Label" };
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.IncludedProperties = New String(){ "Open", "High", "Low", "Close", "Volume", "Date" }
+chart.ExcludedProperties = New String(){ "PercentChange", "SellOrders", "BuyOrders", "Label" }
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript:*
+[source,js]
+----
+$("#chart").{FinancialChartName}({
+    dataSource: data,
+    includedProperties: [ "Open", "High", "Low", "Close", "Volume", "Date" ],
+    excludedProperties: [ "PercentChange", "SellOrders", "BuyOrders", "Label" ]
+});
+----
+endif::jquery[]
+
+The following topics go further in describing how to bind to data:
+
+* link:financial-chart-binding-to-single-data.html[Binding to a Single Set of Data]
+
+* link:financial-chart-binding-to-multiple-data.html[Binding to Multiple Data Sets]
+
+* link:financial-chart-binding-to-live-data.html[Binding to Live Data]

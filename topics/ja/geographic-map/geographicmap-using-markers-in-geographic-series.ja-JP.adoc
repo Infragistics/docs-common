@@ -1,0 +1,239 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理的シリーズでマーカーを使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの地理的シリーズでマーカーを使用する方法を提供します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-symbol-series.html[地理的シンボル シリーズを使用]
+|このトピックは、{GeoMapName} コントロールで link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] 要素を使用する方法を提供します。
+
+| link:geographicmap-using-geographic-shape-series.html[地理的シェイプ シリーズを使用]
+|このトピックは、{GeoMapName} コントロールで link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries]  要素を使用する方法を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320745633, 地理的シリーズで基本マーカーを表示 >>
+
+** <<_Ref320745641,概要>>
+** <<_Ref320745644,プロパティ設定>>
+** <<_Ref320745648,例>>
+** <<_Ref320745654,コード>>
+ifdef::wpf[]
+* <<_Ref320745637, 地理的シリーズのカスタム マーカーを作成 >>
+
+** <<_Ref320745659,概要>>
+** <<_Ref320745688,プレビュー>>
+** <<_Ref320745668,例>>
+endif::wpf[]
+* <<_Ref320185294, 関連コンテンツ >>
+
+[[_Ref320745633]]
+[[_Ref320651776]]
+== 地理的シリーズで基本マーカーを表示
+
+[[_Ref320745641]]
+
+=== 概要
+
+{GeoMapName} コントロールでは、マーカーは、マップの地理的場所で地理的シリーズにバインドされたデータ項目の値を表示する視覚要素です。マーカーは、ラベル、シンボル、またはカスタム データ テンプレートとして表すことができます。
+
+地理的シリーズの以下のタイプは、マーカーをサポートします。
+
+* link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries]
+* link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries]
+
+[[_Ref320745644]]
+
+=== プロパティ設定
+
+以下の表では、望ましい構成を地理的シリーズのプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的|プロパティ|次に設定
+
+|マーカーを表示
+| link:{GeoMapLink}.geographicsymbolseries~markertype.html[MarkerType]
+| Circle
+
+|マーカーのブラシを変更
+| link:{GeoMapLink}.geographicsymbolseries~markerbrush.html[MarkerBrush]
+| pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.media.brush.aspx[Brush]"]pick:[win-forms="Infragistics.Win.DataVisualization.Brush"]
+
+|マーカーのアウトラインを変更
+| link:{GeoMapLink}.geographicsymbolseries~markeroutline.html[MarkerOutline]
+| pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.media.brush.aspx[Brush]"]pick:[win-forms="Infragistics.Win.DataVisualization.Brush"]
+
+|マーカーの競合回避を有効
+| link:{GeoMapLink}.geographicsymbolseries~markercollisionavoidance.html[MarkerCollisionAvoidance]
+| Fade
+
+
+|====
+
+[[_Ref320745648]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果として、{GeoMapName} コントロールがどのように表示されるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+
+| link:{GeoMapLink}.geographicsymbolseries~markertype.html[MarkerType]
+| Circle
+
+| link:{GeoMapLink}.geographicsymbolseries~markerbrush.html[MarkerBrush]
+|Blue
+
+| link:{GeoMapLink}.geographicsymbolseries~markeroutline.html[MarkerOutline]
+|Black
+
+| link:{GeoMapLink}.geographicsymbolseries~markercollisionavoidance.html[MarkerCollisionAvoidance]
+| None
+
+|====
+
+image::images/GeographicMap_Using_Markers_in_Geographic_Series_1.png[]
+
+[[_Ref320745654]]
+
+=== コード
+
+以下のコードは、 link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] のマーカーの外観を変更します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap.Series>
+    <ig:GeographicSymbolSeries  {ApiDataSource}="{StaticResource shapefileConverter}"
+                                MarkerBrush="Blue" 
+                                MarkerOutline="Black"
+                                MarkerCollisionAvoidance="None"
+                                LongitudeMemberPath="Points[0][0].X"
+                                LatitudeMemberPath="Points[0][0].Y">
+    </ig:GeographicSymbolSeries>
+</ig:XamGeographicMap.Series>
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,c#]
+----
+var geoSeries = new GeographicSymbolSeries();
+geoSeries.{ApiDataSource} = shapefileConverter;
+geoSeries.MarkerBrush = new SolidBrush(Color.Blue);
+geoSeries.MarkerOutline = new SolidBrush(Color.Black);
+geoSeries.MarkerCollisionAvoidance = CollisionAvoidanceType.None;
+geoSeries.LatitudeMemberPath = "Points[0][0].X";
+geoSeries.LongitudeMemberPath = "Points[0][0].Y";
+this.geoMap.Series.Add(geoSeries);
+----
+
+*VB の場合:*
+[source,c#]
+----
+Dim geoSeries = new GeographicSymbolSeries()
+geoSeries.{ApiDataSource} = shapefileConverter
+geoSeries.MarkerBrush = new SolidBrush(Color.Blue)
+geoSeries.MarkerOutline = new SolidBrush(Color.Black)
+geoSeries.MarkerCollisionAvoidance = CollisionAvoidanceType.None
+geoSeries.LatitudeMemberPath = "Points[0][0].X"
+geoSeries.LongitudeMemberPath = "Points[0][0].Y"
+Me.geoMap.Series.Add(geoSeries)
+----
+
+ifdef::wpf[]
+[[_Ref320745637]]
+== 地理的シリーズのカスタム マーカーを作成
+
+[[_Ref320745659]]
+
+=== 概要
+
+地理的シリーズの link:{GeoMapLink}.geographicshapeseries~markertemplate.html[MarkerTemplate] プロパティは、データ項目のカスタム シンボル/値の両方またはいずれか一方を表示するカスタム データ テンプレートを提供するために使用できます。カスタム データ テンプレートは、Item プロパティにバインドすることで地理的シリーズの  {ApiDataSource}  プロパティにバインドされたデータ項目の値にアクセスできます。地理的シリーズが link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter]  にバインドされると、Item プロパティは  link:{DataVizMapsLink}.shapefilerecord_members.html[ShapefileRecord] オブジェクトに解決され、シェイプ データベース (.dbf) ファイルから読み込まれた値は、  link:{DataVizMapsLink}.shapefilerecord~fields.html[Fields] プロパティからアクセスできます。
+
+[[_Ref320745688]]
+
+=== プレビュー
+
+以下は、link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] のすべての図形で国々の名前を表示するマーカーがある {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Using_Markers_in_Geographic_Series_2.png[]
+
+[[_Ref320745668]]
+
+=== 例
+
+以下のコードは、国名が含まれるデータ列にバインドされている  link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] のマーカー用のカスタム データ テンプレートを作成します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:GeographicShapeSeries {ApiDataSource}="{StaticResource shapefileConverter}"
+                          ShapeMemberPath="Points"
+                          MarkerCollisionAvoidance="Fade">
+    <ig:GeographicShapeSeries.MarkerTemplate>
+        <DataTemplate>
+            <TextBlock Text="{Binding Path=Item.Fields[CNTRY_NAME]}" FontWeight="Bold" />
+        </DataTemplate>
+    </ig:GeographicShapeSeries.MarkerTemplate>
+</ig:GeographicShapeSeries>
+----
+endif::wpf[]
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+|このトピックは、{GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+|====

@@ -1,0 +1,241 @@
+﻿= Configuring Chart Markers
+
+Markers are visual elements that are displayed at the values of data points in the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control's plot area. Markers help your end-users immediately identify a data point's value even if the value falls between major or minor grid lines.
+This section provides you with useful information about working with the {ShapeChartName} control's Markers.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<requiredbackground, Required Background>>
+* <<supportedcharttypes, Supported Chart Types>>
+* <<markerproperties,Marker Properties>> 
+* <<markertypes,Marker Types>>
+* <<markerappearance,Marker Appearance>>
+* <<RelatedContent,Related Content>>
+
+=== Required Background
+ 
+The following topics are prerequisites to understanding this topic:
+|====
+|Topic|Purpose
+
+|link:shapechart-overview.html[{ShapeChartName} Overview]
+|This topic provides conceptual information about the {ShapeChartName} control including its main features, minimum requirements, and user functionality.
+
+|link:shapechart-getting-started-with-shapechart.html[Getting Started with {ShapeChartName}]
+|This topic explains how to bind data to the {ShapeChartName} control.
+
+|====
+
+[[supportedcharttypes]]
+== Supported Chart Types
+
+The following is a list of chart types that support markers:
+
+* Bubble 
+* Line
+* Point
+* Polygon
+* Spline
+
+Note, Polygon displays its markers in the center of the shapes, defined by points, whereas the other chart types render its markers at X/Y coordinates of data items. 
+
+[[markerproperties]]
+== Marker Properties
+
+The following table lists all marker appearance properties.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerTypes.html[MarkerTypes]
+|link:{ShapeChartLink}.MarkerTypeCollection.html[MarkerTypeCollection]
+|Determines the type of markers to be displayed by all series in the chart
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerCollision.html[MarkerCollision]
+|link:{ShapeChartLink}.CollisionAvoidanceType.html[CollisionAvoidanceType]
+|Determines the method of collision avoidance when items collide.
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerBrushes.html[MarkerBrushes]
+|link:{ShapeChartDomain}.BrushCollection.html[BrushCollection]
+|Determines fill color of markers
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerOutlines.html[MarkerOutlines]
+|link:{ShapeChartDomain}.BrushCollection.html[BrushCollection]
+|Determines outline color of markers
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerMaxCount.html[MarkerMaxCount]
+|link:{ShapeChartDomain}.MarkerMaxCount.html[int]
+|Determines the maximum number of markers displayed in the plot area of the chart. 
+
+Note: this property does not apply to the Polygon chart type.
+
+|====
+
+[[markertypes]]
+== Marker Types
+
+[options="header", cols="a,a,a"]
+|====
+|Property Type.Name|Description|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Circle]
+|Displays the Circle marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Diamond]
+|Displays the Diamond marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Hexagon]
+|Displays the Hexagon marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Hexagram]
+|Displays the Hexagram marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Pentagram]
+|Displays the Pentagram marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Pentagon]
+|Displays the Pentagon marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Pyramid]
+|Displays the Pyramid marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Square]
+|Displays the Square marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Tetragram]
+|Displays the Tetragram marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Triangle]
+|Displays the Triangle marker type.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.Auto]
+|Displays one marker type from above list for each series rendered in the chart.
+|
+
+|link:{ShapeChartLink}.MarkerType.html[MarkerType.None]
+|Hides markers for a given series.
+|
+
+|====
+
+The code snippet below demonstrates how to change the marker type for all series in the {ShapeChartName}.
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamShapeChart 
+    ItemsSource="{Binding}" 
+    ChartType="Spline" 
+    MarkerTypes="Triangle" 
+</ig:XamShapeChart>
+----
+endif::wpf[]
+
+ifdef::wpf[]
+*In C#:*
+[source,csharp]
+----
+this.shapeChart.MarkerTypes = new Infragistics.Controls.Charts.MarkerTypeCollection 
+{ 
+    MarkerType.Triangle 
+};
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Me.shapeChart.MarkerTypes = New Infragistics.Controls.Charts.MarkerTypeCollection From 
+{
+    MarkerType.Triangle
+}
+----
+endif::win-forms[] 
+
+The following screenshot displays the {ShapeChartName} control using the Spline chart type with Triangle markers.
+
+image::images/shape_chart_markers.png[]
+
+
+[[markerappearance]]
+== Marker Appearance
+
+The appearance of chart markers is managed through the link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerBrushes.html[MarkerBrushes] and link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}MarkerBrushes.html[MarkerOutlines] properties of the {ShapeChartName} class.
+
+The code snippets below demonstrates how to change the MarkerBrushes and MarkerOutlines for the {ShapeChartName}. 
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamShapeChart 
+      MarkerBrushes=”Red Blue” 
+      MarkerOutlines=”Red Blue”
+      ChartType="Line">
+</ig:XamCategoryChart>
+
+----
+
+
+
+*In C#:*
+[source,csharp]
+----
+shapeChart.MarkerBrushes = new BrushCollection 
+{ 
+    Brushes.Red, 
+    Brushes.Blue 
+};
+shapeChart.MarkerOutlines = new BrushCollection 
+{ 
+    Brushes.Red, 
+    Brushes.Blue 
+};
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Me.shapeChart.MarkerBrushes = New BrushCollection From 
+{
+    Brushes.Red, 
+    Brushes.Blue
+}
+Me.shapeChart.MarkerOutlines = New BrushCollection From 
+{
+    Brushes.Red, 
+    Brushes.Blue
+}
+----
+endif::wpf[] 
+
+The following screenshot displays the {ShapeChartName} control using the Line chart type with customized markers.
+
+image::images/shape_chart_multiple_marker_outlines.png[]
+
+[[RelatedContent]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:shapechart-binding-to-break-even-data.html[Data Binding]
+|This topic describes in detail how to bind the control to data.
+
+| link:shapechart-overview.html[Overview]
+|This topic provides a conceptual overview of the Shape Chart control.
+
+|====

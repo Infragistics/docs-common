@@ -1,0 +1,276 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-scatter-spline-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"],
+    "guid": "",
+    "buildFlags": [],
+    "createdOn": "2017-04-05T19:39:00.5613429Z"
+}
+|metadata|
+////
+
+= Scatter Spline Series
+
+This topic explains, with code examples, how to use the link:{DataChartLink}.ScatterSplineSeries.html[ScatterPointSeries] in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control. Some important conceptual information is provided as well.
+
+=== In This Topic
+
+This topic contains the following sections:
+
+* <<Introduction,Introduction>>
+* <<Series Preview,Series Preview>>
+* <<Appearance,Series Appearance>>
+* <<DataBinding,Data Binding  >> 
+* <<DashArray, Dash Array>>
+* <<RelatedContent,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+The `ScatterSplineSeries` belongs to a family of link:datachart-scatter-series-overview.html[Scatter Series] that use the Cartesian (x, y) coordinate system to plot data. This series displays the data as a collection of points connected with spline, each having a pair of numeric X/Y values that determines its location in the Cartesian coordinate system. 
+
+Scatter Series draw attention to uneven intervals or clusters of data. They can highlight the deviation of collected data from predicted results and they are often used to plot scientific and statistical data. The `ScatterSplineSeries` organizes and plots data chronologically (even if the data is not in chronological order before binding) on X-Axis and Y-Axis. The following sections list important conceptual and task-based information on how to use the `ScatterSplineSeries` and its features.
+ 
+
+[[SeriesPreview]]
+== Series Preview    
+
+image::images/xamDataChart_Scatter_Series_04.png[]
+
+Figure 1: Sample implementation of the `ScatterSplineSeries`
+
+[[SeriesAppearance]]
+== Series Appearance
+
+The `ScatterLineSeries` has the following properties that you can use to customize appearance:
+ 
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.Series{ApiProp}Thickness.html[Thickness]
+|`double`
+|This property specifies the thickness of splines.
+  
+| link:{DataChartLink}.Series{ApiProp}Brush.html[Brush]
+|`Brush`
+|This property specifies the brush color of splines. 
+
+| link:{DataChartLink}.MarkerSeries{ApiProp}MarkerType.html[MarkerType]
+| link:{DataChartLink}.MarkerType.html[MarkerType] 
+|This property specifies shape of markers rendered at location of data points. Defaults to None - no markers.
+  
+| link:{DataChartLink}.MarkerSeries{ApiProp}MarkerOutline.html[MarkerOutline]
+|`Brush`
+|This property specifies the outline color of markers. 
+  
+| link:{DataChartLink}.MarkerSeries{ApiProp}MarkerBrush.html[MarkerBrush]
+|`Brush`
+|This property specifies the fill color of markers. 
+|====
+
+
+[[DataBinding]]
+== Data Binding   
+
+The `ScatterSplineSeries` uses the link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] property to bind any data object that implements the IEnumerable interface (e.g. List, Collection, Queue, Stack). However, each data item in this object must have two numeric data columns (for X and Y values to position a bubble in the Cartesian coordinate system). These data columns are mapped using link:{DataChartLink}.ScatterBase{ApiProp}XMemberPath.html[XMemberPath] and link:{DataChartLink}.ScatterBase{ApiProp}YMemberPath.html[YMemberPath] properties.
+
+An example of object that meets the criteria listed above is the link:resources-sample-bubble-data.html[BubbleDataSource] which you can download use it in your project. 
+
+==== Code Example
+This code snippet below demonstrates how to bind sample bubble data to the `ScatterSplineSeries`.
+
+ifdef::wpf,win-universal[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} >
+    <ig:{DataChartName}.Resources>
+        <local:BubbleDataSource x:Key="data"/> 
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="XAxis" />
+        <ig:NumericYAxis x:Name="YAxis" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series> 
+        <ig:ScatterSplineSeries ItemsSource="{StaticResource data}"
+                          XAxis="{Binding ElementName=XAxis}"
+                          YAxis="{Binding ElementName=YAxis}"
+                          XMemberPath="X" 
+                          YMemberPath="Y" >
+        </ig:ScatterSplineSeries> 
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf,win-universal[]
+ 
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:BubbleDataSource x:Key="data" />
+		</ResourceDictionary>
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="XAxis" />
+        <ig:NumericYAxis x:Name="YAxis" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ScatterSplineSeries ItemsSource="{StaticResource data}"
+                          XAxis="{x:Reference XAxis}"
+                          YAxis="{x:Reference YAxis}"
+                          XMemberPath="X" 
+                          YMemberPath="Y" > 
+        </ig:ScatterSplineSeries> 
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-universal,xamarin[]
+*In C#:*
+[source,csharp]
+----
+var data = new BubbleDataSource();
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+
+var series = new ScatterSplineSeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.XMemberPath = "X";
+series.YMemberPath = "Y"; 
+series.ItemsSource = data; 
+DataChart.Axes.Add(xAxis);
+DataChart.Axes.Add(yAxis);
+DataChart.Series.Add(series);
+----
+endif::wpf,win-universal,xamarin[]
+ 
+ifdef::win-forms[]
+*In C#:*
+[source,csharp]
+----
+var data = new BubbleDataSource();
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+
+var series = new ScatterSplineSeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.XMemberPath = "X";
+series.YMemberPath = "Y"; 
+series.DataSource = data; 
+DataChart.Axes.Add(xAxis);
+DataChart.Axes.Add(yAxis);
+DataChart.Series.Add(series);
+----
+endif::win-forms[]
+ 
+ifdef::wpf,win-universal[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New BubbleDataSource()
+Dim xAxis As New NumericXAxis() 
+Dim yAxis As New NumericYAxis() 
+
+Dim series As New ScatterSplineSeries()
+series.ItemsSource = data
+series.XMemberPath = "X"
+series.YMemberPath = "Y" 
+series.XAxis = xAxis
+series.YAxis = yAxis
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New BubbleDataSource()
+Dim xAxis As New NumericXAxis()  
+Dim yAxis As New NumericYAxis()  
+
+Dim series As New ScatterSplineSeries()
+series.DataSource = data
+series.XMemberPath = "X"
+series.YMemberPath = "Y" 
+series.XAxis = xAxis
+series.YAxis = yAxis
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::win-forms[]
+
+ifdef::android[]
+*In Java:*
+[source,java]
+----
+BubbleDataSource data = new BubbleDataSource();
+NumericYAxis yAxis = new NumericYAxis();
+NumericXAxis xAxis = new NumericXAxis();
+
+ScatterSplineSeries series = new ScatterSplineSeries();
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+series.setXMemberPath("X");
+series.setYMemberPath("Y"); 
+series.setDataSource(data);
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+endif::android[]
+
+[[DashArray]]
+== Dash Array
+
+The link:{DataChartLink}.ScatterSplineSeries.html[ScatterSplineSeries] supports the ability to apply a dashed line via a dash array. You can do this by setting the `DashArray` property of the series to a new `DoubleCollection` with the `double[]` describing the dash lengths that you wish to see. The following code examples demonstrate how to do this:
+
+ifdef::wpf[]
+
+*In XAML:*
+[source, xaml]
+----
+<ig:ScatterSplineSeries DashArray="5, 5" />
+----
+
+endif::wpf[]
+
+*In C#:*
+[source,csharp]
+----
+var series = new ScatterSplineSeries();
+series.DashArray = new DoubleCollection(new double[] { 5, 5 });
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim series = New ScatterSplineSeries()
+series.DashArray = New DoubleCollection(New Double() {5, 5})
+----
+
+
+[[RelatedContent]]
+== Related Content
+
+** link:datachart-axes.html[Chart Axes] 
+** link:datachart-series-requirements.html[Series Requirements]
+** link:datachart-scatter-series-overview.html[Scatter Series]

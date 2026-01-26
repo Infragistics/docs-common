@@ -1,0 +1,130 @@
+﻿= 価格ペイン
+
+=== 目的
+
+このトピックは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールの価格ペインを紹介します。
+
+pick:[wpf="image::images/financialchart_wpf_pane_price.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_price.png[]"]
+
+上の画面はチャートの価格ペインおよびランタイムにチャート タイプを変更するために使用されるドロップダウンを強調表示します。価格ペインは価格の描画にトレンドラインや財務オーバーレイも使用します。このペインのサポートされるチャート タイプ:
+
+* 自動
+* 棒 (OHLC)
+* ローソク足
+* 柱状
+* 折れ線
+    
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|タイプ|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}chartType{HtmlApiExtension}[ChartType]
+|`FinancialChartType`
+|チャートのタイプを取得または設定します。
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}brushes{HtmlApiExtension}[Brushes]
+|`BrushCollection`
+|チャート シリーズの色設定に使用するブラシのパレットを取得または設定します。
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}outlines{HtmlApiExtension}[Outlines]
+|`BrushCollection`
+|チャート シリーズのアウトラインに使用するブラシのパレットを取得または設定します。
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}thickness{HtmlApiExtension}[Thickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|チャート シリーズの太さを取得または設定します。
+
+|====
+    
+デフォルトで、`ChartType` が Auto に設定されます。つまり、チャートはデータに基づいてチャート タイプを選択します。チャート タイプをコードで設定できます:
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    ChartType="Column"
+    Brushes="Red"
+    Outlines="Green"
+    Thickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart as New {FinancialChartName}()
+chart.ChartType = Infragistics.Controls.Charts.FinancialChartType.Column
+
+chart.Brushes = New Infragistics.BrushCollection()
+Dim brush As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Red;
+chart.Brushes.Add(brush)
+
+chart.Outlines = new Infragistics.BrushCollection()
+Dim brush2 As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Green
+chart.Outlines.Add(brush2)
+
+chart.Thickness = 2
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.ChartType = Infragistics.Controls.Charts.FinancialChartType.Column;
+
+chart.Brushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Red;
+chart.Brushes.Add(brush);
+
+chart.Outlines = new Infragistics.BrushCollection();
+SolidColorBrush brush2 = new SolidColorBrush();
+brush2.Color = Colors.Green;
+chart.Outlines.Add(brush2);
+
+chart.Thickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    chartType: "column",
+    brushes: ["Red"],
+    outLines: ["Green"],
+    thickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "chartType", "column");
+$("#financialChart").{FinancialChartName}("option", "brushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "outLines", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "thickness", 2);
+----
+endif::jquery[]
+
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+|link:financial-chart-chartpanes.html[チャート ペイン]
+|このトピックはチャート ペインの概要です。
+
+|====

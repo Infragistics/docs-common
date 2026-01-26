@@ -1,0 +1,98 @@
+﻿= 軸の間隔
+
+=== 目的
+このトピックでは、コード例を使用して link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] コントロールのチャート軸に主目盛と副目盛を構成する方法を示します。
+
+{ShapeChartName} コントロールで、軸の主間隔は主グリッド線および軸ラベルが軸に描画される頻度を指定します。同様に、軸副間隔は副グリッド線が軸に描画される頻度を指定します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<ConfiguringAxes,X 軸と Y 軸に主間隔と副間隔を構成>> 
+* <<codesnippet,コード スニペット>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[ConfiguringAxes]]
+== X 軸と Y 軸に主間隔と副間隔を構成
+
+[options="header", cols="a,a,a"]
+|====
+|構成の目的:|使用するプロパティ|設定値
+
+|主間隔グリッド線の頻度
+|link:{ShapeChartLink}.{ShapeChartCartesian}{ApiProp}XAxisInterval.html[XAxisInterval] +
+link:{ShapeChartLink}.{ShapeChartCartesian}{ApiProp}YAxisInterval.html[YAxisInterval] 	
+|この値は、軸ラベルおよび主グリッド線に構成可能なスペースを提供します。軸ラベルの間隔も、この値によって設定され、間隔に関連付けられた軸のポイントにラベルが 1 つ表示されることに注意してください。
+
+{ShapeChartName} コントロールの軸では、この値は軸の最小値から最大値の範囲の double 値として表されます。軸がデフォルトで軸の最小値および最大値に基づいて四捨五入した間隔数値を自動的に算出します。
+
+|主間隔グリッド線の色
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisMajorStroke.html[XAxisMajorStroke] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisMajorStroke.html[YAxisMajorStroke] 	
+|軸の主グリッド線の色
+|主間隔グリッド線の太さ
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisMajorStrokeThickness.html[XAxisMajorStrokeThickness] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisMajorStrokeThickness.html[YAxisMajorStrokeThickness]	
+|double 値として設定された軸の主グリッド線ストロークの太さ。
+|副間隔グリッド線の頻度
+|link:{ShapeChartLink}.{ShapeChartCartesian}{ApiProp}XAxisMinorInterval.html[XAxisMinorInterval] +
+link:{ShapeChartLink}.{ShapeChartCartesian}{ApiProp}YAxisMinorInterval.html[YAxisMinorInterval]	
+|この値は、主グリッド線と主グリッド線の間に描画される副グリッド線に構成可能なスペースを提供します。その結果、XAxisMinorInterval プロパティの値は、常に XAxisInterval プロパティの値より小さい値 (通常、2 分の 1 から 5 分の 1) であることが必要です。
+
+この値は軸の最小値から最大値の範囲の double 値として表されます。数値軸はデフォルトで、軸の最小値および最高値から副間隔を自動的に計算しません。
+
+|副間隔グリッド線の色
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisMinorStroke.html[XAxisMinorStroke] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisMinorStroke.html[YAxisMinorStroke]	
+|軸の副グリッド線の色
+|副間隔グリッド線の太さ
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisMinorStrokeThickness.html[XAxisMinorStrokeThickness] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisMinorStrokeThickness.html[YAxisMinorStrokeThickness]		
+|double 値として設定された軸の副グリッド線ストロークの太さ。
+
+|====
+
+[[codesnippet]]
+== コード スニペット
+
+以下のコード スニペットは、x 軸の間隔を設定する方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{ShapeChartName} x:Name="chart1"  
+                     XAxisInterval="20"
+                     XAxisMinorInterval="5" 
+                     XAxisMajorStroke="Green"
+                     XAxisMinorStroke="Red"
+                     XAxisMajorStrokeThickness="10"
+                     XAxisMinorStrokeThickness="1"
+                     >
+</ig:{ShapeChartName}>
+----
+endif::wpf[] 
+
+image::images/shapeChart_xaxis_intervals.png[]
+
+
+[[RelatedContent]]
+
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:shapechart-overview.html[概要]
+|このトピックは、シェープ チャート コントロールの概要を提供します。
+
+| link:shapechart-binding-to-shapefile-data.html[シェープファイル データ バインディング]
+|このトピックはコントロールにシェープ ファイル データをバインドする方法を説明します。
+
+|====

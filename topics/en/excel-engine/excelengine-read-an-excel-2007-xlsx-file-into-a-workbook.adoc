@@ -1,0 +1,47 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-read-an-excel-2007-xlsx-file-into-a-workbook",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{9300DE23-3462-4D80-8F58-5A3757257D3A}",  
+    "buildFlags": [],
+    "createdOn": "2008-07-10T16:37:04Z"
+}
+|metadata|
+////
+
+= Read an Excel 2007 XLSX File Into a Workbook
+
+In addition to writing out Microsoft® Excel® files, the Infragistics.Documents.Excel assembly can also read them. When an Excel file is read with the static  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  method, a  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  object is created and its entire object model is populated with all supported information from the file.
+
+If you are loading a workbook of a particular format and you would like to save it as another format, you can use the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  method of the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]  class. Also, the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  property can be used to get the current workbook format.
+
+For more information on project dependencies and references when loading and saving to the xlsx format, please review the topic link:excelengine-office-2007-xlsx-file-generation-references-and-dependencies.html[Office® 2007 xlsx file generation references and dependencies].
+
+.Note
+[NOTE]
+====
+When loading a workbook in new xlsx format(Excel2007), if you are sure that the workbook was saved out by a safe source, such as Microsoft® Excel®, you can assign False to the verifyExcel2007Xml overload of the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  method. Assigning False for large files would bypass the Excel assembly from verifying the contents of the files being loaded, which in turn will increase performance and load the large files faster.
+====
+
+The following code demonstrates how to read in an existing XLSX workbook, make a change, and write the workbook to a new file:
+
+*In Visual Basic:*
+
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = _
+  Infragistics.Documents.Excel.Workbook.Load("C:\ExistingWorkbook.xlsx")
+workbook.Worksheets.Item(0).Rows.Item(0).Cells.Item(0).Value = 19
+workbook.Save("C:\ModifiedWorkbook.xlsx")
+----
+
+*In C#:*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = 
+  Infragistics.Documents.Excel.Workbook.Load( "C:\\ExistingWorkbook.xlsx" );
+workbook.Worksheets[0].Rows[0].Cells[0].Value = 19;
+workbook.Save( "C:\\ModifiedWorkbook.xlsx" );
+----

@@ -1,0 +1,81 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-export-to-pdf",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{838774E8-E8C2-46B1-BFD0-27F5F59A3EE4}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Export to PDF
+
+This topic shows how you can export your chart to a PDF file or an XPS file.
+
+.Note
+[NOTE]
+====
+This topic assumes that you already created a chart. For information on how to create a chart, see link:chart-getting-started-with-chart.html[Getting Started with Chart].
+====
+
+When you save and run your application after completing the following steps, your chart should look similar to the following image:
+
+image::Images/Chart_Export_to_PDF.png[Example of a 2D Column Chart on a form with a button that can be clicked to run the code listed below to export the Chart.]
+
+*To export your chart to PDF:*
+
+[start=1]
+. From the components tab, drag an UltraButton to your form.
+[start=2]
+. In the Click event handler of the button, add the following example code.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Data.DataSource = GetStackColumnData()
+Me.UltraChart1.Data.DataBind()
+Dim r As New Infragistics.Documents.Report.Report()
+Dim g As Graphics = r.AddSection().AddCanvas().CreateGraphics()
+UltraChart1.RenderPdfFriendlyGraphics(g)
+' define a string that contains the path to
+' the current user's My Documents folder.
+Dim myDocuments As String = _
+     System.Environment.GetFolderPath( _
+       System.Environment.SpecialFolder.MyDocuments)
+' Publish the report to the current user's 
+' My Documents folder with the name of Report.pdf.
+r.Publish(myDocuments + "\Report.pdf", FileFormat.PDF)
+System.Diagnostics.Process.Start((myDocuments + "\Report.pdf"))
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Data.DataSource = GetStackColumnData();
+this.ultraChart1.Data.DataBind();
+//Create a new report
+Infragistics.Documents.Report.Report r = 
+  new Infragistics.Documents.Report.Report();
+Graphics g = r.AddSection().AddCanvas().CreateGraphics();
+ultraChart1.RenderPdfFriendlyGraphics(g);
+//Define a string that contains the path to
+// the current user's My Documents folder.
+string myDocuments =
+  System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+// Publish the report to the current user's 
+// My Documents folder with the name of Report.pdf.
+r.Publish(myDocuments + "\\Report.pdf", FileFormat.PDF);
+----
+
+[start=3]
+. Save and run your application
+
+== Related Topics
+
+link:chart-exporting-to-pdf.html[Exporting to PDF]
+
+link:chart-exporting-numerous-charts-to-a-pdf.html[Exporting Numerous Charts to a PDF]

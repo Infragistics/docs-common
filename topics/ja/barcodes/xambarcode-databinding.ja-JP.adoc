@@ -1,0 +1,201 @@
+﻿////
+
+|metadata|
+{
+    "name": "xambarcode-databinding",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "89ea1d13-ec82-4865-a073-d0a702850d34",  
+    "buildFlags": ["XAML"],
+    "createdOn": "2015-09-23T20:39:08.1425044Z"
+}
+|metadata|
+////
+
+= データのバインド
+
+== 始める前に
+
+コントロールの link:{BarcodesLink}.{BarcodesRoot}{ApiProp}data.html[Data] プロパティの {BarcodesName} シリーズは、エンコードしたい値を割り当てるために使用するものです。pick:[xaml="Data プロパティは依存プロパティで、値を設定するためにデータ バインドを使用できます。"]
+
+== 達成すること
+
+データを pick:[wpf,win-forms="{Barcode128Name}"]pick:[xamarin="{BarcodeQRName}"] コントロールの link:{BarcodesLink}.{BarcodesRoot}{ApiProp}data.html[Data] プロパティにバインドします。
+
+== 次の手順を実行します
+
+[start=1]
+. pick:[wpf,win-forms="{Barcode128Name}"]pick:[xamarin="{BarcodeQRName}"] コントロールをpick:[win-forms="フォーム"]pick:[wpf="ページ"]pick:[xamarin="アプリケーション"]に追加します。これに関する詳細は以下のトピックを参照してください。
+
+ifdef::xaml[]
+* link:xambarcode-adding-xambarcode-using-xaml.html[「XAML コードを使用して Barcode を追加」]
+endif::xaml[]
+
+* link:xambarcode-adding-barcode-in-code-behind.html[「コードビハインドを使用して Barcode を追加」]
+
+ifdef::xaml[]
+[start=2]
+. INotifyPropertyChanged インターフェイスを実装する BarcodeData という名前のクラスを作成し、Data プロパティを追加します。これは値が変更された場合に通知を提供します。
+endif::xaml[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.ComponentModel
+
+Public Class BarcodeData Implements INotifyPropertyChanged
+        Public Sub New()
+                Data = String.Empty
+        End Sub
+        Private barcodeData As String
+        Property Data() As String
+                Get
+                        Return barcodeData
+                End Get
+                Set(ByVal value As String)
+                        barcodeData = value
+                        RaisePropertyChanged()
+                End Set
+        End Property
+        Public Event PropertyChanged(ByVal sender As Object, ByVal e
+                As PropertyChangedEventArgs) Implements
+                      INotifyPropertyChanged.PropertyChanged
+        Private Sub RaisePropertyChanged()
+                RaiseEvent PropertyChanged(Me, New
+                        PropertyChangedEventArgs("Data"))
+        End Sub
+End Class
+----
+
+endif::wpf[]
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+----
+using System.ComponentModel;
+
+public class BarcodeData : INotifyPropertyChanged
+{
+        public BarcodeData()
+        {
+                Data = string.Empty;
+        }
+        private string barcodeData;
+        public string Data
+        {
+                get
+                {
+                        return barcodeData;
+                }
+                set
+                {
+                        barcodeData = value;
+                        RaisePropertyChanged();
+                }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaisePropertyChanged()
+        {
+                if (PropertyChanged != null)
+                {
+                        PropertyChanged(this,
+                        new PropertyChangedEventArgs("Data"));
+                }
+        }
+}
+----
+
+endif::xaml[]
+
+ifdef::xaml[]
+[start=3]
+. BarcodeData クラスのインスタンスをコントロールの DataContext プロパティに指定します:
+endif::xaml[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim barcodeData As New BarcodeData
+Barcode.DataContext = barcodeData
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var barcodeData = new BarcodeData();
+Barcode.DataContext = barcodeData;
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+var barcodeData = new BarcodeData();
+Barcode.BindingContext = barcodeData;
+----
+endif::xamarin[]
+
+ifdef::xaml[]
+[start=4]
+. プロパティにコントロールをバインドします。
+
+*XAML の場合:*
+
+----
+<ig:pick:[wpf="{Barcode128Name}"]pick:[xamarin="{BarcodeQRName}"] x:Name="Barcode" Data="{Binding Data}" />
+----
+
+endif::xaml[]
+
+ifdef::xaml[]
+[start=5]
+endif::xaml[]
+ifdef::win-forms[]
+[start=2]
+endif::win-forms[]
+. 値を BarcodeData インスタンスの Data プロパティに指定します。
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+----
+barcodeData.Data = "324654"
+----
+
+endif::wpf,win-forms[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+----
+barcodeData.Data = "324654";
+----
+
+endif::xaml,win-forms[]
+
+.注:
+[NOTE]
+====
+この例は、ハードコーディングされた値をコントロールに割り当てます。ただし、実環境アプリケーションでは、データベース、アプリケーション ロジック、またはバーコード スキャナーから値を指定できます。どこから値を取得するかにかかわらず、この例では値がどのようにコントロールに指定されるのかを示します。BarcodeData クラスの Data プロパティが変わるたびに、コントロールは変更を表示します。
+====
+
+ifdef::xaml[]
+[start=6]
+ifdef::win-forms[]
+[start=3]
+endif::win-forms[]
+. アプリケーションを保存して実行します。
+
+ifdef::wpf,win-forms[]
+image::images/xamBarcode_DataBinding_01.png[]
+endif::wpf,win-forms[]

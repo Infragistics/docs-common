@@ -1,0 +1,217 @@
+﻿= OrdinalTimeXAxis の使用
+
+このトピックは、コード例を示して、link:{DataChartLink}.ordinaltimexaxis.html[OrdinalTimeXAxis] を link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで使用する方法を説明します。この軸を使用する利点は、データのズームで動的に `DateTime` ラベル書式設定を変更できることです。
+
+=== このトピックの内容
+
+このトピックは以下のように構成されています。
+
+* <<Overview, 概要>>
+* <<AxisLabelFormats, 軸ラベル書式>>
+* <<Related, 関連コンテンツ>>
+
+[[Overview]]
+=== 概要
+
+`OrdinalTimeXAxis` を以下のシリーズで使用できます。
+
+* link:datachart-category-series-overview.html[カテゴリ シリーズ]
+
+* link:datachart-financial-indicators-overview.html[財務指標]
+
+* link:datachart-series-financial-price-series-overview.html[財務シリーズ]
+
+`OrdinalTimeXAxis` と link:{DataChartLink}.timexaxis.html[TimeXAxis] の主な違いは、順序軸で、表示される日付は等距離です。 `TimeXAxis` は日付を並べ替えて、時系列タイムスケールによって配置します。
+
+以下のコード例は、`OrdinalTimeXAxis` をチャートに追加します。
+
+ifdef::wpf[]
+**XAML の場合:**
+[source, xaml]
+----
+<ig:{DataChartName} x:Name="chart">
+    <ig:{DataChartName}.Axes>
+        <ig:OrdinalTimeXAxis x:Name="xAxis" ItemsSource="{Binding Data}" DateTimeMemberPath="Date">
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+**C# の場合:**
+[source, csharp]
+----
+var dataChart = new {DataChartName}();
+
+var ordinalAxis = new OrdinalTimeXAxis();
+ordinalAxis.ItemsSource = data;
+ordinalAxis.DateTimeMemberPath = "Date";
+            
+dataChart.Axes.Add(ordinalAxis);        
+----
+
+**Visual Basic の場合:**
+[source, vb]
+----
+Dim dataChart As {DataChartName} = New {DataChartName}()
+
+Dim ordinalAxis As OrdinalTimeXAxis = New OrdinalTimeXAxis()
+ordinalAxis.ItemsSource = data
+ordinalAxis.DateTimeMemberPath = "Date"
+
+dataChart.Axes.Add(ordinalAxis)
+----
+endif::wpf,win-forms[]
+
+以下の画像は、`FinancialPriceSeries` で OrdinalTimeXAxis の使用を表示します。
+
+image:images/ordinal_time_axis.png[]
+
+[[AxisLabelFormats]]
+=== 軸ラベル書式
+
+link:{DataChartLink}.ordinaltimexaxis.html[OrdinalTimeXAxis] の link:{DataChartLink}.ordinaltimexaxis{ApiProp}labelformats.html[LabelFormats] プロパティは link:{DataChartLink}.timeaxislabelformat.html[TimeAxisLabelFormat] 型のコレクションです。コレクションに追加された各 link:{DataChartLink}.timeaxislabelformat.html[TimeAxisLabelFormat] は一意の link:{DataChartLink}.timeaxislabelformat{ApiProp}format.html[Format] および link:{DataChartLink}.timeaxislabelformat{ApiProp}range.html[Range] を割り当てます。データを年からミリ秒にドリルダウンする際にチャートで表示される時間範囲に基づいてラベルが更新されます。
+
+[options="header", cols="a,a,a"]
+|====
+|名前
+|型
+|説明
+
+|link:{DataChartLink}.timeaxislabelformat{ApiProp}format.html[TimeAxisLabelFormat.Format]
+|`string`
+|表示範囲に使用する書式を指定します。
+
+|link:{DataChartLink}.timeaxislabelformat{ApiProp}range.html[TimeAxisLabelFormat.Range]
+|`TimeSpan`
+|軸ラベル書式を他の書式へ変更するための表示範囲を指定します。たとえば、範囲が 10 日間および 5 時間に設定された 2 つの link:{DataChartLink}.timeaxislabelformat.html[TimeAxisLabelFormat] がある場合、軸の表示範囲が 10 日間より短くなると 5 時間書式に変更されます。
+|====
+
+以下はビューで時間の範囲に基づいたラベル書式の一般的な例です。
+
+1. 1825 日以上 (5 年間) の書式設定は "yyyy" になります。
+2. 365 日以上 (1 年間) の書式設定は "MMM yy" になります。
+3. 1 日以上の書式設定は "MMM-dd-yy" になります。
+4. 5 時間以上の書式設定は "hh:mm" になります。
+5. 5 時間以下の書式は "hh:mm:ss" になります。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+       <ig:OrdinalTimeXAxis x:Name="xAxis" ItemsSource="{StaticResource data}" DateTimeMemberPath="Date" >
+            <ig:OrdinalTimeXAxis.LabelFormats>
+                    <ig:TimeAxisLabelFormat     
+                        Format="hh:mm:ss" 
+                        Range="0.00:00:00"/>
+                    <ig:TimeAxisLabelFormat
+                        Format="hh:mm"
+                        Range="0.05:00:00"/>
+                    <ig:TimeAxisLabelFormat
+                        Format="MMM-dd-yy"
+                        Range="1.00:00:00" />
+                    <ig:TimeAxisLabelFormat
+                        Format="MMM yy"
+                        Range="365.0:00:00" />
+                    <ig:TimeAxisLabelFormat
+                        Format="yyyy"
+                        Range="1825.0:00:00" />
+            </ig:OrdinalTimeXAxis.LabelFormats>
+        </ig:OrdinalTimeXAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+var DataChart = new {DataChartName}();
+var ordinalTimeXAxis = new OrdinalTimeXAxis();
+DataChart.Axes.Add(ordinalTimeXAxis);
+
+var axisFormat = ordinalTimeXAxis.LabelFormats;
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "hh:mm:ss", 
+    Range = new TimeSpan(0, 0, 0, 0, 0)  
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "hh:mm", 
+    Range = new TimeSpan(0, 5, 0, 0, 0) 
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "MMM-dd-yy", 
+    Range = new TimeSpan(1, 0, 0, 0, 0) 
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "MMM yy", 
+    Range = new TimeSpan(365, 0, 0, 0, 0) 
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "yyyy",
+    Range = new TimeSpan(1825, 0, 0, 0, 0) 
+});
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim DataChart = New {DataChartName}()
+Dim ordinalTimeXAxis = New OrdinalTimeXAxis()
+DataChart.Axes.Add(timeXAxis)
+
+Dim axisFormat = ordinalTimeXAxis.LabelFormats
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "hh:mm:ss", _
+	.Range = New TimeSpan(0, 0, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "hh:mm", _
+	.Range = New TimeSpan(0, 5, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "MMM-dd-yy", _
+	.Range = New TimeSpan(1, 0, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "MMM yy", _
+	.Range = New TimeSpan(365, 0, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "yyyy", _
+	.Range = New TimeSpan(1825, 0, 0, 0, 0) _
+})
+
+----
+
+endif::wpf,win-forms[]
+
+以下の画像は、`FinancialPriceSeries` でラベル書式を持つ OrdinalTimeXAxis の使用を表示します。
+
+image:images/ordinal_time_axis_formatting.png[]
+
+[[Related]]
+=== 関連コンテンツ
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-using-time-x-axis.html[時間 X 軸の使用]
+* link:datachart-multiple-axes.html[複数軸の使用]

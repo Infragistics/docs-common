@@ -1,0 +1,63 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-set-a-leaf-nodes-color-using-a-treemapseries-object",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{F8B057AA-C261-4578-B546-B856B61D6A60}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= TreeMapSeries オブジェクトを使用してリーフ ノードの色を設定
+
+データ ソースとして TreeMapSeries オブジェクトを使用している場合、各 TreeMapDataPoint の  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  プロパティがリーフ ノードの色を決定します。色の値はツリーマップ グラフの最小および最大色値に相対します。リーフ ノードの色は、ColorModel.ColorBegin および ColorModel.ColorEnd プロパティの設定に基づいてスケールされます。たとえば、すべての ColorValue プロパティを 3 に設定すると、すべてのリーフ ノードは同じ色になります。ColorValue プロパティの値の範囲が 30 から 100 の場合、 ColorValue プロパティが 30 に設定されているリーフ ノードが最小色となり、ColorValue プロパティが 100 に設定されているリーフ ノードが最大色となります。
+
+データ ソースとして TreeMapSeries オブジェクトを使用することの詳細は、「ツリーマップ グラフ データでの作業」を参照してください。
+
+以下の例のコードは、データ ソースとして TreeMapSeries オブジェクトを使用している場合のリーフ ノードの色の設定方法を示します。
+
+*Visual Basic の場合：*
+
+----
+' 最小色を設定します。
+Me.ultraChart1.ColorModel.ColorBegin = System.Drawing.Color.Blue
+' 最大色を設定します。
+Me.ultraChart1.ColorModel.ColorEnd = System.Drawing.Color.Red
+myseries.Points.Add(new TreeMapDataPoint(12, 34, "item1", False)) 
+' 2 番目の引数は色値を表しています。
+' リーフ ノードの色を青に設定します。
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 0, "FirstChildOfItem1",False))
+' リーフ ノードの色を紫に設定します（青と赤の中間）
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 5, "SecondChildOfItem1", False))
+' リーフ ノードの色を赤に設定します。
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 10, "ThirdChildOfItem1", False))
+Me.ultraChart1.Series.Add(myseries)
+----
+
+*C# の場合：*
+
+----
+// 最小色を設定します。 
+this.ultraChart1.ColorModel.ColorBegin = System.Drawing.Color.Blue;
+// 最大色を設定します。 
+this.ultraChart1.ColorModel.ColorEnd = System.Drawing.Color.Red;
+myseries.Points.Add(new TreeMapDataPoint(12, 34, "item1", false)); 
+// 2 番目の引数は色値を表しています。
+// リーフ ノードの色を青に設定します。
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 0, "FirstchildOfItem1", false)); 
+// リーフ ノードの色を紫に設定します（青と赤の中間）
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 5, "SecondchildOfItem1", false));
+// リーフ ノードの色を赤に設定します。
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 10, "ThirdchildOfItem1", false));
+this.ultraChart1.Series.Add(myseries);
+----
+
+== 関連トピック
+
+link:chart-set-a-treemap-charts-color-based-on-hierarchical-level.html[階層レベルに基づいてツリーマップ グラフの色を設定]
+
+link:chart-map-a-leaf-nodes-color-to-a-specific-column-in-a-data-table.html[データ テーブルを使用してリーフ ノードの色を設定]

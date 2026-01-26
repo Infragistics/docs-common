@@ -1,0 +1,79 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-3d-bar-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{9D25C214-9BC5-4D96-975C-26EE27577FF3}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 立体棒グラフ データでの作業
+
+このトピックでは、立体棒グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、立体棒グラフのデータ要件のリストです。
+
+* データ セットには、ひとつまたは複数の数値列が含まれます。
+* 立体棒グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを立体棒グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* 各行は、棒グループとして個別に描画されます。これらの棒グループは「シリーズ」と呼ばれます。各シリーズは、y 軸の横にシリーズ ラベルを表示します。データ値は、x 軸に沿った棒の幅で表現されます。シリーズは z 軸に沿って、奥行きで表示されます。シリーズは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  の棒の幅の間隔だけ間隔をあけることができます。
+* 各数値列はチャート内に表示されます。データ内で現れる 1 番目の数値列は 1 番目の点の値に、2 番目の列は 2 番目の点の値に、というように使用されます。数値列は、数値として解釈できる値のみを含む任意の列です。
+* データ内で現れる最初の文字列の列は行ラベルに使用されます。
+* 行ラベルに使用する代替の列を選択して、プライマリ/セカンダリ ラベルを切り替えることができます。
+* y 軸（すなわち垂直軸）は SetLabelAxis オブジェクトで、点はシリーズ（グループ）と項目（棒）別に均等に配置されます。ｘ 軸すなわち水平軸は数値軸です。x 軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+
+UltraChart.Axis.X.Labels.ItemFormatString = “<DATA_VALUE:##.##>”
+* 開発者は、UltraChart.Data. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用して、任意の列をチャートに追加または削除できます。
+
+描画された立体棒グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|Week#|ActiveX|Java|NET
+
+|Week 1
+|25
+|85
+|65
+
+|Week 2
+|15
+|200
+|95
+
+|Week 3
+|100
+|45
+|110
+
+|Week 4
+|120
+|75
+|99
+
+|Week 5
+|60
+|113
+|50
+
+|====
+
+image::images/Chart_Bar_Chart_02.png[]

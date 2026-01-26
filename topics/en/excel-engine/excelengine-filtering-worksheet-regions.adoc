@@ -1,0 +1,576 @@
+﻿= Filtering Worksheet Regions (Infragistics Excel Engine)
+
+== Topic Overview
+
+=== Purpose
+
+This topic describes how to filter a worksheet region column, set through the pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"] property.
+
+=== In this topic
+
+This topic contains the following sections:
+
+<<_Ref318391872,Introduction>>
+
+<<_Ref318391904,Code Examples Overview>>
+
+<<_Ref319918876,Code Example: Average Filtering>>
+
+<<_Ref319918881,Code Example: Custom Filtering>>
+
+<<_Ref319918699,Code Example: Date Period Filtering>>
+
+<<_Ref319918819,Code Example: Fill Filtering>>
+
+<<_Ref319918889,Code Example: Fixed Values Filtering>>
+
+<<_Ref319918897,Code Example: Relative Date Range Filtering>>
+
+<<_Ref319918736,Code Example: Top or Bottom Filtering>>
+
+<<_Ref319918744,Code Example: Year to Date Filtering>>
+
+<<_Ref318391938,Related Content>>
+
+[[_Ref318391872]]
+== Introduction
+
+Filtering is done by establishing a region and applying one of several methods through a Worksheet's pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"] property. Note, only a single region can be applied to a worksheet at a time. When the filter is applied on a column mapped to a region, all filters in the region will be reevaluated to determine which rows should be visible. This operation will show rows where all cells meet their region columns’ filter criteria.
+
+If the data in the region is changed or you change the Hidden property of the rows subsequently, the filter conditions will not be reevaluated. The Filter conditions in a region are only reapplied when region column filters are added, removed, modified, or when the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~reapplyfilters.html[ReapplyFilters]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~reapplyfilters.html[ReapplyFilters]"]  method is called on the pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"] property.
+
+The following filter methods are available to set on columns:
+
+[options="header", cols="a,a"]
+|====
+|Filter type|Description
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applydateperiodfilter.html[ApplyDatePeriodFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applydateperiodfilter.html[ApplyDatePeriodFilter]"]
+|Only cells with dates in a specific month or quarter of any year will be displayed. All other cells will be hidden.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyaveragefilter.html[ApplyAverageFilter]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applyaveragefilter.html[ApplyAverageFilter]"]
+|Cells are filtered whether they are above or below the average value of all cells in the column.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applycustomfilter.html[ApplyCustomFilter]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applycustomfilter.html[ApplyCustomFilter]"]
+|Cells are filtered based on one or two custom conditions.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyfillfilter.html[ApplyFillFilter]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applyfillfilter.html[ApplyFillFilter]"]
+|Only cells with a specific fill will be displayed. All other cells will be hidden.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyfontcolorfilter.html[ApplyFontColorFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applyfontcolorfilter.html[ApplyFontColorFilter]"]
+|Only cells with a specific font color will be displayed. All other cells will be hidden.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyfixedvaluesfilter.html[ApplyFixedValuesFilter]"] 
+pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applyfixedvaluesfilter.html[ApplyFixedValuesFilter]"]
+|Cells which only match specific display values or which fall within a specific group of dates/times will be displayed. All other cells will be hidden.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyrelativedaterangefilter.html[ApplyRelativeDateRangeFilter]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applyrelativedaterangefilter.html[ApplyRelativeDateRangeFilter]"]
+|Only cells with date values can be filtered based on whether they occur within a relative time range of the date when the filter was applied, such as the next day or the previous quarter.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applytoporbottomfilter.html[ApplyTopOrBottomFilter]"] 
+pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applytoporbottomfilter.html[ApplyTopOrBottomFilter]"] 
+|This filter allows for the following types of filters: 
+
+* Only the top N values are visible 
+
+* Only the bottom N values are visible 
+
+* Only the top N% of values are visible 
+
+* Only the bottom N% of the values are visible 
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyyeartodatefilter.html[YearToDateFilter]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.filtering.worksheetfiltersettings~applyyeartodatefilter.html[YearToDateFilter]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyyeartodatefilter.html[YearToDateFilter]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.worksheetfiltersettings~applyyeartodatefilter.html[YearToDateFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.worksheetfiltersettings~applyyeartodatefilter.html[ApplyYearToDateFilter]"]
+|Only cells with date values can be filtered if they occur between the start of the year and the date on which the filter is applied.
+
+|====
+
+[[_Ref318391904]]
+== Code Examples Overview
+
+=== Overview
+
+The following table lists the code examples included in this topic.
+
+[options="header", cols="a,a"]
+|====
+|Example|Description
+
+|Average Filtering
+|This code example shows how cells can be filtered based on whether they are above or below the average value of all cells in the column.
+
+|Custom Filtering
+|This code example shows how cells can be filtered according to one or two pick:[win-forms,win-forms-old,asp-net,aspnet-old="CustomFilterConditions"]pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.customfiltercondition.html[CustomFilterCondition]s"].
+
+|Date Period Filtering
+|This code filters only cells with dates in a specific month or quarter. All other cells will be hidden.
+
+|Fill Filtering
+|This code filters only cells with specific fill. All other cells will be hidden.
+
+|Fixed Values Filtering
+|This code filters only cells which have specific display values. All other cells will be hidden.
+
+|Relative Date Range Filtering
+|This code example shows how to filter date values based on whether they occur within a relative time range of the date on which the filter is applied.
+
+|Top or Bottom Filtering
+|This code example shows how to filter the top 10% of values in the column.
+
+|Year To Date Filtering
+|This code example shows how cells with date values can be filtered if they occur between the start of the year and the date o the filter is applied.
+
+|====
+
+[[_Ref319918876]]
+== Code Example: Average Filtering
+
+=== Description
+
+This code shows how to filter cells above the average value of all cells in the column. Filtering below average values is done in a similar manner.
+
+The code in this example creates a workbook, and worksheet to modify the specified region through the pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~filtersettings.html[FilterSettings]"]. After that, a filter is applied on a column of the region. In the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+' Apply average filter to first available column. 
+worksheet.FilterSettings.ApplyAverageFilter(0, Infragistics.Documents.Excel.Filtering.AverageFilterType.AboveAverage)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+// Apply average filter to first available column.
+worksheet.FilterSettings.ApplyAverageFilter(0, Infragistics.Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918881]]
+== Code Example: Custom Filtering
+
+=== Description
+
+This code shows how to filter cells using a `CustomFilterCondition` condition
+
+The code in this example creates a workbook with a region. After that a `CustomFilterCondition` is created, with a specified  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"]   pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"] and a match string. The custom filter is applied and in the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply a custom filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+' Create custom filter condition
+Dim matchWordCondition As New Infragistics.Documents.Excel.Filtering.CustomFilterCondition(Infragistics.Documents.Excel.Filtering.ExcelComparisonOperator.Equals, "High")
+' Apply custom filter
+worksheet.FilterSettings.ApplyCustomFilter(0, matchWordCondition)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+// Create custom filter condition
+Infragistics.Documents.Excel.Filtering.CustomFilterCondition matchWordCondition = new Infragistics.Documents.Excel.Filtering.CustomFilterCondition(
+    Infragistics.Documents.Excel.Filtering.ExcelComparisonOperator.Equals, "High");
+// Apply custom filter
+worksheet.FilterSettings.ApplyCustomFilter(matchWordCondition);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918699]]
+== Code Example: Date Period Filtering
+
+=== Description
+
+This code filters cells with dates in a specific month or quarter.
+
+The code in this example creates a workbook with a region. After that, a Date Period Filter is applied on a column of the region which contains dates. In the end, workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+' Apply Date Period Filter
+' If you choose DatePeriodFilterType.Month, second argument represents months from January, 1, to December, 12
+' and can take values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+' If you choose DatePeriodFilterType.Quarter, second argument represents the four quaters of the year - Q1, Q2, Q3 and Q4, 
+' and can take values 1, 2, 3 and 4.
+' Code below accepts all dates in August.
+worksheet.FilterSettings.ApplyDatePeriodFilter(Infragistics.Documents.Excel.Filtering.DatePeriodFilterType.Month, 8)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+// Apply Date Period Filter
+// If you choose DatePeriodFilterType.Month, second argument represents months from January, 1, to December, 12
+// and can take values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+// If you choose DatePeriodFilterType.Quarter, second argument represents the four quaters of the year - Q1, Q2, Q3 and Q4, 
+// and can take values 1, 2, 3 and 4.
+// Code below accept all dates in August.
+worksheet.FilterSettings.ApplyDatePeriodFilter(Infragistics.Documents.Excel.Filtering.DatePeriodFilterType.Month, 8);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918819]]
+== Code Example: Fill Filtering
+
+=== Description
+
+This code shows how to filter cells with specific background fill.
+
+The code in this example creates a workbook with a region. After that, a  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill_members.html[CellFill]"]  is created which will be used for matching. A Fill Filter is applied and in the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+Dim lastRow As Integer = worksheet.FilterSettings.LastRow
+Dim rand As New System.Random()
+' Set Red background for random cells from first column
+Dim i As Integer = 1
+While i < lastRow
+    If rand.[Next](2) = 1 Then
+        workbook.Worksheets(0).Rows(i).Cells(0).CellFormat.Fill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(New Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1))
+    End If
+    i += 1
+End While
+' Create cell fill argument
+Dim cellFill As Infragistics.Documents.Excel.CellFill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(New Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1))
+' Apply FillFilter
+worksheet.FilterSettings.ApplyFillFilter(0, cellFill)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+int lastRow = worksheet.FilterSettings.LastRow;
+System.Random rand = new System.Random();
+// Set Red background for random cells from first column
+for (int i = 1; i < lastRow; i++)
+{
+    if (rand.Next(2) == 1)
+    {
+        workbook.Worksheets[0].Rows[i].Cells[0].CellFormat.Fill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(
+        new Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1));
+    }
+}
+// Create cell fill argument
+Infragistics.Documents.Excel.CellFill cellFill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(
+    new Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1));
+// Apply FillFilter
+worksheet.FilterSettings.ApplyFillFilter(0, cellFill);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918889]]
+== Code Example: Fixed Values Filtering
+
+=== Description
+
+This code filters cells which have specific display values.
+
+The code in this example creates a workbook with a region. After that, a string array is created which holds all fixed values for filtering and the Fixed Values Filter is applied. The cells from the column on which filter is applied have different string values. In the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+' Create a category array of values, to be used in filtering
+Dim categories As String() = New String() {"High", "Medium"}
+' Apply FixedValuesFilter
+worksheet.FilterSettings.ApplyFixedValuesFilter(0, False, categories)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+// Create a category array of values, to be used in filtering
+string[] categories = new string[] {"High", "Medium"};
+// Apply FixedValuesFilter
+worksheet.FilterSettings.ApplyFixedValuesFilter(0, false, categories);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918897]]
+== Code Example: Relative Date Range Filtering
+
+=== Description
+
+This code example shows how to filter date values based on whether they occur within a relative time range of the date.
+
+The code in this example creates a workbook with a region. After that, a Relative Date Values Filter is applied. In the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+' Apply RelativeDateRangeFilter
+worksheet.FilterSettings.ApplyRelativeDateRangeFilter(0, Infragistics.Documents.Excel.Filtering.RelativeDateRangeOffset.Current, Infragistics.Documents.Excel.Filtering.RelativeDateRangeDuration.Month)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+// Apply RelativeDateRangeFilter
+worksheet.FilterSettings.ApplyRelativeDateRangeFilter(0, 
+    Infragistics.Documents.Excel.Filtering.RelativeDateRangeOffset.Current,
+    Infragistics.Documents.Excel.Filtering.RelativeDateRangeDuration.Month);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918736]]
+== Code Example: Top or Bottom Filtering
+
+=== Description
+
+This code example shows how to filter the top 10% of values from a column.
+
+The code in this example creates a workbook with a region. After that, a filter is applied which filters the top 10% of values. In the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+worksheet.FilterSettings.ApplyTopOrBottomFilter(0, Infragistics.Documents.Excel.Filtering.TopOrBottomFilterType.TopPercentage, 20)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+worksheet.FilterSettings.ApplyTopOrBottomFilter(0, Infragistics.Documents.Excel.Filtering.TopOrBottomFilterType.TopPercentage, 20);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918744]]
+== Code Example: Year to Date Filtering
+
+=== Description
+
+This code example shows how cells with date values can be filtered if they occur between the start of the year and the date on which the filter is applied.
+
+The code in this example creates a workbook with a region. After that, the Year-To-Date Filter is applied. In the end, the workbook is saved so the filtered region can be seen.
+
+=== Prerequisites
+
+In this example, a new instance of a workbook and worksheet are created in order apply the given filter to the filter region.
+
+=== Code
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleRegion.CreateExampleWorkbook()
+Dim worksheet as Infragistics.Documents.Excel.WorkSheet = workbook.Worksheets[0]
+' Set a worksheet region on the active worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2")
+worksheet.FilterSettings.ApplyYearToDateFilter(0)
+workbook.Save("C:\WorksheetFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleRegion.CreateExampleWorkbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets[0];
+// Set a worksheet region on the current worksheet's filter settings. 
+worksheet.FilterSettings.SetRegion("A2:G2");
+worksheet.FilterSettings.ApplyYearToDateFilter(0);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\WorksheetFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref318391938]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:excelengine-worksheet-level-sorting.html[Sorting Worksheet in Infragistics Excel Engine]
+|This topic explains how to configure and perform worksheet level sorting.
+
+| link:excelengine-filtering-tables.html[Filtering Tables]
+|This topic describes how to filter columns in tables.
+
+ifdef::win-forms[]
+| link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding the {ExcelEngineName}]
+|This section is your gateway to important task-based information that will help you to effectively use the various features and functionalities provided by the {ExcelEngineName}.
+endif::win-forms[]
+ifdef::wpf,xamarin[]
+| link:excelengine-about-infragistics-excel-engine.html[About {ExcelEngineName}]
+|In this section you'll find information that will help you to better understand the object model and the functionalities of the {ExcelEngineName}.
+endif::wpf,xamarin[]
+
+|====
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+=== Samples
+
+The following samples provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Sample|Purpose
+
+|Named Tables
+|This sample demonstrates how to work with Named Tables in Excel. You can format worksheet regions as tables and specify a name for each table. Once configured you can get a table by name and specify styles to apply to a table. Further, you can get and set sort conditions and filters for each column of a table. Finally, you can specify different options - table style, column sort directions, column filters, and save the Excel file to see the applied settings
+
+|====
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]

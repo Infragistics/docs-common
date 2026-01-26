@@ -1,0 +1,435 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-configuring-the-tooltips",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Templating","Tips and Tricks"],
+    "guid": "35c43ccb-e854-4dc1-9f2b-74296bd12a37",
+    "buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:53:12.0628933Z"
+}
+|metadata|
+////
+
+= ツールチップの構成 ({LinearGaugeName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックではコード例を使用して、_{LinearGaugeName}_ コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:lineargauge-overview.html[{LinearGaugeName} 概要]
+|このトピックでは、主要機能、最小要件、ユーザー機能など、 _{LinearGaugeName}_ コントロールに関する概念的な情報を提供します。
+
+| link:lineargauge-adding.html[{LinearGaugeName} の追加]
+|このトピックでは、{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref363159199, 概要 >>
+
+** <<_Ref363158368,ツールチップ構成の概要>>
+** <<_Ref363158374,ツールチップ構成の概要表>>
+
+* <<_Ref363158380, ツールチップの有効 / 無効 >>
+
+** <<_Ref349921543,概要>>
+** <<_Ref349921549,プロパティ設定>>
+** <<_Ref363158399,コード例>>
+
+* <<_Ref363158410, ツールチップ遅延の構成 >>
+
+** <<_Ref361908053,概要>>
+** <<_Ref361908057,プロパティ設定>>
+** <<_Ref363158443,コード例>>
+
+* <<_Ref363158489, カスタム ツールチップの針の構成 >>
+
+** <<_Ref361907990,概要>>
+** <<_Ref361907998,プロパティ設定>>
+** <<_Ref363158549,例>>
+
+* <<_Ref363158616, カスタム ツールチップの範囲の構成 >>
+
+** <<_Ref361908016,概要>>
+** <<_Ref361908023,プロパティ設定>>
+** <<_Ref363158549,例>>
+
+* <<_Ref361908080, 関連コンテンツ >>
+
+** <<_Ref361908085,トピック>>
+
+[[_Ref363159199]]
+== 概要
+
+[[_Ref363158368]]
+
+=== ツールチップ構成の概要
+
+_{LinearGaugeName}_ コントロールはツールチップをサポートします。ツールチップは、針や比較範囲で示される値を表示するように、あらかじめ設定されています。各視覚要素に対応するツールチップは、プロパティ設定で個別に設定されています。
+
+ツールチップの可視性 (有効 / 無効)、遅延 (ツールチップが表示されるまでのタイムアウト値が設定可能です)、値について、それぞれ設定できます。ツールチップの値はテンプレート、文字列、UI 要素に設定できるため、具体的なユース ケースをより詳細に示すことができます。
+
+デフォルトでは、ツールチップは無効になっています。
+
+[[_Ref363158374]]
+
+=== ツールチップ構成の概要表
+
+以下の表は、ツールチップに関する _{LinearGaugeName}_ コントロールで構成できる項目と管理に使用するプロパティをマップしています。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成可能な項目|詳細|プロパティ/イベント|デフォルト値
+
+|<<_Ref363158380,可視性>>
+|{LinearGaugeName} コントロールのツールチップを有効または無効にできます。
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltip.html[ShowToolTip]
+| _False_ 
+
+|<<_Ref363158410,遅延>>
+|視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltiptimeout.html[ShowToolTipTimeout]
+| _500_ 
+
+|値
+|ツールチップのプロパティでカスタムに値を設定できます。値は次のとおりです: 
+
+* テンプレート 
+
+* 文字列 
+
+* UI 要素 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~needletooltip.html[NeedleToolTip]
+|針で示された値
+
+|
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[RangeToolTip]
+|ハイフン (-) で区切られた範囲の開始値と終了値です。
+
+|====
+
+.注:
+[NOTE]
+====
+デフォルトのツールチップを変更してそれぞれの視覚要素に異なる値をバインドするには、`{Item.Property}` 構文、または `{Item}` 構文を使用する必要があります。
+====
+
+[[_Ref363158380]]
+== ツールチップの有効 / 無効
+
+[[_Ref349921543]]
+
+=== 概要
+
+_{LinearGaugeName}_ のツールチップを、表示または非表示 (デフォルト設定) にします。
+
+[[_Ref349921549]]
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|ツールチップの表示
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltip.html[ShowToolTip]
+|`True`
+
+|ツールチップの非表示
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltip.html[ShowToolTip]
+|`False`
+
+|====
+
+[[_Ref363158399]]
+
+=== コード例
+
+以下のコード例はツールチップを表示します:
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           ...
+                           ShowToolTip="True"
+                           />
+----
+
+endif::xaml[]
+
+[[_Configuring_the_Tooltip]]
+[[_Ref363158410]]
+[[_Ref361908049]]
+== ツールチップ遅延の構成
+
+[[_Ref361908053]]
+
+=== 概要
+
+視覚要素がホバーされてからマウスツールチップが表示されるまでの遅延を設定できます。デフォルト値は 500 ミリ秒です。
+
+[[_Ref361908057]]
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|ツールチップが表示される前の初期遅延の設定
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltiptimeout.html[ShowToolTipTimeout]
+|任意の値 (ミリ秒)
+
+|====
+
+[[_Ref363158443]]
+
+=== コード例
+
+以下のコード例では、ツールチップの遅延として 2000 ミリ秒を設定します:
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           ...
+                           ShowToolTip="True"
+                           ShowToolTipTimeout="2000"
+                           />
+----
+
+endif::xaml[]
+
+[[_Configuring_a_Custom_1]]
+[[_Ref361907985]]
+[[_Ref363158489]]
+== カスタム ツールチップの針の構成
+
+[[_Ref361907990]]
+
+=== 概要
+
+針のツールチップは、値についてはデフォルトのシステム フォントを使用し、またコントロールの外観についてはデフォルトのスタイル設定で表示されます。カスタム設定の場合、ツールチップの値を文字列、UI 要素またはデータ テンプレートで設定します。
+
+[[_Ref361907998]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|比較マーカーのカスタム ツールチップの構成
+| link:{LinearGaugeLink}.{LinearGaugeName}~needletooltip.html[NeedleToolTip]
+|任意の文字列、`UI 要素`、または`データ テンプレート`
+
+|====
+
+[[_Ref361908002]]
+
+=== 例
+
+以下のコードでは、以下の設定の結果、ツールチップによって提供された針の値が角括弧に囲われて表示されます。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~needletooltip.html[NeedleToolTip]
+| _"[{Item}]"_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Tooltips_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           Height="70"
+                           Width="300"
+                           ShowToolTip="True"
+                           Value="76"
+                           NeedleToolTip="[{Item}]"/>
+----
+
+endif::xaml[]
+
+[[_Configuring_a_Custom_2]]
+[[_Ref361908011]]
+[[_Ref363158616]]
+== 比較範囲のカスタム ツールチップの構成
+
+[[_Ref361908016]]
+
+=== 概要
+
+比較範囲のツールチップはデフォルトで、マウスでホバーしている範囲が厳密には範囲内ではない場合でも、区切り文字にハイフンを使用して範囲の開始値と終了値 (例：0 - 34) を表示します。事前に設定されている内容を変更するには、ツールチップ用のカスタム書式の設定や UI 要素の割り当て、またはデータ テンプレートを適用します。
+
+[[_Ref361908023]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|比較範囲のカスタム ツールチップの構成
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[RangeToolTip]
+|任意の文字列、`UI 要素`、または`データ テンプレート`
+
+|====
+
+[[_Ref361908028]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、ツールチップによって提供された比較範囲の値が角括弧で表示されている状態を示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[RangeToolTip]
+|
+ifdef::xaml[] 
+
+*XAML の場合:*
+
+[source,xaml]
+---- 
+<StackPanel Orientation="Horizontal" Background="White">
+    <TextBlock>
+        <Run Text="["/>
+        <Run Text="{Binding Item.StartValue}"/>
+        <Run Text="]"/>
+        <Run Text=" - "/>
+        <Run Text="["/>
+        <Run Text="{Binding Item.EndValue}"/>
+        <Run Text="]"/>
+    </TextBlock>
+</StackPanel>
+---- 
+
+endif::xaml[] 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Tooltips_2.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           Height="70"
+                           Width="300"
+                           ShowToolTip="True">
+            <ig:{LinearGaugeName}.RangeToolTip>
+                <StackPanel Orientation="Horizontal" Background="White">
+                    <TextBlock>
+                        <Run Text="["/>
+                        <Run Text="{Binding Item.StartValue}"/>
+                        <Run Text="]"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text=" - "/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="["/>
+                        <Run Text="{Binding Item.EndValue}"/>
+                        <Run Text="]"/>
+                    </TextBlock>
+                </StackPanel>
+            </ig:{LinearGaugeName}.RangeToolTip>
+            <ig:{LinearGaugeName}.Ranges>
+                <ig:{LinearGaugeRange} Brush="Cyan"
+                                        EndValue="89"
+                                        Outline="Blue"
+                                        StartValue="0"/>
+            </ig:{LinearGaugeName}.Ranges>
+        </ig:{LinearGaugeName}>
+----
+
+endif::xaml[]
+
+[[_Ref361908080]]
+== 関連コンテンツ
+
+[[_Ref361908085]]
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+|
+ifdef::sl,wpf,win-universal[] 
+
+link:lineargauge-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成 ({LinearGaugeName})] 
+
+endif::sl,wpf,win-universal[] 
+
+|
+ifdef::sl,wpf,win-universal[]
+
+このトピックでは、コード例を使用して、{LinearGaugeName} コントロールのタイトルおよびサブタイトルを構成する方法を説明します。説明には、タイトル領域の幅、テキストの開始位置、およびタイトル / サブタイトルのテキストが含まれます。 
+
+endif::sl,wpf,win-universal[]
+
+| link:lineargauge-configuring-the-scale.html[スケールの構成 ( _{LinearGaugeName}_ )]
+|このトピックではコード例を使用して、 _{LinearGaugeName}_ コントロールのスケールを構成する方法を説明します。説明には、コントロール内のスケールの配置、スケールの目盛およびラベルの構成が含まれます。
+
+| link:lineargauge-configuring-the-needle.html[針の構成 ( _{LinearGaugeName}_ )]
+|このトピックではコード例を使用して、 _{LinearGaugeName}_ コントロールの針を構成する方法を説明します。説明には、針の値、幅、および書式設定が含まれます。
+
+| link:lineargauge-configuring-the-ranges.html[範囲の構成 ( _{LinearGaugeName}_ )]
+|このトピックではコード例を使用して、 _{LinearGaugeName}_ コントロールの範囲を構成する方法を説明します。説明には、範囲の数、位置、長さ、幅、および書式設定が含まれます。
+
+| link:lineargauge-configuring-the-background.html[背景の構成 ({LinearGaugeName})]
+|このトピックではコード例を使用して、リニア ゲージの背景を構成する方法を説明します。説明には、背景のサイズ、位置、色、および境界線の設定が含まれます。
+
+|====

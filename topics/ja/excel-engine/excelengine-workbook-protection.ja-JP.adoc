@@ -1,0 +1,128 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-workbook-protection",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Editing","How Do I","Tips and Tricks"],
+    "guid": "3d76a3bd-9ef2-4fae-ba7c-681a70a07c64",
+    "buildFlags": [],
+    "createdOn": "2014-12-02T09:13:49.7036918Z"
+}
+|metadata|
+////
+
+= ワークブックの保護 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、ワークブックの保護を設定、削除、構成する方法を説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:excelengine-creating-a-workbook.html[ワークブックの作成 ({ExcelEngineName})]
+|{ExcelEngineName} を使用し素早く起動して実行するために、このトピックではワークブックを作成する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref404698209, ワークブックの保護 >>
+* <<_Ref404698240, 関連コンテンツ >>
+
+[[_Ref404698209]]
+== ワークブックの保護
+
+=== 概要
+
+ワークブックの保護機能により、以下のユーザー操作を保護できます (パスワード付きまたはパスワードなし)。
+
+* ウィンドウの保護: 個別の子ウィンドウに各ワークブックを表示する古いバージョンの MS Excel で、ワークブックのMDI 子ウィンドウのサイズ変更する機能
+* ワークブック構造: ワークシートの追加、名前変更、削除、非表示、順序変更を行う機能。
+
+.注:
+[NOTE]
+====
+{ExcelEngineName} のオブジェクト モデルから保護が強制されることはありません。これらの保護設定を履行し、対応する操作の実行をユーザーに許可または制限することは、このオブジェクト モデルを表示する UI の責任です。
+====
+
+=== 構成チャート
+
+以下の表は、ワークブックの保護機能の要素を簡単に説明し、それらを操作するプロパティとメソッドにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|作業|詳細|プロパティ / メソッド
+
+|ワークブックの保護設定
+|
+ifdef::wpf[]
+`Protect` メソッドのオーバーロードを使用して、ワークブックをパスワード (`string` または `SecureString` を使用して指定) で保護、またはパスワードなしで保護することができます。このメソッドのその他の引数は、前述で説明した各保護設定の指定に使用されます。
+endif::wpf[]
+ifdef::xamarin[]
+ワークブックを保護するには、`Protect` メソッドを使用できます。このメソッドの引数は、前述で説明した各保護設定の指定に使用されます。
+endif::xamarin[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~protect.html[Protect]
+
+|ワークブックの保護解除
+|
+ifdef::wpf[]
+`Unprotect` メソッドのオーバーロードを使用して、パスワード付きまたはパスワードなしで設定したワークブックの保護を解除できます。 
+
+`Unprotect` メソッドに対して指定されたパスワードがワークブックに設定されたパスワードと一致しない場合、例外がスローされます。 
+
+.注: 
+[NOTE] 
+==== 
+パスワードで保護されたワークブックであっても、パスワード引数なしで `Unprotect` オーバーロード メソッドを使用して保護を解除できます。 
+====
+endif::wpf[]
+ifdef::xamarin[]
+`Unprotect` メソッドを使用して、パスワード付きまたはパスワードなしで設定したワークブックの保護を解除できます。
+endif::xamarin[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~unprotect.html[Unprotect]
+
+|ワークブックの保護の有無のチェック
+|この読み取り専用プロパティは、ワークブックに `Protect` メソッドpick:[wpf="のオーバーロード"]を使用して設定された保護がある場合、True を返します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~isprotected.html[IsProtected]
+
+|ワークブックのパスワード保護のチェック
+|この読み取り専用プロパティは、ワークブックがパスワードで保護されている場合に True を返します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~hasprotectionpassword.html[HasProtectionPassword]
+
+|ワークブックの保護の取得
+|この読み取り専用プロパティは、保護の各設定を個別に取得するためにプロパティを含む link:{ExcelEngineApiLink}infragistics.documents.excel.workbookprotection.html[WorkbookProtection] 型のオブジェクトを返します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~protection.html[Protection]
+
+|====
+
+[[_Ref404698240]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-password-support.html[パスワード サポート ({ExcelEngineName})]
+|このトピックは、パスワードで暗号化されたファイルを操作する方法について説明します。
+
+| link:excelengine-worksheet-protection.html[ワークシートの保護 ({ExcelEngineName})]
+|このトピックでは、ワークシートの保護を設定、削除、構成する方法を説明します。
+
+|====

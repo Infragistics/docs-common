@@ -1,0 +1,263 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-freeze-and-split-panes",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Editing","Formatting","How Do I"],
+    "guid": "{1E83B4BD-023D-414B-9A57-D6155BB5CFFA}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7627057Z"
+}
+|metadata|
+////
+
+= ペインのフリーズおよび分割 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックは行　/　列をフリーズする方法と、ワークシートを複数のペインに分割する方法について説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref394589174, 構成のフリーズおよび分割の概要 >>
+* <<_Ref394589199, ペインのフリーズ >>
+* <<_Ref394589200, ペインの分割 >>
+* <<_Ref394589223, 関連コンテンツ >>
+
+[[_Ref394589174]]
+== 構成のフリーズおよび分割の概要
+
+=== 構成のフリーズおよび分割の概要表
+
+以下の表では、フリーズ機能および分割機能の構成可能な要素の概要を説明します。詳細は、表の後に記載されています。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な項目|詳細|プロパティ
+
+|<<_Ref394589199,ペインのフリーズ>>
+|この機能により、スクロール中に、行　/　列をフリーズし表示できます。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~frozenpanesettings.html[FrozenPaneSettings]
+
+|<<_Ref394589200,ペインの分割>>
+|この機能により、ワークシートを2つまたは4つのスクロール可能なペインに分割できます。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~unfrozenpanesettings.html[UnfrozenPaneSettings]
+
+|====
+
+ifdef::wpf[]
+注:
+[NOTE]
+====
+コマンドを使用して、ペインをフリーズすることや分割することもできます。詳細については、_xamSpreadsheet_ の link:spreadsheet-work-commands.html[「コマンドの操作 (xamSpreadsheet)」]のトピックを参照してください。
+====
+endif::wpf[]
+
+[[_Ref394589199]]
+== ペインのフリーズ
+
+[[_Hlk368069110]]
+
+=== 概要
+
+ペインをフリーズする機能を使用して、ワークシートの上部の行または左側の列をフリーズできます。スクロール中、フリーズされた行 / 列は表示されます。フリーズされた行　/　列は、移動できない1本の実線により、ワークシートの残りの部分から分離されます。
+
+注:
+
+[NOTE]
+====
+行と列を同時にフリーズしても、水平スクロールバーでフリーズされた行の一部をスクロールでき、垂直スクロールバーでフリーズされた列の一部をスクロールできます。
+====
+
+=== プロパティ設定
+
+以下の表では、任意の構成を、それを管理する `FrozenPaneSettings` オブジェクトのプロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定値:
+
+|ペインのフリーズを有効にする
+| link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~panesarefrozen.html[PanesAreFrozen]
+|`true`
+
+|フリーズする行を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.frozenpanesettings~frozenrows.html[FrozenRows]
+|選択する行の数
+
+|フリーズする列を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.frozenpanesettings~frozencolumns.html[FrozenColumns]
+|選択する列の数
+
+|下のペインの最初の行を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.panesettingsbase~firstrowinbottompane.html[FirstRowInBottomPane]
+|下のペインに表示する最初の行 (0 ベースのインデックス) 番号
+
+|右側のペインの最初の列を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.panesettingsbase~firstcolumninrightpane.html[FirstColumnInRightPane]
+|右側のペインに表示する最初の列 (0 ベースのインデックス) 番号
+
+|====
+
+[[_Hlk337817761]]
+
+=== 例
+
+以下のコード例では、行と列をフリーズする方法を示します。このコード例は、worksheet1という名前の Worksheet オブジェクトへの参照があることを前提としています。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+worksheet1.DisplayOptions.PanesAreFrozen = True
+' ワークシートの最初の行をフリーズします
+worksheet1.DisplayOptions.FrozenPaneSettings.FrozenRows = 1
+' ワークシートの最初の 2 列をフリーズします
+worksheet1.DisplayOptions.FrozenPaneSettings.FrozenColumns = 2
+' フリーズされた列の後で初めて 4 番目の列が表示されます
+worksheet1.DisplayOptions.FrozenPaneSettings.FirstColumnInRightPane = 4
+' フリーズされた行の後で初めて 3 番目の行が表示されます
+worksheet1.DisplayOptions.FrozenPaneSettings.FirstRowInBottomPane = 2
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+worksheet1.DisplayOptions.PanesAreFrozen = true;
+// ワークシートの最初の行をフリーズします
+worksheet1.DisplayOptions.FrozenPaneSettings.FrozenRows = 1;
+// ワークシートの最初の 2 列をフリーズします
+worksheet1.DisplayOptions.FrozenPaneSettings.FrozenColumns = 2;
+// フリーズされた列の後で初めて 4 番目の列が表示されます
+worksheet1.DisplayOptions.FrozenPaneSettings.FirstColumnInRightPane = 4;
+// フリーズされた行の後で初めて 3 番目の行が表示されます
+worksheet1.DisplayOptions.FrozenPaneSettings.FirstRowInBottomPane = 2;
+----
+
+[[_Ref394589200]]
+== ペインの分割
+
+=== 概要
+
+ペイン分割機能を使用して、ワークシートを 2 つ (水平または垂直) のペインまたは 4 つのペインに分割できます。各ペインはスクロールをサポートしますが、1 つの列のペインは同じ水平スクロールバーを共有し、1 つの行のペインは同じ垂直スクロールバーを共有します。分割されたペインは、サイズ変更をサポートする二重罫線により分離されます。
+
+=== プロパティ設定
+
+以下の表では、任意の構成を、それを管理する `UnfrozenPaneSettings` オブジェクトのプロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定値:
+
+|左側のペインの最初の列を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.unfrozenpanesettings~firstcolumninleftpane.html[FirstColumnInLeftPane]
+|選択する列のインデックス (0 ベース)
+
+|右側のペインの最初の列を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.panesettingsbase~firstcolumninrightpane.html[FirstColumnInRightPane]
+|選択する列のインデックス (0 ベース)
+
+|上のペインの最初の行を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.unfrozenpanesettings~firstrowintoppane.html[FirstRowInTopPane]
+|選択する行のインデックス (0 ベース)
+
+|下のペインの最初の行を指定する
+| link:{ExcelEngineApiLink}infragistics.documents.excel.panesettingsbase~firstrowinbottompane.html[FirstRowInBottomPane]
+|選択する行のインデックス (0 ベース)
+
+|左側のペインの幅を指定する 
+
+注: 
+[NOTE] 
+==== 
+これによりワークシートは垂直に分割されます 
+====
+| link:{ExcelEngineApiLink}infragistics.documents.excel.unfrozenpanesettings~leftpanewidth.html[LeftPaneWidth]
+|twips は、`int` 型の値 (1 ポイントの 1/20)
+
+|上のペインの高さを指定する 
+
+注: 
+[NOTE] 
+==== 
+これによりワークシートは水平に分割されます 
+====
+| link:{ExcelEngineApiLink}infragistics.documents.excel.unfrozenpanesettings~toppaneheight.html[TopPaneHeight]
+|twips は、`int` 型の値 (1 ポイントの 1/20)
+
+|====
+
+=== 例
+
+以下のコード例では、行と列を分割する方法を示します。このコード例は、worksheet1という名前の Worksheet オブジェクトへの参照があることを前提としています。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstColumnInLeftPane = 0
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstColumnInRightPane = 5
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstRowInTopPane = 0
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstRowInBottomPane = 3
+' 左側のペインの幅は、150 ポイント
+worksheet1.DisplayOptions.UnfrozenPaneSettings.LeftPaneWidth = 150 * 20
+' 上のペインの幅は、100 ポイント
+worksheet1.DisplayOptions.UnfrozenPaneSettings.TopPaneHeight = 100 * 20
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstColumnInLeftPane = 0;
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstColumnInRightPane = 5;
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstRowInTopPane = 0;
+worksheet1.DisplayOptions.UnfrozenPaneSettings.FirstRowInBottomPane = 3;
+// 左側のペインの幅は、150 ポイント
+worksheet1.DisplayOptions.UnfrozenPaneSettings.LeftPaneWidth = 150 * 20;
+// 上のペインの幅は、100 ポイント
+worksheet1.DisplayOptions.UnfrozenPaneSettings.TopPaneHeight = 100 * 20;
+----
+
+[[_Ref394589223]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-configuringgridlines.html[グリッド線の構成 ({ExcelEngineName})]
+|このトピックは、グリッド線を表示または非表示にし、カラーを設定する方法を説明します。
+
+| link:excelengine-configuringheaders.html[ヘッダーの構成 ({ExcelEngineName})]
+|このトピックでは、列と行のヘッダーを表示または非表示にする方法を説明します。
+
+| link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集の無効化 ({ExcelEngineName})]
+|このトピックでは、ワークシートのセル値が編集されないようにする方法を説明します。
+
+| link:excelengine-zoomlevel.html[ワークシートのズーム レベルの設定 ({ExcelEngineName})]
+|このトピックでは、ワークシートのズーム レベルをプログラムで設定する方法を説明します。
+
+|====

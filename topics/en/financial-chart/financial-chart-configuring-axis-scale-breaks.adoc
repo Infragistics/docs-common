@@ -1,0 +1,87 @@
+﻿= Configuring Axis Scale Breaks
+
+The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control allows you to determine what data you would like to show for your underlying data source's time intervals.
+
+=== In this topic
+
+* <<Overview,Overview>>
+* <<CodeSnippet, Code Snippet>>
+* <<RelatedContent,Related Content>>
+
+[[Overview]]
+=== Overview
+
+The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] allows you to exclude intervals of data on the X-Axis by placing link:{DataChartLink}.timeaxisbreak.html[TimeAxisBreaks] in the chart's link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xaxisbreaks.html[XAxisBreaks] collection.
+
+The `TimeAxisBreak` elements can be configured using a unique link:{DataChartLink}.timeaxisbreak{ApiProp}Start.html[Start], link:{DataChartLink}.timeaxisbreak{ApiProp}End.html[End] and link:{DataChartLink}.timeaxisbreak{ApiProp}Interval.html[Interval] to determine the time intervals that you would like to exclude showing data for.
+
+In order to use the `XAxisBreaks` collection, the link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xaxismode.html[XAxisMode] property must be set to link:{FinancialChartLink}.financialchartxaxismode.html[Time].
+
+[[CodeSnippet]]
+=== Code Snippet
+
+The following code example shows how to configure the `XAxisBreaks` collection to only show data not occurring on a weekend, resulting in a {FinancialChartName} like the one shown below.
+
+pick:[wpf="image::images/financialchart_scale_breaks_wpf.png[]"]
+pick:[jquery="image::images/financialchart_scale_breaks_jquery.png[]"]
+
+ifdef::wpf[]
+
+*In XAML*:
+[source, xaml]
+----
+<ig:{FinancialChartName} x:Name="chart" ItemsSource="{Binding}" XAxisMode="Time">
+    <ig:{FinancialChartName}.XAxisBreaks>
+        <ig:TimeAxisBreak Start="2018-1-6T00:00:00" End="2018-1-7T23:59:59" Interval="7"/>
+    </ig:{FinancialChartName}.XAxisBreaks>
+</ig:{FinancialChartName}>
+----
+
+*In C#:*
+[source, csharp]
+----
+var axisBreak = new TimeAxisBreak();
+axisBreak.Start = new DateTime(2018, 1, 6, 0, 0, 0);
+axisBreak.End = new DateTime(2018, 1, 7, 23, 59, 59);
+axisBreak.Interval = new TimeSpan(7, 0, 0, 0);
+chart.XAxisBreaks.Add(axisBreak);
+----
+
+*In Visual Basic:*
+[source, vb]
+----
+Dim axisBreak As TimeAxisBreak = New TimeAxisBreak()
+axisBreak.Start = New DateTime(2018, 1, 6, 0, 0, 0)
+axisBreak.End = New DateTime(2018, 1, 7, 23, 59, 59)
+axisBreak.Interval = New TimeSpan(7, 0, 0, 0)
+chart.XAxisBreaks.Add(axisBreak)
+----
+
+endif::wpf[]
+
+ifdef::jquery[]
+
+*In Javascript:*
+[source, javascript]
+----
+
+$(function () {
+
+	$("#chart").{FinancialChartName}({
+		dataSource: data,
+		xAxisMode: "time",
+		xAxisBreaks: [{
+			start: new Date("2018-01-06T00:00:00"),
+			end: new Date("2013-01-07T23:59:59"),
+			interval: 7 * 24 * 60 * 60 * 1000
+		}],	
+	});
+});
+----
+
+endif::jquery[]
+
+
+
+[[RelatedContent]]
+=== Related Content

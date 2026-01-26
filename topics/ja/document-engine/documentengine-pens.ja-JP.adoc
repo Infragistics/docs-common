@@ -1,0 +1,115 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-pens",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{B62600CB-9E74-4745-BEB3-28E485C02867}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ペン
+
+Pens は線の特徴を定義するために使用されます。Borders、Shapes、Rectangles、および Canvas エレメントによって描画されるいくつかの形状を含み、Infragistics Document Engine™ の複数の特性の線を見つけることができます。ペンが操作できる線の特徴は以下のとおりです。
+
+* 色
+* 太さ
+* 破線のスタイル
+* ライン キャップ
+* ライン ジョイン
+* マイター リミット 
+
+事前に定義したペンのコレクションである、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.pens.html[Pens]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.pens.html[Pens]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.pens.html[Pens]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.pens.html[Pens]"]  クラスを使用して、デフォルトのスタイル属性を持つ色の付いたペンを素早く線に追加することも可能です。Pens クラスの各ペンは 1 ピクセル幅の単色のペンです。
+
+image::images/DocumentEngine_Pens_01.png[]
+
+'''
+
+以下のコードを使用して、2 つの Pen オブジェクトを定義し Text エレメントの境界線を描画するために使用します。3 番目の Text エレメントは事前に定義したペンを使用して境界線を描画します。
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+Imports Infragistics.Documents.Reports.Reports.Graphics
+.
+.
+.
+Dim string1 As String = "Lorem ipsum..."
+' 2 つの Pen オブジェクトを定義します。
+Dim pen1 As New Pen(Colors.Black, 3, DashStyle.Solid)
+Dim pen2 As New Pen(Colors.Red, 5, DashStyle.Dot)
+' この Text エレメントの境界線に使用されるペンは
+' 実線、黒、3 ピクセルです。
+Dim penText1 As Infragistics.Documents.Reports.Reports.Report.Text.IText = section1.AddText()
+penText1.Paddings = New Paddings(3, 3)
+penText1.Margins = New Margins(3, 3)
+penText1.Borders = New Borders(pen1)
+penText1.Background = New Background(Brushes.WhiteSmoke)
+penText1.AddContent(string1)
+' この Text エレメントの境界線に使用されるペンは
+' 点線、赤、5 ピクセルです。
+penText1 = section1.AddText()
+penText1.Paddings = New Paddings(3, 3)
+penText1.Margins = New Margins(3, 3)
+penText1.Borders = New Borders(pen2)
+penText1.Background = New Background(Brushes.WhiteSmoke)
+penText1.AddContent(string1)
+' この Text エレメントの境界線に使用されるペンは
+' 事前に定義された緑のペンです。
+penText1 = section1.AddText()
+penText1.Paddings = New Paddings(3, 3)
+penText1.Margins = New Margins(3, 3)
+penText1.Borders = New Borders(Pens.Green)
+penText1.Background = New Background(Brushes.WhiteSmoke)
+penText1.AddContent(string1)
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+using Infragistics.Documents.Reports.Reports.Graphics;
+.
+.
+.
+string string1 = "Lorem ipsum...";
+// 2 つの Pen オブジェクトを定義します。
+Pen pen1 = new Pen(Colors.Black, 3, DashStyle.Solid);
+Pen pen2 = new Pen(Colors.Red, 5, DashStyle.Dot);
+// この Text エレメントの境界線に使用されるペンは
+// 実線、黒、3 ピクセルです。
+Infragistics.Documents.Reports.Reports.Report.Text.IText penText1 = section1.AddText();
+penText1.Paddings = new Paddings(3, 3);
+penText1.Margins = new Margins(3, 3);
+penText1.Borders = new Borders(pen1);
+penText1.Background = new Background(Brushes.WhiteSmoke);
+penText1.AddContent(string1);
+// この Text エレメントの境界線に使用されるペンは
+// 点線、赤、5 ピクセルです。
+penText1 = section1.AddText();
+penText1.Paddings = new Paddings(3, 3);
+penText1.Margins = new Margins(3, 3);
+penText1.Borders = new Borders(pen2);
+penText1.Background = new Background(Brushes.WhiteSmoke);
+penText1.AddContent(string1);
+// この Text エレメントの境界線に使用されるペンは
+// 事前に定義された緑のペンです。
+penText1 = section1.AddText();
+penText1.Paddings = new Paddings(3, 3);
+penText1.Margins = new Margins(3, 3);
+penText1.Borders = new Borders(Pens.Green);
+penText1.Background = new Background(Brushes.WhiteSmoke);
+penText1.AddContent(string1);
+----

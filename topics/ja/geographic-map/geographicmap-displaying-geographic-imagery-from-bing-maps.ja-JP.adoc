@@ -1,0 +1,244 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Bing Maps から地理的画像を表示
+
+== トピックの概要
+
+.注:
+[NOTE]
+2025 年 6 月 30 日をもって、すべての Microsoft Bing Maps for Enterprise Basic (無料) アカウントはすべて廃止されます。無料の Basic アカウントおよびキーをご利用中の場合は、サービスの中断を回避するために今すぐ対応する必要があります。Bing Maps for Enterprise の有償ライセンスをお持ちの方は、2028 年 6 月 30 日までアプリケーション内で Bing Maps を引き続きご利用いただけます。
+
+詳細は以下をご覧ください:
+
+* link:https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025[Microsoft Bing ブログ]
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで Bing Maps から地理的画像を表示する方法を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加] 
+
+|このトピックでは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} のビジュアル要素]
+|このトピックは、 {GeoMapName} コントロールの視覚要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用] 
+
+|このトピックは、 {GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref320395369,Bing Maps からの地理的画像>>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320395376,プレビュー>>
+** <<_Ref320471950,要件>>
+** <<Example,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320395369]]
+== Bing Maps からの地理的画像
+
+[[_Ref320193474]]
+
+=== 概要
+
+Bing Maps は Microsoft のライセンス付きの地理画像マッピング サービスです。この地理的画像サービスは、 link:http://www.bing.com/maps[http://www.bing.com/maps] に直接アクセスして利用できます。{GeoMapName} コントロールは、 link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] クラスを使用してマップ背景コンテンツで Bing Maps から地理的画像を表示します。ただし、 {GeoMapName}     コントロールはデフォルトで Open Street Maps の地理画像をマップ背景コンテンツに表示します。Bing Maps の地理画像を表示するには、コントロールを構成する必要があります。Bing Maps の地理画像を使用する前に、 link:http://www.bingmapsportal.com[www.bingmapsportal.com] と登録して Bing Maps API キーを取得する必要があります。Bing Maps API キーを link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] オブジェクトの link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey] プロパティに設定する必要があります。
+
+ifdef::wpf[]
+13.1 リリースの前に、Bing Maps にアクセスして必要なタイルの URI を取得するには、REST サービスを構成する必要がありました。13.1 リリースで、この機能は {GeoMapName} コントロールに定義済みです。
+endif::wpf[]
+
+[[_Ref320395376]]
+
+=== プレビュー
+
+以下の画像は、Bing Maps サービスがサポートする地理的画像のマップ スタイルの {GeoMapName} コントロールのプレビューです。
+
+[cols="a"]
+|====
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_2.png[] 
+
+*道路* のスタイルが付いた Bing Map 画像
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_1.png[] 
+
+*衛星* *とラベル* のスタイルが付いた Bing Map 画像
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_3.png[] 
+
+*衛星* のスタイルが付いた Bing Map 画像
+
+|====
+
+[[_Ref320471950]]
+
+=== 要件
+
+Bing Maps から地理的画像を使用するには、  link:http://www.bingmapsportal.com[www.bingmapsportal.com] から Map API キーを登録して入手する必要があります。この Bing Maps API キーを link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] オブジェクトの link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey]  プロパティに設定する必要があります。
+
+=== プロパティ設定
+
+以下の表で、 link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] クラスの重要なメンバーを説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|*プロパティ名*|*プロパティ タイプ*|*説明*
+
+| link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey]
+|`String`
+|Bing Maps 画像サービスで必要となる API キーを設定するためのプロパティを表します。 
+
+このキーを link:http://www.bingmapsportal.com/[http://www.bingmapsportal.com] web サイトから取得する必要があります。
+
+| link:{GeoMapLink}.bingmapsmapimagery~bingimageryresturi.html[BingImageryRestUri]
+|`String`
+|TilePath と SubDomain の位置を指定する Bing Imagery REST URI を設定するためのプロパティを表します。これはオプションのプロパティです。指定されていない場合、デフォルトの REST URI を使用します。
+
+| link:{GeoMapLink}.bingmapsmapimagery~culturename.html[CultureName]
+|`String`
+|タイル ソースのカルチャ名を設定するためのプロパティを表します。
+
+| link:{GeoMapLink}.bingmapsimagerystyle.html[ImageryStyle]
+| link:{GeoMapLink}.bingmapsimagerystyle.html[BingMapsImageryStyle]
+|Bing Maps 画像タイルのマップ スタイルを設定するプロパティを表します。このプロパティは、以下の link:{GeoMapLink}.bingmapsimagerystyle.html[BingMapsImageryStyle] 列挙値に設定できます。 
+
+* Aerial - 道路またはラベルのオーバーレイなしの衛星地図スタイルを指定します。 
+
+* AerialWithLabels - 道路およびラベル付きの衛星地図スタイルを指定します。 
+
+* Road - 衛星オーバーレイなしの道路地図スタイルを指定します。 
+
+| link:{GeoMapLink}.bingmapsmapimagery~isdeferredload.html[IsDeferredLoad]
+|`Boolean`
+|Bing Maps サービスが有効なプロパティ値の割り当てで自動初期化するかどうかを指定するプロパティを表します。
+
+| link:{GeoMapLink}.bingmapsmapimagery~isinitialized.html[IsInitialized]
+|`Boolean`
+|True に設定した場合、Bing Maps サービスからの地理的画像タイルが初期化されていて、 {GeoMapName} コントロールで描画の準備ができたかどうかを示すプロパティを表します。
+
+| link:{GeoMapLink}.bingmapsmapimagery~subdomains.html[SubDomains]
+|`ObservableCollection<string>`
+|URI サブドメインの画像コレクションを表します。
+
+| link:{GeoMapLink}.bingmapsmapimagery~tilepath.html[TilePath]
+|`String`
+|マップ タイル画像 URI を設定するプロパティを表します。これは Bing Maps の実際の位置です。
+
+|====
+
+=== 例
+
+この表の下の画像は、{GeoMapName} コントロールの背景コンテンツで Bing Maps から地理的画像を表示する方法を提供します。{GeoMapName} コントロールを以下のように構成します。
+
+[options="header", cols="a,a"]
+|====
+|*プロパティ*|*値*
+
+| pick:[wpf="link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent]"]pick:[win-forms="BackgroundContent"]
+|BingMapsMapImagery
+
+| link:{GeoMapLink}.bingmapsimagerystyle.html[ImageryStyle]
+|Road
+
+| link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey]
+|Bing Maps API キー
+
+|====
+
+image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_2.png[]
+
+以下のコードはこの例を実装します。
+
+注:
+
+[NOTE]
+====
+自身の Bing Map API キーで `ApiKey` プロパティに設定した文字列を置き換える必要があります。
+====
+
+ifdef::wpf[]
+
+*XAML の場合:* 
+
+[source,xaml]
+---- 
+<ig:XamGeographicMap Name="igMap">
+   <ig:XamGeographicMap.BackgroundContent>
+      <ig:BingMapsMapImagery ImageryStyle="Road"
+                    ApiKey="API_KEY" />
+   </ig:XamGeographicMap.BackgroundContent>
+</ig:XamGeographicMap>
+---- 
+endif::wpf[]
+
+*Visual Basic の場合:* 
+
+[source,vb]
+---- 
+Dim igMap As {GeoMapName}
+Dim bingMaps as BingMapsMapImagery
+bingMaps.ImageryStyle = BingMapsImageryStyle.Aerial
+bingMaps.ApiKey = "API_KEY"
+ifdef::wpf[]
+igMap.BackgroundContent = bingMaps
+endif::wpf[]
+ifdef::win-forms[]
+igMap.SetImagery(bingMaps)
+endif::win-forms[]
+---- 
+
+*C# の場合:* 
+
+[source,csharp]
+---- 
+var igMap = new {GeoMapName}
+var bingMaps = new BingMapsMapImagery();
+bingMaps.ImageryStyle = BingMapsImageryStyle.Aerial; 
+bingMaps.ApiKey = "API_KEY";
+ifdef::wpf[]
+igMap.BackgroundContent = bingMaps;
+endif::wpf[]
+ifdef::win-forms[]
+igMap.SetImagery(bingMaps);
+endif::win-forms[]
+---- 
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+このトピックにの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} の追加]
+|このトピックは、 {GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Open Street Maps から地理的画像を表示]
+|このトピックは、 {GeoMapName} コントロールで Open Street Maps サービスからの地理的画像を表示する方法を提供します。
+
+|====

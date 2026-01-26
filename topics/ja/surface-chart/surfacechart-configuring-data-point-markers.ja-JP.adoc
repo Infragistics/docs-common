@@ -1,0 +1,359 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-configuring-data-point-markers",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "51157415-bc62-4e01-a9dd-9e0db881a017",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-03T12:17:11.1190028Z"
+}
+|metadata|
+////
+
+= データ ポイント マーカーの構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] コントロールでデータ ポイント マーカーを構成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+以下の表は、このトピックを理解するための前提条件として必要な外部トピックの一覧です。
+
+
+==== 素材の定義 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|記事|目的 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.material(v=vs.110).aspx[Material クラス] 
+
+|この記事は、WPF で抽象 Material クラスを使用する方法について説明します。 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.diffusematerial(v=vs.110).aspx[DiffuseMaterial クラス] 
+
+|この記事は、WPF で DiffuseMaterial クラスを定義および使用する方法について説明します。 
+
+|==== 
+
+
+
+==== 3D メッシュジオメトリの定義 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|記事|目的 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.meshgeometry3d(v=vs.110).aspx[MeshGeometry3D クラス] 
+
+|このトピックは 3D 図形に三角形プリミティブを作成する方法について説明します。 
+
+|==== 
+
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref443939942, データ ポイント マーカーの表示 >>
+* <<_Ref443939946, データ ポイント マーカー マテリアルの構成 >>
+* <<_Ref443939952, データ ポイント マーカー メッシュの構成 >>
+* <<_Ref443939962, データ ポイント マーカー テンプレートの構成 >>
+* <<_Ref443939966, 関連コンテンツ >>
+
+[[_Ref443939942]]
+== データ ポイント マーカーの表示
+
+=== 概要
+
+_xamScatterSurface3D_ コントロールで link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamscattersurface3d~showpointmarkers.html[ShowPointMarkers] プロパティを使用してデータポイント マーカーを表示/非表示にします。
+
+デフォルトでデータ ポイント マーカーは非表示でプロパティ値は `False` です。
+
+.注:
+[NOTE]
+====
+データ ポイント マーカーの表示は、_xamScatterSurface3D_ コントロールのパフォーマンスに影響を与える場合があります。
+====
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|データ ポイント マーカーの表示/非表示
+| link:{SurfaceChartLink}.xamscattersurface3d~showpointmarkers.html[ShowPointMarkers]
+|`True/False`
+
+|====
+
+=== 例
+
+以下の設定は、以下のコードの結果として  _xamScatterSurface3D_   コントロールの外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamscattersurface3d~showpointmarkers.html[ShowPointMarkers]
+|_True_
+
+|====
+
+image::images/Configuring_Data_Point_Markers_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ShowPointMarkers="True"/>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+SurfaceChart.ShowPointMarkers = true;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+SurfaceChart.ShowPointMarkers = True
+----
+
+[[_Ref443939946]]
+== データ ポイント マーカー マテリアルの構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamscattersurface3d~pointmarkermaterial.html[PointMarkerMaterial] プロパティを使用して _xamScatterSurface3D_ コントロール マーカーのマテリアルを構成します。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|マーカー マテリアルの構成
+| link:{SurfaceChartLink}.xamscattersurface3d~pointmarkermaterial.html[PointMarkerMaterial]
+|`Material`
+
+|====
+
+=== 例
+
+以下のコードは、以下の設定の結果マーカーの外観がどのようになるかを示します。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamscattersurface3d~pointmarkermaterial.html[PointMarkerMaterial]
+|_<DiffuseMaterial Brush="Red" />_
+
+|====
+
+image::images/Configuring_Data_Point_Markers_2.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ShowPointMarkers="True">
+    <ig:XamScatterSurface3D.PointMarkerMaterial>
+        <DiffuseMaterial Brush="Red" />
+    </ig:XamScatterSurface3D.PointMarkerMaterial>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var diffuseMaterial = new DiffuseMaterial();
+diffuseMaterial.Brush = new SolidColorBrush(Colors.Red);
+SurfaceChart.ShowPointMarkers = true;
+SurfaceChart.PointMarkerMaterial = diffuseMaterial;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim diffuseMaterial = New DiffuseMaterial()
+diffuseMaterial.Brush = New SolidColorBrush(Colors.Red)
+SurfaceChart.ShowPointMarkers = True
+SurfaceChart.PointMarkerMaterial = diffuseMaterial
+----
+
+[[_Ref443939952]]
+== データ ポイント マーカー メッシュの構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamscattersurface3d~pointmarkermesh.html[PointMarkerMesh] プロパティを使用して 3D マーカー図形を構成します。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|3D マーカー メッシュを作成します。
+| link:{SurfaceChartLink}.xamscattersurface3d~pointmarkermesh.html[PointMarkerMesh]
+|`MeshGeometry3D`
+
+|====
+
+=== 例
+
+以下のコードは、以下の設定の結果マーカーの外観がどのようになるかを示します。
+
+image::images/Configuring_Data_Point_Markers_3.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ShowPointMarkers="True">
+    <ig:XamScatterSurface3D.PointMarkerMaterial>
+        <DiffuseMaterial Brush="Red" />
+    </ig:XamScatterSurface3D.PointMarkerMaterial>
+    <ig:XamScatterSurface3D.PointMarkerMesh>
+        <MeshGeometry3D Positions="-0.01 0.01 0.01, -0.01 -0.01 0.01, 
+                                    0.01 0.01 0.01, 0.01 -0.01 0.01,
+                                    0.01 0.01 -0.01, 0.01 -0.01 -0.01, 
+                                   -0.01 0.01 -0.01, -0.01 -0.01 -0.01"
+                        TextureCoordinates="0 0, 0 1, 1 0, 1 1,
+                                            0 0, 0 1, 1 0, 1 1"
+                        TriangleIndices="0  1  2,  1  3  2,
+                                         6  7  0,  7  1  0,
+                                         4  6  2,  6  0  2,
+                                         2  3  4,  3  5  4,
+                                         3  1  5,  1  7  5,
+                                         4  5  6,  5  7  6" />
+    </ig:XamScatterSurface3D.PointMarkerMesh>
+</ig:XamScatterSurface3D>
+----
+
+[[_Ref443939962]]
+== データ ポイント マーカー テンプレートの構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamscattersurface3d~pointmarkertemplate.html[PointMarkerTemplate] プロパティを使用して _xamScatterSurface3D_ コントロール マーカーの DataTemplate を使用します。
+
+.注:
+[NOTE]
+====
+DataTemplate を表示するには、`PointMarkerMaterial` の `Viewport2DVisual3D.IsVisualHostMaterial` アタッチ プロパティを `True` にします。
+====
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|各マーカーに DataTemplate を設定します。
+| link:{SurfaceChartLink}.xamscattersurface3d~pointmarkertemplate.html[PointMarkerTemplate]
+|`DataTemplate`
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下のコードの結果として _xamScatterSurface3D_ コントロールがどのような外観になるかを示します。
+
+image::images/Configuring_Data_Point_Markers_4.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ShowPointMarkers="True">
+    <ig:XamScatterSurface3D.PointMarkerMaterial>
+        <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True" />
+    </ig:XamScatterSurface3D.PointMarkerMaterial>
+    <ig:XamScatterSurface3D.PointMarkerTemplate>
+        <DataTemplate>
+            <Rectangle Height="100" Width="100" Fill="Red" />
+        </DataTemplate>
+    </ig:XamScatterSurface3D.PointMarkerTemplate>
+</ig:XamScatterSurface3D>
+----
+
+[[_Ref443939966]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-data-point-markers-mouse-events.html[データポイント マーカー マウス イベント]
+|本トピックは、 _xamScatterSurface3D_ コントロールのデータ ポイント マーカー マウス イベントの概要を説明します。
+
+|====

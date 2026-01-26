@@ -1,0 +1,216 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-adding-shapes-to-a-worksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{98188522-07F7-427F-96A3-EFCE9210B0B6}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:25:10Z"
+}
+|metadata|
+////
+
+= 形状をワークシートに追加
+
+== 始める前に
+
+Infragistics.Documents.Excel アセンブリの優れた機能のひとつは、画像や形状をワークシートに追加する機能です。 Microsoft® Excel® と同じように、画像をワークシート上に配置して、希望の位置を指定して、同じワークシート上でその他の形状とグループ化することもできます。形状を使用することは形状を作成し、その形状がワークシートで配置される場所を決定するアンカーを設定し、形状をワークシートに追加するというシンプルなプロセスです。
+
+ワークシート上に直接形状を配置することに加えて、ワークシート上で形状をグループ化することも可能です。形状がグループ化されると、グループ全体をひとつの形状として移動することができます。これによって、グループ内の形状が常にそれぞれの関係を保持して同じ位置に配置されることが保証されます。
+
+== 達成すること
+
+この詳細なガイドでは、画像をワークシートに追加し、ひとつの形状としてグループ化するために必要な手順を説明します。
+
+== 次の手順を実行します
+
+[start=1]
+. *ワークシートを使用してワークブックを作成します。*
+
+.. 新しい Visual Basic または C# プロジェクトを作成します。 
+.. Button をフォームに追加します。
+.. Button をダブルクリックして、その Click イベントのコード ビハインドを開きます。
+.. ひとつのワークシートを使用してワークブックを作成します。
+
+*Visual Basic の場合：*
+
+----
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
+  workbook.Worksheets.Add("Sheet1")
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
+----
+
+[start=2]
+. *画像の形状を作成してワークシートに配置します。*
+
+画像を作成します。
+
+*Visual Basic の場合：*
+
+----
+Dim aspImage As Image = Image.FromFile("C:\NA_aspnet-old.gif")
+Dim winImage As Image = Image.FromFile("C:\NA_Win_Forms.gif")
+Dim wpfImage As Image = Image.FromFile("C:\NA_WPF.gif")
+----
+
+*C# の場合：*
+
+----
+Image aspImage = Image.FromFile( "C:\\NA_aspnet-old.gif" );
+Image winImage = Image.FromFile( "C:\\NA_Win_Forms.gif" );
+Image wpfImage = Image.FromFile( "C:\\NA_WPF.gif" );
+----
+
+画像の形状を作成してワークシートに配置します。
+
+*Visual Basic の場合：*
+
+----
+Dim aspImageShape As Infragistics.Documents.Excel.WorksheetImage = _
+  New Infragistics.Documents.Excel.WorksheetImage(aspImage)
+Dim winImageShape As Infragistics.Documents.Excel.WorksheetImage = _
+  New Infragistics.Documents.Excel.WorksheetImage(winImage)
+Dim wpfImageShape As Infragistics.Documents.Excel.WorksheetImage = _
+  New Infragistics.Documents.Excel.WorksheetImage(wpfImage)
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.WorksheetImage aspImageShape =
+  new Infragistics.Documents.Excel.WorksheetImage( aspImage );
+Infragistics.Documents.Excel.WorksheetImage winImageShape =
+  new Infragistics.Documents.Excel.WorksheetImage( winImage );
+Infragistics.Documents.Excel.WorksheetImage wpfImageShape =
+  new Infragistics.Documents.Excel.WorksheetImage( wpfImage );
+----
+
+[start=3]
+. *画像の形状で位置アンカーを設定します。*
+
+形状をグループまたはワークシートに追加する前に、アンカーを設定する必要があります。ワークシート上のセルに応じて形状を配置します。
+
+*Visual Basic の場合：*
+
+----
+aspImageShape.TopLeftCornerCell = worksheet.Rows.Item(3).Cells.Item(1)
+aspImageShape.BottomRightCornerCell = worksheet.Rows.Item(5).Cells.Item(6)
+' 形状の右下隅は、アンカー セルの
+' 左下隅に近くなければなりません。
+aspImageShape.BottomRightCornerPosition = New PointF(10, 100)
+winImageShape.TopLeftCornerCell = worksheet.Rows.Item(7).Cells.Item(1)
+' 形状の左上隅は、アンカー セルの上の中央に
+' なければなりません。
+winImageShape.TopLeftCornerPosition = New PointF(50, 0)
+winImageShape.BottomRightCornerCell = worksheet.Rows.Item(9).Cells.Item(6)
+' 形状の右下隅は、アンカー セルの
+' 下中央に近くなければなりません。
+winImageShape.BottomRightCornerPosition = New PointF(60, 100)
+wpfImageShape.TopLeftCornerCell = worksheet.Rows.Item(11).Cells.Item(2)
+wpfImageShape.BottomRightCornerCell = worksheet.Rows.Item(13).Cells.Item(7)
+' 形状の右下隅は、アンカー セルの
+' 左下隅に近くなければなりません。
+wpfImageShape.BottomRightCornerPosition = New PointF(10, 100)
+----
+
+*C# の場合：*
+
+----
+aspImageShape.TopLeftCornerCell = worksheet.Rows[ 3 ].Cells[ 1 ];
+aspImageShape.BottomRightCornerCell = worksheet.Rows[ 5 ].Cells[ 6 ];
+// 形状の右下隅は、アンカー セルの
+// 左下隅に近くなければなりません。
+aspImageShape.BottomRightCornerPosition = new PointF( 10, 100 );
+winImageShape.TopLeftCornerCell = worksheet.Rows[ 7 ].Cells[ 1 ];
+// 形状の右上隅は、アンカー セルの上の中央
+// になければなりません。
+winImageShape.TopLeftCornerPosition = new PointF( 50, 0 );
+winImageShape.BottomRightCornerCell = worksheet.Rows[ 9 ].Cells[ 6 ];
+// 形状の右下隅は、アンカー セルの 
+//　下中央に近くなければなりません。
+winImageShape.BottomRightCornerPosition = new PointF( 60, 100 );
+wpfImageShape.TopLeftCornerCell = worksheet.Rows[ 11 ].Cells[ 2 ];
+wpfImageShape.BottomRightCornerCell = worksheet.Rows[ 13 ].Cells[ 7 ];
+// 形状の右下隅は、アンカー セルの
+// 左下隅に近くなければなりません。
+wpfImageShape.BottomRightCornerPosition = new PointF( 10, 100 );
+----
+
+[start=4]
+. *画像の形状をグループ化します。*
+
+形状のグループを作成します。これも形状となります。
+
+*Visual Basic の場合：*
+
+----
+Dim group As Infragistics.Documents.Excel.WorksheetShapeGroup = _
+  New Infragistics.Documents.Excel.WorksheetShapeGroup()
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.WorksheetShapeGroup group =
+  new Infragistics.Documents.Excel.WorksheetShapeGroup();
+----
+
+画像の形状をグループに追加します。形状を形状グループに追加または削除する時に、固有のアンカーを自動的に設定します。これが最も小さい矩形ですべての形状を完全に囲みます。このため、形状グループのアンカーを設定する必要はありません。
+
+*Visual Basic の場合：*
+
+----
+group.Shapes.Add(aspImageShape)
+group.Shapes.Add(winImageShape)
+group.Shapes.Add(wpfImageShape)
+----
+
+*C# の場合：*
+
+----
+group.Shapes.Add( aspImageShape );
+group.Shapes.Add( winImageShape );
+group.Shapes.Add( wpfImageShape );
+----
+
+グループ（画像の形状を含んでいる）をワークシートに追加します。
+
+*Visual Basic の場合：*
+
+----
+worksheet.Shapes.Add(group)
+----
+
+*C# の場合：*
+
+----
+worksheet.Shapes.Add( group );
+----
+
+[start=5]
+. *ワークブックをシリアル化します。*
+
+ワークブックをファイルに書き出します。
+
+*Visual Basic の場合：*
+
+----
+workbook.Serialize("C:\Shapes.xls")
+----
+
+*C# の場合：*
+
+----
+workbook.Serialize( "C:\\Shapes.xls" );
+----
+
+image::images/ExcelEngine_Adding_Shapes_to_a_Worksheet_01.png[]

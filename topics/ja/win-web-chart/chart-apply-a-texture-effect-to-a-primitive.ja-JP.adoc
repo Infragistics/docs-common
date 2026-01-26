@@ -1,0 +1,112 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-apply-a-texture-effect-to-a-primitive",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{2CA3A3EE-887D-403B-A86E-2BD491EFFD8C}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= テクスチャ効果をプリミティブに適用
+
+PaintElementType を Texture に設定した場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  と  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~texture.html[Texture]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~texture.html[Texture]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~texture.html[Texture]"]  プロパティを設定してさまざまな色のテクスチャを使用できます。
+
+TextureApplication プロパティは、テクスチャに適用する基本色に対して、明るさを上げたり下げたりする方法に影響します。PaintElement が明るすぎるか暗すぎる場合、このプロパティの値を変えてみてください。
+
+以下の表は、さまざまなプロパティ設定でさまざまなテクスチャの PaintElements を作成できることを示します。
+
+[options="header", cols="a,a,a,a"]
+|====
+|Fill|Texture|TextureApplication|結果
+
+|Orchid
+|Wood
+|通常
+|image::images/Chart_Rendering_With_Paint_Element_08.png[]
+
+|MidnightBlue
+|Crackle
+|通常
+|image::images/Chart_Rendering_With_Paint_Element_09.png[]
+
+|MidnightBlue
+|Crackle
+|Inverted
+|image::images/Chart_Rendering_With_Paint_Element_10.png[]
+
+|OldLace
+|CustomImage
+|Inverted
+|image::images/Chart_Rendering_With_Paint_Element_11.png[]
+
+|====
+
+以下の例は、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、ハッチ スタイルを適用する方法を示します。これでこの例を拡張して、チャートのすべてのプリミティブにハッチ スタイルを適用することができます。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b As Box = Nothing
+		b = CType(e.Primitive, Box)
+		If Not b Is Nothing AndAlso b.Row = 0 AndAlso b.Column = 2 Then
+			b.PE = b.PE.Clone()
+			' Primitives PaintElement Type を texture に設定します。
+			b.PE.ElementType = PaintElementType.Texture
+			' テクスチャの開始色を設定します。
+			b.PE.Fill = Color.Orchid
+			' texture と textureapplication を設定します。
+			b.PE.Texture = TexturePresets.Wood
+			b.PE.TextureApplication = TextureApplicationStyle.Normal
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Core.Primitives;
+...
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b = e.Primitive as Box;
+		if(b != null && b.Row == 0 && b.Column == 2)
+		{
+			b.PE = b.PE.Clone();
+			// Primitives PaintElement Type を texture に設定します。
+			b.PE.ElementType = PaintElementType.Texture;
+			// テクスチャの開始色を設定します。
+			b.PE.Fill = Color.Orchid;
+			// texture と textureApplication を設定します。
+			b.PE.Texture = TexturePresets.Wood;
+			b.PE.TextureApplication = TextureApplicationStyle.Normal;
+		}
+	}
+}
+----
+
+image::images/Chart_Apply_a_Texture_Effect_to_a_Primitive_01.png[]
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  プロパティの画像を設定して、Texture プロパティを  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect~customimage.html[CustomImage]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect~customimage.html[CustomImage]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect~customimage.html[CustomImage]"]  に設定することによって、カスタム画像を使用してテクスチャを生成することもできます。最適なパフォーマンスを得るため、画像は小さいほどよくなります。10 KB 以下の画像が最適です。ただし、チャートが頻繁に再描画する必要がないか、アプリケーションがパワフルな CPU を搭載したサーバー上で実行している場合、大きいサイズの画像を使用できます。
+
+== 関連トピック
+
+link:chart-adding-primitives-to-a-chart-layer.html[プリミティブをグラフ レイヤに追加する]

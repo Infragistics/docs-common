@@ -1,0 +1,137 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-workingdayshours",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-09-15T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= Working Days and Working Hours ({SchedulerName})
+
+== Purpose
+
+This topic explains the control's working days and working hours concepts.
+
+== Required Background
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-overview.html[Overview ({SchedulerName})]
+|This topic provides an overview of the {SchedulerName} control.
+
+|link:scheduler-binding-schedulelistdatasource.html[Binding Using ScheduleListDataSource ({SchedulerName})]
+|This topic explains how to bind the control to a data source using ScheduleListDataSource.
+
+|=======
+
+== In this topic
+
+* <<Ref00001, Overview>>
+* <<Ref00002, Control-Level>>
+* <<Ref00003, Resource-Level>>
+* <<Ref00004, Related Topics>>
+
+[[Ref00001]]
+== Overview
+
+The {SchedulerName} control supports working days and working hours. This is basically a set of settings which describe which days and hours are working and which are not working. The control renders working and non-working days and hours differently (for example with a different background color). You can configure the control to show or hide the non-working days and hours using the link:{SchedulerXFLink}.xamscheduler~workinghoursdisplaymode.html[WorkingHoursDisplayMode] property.
+
+[[Ref00002]]
+== Control-Level
+
+To define working hours and working days on a control-level you can use the link:{SchedulerXFLink}.xamscheduler~daysofweeksettings.html[{SchedulerName}.DaysOfWeekSettings] property.
+
+By default, all days except for Saturday and Sunday are considered workdays and working hours are 9AM to 5PM.
+
+The following code example demonstrates how to create a custom working days and working hours schedule on a control-level:
+
+*In C#:*
+[source,csharp]
+----
+WorkingHoursCollection morningShift = new WorkingHoursCollection();
+morningShift.Add(new TimeSpan(6, 0, 0), new TimeSpan(14, 0, 0));
+WorkingHoursCollection afternoonShift = new WorkingHoursCollection();
+afternoonShift.Add(new TimeSpan(14, 0, 0), new TimeSpan(22, 0, 0));
+
+this.scheduler.DaysOfWeekSettings = new ScheduleDaysOfWeekSettings()
+{
+  Monday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Tuesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Wednesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift },
+  Thursday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Friday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Saturday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Sunday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift }
+};
+----
+
+[[Ref00003]]
+== Resource-Level
+
+You can also define working days and working hours on a resource-level using the link:{SchedulerCoreLink}.scheduleresource~daysofweeksettings.html[DaysOfWeekSettings] property.
+
+.Note
+[NOTE]
+====
+Configuring a resource-level working days and working hours has higher precedence and will overwrite the settings set on the control-level.
+====
+
+The following code example demonstrates how to create a custom working days and working hours schedule on a resource-level:
+
+*In C#:*
+[source,csharp]
+----
+WorkingHoursCollection morningShift = new WorkingHoursCollection();
+morningShift.Add(new TimeSpan(6, 0, 0), new TimeSpan(14, 0, 0));
+WorkingHoursCollection afternoonShift = new WorkingHoursCollection();
+afternoonShift.Add(new TimeSpan(14, 0, 0), new TimeSpan(22, 0, 0));
+
+ScheduleResource res1 = new ScheduleResource();
+res1.DaysOfWeekSettings = new ScheduleDaysOfWeekSettings()
+{
+  Monday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Tuesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Wednesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift },
+  Thursday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Friday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Saturday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Sunday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift }
+};
+----
+
+[[Ref00004]]
+== Related Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-dayview.html[Day View ({SchedulerName})]
+|This topic explains how data is presented in the {SchedulerName}'s day view.
+
+|link:scheduler-weekview.html[Week View ({SchedulerName})]
+|This topic explains how data is presented in the {SchedulerName}'s week view.
+
+|=======

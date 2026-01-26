@@ -1,0 +1,148 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-label-formatting",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{CBAD2A8B-32ED-47E7-BF86-AF511DEBB015}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ラベルの書式
+
+Chart コントロールのすべてのレイヤには、ラベル キーワードに関連付けられた特定の情報があります。ラベルは、これらのキーワードで構成されるテキストです。グラフの描画時またはランタイムに、これらのキーワードは、レイヤがグラフにブレンドされる前にオンザフライで置き換えられる一定の値を前提とします。
+
+[NOTE]
+====
+*注* ：グラフのラベル書式の詳細については、 link:chart-use-predefined-and-custom-label-styles.html[「ラベル スタイルとカスタム ラベル スタイルの使用」]を参照してください。
+====
+
+ｘ 軸（水平軸）は SetLabelAxis オブジェクトで、各項目（点）に複数の点が均等に配置されます。Y 軸（垂直軸）は数値軸です。Y 軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+
+== 書式のタイプ
+
+チャートは、チャート データの書式を処理するために、.NET Framework によって提供されている標準的な書式のタイプ（数字、日付/時刻、列挙体、および合成など）を使用します。サポートされる書式のタイプの詳細は、MSDN ライブラリの「書式のタイプ」トピックを参照してください。
+
+== 組み込みラベルの書式
+
+Chart コントロールは、チャート ラベルの表示を変更するために使用できる組み込み書式スタイルの数を提供します。これらのラベルの書式のそれぞれの設定の詳細は、 link:chart-use-predefined-and-custom-label-styles.html[「事前に定義したラベルスタイルとカスタム ラベル スタイルを使用」]を参照してください。
+
+* 軸項目ラベル -- 各項目のラベルがチャートに表示される方法を指定します。
+* 軸シリーズ ラベル -- ラベル項目の各セットの下にシリーズ（またはグループ）ラベルがどのように表示されるかを指定します。
+* 円ラベル -- 円グラフでラベルがどのように表示されるかを指定します。
+* ツールチップ -- チャートの各ポイントでツールチップがどのように表示されるかを指定します。
+
+== カスタム ラベルの書式
+
+事前に定義したラベル スタイルに加えて、Chart コントロールは、エンド ユーザーのニーズを満たすためにカスタム ラベル書式を定義する機能を提供します。ラベル スタイルを "Custom" に設定してラベル キーワード（たとえば、"ITEM_LABEL"、"DATA_VALUE"、および "PERCENT_VALUE）を使用することで、カスタム ラベルを作成できます。
+
+たとえば、以下の円グラフのスクリーンショットでは、以下のラベル書式の文字列は、チャートのラベルがパーセント値、そして各データ項目の実際の値を構成することを指定します。
+
+<PERCENT_VALUE:#0.00>% (<DATA_VALUE:00.00>)
+
+image::images/Chart_Labeling_and_Label_Format_01.png[]
+
+以下はカスタム ラベル書式の追加例です。
+
+* チャート ラベル項目を 50% で表示するために、以下のラベル書式文字列を使用できます。"<DATA_VALUE:00>%"
+* チャート ラベル項目を 25.25 で表示するために、以下のラベル書式文字列を使用できます。"<DATA_VALUE:00.00>"
+
+事前に定義したラベル キーワードを使用することに加えて、Chart コントロールのラベル機能を拡張するために独自のラベル キーワードを作成することができます。
+
+以下の表に Chart コントロールで一般的な書式文字列をリストします。
+
+[options="header", cols="a,a"]
+|====
+|使用場所|書式文字列
+
+|グローバル トークン
+|<TODAY_DATE> 
+
+<TODAY_DATETIME>
+
+|適用可能な場所で使用
+|<ITEM_LABEL> 
+
+<SERIES_LABEL> 
+
+<DATA_VALUE> 
+
+<ITEM_NUMBER> 
+
+<DATA_COLUMN> 
+
+<DATA_ROW> 
+
+<PERCENT_VALUE> 
+
+<LABEL_RENDER_LOCATION>
+
+|バブル チャート、散布図、ポーラ チャート
+|<DATA_VALUE_X> 
+
+<DATA_VALUE_Y>
+
+|バブル チャート
+|<DATA_VALUE_RADIUS>
+
+|ヒート マップ グラフ
+|<DATA_VALUE_TOPLEFT> 
+
+<DATA_VALUE_TOPRIGHT> 
+
+<DATA_VALUE_BOTTOMLEFT> 
+
+<DATA_VALUE_BOTTOMRIGHT>
+
+|箱ひげ図
+|<DATA_VALUE_MIN> 
+
+<DATA_VALUE_MAX> 
+
+<DATA_VALUE_Q1> 
+
+<DATA_VALUE_Q2> 
+
+<DATA_VALUE_Q3>
+
+|ポーラ チャート
+|<DEGREES_VALUE> 
+
+<RADIANS_VALUE>
+
+|ガント チャート
+|<START_TIME> 
+
+<END_TIME> 
+
+<TIME_ENTRY_INDEX>
+
+|積層型棒グラフおよび柱状グラフ
+|<DATA_VALUE_ITEM>
+
+|対数軸
+|<LOG_BASE> 
+
+<LOG_VALUE>
+
+|DataValueCustom カラー モデル
+|<ITEM_MIN> 
+
+<ITEM_MAX>
+
+|====
+
+== 関連トピック
+
+* link:chart-customize-labels-using-the-irenderlabel-interface.html[IRenderLabel インタフェースを使用してラベルをカスタマイズ]
+* link:chart-display-labels-at-intervals-on-a-time-scale-axis.html[時間のスケール軸で間隔でラベルを表示]
+* link:chart-display-labels-at-user-defined-interval.html[ユーザ定義間隔でのラベル表示]
+* link:chart-rotate-series-labels.html[シリーズ ラベルの回転]
+* link:chart-specify-row-labels.html[行ラベルの指定]
+* link:chart-use-predefined-and-custom-label-styles.html[事前に定義したラベル スタイルとカスタム ラベル スタイルを使用]

@@ -1,0 +1,602 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-filtering-tables",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "f0daf98e-e166-4566-90bb-c16c4df2126f","buildFlags": [],
+    "createdOn": "2012-03-29T13:06:46.595308Z"
+}
+|metadata|
+////
+
+= テーブルのフィルタリング pick:[wpf,xamarin="({ExcelEngineName})"]
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、テーブルで列をフィルターする方法を説明します。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+<<_Ref318391872,概要>>
+
+<<_Ref318391904,コード例の概要>>
+
+<<_Ref319918876,コード例: 平均フィルタリング>>
+
+<<_Ref319918881,コード例: カスタム フィルタリング>>
+
+<<_Ref319918699,コード例: 日付期間フィルタリング>>
+
+<<_Ref319918819,コード例: 塗りつぶしフィルタリング>>
+
+<<_Ref319918889,コード例: 固定値フィルタリング>>
+
+<<_Ref319918897,コード例: 相対日付範囲フィルタリング>>
+
+<<_Ref319918736,コード例: トップまたはボトム フィルタリング>>
+
+<<_Ref319918744,コード例: 年度累計フィルタリング>>
+
+<<_Ref318391938,関連コンテンツ>>
+
+[[_Ref318391872]]
+== 概要
+
+フィルターはフィルターを適用することで実行されます。フィルターが列で適用されると、テーブルのすべてのフィルターは、表示される行を決定するために再評価されます。この操作は、すべてのセルがテーブルの列のフィルター基準を満たす行を示します。
+
+テーブルのデータがそれ以降変更される、または行の Hidden プロパティをそれ以降変更する場合、フィルター条件は再評価されません。テーブルのフィルター条件は、テーブルの列フィルターが追加、削除、変更されるときに、または  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplyfilters.html[ReapplyFilters]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplyfilters.html[ReapplyFilters]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplyfilters.html[ReapplyFilters]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplyfilters.html[ReapplyFilters]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~reapplyfilters.html[ReapplyFilters]"] メソッドがテーブルで呼び出されるときに限り再適用されます。
+
+以下のフィルター pick:[win-forms,win-forms-old,asp-net,aspnet-old="タイプ"]pick:[wpf,xamarin="メソッド"]を列データpick:[win-forms,win-forms-old,asp-net,aspnet-old="設定する"]pick:[wpf,xamarin="適用する"]ために使用できます:
+
+[options="header", cols="a,a"]
+|====
+|フィルター タイプ|説明
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.dateperiodfilter_members.html[DatePeriodFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.dateperiodfilter_members.html[DatePeriodFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.dateperiodfilter_members.html[DatePeriodFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.dateperiodfilter_members.html[DatePeriodFilter]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyDatePeriodFilter.html[ApplyDatePeriodFilter]"]
+|年の特定の月または四半期の日付を含むセルのみが表示されます。その他のすべてのセルは非表示になります。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.averagefilter_members.html[AverageFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.averagefilter_members.html[AverageFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.averagefilter_members.html[AverageFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.averagefilter_members.html[AverageFilter]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyAverageFilter.html[ApplyAverageFilter]"]
+|列のすべてのセルの平均値の上か、それとも下かに基づいてセルをフィルターできます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.customfilter_members.html[CustomFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.customfilter_members.html[CustomFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.customfilter_members.html[CustomFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.customfilter_members.html[CustomFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyCustomFilter.html[ApplyCustomFilter]"]
+|1 つ以上のカスタム条件に基づいてセルをフィルターできます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fillfilter_members.html[FillFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fillfilter_members.html[FillFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fillfilter_members.html[FillFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fillfilter_members.html[FillFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyFillFilter.html[ApplyFillFilter]"]
+|特定の塗りつぶしを含むセルのみが表示されます。その他のすべてのセルは非表示になります。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fontcolorfilter_members.html[FontColorFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fontcolorfilter_members.html[FontColorFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fontcolorfilter_members.html[FontColorFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fontcolorfilter_members.html[FontColorFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyFontColorFilter.html[ApplyFontColorFilter]"]
+|特定のフォントの色を含むセルのみが表示されます。その他のすべてのセルは非表示になります。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fixedvaluesfilter_members.html[FixedValuesFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fixedvaluesfilter_members.html[FixedValuesFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fixedvaluesfilter_members.html[FixedValuesFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.fixedvaluesfilter_members.html[FixedValuesFilter]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyFixedValuesFilter.html[ApplyFixedValuesFilter]"]
+|特定の表示値のみに一致するまたは日付/時間の特定のグループ内に分類されるセルが表示されます。その他のすべてのセルは非表示になります。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.relativedaterangefilter_members.html[RelativeDateRangeFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.relativedaterangefilter_members.html[RelativeDateRangeFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.relativedaterangefilter_members.html[RelativeDateRangeFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.relativedaterangefilter_members.html[RelativeDateRangeFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyRelativeDateRangeFilter.html[ApplyRelativeDateRangeFilter]"]
+|フィルターが適用されたときに、次の日または前の四半期のように日付の相対的な時間の範囲内で発生するかどうかに基づいて、日付値を含むセルをフィルターできます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.toporbottomfilter_members.html[TopOrBottomFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.toporbottomfilter_members.html[TopOrBottomFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.toporbottomfilter_members.html[TopOrBottomFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.toporbottomfilter_members.html[TopOrBottomFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyTopOrBottomFilter.html[ApplyTopOrBottomFilter]"]
+|このフィルターは以下のタイプのフィルターに許可します。 
+
+* 上の N 値のみが表示される 
+
+* 下の N 値のみが表示される 
+
+* 値の上の N % のみが表示される 
+
+* 値の下の N % のみが表示される 
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.yeartodatefilter_members.html[YearToDateFilter]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.yeartodatefilter_members.html[YearToDateFilter]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.yeartodatefilter_members.html[YearToDateFilter]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.yeartodatefilter_members.html[YearToDateFilter]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~ApplyYearToDateFilter.html[ApplyYearToDateFilter]"]
+|年の始まりとフィルターが適用される日付の間に発生する場合、日付値を含むセルをフィルターできます。
+
+|====
+
+[[_Ref318391904]]
+== コード例の概要
+
+=== 概要
+
+以下の表には、このトピックのコード例が示されています。
+
+[options="header", cols="a,a"]
+|====
+|例|説明
+
+|平均フィルタリング
+|このコードは、列のすべてのセルの平均値の上か、それとも下かに基づいてセルをフィルターできる方法を示します。
+
+|カスタム フィルタリング
+|このコードは、1 つ以上の pick:[win-forms,win-forms-old,asp-net,aspnet-old="CustomFilterConditions"]pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.customfiltercondition.html[CustomFilterCondition]s"] に従ってセルをフィルターできる方法を示します。
+
+|日付期間フィルタリング
+|このコードは、特定の月または四半期の日付を含むセルをフィルターします。その他のすべてのセルは非表示になります。
+
+|塗りつぶしフィルタリング
+|このコードは特定の塗りつぶしを含むセルをフィルターします。その他のすべてのセルは非表示になります。
+
+|固定値フィルタリング
+|このコードは特定の表示値を持つセルをフィルターします。その他のすべてのセルは非表示になります。
+
+|相対日付範囲フィルタリング
+|このコード例は、フィルターが適用される日付の相対的な時間の範囲内に発生するかどうかに基づいて日付値をフィルターする方法を示します。
+
+|トップまたはボトム フィルタリング
+|このコードは、列の値のトップ 10% をフィルターする方法を示します。
+
+|年度累計フィルタリング
+|このコード例は、年の始まりとフィルターが適用される日付の間に発生する場合、日付値を含むセルをフィルターできます。
+
+|====
+
+[[_Ref319918876]]
+== コード例: 平均フィルタリング
+
+=== 説明
+
+このコードは、列のすべてのセルの平均値を上回るセルをフィルターする方法を示します。平均値より下回るフィルタリングは同じ方法で実行されます。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、フィルターがテーブルの列で適用されます。最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Apply average filter
+table.Columns("YOB").ApplyAverageFilter(Infragistics.Documents.Excel.Filtering.AverageFilterType.AboveAverage)
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream)
+endif::xamarin[]
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Apply average filter
+table.Columns["YOB"].ApplyAverageFilter(Infragistics.Documents.Excel.Filtering.AverageFilterType.AboveAverage);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918881]]
+== コード例: カスタム フィルタリング
+
+=== 説明
+
+このコードは、`CustomFilterCondition` 条件に従って、セルをフィルターする方法を示します。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、指定された  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.filtering.excelcomparisonoperator.html[ExcelComparisonOperator]"] と一致する文字列で、`CustomFilterCondition` が作成されます。カスタム フィルターが適用され、最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Create custom filter condition
+Dim matchWordCondition As New Infragistics.Documents.Excel.Filtering.CustomFilterCondition(Infragistics.Documents.Excel.Filtering.ExcelComparisonOperator.Equals, "High")
+' Apply custom filter
+table.Columns("Severity").ApplyCustomFilter(matchWordCondition)
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Create custom filter condition
+Infragistics.Documents.Excel.Filtering.CustomFilterCondition matchWordCondition = new Infragistics.Documents.Excel.Filtering.CustomFilterCondition(
+    Infragistics.Documents.Excel.Filtering.ExcelComparisonOperator.Equals, "High");
+// Apply custom filter
+table.Columns["Severity"].ApplyCustomFilter(matchWordCondition);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918699]]
+== コード例: 日付期間フィルタリング
+
+=== 説明
+
+このコードは、特定の月または四半期の日付を含むセルをフィルターします。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、日付期間フィルタリングが日付を含むテーブルの列で適用されます。最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Filtering_Exported_Tables_1.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Apply Date Period Filter
+' If you choose DatePeriodFilterType.Month, second argument represents months from January, 1, to December, 12
+' and can take values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+' If you choose DatePeriodFilterType.Quarter, second argument represents the four quaters of the year - Q1, Q2, Q3 and Q4, 
+' and can take values 1, 2, 3 and 4.
+' Code below accepts all dates in August.
+table.Columns("Acceptance Date").ApplyDatePeriodFilter(Infragistics.Documents.Excel.Filtering.DatePeriodFilterType.Month, 8)
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Apply Date Period Filter
+// If you choose DatePeriodFilterType.Month, second argument represents months from January, 1, to December, 12
+// and can take values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+// If you choose DatePeriodFilterType.Quarter, second argument represents the four quaters of the year - Q1, Q2, Q3 and Q4, 
+// and can take values 1, 2, 3 and 4.
+// Code below accept all dates in August.
+table.Columns["Acceptance Date"].ApplyDatePeriodFilter(Infragistics.Documents.Excel.Filtering.DatePeriodFilterType.Month, 8);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918819]]
+== コード例: 塗りつぶしフィルタリング
+
+=== 説明
+
+このコードは、特定の背景塗りつぶしを含むセルをフィルターする方法を示します。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、一致に使用される  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill_members.html[CellFill]"] が作成されます。塗りつぶしフィルターが適用され、最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Filtering_Exported_Tables_2.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+Dim lastRow As Integer = table.DataAreaRegion.LastRow
+Dim rand As New System.Random()
+' Set Red background for random cells from first column
+Dim i As Integer = 1
+While i < lastRow
+    If rand.[Next](2) = 1 Then
+        workbook.Worksheets(0).Rows(i).Cells(0).CellFormat.Fill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(New Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1))
+    End If
+    i += 1
+End While
+' Create cell fill argument
+Dim cellFill As Infragistics.Documents.Excel.CellFill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(New Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1))
+' Apply FillFilter
+table.Columns("First Name").ApplyFillFilter(cellFill)
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+int lastRow = table.DataAreaRegion.LastRow;
+System.Random rand = new System.Random();
+// Set Red background for random cells from first column
+for (int i = 1; i < lastRow; i++)
+{
+    if (rand.Next(2) == 1)
+    {
+        workbook.Worksheets[0].Rows[i].Cells[0].CellFormat.Fill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(
+        new Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1));
+    }
+}
+// Create cell fill argument
+Infragistics.Documents.Excel.CellFill cellFill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(
+    new Infragistics.Documents.Excel.WorkbookColorInfo(Infragistics.Documents.Excel.WorkbookThemeColorType.Accent1));
+// Apply FillFilter
+table.Columns["First Name"].ApplyFillFilter(cellFill);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918889]]
+== コード例: 固定値フィルタリング
+
+=== 説明
+
+このコードは特定の表示値を持つセルをフィルターします。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、フィルタリングのためのすべての固定値を保持する文字列配列が作成され、固定値フィルタリングが適用されます。フィルターが適用される列からのセルには異なる文字列値があります。最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Create a category array of values, to be used in filtering
+Dim categories As String() = New String() {"High", "Medium"}
+' Apply FixedValuesFilter
+table.Columns("Severity").ApplyFixedValuesFilter(False, categories)
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Create a category array of values, to be used in filtering
+string[] categories = new string[] {"High", "Medium"};
+// Apply FixedValuesFilter
+table.Columns["Severity"].ApplyFixedValuesFilter(false, categories);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918897]]
+== コード例: 相対日付範囲フィルタリング
+
+=== 説明
+
+このコード例は、日付の相対的な時間の範囲内に発生するかどうかに基づいて日付値をフィルターする方法を示します。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、相対日付範囲フィルタリングが適用されます。最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Apply RelativeDateRangeFilter
+table.Columns("Acceptance Date").ApplyRelativeDateRangeFilter(Infragistics.Documents.Excel.Filtering.RelativeDateRangeOffset.Current, Infragistics.Documents.Excel.Filtering.RelativeDateRangeDuration.Month)
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Apply RelativeDateRangeFilter
+table.Columns["Acceptance Date"].ApplyRelativeDateRangeFilter(
+    Infragistics.Documents.Excel.Filtering.RelativeDateRangeOffset.Current,
+    Infragistics.Documents.Excel.Filtering.RelativeDateRangeDuration.Month);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918736]]
+== コード例: トップまたはボトム フィルタリング
+
+=== 説明
+
+このコードは、列の値のトップ 10% をフィルターする方法を示します。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、値のトップ 10% をフィルターするフィルターが適用されます。最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+table.Columns("YOB").ApplyTopOrBottomFilter(Infragistics.Documents.Excel.Filtering.TopOrBottomFilterType.TopPercentage, 20)
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+table.Columns["YOB"].ApplyTopOrBottomFilter(Infragistics.Documents.Excel.Filtering.TopOrBottomFilterType.TopPercentage, 20);
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref319918744]]
+== コード例: 年度累計フィルタリング
+
+=== 説明
+
+このコード例は、年の始まりとフィルターが適用される日付の間に発生する場合、日付値を含むセルをフィルターできます。
+
+この例のコードはテーブルを含むワークブックを作成します。その後で、年度累計フィルタリングが適用されます。最後に、ワークブックは保存されるため、フィルターされたテーブルが表示できます。
+
+=== 前提条件
+
+ワークブックをプログラムで作成するためのこのコード例で、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+table.Columns("Acceptance Date").ApplyYearToDateFilter()
+workbook.Save("C:\TableFiltering-Filtered.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+table.Columns["Acceptance Date"].ApplyYearToDateFilter();
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+workbook.Save("C:\\TableFiltering-Filtered.xlsx");
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref318391938]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-support-named-tables-in-an-excel-spreadsheet.html[Excel 表計算で名前付きテーブルをサポート]
+|このトピックは、Infragistics Excel Engine でのテーブルのサポートを説明します。Microsoft Excel® のテーブルは列に配列された関連したデータを含むセルの名前が指定された四角形の領域です。
+
+| link:excelengine-sorting-tables.html[テーブルの並べ替え]
+|このトピックは、テーブルで列を並べ替える方法を説明します。テーブルの列は、並べ替え条件を `WorksheetTableColumn.SortCondition` プロパティに適用することで並べ替えることができます。
+
+| link:excelengine-retrieving-the-cell-text-as-displayed-in-excel.html[Excel に表示されるセル テキストを取得 ({ExcelEngineName})]
+|このトピックは、セルの値、書式文字列、列幅およびワークシートのオプションを前提として、Microsoft Excel® に表示されるテキストを決定する方法を説明します。`WorksheetCell.GetText` メソッドを使用してセル テキストを決定できます。
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]
+|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルおよび機能の理解を深めるための情報を提供します。
+endif::wpf,xamarin[]
+
+|====
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+=== サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|サンプル|目的
+
+|名前付きテーブル
+|このサンプルは Excel で名前付きテーブルを使用する方法を紹介します。ワークシート領域をテーブルとして書式設定し、各テーブルの名前を指定できます。構成した後に、テーブルを名前によって取得し、テーブルに適用するスタイルを指定できます。また、テーブルの各列で並べ替え条件とフィルターを取得または設定できます。テーブルのスタイル、列の並べ替え順序、列フィルターなどのオプションを指定できます。Excel ファイルを保存して設定を確認します。
+
+|====
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]

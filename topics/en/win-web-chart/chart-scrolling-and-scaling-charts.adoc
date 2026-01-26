@@ -1,0 +1,92 @@
+﻿////
+|metadata|
+{
+    "name": "chart-scrolling-and-scaling-charts",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{50E61566-FC7A-4E34-B2C5-B5E6B7299A8D}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Scrolling and Scaling Charts
+
+Any set of numbers (data) has various attributes that can be shown through charting. One attribute is data range. Other attributes are data minimum and data maximum. When charting a set of numbers (data) these attributes play an important role. Normally, a chart is created using the following steps:
+
+* Find the minimum and maximum of the data, so that the range is known.
+* Draw an axis which reaches from the lower end ( _data minimum_ ) to the upper end ( _data maximum_ ).
+* Draw tick marks on this line at consistent intervals.
+* Draw numbers on the line, using the relative position from the lower end ( _data minimum_ ) of the axis.
+
+This simple process is repeated with another axis to draw the chart. When the number of data items or the data range is too large, some of the charted items will not appear. For example:
+
+* the data range is 2000; and
+* the chart's height is approximately 200 pixels.
+
+In the above-mentioned example, any data item less than 10 will occupy a pixel or less, and will never show up on the chart. For such scenarios, Chart provides scrolling and scaling. With scaling we can actually zoom in and observe the smaller data points that will not show up normally. With scrolling, the end user can shift attention from one section to another by scrolling across an axis.
+
+ifdef::win-forms,win-forms-old[]
+.Note
+[NOTE]
+====
+To determine which axis is being scrolled or scaled by the end user, see link:chart-determine-which-axis-is-being-scrolled-or-scaled.html[Determine Which Axis is Being Scrolled or Scaled].
+====
+endif::win-forms,win-forms-old[]
+
+.Note
+[NOTE]
+====
+Scrolling and scaling Radar Charts is not supported.
+====
+
+image::Images/Chart_Scrollbars_01.png[Graphical representation of how Scrolling and Scaling relate in the Chart.]
+
+Scrolling and scaling allows the application developer and end user to control the  _data-window_  that is charted. In the above diagram, the data range is from 0 to 100 on both the axes, but the data window is only 60 units, from 28 to 88. The diagram also show how the Scroll and Scale properties of the axes affect the data window.
+
+ifdef::win-forms-old,win-forms[]
+image::Images/Chart_Scrollbars_02.png[Shows the Scrolling and Scaling bars on the WinChart.]
+endif::win-forms-old,win-forms[]
+
+ifdef::aspnet-old,asp-net[]
+image::Images/Chart_Scrollbars_03.png[Shows the Scrolling and Scaling bars on the WebChart.]
+endif::aspnet-old,asp-net[]
+
+ifdef::aspnet-old,asp-net[]
+To enable the scrollbar, simply set the UltraChart.EnableScrollbar property to True.
+endif::aspnet-old,asp-net[]
+
+ifdef::win-forms-old,win-forms[]
+To enable the scrollbar, simply set the link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~visible.html[ScrollScale.Visible]  property of the appropriate axis to True.
+endif::win-forms-old,win-forms[]
+
+When the scrollbar is enabled, the chart can be scrolled by user interaction (by clicking on the scroll bar buttons), or in code, using the following properties:
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"] pick:[win-forms-old=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"] : a value between 0 and 1 which determines the fraction of the chart area which is visible at one time in the scroll window.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"]  pick:[win-forms-old=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"] : a value between 0 and 1 which determines the distance of the scroll bar across its track, where 0 is the bottom- or left-most point, and 1 is the top or right-most point in the scroll window.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"]  pick:[win-forms-old=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"] : determines the width for vertical scrollbars or height for horizontal scrollbars.
+
+Chart scrollbars have appearances besides the default black & white scroll bar:
+
+image::Images/Chart_Scrollbars_05.png[Shows customized Scrolling and Scaling bars by changing the images used to blue.]
+
+image::Images/Chart_Scrollbars_06.png[Shows customized Scrolling and Scaling bars by changing the images used to green.]
+
+To achieve this, skins are used. Scrollbar skins are actually complete images that are cut into pieces to make the chart scrollbars. For examples of scroll bar skins, use the image files located in the following folder:
+
+ifdef::win-forms,win-forms-old[]
+* {InstallPathVista}\\{PlatformName}\Samples\Legacy\Chart\Data\images\scrollbar_images
+endif::win-forms,win-forms-old[]
+
+ifdef::asp-net,aspnet-old[]
+*  {InstallPathVista}\\{PlatformName}\Samples\ASP.NET\WebFeatureBrowser\WebCharts\ChartImages
+endif::asp-net,aspnet-old[]
+
+[cols="a,a"]
+|====
+|image::Images/Chart_Scrollbars_07.png[Example of the green images used to apply custom images for the Scaling and Scrolling functionality.]
+|image::Images/Chart_Scrollbars_08.png[Another example images used to apply custom images for the Scaling and Scrolling functionality.]
+
+|====
+
+You can create your own custom scroll bar skins; simply use the images located in the above-mentioned folders as a model for creating your own scrollbar image.

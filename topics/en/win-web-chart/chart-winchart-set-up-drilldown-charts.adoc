@@ -1,0 +1,198 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-winchart-set-up-drilldown-charts",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{A69A4673-AA32-43A7-AF8F-C2CDF0CDA82D}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Set Up Drilldown Charts
+
+This topic describes how to set up drilldown mode to expose users to a progressively detailed presentation of data. One or all elements of a chart can be made drillable, allowing the user to click an element and "drill down" to the same or different chart type, and to any depth an application requires.
+
+The following is a list of terms that are used throughout the topic:
+
+* Drilled Level -- The depth to which a user has drilled down, increasing from 0 at the top-level chart.
+* Parent Chart -- The chart in which a user has clicked a drillable chart element. A parent chart displays more general information.
+* Child Chart -- The chart that appears when the user clicks a drillable chart element. A child chart displays more specific information. Child charts supporting further drilldown can also be parent charts.
+* Drill Back -- The process by which a user drills up to a previously presented parent chart, one level at a time.
+* Top-Level Chart -- The chart that is first displayed by WinChart to the user. It serves as the parent chart and is at the root of the "ancestral tree", which is the drilldown hierarchy. The user cannot drill back from the top-level chart.
+
+The following procedure demonstrates how to define the linkage between a parent column chart with four columns, and a child pie chart with three slices. When the user clicks on the first column of the parent (top-level) chart, the child chart will appear.
+
+=== To set up a drilldown chart:
+
+[start=1]
+. Before you start writing code, you should place using/imports directives in your code-behind so you don't need to always type out a member's fully qualified name.
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Win.UltraWinChart
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*In C#:*
+
+----
+using Infragistics.Win.UltraWinChart;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. Initialize the DrillElements property of WinChart's™  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance.html[DrillDownAppearance]"] .
+
+A WinChart is drillable when the developer assigns an array of DrillElement objects to the DrillElements property of a chart's DrillDownAppearance object (exposed using the property named DrillDown) at run time. This can be done as follows:
+
+*In Visual Basic:*
+
+----
+Dim drFirstQuarter As DrillElement = New DrillElement()
+Me.UltraChart1.Drill.DrillElements = New DrillElement() {drFirstQuarter }
+----
+
+*In C#:*
+
+----
+DrillElement drFirstQuarter = new DrillElement();
+this.ultraChart1.Drill.DrillElements = new DrillElement[] {drFirstQuarter};
+----
+
+Drill down doesn't create additional chart elements. All interaction with the element is done with the same WinChart element which will render any parent or child chart in the drill down hierarchy we set up. The DrillElement objects that link all charts in the drill down hierarchy you have designed for your presentation are initialized in this array assignment.
+[start=3]
+. Specify properties for each DrillElement object.
+
+The developer must supply the identity of the drillable chart element, the child chart type, and a new data source that will be bound to by the child chart by assigning these values to properties of any DrillElement object(s) created.
+
+Identifying a graphical chart element could have different meanings depending on the parent chart type (a data point in a line chart versus a surface region in a heat map chart). For consistency, WinChart's DrillElement identifies the chart element based on it's underlying data. All chart types maintain mappings of their graphical chart elements to a row and column in their data source.
+
+During drill down, the DrillElement's ID property is matched against the Row and Column of the chart element. The matching DrillElement describes what information should be presented (its DataSource property) and how that information should be presented (its ChartType property). When no DrillElement is found matching a chart element clicked by the user, that chart element is not drillable.
+
+With this understanding of how drill down processing works, assign these settings to a DrillElement object.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Drill.DrillElements(0).ID.Row = 0
+Me.UltraChart1.Drill.DrillElements(0).ID.Column = 1
+Me.UltraChart1.Drill.DrillElements(0).ChartType = ChartType.PieChart
+Me.UltraChart1.Drill.DrillElements(0).DataSource = New Double() _
+  {20.0, 30.0, 40.0}
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Drill.DrillElements[0].ID.Row = 0;
+this.ultraChart1.Drill.DrillElements[0].ID.Column = 1;
+this.ultraChart1.Drill.DrillElements[0].ChartType = ChartType.PieChart;
+this.ultraChart1.Drill.DrillElements[0].DataSource = new double[] 
+  { 20.0, 30.0, 40.0 };
+----
+
+[start=4]
+. Implement IDrillDown to receive callbacks when drilling down (optional).
+
+When the drill down transitions from parent chart to child chart, it may be necessary to set other properties of the chart (for instance, the title appearing at the top of WinChart). Notification of these drill down transitions can be handled by any object that implements the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown~drill.html[Drill]"]  method of the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown.html[IDrillDown]"]  interface.
+
+Implement the IDrillDown interface on an object that can change the chart's title to one appropriate for the new child chart.
+
+*In Visual Basic:*
+
+----
+Public Class ChartTitleUpdater
+  Implements IDrillDown
+	Private newTitle As String
+	Private chartComponent As UltraChart
+	Public Sub New(ByVal title As String, ByVal chart As UltraChart)
+		newTitle = title
+		chartComponent = chart
+	End Sub
+	Public Sub Drill(ByVal row As Integer, ByVal column As Integer, _
+	  ByVal chartType As ChartType, ByVal dataSource As Object) Implements IDrillDown.Drill
+		chartComponent.TitleTop.Text = newTitle
+	End Sub
+End Class
+----
+
+*In C#:*
+
+----
+public class ChartTitleUpdater : IDrillDown
+{
+	private string newTitle;
+	private UltraChart chartComponent;
+	public ChartTitleUpdater( string title, UltraChart chart)
+	{
+		newTitle = title;
+		chartComponent = chart;
+	}
+	public void Drill( int row, int column, ChartType chartType, object dataSource)
+	{
+		chartComponent.TitleTop.Text = newTitle;
+	}
+}
+----
+
+The arguments provided to the Drill() method are the same properties from the triggered DrillElement. This information is useful to distinguish the drilled element if one IDrillDown implementation is used to handle all notifications (an approach not shown here).
+[start=5]
+. After implementing an IDrillDown object, tell WinChart to call it by setting the respective DrillElement's DrillDown property.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Drill.DrillElements(0).DrillDown = _
+  New ChartTitleUpdater("First Quarter Sales By Continent", _
+  Me.UltraChart1)
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Drill.DrillElements[0].DrillDown = 
+  new ChartTitleUpdater( "First Quarter Sales By Continent", this.ultraChart1);
+----
+
+[start=6]
+. Next, provide the user with Drill Back. There are two means of providing drill back functionality. The chart itself can feature a Drill back button that is a small square region displayed in the upper-left corner of the chart area. When the user clicks this button the chart drills back to it's parent. By default this button will not be shown, but this feature can be activated by setting the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~showbutton.html[ShowButton]"]  property on DrillDownAppearance at either design or run-time.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Drill.ShowButton = True
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Drill.ShowButton = true;
+----
+
+An alternative means is for an application to provide its own interface that controls the experience of the user as they drill back. A method named DrillBack is exposed for this purpose by the DrillDownAppearance class. The code in the following example can be added to a Button's Click event handler to provide functionality similar to ShowButton at a place in the user interface of the developer's own choosing.
+
+*In Visual Basic:*
+
+----
+If ( Me.UltraChart1.Drill.Depth > 0 ) Then
+	Me.UltraChart1.Drill.DrillBack()
+End If
+----
+
+*In C#:*
+
+----
+if ( this.ultraChart1.Drill.Depth > 0 )
+{
+	this.ultraChart1.Drill.DrillBack();
+}
+----
+
+DrillBack only applies when the drilled level is greater than 0, that is when the user is not at the top-most chart. The read-only  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~depth.html[Depth]"]  property can be used to ascertain the drilled level at any given point in time.

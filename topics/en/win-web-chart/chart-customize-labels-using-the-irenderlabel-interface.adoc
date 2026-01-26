@@ -1,0 +1,128 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-customize-labels-using-the-irenderlabel-interface",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{E5957F14-3CED-428A-B384-EA6EBD48006A}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Customize Labels Using the IRenderLabel Interface
+
+Developers can implement  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  to surpass the capabilities of Chart label format strings.
+
+IRenderLabel is a simple interface with only one member,  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel~tostring.html[ToString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel~tostring.html[ToString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel~tostring.html[ToString]"] . Within this method is a single argument called "context ", which is a Hashtable containing values that pertain to the current label being printed. For example:
+
+[options="header", cols="a,a"]
+|====
+|This code...|Would return this value
+
+|---- 
+context["ITEM_LABEL"]
+----
+|COL #0
+
+|---- 
+context["DATA_VALUE"]
+----
+|123.44
+
+|====
+
+The return value of ToString is the string value that will be printed on the chart in the specified context. If the ToString method always returns "Hello World," then "Hello World" will appear repeatedly on the X axis, if the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformatstring.html[UltraChart.Axis.X.Labels.ItemFormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformatstring.html[UltraChart.Axis.X.Labels.ItemFormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformatstring.html[UltraChart.Axis.X.Labels.ItemFormatString]"]  property is configured to use IRenderLabel implementation.
+
+The following is example code for the IRenderLabel class:
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Resources
+...
+Public Class MyLabelRenderer
+	Implements IRenderLabel
+	Public OverLoads Function ToString(ByVal context As Hashtable) _
+	  As String Implements IRenderLabel.ToString
+		Select Case CDbl(Context("DATA_VALUE"))
+			Case Is > 1000
+				Return CStr(context("DATA_VALUE")) & " [Very High]"
+			Case Is > 100
+				Return CStr(context("DATA_VALUE")) & " [High]"
+			Case Is > 10
+				Return CStr(context("DATA_VALUE")) & " [Medium]"
+			Case Is >= 0
+				Return CStr(context("DATA_VALUE")) & " [Low]"
+			Case Else
+				Return CStr(context("DATA_VALUE")) & " [Negative]"
+		End Select
+	End Function
+End Class
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Resources;
+...
+public class MyLabelRenderer : IRenderLabel
+{
+	public string ToString(Hashtable context)
+	{
+		double dataValue = (double)context["DATA_VALUE"];
+		if (dataValue > 75)
+			return dataValue.ToString() + " [Very High]";
+		else if (dataValue > 50)
+			return dataValue.ToString() + " [High]";
+		else if (dataValue > 25)
+			return dataValue.ToString() + " [Medium]";
+		else if (dataValue >= 0)
+			return dataValue.ToString() + " [Low]";
+		else		
+			return dataValue.ToString() + " [Negative]";
+	}
+}
+----
+
+=== To associate a label on the chart with an IRenderLabel implementation:
+
+[start=1]
+. Set the appropriate FormatString property to a unique string value enclosed by "<" and ">" characters.
+[start=2]
+. Create a Hashtable with an entry containing that unique string value  _without_  the "<" and ">" characters, and an instance of an IRenderLabel implementation.
+[start=3]
+. Set the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~labelhash.html[UltraChart.LabelHash]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[UltraChart.LabelHash]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[UltraChart.LabelHash]"]  property value to the Hashtable containing the IRenderLabel implementation.
+
+*In Visual Basic:*
+
+----
+Private Sub Customize_Labels_Using_the_IRenderLabel_Interface_Load( _
+  ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Me.UltraChart1.Axis.Y.Labels.ItemFormatString = "<MY_VALUE>"
+	Me.UltraChart1.Axis.X.Labels.ItemFormatString = "<MY_VALUE>"
+	Dim MyLabelHashTable As New Hashtable()
+	MyLabelHashTable.Add("MY_VALUE", New MyLabelRenderer())
+	Me.UltraChart1.LabelHash = MyLabelHashTable
+End Sub
+----
+
+*In C#:*
+
+----
+private void Customize_Labels_Using_the_IRenderLabel_Interface_Load(object sender, 
+  EventArgs e)
+{
+	this.ultraChart1.Axis.Y.Labels.ItemFormatString = "<MY_VALUE>";
+	this.ultraChart1.Axis.X.Labels.ItemFormatString = "<MY_VALUE>";
+	Hashtable MyLabelHashTable = new Hashtable();
+	MyLabelHashTable.Add("MY_VALUE", new MyLabelRenderer());
+	this.ultraChart1.LabelHash = MyLabelHashTable;
+	this.ultraChart1.DataSource = GetColumnData();
+}
+----
+
+image::Images\Chart_Customize_Labels_Using_the_IRenderLabel_Interface_01.png[Shows a 2D Column Chart that has had its labels customized by implementing the IRenderLabel interface.]

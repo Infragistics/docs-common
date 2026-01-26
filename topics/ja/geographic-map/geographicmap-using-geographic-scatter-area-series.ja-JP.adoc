@@ -1,0 +1,269 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理散布エリア シリーズの使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールで link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] タイプのシリーズを使用する方法を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、{GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-triangulating-geographic-data.html[地理的データを三角測量]
+|このトピックでは、データ ポイントの三角測量がどのように機能するか、また {GeoMapName} コントロールでデータ描画のパフォーマンスをいかに向上できるのかを説明します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320651776, 地理散布シリーズ >>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320651783,プレビュー>>
+** <<_Ref320651786,データ要件>>
+** <<_Ref335249132,データ バインディング>>
+** <<_Ref335248897,カラー スケール>>
+** <<_Ref320651790,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320651776]]
+== 地理散布シリーズ
+
+[[_Ref320193474]]
+
+=== 概要
+
+{GeoMapName} コントロールで、 link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] は、各ポイントに数値が割り当てられた緯度および経度データの三角測量に基づいて、地理的コンテキストで色が付けられた面を描画するビジュアル マップ要素です。
+
+このタイプの地理的シリーズは散布データの描画に役に立ちます。温度、降水量、人口分布、大気汚染など地理的位置によって定義されます。 link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] は、同じ値のデータポイントを結ぶ等高線の代わりに補間および色が付けられた面としてデータを表す点を除いて link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] と多くの点で同じように機能します。
+
+[[_Ref320651783]]
+
+=== プレビュー
+
+以下は、アメリカの降水量をプロットする link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] による {GeoMapName} コントロールのプレビューです。面の濃い青の領域は降水量が多いことを示し、明るい青の領域は降水量が少ないことを示します。
+
+image::images/GeographicMap_Using_Geographic_Scatter_Area_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== データ要件
+
+{GeoMapName} コントロールの地理的シリーズの他のタイプと同様、 link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] には、データ バインディングのための link:{GeoMapLink}.geographiccontourlineseries~{ApiDataSource}.html[{ApiDataSource}] プロパティがあります。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイスを実装するオブジェクトにバインドできます。
+
+さらに、項目ソースの各項目にはデータ列が 3 つあり、2 つは地理的な経度および緯度座標を保管し、1 つのデータ列は地理的位置に関連した値を保管します。地理的シリーズの link:{GeoMapLink}.geographicxytriangulatingseries~longitudememberpath.html[LongitudeMemberPath]、 link:{GeoMapLink}.geographicxytriangulatingseries~latitudememberpath.html[LatitudeMemberPath] および link:{GeoMapLink}.geographicscatterareaseries~colormemberpath.html[ColorMemberPath] プロパティはこれらのデータ列を識別します。
+
+link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] は、三角測量が link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] プロパティに設定されていない場合、 link:{GeoMapLink}.geographiccontourlineseries~{ApiDataSource}.html[{ApiDataSource}] の項目で組み込みのデータ三角測量を自動的に実行します。ただし、三角測量の計算は非常に時間のかかるプロセスであるため、このプロパティのために link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] を指定すると、ランタイム パフォーマンスがよくなります。特にデータ項目が多数ある場合には顕著です。
+
+.注:
+[NOTE]
+====
+三角測量データの作成、保存、読み込みのプロセスに関する詳細は、 link:geographicmap-triangulating-geographic-data.html[地理的データを三角測量]を参照してください。
+====
+
+[[_Ref335249132]]
+
+=== データ バインディング
+
+以下の表に、データ バインドに使用される link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] のプロパティをまとめています。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{GeoMapLink}.geographiccontourlineseries~{ApiDataSource}.html[{ApiDataSource}]
+|IEnumerable
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] プロパティに提供する三角測量データがない場合三角測量を実行するための項目のソースを取得または設定します。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource]
+|IEnumerable
+|三角測量データのソースを取得または設定します。 link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] オブジェクトの link:{DataVizChartsLink}.triangulationsource~triangles.html[Triangles] をこのプロパティに設定すると、ランタイム パフォーマンスと地理的シリーズの描画の両方が向上します。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~longitudememberpath.html[LongitudeMemberPath]
+|String
+| {ApiDataSource} の各項目の経度を含むプロパティの名前。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~latitudememberpath.html[LatitudeMemberPath]
+|String
+| {ApiDataSource} の各項目の緯度を含むプロパティの名前。
+
+| link:{GeoMapLink}.geographicscatterareaseries~colormemberpath.html[ColorMemberPath]
+|String
+| link:{GeoMapLink}.geographicscatterareaseries~colorscale.html[ColorScale] プロパティに設定されて、カラー スケールによって色への変換が可能な数値を含む各データ項目のプロパティの名前。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglevertexmemberpath1.html[TriangleVertexMemberPath1]
+|String
+| {ApiDataSource} で最初の頂点のインデックスを含む、各三角形の link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] 項目のプロパティ名。このプロパティを設定することは義務ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取られます。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglevertexmemberpath2.html[TriangleVertexMemberPath2]
+|String
+| {ApiDataSource} で最初の頂点のインデックスを含む、各三角形の link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] 項目のプロパティ名。このプロパティを設定することは義務ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取られます。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglevertexmemberpath3.html[TriangleVertexMemberPath3]
+|String
+| {ApiDataSource} で最初の頂点のインデックスを含む、各三角形の link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] 項目のプロパティ名。このプロパティを設定することは義務ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取られます。
+
+|====
+
+[[_Ref335248897]]
+
+=== カラー スケール
+
+link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] の link:{GeoMapLink}.geographicscatterareaseries~colorscale.html[ColorScale] プロパティを使用して、ポイントの色の値を解決し、地理的シリーズの面を塗りつぶします。色は、ピクセル単位の三角ラスタライザーを三角測量データに適用することによって、面の図形の周りをなめらかに補間します。面の描画がピクセル単位であるため、カラー スケールはブラシではなく色を使用します。
+
+提供した link:{DataChartLink}.custompalettecolorscale_members.html[CustomPaletteColorScale] クラスはほとんどのカラリングのニーズを満たすはずですが、 link:{GeoMapLink}.geographicscatterareaseries~colorscale.html[ColorScale] ベースのクラスはカスタムのカラリング ロジックのアプリケーションによって継承できます。
+
+以下の表は link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] の面のカラリングに影響する link:{DataChartLink}.custompalettecolorscale_members.html[CustomPaletteColorScale] プロパティをリストします。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{DataChartLink}.custompalettecolorscale_members.html[Palette]
+|ObservableCollection
+|補間するために選択する色のコレクションを取得または設定します。
+
+
+ifdef::wpf[]
+| link:{DataChartLink}.custompalettecolorscale~interpolationmode.html[InterpolationMode]
+| link:{DataChartLink}.colorscaleinterpolationmode.html[ColorScaleInterpolationMode]
+| link:{DataChartLink}.custompalettecolorscale_members.html[Palette] から色を取得するメソッドを取得または設定します。
+endif::wpf[]
+
+| link:{DataChartLink}.custompalettecolorscale~maximumvalue.html[MaximumValue]
+|double
+|色を割り当てるための最大値。指定した値がこの値より大きい場合は透明になります。
+
+|link:{DataChartLink}.custompalettecolorscale~minimumvalue.html[MinimumValue]
+|double
+|色を割り当てるための最小値。指定した値がこの値より小さい場合は透明になります。
+
+
+|====
+
+[[_Ref320651790]]
+
+=== 例
+
+以下のコードは、link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] をアメリカの降水量を表す三角測量データにバインドする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:ItfConverter x:Key="itfConverter" Source="precipitation_observed_20110831.itf" />
+<ig:XamGeographicMap.Series>
+    <ig:GeographicScatterAreaSeries 
+          ColorMemberPath="Value"  
+          LongitudeMemberPath="Point.X"
+          LatitudeMemberPath="Point.Y"
+           {ApiDataSource}="{Binding TriangulationSource.Points, Source={StaticResource itfConverter}}"
+          TrianglesSource="{Binding TriangulationSource.Triangles, Source={StaticResource itfConverter}}"
+          TriangleVertexMemberPath1="V1"
+          TriangleVertexMemberPath2="V2"
+          TriangleVertexMemberPath3="V3">
+        <ig:GeographicScatterAreaSeries.ColorScale>
+            <ig:CustomPaletteColorScale MinimumValue="0.05" MaximumValue="1.75"
+                                        InterpolationMode="InterpolateRGB"
+                                        Palette="DarkBlue, Blue, DodgerBlue">
+            </ig:CustomPaletteColorScale>
+        </ig:GeographicScatterAreaSeries.ColorScale>
+    </ig:GeographicScatterAreaSeries>
+</ig:XamGeographicMap.Series>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim itfConverter = New ItfConverter()
+itfConverter.Source = New Uri("precipitation_observed_20110831.itf", UriKind.RelativeOrAbsolute)
+Dim colorScale = New CustomPaletteColorScale()
+colorScale.MinimumValue = 0.05
+colorScale.MinimumValue = 1.75
+colorScale.Palette = New ObservableCollection(Of Color)() From { Colors.DarkBlue, Colors.Blue, Colors.DodgerBlue }
+Dim geoSeries = New GeographicScatterAreaSeries()
+geoSeries.ColorScale = colorScale
+geoSeries.LongitudeMemberPath = "Point.X"
+geoSeries.LatitudeMemberPath = "Point.Y"
+geoSeries.TriangleVertexMemberPath1 = "V1"
+geoSeries.TriangleVertexMemberPath2 = "V2"
+geoSeries.TriangleVertexMemberPath3 = "V3"
+geoSeries.{ApiDataSource} = itfConverter.TriangulationSource.Points
+geoSeries.TrianglesSource = itfConverter.TriangulationSource.Triangles
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+var itfConverter = new ItfConverter();
+itfConverter.Source = new Uri("precipitation_observed_20110831.itf", UriKind.RelativeOrAbsolute);
+var colorScale = new CustomPaletteColorScale();
+colorScale.MinimumValue = 0.05;
+colorScale.MinimumValue = 1.75;
+colorScale.Palette = new ObservableCollection<Color>
+{
+     Colors.DarkBlue,
+     Colors.Blue,
+     Colors.DodgerBlue
+};
+var geoSeries = new GeographicScatterAreaSeries();
+geoSeries.ColorScale = colorScale;
+geoSeries.LongitudeMemberPath = "Point.X";
+geoSeries.LatitudeMemberPath = "Point.Y";
+geoSeries.TriangleVertexMemberPath1 = "V1";
+geoSeries.TriangleVertexMemberPath2 = "V2";
+geoSeries.TriangleVertexMemberPath3 = "V3";
+geoSeries.{ApiDataSource} = itfConverter.TriangulationSource.Points;
+geoSeries.TrianglesSource = itfConverter.TriangulationSource.Triangles;
+----
+
+[[_Ref320185294]]
+
+== 関連コンテンツ
+
+このトピックについては、以下のトピックも参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、{GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-triangulating-geographic-data.html[地理的データを三角測量]
+|このトピックでは、データ ポイントの三角測量がどのように機能するか、また {GeoMapName} コントロールでデータ描画のパフォーマンスをいかに向上できるのかを説明します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-contour-line-series.html[地理等高線シリーズの使用]
+|このトピックでは、{GeoMapName} コントロールで GeographicContourLineSeries タイプのシリーズを使用する方法を提供します。
+
+|====

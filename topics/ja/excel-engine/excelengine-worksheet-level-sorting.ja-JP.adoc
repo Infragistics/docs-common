@@ -1,0 +1,138 @@
+﻿= {ExcelEngineName} でワークシートの並べ替え
+
+== トピックの概要
+
+=== 目的
+このトピックでは、ワークシート レベルの並べ替えを構成して実行する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::xamarin,wpf[]
+|link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+endif::xamarin,wpf[]
+ifdef::win-forms,asp-net[]
+|link:waw-infragistics-excel-engine.html[{ExcelEngineName}]
+endif::win-forms,asp-net[]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref318391872,概要>>
+
+* <<_Ref318391904,コード例>>
+
+ifdef::xamarin,wpf[]
+* <<_Ref389548467,関連コンテンツ>>
+endif::xamarin,wpf[]
+
+[[_Ref318391872]]
+== 概要
+
+列または行にワークシート レベル オブジェクトで並べ替えの条件を設定することによって並べ替えが実行されます。列または行を昇順または降順に並べ替えることができます。
+
+シートの並べ替え条件は、並べ替え条件が追加、削除、変更される時に、または link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.worksheetsortsettings~reapplysortconditions.html[ReapplySortConditions] メソッドがシートで呼び出されるときに限り再適用されます。列または行を領域で並べ替えます。'Rows' デフォルトの並べ替えタイプです。
+
+以下の並べ替え設定を行で設定できます:
+
+[options="header", cols="a,a"]
+|====
+|並べ替え条件タイプ|説明
+
+| link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.worksheetsortsettings~sorttype.html[SortType] 
+|ワークシートの列/行はこの条件に基づいて並べ替えます。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.sortsettings%601~casesensitive.html[CaseSensitive]
+|文字列の並べ替えを行う際に大文字と小文字を区別して文字列を比較するかどうかに基づいて true または false です。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.worksheetsortsettings~setregion.html[SetRegion]
+|並べ替え設定に適用する領域を設定します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.sortsettings%601~sortconditions.html[SortConditions]
+|データ領域の並べ替えに使用する並べ替え条件。
+
+|====
+
+以下の並べ替え条件タイプを列で設定するために使用できます:
+
+[options="header", cols="a,a"]
+|====
+|並べ替え条件タイプ|説明
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"]
+|値に基づいて昇順または降順にセルを並べ替えます。
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"]
+|テキストまたは表示値に基づいて定義された順序でセルを並べ替えます。これは、カレンダーに表示する、またはアルファベット順でなく自分が定義したカスタム リストに表示するときの並べ替えに役に立ちます。
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"]
+|塗りつぶしが特定のパターン/グラデーションであるかどうかに基づいてセルを並べ替えます。
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"]
+|フォントが特定の色であるかどうかに基づいてセルを並べ替えます。
+
+|====
+
+[[_Ref318391904]]
+== コード例
+
+以下のコード スニペットは、{ExcelEngineName} でワークシート レベル並べ替えを実行する方法を示します。並べ替えに適用する領域を列 B8 から列 B15 まで設定します。
+
+この例はワークブックをプログラムで作成するためのコード スニペットを使用します。
+
+以下のコードはこの例を実装します。
+
+*C# の場合:*
+
+[source,csharp]
+----
+Worksheet Worksheet1 = Workbook.Worksheets[0];
+Worksheet1.SortSettings.SortType = Infragistics.Documents.Excel.WorksheetSortType.Rows;
+Worksheet1.SortSettings.CaseSensitive = true;
+Worksheet1.SortSettings.SetRegion("B8:B15");
+Worksheet1.SortSettings.SortConditions.Add(new RelativeIndex(0), new OrderedSortCondition(SortDirection.Ascending);
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Worksheet Worksheet1 = Workbook.Worksheets(0)
+Worksheet1.SortSettings.SortType = Infragistics.Documents.Excel.WorksheetSortType.Rows
+Worksheet1.SortSettings.CaseSensitive = True
+Worksheet1.SortSettings.SetRegion("B8:B15")
+Worksheet1.SortSettings.SortConditions.Add(New RelativeIndex(0), New OrderedSortCondition(SortDirection.Ascending)
+----
+
+ifdef::xamarin,wpf[]
+[[_Ref389548467]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-configuringgridlines.html[グリッド線の構成 ({ExcelEngineName})]
+|このトピックは、グリッド線を表示または非表示にし、カラーを設定する方法を説明します。
+
+| link:excelengine-configuringheaders.html[ヘッダーの構成 ({ExcelEngineName})]
+|このトピックでは、列と行のヘッダーを表示または非表示にする方法を説明します。
+
+| link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集の無効化 ({ExcelEngineName})]
+|このトピックでは、ワークシートのセル値が編集されないようにする方法を説明します。
+
+|====
+endif::xamarin,wpf[]

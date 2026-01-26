@@ -1,0 +1,444 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-creating-chart-in-code-behind-xaml",
+    "controlName": [],
+    "tags": [],
+    "guid": "189b488d-7833-4379-bc1f-0770ff6a6844",
+    "buildFlags": ["XAML","ANDROID"],
+    "createdOn": "2014-09-22T08:56:15.6932306Z"
+}
+|metadata|
+////
+
+= Creating Chart in Code Behind
+
+== Topic Overview
+
+=== Purpose
+
+This topic provides detailed instruction on how to create the  _link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™_   control in code-behind.
+
+=== Required Background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-datachart.html[{DataChartName}]
+|This topic provides a general overview of the _{DataChartName}_ control
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|This topic provides information on how to get started with the _{DataChartName}_ control.
+
+| link:datachart-series-requirements.html[Series Requirements]
+|This topic provides information on requirements of Series objects in the _{DataChartName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref397371182, _Overview_  >>
+
+** <<_Ref397371188,Preview>>
+ifdef::wpf,win-forms,sl,win-universal,android[]
+** <<_Ref396219292,Application Requirements>>
+endif::wpf,win-forms,sl,win-universal,android[]
+** <<_Ref397371278,Chart Requirements>>
+** <<_Ref396236025,Creating Application>>
+** <<_Ref396236029,Creating Data Source>>
+** <<_Ref396236032,Creating Axes>>
+** <<_Ref396236034,Creating Series>>
+** <<_Ref396236037,Creating Chart>>
+
+* <<_Ref388439099,Related Content>>
+
+[[_Ref386478097]]
+[[_Configuring_a_Custom]]
+[[_Ref397371182]]
+== _Overview_
+
+[[_Ref397371188]]
+
+=== Preview
+
+The following is the preview of the result of creating chart control in code-behind.
+
+image::images/DataChart_Creating_Chart_In_Code_Behind_1.png[]
+
+ifdef::wpf,win-forms,sl,win-universal,android[]
+[[_Ref396219292]]
+
+=== Application Requirements
+
+The following table lists requirements for creating the  _{DataChartName}_   control.
+
+[options="header", cols="a,a"]
+|====
+|Requirement|Description
+
+|Install the Infragistics product
+|The chart control is part of the Infragistics product
+
+|====
+
+endif::wpf,win-forms,sl,win-universal,android[]
+
+[[_Ref397371278]]
+
+=== Chart Requirements
+
+The chart control supports various types of data visualizations called Series. These series objects can visualize wide range of data source. Refer to the link:datachart-series-types.html[Series Types] topic for complete list of series supported in the chart control. Each type of series can plot data that meets certain requirements (such as number of data column and their types) as well as what type of axis can be used with it. Refer to the link:datachart-series-requirements.html[Series Requirements] topic for requirements for each of the series.
+
+For demonstration purpose, this topic uses link:resources-sample-energy-data.html[Sample Energy Data] with only one link:{DataChartLink}.areaseries.html[AreaSeries] and two axes: CategoryXAxis and NumericYAxis.
+
+[[_Ref396236025]]
+
+=== Creating Application
+
+[start=1]
+. Create {PlatformName} application project using {PlatformIDE} or latest and call it *SampleApp*
+
+[start=2]
+. Import the following namespaces to the main code file:
+
+ifdef::xaml[]
+
+*In C#:*
+
+ifdef::wpf,win-universal[]
+----
+using {DataChartNamespace};
+ 
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+---- 
+using Infragistics.XamarinForms.Controls.Charts; 
+----
+endif::xamarin[]
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*In Visual Basic:*
+
+----
+Imports {DataChartNamespace}
+ 
+----
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+import com.infragistics.controls.DataChartView;
+import com.infragistics.controls.CategoryXAxis;
+import com.infragistics.controls.NumericYAxis;
+import com.infragistics.controls.AreaSeries;
+----
+
+endif::android[]
+
+[[_Ref396236025]]
+
+=== Adding Assembly References
+
+ifdef::win-forms,sl,win-universal,android[]
+. Add the following Infragistics assemblies to the *SampleApp* project:
+
+endif::win-forms,sl,win-universal,android[]
+
+ifdef::wpf[]
+
+. Add the following NuGet package to the *SampleApp* project:
+
+endif::wpf[]
+
+ifdef::wpf,win-universal[]
+
+** Infragistics.WPF.Charts
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+** Infragistics.DataChart.jar
+
+** Infragistics.UI.jar
+
+** Infragistics.Core.jar
+
+** Infragistics.DV.Shared jar
+
+endif::android[]
+
+ifdef::xamarin[]
+See link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages].
+
+endif::xamarin[]
+
+[[_Ref396236029]]
+
+=== Creating Data Source
+
+[start=1]
+. Copy sample data code from the link:resources-sample-energy-data.html[Sample Energy Data] resource and add it to the *SampleApp* project
+
+[start=2]
+. Create an instance of category sample data:
+
+ifdef::xaml[]
+
+*In C#:*
+
+[source,csharp]
+----
+var data = new EnergyProductionDataSample();
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim data As New EnergyProductionDataSample()
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+EnergyProductionDataSample data = new EnergyProductionDataSample();
+----
+
+endif::android[]
+
+[[_Ref396236032]]
+
+=== Creating Axes
+
+Create category x-axis for displaying labels on horizontal axis
+
+ifdef::xaml[]
+
+*In C#:*
+
+ifdef::wpf,win-universal[]
+----
+var xAxis = new CategoryXAxis();
+xAxis.ItemsSource = data;
+xAxis.Label = "{}{County}"; 
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+----
+var xAxis = new CategoryXAxis();
+xAxis.ItemsSource = data;
+ 
+xAxis.Label = "County";
+----
+endif::xamarin[]
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*In Visual Basic:*
+
+----
+Dim xAxis = New CategoryXAxis() 
+xAxis.ItemsSource = data
+xAxis.Label = "{}{County}" 
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.setDataSource(data);
+xAxis.setLabel("Country");
+----
+
+endif::android[]
+
+Create numeric y-axis for displaying values on vertical axis
+
+ifdef::xaml[]
+
+*In C#:*
+
+[source,csharp]
+----
+var yAxis = new NumericYAxis();
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim yAxis = New NumericYAxis()
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+NumericYAxis yAxis = new NumericYAxis();
+----
+
+endif::android[]
+
+[[_Ref396236034]]
+
+=== Creating Series
+
+Create an instance of a series and with bounding to the sample data source and set data mapping. In addition, the series must have settings for two axes created in previous section.
+
+ifdef::xaml[]
+
+*In C#:*
+
+[source,csharp]
+----
+var series = new AreaSeries();
+series.ValueMemberPath = "Coal";
+series.ItemsSource = data;
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim series = New AreaSeries() 
+series.ValueMemberPath = "Coal"
+series.ItemsSource = data
+series.XAxis = xAxis
+series.YAxis = yAxis
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+AreaSeries series = new AreaSeries();
+series.setValueMemberPath("Coal");
+series.setDataSource(data);
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+----
+
+endif::android[]
+
+[[_Ref396236037]]
+
+=== Creating Chart
+
+Create an instance of the chart control with settings for one series and two axes.
+
+ifdef::xaml[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim chart As New {DataChartName}() 
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+DataChartView chart = new DataChartView(root.getContext());
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+
+endif::android[]
+
+[[_Ref388439099]]
+== Related Content
+
+[[_Ref386478106]]
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-datachart.html[*{DataChartName}* ]
+|This topic provides a general overview of the _{DataChartName}_ control
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|This topic provides information on how to get started with the _{DataChartName}_ control.
+
+| link:datachart-series-requirements.html[*Series Requirements* ]
+|This topic provides information on requirements of Series objects in the _{DataChartName}_ control.
+
+|====

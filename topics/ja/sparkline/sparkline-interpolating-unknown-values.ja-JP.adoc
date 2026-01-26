@@ -1,0 +1,189 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-interpolating-unknown-values",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","How Do I","Layouts","Tips and Tricks"],
+    "guid": "9d8f649c-f21b-4d37-ae60-219f129f1578",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.262388Z"
+}
+|metadata|
+////
+
+= 不明な値の補間
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、コード例を示して、 link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ の不明な値の補間を実装する方法を説明します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+|====
+
+=== このトピックの構成
+
+このトピックには次のセクションがあります。
+
+* <<_Ref317177227,不明な値の補間 - 概念的概要>>
+
+** <<Overview,概要>>
+** <<_Ref317177334,データ要件>>
+** <<_Ref317177339,プロパティ設定>>
+** <<_Ref317177376,例>>
+
+* <<_Ref317177381,不明な値の補間 - コード例>>
+
+** <<_Ref317177387,説明>>
+** <<_Ref317177391,コード>>
+
+* <<_Ref317078582,関連コンテンツ>>
+
+[[_Ref317177227]]
+== 不明な値の補間 - 概念的概要
+
+=== 概要
+
+不明な値の補間機能により、 _{SparklineName}_   は不明な値 (`Null` または `double.NaN`) を検出し、指定された補間アルゴリズムを通して不明な値のスペースをレンダリングできます。データに不明な値があり、この機能を使用しない場合は、補間が指定されていないと見なされ、不明な値はプロットされません。
+
+データ セットに不明な値がある場合は、不明な値の補間機能で以下のオプションを指定できます。
+
+* 不明な値を直線的に補間するには、null 値ポイント前のデータ ポイントを null 値ポイント後のデータ ポイントに接続します。
+
+* 不明な値をプロットせずに、データ コレクションに存在する null 値のブランクのポイントが挿入されます。
+
+.注:
+[NOTE]
+====
+線形補間オプション (上記の最初のオプション) がデータ ポイントに対して機能するには、前と次のデータ ポイントの両方が存在していなければなりません。たとえば、null 値がコレクションの最初の値の場合、接続する前のポイントがないことになり、その結果、null 値がブランクのポイントとして表示されます。最後のデータ ポイントが null の場合も同様のことが当てはまります。
+====
+
+不明な値の補間機能は、 link:{SparklineLink}.{SparklineName}~unknownvalueplotting.html[UnknownValuePlotting] プロパティにより有効になり、(補間のタイプという意味で) 設定されます (<<_Ref317177339,プロパティ設定>>のブロックを参照)。
+
+[[_Ref317177334]]
+
+=== データ要件
+
+`Null` 値または `double.NaN` 値のみ不明と見なされます。期待される値のタイプは、数値 (整数または double) です。数値以外の値は、不明とは見なされません。
+
+[[_Ref317177339]]
+
+=== プロパティ設定
+
+以下の表は、{SparklineName} 補間オプションとそれらを提供する link:{SparklineLink}.{SparklineName}~unknownvalueplotting.html[UnknownValuePlotting] プロパティ設定の関係を示しています。
+
+[options="header", cols="a,a"]
+|====
+|補間オプション| link:{SparklineLink}.{SparklineName}~unknownvalueplotting.html[UnknownValuePlotting] プロパティ設定
+
+|線形補間
+|LinearInterpolate
+
+|不明な値をプロットしない
+|DontPlot
+
+|====
+
+[[_Ref317177376]]
+
+=== 例
+
+以下のスクリーンショットは、 link:{SparklineLink}.{SparklineName}~unknownvalueplotting.html[UnknownValuePlotting] プロパティのさまざまな設定を使用して、同じデータ セットから描画されたスパークラインを示しています。
+
+[options="header", cols="a,a"]
+|====
+| *プロパティ* | *値* 
+
+| link:{SparklineLink}.{SparklineName}~unknownvalueplotting.html[UnknownValuePlotting]
+| _DontPlot_ 
+
+|====
+
+image::images/Sparkline_Visual_Elements_28.png[]
+
+[options="header", cols="a,a"]
+|====
+| *プロパティ* | *値* 
+
+| link:{SparklineLink}.{SparklineName}~unknownvalueplotting.html[UnknownValuePlotting]
+| _LinearInterpolate_ 
+
+|====
+
+image::images/Interpolating_Unknown_Values_2.png[]
+
+[[_Ref317177381]]
+== 不明な値の補間 - コード例
+
+[[_Ref317177387]]
+
+=== 説明
+
+以下のコードは、線形補間オプションを使用した不明な値の処理を示しています。
+
+[[_Ref317177391]]
+
+=== コード
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{SparklineName} Name="{SparklineName}1" UnknownValuePlotting="LinearInterpolate"/>
+----
+
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.UnknownValuePlotting = UnknownValuePlotting.LinearInterpolate;
+----
+
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.UnknownValuePlotting = UnknownValuePlotting.LinearInterpolate
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[[_Ref317078582]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+|====

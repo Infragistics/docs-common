@@ -1,0 +1,368 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-axis-orientation",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "84b2d327-324b-4831-8304-94a11ec8905e",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5923563Z"
+}
+|metadata|
+////
+
+= Configuring Axis Orientation
+
+By default, the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control will always draw the XAxis from the left to the right side of the chart and YAxis from the bottom to the top of the chart. However, you have the option of changing this by inverting the drawing of the individual axes using the Axis object’s link:{DataChartLink}.axis{ApiProp}isinverted.html[IsInverted] property. If you invert an axis, then the series that uses the axis will be also be inverted.
+
+The following sample code shows all possible combination of orienting the XAxis and YAxis in the Data Chart control. Please note that only settings made in order to invert the axes are shown for clarity.
+
+ifdef::wpf,sl,win-universal[]
+
+*In XAML:*
+
+----
+<Grid>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="0.5*"/>
+        <RowDefinition Height="0.5*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions >
+        <ColumnDefinition Width="0.5*"/>
+        <ColumnDefinition Width="0.5*"/>
+    </Grid.ColumnDefinitions> 
+    <ig:{DataChartName} x:Name="DataChart1" Grid.Row="0" Grid.Column="0" >
+    <!--NOTE: Inverted X-Axis  -->
+        <ig:{DataChartName}.Axes>
+            <ig:CategoryXAxis x:Name="xAxis1" IsInverted="True" />
+            <ig:NumericYAxis x:Name="yAxis1" IsInverted=" />
+        </ig:{DataChartName}.Axes>
+    </ig:{DataChartName}>
+    <ig:{DataChartName} x:Name="DataChart2" Grid.Row="0" Grid.Column="1" >
+    <!--NOTE: No Inverted Axes  -->
+        <ig:{DataChartName}.Axes>
+            <ig:CategoryXAxis x:Name="xAxis2" IsInverted="  />
+            <ig:NumericYAxis x:Name="yAxis2" IsInverted=" />
+        </ig:{DataChartName}.Axes>
+    </ig:{DataChartName}>
+    <ig:{DataChartName} x:Name="DataChart3" Grid.Row="1" Grid.Column="0">
+    <!--NOTE: Inverted Both Axes  -->
+        <ig:{DataChartName}.Axes>
+            <ig:CategoryXAxis x:Name="xAxis3" IsInverted="True" />
+            <ig:NumericYAxis x:Name="yAxis3" IsInverted="True" />
+        </ig:{DataChartName}.Axes>
+    </ig:{DataChartName}>
+    <ig:{DataChartName} x:Name="DataChart4" Grid.Row="1" Grid.Column="1">
+    <!--NOTE: Inverted Y-Axis  -->
+         <ig:{DataChartName}.Axes>
+            <ig:CategoryXAxis x:Name="xAxis4" IsInverted=" />
+            <ig:NumericYAxis x:Name="yAxis4" IsInverted="True" />     
+        </ig:{DataChartName}.Axes>
+     </ig:{DataChartName}>
+</Grid>
+----
+
+endif::wpf,sl,win-universal[]
+
+ifdef::xamarin[]
+*In XAML:*
+[source, xaml]
+<Grid>
+    <ig:XamDataChart>
+        <!--NOTE: Inverted X-Axis  -->
+        <ig:XamDataChart.Axes>
+            <ig:CategoryXAxis IsInverted="True" />
+            <ig:NumericYAxis IsInverted="False" />
+        </ig:XamDataChart.Axes>
+    </ig:XamDataChart>
+    <ig:XamDataChart>
+        <!--NOTE: No Inverted Axes  -->
+        <ig:XamDataChart.Axes>
+            <ig:CategoryXAxis IsInverted="False" />
+            <ig:NumericYAxis IsInverted="False" />
+        </ig:XamDataChart.Axes>
+    </ig:XamDataChart>
+    <ig:XamDataChart>
+        <!--NOTE: Inverted Both Axes  -->
+        <ig:XamDataChart.Axes>
+            <ig:CategoryXAxis IsInverted="True" />
+            <ig:NumericYAxis IsInverted="True" />
+        </ig:XamDataChart.Axes>
+    </ig:XamDataChart>
+    <ig:XamDataChart>
+        <!--NOTE: Inverted Y-Axis  -->
+        <ig:XamDataChart.Axes>
+            <ig:CategoryXAxis IsInverted="False" />
+            <ig:NumericYAxis IsInverted="True" />
+        </ig:XamDataChart.Axes>
+    </ig:XamDataChart>
+</Grid>
+endif::xamarin[]
+
+ifdef::sl[]
+
+*In C#:*
+
+----
+var xAxis1 = new CategoryXAxis();
+var yAxis1 = new NumericYAxis();
+var xAxis2 = new CategoryXAxis();
+var yAxis2 = new NumericYAxis();
+var xAxis3 = new CategoryXAxis();
+var yAxis3 = new NumericYAxis();
+var xAxis4 = new CategoryXAxis();
+var yAxis4 = new NumericYAxis();
+xAxis1.IsInverted = true;
+yAxis1.IsInverted = false;
+xAxis2.IsInverted = false;
+yAxis2.IsInverted = false;
+xAxis3.IsInverted = true;
+yAxis3.IsInverted = true;
+xAxis4.IsInverted = false;
+yAxis4.IsInverted = true;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+var xAxis1 = new CategoryXAxis();
+var yAxis1 = new NumericYAxis();
+var xAxis2 = new CategoryXAxis();
+var yAxis2 = new NumericYAxis();
+var xAxis3 = new CategoryXAxis();
+var yAxis3 = new NumericYAxis();
+var xAxis4 = new CategoryXAxis();
+var yAxis4 = new NumericYAxis();
+xAxis1.IsInverted = true;
+yAxis1.IsInverted = false;
+xAxis2.IsInverted = false;
+yAxis2.IsInverted = false;
+xAxis3.IsInverted = true;
+yAxis3.IsInverted = true;
+xAxis4.IsInverted = false;
+yAxis4.IsInverted = true;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+var xAxis1 = new CategoryXAxis();
+var yAxis1 = new NumericYAxis();
+var xAxis2 = new CategoryXAxis();
+var yAxis2 = new NumericYAxis();
+var xAxis3 = new CategoryXAxis();
+var yAxis3 = new NumericYAxis();
+var xAxis4 = new CategoryXAxis();
+var yAxis4 = new NumericYAxis();
+xAxis1.IsInverted = true;
+yAxis1.IsInverted = false;
+xAxis2.IsInverted = false;
+yAxis2.IsInverted = false;
+xAxis3.IsInverted = true;
+yAxis3.IsInverted = true;
+xAxis4.IsInverted = false;
+yAxis4.IsInverted = true;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In C#:*
+
+----
+var xAxis1 = new CategoryXAxis();
+var yAxis1 = new NumericYAxis();
+var xAxis2 = new CategoryXAxis();
+var yAxis2 = new NumericYAxis();
+var xAxis3 = new CategoryXAxis();
+var yAxis3 = new NumericYAxis();
+var xAxis4 = new CategoryXAxis();
+var yAxis4 = new NumericYAxis();
+xAxis1.IsInverted = true;
+yAxis1.IsInverted = false;
+xAxis2.IsInverted = false;
+yAxis2.IsInverted = false;
+xAxis3.IsInverted = true;
+yAxis3.IsInverted = true;
+xAxis4.IsInverted = false;
+yAxis4.IsInverted = true;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+var xAxis1 = new CategoryXAxis();
+xAxis1.IsInverted = true;
+
+var yAxis1 = new NumericYAxis();
+yAxis1.IsInverted = false;
+
+var xAxis2 = new CategoryXAxis();
+xAxis2.IsInverted = false;
+
+var yAxis2 = new NumericYAxis();
+yAxis2.IsInverted = false;
+
+var xAxis3 = new CategoryXAxis();
+xAxis3.IsInverted = true;
+
+var yAxis3 = new NumericYAxis();
+yAxis3.IsInverted = true;
+
+var xAxis4 = new CategoryXAxis();
+xAxis4.IsInverted = false;
+
+var yAxis4 = new NumericYAxis();
+yAxis4.IsInverted = true;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*In Visual Basic:*
+
+----
+Dim xAxis1 As New CategoryXAxis()
+Dim yAxis1 As New NumericYAxis()
+Dim xAxis2 As New CategoryXAxis()
+Dim yAxis2 As New NumericYAxis()
+Dim xAxis3 As New CategoryXAxis()
+Dim yAxis3 As New NumericYAxis()
+Dim xAxis4 As New CategoryXAxis()
+Dim yAxis4 As New NumericYAxis()
+xAxis1.IsInverted = true
+yAxis1.IsInverted = false 
+xAxis2.IsInverted = false
+yAxis2.IsInverted = false
+xAxis3.IsInverted = true
+yAxis3.IsInverted = true
+xAxis4.IsInverted = false
+yAxis4.IsInverted = true
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Dim xAxis1 As New CategoryXAxis()
+Dim yAxis1 As New NumericYAxis()
+Dim xAxis2 As New CategoryXAxis()
+Dim yAxis2 As New NumericYAxis()
+Dim xAxis3 As New CategoryXAxis()
+Dim yAxis3 As New NumericYAxis()
+Dim xAxis4 As New CategoryXAxis()
+Dim yAxis4 As New NumericYAxis()
+xAxis1.IsInverted = true
+yAxis1.IsInverted = false 
+xAxis2.IsInverted = false
+yAxis2.IsInverted = false
+xAxis3.IsInverted = true
+yAxis3.IsInverted = true
+xAxis4.IsInverted = false
+yAxis4.IsInverted = true
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Dim xAxis1 As New CategoryXAxis()
+Dim yAxis1 As New NumericYAxis()
+Dim xAxis2 As New CategoryXAxis()
+Dim yAxis2 As New NumericYAxis()
+Dim xAxis3 As New CategoryXAxis()
+Dim yAxis3 As New NumericYAxis()
+Dim xAxis4 As New CategoryXAxis()
+Dim yAxis4 As New NumericYAxis()
+xAxis1.IsInverted = true
+yAxis1.IsInverted = false 
+xAxis2.IsInverted = false
+yAxis2.IsInverted = false
+xAxis3.IsInverted = true
+yAxis3.IsInverted = true
+xAxis4.IsInverted = false
+yAxis4.IsInverted = true
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In Visual Basic:*
+
+----
+Dim xAxis1 As New CategoryXAxis()
+Dim yAxis1 As New NumericYAxis()
+Dim xAxis2 As New CategoryXAxis()
+Dim yAxis2 As New NumericYAxis()
+Dim xAxis3 As New CategoryXAxis()
+Dim yAxis3 As New NumericYAxis()
+Dim xAxis4 As New CategoryXAxis()
+Dim yAxis4 As New NumericYAxis()
+xAxis1.IsInverted = true
+yAxis1.IsInverted = false 
+xAxis2.IsInverted = false
+yAxis2.IsInverted = false
+xAxis3.IsInverted = true
+yAxis3.IsInverted = true
+xAxis4.IsInverted = false
+yAxis4.IsInverted = true
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+CategoryXAxis xAxis1 = new CategoryXAxis();
+NumericYAxis yAxis1 = new NumericYAxis();
+CategoryXAxis xAxis2 = new CategoryXAxis();
+NumericYAxis yAxis2 = new NumericYAxis();
+CategoryXAxis xAxis3 = new CategoryXAxis();
+NumericYAxis yAxis3 = new NumericYAxis();
+CategoryXAxis xAxis4 = new CategoryXAxis();
+NumericYAxis yAxis4 = new NumericYAxis();
+xAxis1.setIsInverted(true);
+yAxis1.setIsInverted(false);
+xAxis2.setIsInverted(false);
+yAxis2.setIsInverted(false);
+xAxis3.setIsInverted(true);
+yAxis3.setIsInverted(true);
+xAxis4.setIsInverted(false);
+yAxis4.setIsInverted(true);
+----
+
+endif::android[]
+
+The following image shows the same data series in four separate {DataChartName} controls with different inverted axes combinations including no inverted axes to both XAxis and YAxis inverted.
+
+image::images/xamDataChart_Axis_Orientation_01.png[]
+
+== Related Content:
+
+* link:datachart-axis-range.html[Configuring Axis Range]
+* link:datachart-axis-label-settings.html[Configuring Axis Label Settings]
+* link:datachart-multiple-axes.html[Multiple Axes]

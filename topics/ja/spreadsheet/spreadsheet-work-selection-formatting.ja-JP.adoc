@@ -1,0 +1,231 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-selection-formatting",
+    "tags": ["How Do I","Selection"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "92e777aa-b9fc-4d1a-898e-0473439605b6",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0994181Z"
+}
+|metadata|
+////
+
+= アクティブな選択の書式の設定または取得 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、アクティブな選択の書式を設定または取得する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref402962863, 概要 >>
+* <<_Ref402962871, コード例: ToggleButton を書式設定オブジェクトの Bold プロパティにバインド >>
+* <<_Ref402962882, 関連コンテンツ >>
+
+[[_Ref402962863]]
+== 概要
+
+=== 機能概要
+
+{SpreadsheetName} コントロールは、 link:{SpreadsheetLink}.spreadsheetcellrangeformat_members.html[SpreadsheetCellRangeFormat] 型の link:{SpreadsheetLink}.{SpreadsheetName}~activeselectioncellrangeformat.html[ActiveSelectionCellRangeFormat] という名前の特別なプロパティを提供します。これは、アクティブな選択の異なる書式要素 (フォント プロパティ、配置、インデントなど) の設定または取得に使用できます。
+
+このオブジェクトのプロパティの一部を別の UI 要素 (トグル ボタンやテキスト ボックスなど) にバインドできます。これらは、アクティブな選択のコンテンツの書式設定を反映または操作します。
+
+注:
+
+[NOTE]
+====
+書式設定オブジェクトに対して実行されたすべての変更は、ユーザーにより選択されたすべてのワークシートに影響します。
+====
+
+ifdef::win-forms[]
+
+[[_Ref402962871]]
+== コード例: Formatting オブジェクトの Bold プロパティをランタイムに設定
+
+=== 説明
+
+以下の例は、コントロールのアクティブな選択テキストの太字状態の書式設定オブジェクトの Bold プロパティを設定する方法を紹介します。
+
+=== コード
+
+Bold プロパティの設定:
+
+*C# の場合:*
+
+----
+{SpreadsheetName}1.ActiveSelectionCellRangeFormat.Font.Bold = ExcelDefaultableBoolean.True;
+----
+
+*VB の場合:*
+
+----
+{SpreadsheetName}1.ActiveSelectionCellRangeFormat.Font.Bold = ExcelDefaultableBoolean.True
+----
+
+endif::win-forms[]
+
+ifdef::xaml[]
+
+[[_Ref402962871]]
+== コード例: ToggleButton を書式設定オブジェクトの Bold プロパティにバインド
+
+=== 説明
+
+以下の例は、`ToggleButton` を書式設定オブジェクトの Bold プロパティにバインドし、トグル ボタンを使用して、アクティブな選択テキストの太字状態をコントロールする方法を紹介します。
+
+=== コード
+
+コンバーター コードを定義:
+
+*C# の場合:*
+
+----
+namespace IGSpreadsheet.Converters
+{
+    public class ExcelBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter,
+          System.Globalization.CultureInfo culture)
+        {
+            if (value is ExcelDefaultableBoolean)
+            {
+                switch ((ExcelDefaultableBoolean)value)
+                {
+                    case ExcelDefaultableBoolean.True: return true;
+                    case ExcelDefaultableBoolean.False: return false;
+                }
+            }
+            return null;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter,
+          System.Globalization.CultureInfo culture)
+        {
+            if (value is bool)
+            {
+                if (targetType == typeof (ExcelDefaultableBoolean))
+                {
+                    return (bool)value ? ExcelDefaultableBoolean.True : ExcelDefaultableBoolean.False;
+                }
+            }
+            return null;
+        }
+    }
+}
+----
+*Visual Basic の場合:*
+
+----
+Namespace IGSpreadsheet.Converters
+        Public Class ExcelBoolConverter
+                Implements IValueConverter
+                Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As System.Globalization.CultureInfo) As Object
+                        If TypeOf value Is ExcelDefaultableBoolean Then
+                                Select Case DirectCast(value, ExcelDefaultableBoolean)
+                                        Case ExcelDefaultableBoolean.[True]
+                                                Return True
+                                        Case ExcelDefaultableBoolean.[False]
+                                                Return False
+                                End Select
+                        End If
+                        Return Nothing
+                End Function
+                Public Function ConvertBack(value As Object, targetType As Type, parameter As Object, culture As System.Globalization.CultureInfo) As Object
+                        If TypeOf value Is Boolean Then
+                                If targetType = GetType(ExcelDefaultableBoolean) Then
+                                        Return If(CBool(value), ExcelDefaultableBoolean.[True], ExcelDefaultableBoolean.[False])
+                                End If
+                        End If
+                        Return Nothing
+                End Function
+        End Class
+End Namespace
+----
+
+コンバーターを使用してトグル ボタンを書式設定オブジェクトの　Bold プロパティにバインド:
+
+*XAML の場合:*
+
+----
+<Page
+  …
+ xmlns:conv="clr-namspace:IGSpreadsheet.Converters"
+  …>
+<Page.Resources>
+  <ResourceDictionary>
+    <conv:ExcelBoolConverter x:Key="ExBoolConv" />
+  </ResourceDictionary>
+</Page.Resources>
+…
+<ToggleButton Content="Bold"
+  IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.Bold,
+    Converter={StaticResource ExBoolConv}}" />
+…
+</Page>
+----
+
+注:
+
+[NOTE]
+====
+書式設定オブジェクトのプロパティの大部分は複合であり、バインド時にコンバーターを必要とします。 _{SpreadsheetName}_   の「コンテンツ編集」のサンプルで、書式設定オブジェクトのプロパティの大部分をバインドする方法が紹介されています。
+====
+
+endif::xaml[]
+
+[[_Ref402962882]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-selection.html[選択の操作 ({SpreadsheetName})]
+|このトピックでは、選択機能を開発者の観点から説明します。
+
+|====

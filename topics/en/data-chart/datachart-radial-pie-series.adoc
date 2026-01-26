@@ -1,0 +1,265 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-radial-pie-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"],
+    "guid": "bf906ebd-3585-41b1-8783-c3a32b6fb642",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.547337Z"
+}
+|metadata|
+////
+
+= Radial Pie Series
+
+This topic explains, with code examples, how to use Radial Pie Series in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+== Introduction
+
+Radial Pie Series uses pie slices that extend from the center of chart towards locations of data points. The link:{DataChartLink}.RadialPieSeries.html[RadialPieSeries] take concepts of categorizing multiple series of data points and wrapping them around on a circle rather than stretching data points along a horizontal line. For more information on this group of series, please refer to the link:datachart-radial-series-overview.html[Radial Series] topic.
+
+== Preview
+
+Figure 1 demonstrates what Radial Pie Series looks like when plotted in the {DataChartName} control.
+
+image::images/xamDataChart_Radial_Series_01.png[]
+
+Figure 1: Sample implementation of a RadialPieSeries
+
+== Data Binding
+
+The code snippet below shows how to bind sample radial data (which is available for download from the link:resources-sample-category-data.html[Sample Category Data] resource) to the RadialPieSeries. The example assumes that you have already configured your project for the {DataChartName} control.
+
+
+ifdef::sl,wpf,win-universal[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <models:CategoryDataSource x:Key="data" />
+        <SolidColorBrush x:Key="AxisStripBrush" Color="LightGray" Opacity=".4" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryAngleAxis x:Name="angleAxis"
+                              Interval="1"
+                              Label="{}{Category}" 
+                              ItemsSource="{StaticResource data}">
+        </ig:CategoryAngleAxis>
+        <ig:NumericRadiusAxis x:Name="radiusAxis" 
+                              Strip="{StaticResource AxisStripBrush}"                                      
+                              MinimumValue="0"
+                              MaximumValue="150"
+                              Interval="50"
+                              RadiusExtentScale="0.8"
+                              InnerRadiusExtentScale="0.2">
+        </ig:NumericRadiusAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:RadialPieSeries AngleAxis="{Binding ElementName=angleAxis}"
+                             ValueAxis="{Binding ElementName=radiusAxis}"
+                             ValueMemberPath="Value"
+                             Brush="#7F58A6C7"
+                             MarkerType="None"
+                             Outline="#FF58A6C7"
+                             Thickness="5"
+                             ItemsSource="{StaticResource data}">
+        </ig:RadialPieSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:CategoryDataSource x:Name="data" />
+		</ResourceDictionary>	
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryAngleAxis x:Name="angleAxis"
+                              Interval="1"
+                              Label="Category" 
+                              ItemsSource="{StaticResource data}">
+        </ig:CategoryAngleAxis>
+        <ig:NumericRadiusAxis x:Name="radiusAxis"                                    
+                              MinimumValue="0"
+                              MaximumValue="150"
+                              Interval="50"
+                              RadiusExtentScale="0.8"
+                              InnerRadiusExtentScale="0.2">
+        </ig:NumericRadiusAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:RadialPieSeries AngleAxis="{x:Reference angleAxis}"
+                             ValueAxis="{x:Reference radiusAxis}"
+                             ValueMemberPath="Value"
+                             Brush="#7F58A6C7"
+                             MarkerType="None"
+                             Outline="#FF58A6C7"
+                             Thickness="5"
+                             ItemsSource="{StaticResource data}">
+        </ig:RadialPieSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*In C#:*
+[source,csharp]
+---- 
+var data = new CategoryDataSource();
+
+var angleAxis = new CategoryAngleAxis();
+angleAxis.{ApiDataSource} = data;
+angleAxis.Label = "{Category}";
+angleAxis.Interval = 1;
+
+var radiusAxis = new NumericRadiusAxis();
+radiusAxis.MinimumValue = 0;
+radiusAxis.MaximumValue = 150;
+radiusAxis.Interval = 50;
+radiusAxis.RadiusExtentScale = 0.8;
+radiusAxis.InnerRadiusExtentScale = 0.2;
+
+var series = new RadialPieSeries();
+series.{ApiDataSource} = data; 
+series.ValueMemberPath = "Value";
+series.AngleAxis = angleAxis;
+series.ValueAxis = radiusAxis; 
+series.MarkerType = MarkerType.None;
+series.Thickness = 5;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(angleAxis);
+chart.Axes.Add(radiusAxis);  
+chart.Series.Add(series);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New CategoryDataSource()
+Dim angleAxis As New CategoryAngleAxis()
+angleAxis.{ApiDataSource} = data
+angleAxis.Label = "{Category}"
+angleAxis.Interval = 1
+
+Dim radiusAxis As New NumericRadiusAxis()
+radiusAxis.MinimumValue = 0
+radiusAxis.MaximumValue = 150
+radiusAxis.Interval = 50
+radiusAxis.RadiusExtentScale = 0.8
+radiusAxis.InnerRadiusExtentScale = 0.2
+
+Dim series As New RadialPieSeries()
+series.{ApiDataSource} = data 
+series.ValueMemberPath = "Value"
+series.AngleAxis = angleAxis
+series.ValueAxis = radiusAxis
+series.MarkerType = MarkerType.None
+series.Thickness = 5
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(angleAxis)
+chart.Axes.Add(radiusAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal,win-forms[]
+
+
+
+ 
+ifdef::android[]
+*In Java:*
+[source,java]
+----
+CategoryDataSource data = new CategoryDataSource();
+CategoryAngleAxis angleAxis = new CategoryAngleAxis();
+angleAxis.setDataSource(data);
+angleAxis.setLabel("Category");
+angleAxis.setInterval(1);
+
+NumericRadiusAxis radiusAxis = new NumericRadiusAxis();
+radiusAxis.setMinimumValue(0);
+radiusAxis.setMaximumValue(150);
+radiusAxis.setInterval(50);
+radiusAxis.setRadiusExtentScale(0.8);
+radiusAxis.setInnerRadiusExtentScale(0.2);
+
+RadialPieSeries series = new RadialPieSeries();
+series.setDataSource(data);
+series.setValueMemberPath("Value");
+series.setAngleAxis(angleAxis);
+series.setValueAxis(radiusAxis);
+series.setMarkerType(MarkerType.NONE);
+series.setThickness(5); 
+
+DataChartView chart = new DataChartView(root.getContext());
+chart.addAxis(angleAxis);
+chart.addAxis(radiusAxis);
+chart.addSeries(series);
+----
+endif::android[]
+
+== ProportionalCategoryAngleAxis
+
+This axis allows the chart to visulize itself like a piechart. You can set the gap property to 0 to ensure there are no spaces between the slices. This axis allows the chart to visualize itself like a piechart, where the value property bound to the `ValueMemberPath` will drive the width of the slices. You can set the `Gap` property to 0 to ensure there are no spaces between the slices.
+
+image::images/xamDataChart_Axes_09.png[]
+
+ifdef::sl,wpf,win-universal[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+<ig:XamDataChart.Axes>
+    <ig:ProportionalCategoryAngleAxis x:Name="pAxis" Label="{}{Label}"
+   ValueMemberPath="Value" ItemsSource="{Binding Items}"
+       Gap="0" OthersCategoryType="Number"
+        OthersCategoryThreshold="55"
+        OthersCategoryText="Others">
+    </ig:ProportionalCategoryAngleAxis>
+    <!-- Supress the Numeric Radius Axis Labels for typical pie 
+         where all slices have same radius -->
+    <ig:NumericRadiusAxis x:Name="rAxis" MinimumValue="0"
+                          MaximumValue="100">
+        <ig:NumericRadiusAxis.LabelSettings>
+            <ig:AxisLabelSettings Visibility="Collapsed"/>
+        </ig:NumericRadiusAxis.LabelSettings>
+    </ig:NumericRadiusAxis>
+</ig:XamDataChart.Axes>
+<ig:XamDataChart.Series>
+    <ig:RadialPieSeries x:Name="series1"
+            LegendRadialLabelMode="LabelAndPercentage"                     
+            ItemsSource="{Binding Items}"
+            ValueMemberPath="Radius"                                    
+            UseItemWiseColors="True"
+            AngleAxis="{Binding ElementName=pAxis}"
+            ValueAxis="{Binding ElementName=rAxis}" >
+    </ig:RadialPieSeries>
+</ig:XamDataChart.Series>
+</ig:{DataChartName}>
+----
+endif::sl,wpf,win-universal[]
+
+== Related Content
+
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-using-category-angle-axis.html[Using Category Angle Axis]
+* link:datachart-using-numeric-radius-axis.html[Using Numeric Radius Axis]

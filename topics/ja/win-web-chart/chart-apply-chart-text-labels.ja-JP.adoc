@@ -1,0 +1,278 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-apply-chart-text-labels",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{3D025FD8-29CC-4B6D-A727-3EF37176A785}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チャート テキスト ラベルの適用
+
+このトピックでは、チャートのテキスト ラベルをグラフィカルな平面チャートの要素（棒、柱状、円のセグメント、中点添付点など）に適用する方法を説明します。このトピックを読めば、チャートのテキスト ラベルをグラフに適用する方法、ラベルのスタイルを設定して配置する方法、ラベルにより、Chart コントロールの link:chart-label-formatting.html[ラベル キーワード]機能を高める方法を理解できるようになります。
+
+チャート テキストで作業するには、クラスの小さいグループで作業する必要があります。以下はクラスと説明のリストです。この情報は以下の手順の基礎となります。
+
+* チャート -- チャートを表示するために責任を持つ要素。開発者は、グラフ テキストを Chart 上の Collection オブジェクト、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.columnchartappearance~charttext.html[ChartText]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.columnchartappearance~charttext.html[ChartText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.columnchartappearance~charttext.html[ChartText]"]  プロパティに追加し、グラフ グリッド（グラフをプロットする軸間の領域）内で描画します。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttextcollection.html[ChartTextCollection]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttextcollection.html[ChartTextCollection]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttextcollection.html[ChartTextCollection]"]  -- .NET Framework に精通した開発者が期待を寄せ、楽しめるすべての機能をそのコレクション内でサポートしています。それには、IEnumerable、ICollection、IList の実装などが含まれます。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttextappearance.html[ChartTextAppearance]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttextappearance.html[ChartTextAppearance]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttextappearance.html[ChartTextAppearance]"]  -- これらのオブジェクトは、個々のグラフのテキスト ラベルを実質的に記述します。開発者はグラフ内にテキストを描画するために、これらのオブジェクトを初期化して、ChartText プロパティに追加します。
+
+グラフ テキストを使用するためには、ひとつまたは複数の ChartTextAppearance オブジェクト（後述）を、サポートされた pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartappearance.html[ChartAppearance]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartappearance.html[ChartAppearance]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartappearance.html[ChartAppearance]"] オブジェクト上に存在する ChartTextCollection に追加する手順が含まれます。各  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~charttype.html[ChartType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~charttype.html[ChartType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~charttype.html[ChartType]"]  プロパティは、その ChartAppearance オブジェクトを、異なるプロパティ名のもとに提供します（たとえば、柱状グラフの ChartAppearance は  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.columnchartappearance.html[ColumnChart]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.columnchartappearance.html[ColumnChart]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.columnchartappearance.html[ColumnChart]"]  プロパティ内で、円グラフの ChartAppearance は PieChart プロパティ内で提供）。 ChartTextCollection は常に、現在アクティブな ChartAppearance 上の ChartText プロパティからアクセスできます。
+
+したがって、以下の各サンプル コードでは特定の種類のグラフがアクティブであるとします。これは、それらが該当する ChartAppearance オブジェクト上の ChartText プロパティを参照することを意味します。このサンプル コードを、任意の ChartAppearance オブジェクトの ChartText プロパティに適用できることに注意してください。 プロパティ名を変更するだけで、現在表示している種類のグラフの ChartAppearance オブジェクトを使用できるようになります。
+
+=== チャート テキスト ラベルを適用するには、次の手順に従ってください。
+
+[start=1]
+. コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバは完全に記述された名前を常に入力する必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Resources.Appearance
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Resources.Appearance;
+----
+
+[start=2]
+. ChartTextAppearance オブジェクトを作成し、2D Chart のグリッド領域内に描画される各テキストラベルの表示を管理します。以下のサンプル コードは、デフォルトのコンストラクタを使用して ChartTextAppearance オブジェクトを作成し、表示に必要な最小限のプロパティを設定する方法を示します。
+
+*Visual Basic の場合：*
+
+----
+' フォント、色、配置などのデフォルト値で
+' 新しいグラフ テキストの Appearance オブジェクトを作成します。
+Dim text As ChartTextAppearance = New ChartTextAppearance()
+' 元データの行と列インデックスで
+' このテキストに適用するグラフ要素を指定します。
+text.Row = 0
+text.Column = 0
+' テキストに何か入力します。
+text.ItemFormatString = "Hello"
+' それを表示します。
+text.Visible = True
+' グラフ種が ColumnChart の場合、それを
+' ChartText コレクションに追加します。
+Me.UltraChart1.ColumnChart.ChartText.Add( text)
+----
+
+*C# の場合：*
+
+----
+// フォント、色、配置などのデフォルト値で
+// 新しいチャート テキストの Appearance オブジェクトを作成します。
+ChartTextAppearance text = new ChartTextAppearance();
+// 元データの行と列インデックスで
+// このテキストに適用するチャート要素を指定します。
+text.Row = 0;
+text.Column = 0;
+// テキストに何か入力します。
+text.ItemFormatString = "Hello";
+// それを表示します。
+text.Visible = true;
+// グラフ種が ColumnChart の場合、それを
+// ChartText コレクションに追加します。
+this.ultraChart1.ColumnChart.ChartText.Add( text);
+----
+
+Row プロパティと Column プロパティは、このテキストを貼り付ける対象となるチャートのチャート要素を一意に識別します。これらはゼロから始まるインデックス値です。棒グラフと柱状グラフ作成シナリオでは、列を個々の項目として、行をデータセットの項目として考える方が便利な場合がよくあります。UltraChart はチャートの種類に関係なく、1 つのデータの（行、列）間の対応と、チャート上のその表現を維持します。これらのプロパティはしばしば、コントロールの API 全体にわたってチャート要素を修飾する目的で提供されます。
+
+ChartTextAppearance はパラメータ化したコンストラクタもサポートしており、ランタイムに各プロパティの初期値を受け付けるようにしています。このコンストラクタに関するさらに詳しい説明はこのトピックの後半、このクラスの大半のプロパティに精通したときに行います。
+[start=3]
+. グラフ テキストは、多くの開発者がすでに慣れている .NET Framework の System.Drawing 名前空間からのフォントと色をサポートします。ChartTextAppearance オブジェクト（追加されるとインデックスにより ChartTextCollection から直接、取得可能）の場合、（デザインタイムまたはランタイムに）新しいフォントと色の設定は、1 対のプロパティを設定するだけで済みます。
+
+*Visual Basic の場合：*
+
+----
+' ChartType が PieChart の場合。
+' フォント、色、配置などのデフォルト値で
+' 新しいチャート テキストの Appearance オブジェクトを作成します。
+Dim text2 As ChartTextAppearance = New ChartTextAppearance()
+' 元データの行と列インデックスで
+' このテキストに適用するチャート要素を指定します。
+text2.Row = 0
+text2.Column = 0
+' テキストに何か入力します。
+text2.ItemFormatString = "Hello"
+' それを表示します。
+text2.Visible = True
+' チャート タイプが ColumnChart の場合、それを
+' ChartText コレクションに追加します。
+Me.PieChart1.PieChart.ChartText.Add(text2)
+' ChartTextFont と FontColor プロパティを設定します。
+text2.ChartTextFont = New Font("Arial", 12.0)
+text2.Fontcolor = Color.Red
+----
+
+*C# の場合：*
+
+----
+// ChartType が PieChart の場合。
+// フォント、色、配置などのデフォルト値で
+// 新しいチャート テキストの Appearance オブジェクトを作成します。
+ChartTextAppearance text2 = new ChartTextAppearance();
+// 元データの行と列インデックスで
+// このテキストに適用するチャート要素を指定します。
+text2.Row = 0;
+text2.Column = 0;
+// テキストに何か入力します。
+text2.ItemFormatString = "Hello";
+// それを表示します。
+text2.Visible = true;
+// チャート タイプが ColumnChart の場合、それを
+// ChartText コレクションに追加します。
+this.PieChart1.PieChart.ChartText.Add(text2);
+// ChartTextFont と FontColor プロパティを設定します。
+text2.ChartTextFont = new Font( "Arial", 12f);
+text2.FontColor = Color.Red;
+----
+
+Font オブジェクトは、サイズと重み付け（太さ）を読み取り専用で制御するプロパティを提供するため、フォントのこれらの特性は新しい Font オブジェクトを作成することによってのみ変更できます。開発者は以下のように、グラフ テキストの一部を（現在のフォント書体を変更せずに）太字にできます。
+
+*Visual Basic の場合：*
+
+----
+' ChartType が PieChart の場合。
+Dim oldFont As Font = Me.PieChart1.PieChart.ChartText(0).ChartTextFont
+Me.PieChart1.PieChart.ChartText(0).ChartTextFont = _
+New Font( oldFont.FontFamily, oldFont.Size, FontStyle.Bold)
+oldFont.Dispose()
+oldFont = Nothing
+----
+
+*C# の場合：*
+
+----
+// ChartType が PieChart の場合。
+Font oldFont = this.PieChart1.PieChart.ChartText[0].ChartTextFont;
+this.PieChart1.PieChart.ChartText[0].ChartTextFont =
+new Font( oldFont.FontFamily, oldFont.Size, FontStyle.Bold);
+oldFont.Dispose();
+----
+
+[start=4]
+. チャート テキストはさまざまな配置で表示できます。以下の表では利用可能な 9 つの柱状グラフのテキスト配置を示しています。
+
+image::images\Chart_Using_Chart_Text_01.png[]
+
+ChartTextAppearance オブジェクトの場合、対称的な想像上の水平と垂直の両軸の中央に配置を変更する（したがって、これらの対称軸により二等分する）操作は、ランタイムまたはデザインタイムのいずれかに単にプロパティを割り当てるだけで行えます。
+
+*Visual Basic の場合：*
+
+----
+' テキストが ChartTextAppearance の場合。
+text.VerticalAlign = StringAlignment.Center
+text.HorizontalAlign = StringAlignment.Center
+----
+
+*C# の場合：*
+
+----
+// テキストが ChartTextAppearance オブジェクトの場合。
+text.VerticalAlign = StringAlignment.Center;
+text.HorizontalAlign = StringAlignment.Center;
+----
+
+配置に使用する一覧表は、.NET Framework で使用されるもの（およびその System.Drawing 名前空間で定義されるもの）と同じです。Left と Right のような配置を使用する方が一見、便利かもしれませんが、この一覧表はローカライズする書記システム（左から右方向の言語で採用される同じコードで右から左方向に読む言語をサポート）に関連して、Near と Far の概念を使用しています。
+
+配置の変更の視覚的大きさがしばしば、元のグラフの特性に依存することにも注意してください。たとえば、棒グラフ上の横棒はあまり高さを持たないので、VerticalAlign プロパティを変更した場合の視覚的な効果は柱状グラフの場合より非常に弱いものとなります。
+[start=5]
+. 以下に、さまざまな配置を持つチャート テキストをチャートに追加する方法を示します。このサンプル コードでは、グラフが棒グラフであること、したがって ChartTextCollection は BarChartAppearance クラスの ChartText プロパティであると仮定しています。
+
+*Visual Basic の場合：*
+
+----
+' ChartType が BarChart の場合。
+Me.UltraChart1.BarChart.ChartText.Add( _
+New ChartTextAppearance( Me.UltraChart1, 0, 0, True, New Font( "Arial", 10.0), _
+Color.Black, "The", StringAlignment.Center, StringAlignment.Near, 0 ) )
+Me.UltraChart1.BarChart.ChartText.Add( _
+New ChartTextAppearance( Me.UltraChart1, 1, 0, True, New Font( "Verdana", 10.0), _
+Color.Purple, "quick", StringAlignment.Near, StringAlignment.Center, 0 ) )
+Me.UltraChart1.BarChart.ChartText.Add( _
+New ChartTextAppearance( Me.UltraChart1, 2, 0, True, New Font( "Times Roman", 12.0), _
+Color.Brown, "brown", StringAlignment.Center, StringAlignment.Far, 0 ) )
+Me.UltraChart1.BarChart.ChartText.Add( _
+New ChartTextAppearance( Me.UltraChart1, 3, 0, True, New Font( "Arial", 14.0), _
+Color.Navy, "fox", StringAlignment.Far, StringAlignment.Center, 0 ) )
+----
+
+*C# の場合：*
+
+----
+// ChartType が BarChart の場合。
+this.ultraChart1.BarChart.ChartText.Add( 
+    new ChartTextAppearance( this.ultraChart1, 0, 0, true, new Font( "Arial", 10f), 
+    Color.Black, "The", StringAlignment.Center, StringAlignment.Near, 0 ) );
+this.ultraChart1.BarChart.ChartText.Add( 
+    new ChartTextAppearance( this.ultraChart1, 1, 0, true, new Font( "Verdana", 10f), 
+    Color.Purple, "quick", StringAlignment.Near, StringAlignment.Center, 0 ) );
+this.ultraChart1.BarChart.ChartText.Add( 
+    new ChartTextAppearance( this.ultraChart1, 2, 0, true, new Font( "Times Roman", 12f),   
+    Color.Brown, "brown", StringAlignment.Center, StringAlignment.Far, 0 ) );
+this.ultraChart1.BarChart.ChartText.Add( 
+    new ChartTextAppearance( this.ultraChart1, 3, 0, true, new Font( "Arial", 14f), 
+    Color.Navy, "fox", StringAlignment.Far, StringAlignment.Center, 0 ) );
+----
+
+このコードの結果は、以下のようなグラフ表示となります。この例では、グラフの種類によって、さまざまな配置の表示の違いが表れることについて、さらに進んだ考察ができます。
+
+image::images\Chart_Using_Chart_Text_02.png[]
+
+.. テキスト「fox」は垂直方向の Far に配置されています。したがって、横棒の上端から離れて表示されます。フォント ファミリのディセント間隔（ベースラインより下に下がる「g」または「y」などの文字に対応する行間隔）のため、棒の下端に接して表示されません。
+.. テキスト「brown」は水平方向の Far に配置されています。したがって、画面の左端から離れて、横棒の右横に表示されます。また、グラデーションでの配置が示すように、テキストは横棒に相対した、垂直方向の中央に配置されています。
+.. テキスト「quick」は垂直方向の Near に配置されています。したがって、横棒の上端に隣接して表示されます。また、水平方向の中央に配置されているため、テキストは横棒の右端によって二等分されます。
+.. テキスト「The」は垂直方向の Near に配置されています。したがって、横棒の右端の左に表示されます。
+
+短い横棒上でテキストを水平方向の Near に配置するとき、または長い横棒上で水平方向の Far に配置する場合（上記の 4 番目の例）、アプリケーション ロジックはテキスト全体が表示領域にあるように確保する必要があります。開発者は、必要な幅や高さの取得に使用するフォントのサイズとスタイルのフォント メトリクスに基づいてこの決定を下し、必要に応じて HorizontalAlign または VerticalAlign に対する補完的な調整を行うことができます。
+[start=6]
+. これまで、このトピックでは ItemFormatString のみを使用し、グラフ上のリテラル テキスト値を提示してきました。こうした単純化はこのプロパティのパワフルな機能性を十分表現していません。その名前が示唆するように、このプロパティは、任意のグラフ要素への動的値を描画するカスタム ラベリング キーワードを受け付けます（現在アクティブなグラフ種に適切な場合）。
+
+以下のサンプル コードでは、アプリケーションのデータソースからのデータがバブル チャートのテキスト ラベルの内容を提供する方法を示します。
+
+*Visual Basic の場合：*
+
+----
+Dim text(4) As ChartTextAppearance
+Dim i As Integer
+For i = 0 To text.Length - 1
+	text(i) = New ChartTextAppearance()
+	text(i).Visible = True
+	text(i).ItemFormatString = "<DATA_VALUE_RADIUS:#0.00>"
+	text(i).Row = i
+	text(i).Column = 2
+	Me.BubbleChart1.BubbleChart.ChartText.Add(text(i))
+Next i
+----
+
+*C# の場合：*
+
+----
+ChartTextAppearance[] text = new ChartTextAppearance[4];
+for ( int i = 0; i < text.Length; ++i)
+{
+    text[i] = new ChartTextAppearance();
+    text[i].Visible = true;
+    text[i].ItemFormatString = "<DATA_VALUE_RADIUS:#0.00>";
+    text[i].Row = i;
+    text[i].Column = 2;
+    this.ultraChart1.BubbleChart.ChartText.Add( text[ i]);
+}
+----
+
+上記のサンプル コードでは、バブル チャートに表示されるグラフ要素の数に基づいて（1 行でひとつのバブル）、ChartTextAppearance オブジェクトの配列を作成しています。この技法は、チャート要素の数を行数 x 列数で計算できる柱状グラフまたは棒グラフにも同様に適用できます。
+
+例では、ItemFormatString プロパティに、表示するリテラル テキストを設定する代わりに、ラベル キーワードを設定しています。このコードを実行すると、バブル内の中央位置にバブルの半径を宣言するチャート テキスト ラベルが生成されます（下図参照）。
+
+image::images\Chart_Using_Chart_Text_03.png[]
+
+キーワード「DATA_VALUE_RADIUS」はバブル チャートに固有ですが、アプリケーションは、アクティブな種類のグラフに使用できる、任意のラベリング キーワード、または LabelHash にカスタム IRenderLabel を追加した任意のラベリング キーワードを使用できます。詳細は、 link:chart-use-predefined-and-custom-label-styles.html[「事前に定義したラベル スタイルとカスタム ラベル スタイルを使用」]を参照してください。

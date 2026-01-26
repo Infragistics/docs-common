@@ -1,0 +1,59 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-adding-a-hyperlink-to-a-cell-in-an-excel-file",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{63A1BBC2-3892-45C4-B7CA-86A873ADE21F}",  
+    "buildFlags": [],
+    "createdOn": "2009-06-02T10:43:07Z"
+}
+|metadata|
+////
+
+= Excel ファイルのセルにハイパーリンクを追加
+
+このトピックは、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell.html[WorksheetCell]"]pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell.html[WorksheetCell]"]  オブジェクトの  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~applyformula.html[ApplyFormula]"]pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~applyformula.html[ApplyFormula]"]  メソッドを使用して、Microsoft® Excel™ ファイルへのハイパーリンクを追加する方法を示します。以下のコードは、組み込みの Excel HYPERLINK 公式を使用してワークシートのセル 0 にハイパーリンクを持つ Excel ファイルを作成します。
+
+コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常に入力する必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Excel
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Excel;
+----
+
+*Visual Basic の場合：*
+
+----
+'Excel ファイルを作成します 
+ Dim s As String = "C:\theFile.xls"
+ 'ワークブックを作成します 
+ Dim w As New Workbook()
+ '新しいワークシートをワークブックに追加します 
+ Dim ws As Worksheet = w.Worksheets.Add("New")
+ 'ワークシートのセルでハイパーリンクを作成します 
+ws.Rows(0).Cells(0).ApplyFormula("=HYPERLINK(""http://jp.infragistics.com"",""Infragistics"")")
+ w.Save(s)
+----
+
+*C# の場合：*
+
+----
+//Excel ファイルを作成します
+ string s = @" C:\theFile.xls";
+//ワークブックを作成します
+ Workbook w = new Workbook();
+//新しいワークシートをワークブックに追加します
+Worksheet ws = w.Worksheets.Add("New");
+ //ワークシートのセルでハイパーリンクを作成します
+ws.Rows[0].Cells[0].ApplyFormula(@"=HYPERLINK(""http://jp.infragistics.com"",""Infragistics"")");
+ w.Save(s);
+----

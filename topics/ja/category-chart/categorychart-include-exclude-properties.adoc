@@ -1,0 +1,141 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-include-exclude-properties",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= {CategoryChartName} プロパティの包含と除外
+
+このトピックではコード例を使用して、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] コントロールに表示されるプロパティを構成する方法を説明します。
+
+== 目的
+
+{CategoryChartName} は、バインドされた ItemsSource コレクションのデータ項目に存在するすべてのプロパティをデフォルトでプロットします。このトピックは、チャートでプロットされるプロパティを選択する方法を説明します。
+
+== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+|====
+|トピック|目的
+
+| link:categorychart-overview.html[ {CategoryChartName} の概要]
+
+| このトピックは、主要機能、最小要件およびユーザー機能性など、{CategoryChartName} コントロールの概念的な情報を提供します。
+
+| link:categorychart-binding-to-data.html[データ バインド]
+
+| このトピックでは、データを {CategoryChartName} コントロールにバインドする方法を説明します。
+
+|====
+
+== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<propertysettings, プロパティの設定>>
+* <<codesnippet, コード スニペット>>
+* <<relatedcontent, 関連コンテンツ>>
+
+[[propertysettings]]
+== プロパティの設定
+
+以下のプロパティを設定すると、{CategoryChartName} にプロパティを含有または除外できます。
+
+|===
+|プロパティ名|プロパティ タイプ|説明
+
+|link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}includedproperties.html[IncludedProperties]
+|`string[]`
+|チャートに含まれる (その他のパスは除外) プロパティ パスのセットを取得または設定します。null の場合、すべてのプロパティが含まれます。
+
+|link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}excludedproperties.html[ExcludedProperties]
+|`string[]`
+|チャートから除外されるプロパティ パスのセットを取得または設定します。複雑な式を使用して、サブコレクションのプロパティを除外できます。*.<propertyName> などのワイルドカードを使用して [0].<propertyName>、 [1].<propertyName> などを除外できます。
+
+|===
+
+[[codesnippet]]
+== コード スニペット
+
+以下のコード例は、pick:[win-forms="DataSource"]pick:[sl,wpf,win-phone,win-universal,xamarin="ItemsSource"] としてlink:resources-sample-energy-data.html[エネルギー データ ソース]のサンプル コードを使用し、以下のようなチャートになるためにプロパティの包含と除外を紹介します。 
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source, xaml]
+----
+xmlns:ig="clr-namespace:{CategoryChartNamespace};assembly={ApiPlatform}Charts"
+----
+endif::xamarin[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source, xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf[]
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*XAML の場合:*
+[source, xaml]
+----
+<ig:{CategoryChartName} x:Name="chart1" ItemsSource="{Binding}" IncludedProperties="Country,Hydro,Nuclear"/>
+----
+
+*XAML の場合:*
+[source, xaml]
+----
+<ig:{CategoryChartName} x:Name="chart1" ItemsSource="{Binding}" ExcludedProperties="Coal,Oil,Gas"/>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+
+*C# の場合:*
+[source, csharp]
+----
+string[] inclusion = { "Country", "Hydro", "Nuclear" };
+chart1.IncludedProperties = inclusion;
+----
+
+*C# の場合:*
+[source, csharp]
+----
+string[] exclusion = { "Coal", "Oil", "Gas" };
+chart1.ExcludedProperties = exclusion;
+----
+
+ifdef::wpf,win-forms[]
+*Visual Basic の場合:*
+[source, vb]
+----
+Dim inclusion As String() = {"Country", "Hydro", "Nuclear"}
+chart1.IncludedProperties = inclusion
+----
+
+*Visual Basic の場合:*
+[source, vb]
+----
+Dim inclusion As String() = {"Coal", "Oil", "Gas"}
+chart1.ExcludedProperties = exclusion
+----
+
+endif::wpf,win-forms[]
+
+image::images/categorychart_included_excluded.png[]
+
+[[relatedcontent]]
+== 関連コンテンツ
+
+|====
+|トピック|目的
+
+| link:categorychart-walkthrough.html[カテゴリ チャートの追加]
+
+| このトピックは、{CategoryChartName} コントロールを追加する方法を紹介します。
+
+|====

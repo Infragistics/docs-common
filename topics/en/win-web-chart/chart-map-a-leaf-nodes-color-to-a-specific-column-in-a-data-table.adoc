@@ -1,0 +1,98 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-map-a-leaf-nodes-color-to-a-specific-column-in-a-data-table",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{E6CA2267-9871-47AB-B4EC-5D03C74C4B78}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Map a Leaf Node's Color to a Specific Column in a DataTable
+
+This topics explains how to map a leaf node's color to a specific column in your data table. The  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  property is the index of the data column which contains numeric values. If you do not set the ColorValueIndex, it defaults to the first numeric column in your data table. The ColorValueIndex property is a zero based index.
+
+For example, if you have the following data table:
+
+[options="header", cols="a,a,a,a"]
+|====
+|Category|Name|Unit Price|Yearly Sales
+
+|Fruit
+|Apples
+|1
+|20
+
+|Diary
+|Cheese
+|2
+|25
+
+|Meat
+|Steak
+|3
+|30
+
+|====
+
+Setting the ColorValueIndex property to 3 uses the Yearly Sales column to generate the colors for the leaf nodes. If you do not set the ColorValueIndex property, it will default to the first numeric column in the data table which in this example the Unit Price column.
+
+The color of the leaf node is scaled based on the settings of the ColorModel.ColorBegin and ColorModel.ColorEnd properties.
+
+If the ColorModel.ColorBegin property is set to Blue and the ColorModel.ColorEnd property is set to Red, and the data column contains values from 0 to 10, then:
+
+* a leaf node with a value of 0 will be blue
+* a leaf node with a value of 5 will be purple (half way between blue and red)
+* a leaf node with a value of 10 will be red
+
+The following example code demonstrates how to set the ColorValueIndex property.
+
+*In Visual Basic:*
+
+----
+Me.ultraChart1.ColorModel.ColorBegin = System.Drawing.Color.Blue
+Me.ultraChart1.ColorModel.ColorEnd = System.Drawing.Color.Red
+Me.ultraChart1.TreeMapChart.ColorValueIndex = 3
+----
+
+*In C#:*
+
+----
+this.ultraChart1.ColorModel.ColorBegin = System.Drawing.Color.Blue;
+this.ultraChart1.ColorModel.ColorEnd = System.Drawing.Color.Red;       
+this.ultraChart1.TreeMapChart.ColorValueIndex = 3;
+----
+
+You can also set a custom PaintElement for the leaf nodes if you do not want the leaf node's color to be based on the value of the data column.
+
+The following example code demonstrates how to set a custom PaintElement for the leaf nodes.
+
+*In Visual Basic:*
+
+----
+Me.ultraChart1.TreeMapChart.StaticLeafPE = New Infragistics.UltraChart.Resources.Appearance.PaintElement
+(System.Drawing.Color.Silver, 
+System.Drawing.Color.Gold, 
+Infragistics.UltraChart.Shared.Styles.GradientStyle.HorizontalBump)
+Me.ultraChart1.TreeMapChart.UseStaticLeafPE = True;
+----
+
+*In C#:*
+
+----
+this.ultraChart1.TreeMapChart.StaticLeafPE = 
+   new Infragistics.UltraChart.Resources.Appearance.PaintElement
+   (System.Drawing.Color.Silver, System.Drawing.Color.Gold, 
+  Infragistics.UltraChart.Shared.Styles.GradientStyle.HorizontalBump);
+this.ultraChart1.TreeMapChart.UseStaticLeafPE = true;
+----
+
+== Related Topics
+
+link:chart-set-a-treemap-charts-color-based-on-hierarchical-level.html[Set a Treemap Chart's Color Based on Hierarchical Level]
+
+link:chart-set-a-leaf-nodes-color-using-a-treemapseries-object.html[Set a Leaf Node's Color using a TreeMapSeries Object]

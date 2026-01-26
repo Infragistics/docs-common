@@ -1,0 +1,78 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-apply-an-image-to-a-chart-primitive",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{91100A59-9731-4799-87F9-1D3BFE886B41}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= 画像をチャート プリミティブに適用
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  は、グラフ画像（ビットマップ）を使用して閉じたプリミティブ形状の内部を塗りつぶすことができる場合に追加のテクスチャ塗りつぶし機能もサポートしています。この機能を使用したい開発者は、Bitmap オブジェクトをロードして、それを Paint Element の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  プロパティに割り当てる必要があります。
+
+以下の例は、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、そのプリミティブに画像を適用する方法を示します。これでこの例を拡張して、チャートのすべての閉じたプリミティブに画像を適用することができます。
+
+*Visual Basic の場合：*
+
+----
+Imports System.IO
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b As Box = Nothing
+		b = CType(e.Primitive, Box)
+		If Not b Is Nothing AndAlso b.Row = 0 AndAlso b.Column = 2 Then
+			b.PE = b.PE.Clone()
+			' Primitives PaintElement Type を image に設定します。
+			b.PE.ElementType = PaintElementType.Image
+			' ボックスのテクスチャをビットマップに設定します。
+			b.PE.FillImage = _
+			  System.Drawing.Image.FromFile("Program Dependent Files\Coffee Bean.bmp")
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using System.IO;
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b = e.Primitive as Box;
+		if(b != null && b.Row == 0 && b.Column == 2)
+		{
+			b.PE = b.PE.Clone();
+			// Primitives PaintElement Type を image に設定します。
+			b.PE.ElementType = PaintElementType.Image;
+			// ボックスのテクスチャをビットマップに設定します。
+			b.PE.FillImage = 
+			  System.Drawing.Image.FromFile(@"Program Dependent Files\Coffee Bean.bmp");
+        }
+	}
+}
+----
+
+image::images/Chart_Apply_an_Image_to_a_Chart_Primitive_01.png[]
+
+== 関連トピック
+
+link:chart-adding-primitives-to-a-chart-layer.html[プリミティブをグラフ レイヤに追加する]

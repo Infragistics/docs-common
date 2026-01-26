@@ -1,0 +1,615 @@
+﻿////
+|metadata|
+{
+    "tags": ["API","Charting","How Do I"],
+    "controlName": ["CategoryChart"]
+}
+|metadata|
+////
+
+= Annotations and Overlays
+
+=== Purpose
+
+This topic provides conceptual information about the annotations and interactions available on the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}™] control including the different types of interaction layers available.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview,Overview>>
+* <<TypesofLayers,Types of Layers>>
+
+** <<CrosshairLayer,Crosshair Layer>>
+** <<CategoryHighlightLayer,Category Highlight Layer>>
+** <<CategoryItemHighlightLayer,Category Item Highlight Layer>>
+** <<DataToolTipLayer, Data Tooltip Layer>>
+** <<CategoryTooltipLayer,Category Tooltip Layer>>
+** <<ItemTooltipLayer,Item Tooltip Layer>>
+** <<FinalValueLayer,Final Value Layer>>
+** <<CalloutLayer,Callout Layer>>
+** <<ValueLayer, Value Layer>>
+* <<RelatedContent,Related Content>>
+
+[[Overview]]
+== Overview
+
+=== pick:[wpf,sl,win-universal,win-forms="Hover"]pick:[xamarin="Touch"] interactions summary
+
+Internally, interactions are implemented through interaction layers which are series that are added to the series collection. These layers are dependent on the pick:[wpf,sl,win-universal,win-forms="cursor"]pick:[xamarin="touch"] position. Adding the interaction layers to the  _{CategoryChartName}_  control disables the default behavior of the crosshairs and/or tooltips (depending on which type of layer added).
+
+The default behavior is disabled because it prevents visual confusion as the interaction layers perform a similar visual function compared to the built in behavior as the pick:[wpf,sl,win-universal,win-forms="cursor"]pick:[xamarin="touch position"] moves. You can, however, override this behavior and allow the default crosshair functionality to perform in addition to the interaction layer functionality. Also of note, only target a series by one tooltip layer at a time. If you target more than one tooltip layer at a series, the interaction layers that use tooltips will not function as expected.
+ifdef::wpf[]
+This is due to the fact that series tooltips are `UIElements` and can only be attached to the visual tree in one place at a time.
+endif::wpf[]
+Using a tooltip for a series in more than one location at once is not allowed.
+
+The following screenshot displays the  _{CategoryChartName}_  control with the category highlight layer, the crosshair layer and the item tooltip layer implemented.
+
+pick:[win-forms="image::images/categorychart_overlays_winforms.png[]"]
+pick:[wpf="image::images/categorychart_overlays_wpf.png[]"]
+pick:[xamarin="image::images/categorychart_overlays_wpf.png[]"]
+
+[[TypesofLayers]]
+== Types of Layers
+
+=== Introduction
+
+Currently there are five different pick:[wpf,sl,win-universal,win-forms="hover"]pick:[xamarin="touch"] interaction layers and two annotation layers available on the  _{CategoryChartName}_  control. Each of these interaction layers provides different highlight, pick:[wpf,sl,win-universal,win-forms="hover"]pick:[xamarin="touch"], and tooltip interactions that may be used individually or combined with one another providing powerful interactions.
+
+
+
+[[CrosshairLayer]]
+==== Crosshairs Layer
+
+The Crosshairs Layer provides crossing lines that follow your pick:[wpf,sl,win-universal,win-forms="cursor"]pick:[xamarin="touch position"] and meet at the actual value of every targeted series. This layer is off by default, you can turn them on by setting the link:{CategoryChartLink}.{DomainChartName}{ApiProp}CrosshairsAnnotationEnabled.html[CrosshairsAnnotationEnabled] property to true. Crosshairs can be displayed vertically, horizontally or both, as determined by setting the link:{CategoryChartLink}.{DomainChartName}{ApiProp}CrosshairsDisplayMode.html[CrosshairsDisplayMode] property to link:{CategoryChartLink}.CrosshairsDisplayMode.html[CrosshairsDisplayMode] enum value (Default, None, Horizontal, Vertical, or Both)
+
+The following code example shows how to enable crosshairs displaying both horizontal and vertical crosshairs:
+
+ifdef::wpf,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    CrosshairsAnnotationEnabled="True"
+    CrosshairsDisplayMode="Both"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*In C#:*
+
+
+[source,csharp]
+----
+this.categoryChart1.CrosshairsAnnotationEnabled = true;
+this.categoryChart1.CrosshairsDisplayMode = CrosshairsDisplayMode.Both;
+----
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.categoryChart1.CrosshairsAnnotationEnabled = true
+Me.categoryChart1.CrosshairsDisplayMode = CrosshairsDisplayMode.Both
+----
+endif::win-forms[]
+
+[[CategoryHighlightLayer]] 
+
+==== Category Highlight Layer
+The Category Highlight Layer targets one or all category axes in the _{CategoryChartName}_ control. They draw a shape that illuminates the area of the axis closest to the pick:[wpf,sl,win-universal,win-forms="cursor"]pick:[xamarin="touch"] position. It is off by default and can be turned on by setting the  link:{CategoryChartLink}.{CategoryChartName}{ApiProp}IsCategoryHighlightingEnabled.html[IsCategoryHighlightingEnabled] property to true.
+
+If the axis contains any series that are aligned between major gridlines of the axis, for example, ColumnSeries series, this will render a shape that fills the current category.
+For other series, such as LineSeries series, it will render a band with an adjustable thickness at the closest gridline to the pick:[wpf,sl,win-universal,win-forms="pointer"]pick:[xamarin="touch"] position. In this situation if the UseInterpolation property is enabled this will cause the x position to become affixed to the x position of the pick:[wpf,sl,win-universal,win-forms="pointer"]pick:[xamarin="touched point"].
+
+The following code example shows how to enable the category highlight layer:
+
+ifdef::wpf,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    IsCategoryHighlightingEnabled="True"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*In C#:*
+
+
+[source,csharp]
+----
+this.categoryChart1.IsCategoryHighlightingEnabled = true;
+----
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.categoryChart1.IsCategoryHighlightingEnabled = true
+----
+endif::win-forms[]
+
+
+[[CategoryItemHighlightLayer]] 
+
+==== Category Item Highlight Layer
+The Category Item Highlight Layer highlights items in a series that use a category axis either by drawing a banded shape at their position or by rendering a marker at their position. It is off by default and can be turned on by setting the  link:{CategoryChartLink}.{CategoryChartName}{ApiProp}IsItemHighlightingEnabled.html[IsItemHighlightingEnabled] property to true.
+
+The default highlight depends on the type of series. For example, the highlight for a ColumnSeries and a LineSeries is different; for ColumnSeries it is a rectangle shape, for LineSeries it is a marker. 
+
+The following code example shows how to enable the category item highlight layer:
+
+ifdef::wpf,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    IsItemHighlightingEnabled="True"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.IsItemHighlightingEnabled = true;
+----
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.categoryChart1.IsItemHighlightingEnabled = true
+----
+endif::win-forms[]
+
+
+[[CategoryToolTipLayer]]
+
+==== Category ToolTip Layer
+The Category ToolTip Layer displays grouped tooltips for series using a category axis.
+To enable this layer, set the link:{CategoryChartLink}.{DomainChartName}{ApiProp}ToolTipType.html[ToolTipType]
+property to a link:{CategoryChartLink}.ToolTipType.html[ToolTipType].Category enum.
+
+The following code example shows how to enable the category tooltip layer:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    ToolTipType="Category"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1"
+    ToolTipType="Category"
+    ChartType="Column"                         
+    ItemsSource="{Binding WeatherData}"
+    SeriesAdded="categoryChart1_SeriesAdded">
+    <ig:{CategoryChartName}.Resources>
+        <DataTemplate x:Key="highDT">
+            <Label Text="{Binding Item.High, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="lowDT">
+            <Label Text="{Binding Item.Low, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+    </ig:{CategoryChartName}.Resources>
+</ig:{CategoryChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Category;
+----
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Category;
+//=======================================================
+
+private void categoryChart1_SeriesAdded(object sender, Infragistics.XamarinForms.Controls.Charts.ChartSeriesEventArgs args)
+{
+    ColumnSeries series = args.Series as ColumnSeries;
+
+    if (series != null)
+    {
+        switch (series.ValueMemberPath)
+        {
+            case "High":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["highDT"] as DataTemplate;
+                    break;
+                }
+            case "Low":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["lowDT"] as DataTemplate;
+                    break;
+                }
+        }
+    }
+}
+----
+endif::xamarin[]
+
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.categoryChart1.ToolTipType = ToolTipType.Category
+----
+endif::win-forms[]
+
+
+[[DataToolTipLayer]]
+
+==== Data ToolTip Layer
+
+The Data ToolTip Layer displays a tooltip with a visualization much like the link:categorychart-data-legend.html[{DataLegendName}]. It has a myriad of properties that you can configure on the chart, and so we have given it its own topic. You can link:categorychart-data-tooltip.html[read about the Data ToolTip Layer, here]. 
+
+The data tooltip layer is on by default in the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}], but the following code example shows how to enable it:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+    ToolTipType="Data"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Data;
+----
+endif::wpf,win-forms[]
+
+[[ItemToolTipLayer]] 
+
+==== Item ToolTip Layer
+The Item ToolTip Layer displays tooltips for all target series individually.
+To enable this layer, set the  link:{CategoryChartLink}.{DomainChartName}{ApiProp}ToolTipType.html[ToolTipType]
+property to link:{CategoryChartLink}.ToolTipType.html[ToolTipType].Item enum.
+
+The following code example shows how to enable the item tooltip layer
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+    ToolTipType="Item"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1"
+    ToolTipType="Item"
+    ChartType="Column"                         
+    ItemsSource="{Binding WeatherData}"
+    SeriesAdded="categoryChart1_SeriesAdded">
+    <ig:{CategoryChartName}.Resources>
+        <DataTemplate x:Key="highDT">
+            <Label Text="{Binding Item.High, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="lowDT">
+            <Label Text="{Binding Item.Low, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+    </ig:{CategoryChartName}.Resources>
+</ig:{CategoryChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Item;
+----
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Category;
+//=======================================================
+
+private void categoryChart1_SeriesAdded(object sender, Infragistics.XamarinForms.Controls.Charts.ChartSeriesEventArgs args)
+{
+    ColumnSeries series = args.Series as ColumnSeries;
+
+    if (series != null)
+    {
+        switch (series.ValueMemberPath)
+        {
+            case "High":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["highDT"] as DataTemplate;
+                    break;
+                }
+            case "Low":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["lowDT"] as DataTemplate;
+                    break;
+                }
+        }
+    }
+}
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.categoryChart1.ToolTipType = ToolTipType.Item
+----
+endif::win-forms[]
+
+
+[[FinalValueLayer]]
+
+==== Final Value Layer
+The Final Value Layer provides an annotation along the axis of the ending value displayed in a series. To enable this layer, set the
+link:{CategoryChartLink}.{DomainChartName}{ApiProp}FinalValueAnnotationsVisible.html[FinalValueAnnotationsVisible] property to true.
+
+The following code example shows how to enable the final value layer:
+
+ifdef::wpf,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    FinalValueAnnotationsVisible="True"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.FinalValueAnnotationsVisible = true;
+----
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.categoryChart1.FinalValueAnnotationsVisible = true
+----
+endif::win-forms[]
+
+
+[[CalloutLayer]]
+
+==== Callout Layer
+The Callout Layer displays a callout annotation at an X/Y position. It can show a label and some extra content on mouse-over. The callout layer is off by default, you can turn it on by setting the link:{CategoryChartLink}.{DomainChartName}{ApiProp}CalloutsVisible.html[CalloutsVisible] to true.
+
+The following code example shows how to add a callout layer to the category chart:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName}  
+    x:Name="categoryChart1"                     
+    CalloutsVisible="True"
+    CalloutsItemsSource="{StaticResource WeatherData}"
+    CalloutsXMemberPath="Index"
+    CalloutsYMemberPath="Value"
+    CalloutsLabelMemberPath="Info"
+    CalloutsContentMemberPath="Info"
+    ChartType="Column"
+    IncludedProperties="Month, High, Low"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}> 
+----
+
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.CalloutsVisible = true;
+this.categoryChart1.CalloutsItemsSource = WeatherData;
+this.categoryChart1.CalloutsXMemberPath = "Index";
+this.categoryChart1.CalloutsYMemberPath = "Value";
+this.categoryChart1.CalloutsLabelMemberPath = "Info";
+this.categoryChart1.CalloutsContentMemberPath = "Info";
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName}  
+    x:Name="categoryChart1"                     
+    CalloutsVisible="True"
+    CalloutsItemsSource="{StaticResource WeatherData}"
+    CalloutsXMemberPath="Index"
+    CalloutsYMemberPath="Value"
+    CalloutsLabelMemberPath="Info"
+    ChartType="Column"
+    IncludedProperties="Month, High, Low"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}> 
+----
+
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.CalloutsVisible = true;
+this.categoryChart1.CalloutsItemsSource = WeatherData;
+this.categoryChart1.CalloutsXMemberPath = "Index";
+this.categoryChart1.CalloutsYMemberPath = "Value";
+this.categoryChart1.CalloutsLabelMemberPath = "Info";
+----
+endif::xamarin[]
+
+
+ifdef::win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.CalloutsVisible = true;
+this.ultraCategoryChart1.CalloutsDataSource = WeatherData;
+this.ultraCategoryChart1.CalloutsXMemberPath = "Index";
+this.ultraCategoryChart1.CalloutsYMemberPath = "Value";
+this.ultraCategoryChart1.CalloutsLabelMemberPath = "Info";
+this.ultraCategoryChart1.CalloutsContentMemberPath = "Info";
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.CalloutsVisible = True
+Me.ultraCategoryChart1.CalloutsDataSource = WeatherData
+Me.ultraCategoryChart1.CalloutsXMemberPath = "Index"
+Me.ultraCategoryChart1.CalloutsYMemberPath = "Value"
+Me.ultraCategoryChart1.CalloutsLabelMemberPath = "Info"
+Me.ultraCategoryChart1.CalloutsContentMemberPath = "Info"
+----
+endif::win-forms[]
+
+[[ValueLayer]]
+
+==== Value Layer
+
+The link:{DataChartLink}.valuelayer.html[ValueLayer] is a series type that can be added to the {CategoryChartName} by setting the link:{CategoryChartLink}.{DomainChartName}{ApiProp}ValueLines.html[ValueLines] property. The purpose of this series type is to annotate different focal points of your data such as the minimum, maximum, or average values by drawing a dashed line at those calculated points.
+
+The link:{CategoryChartLink}.{DomainChartName}{ApiProp}ValueLines.html[ValueLines] collection takes a list of link:{DataChartLink}.valuelayer.html[ValueLayerValueMode] enumerations. These are described below:
+
+- `Auto`: The default value mode of the link:{DataChartLink}.valuelayer.html[ValueLayerValueMode] enumeration.
+- `Average`: Applies potentially multiple value lines to call out the average value of each series plotted in the chart.
+- `GlobalAverage`: Applies a single value line to call out the average of all of the series values in the chart.
+- `GlobalMaximum`: Applies a single value line to call out the absolute maximum value of all of the series values in the chart.
+- `GlobalMinimum`: Applies a single value line to call out the absolute minimum value of all of the series values in the chart.
+- `Maximum`: Applies potentially multiple value lines to call out the maximum value of each series plotted in the chart.
+- `Minimum`: Applies potentially multiple value lines to call out the minimum value of each series plotted in the chart.
+
+The following code example shows how to add the link:{DataChartLink}.valuelayer.html[ValueLayer] to the {CategoryChartName} using the link:{CategoryChartLink}.{DomainChartName}{ApiProp}ValueLines.html[ValueLines] property:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName}  
+    x:Name="Chart"                            
+    ChartType="Column"
+    IncludedProperties="Month, High, Low"
+    ItemsSource="{StaticResource WeatherData}"            
+    ValueLines="Maximum">
+</ig:{CategoryChartName}> 
+----
+
+*In C#:*
+
+[source,csharp]
+----
+this.categoryChart1.ValueLines.Add(ValueLayerValueMode.Maximum);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source, csharp]
+
+----
+this.ultraCategoryChart1.ValueLines.Add(ValueLayerValueMode.Maximum);
+----
+
+endif::win-forms[]
+
+[[RelatedContent]]
+
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:categorychart-overview.html[Overview]
+|This topic provides a conceptual overview of the Category Chart control.
+
+| link:datachart-chartannotationlayers.html[Chart Annotation Layers]
+|This topic provides conceptual information about the annotations and pick:[wpf,sl,win-universal,win-forms="hover"]pick:[xamarin="touch"] interactions available on the {DataChartName}™ control.
+
+|====

@@ -1,0 +1,186 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-configuring-the-trend-line",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","How Do I","Layouts"],
+    "guid": "76dd1700-4a5a-4b0d-a4c5-00292523b2fa",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2293858Z"
+}
+|metadata|
+////
+
+= Configuring the Trend Line
+
+
+
+=== Purpose
+
+This topic explains, with code examples, how to configure the trend line of link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ for custom appearance and color.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-overview.html[{SparklineName} Overview]
+|This topic provides an overview of the _{SparklineName}_ control, its benefits, and the supported chart types.
+
+| link:sparkline-configuring-sparkline.html[Configuring {SparklineName}]
+|This topic provides an overview of the possible ways to configure the _{SparklineName}_ control. Links to the detailed configurations (available in separate topics) are provided as well.
+
+| link:sparkline-adding-a-trend-line.html[Adding a Trend Line]
+|This topic explains, with code example, how to add a trend line over the _{SparklineName}_ control.
+
+|====
+
+== Configuring the Trend Line – Conceptual Overview
+
+=== Overview
+
+By default, the trend line is not displayed in the Sparkline chart. The minimum setting for displaying the trend line is enabling it by setting the TrendLineVisibilty property to `Visible.` A Trend Line configured with the minimum settings a line (based on selected trend line type) is a gray horizontal directional line with line thickness of 1 pixel.
+
+The Trend Line can be customized in the following aspects:
+
+* Type – numerous trend line types are supported. For details, refer to the link:sparkline-sparkline-features.html#Trend_Lines[Supported trendline types] text block of the link:sparkline-sparkline-features.html[{SparklineName} Features] topic.
+* Line color
+* Line thickness
+* Line period – used for calculating the moving average of the trend line. Applicable to trend lines of Average types only (not for Fit types). For example, you can set the line period for Simple Average or Exponential Average trend lines, but not for Linear Fit or [other] type of Fit trend lines.
+
+Each of these aspects is managed through a dedicated property. See the Property settings text block for details.
+
+=== Property settings
+
+The following table maps the configuration tasks to the corresponding Trend Line property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|[[_Hlk319427977]] 
+
+Specify the trend line type
+| link:sparkline-sparkline-property-reference.html#TrendLineType[TrendLineType]
+|The desired trend line type
+
+|Change the color of the trend line
+| link:sparkline-sparkline-property-reference.html#TrendLineBrush[TrendLineBrush]
+|The name of the color
+
+|Change the thickness of the trend line
+| link:sparkline-sparkline-property-reference.html#TrendLineThickness[TrendLineThickness]
+|The desired numeric value 
+
+|Change the period of the trend line
+| link:sparkline-sparkline-property-reference.html#TrendLinePeriod[TrendLinePeriod]
+|The desired numeric value (integer)
+
+|====
+
+== Configuring the Trend Line – Code Example
+
+=== Description
+
+The code below demonstrates how to configure a red trend line of Simple Average type that is 3 pixels thick and have a period of 2.
+
+=== Preview
+
+image::images/Configuring_the_Trend_Line.png[]
+
+[[_Hlk319431233]]
+
+=== Property settings
+
+[options="header", cols="a,a"]
+|====
+|Property|Setting
+
+| link:{SparklineLink}.{SparklineName}~trendlinetype.html[TrendLineType]
+| __SimpleAverage__ 
+
+| link:{SparklineLink}.{SparklineName}~trendlinebrush.html[TrendLineBrush]
+|Red
+
+| link:{SparklineLink}.{SparklineName}~trendlinethickness.html[TrendLineThickness]
+|3
+
+| link:{SparklineLink}.{SparklineName}~trendlineperiod.html[TrendLinePeriod]
+|2
+
+|====
+
+=== Code
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<igSparkline:{SparklineName} 
+            TrendLineType="SimpleAverage"
+            TrendLineBrush="Red"
+            TrendLinePeriod="2"
+            TrendLineThickness="3"/>
+----
+*In C#:*
+
+[source,csharp]
+----
+this.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage;
+this.{SparklineName}1.TrendLineBrush = new SolidColorBrush(Colors.Red);
+this.{SparklineName}1.TrendLinePeriod = 2;
+this.{SparklineName}1.TrendLineThickness = 3;
+----
+
+ifdef::sl,wpf,win-phone,win-universal[] 
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage
+Me.{SparklineName}1.TrendLineBrush = New SolidColorBrush(Colors.Red)
+Me.{SparklineName}1.TrendLinePeriod = 2
+Me.{SparklineName}1.TrendLineThickness = 3
+----
+endif::sl,wpf,win-phone,win-universal[] 
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+ifdef::win-forms[] 
+*In C#:*
+
+[source,csharp]
+----
+this.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage;
+this.{SparklineName}1.TrendLineBrush = new SolidColorBrush(Color.Red);
+this.{SparklineName}1.TrendLinePeriod = 2;
+this.{SparklineName}1.TrendLineThickness = 3;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage
+Me.{SparklineName}1.TrendLineBrush = New SolidColorBrush(Color.Red)
+Me.{SparklineName}1.TrendLinePeriod = 2
+Me.{SparklineName}1.TrendLineThickness = 3
+----
+endif::win-forms[] 
+
+[[_Ref317078582]]
+== Related Content
+
+
+
+The following topic provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} Property Reference]
+|This topic explains the featured properties of the _{SparklineName}_ control.
+
+|====

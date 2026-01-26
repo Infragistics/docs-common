@@ -1,0 +1,192 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-addingtabletoworksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["How Do I"],
+    "guid": "e4d280b9-8b8c-4171-a360-1e5b7a1e888d",
+    "buildFlags": [],
+    "createdOn": "2015-06-29T11:55:18.8938998Z"
+}
+|metadata|
+////
+
+= テーブルをワークシートに追加 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、{ExcelEngineName} を使用してワークシートにワークシート テーブルを追加する方法について、手順を追って説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:excelengine-creating-a-workbook.html[ワークブックの作成 ({ExcelEngineName})]
+|{ExcelEngineName} を使用し素早く起動して実行するために、このトピックではワークブックを作成する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref423013928, テーブルをワークシートに追加 >>
+* <<_Ref423094435, テーブルの列と行の変更 >>
+* <<_Ref423013938, 関連コンテンツ >>
+
+[[_Ref423013928]]
+== テーブルをワークシートに追加
+
+=== 概要
+
+ワークシート テーブルは、ワークシート内で列および行の形式で表示される一連のデータです。ワークシート テーブル内のデータは、ワークシート内の他の列や行のデータとは独立して管理できます。{ExcelEngineName} のワークシート テーブルは、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable.html[WorksheetTable] クラスによって表示され、ワークシートの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~tables.html[Tables] コレクションに追加されます。この手順では、ワークシートにワークシート テーブルを追加する方法を紹介します。
+
+=== 前提条件
+
+この手順を実行するには、以下が必要です。
+
+「ws」と名付けられた少なくとも 1 つのワークシートを持つ初期化されたワークブック。
+
+=== 概要
+
+以下はプロセスの概要です。
+
+1.ワークシートの Table コレクションの Add メソッドの呼び出し
+
+2.テーブル領域の指定
+
+3.テーブル データにヘッダーを含むかどうかの指定
+
+4.テーブル　スタイルの指定 (オプション)。
+
+=== 手順
+
+以下のステップでは、ワークシートにテーブルを追加する方法を紹介します。
+
+=== 1. ワークシートの Table コレクションの Add メソッドの呼び出し
+
+ワークシートの `Tables` コレクションの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecollection~add.html[Add] メソッドを呼び出します。次のステップでは、メソッドの引数に関する詳細を指定します。
+
+=== 2. テーブル領域の指定
+
+最初の引数はテーブルが配置される領域を指定します。例: "F16:T29"データにヘッダーがある場合は、領域にヘッダーのセルも含めます。
+
+=== 3. テーブル データにヘッダーを含むかどうかの指定
+
+2 番目の引数は、指定された領域にテーブル ヘッダーとして使用されるセルを含むかどうかを指定します。領域内にヘッダー セルがある場合は、この引数を `true` に設定します。
+
+=== 4. テーブル　スタイルの指定 (オプション)。
+
+3 番目のオプションの引数では、テーブルに適用する link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablestyle.html[WorksheetTableStyle] オブジェクトを指定できます。
+
+[[_Ref382317785]]
+
+=== 完全なコード
+
+以下のコードは、ワークシート テーブル (領域 "F16:T29" に配置され、この領域の最上部のセルにヘッダー セルを含む) を "ws" という名前のワークシートの `Tables` コレクションに追加する方法を示します。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim wt As WorksheetTable = Me.ws.Tables.Add("F16:T29", True)
+----
+endif::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+WorksheetTable wt = this.ws.Tables.Add("F16:T29", true);
+----
+
+.注:
+
+[NOTE]
+====
+`Add` メソッドによって返される参照を使用して、ワークシート テーブルを操作できます。たとえば、テーブル名の設定、領域の取得、または並べ替え設定の指定などができます。
+====
+
+[[_Ref423094435]]
+== テーブルの列と行の変更
+
+以下の表では、ワークシート テーブルの列と行に実行できる変更操作を簡単に説明し、構成するメソッドにそれらをマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|変更操作|詳細|メソッド
+
+|列の挿入
+|このメソッドは、1 つまたは複数の列の挿入に使用します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~insertcolumns(int32,int32).html[InsertColumns]
+
+|データ行の挿入
+|このメソッドは、1 つまたは複数のデータ行の挿入に使用します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~insertdatarows.html[InsertDataRows]
+
+|列の削除
+|このメソッドは、1 つまたは複数の列の削除に使用します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~deletecolumns.html[DeleteColumns]
+
+|データ行の削除
+|このメソッドは、1 つまたは複数のデータ行の削除に使用します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~deletedatarows.html[DeleteDataRows]
+
+|新しいテーブル範囲の設定
+|このメソッドは、`WorksheetTable` オブジェクトに新しいセルの領域を割り当てる場合に使用します。たとえば、以下を呼び出すことによって、セルの領域 C26:G32 に割り当てられた `WorksheetTable` オブジェクトがある場合、その `WorksheetTable` オブジェクトをセルの領域 J6:O15 に再割り当てすることができます。 
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+---- 
+worksheetTable.Resize("J6:O15") 
+---- 
+endif::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+---- 
+worksheetTable.Resize("J6:O15"); 
+---- 
+
+位置 C26:G32 のセルの領域は、コンテンツとスタイルを維持しますが、再割り当て後は `WorksheetTable` オブジェクトとの関連付けが失われます。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~resize.html[Resize]
+
+|====
+
+[[_Ref423013938]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-filtering-tables.html[テーブルをフィルター ({ExcelEngineName})]
+|このトピックは、エクスポートされたテーブル内の列をフィルターする方法を説明します。
+
+| link:excelengine-preserving-table-formatting-when-loading-excel-files.html[Excel ファイルを読み込むときにテーブルの書式設定を保持 ({ExcelEngineName})]
+|このトピックは、Microsoft Excel ファイルを読み込むときにテーブルの書式設定を保持できる方法を説明します。
+
+| link:excelengine-sorting-tables.html[テーブルの並べ替え ({ExcelEngineName})]
+|このトピックは、エクスポートされたテーブルで列を並べ替える方法を説明します。
+
+| link:excelengine-support-named-tables-in-an-excel-spreadsheet.html[ワークシートの名前付きテーブルのサポート ({ExcelEngineName})]
+|このトピックでは、名前付きテーブルの作成とアクセスについて説明します。
+
+|====

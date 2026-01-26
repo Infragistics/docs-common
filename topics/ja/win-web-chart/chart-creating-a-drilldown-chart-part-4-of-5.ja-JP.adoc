@@ -1,0 +1,38 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-4-of-5",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{6CF12446-317D-4EDE-9BAF-D75E8F576671}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ドリルダウン チャートの作成（4/5）
+
+このトピックは、 link:chart-creating-a-drilldown-chart-part-3-of-5.html[ドリルダウン チャートの作成（3/5）]の続きです。
+
+この特定の詳細なガイドでは、データ アクセスのためのコードとロジックはユーザー インタフェース内にあります。実際のエンタープライズ アプリケーションでは、これは Data Access Layer と Business Logic Layer 内にあるビジネス オブジェクトの両方またはいずれか一方によって処理すべきです。
+
+以下のメソッドは、BuildChart メソッドでビルドされた SqlCommand を受け付け、特定のドリル レベルのためのスキーマとデータを含む DataTable を返します。
+*Visual Basic の場合：*
+
+[source]
+----
+  Private Function GetChartData(ByVal theCommand As SqlCommand) As DataTable     Dim d As SqlDataAdapter = New SqlDataAdapter(theCommand)     Dim t As DataTable = New DataTable("ChartData")     d.Fill(t)     Return t  End Function
+----
+
+*C# の場合：*
+
+[source]
+----
+  private DataTable GetChartData(SqlCommand theCommand)  {     SqlDataAdapter d = new SqlDataAdapter(theCommand);     DataTable t = new DataTable("ChartData");     d.Fill(t);     return t;  }
+----
+
+== 関連トピック
+
+link:chart-creating-a-drilldown-chart-part-5-of-5.html[ドリルダウン チャートの作成（5/5） ]

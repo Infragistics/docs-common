@@ -1,0 +1,366 @@
+﻿////
+|metadata|
+{
+    "name": "radialgauge-configuring-tick-marks",
+    "controlName": ["{RadialGaugeName}"],
+    "tags": ["Getting Started","How Do I"],
+    "guid": "c611b2f4-4ea0-44f2-b747-ac5fe44df5ac",
+    "buildFlags": ["SL","WPF","XAMARIN","ANDROID","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:11.9828573Z"
+}
+|metadata|
+////
+
+= 目盛の構成 ({RadialGaugeName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、{RadialGaugeName} コントロールを使用した目盛の概念的な概要を提供します。目盛プロパティの説明および目盛の実装方法を例で示します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:radialgauge.html[{RadialGaugeName}]
+|このセクションでは、 _{RadialGaugeName}_ コントロールおよびその主要機能の概要を説明します。
+
+| link:radialgauge-getting-started-with-radialgauge.html[{RadialGaugeName} の追加]
+|このトピックではコード例を使用して、{RadialGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Overview,目盛の概要>>
+* <<Preview,プレビュー>>
+* <<Properties,目盛のプロパティ>>
+* <<Example,目盛の構成>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[Overview]]
+== 目盛の概要
+
+=== 目盛の概要
+
+ラジアル ゲージの目盛は、指定された間隔の線でゲージに表示される視覚要素です。
+
+目盛には、主目盛および副目盛の 2 種類があります。 link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickcount.html[MinorTickCount] プロパティを使用して、隣接する 2 つの主目盛間の副目盛の数を指定します。
+
+[[Preview]]
+
+=== プレビュー
+
+以下の画像は、主目盛および副目盛が追加された {RadialGaugeName} のプレビューです。
+
+image::images/Configuring_Tickmarks1_1_17_1.png[]
+
+[[Properties]]
+== 目盛のプロパティ
+
+=== 目盛のプロパティの概要
+
+以下の表で、{RadialGaugeName} コントロールの目盛のプロパティを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}interval.html[Interval]
+|`Double`
+|主目盛を配置する間隔を決定します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+|`Double`
+|ゲージの中心から測定される、主目盛の開始位置を決定します。このプロパティの値の範囲は 0 から 1 です。主目盛にのみ影響があります。副目盛の範囲を変更するには、 link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent] プロパティを使用します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+|`Double`
+|ゲージの中心から測定される、主目盛の終了位置を決定します。このプロパティの値の範囲は 0 から 1 です。主目盛にのみ影響があります。副目盛の範囲を変更するには、 link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent] プロパティを使用します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+|`Double`
+|主目盛のストロークの太さを決定します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+|`Double`
+|ゲージの中心から計測される、0 から 1 の値で副目盛の描画を開始する位置を決定します。ゲージの標準の半径より拡張させるために、1 より大きい値を使用します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+|`Double`
+|ゲージの中心から計測される、0 から 1 の値で副目盛の描画を終了する位置を決定します。ゲージの標準の半径より拡張させるために、1 より大きい値を使用します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+|`Double`
+|隣接する 2 つの主目盛間の副目盛の数を決定します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+|`Double`
+|副目盛の太さを決定します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickbrush.html[TickBrush]
+|`Brush`
+|主目盛のブラシを決定します。このプロパティは、ゲージ スケールの主目盛のブラシを変更するために使用されます。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|`Brush`
+|副目盛に使用するブラシを決定します。このプロパティは、ゲージ スケールの副目盛のブラシを変更するために使用されます。
+
+|====
+
+[[Example]]
+== 目盛の構成
+
+=== 例
+
+以下のスクリーンショットは、以下のように構成された主目盛を使用した {RadialGaugeName} の描画方法を示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+|0.4
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+|0.5
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+|1
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+|0.4
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+|0.45
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+|10
+
+|====
+
+image::images/Configuring_Tickmarks1_2_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{RadialGaugeName} x:Name="radialGauge"
+                   TickStartExtent = "0.4"
+                   TickEndExtent = "0.5"
+                   TickStrokeThickness = "1"
+                   MinorTickStartExtent = "0.4"
+                   MinorTickEndExtent = "0.45"
+                   MinorTickCount = "10" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.TickStartExtent = 0.4;
+radialGauge.TickEndExtent = 0.5;
+radialGauge.TickStrokeThickness = 1;
+radialGauge.MinorTickStartExtent = 0.4;
+radialGauge.MinorTickEndExtent = 0.45;
+radialGauge.MinorTickCount = 10;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.TickStartExtent = 0.4;
+radialGauge.TickEndExtent = 0.5;
+radialGauge.TickStrokeThickness = 1;
+radialGauge.MinorTickStartExtent = 0.4;
+radialGauge.MinorTickEndExtent = 0.45;
+radialGauge.MinorTickCount = 10;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.TickStartExtent = 0.4;
+radialGauge.TickEndExtent = 0.5;
+radialGauge.TickStrokeThickness = 1;
+radialGauge.MinorTickStartExtent = 0.4;
+radialGauge.MinorTickEndExtent = 0.45;
+radialGauge.MinorTickCount = 10;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.TickStartExtent = 0.4;
+radialGauge.TickEndExtent = 0.5;
+radialGauge.TickStrokeThickness = 1;
+radialGauge.MinorTickStartExtent = 0.4;
+radialGauge.MinorTickEndExtent = 0.45;
+radialGauge.MinorTickCount = 10;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.TickStartExtent = 0.4;
+radialGauge.TickEndExtent = 0.5;
+radialGauge.TickStrokeThickness = 1;
+radialGauge.MinorTickStartExtent = 0.4;
+radialGauge.MinorTickEndExtent = 0.45;
+radialGauge.MinorTickCount = 10;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.TickStartExtent = 0.4
+radialGauge.TickEndExtent = 0.5
+radialGauge.TickStrokeThickness = 1
+radialGauge.MinorTickStartExtent = 0.4
+radialGauge.MinorTickEndExtent = 0.45
+radialGauge.MinorTickCount = 10
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.TickStartExtent = 0.4
+radialGauge.TickEndExtent = 0.5
+radialGauge.TickStrokeThickness = 1
+radialGauge.MinorTickStartExtent = 0.4
+radialGauge.MinorTickEndExtent = 0.45
+radialGauge.MinorTickCount = 10
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.TickStartExtent = 0.4
+radialGauge.TickEndExtent = 0.5
+radialGauge.TickStrokeThickness = 1
+radialGauge.MinorTickStartExtent = 0.4
+radialGauge.MinorTickEndExtent = 0.45
+radialGauge.MinorTickCount = 10
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.TickStartExtent = 0.4
+radialGauge.TickEndExtent = 0.5
+radialGauge.TickStrokeThickness = 1
+radialGauge.MinorTickStartExtent = 0.4
+radialGauge.MinorTickEndExtent = 0.45
+radialGauge.MinorTickCount = 10
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+radialGauge.setTickStartExtent(.4);
+radialGauge.setTickEndExtent(.5);
+radialGauge.setTickStrokeThickness(1);
+radialGauge.setMinorTickStartExtent(.4);
+radialGauge.setMinorTickEndExtent(.45);
+radialGauge.setMinorTickCount(10);
+----
+
+endif::android[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:radialgauge-getting-started-with-radialgauge.html[{RadialGaugeName} の追加]
+|このトピックではコード例を使用して、{RadialGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+| link:radialgauge-configuring-the-backing.html[背景の構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールのバッキング機能の概念的な概要を提供します。バッキング領域のプロパティについて説明し、実装例を提供します。
+
+| link:radialgauge-configuring-labels.html[ラベルの構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールを使用したラベルの概念的な概要を提供します。ラベルのプロパティの説明およびラベルの構成方法を例で示します。
+
+| link:radialgauge-configuring-needles.html[針の構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールを使用した針の概念的な概要を提供します。針のプロパティの説明および針の構成方法を例で示します。
+
+| link:radialgauge-configuring-ranges.html[範囲の構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールの範囲の概念的な概要を提供します。範囲のプロパティについて説明し、範囲をラジアル ゲージに追加する方法の例も示します。
+
+| link:radialgauge-configuring-the-scale.html[スケールの構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールのスケールの概念的な概要を提供します。スケールのプロパティの説明およびスケールの実装方法を例で示します。
+
+|====

@@ -1,0 +1,94 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-add-page-numbering",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{6CE3A21C-1042-4D06-9771-EBBA7FD1D869}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ページ番号の追加
+
+読む人がレポートをナビゲートする際に役に立つ優れたレポート エレメントはページ番号です。目次とともに使用すると、読む人は目次にすばやく目を通して、読みたい機能がどのページにあるのかを判断することができるようになります。読む人にページ番号が与えられていたら、そのページをめくる（または Adobe Acrobat Reader のビューアの下部にページ番号を入力する）のは簡単な作業です。
+
+ドキュメント オブジェクト モデルの Section エレメントにページ番号を追加するためのメカニズムを説明します。Section エレメントの詳細は、 link:documentengine-section.html[「セクション」]のトピックを参照してください。ページ番号をレポートに追加するために必要とされる設定すべてを保持する、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  オブジェクトの  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pagenumbering.html[PageNumbering]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pagenumbering.html[PageNumbering]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pagenumbering.html[PageNumbering]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pagenumbering.html[PageNumbering]"]  で使用可能な  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.pagenumbering.html[PageNumbering]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.pagenumbering.html[PageNumbering]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.pagenumbering.html[PageNumbering]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.pagenumbering.html[PageNumbering]"]  オブジェクトがあります。
+
+[NOTE]
+====
+*注：* ページ番号はすべてのコンテンツ上に表示されるため、コンテンツをオフセットしてページ番号が上書きされないようにすることは開発者の責任であることに留意してください。
+====
+
+image::images/DocumentEngine_Add_Page_Numbering_01.png[]
+
+ 
+
+以下のコードはレポートの右下隅にページ番号を追加します。コメントは各プロパティをより詳細に説明しているので、コメントに特に注意してください。
+
+*Visual Basic の場合：*
+
+----
+' セクションの PageNumbering オブジェクトへの参照を取得します。
+Dim pn As Infragistics.Documents.Reports.Reports.Report.Section.PageNumbering = _  section1.PageNumbering
+' ページ番号のフォントのスタイルを作成します。
+pn.Style = New Infragistics.Documents.Reports.Reports.Report.Text.Style(Fonts.Arial, Brushes.Black)
+' Template プロパティはページ番号を示す
+' 実際の文字列です。現在のページ番号には [Page #] プレースホルダを
+' 使用し、ドキュメント全体の合計ページ
+' には [TotalPages] プレースホルダ
+' を使用します。
+pn.Template = "Page [Page #] of [TotalPages]"
+' SkipFirst を True に設定すると、セクションの最初のページに
+' ページ番号は配置されません。これは
+' 最初のページがタイトル ページの場合に役に立ちます。
+pn.SkipFirst = False
+' ページ番号はページの右側に揃えて
+' 配置されます。Alignment 列挙体の有効な値は、
+' Left、Center、および Right です。
+pn.Alignment.Horizontal = Infragistics.Documents.Reports.Reports.Report.Alignment.Right
+' ページ番号はページの下部に 
+' 配置されます。Alignment 列挙体の有効な値は、
+' Top と Bottom です。
+pn.Alignment.Vertical = Infragistics.Documents.Reports.Reports.Report.Alignment.Bottom
+' ページ番号はページの一番下にあります。
+' このため、ページのフッタ テキストの残りに
+' 揃うようにするには Y Offset を
+' 変更する必要があります。
+pn.OffsetY = -18
+----
+
+*C# の場合：*
+
+----
+// セクションの PageNumbering オブジェクトへの参照を取得します。
+Infragistics.Documents.Reports.Reports.Report.Section.PageNumbering pn = _  section1.PageNumbering;
+// ページ番号のフォントのスタイルを作成します。
+pn.Style = new Infragistics.Documents.Reports.Reports.Report.Text.Style(Fonts.Arial, Brushes.Black);
+// Template プロパティはページ番号を示す
+// 実際の文字列です。現在のページ番号には [Page #] プレースホルダを
+// 使用し、ドキュメント全体の合計ページ
+// には [TotalPages] プレースホルダ
+// を使用します。
+pn.Template = "Page [Page #] of [TotalPages]";
+// SkipFirst を True に設定すると、セクションの最初のページに
+// ページ番号は配置されません。これは
+// 最初のページがタイトル ページの場合に役に立ちます。
+pn.SkipFirst = false;
+// ページ番号はページの右側に揃えて
+// 配置されます。Alignment 列挙体の有効な値は、
+// Left、Center、および Right です。
+pn.Alignment.Horizontal = Infragistics.Documents.Reports.Reports.Report.Alignment.Right;
+// ページ番号はページの下部に 
+// 配置されます。Alignment 列挙体の有効な値は、
+// Top と Bottom です。
+pn.Alignment.Vertical = Infragistics.Documents.Reports.Reports.Report.Alignment.Bottom;
+// ページ番号はページの一番下にあります。
+// このため、ページのフッタ テキストの残りに
+// 揃うようにするには Y Offset を
+// 変更する必要があります。
+pn.OffsetY = -18;
+----

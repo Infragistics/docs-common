@@ -1,0 +1,89 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-treemap-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{648EA7FE-BBC3-4145-9433-8A54D201787E}",  
+    "buildFlags": [],
+    "createdOn": "2008-05-05T14:58:44Z"
+}
+|metadata|
+////
+
+= Treemap グラフ データで作業
+このトピックでは、ツリーマップ グラフでデータが適切に描画されることを保証するために役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにグラフのデータ ソースを簡単に設定することができますが、そのグラフが必要とするデータの適切な量とタイプを提供することが重要です。使用しているグラフのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+ツリーマップ グラフは、DataTable および TreeMapSeries オブジェクトをデータ ソースとしてサポートします。
+
+以下は、平面ツリーマップ グラフのデータ要件のリストです。
+
+* スキーマにはひとつ以上の文字列の列が含まれます。
+* スキーマにはひとつ以上の数値の列が含まれます。
+* 平面ツリーマップ グラフを TreeMapSeries オブジェクトをバインドする場合には、 link:chart-bind-a-treemap-chart-to-a-treemapseries-object.html[「ツリーマップ グラフを TreeMapSeries オブジェクトにバインド」]を参照してください。 
+
+== データをツリーマップ グラフにマップ
+
+ツリーマップ グラフは以下の規則を使用してデータを描画します。
+
+*DataTable をデータ ソースとして使用して:*
+
+* 各 DataRow はグラフのノードを表します。
+* DataTable をデータ ソースとして使用するとき、デフォルトの動作は各文字列の列をカテゴリー名としてすることです。
+*  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~indexorder.html[IndexOrder]"]  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~indexorder.html[IndexOrder]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~indexorder.html[IndexOrder]"]  プロパティはデータ値に基づいてノードに色を指定するかどうかを決定します。
+*  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  プロパティは数値を含む DataColumn のインデックスです。このプロパティは、ツリーマップ グラフでリーフ ノードの色を設定するために使用されます。ColorValueIndex を設定しない場合、DataTable で最初の数値の列にデフォルトで設定されます。ColorValueIndex プロパティはゼロから始まるインデックスです。ColorValueIndex プロパティの詳細は、 link:chart-map-a-leaf-nodes-color-to-a-specific-column-in-a-data-table.html[「データ テーブルでリーフ ノードの色を特定の列にマップ」]を参照してください。
+*  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~sizevalueindex.html[SizeValueIndex]"]  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~sizevalueindex.html[SizeValueIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~sizevalueindex.html[SizeValueIndex]"]  プロパティは数値を含む DataColumn のインデックスです。このプロパティは、ツリーマップ グラフでリーフ ノードのサイズを設定するために使用されます。SizeValueIndex を設定しない場合、DataTable で最初の数値の列にデフォルトで設定されます。SizeValueIndex プロパティはゼロから始まるインデックスです。
+
+*TreeMapSeries オブジェクトをデータ ソースとして使用して:*
+
+* 各 TreeMapDataPoint オブジェクトはグラフのノードを表します。TreeMapSeries オブジェクトをデータ ソースとして使用する詳細は、 link:chart-bind-a-treemap-chart-to-a-treemapseries-object.html[「ツリーマップ グラフを TreeMapSeries オブジェクトにバインド」]を参照してください。
+
+描画された平面ツリーマップ グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|Category|Name|Units Price|Yearly Sales
+
+|Fruit
+|Apples
+|3
+|200
+
+|Fruit
+|Bananas
+|2
+|100
+
+|Fruit
+|Oranges
+|1
+|50
+
+|Diary
+|Milk
+|4
+|20
+
+|Diary
+|Cheese
+|5
+|10
+
+|Meat
+|Steak
+|10
+|150
+
+|Meat
+|Chicken
+|8
+|35
+
+|====
+
+image::images/Chart_Working_with_TreeMap_Chart_Data.png[]

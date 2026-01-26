@@ -1,0 +1,285 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-visualizing-multi-dimensional-data-(olap-data)-(xamdatachart)",
+    "controlName": ["{DataChartName}"],
+    "tags": [],
+    "guid": "abd1333f-0efd-4fbe-8d91-710807eaa9c8",  
+    "buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:39:00.5763485Z"
+}
+|metadata|
+////
+
+= 多次元データ (OLAP データ) を視覚化
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、_{DataChartName}_™ コントロールで多次元データ (OnLine Analytical Processing (OLAP) データ) を表示する方法をコード例を示して説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+| link:http://en.wikipedia.org/wiki/Online_analytical_processing[OLAP]
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+| link:xampivotgrid-binding-data-to-the-xampivotgrid.html[データを xamPivotGrid にバインド] 
+
+|このトピックでは、 _xamPivotGrid_™ コントロールでサポートされるデータ ソースの概要について説明しています。 
+
+| link:xampivotgrid-databinding-using-flatdatasource.html[FlatDataSource の使用] 
+
+|このトピックでは、`FlatDataSource` クラスを使用して `IEnumerable` データを _xamPivotGrid_ で表示する方法について説明します。 
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始] 
+
+|{PlatformIDE} および Expression Blend で単純なデータ バインディングを使用して _{DataChartName}_ コントロールを追加する方法を学習します。 
+
+| link:resources-data-resources.html[データ アクセス] 
+
+|このセクションには、_{DataChartName}_ コントロールを使用したデータ アクセスに特化したトピックが含まれています。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref333329785,{DataChartName} コントロールに OLAP データを表示 – 概念的な概要>>
+* <<_Ref333329797,{DataChartName} コントロールに OLAP データを表示 – 手順>>
+
+** <<_Ref327265276,概要>>
+** <<_Ref327265280,プレビュー>>
+** <<_Ref327265283,要件>>
+** <<_Ref327265286,概要>>
+** <<_Ref327265289,手順>>
+** <<_Ref333329436,コード>>
+
+* <<_Ref327265296,関連コンテンツ>>
+
+[[_Ref333329785]]
+== {DataChartName} コントロールに OLAP データを表示 – 概念的な概要
+
+[[displayingOlapDataSummary]]
+{DataChartName} に OLAP データを表示概要
+
+_{DataChartName}_   コントロールに OLAP データを表示するためには、多次元データ セットを表示することに特化して設計された、特別なタイプの軸、OlapXAxis を構成する必要があります。_{DataChartName}_   に OLAP データを表示することは別として、OlapXAxis によってデータをドリルダウンして、シリーズがプロットされる値のためにデータ (列または行) から軸を選択することが可能となります。
+
+OlapXAxis には、 _xamPivotGrid_   コントロールのプロパティと似た link:{ApiPlatform}olap.xmla{ApiVersion}~infragistics.olap.xmla.xmladatasource_members.html[DataSource] プロパティがあります。このプロパティによって  _xamPivotGrid_、_{DataChartName}_ でデータ ソースを使用することが可能となります。したがってグリッドに表示される同じデータをチャートで表示できます。以下の画像は同じデータ ソースにバインドされた _XamPivotGrid_ と _{DataChartName}_ を示します(明確さのために画像にツールチップが追加されます)。
+
+image::images/xamDataChart_Visualizing_Multi-Dimensional_Data_01.png[]
+
+[[_Ref333329797]]
+== {DataChartName} コントロールに OLAP データを表示 – 手順
+
+[[_Ref327265276]]
+
+=== 概要
+
+この手順は  _{DataChartName}_   に OLAP データを表示するために必要な手順を説明します。
+
+この手順で概略される特定の例はフラットなデータ ソースとチャートに表示されるサンプル コンテンツを生成するためにlink:salesdatasample.html[営業データ サンプル] (`SalesDataSample` クラス) を使用しています。データ ソースの構成方法の詳細については、link:xampivotgrid-databinding-using-flatdatasource.html[「FlatDataSource の使用」]トピックを参照してください。
+
+手順では、ユーザーが列、行、フィルター、メジャーのための項目をデータ ソースから選択できるようにセレクターを追加することをオプションで提案します (手順 4)。このセレクターは _xamPivotDataSelector_ コンポーネントのインスタンスから実装されます。
+
+[[_Ref327265280]]
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/xamDataChart_Visualizing_Multi-Dimensional_Data_02.png[]
+
+[[_Ref327265283]]
+
+=== 要件
+
+この手順を実行するには、以下が必要です。
+
+* {PlatformName} {PlatformIDE} アプリケーション プロジェクト。
+* 以下のアセンブリへの参照
+
+**  _{RootAssembly}_  
+**  _{ApiPlatform}DataVisualization_  
+**  _{ApiPlatform}Olap_  
+**  _{ApiPlatform}Olap.FlatData_ (フラットなデータを使用していない場合、それぞれのアセンブリを含む)
+**  _{ApiPlatform}Controls.Grids.XamPivotGrid_   (link:{ApiPlatform}controls.grids.xampivotgrid{ApiVersion}~infragistics.controls.grids.xampivotdataselector_members.html[XamPivotDataSelector] を使用したい場合に限り必要)
+**  _{ApiPlatform}{DataChartAssembly}_  
+**  _{ApiPlatform}Controls.Charts.Olap_  
+
+* アプリケーションに追加された link:salesdatasample.html[営業データ サンプル] リソースからの `SalesDataSample` クラス
+
+[[_Ref327265286]]
+
+=== 概要
+
+以下はプロセスの概念的概要です。
+
+*1. データ ソースの構成*
+
+*2.データ チャートを追加します。*
+
+*3. OlapXAxis を構成します。*
+
+*4. _(オプション)_ ピボット データ セレクターを追加します。*
+
+[[_Ref327265289]]
+
+=== 手順
+
+=== 1.データ ソースを構成します。
+
+階層とメジャーを割り当てるために link:{ApiPlatform}controls.grids.xampivotgrid{ApiVersion}~infragistics.controls.grids.xampivotdataselector_members.html[XamPivotDataSelector] コントロールを使用しないことを選択する場合、このために他のメカニズムを提供すべきです。または以下の例のように、列とメジャーとしていくつかの初期項目をデータ ソースに割り当てます。以下のコードはページ/ユーザー コントロールのリソースセクションに配置すべきです。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<models:SalesDataSample x:Key="DataSample"/>
+<olap:FlatDataSource
+    x:Key="DataSource"
+    Columns="[Date].[Date]"
+    Measures="AmountOfSale, NumberOfUnits"
+    MeasureListLocation="Rows"
+    ItemsSource="{StaticResource DataSample}" />
+----
+
+endif::wpf,win-universal[]
+
+=== 2.データ チャートを追加します。
+
+*1. _xamDataChart_ コントロールをページに追加します。*
+*2. 必要な軸を追加します。*
+
+A. x-軸を追加します。 `OlapXAxis` を _{DataChartName}_ チャートの `Axes` コレクションに追加します。
+
+A. x-軸を追加します。
+
+link:{DataChartLink}.numericyaxis_members.html[NumericYAxis] を _{DataChartName}_ チャートの `Axes` コレクションに追加します。
+
+表示されるデータに数値が含まれているため、データ チャート シリーズを正しく表示するためにこのような Y 軸が必要です。
+
+=== 3.OLAP x-軸を構成します。
+
+*1.追加された Y 軸を OLAP-x-軸に添付します。*
+
+link:{DataChartLink}.numericyaxis_members.html[YAxis] *プロパティ*を前の手順で定義した `NumericYAxis` に設定します。 
+
+*2.データ ソースを設定します。* 
+
+link:{ApiPlatform}controls.grids.xampivotgrid{ApiVersion}~infragistics.controls.grids.xampivotdataselector{ApiProp}datasource.html[DataSource] プロパティを手順 1 で定義したデータ ソースに設定します。 
+
+*3. データが読み取られるデータ軸を構成します。* 
+
+これを実行するには、 link:{ApiPlatform}controls.charts.olap{ApiVersion}{ApiProp}{DataChartNamespace}.olapaxis{ApiProp}olapaxissource.html[OlapAxisSource] プロパティを設定します。このプロパティはデータがデータ ソースの行から読み取られるのか、それともデータ ソースの列から読み取られるのかを決定します。
+
+列を選択する場合、データ チャートの `OlapXAxis` にデータ ソースの各列が表示されます。行ごとに、データ チャート シリーズが生成され表示されます。<<displayingOlapDataSummary,{DataChartName} に OLAP データを表示概要>>ブロックの図は、ピボット グリッド コントロールと `OlapAxisSource` が link:{ApiPlatform}controls.charts.olap{ApiVersion}{ApiProp}{DataChartNamespace}.olapaxissource.html[Columns] に設定されている OLAP 軸を含むデータ チャートを示します。
+
+*4. シリーズ タイプの構成*
+
+シリーズ タイプを構成するには、 link:{ApiPlatform}controls.charts.olap{ApiVersion}{ApiProp}{DataChartNamespace}.olapxaxisdefaultseries.html[DefaultSeries] プロパティを設定します(構成しない場合、デフォルトの列シリーズが表示されます)。
+
+=== 4.(オプション) ピボット データ セレクターを追加します。
+
+以下のコード スニペットはデータ チャートと同じデータ ソースにバインドされる _XamPivotDataSelector_ コンポーネントを追加します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:Expander Grid.Column="1">
+ <ig:XamPivotDataSelector DataSource="{StaticResource DataSource}"/>
+</ig:Expander>
+----
+
+endif::wpf,win-universal[]
+
+[[_Ref333329436]]
+
+=== コード
+
+以下はこの手順の完全な XAML コードです。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<UserControl 
+      …
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:models="clr-namespace:Infragistics.Samples.Data.Models"
+      xmlns:olap="http://schemas.infragistics.com/olap">
+    <UserControl.Resources>
+        <models:SalesDataSample x:Key="DataSample"/>
+        <olap:FlatDataSource
+            x:Key="DataSource"
+            Columns="[Date].[Date]"
+            Measures="AmountOfSale, NumberOfUnits"
+            MeasureListLocation="Rows"
+            ItemsSource="{StaticResource DataSample}" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ig:{DataChartName} OverviewPlusDetailPaneVisibility="Visible" HorizontalZoomable="True" VerticalZoomable="True">
+            <ig:{DataChartName}.Axes>
+                <ig:OlapXAxis
+                    YAxis="{Binding ElementName=YAxis}"
+                    DataSource="{StaticResource DataSource}"
+                    OlapAxisSource="Columns"
+                    DefaultSeries="ColumnSeries"/>
+                <ig:NumericYAxis x:Name="YAxis" MinimumValue="0"/>
+            </ig:{DataChartName}.Axes>
+        </ig:{DataChartName}>
+        <!--<ig:Expander Grid.Column="1">
+        <ig:XamPivotDataSelector DataSource="{StaticResource DataSource}"/>
+        </ig:Expander>-->
+    </Grid>
+</UserControl>
+----
+
+endif::wpf,win-universal[]
+
+[[_Ref327265296]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-customizing-series-when-used-with-multi-dimensional-data-(olap-data)-({DataChartName}).html[多次元データ (OLAP データ) と使用した時にシリーズをカスタマイズ ({DataChartName})]
+|このトピックｄは、{DataChartName} コントロールで 1 つのチャートに複数シリーズ タイプを表示する、または多次元データ (OLAP データ) で作業する時に積層シリーズを使用する方法について説明します。
+
+| link:xampivotgrid-integration-with-chart.html[Data Chart との統合]
+|このトピックでは、_xamPivotGrid_ および _{DataChartName}_ コントロールの間のインタラクションの構築方法を説明します。
+
+| link:xampivotgrid-dataselector.html[DataSelector]
+|このトピックでは、_xamPivotDataSelector_ コントロールを紹介します。
+
+|====

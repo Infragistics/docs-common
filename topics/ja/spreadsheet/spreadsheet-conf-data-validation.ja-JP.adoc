@@ -1,0 +1,452 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-conf-data-validation",
+    "tags": ["How Do I","Validation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "79f5cde2-9179-47fb-b933-45b967b819b3",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0724172Z"
+}
+|metadata|
+////
+
+= データ検証の構成 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、定義済みのデータ検証ルールを構成および設定する方法について説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、{SpreadsheetName} コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-uiu-data-validation.html[データ検証のインタラクション ({SpreadsheetName})] 
+
+|このトピックでは、データ検証機能に関連したユーザーが実行できる操作を説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref420509263, 概要 >>
+* <<_Ref420509498, データ検証ルールの共通パラメーター >>
+* <<_Ref420509588, 定義済みのデータ検証ルール >>
+* <<_Ref421010761, 関連コンテンツ >>
+
+[[_Ref420509263]]
+== 概要
+
+=== 概要
+
+{SpreadsheetName} データ検証機能は、さまざまな制約の検証を実行し、ユーザー入力を許可または拒否するルール (ワークシートのセルに設定されている) に基づいています。ワークシートの各セルには、セルの link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheetcell~datavalidationrule.html[DataValidationRule] プロパティを使用して、検証ルールを 1 つのみ設定できます。
+
+注:
+
+[NOTE]
+====
+ワークシートの link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheet~datavalidationrules.html[DataValidationRules] コレクションを使用すると、指定したルールを 1 つまたは複数のセルに適用できます。
+====
+
+[[_Ref420509498]]
+== データ検証ルールの共通パラメーター
+
+=== 詳細
+
+すべてのデータ検証ルールは、ベースの link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule_members.html[DataValidationRule] 抽象クラスから拡張されるため、以下の表にリストされている共通の構成パラメーターがあります。
+
+[options="header", cols="a,a,a"]
+|====
+|パラメーター|詳細|プロパティ
+
+|入力メッセージの説明
+|このプロパティは、入力メッセージの説明を設定します。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~inputmessagedescription.html[InputMessageDescription]
+
+|入力メッセージのタイトル
+|このプロパティは、オプションの入力メッセージのタイトルを設定します。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~inputmessagetitle.html[InputMessageTitle]
+
+|入力メッセージの表示 / 非表示
+|`InputMessageDescription` プロパティを設定すると、デフォルトでは入力メッセージが表示されますが、このプロパティを false に設定すると非表示にできます。 
+
+注: 
+
+[NOTE] 
+
+==== 
+
+link:{SpreadsheetLink}.{SpreadsheetName}~validationinputmessageposition.html[ValidationInputMessagePosition] プロパティを使用すると、アクティブ セルと関連付けられた入力メッセージの位置を設定できます。 
+
+====
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~showinputmessage.html[ShowInputMessage]
+
+|エラー メッセージの説明
+|このプロパティは、オプションのエラー メッセージの説明を設定します。値を設定しない場合は、以下のデフォルトの説明が表示されます。「入力した値は無効です。ユーザーの設定によって、セルに入力できる値が制限されています。」
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~errormessagedescription.html[ErrorMessageDescription]
+
+|エラー メッセージのタイトル
+|このプロパティは、オプションのエラー メッセージのタイトルを設定します。値を設定しない場合は、アプリケーションのタイトルが使用されます。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~errormessagetitle.html[ErrorMessageTitle]
+
+|エラー メッセージの表示 / 非表示
+|デフォルトではエラー メッセージが表示されますが、このプロパティを false に設定すると非表示にできます。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~showerrormessageforinvalidvalue.html[ShowErrorMessageForInvalidValue]
+
+|エラー メッセージ タイプ
+|このプロパティを link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationerrorstyle.html[DataValidationErrorStyle] 列挙体の値のいずれかに設定することで、3 種類のエラー メッセージを指定できます。 
+
+注: 
+
+[NOTE] 
+
+==== 
+
+エラー メッセージ タイプの違いについての詳細は、 link:spreadsheet-uiu-data-validation.html[データ検証のインタラクション]のトピックを参照してください。 
+
+====
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~errorstyle.html[ErrorStyle]
+
+|====
+
+[[_Ref420509588]]
+== 定義済みのデータ検証ルール
+
+=== 概要
+
+コントロールがサポートする定義済みのデータ検証ルールのいくつかは、適切なルールをインスタンス化し、パラメーターを構成して、ワークシートのセルの `DataValidationRule` プロパティに設定するだけで、さまざまなデータ検証に使用できます。
+
+=== 詳細
+
+以下の表では、定義済みのデータ検証ルール、その目的、および機能について簡単に説明しています。詳細は、表の後に記載されています。
+
+[options="header", cols="a,a,a"]
+|====
+|検証する対象|詳細|ルール タイプ
+
+|<<_Ref420585054,検証なし>>
+|このルールは検証を実行しませんが、セルをアクティブ化すると、入力メッセージを表示することができます。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.anyvaluedatavalidationrule_members.html[AnyValueDataValidationRule]
+
+|<<_Ref420585055,単一の制約の値または数式>>
+|このルールは、単一の制約値に基づきユーザーの入力を検証します。たとえば、入力値は以下のようになります。 
+
+* 5 より大きい 
+
+* 7.35 の倍以下 
+
+* 2 日の時間範囲と等しい 
+
+* 日付が 2015 年 4 月 15 日と等しくない 
+
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule_members.html[OneConstraintDataValidationRule]
+
+|<<_Ref420585065,2 つの制約の値または数式>>
+|このルールは、2 つの制約値に基づきユーザーの入力を検証します。たとえば、入力値は以下のようになります。 
+
+* テキストの長さは 10 文字以上 15 文字以下 
+
+* 日付が 2015 年 6 月 16 日から 2015 年 7 月 10 日の間ではない 
+
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationrule_members.html[TwoConstraintDataValidationRule]
+
+|<<_Ref420585079,承認済みの値のリスト>>
+|このルールは、承認済みの値のリストに基づき、ユーザーの入力を検証します。たとえば、1、2、4、8、16、32、64 および 128 のいずれかの値が入力されている必要があります。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.listdatavalidationrule_members.html[ListDataValidationRule]
+
+|<<_Ref420586281,カスタム数式>>
+|このルールは、数式に基づきユーザーの入力を検証します。
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.customdatavalidationrule_members.html[CustomDataValidationRule]
+
+|====
+
+[[_Ref420585054]]
+== 検証なし
+
+[[_Hlk368069110]]
+
+=== 概要
+
+このルールは検証を実行しませんが、セルをアクティブ化すると、入力メッセージを表示することができます。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|入力メッセージのタイトルの設定
+|`InputMessageTitle`
+|文字列型の値
+
+|入力メッセージの説明の設定
+|`InputMessageDescription`
+|文字列型の値
+
+|====
+
+[[_Hlk337817761]]
+
+=== 例
+
+以下のコードは、`AnyValueDataValidationRule` を作成し入力メッセージに構成する方法、およびルールを "{SpreadsheetName}1" という名前の  _{SpreadsheetName}_   のセルに設定する方法を示します。
+
+*Visual Basic の場合:*
+
+ifdef::xaml,win-forms[]
+----
+Dim rule As New AnyValueDataValidationRule()
+rule.InputMessageTitle = "Experience"
+rule.InputMessageDescription = "Please list the frameworks your have experience with in this box"
+Me.{SpreadsheetName}1.Workbook.Worksheet s (0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+*C# の場合:*
+
+----
+AnyValueDataValidationRule rule = new AnyValueDataValidationRule();
+rule.InputMessageTitle = "Experience";
+rule.InputMessageDescription = "Please list the frameworks your have experience with in this box";
+this.{SpreadsheetName}1.Workbook.Worksheet s [0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+endif::xaml,win-forms[]
+
+[[_Ref420585055]]
+== 単一の制約の値または数式
+
+=== 概要
+
+このルールは、単一の制約値に基づきユーザーの入力を検証します。たとえば、入力値は以下のようになります。
+
+* 5 より大きい
+* 7.35 の倍以下
+* 2 日の時間範囲と等しい
+* 日付が 2015 年 4 月 15 日と等しくない
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ / メソッドの設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ / メソッド|設定の選択肢:
+
+|検証演算子 (equal、less than など) の設定
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule~validationoperator.html[ValidationOperator]
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationoperator.html[OneConstraintDataValidationOperator] 型の値
+
+|検証の制約の設定
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule~setconstraint.html[SetConstraint]
+|このメソッドのオーバーロードを使用すると、`double` 型、`DataTime` 型、または `TimeSpan` 型の制約を設定できます。
+
+|====
+
+=== 例
+
+以下のコードは、`OneConstrantDataValidationRule` を作成し 5 以上の値を許可する検証ルールを構成する方法、およびルールを "{SpreadsheetName}1" という名前の  _{SpreadsheetName}_   のセルに設定する方法を示します。
+
+*Visual Basic の場合:*
+
+----
+Dim rule As New OneConstraintDataValidationRule()
+rule.ValidationOperator = OneConstraintDataValidationOperator.GreaterThan
+rule.SetConstraint(5)
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+*C# の場合:*
+
+----
+OneConstraintDataValidationRule rule = new OneConstraintDataValidationRule();
+rule.ValidationOperator = OneConstraintDataValidationOperator.GreaterThan;
+rule.SetConstraint(5);
+this.{SpreadsheetName}1.Workbook.Worksheets[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+[[_Ref420585065]]
+== 2 つの制約の値または数式
+
+=== 概要
+
+このルールは、2 つの制約値に基づきユーザーの入力を検証します。たとえば、入力値は以下のようになります。
+
+* テキストの長さは 10 文字以上 15 文字以下
+* 日付が 2015 年 6 月 16 日から 2015 年 7 月 10 日の間ではない
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ / メソッドの設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ / メソッド|設定の選択肢:
+
+|検証演算子 (between、not between) の設定
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule~validationoperator.html[ValidationOperator]
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationoperator.html[TwoConstraintDataValidationOperator] 型の値
+
+|検証の制約の下限を設定する
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationrule~setlowerconstraint.html[SetLowerConstraint]
+|このメソッドのオーバーロードを使用すると、`double` 型、`DataTime` 型、または `TimeSpan` 型の制約を設定できます。
+
+|検証の制約の上限を設定する
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationrule~setupperconstraint.html[SetUpperConstraint]
+|このメソッドのオーバーロードを使用すると、`double` 型、`DataTime` 型、または `TimeSpan` 型の制約を設定できます。
+
+|====
+
+=== 例
+
+以下のコードは、`TwoConstrantDataValidationRule` を作成しテキストの長さが 10 ～ 15 文字の範囲の値を許可する検証ルールを構成する方法、およびルールを "{SpreadsheetName}1" という名前の  _{SpreadsheetName}_   のセルに設定する方法を示します。
+
+*Visual Basic の場合:*
+
+----
+Dim rule As New TwoConstraintDataValidationRule()
+rule.ValidationOperator = TwoConstraintDataValidationOperator.Between
+rule.ValidationCriteria = DataValidationCriteria.TextLength
+rule.SetLowerConstraint(10)
+rule.SetUpperConstraint(15)
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+*C# の場合:*
+
+----
+TwoConstraintDataValidationRule rule = new TwoConstraintDataValidationRule();
+rule.ValidationOperator = TwoConstraintDataValidationOperator.Between;
+rule.ValidationCriteria = DataValidationCriteria.TextLength;
+rule.SetLowerConstraint(10);
+rule.SetUpperConstraint(15);
+this.{SpreadsheetName}1.Workbook.Worksheets[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+[[_Ref420585079]]
+== 承認済みの値のリスト
+
+=== 概要
+
+このルールは、承認済みの値のリストに基づき、ユーザーの入力を検証します。たとえば、1、2、4、8、16、32、64 および 128 のいずれかの値が入力されている必要があります。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するメソッド設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このメソッドを使用:|提供内容:
+
+|承認済みの値のリストを設定する
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.listdatavalidationrule~setvalues.html[SetValues]
+|承認済みのオブジェクトの配列は引数です。
+
+|====
+
+=== 例
+
+以下のコードは、`ListDataValidationRule` を作成し値 1、2、4、8、16、32、64、および 128 を許可する検証ルールを構成する方法、およびルールを "{SpreadsheetName}1" という名前の  _{SpreadsheetName}_   のセルに設定する方法を示します。
+
+*Visual Basic の場合:*
+
+----
+Dim rule As New ListDataValidationRule()
+rule.SetValues(New Object() {1, 2, 4, 8, 16, 32, 64, 128})
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+*C# の場合:*
+
+----
+ListDataValidationRule rule = new ListDataValidationRule();
+rule.SetValues(new object[] {1, 2, 4, 8, 16, 32, 64, 128});
+this.{SpreadsheetName}1.Workbook.Worksheets[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+[[_Ref420586281]]
+== カスタム数式
+
+=== 概要
+
+このルールを使用すると、新しいセルの値の承認、または拒否に基づきブール値の結果を返す数式を設定できます。新しい値を承認するには、数式が True（"True" は大文字と小文字が区別されない)、null、またはゼロ以外の数値と評価されることが必要です。新しい値を拒否するには、数式が False、0、任意の `ErrorValue` (#VALUE! など)、または "True" (大文字と小文字が区別されない) 以外の文字列と評価されることが必要です。
+
+数式に相対アドレスが使用された場合、2 番目の引数として基本参照アドレスを設定できます。基本参照アドレスが設定されていない場合は、左上が使用されます。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するメソッド設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このメソッドを使用:|引数を提供:
+
+|数式を設定
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.customdatavalidationrule~setformula.html[SetFormula]
+|
+* 数式 
+
+* 数式で相対参照が使用された場合は、参照用にベース アドレスが使用されます。 
+
+|====
+
+=== 例
+
+以下のコードは、`CustomDataValidationRule` を作成し、ワークシート内の特定のセル (この例では A2) に 2 以上の値がある場合に値を承認済みにする検証ルールの数式を構成する方法、およびルールを "{SpreadsheetName}1" という名前の  _{SpreadsheetName}_   のセルに設定する方法を示します。
+
+ifdef::xaml,win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Dim rule As New CustomDataValidationRule()
+rule.SetFormula("=IF(A2>2,TRUE,FALSE)", Nothing)
+Me.{SpreadsheetName}1.Workbook.Worksheet s (0).Rows(3).Cells(3).DataValidationRule = rule
+----
+
+*C# の場合:*
+----
+CustomDataValidationRule rule = new CustomDataValidationRule();
+rule.SetFormula("=IF(A2>2,TRUE,FALSE)", null);
+this.{SpreadsheetName}1.Workbook.Worksheet s [0].Rows[3].Cells[3].DataValidationRule = rule;
+----
+endif::xaml,win-forms[]
+
+[[_Ref421010761]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-data-validation.html[データ検証の使用 ({SpreadsheetName})]
+|このトピックは、データ検証イベントの処理方法と、無効なデータのセルを円で囲んで示す方法を説明します。
+
+|====

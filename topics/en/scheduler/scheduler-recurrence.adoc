@@ -1,0 +1,131 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-recurrence",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-30T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= Recurrent Activity ({SchedulerName})
+
+== Purpose
+
+This topic explains the repetitive behavior of the activities.
+
+== Required Background
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-overview.html[Overview ({SchedulerName})]
+|This topic provides an overview of the {SchedulerName} control.
+
+|link:scheduler-binding-schedulelistdatasource.html[Binding Using ScheduleListDataSource ({SchedulerName})]
+|This topic explains how to bind the control to a data source using ScheduleListDataSource.
+
+|link:scheduler-appointment.html[Appointment ({SchedulerName})]
+|This topic explains the Appointment activity type.
+
+|=======
+
+== In This Topic
+
+* <<Ref00001, Overview>>
+* <<Ref00002, Main Properties>>
+* <<Ref00003, Code Example>>
+* <<Ref00004, Related Topics>>
+
+[[Ref00001]]
+== Overview
+
+The activity recurrence is used when you need to have repetitions of an activity following a specific recurrence pattern (for example each day at a specific hour or each month at a specific date). 
+
+You need to follow these steps in order to create a recurrent activity:
+
+. Create an activity and set its subject, start and end time (this will be the *recurrence root activity*)
+. Create link:{SchedulerCoreLink}.daterecurrence.html[DateRecurrence] instance and configure its:
+.. link:{SchedulerCoreLink}.daterecurrence~frequency.html[Frequency] (for example daily, weekly, monthly...)
+.. Repetition `Count` or `Until` date (mutually exclusive)
+. Obtain an link:https://icalendar.org[iCalendar] string representation of the recurrence by using the link:{SchedulerCoreLink}.daterecurrence~toicalendarstring.html[ToICalendarString] method
++
+.Note
+[NOTE]
+====
+You can also use link:https://www.textmagic.com/free-tools/rrule-generator[this website] to create a recurrence rule in `iCalendar` format.
+====
+. Set the `iCalendar` recurrence string representation to the activity's link:{SchedulerCoreLink}.activitybase~recurrence.html[Recurrence] property
+. Add this activity to the link:{SchedulerXFLink}.schedulelistdatasource~appointmentitemssource.html[AppointmentItemsSource] collection property of the link:{SchedulerXFLink}.schedulelistdatasource.html[ScheduleListDataSource].
+
+The above steps should create a number of activities following the recurrence patterns specified in the `DateRecurrence` object.
+
+.Note
+[NOTE]
+====
+The recurrent activities created by the control are not available in the data source. They can only by obtained using the link:{SchedulerXFLink}.scheduledatasource~getappointmentsinrange.html[GetAppointmentsInRange] method. The data source will only contains the root activity.
+====
+
+[[Ref00002]]
+== Main Properties
+
+The following table lists the activity's key properties related to the recurrence behavior and their purpose:
+
+[options="header", cols="a,a"]
+|=======
+|Property|Purpose
+
+|link:{SchedulerCoreLink}.activitybase~recurrence.html[Recurrence]
+|This string property is used to get and set a recurrence pattern for the recurrence root activity.
+
+|link:{SchedulerCoreLink}.activitybase~isrecurrenceRoot.html[IsRecurrenceRoot]
+|This read only boolean property is used to determine if the activity in question is a recurrence root activity.
+
+|link:{SchedulerCoreLink}.activitybase~recurrenceroot.html[RecurrenceRoot]
+|This read only link:{SchedulerCoreLink}.activitybase.html[ActivityBase] type property is used to obtain the root recurrence activity or `null` if the activity is not associated with a recurrence.
+
+|link:{SchedulerCoreLink}.activitybase~recurrenceid.html[RecurrenceId]
+|This read only string  property is used to obtain the ID of the root recurrence activity or `null` if the activity is not associated with a recurrence.
+
+|=======
+
+[[Ref00003]]
+== Code Example
+
+The following code example demonstrates how to create a recurrent appointment with a weekly recurrence rule and 20 repetitions:
+
+*In C#:*
+[source,csharp]
+----
+DateTime today = DateTime.Now.Date;
+
+Appointment appointment1 = new Appointment();
+appointment1.Subject = "Basketball";
+appointment1.Location = "Basketball court";
+appointment1.Start = new DateTime(today.Year, today.Month, today.Day, 19, 30, 0);
+appointment1.End = new DateTime(today.Year, today.Month, today.Day, 20, 30, 0);
+
+DateRecurrence dr = new DateRecurrence();
+dr.Frequency = DateRecurrenceFrequency.Weekly;
+dr.Count = 20;
+
+appointment1.Recurrence = dr.ToICalendarString();
+----
+
+[[Ref00004]]
+== Related Topics
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-appointment.html[Appointment ({SchedulerName})]
+|This topic explains the Appointment activity type.
+
+|link:scheduler-resources.html[Resources ({SchedulerName})]
+|This topic provides information about the resources concept of the {SchedulerName} control.
+
+|=======

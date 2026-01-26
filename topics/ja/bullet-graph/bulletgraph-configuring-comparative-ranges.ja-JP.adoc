@@ -1,0 +1,383 @@
+﻿////
+|metadata|
+{
+    "name": "bulletgraph-configuring-comparative-ranges",
+    "controlName": ["{BulletGraphName}"],
+    "tags": ["Charting","How Do I"],
+    "guid": "17579bdd-6bcb-4cf0-95c4-6d83387af629",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0078709Z"
+}
+|metadata|
+////
+
+= 比較範囲の構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックではコード例を使用して、{BulletGraphName} コントロールの範囲を構成する方法を説明します。説明には、範囲の数、位置、長さ、幅、および書式設定が含まれます。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:bulletgraph-overview.html[{BulletGraphName} 概要]
+|このトピックでは、主要機能、最小要件、ユーザー機能など、 _{BulletGraphName}_ コントロールに関する概念的な情報を提供します。
+
+| link:bulletgraph-adding.html[{BulletGraphName} の追加]
+|このトピックでは、{BulletGraphName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref363721586, 比較範囲の構成 >>
+
+** <<_Ref363721595,比較範囲構成の概要>>
+** <<_Ref363721665,比較範囲構成の概要表>>
+** <<_Ref362941466,プロパティ設定>>
+** <<_Ref362941470,例>>
+
+* <<_Ref357787115, 関連コンテンツ >>
+
+[[_Ref363721586]]
+== 比較範囲の構成
+
+[[_Ref362941461]]
+
+=== 比較範囲構成の概要
+
+{BulletGraphName} コントロールは、範囲コレクションを作成することで複数の比較範囲をサポートします。
+
+image::images/BulletGraph_Configuring_Comparative_Ranges_1.png[]
+
+各範囲は、スケールのメジャーでの開始値や終了値、塗りつぶし色、および境界線の幅や色を指定することで個別に構成できます。スケール全域での比較範囲のサイズは、内側と外側の余白を調整して構成します。
+
+[[_Ref363721665]]
+
+=== 比較範囲構成の概要表
+
+以下の表で、{BulletGraphName} コントロールの比較範囲で構成できる要素を簡単に説明し、構成に使用するプロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|*構成可能な点* |プロパティ|デフォルト値
+
+ifdef::wpf,win-universal[]
+|*グラフに表示される範囲の数*
+|pick:[xaml=" link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ranges.html[{BulletGraphName}.Ranges]"] 
+
+pick:[android=" link:{BulletGraphLink}.{BulletGraphName}~addrange.html[{BulletGraphName}.addRange]"]
+|設定なし
+endif::wpf,win-universal[]
+
+ifdef::sl,wpf[]
+| *キャプション*  
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}caption.html[{BulletGraphRange}.Caption]
+|設定なし
+endif::sl,wpf[]
+
+| *長さ、幅、位置* 
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}startvalue.html[{BulletGraphRange}.StartValue]
+|設定なし
+
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}endvalue.html[{BulletGraphRange}.EndValue]
+|設定なし
+
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerstartextent.html[{BulletGraphRange}.InnerStartExtent]
+|設定なし
+
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerendextent.html[{BulletGraphRange}.InnerEndExtent]
+|設定なし
+
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerstartextent.html[{BulletGraphRange}.OuterStartExtent]
+|設定なし
+
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerendextent.html[{BulletGraphRange}.OuterEndExtent]
+|設定なし
+
+|塗りつぶし色
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[{BulletGraphRange}.Brush]
+|デフォルトのテーマで定義済み
+
+|境界線の色
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[{BulletGraphRange}.Outline]
+|デフォルトのテーマで定義済み
+
+|境界線の線幅
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}strokethickness.html[{BulletGraphRange}.StrokeThickness]
+| _1.0_ 
+
+ifdef::sl,wpf[]
+|*ツールチップ* 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[{BulletGraphName}.RangeToolTip]
+|ハイフン (-) で区切られた範囲の開始値と終了値です。
+endif::sl,wpf[]
+
+|====
+
+.注:
+[NOTE]
+====
+各範囲の link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[Brush] および link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[Outline] プロパティに明示的な値を設定しない場合、値は  _{BulletGraphName}_   の `RangeBrushes` および `RangeOutlines` コレクションの値から読み取られます。値は、各範囲の色やアウトラインの塗りつぶしの設定に継続して使用するブラシ セットの事前定義にも使用できます。
+====
+
+[[_Ref362941466]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+ifdef::sl,wpf[]
+|名前
+|範囲の名前。 
+
+ツールチップで表示するために使用。
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}caption.html[{BulletGraphRange}.Caption]
+|範囲の名前を表す文字列
+endif::sl,wpf[]
+
+|範囲開始
+|スケールで範囲を開始する位置
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}startvalue.html[{BulletGraphRange}.StartValue]
+|スケールのメジャーにおける任意の値
+
+|範囲終了
+|スケールで範囲を終了する位置
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}endvalue.html[{BulletGraphRange}.EndValue]
+|スケールのメジャーにおける任意の値
+
+|範囲の始点側の端の内側の頂点
+| link:bulletgraph-overview.html#_ReservedAreaLink[予約領域]の端からのスケール全域における始点側の端の内側の頂点位置。 
+
+(内側の頂点は、予約領域の端に最も近い始点側の端の地点です。)
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerstartextent.html[{BulletGraphRange}.InnerStartExtent]
+|方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.2)
+
+|範囲の終点側の端の内側の頂点
+|予約領域の端からのスケール全域における終点側の端の内側の頂点位置。
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerendextent.html[{BulletGraphRange}.InnerEndExtent]
+|方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.3)
+
+|範囲の始点側の端の外側の頂点
+|予約領域の端からのスケール全域における始点側の端の外側の頂点位置。 
+
+(外側の頂点は、予約領域の端に最も近い始点側の端の地点です。)
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerstartextent.html[{BulletGraphRange}.OuterStartExtent]
+|方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.7)
+
+|範囲の終点側の端の外側の頂点
+|予約領域の端からのスケール全域における終点側の端の外側の頂点位置。
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerendextent.html[{BulletGraphRange}.OuterEndExtent]
+|方向 (水平 / 垂直) に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: 0.8)
+
+|塗りつぶし色
+|範囲の塗りつぶし色
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[{BulletGraphRange}.Brush]
+|任意の色
+
+|境界線の線幅
+|範囲の境界線の幅
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}strokethickness.html[{BulletGraphRange}.StrokeThickness]
+|任意の値 (ピクセル)
+
+|境界線の色
+|範囲の境界線の色
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[{BulletGraphRange}.Outline]
+|任意の色
+
+ifdef::sl,wpf[]
+|ツールチップ
+|比較範囲のツールチップの内容
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[{BulletGraphName}.RangeToolTip]
+|任意の文字列、`UI 要素`、または `DataTemplate` ( link:bulletgraph-configuring-the-tooltips.html[ツールチップの構成]を参照)
+endif::sl,wpf[]
+
+|====
+
+[[_Ref362941470]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、{BulletGraphName} に追加した比較範囲の外観がどのようになるか示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[Brush]
+| _"Green"_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}startvalue.html[StartValue]
+| _“6”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}endvalue.html[EndValue]
+| _“89”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerstartextent.html[InnerStartExtent]
+| _“0.5”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerendextent.html[InnerEndExtent]
+| _“0.5”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerstartextent.html[OuterStartExtent]
+| _“0.8”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerendextent.html[OuterEndExtent]
+| _“0.8”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[Outline]
+| _"Black"_ 
+
+|====
+
+image::images/BulletGraph_Configuring_Comparative_Ranges_2.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} x:Name="bulletGraph">
+      <ig:{BulletGraphName}.Ranges>
+            <ig:{BulletGraphRange} Brush="Green"
+                                       StartValue="6"
+                                       EndValue="89"
+                                       InnerEndExtent="0.5"
+                                       InnerStartExtent="0.5"
+                                       OuterEndExtent="0.8"
+                                       OuterStartExtent="0.8"
+                                       Outline="Black"
+                                       />
+      </ig:{BulletGraphName}.Ranges>
+</ig:{BulletGraphName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf,sl,win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+{BulletGraphRange} range4 = new {BulletGraphRange}();
+range4.Brush = new SolidColorBrush(Color.Green);
+range4.StartValue = 6;
+range4.EndValue = 89;
+range4.InnerEndExtent = .5;
+range4.InnerStartExtent = .5;
+range4.OuterEndExtent = .8;
+range4.OuterStartExtent = .8;
+range4.Outline = new SolidColorBrush(Color.Black);
+
+bulletGraph.Ranges.Add(range4);
+----
+
+
+*VB の場合:*
+
+[source,vb]
+----
+Dim range4 as New {BulletGraphRange}()
+range4.Brush = New SolidColorBrush(Color.Green)
+range4.StartValue = 6
+range4.EndValue = 89
+range4.InnerEndExtent = .5
+range4.InnerStartExtent = .5
+range4.OuterEndExtent = .8
+range4.OuterStartExtent = .8
+range4.Outline = New SolidColorBrush(Color.Black)
+
+bulletGraph.Ranges.Add(range4)
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::xamarin[]
+*C# の場合:*
+----
+{BulletGraphRange} range = new {BulletGraphRange}();
+range.Brush = new SolidColorBrush(Color.Green);
+range.StartValue = 6;
+range.EndValue = 89;
+range.InnerEndExtent = .5;
+range.InnerStartExtent = .5;
+range.OuterEndExtent = .8;
+range.OuterStartExtent = .8;
+range.Outline = new SolidColorBrush(Color.Black);
+----
+endif::xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+LinearGraphRange lgrange1 = new LinearGraphRange();
+lgrange1.setStartValue(6);
+lgrange1.setEndValue(89);
+lgrange1.setBrush(new SolidColorBrush(Color.GREEN));
+lgrange1.setOutline(new SolidColorBrush(Color.BLACK));
+lgrange1.setInnerEndExtent(.5);
+lgrange1.setInnerStartExtent(.5);
+lgrange1.setOuterEndExtent(.8);
+lgrange1.setOuterStartExtent(.8);
+bulletGraph.addRange(lgrange1);
+----
+
+endif::android[]
+
+[[_Ref357787115]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::sl,wpf[]
+| link:bulletgraph-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成 ({BulletGraphName})]
+|このトピックでは、コード例を使用して、{BulletGraphName} コントロールのタイトルおよびサブタイトルを構成する方法を説明します。説明には、タイトル領域の幅、テキストの開始位置、およびタイトル / サブタイトルのテキストが含まれます。
+endif::sl,wpf[]
+
+| link:bulletgraph-configuring-the-scale.html[スケールの構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールのスケールを構成する方法を説明します。説明には、コントロール内のスケールの配置、スケールの目盛およびラベルの構成が含まれます。
+
+| link:bulletgraph-configuring-the-performance-bar.html[パフォーマンス バーの構成 ({BulletGraphName})]
+|このトピックでは例を使用して、 _{BulletGraphName}_ コントロールのパフォーマンス バーを構成する方法を説明します。説明には、バーが示す値、幅、位置、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-the-comparative-marker.html[比較マーカーの構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールの比較目盛マーカーを構成する方法を説明します。説明には、マーカーの値、幅、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-the-background.html[背景の構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、ブレット グラフの背景を構成する方法を説明します。説明には、背景のサイズ、位置、色、および境界線の設定が含まれます。
+
+ifdef::sl,wpf[]
+| link:bulletgraph-configuring-the-tooltips.html[ツールチップの構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法を説明します。
+endif::sl,wpf[]
+
+|====

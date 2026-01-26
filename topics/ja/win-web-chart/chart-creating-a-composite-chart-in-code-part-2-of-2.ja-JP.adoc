@@ -1,0 +1,184 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-composite-chart-in-code-part-2-of-2",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{5A52C272-C4B8-4463-893B-C0F3FC5A77A0}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= コードで合成チャートを作成（2/2）
+
+このトピックでは、 link:chart-creating-a-composite-chart-in-code-part-1-of-2.html[コードによる合成チャートの作成（パート 2/2）]トピックについて詳しく説明し、レイヤ、グラフ領域、および凡例の追加による link:chart-composite-chart.html[合成チャート]の威力と柔軟性を示します。
+
+[start=1]
+. *ChartArea への別の軸の追加*
+
+別のレイヤを追加する前に、少なくとも 1 つの軸を追加する必要があります。これは、ほとんどのチャート レイヤでラベル用の軸が必要になり、チャート レイヤがラベル軸を共有できないからです。
+
+ChartArea の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea~axes.html[Axes]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea~axes.html[Axes]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea~axes.html[Axes]"]  コレクションに戻り、水平軸を追加し、その  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~orientationtype.html[OrientationType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~orientationtype.html[OrientationType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~orientationtype.html[OrientationType]"]  プロパティを "X2_Axis" に設定します。これでグラフの上部から方向付けられた軸が追加されます。
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~datatype.html[DataType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~datatype.html[DataType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem~datatype.html[DataType]"]  を Numeric に設定します。この軸でデータ値を表示できるように、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformat.html[ItemLabels.ItemFormat]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformat.html[ItemLabels.ItemFormat]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformat.html[ItemLabels.ItemFormat]"]  を DataValue に設定します。 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[ItemLabels.Orientation]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[ItemLabels.Orientation]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[ItemLabels.Orientation]"]  を "VerticalLeftFacing" に設定します。次に、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~extent.html[Extent]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~extent.html[Extent]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~extent.html[Extent]"]  を 40 に変更し、グラフの領域を確保します。
+
+*Visual Basic の場合：*
+
+----
+Dim axisX2 As New AxisItem()
+axisX2.OrientationType = AxisNumber.X2_Axis
+axisX2.DataType = AxisDataType.Numeric
+axisX2.Labels.ItemFormatString = ""
+axisX2.Labels.Orientation = TextOrientation.VerticalLeftFacing
+axisX2.Extent = 40
+myChartArea.Axes.Add(axisX2)
+----
+
+*C# の場合：*
+
+----
+AxisItem axisX2 = new AxisItem();
+axisX2.OrientationType = AxisNumber.X2_Axis;
+axisX2.DataType = AxisDataType.Numeric;
+axisX2.Labels.ItemFormatString = "";
+axisX2.Labels.Orientation = TextOrientation.VerticalLeftFacing;
+axisX2.Extent = 40;
+myChartArea.Axes.Add(axisX2);
+----
+
+[start=2]
+. *他のデータセットの追加*
+
+次のチャート レイヤは、XY データが必要になる ScatterChart です。この場合は、1 つまたは複数の XYSeries を追加する必要があります。
+
+さらに、このコードは  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~pes.html[Series.PEs]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~pes.html[SeriesPEs]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~pes.html[SeriesPEs]"]  プロパティを使用して、データセットを描出するときに色をカスタマイズする方法を示します。
+
+XY データのサンプル、GetXYSeriesBound() および GetXYSeriesUnBound() を提供する関数が用意されています。
+
+*Visual Basic の場合：*
+
+----
+Private Function GetXYSeriesBound() As XYSeries
+	Dim series As New XYSeries()
+	series.Label = "Series C"
+	' このコードは外部データソースからデータセットを格納します
+	Dim table As DataTable = Me.GetData()
+	series.Data.DataSource = table
+	series.Data.LabelColumn = "Label Column"
+	series.Data.ValueXColumn = "Value Column"
+	series.Data.ValueYColumn = "Another Value Column"
+	Return series
+End Function
+Private Function GetXYSeriesUnBound() As XYSeries
+	Dim series As New XYSeries()
+	series.Label = "Series D"
+	' このコードは非連結データを使用してデータセットを格納します
+	series.Points.Add(New XYDataPoint(1.0, 1.0, "Point A", False))
+	series.Points.Add(New XYDataPoint(2.0, 2.0, "Point B", False))
+	series.Points.Add(New XYDataPoint(3.0, 3.0, "Point C", False))
+	series.Points.Add(New XYDataPoint(4.0, 4.0, "Point D", False))
+	series.Points.Add(New XYDataPoint(5.0, 5.0, "Point E", False))
+	Return series
+End Function
+----
+
+*C# の場合：*
+
+----
+private XYSeries GetXYSeriesBound()
+{
+	XYSeries series = new XYSeries();
+	series.Label = "Series C";
+	// このコードは外部データソースからデータセットを格納します
+	DataTable table = this.GetData();
+	series.Data.DataSource = table;
+	series.Data.LabelColumn = "Label Column";
+	series.Data.ValueXColumn = "Value Column";
+	series.Data.ValueYColumn = "Another Value Column";
+	return series;
+}
+private XYSeries GetXYSeriesUnBound()
+{
+	XYSeries series = new XYSeries();
+	series.Label = "Series D";
+	// このコードは非連結データを使用してデータセットを格納します
+	series.Points.Add(new XYDataPoint(1.0, 1.0, "Point A", false));
+	series.Points.Add(new XYDataPoint(2.0, 2.0, "Point B", false));
+	series.Points.Add(new XYDataPoint(3.0, 3.0, "Point C", false));
+	series.Points.Add(new XYDataPoint(4.0, 4.0, "Point D", false));
+	series.Points.Add(new XYDataPoint(5.0, 5.0, "Point E", false));
+	return series;
+}
+----
+
+*Visual Basic の場合：*
+
+----
+Dim seriesC As XYSeries = Me.GetXYSeriesBound()
+Dim seriesD As XYSeries = Me.GetXYSeriesUnBound()
+Me.UltraChart1.CompositeChart.Series.Add(seriesC)
+Me.UltraChart1.CompositeChart.Series.Add(seriesD)
+' 連続した色をカスタマイズします。
+seriesC.PEs.Add(New PaintElement(Color.Green))
+seriesD.PEs.Add(New PaintElement(Color.Blue))
+----
+
+*C# の場合：*
+
+----
+XYSeries seriesC = this.GetXYSeriesBound();
+XYSeries seriesD = this.GetXYSeriesUnBound();
+this.ultraChart1.CompositeChart.Series.Add(seriesC);
+this.ultraChart1.CompositeChart.Series.Add(seriesD);
+// 連続した色をカスタマイズします。
+seriesC.PEs.Add(new PaintElement(Color.Green));
+seriesD.PEs.Add(new PaintElement(Color.Blue));
+----
+
+[start=3]
+. *別のチャート レイヤの追加*
+
+このコードは、ScatterChart の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance~charttype.html[ChartType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance~chartlayer.html[ChartType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance~chartlayer.html[ChartType]"]  を持つチャート レイヤを追加し、その  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea.html[ChartArea]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea.html[ChartArea]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea.html[ChartArea]"]  と Axes を設定して、XY データセットを追加します。
+
+また、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttypeappearance.html[ChartLayer.ChartTypeAppearance]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttypeappearance.html[ChartLayer.ChartTypeAppearance]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.charttypeappearance.html[ChartLayer.ChartTypeAppearance]"]  プロパティの使用方法を示し、ScatterChart レイヤに凡例を追加します。
+
+*Visual Basic の場合：*
+
+----
+Dim myScatterLayer As New ChartLayerAppearance()
+myScatterLayer.ChartType = ChartType.ScatterChart
+CType(myScatterLayer.ChartTypeAppearance, ScatterChartAppearance).ConnectWithLines = True
+myScatterLayer.ChartArea = myChartArea
+myScatterLayer.AxisX = axisX2
+myScatterLayer.AxisY = axisY
+myScatterLayer.Series.Add(seriesC)
+myScatterLayer.Series.Add(seriesD)
+Me.UltraChart1.CompositeChart.ChartLayers.Add(myScatterLayer)
+' 凡例に 2 番目のレイヤを追加します。
+myLegend.ChartLayers.Add(myScatterLayer)
+----
+
+*C# の場合：*
+
+----
+ChartLayerAppearance myScatterLayer = new ChartLayerAppearance();
+myScatterLayer.ChartType = ChartType.ScatterChart;
+((ScatterChartAppearance)myScatterLayer.ChartTypeAppearance).ConnectWithLines = true;
+myScatterLayer.ChartArea = myChartArea;
+myScatterLayer.AxisX = axisX2;
+myScatterLayer.AxisY = axisY;
+myScatterLayer.Series.Add(seriesC);
+myScatterLayer.Series.Add(seriesD);
+this.ultraChart1.CompositeChart.ChartLayers.Add(myScatterLayer);
+// 凡例に 2 番目のレイヤを追加します。
+myLegend.ChartLayers.Add(myScatterLayer);
+----
+
+上記のチュートリアルのすべてのコードを使用するチャートは次のようになります。
+
+image::images/Chart_Creating_a_Composite_Chart_in_Code_Part_2_of_2.png[]
+
+これまでの説明で、合成チャート ウィザードについて十分理解し、ユーザーご自身で試行できるようになりました。ユーザーは、アプリケーションのニーズに合うように、グラフ レイヤ、軸、凡例、およびグラフ領域を自由に追加することができます。

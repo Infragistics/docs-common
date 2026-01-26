@@ -1,0 +1,259 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-defining-the-sparkline-type",
+    "controlName": ["{SparklineName}"],
+    "tags": ["API","Charting","How Do I"],
+    "guid": "2ff3fb45-379f-4f86-a3b2-b2ef6ee36b04",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2433513Z"
+}
+|metadata|
+////
+
+= Defining the {SparklineName} Type
+
+
+
+=== Purpose
+
+This topic explains, with code examples, how to define the link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ type. There are individual sections about specifying the Win/Loss type because of the special requirements of this Sparkline type.
+
+=== Required Background
+
+The following table lists the topic required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-overview.html[{SparklineName} Overview]
+|This topic provides an overview of the _{SparklineName}_ control, its benefits, and the supported chart types.
+
+
+|====
+
+=== In This Topic
+
+This topic contains the following sections:
+
+* <<_Ref317092856,Defining the Sparkline Type>>
+
+** <<_Ref317164782,Overview>>
+** <<_Ref317164795,Property settings>>
+** <<_Ref317164807,Example>>
+** <<_Ref317165117,Code>>
+
+* <<_Ref317186415,Defining a Sparkline of Win/Loss Type>>
+
+** <<_Ref317165227,Overview>>
+** <<_Ref317165233,Property settings>>
+** <<_Ref317165239,Example>>
+** <<_Ref317165392,Code>>
+
+* <<_Ref317164828,Related Content>>
+
+** <<_Topics,Topics>>
+
+[[_Ref317092856]]
+== Defining the Sparkline Type
+
+[[_Ref317164782]]
+
+=== Overview
+
+The {SparklineName} control supports the following types of Sparklines
+
+*  _Line_  
+*  _Area_  
+*  _Column_  
+*  _Win/Loss_  
+
+The type is defined by the setting of the pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] property _._  If the pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] property property is not specified, by default, the pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Line]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Line]"] type is displayed.
+
+[[_Ref317164795]]
+
+=== Property settings
+
+The following table maps the Sparkline types to the property settings that configure them.
+
+[options="header", cols="a,a"]
+|====
+|Desired {SparklineName} type|Set the  _DisplayType_   property to:
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Line]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Line]"]
+| _Line_ 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Area]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Area]"] 
+| _Area_ 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Column]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Column]"]
+| _Column_ 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[WinLoss]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[WinLoss]"]
+| _WinLoss_ 
+
+|====
+
+[[_Ref317164807]]
+
+=== Example
+
+The screenshot below the table demonstrates a Sparkline defined with the following settings:
+
+[options="header", cols="a,a"]
+|====
+| *Property* | *Value* 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"]
+| _Column_ 
+
+|====
+
+image::images/Define_Sparkline_Types_1.png[]
+
+[[_Ref317165117]]
+
+=== Code
+
+The following code demonstrates setting the display type of the Sparkline to pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Column]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Column]"].
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{SparklineName} Name="{SparklineName}1" DisplayType="Column"/>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+*In C#:*
+
+[source,csharp]
+----
+this.{SparklineName}1.DisplayType = SparklineDisplayType.Column;
+----
+
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SparklineName}1.DisplayType = SparklineDisplayType.Column
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[[_Ref317186415]]
+== Defining a Sparkline of Win/Loss Type
+
+[[_Ref317165227]]
+
+=== Overview
+
+The Win/Loss type is a column chart type, in which the value of each column is equal to either the positive maximum (for positive values) or the negative minimum (for negative minimum) of the data set, often denoting a win or a loss (or similar opposing concepts). For the Win/Loss chart to display properly, the data set must have both positive and negative values.
+
+If the Win/Loss type is bound to the same data as the other types such as the Line type (which can be bound to a collection of numeric values), then  _{SparklineName}_   will select two values from the collection – the highest and the lowest – and will render the Sparkline based on those values.
+
+For example, if all Sparkline types are bound to the same data source as follows:
+
+[options="header", cols="a,a"]
+|====
+|*Records*|*Values*
+
+|Record 1
+|2
+
+|Record 2
+|5
+
+|Record 3
+|-1
+
+|Record 4
+|4
+
+|Record 5
+|-3
+
+|====
+
+The  _Win/Loss_   type will pick only two values from the entire data source, the highest  _(5)_   and the lowest  _(-3)_  , then it will plot all positive data points identical to the highest value and all negative data points identical to the lowest value.
+
+[[_Ref317165233]]
+
+=== Property settings
+
+The following table demonstrates the property setting for setting a Sparkline of Win/Loss type to property setting that specifies it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Set the Sparkline type to Win/Loss
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] 
+| _WinLoss_ 
+
+|====
+
+[[_Ref317165239]]
+
+=== Example
+
+The screenshot below demonstrates how the Sparkline looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] 
+| _WinLoss_ 
+
+|====
+
+image::images/sparkline_overview_4.png[]
+
+[[_Ref317165392]]
+
+=== Code
+
+The following code demonstrates setting the display type for {SparklineName} to  _WinLoss_  .
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{SparklineName} Name="{SparklineName}1" DisplayType="WinLoss"/>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+*In C#:*
+
+[source,csharp]
+----
+this.{SparklineName}1.DisplayType = SparklineDisplayType.WinLoss;
+----
+
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SparklineName}1.DisplayType = SparklineDisplayType.WinLoss
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[[_Ref317164828]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-overview.html[{SparklineName} Overview]
+|This topic provides an overview of the _{SparklineName}_ control, its benefits, and the supported chart types.
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} Property Reference]
+|This topic explains the featured properties of the _{SparklineName}_ control.
+
+|====

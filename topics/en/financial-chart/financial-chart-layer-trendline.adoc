@@ -1,0 +1,113 @@
+﻿= Trendline Layer
+
+The below image demonstrates using the trendline layer with the {FinancialChartName}. There are a variety of trendline types to choose from. You can Adjust this by using the trendline drop down currently displaying QuadraticFit.
+
+pick:[wpf="image::images/financialchart_wpf_layers_trendline.png[]"]
+pick:[jquery="image::images/financialchart_jquery_layers_trendline.png[]"]
+
+[options="header", cols="a,a,a"]
+
+|====
+
+|Property Name|Type|Description
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}trendLineType{HtmlApiExtension}[TrendLineType]
+|`FinancialChartVolumeType`
+|Gets or Sets the type of the trendline.
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}trendLineBrushes{HtmlApiExtension}[TrendLineBrushes]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for coloring the trendlines.
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}trendLineThickness{HtmlApiExtension}[TrendLineThickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the thickness of the trendlines.
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}trendLinePeriod{HtmlApiExtension}[TrendLinePeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the period of the trendlines.
+
+|====
+
+Note: these properties apply to all chart panes and the same trend line type will be applied to all chart panes.
+
+The following demonstrates how to set the link:{FinancialChartLink}.{FinancialChartName}{ApiProp}trendLineType{HtmlApiExtension}[TrendLineType] through code:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamFinancialChart ItemsSource="{Binding}"
+    TrendLineType="QuinticFit"
+    TrendLineBrushes="Green"
+    TrendLineThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart as New XamFinancialChart()
+chart.TrendLineType = Infragistics.Controls.Charts.TrendLineType.QuinticFit
+chart.TrendLineBrushes = new Infragistics.BrushCollection();
+Dim brush As SolidColorBrush = new SolidColorBrush()
+brush.Color = Colors.Green
+chart.TrendLineBrushes.Add(brush)
+chart.TrendLineThickness = 2
+----
+
+*In C#:*
+[source,csharp]
+----
+var chart = new XamFinancialChart();
+chart.TrendLineType = Infragistics.Controls.Charts.TrendLineType.QuinticFit;
+chart.TrendLineBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Green;
+chart.TrendLineBrushes.Add(brush);
+chart.TrendLineThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    trendLineType: "QuinticFit",
+    trendLineBrushes: ["Green"],
+    trendLineThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "trendLineType", "QuinticFit");
+$("#financialChart").{FinancialChartName}("option", "trendLineBrushes", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "trendLineThickness", 2);
+----
+endif::jquery[]
+
+
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|link:financial-chart-layer-overlays.html[Financial Overlays]
+|This article explains the Financial Overlays of the chart.
+
+|====

@@ -1,0 +1,102 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-print-titles",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "f4ff685f-4b10-4d12-be83-58b202bfbcf3",  
+    "buildFlags": [],
+    "createdOn": "2011-10-10T14:03:15.9876395Z"
+}
+|metadata|
+////
+
+= Print Titles
+
+This topic outlines the print titles support in the Infragistics Excel Engine and provides a code example demonstrating usage.
+
+The topic is organized as follows:
+
+* <<One,Introduction>>
+* <<Two,Creating Print Titles>>
+
+** <<TwoOne,Overview>>
+** <<TwoTwo,Code Example>>
+
+* <<Three,Related Topics>>
+
+[[One]]
+== Introduction
+
+Infragistics Excel Engine allows you to designate a contiguous set of rows and/or columns to be repeated on each printed page as “titles”, mimicking the print titles functionality found in Microsoft Excel.
+
+Print titles are supported by use of one or both of the two properties found in the PrintOptions class of the worksheet – one property for repeated rows, called  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"] , and one property for repeated columns called  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"] .
+
+[[Two]]
+== Creating Print Titles
+
+[[TwoOne]]
+== Overview
+
+The code snippet below creates a print title area from the top row of the spreadsheet using a workbook with the following properties:
+
+* Workbook Named: output.xls
+* Worksheet Named: PageTitles
+* Print Titles Area: row 1
+
+[[TwoTwo]]
+== Code Example
+
+*In C#:*
+
+----
+// Create the workbook with one worksheet called PageTitles
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("PageTitles");
+// Set the repeating print title range of cells across the first row
+RepeatTitleRange rtr = new RepeatTitleRange(0, 0);
+// Assign our repeat title range to the RowsToRepeatAtTop property
+worksheet.PrintOptions.RowsToRepeatAtTop = rtr;
+try
+{
+    // Save the created workbook
+    workbook.Save("output.xls");
+    // Open the workbook to display the results
+    System.Diagnostics.Process.Start("output.xls");
+}
+catch
+{
+    MessageBox.Show("If the workbook is open, please close it before saving.", "Save Error",
+        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+}
+----
+
+*In Visual Basic:*
+
+----
+' Create the workbook with one worksheet called PageTitles
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("PageTitles")
+' Set the repeating print title range of cells across the first row
+Dim rtr As New RepeatTitleRange(0, 0)
+' Assign our repeat title range to the RowsToRepeatAtTop property
+worksheet.PrintOptions.RowsToRepeatAtTop = rtr
+Try
+    ' Save the created workbook
+    workbook.Save("output.xls")
+    ' Open the workbook to display the results
+    System.Diagnostics.Process.Start("output.xls")
+Catch
+    MessageBox.Show("If the workbook is open, please close it before saving.", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.[Stop])
+End Try
+----
+
+[[Three]]
+== Related Topics
+
+* link:excelengine-print-areas.html[Print Areas]
+* link:excelengine-page-breaks.html[Page Breaks]
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Accessing Cells and Regions by their Reference Strings]
+* link:excelengine-create-a-workbook.html[Create a Workbook]
+* link:excelengine-write-a-workbook-to-an-excel-file.html[Write a Workbook to an Excel File]

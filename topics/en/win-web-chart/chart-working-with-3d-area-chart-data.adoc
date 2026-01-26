@@ -1,0 +1,70 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-3d-area-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{052173AA-95F1-454B-9021-04FE91F83273}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with 3D Area Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the 3D area chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for 3D area charts:
+
+* The data set contains one or more numeric columns. Note that it is recommended that the data set contains two or more numeric columns so that each line can have two or more points.
+* If you are binding the 3D area chart to a series object, see link:chart-requirements-for-series-binding.html[Requirements for Series Binding] for information on the series binding requirements.
+
+*Note:* If the data available is in a format where each column represents one line, and each row contains points for each line, then you should swap the rows and columns. For information on how to do this, see link:chart-swap-rows-and-columns.html[Swap Rows and Columns].
+
+== Mapping Data to a 3D Area Chart
+
+The chart data is rendered using the following rules:
+
+* Each row is drawn as a single line (or area) on the chart, with a number of points in the line equal to the count of numeric columns in the data set. Each row is rendered at depth along the z-axis.
+* The data points delineating the top of the area region connect adjacent columns within a given row (in the order in which they are projected).
+* Every numeric column is displayed in the chart. The first numeric column encountered in the data will be used for the value of the first point, the second column for the second point, and so on. Note that a numeric column is any column that contains only values that can be interpreted as numbers.
+* The first string column encountered in the data will be used for row labels.
+* You can select an alternate column to be used for row labels, and toggle between the primary and secondary labels.
+* The x-axis (or horizontal axis) is a SetLabelAxis object, with the points evenly spaced apart for each item (point). The y-axis, or vertical axis, is the numeric axis. Labels on the y-axis can be formatted using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  property and a "numeric format":
+
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+You can include or exclude any column from the chart using the UltraChart.Data. pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  method.
+
+See below for an example data set, along with the rendered 3D area chart.
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockName|Monday|Tuesday|Wednesday|Thursday|Friday
+
+|IBM
+|111
+|96
+|85
+|125
+|65
+
+|MSN
+|75
+|23
+|15
+|75
+|100
+
+|====
+
+image::Images/Chart_Area_Chart_02.png[Shows a 3D Area Chart that is based on the data listed above.]

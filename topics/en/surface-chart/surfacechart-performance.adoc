@@ -1,0 +1,109 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-performance",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "a542a267-63d5-4050-aa49-a82c68fd1c78",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-12T16:04:33.8760841Z"
+}
+|metadata|
+////
+
+= Performance
+
+=== Purpose
+
+This topic explains how the link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D]™ control performance can be optimized when rendering a large set of data points.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref445568959, Performance optimizations >>
+* <<_Ref445568965, Related Content >>
+
+[[_Ref445568959]]
+== Performance optimizations
+
+=== Introduction
+
+The _xamScatterSurface3D_ control comes optimized to render appealing 3D visualizations, which consist of thousands of points. While the precise number of points that can be rendered varies from one hardware configuration to another, there are a number of ways to optimize the performance in the control.
+
+=== Performance optimizations summary chart
+
+The following table summarizes the possible performance optimizations in the _xamScatterSurface3D_ control. Further details are available after the table
+
+[options="header", cols="a,a"]
+|====
+|Optimization|Description
+
+|<<_Ref445567595,Data sampling>>
+|The _xamScatterSurface3D_ data sampling is enabled by configuring the link:{SurfaceChartLink}.xamscattersurface3d~samplingthreshold.html[SamplingThreshold] property.
+
+|<<_Ref445567600,Pre-sampling the data before binding to the control>>
+|Pre-sample/optimize your data before binding to the _xamScatterSurface3D_ control.
+
+|<<_Ref445567604,Disabling some visual properties>>
+|Disable visual properties/behaviors that are not required or may slow down the performance.
+
+|====
+
+[[_Ref445567595]]
+
+=== Data sampling
+
+At present, the _xamScatterSurface3D_ control has a built-in sampling, which samples the data points bound to the control in order to improve the performance. The threshold at which sampling is applied is determined by the link:{SurfaceChartLink}.xamscattersurface3d~samplingthreshold.html[SamplingThreshold] property.
+
+If the number of points exceeds the `SamplingThreshold` value, then the points are consolidated into a regular grid with even number of rows and columns equal to the square root of `SamplingThreshold` value.
+
+By default, the `SamplingThreshold` value is 10000 points. You can change it to better fit your needs.
+
+[[_Ref445567600]]
+
+=== Pre-sampling the data before binding to the control
+
+You can also apply custom sampling logic to your data, before passing it to the _xamScatterSurface3D_ control.
+
+[[_Ref445567604]]
+
+=== Disabling some visual properties
+
+You can improve the _xamScatterSurface3D_ control performance by disabling any visual properties or behaviors, which may influence the performance.
+
+You may also set fixed values for the _xamScatterSurface3D_ axis interval and range to improve the control performance.
+
+Some of these features that may be disabled are listed below:
+
+* Markers
+* Axis grid lines
+* Crosshairs
+* Tooltip
+* Rotation
+* Scaling/zooming
+
+[[_Ref445568965]]
+== Related Content
+  
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:surfacechart-configuring-data-point-markers.html[Configuring Data Point Markers]
+|This topic explains how to configure the data point markers in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-crosshairs.html[Crosshairs Settings]
+|This topic explains how to configure the data point markers in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-tooltip.html[Tooltip]
+|This topic explains how to show/hide the default tooltip and how apply a custom tooltip using DataTemplate in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-zooming.html[Zooming]
+|This topic explains how to perform the scaling of the _xamScatterSurface3D_ control.
+
+|====
+ 

@@ -1,0 +1,375 @@
+﻿////
+|metadata|
+{
+    "name": "xamdoughnutchart-adding",
+    "controlName": ["{DoughnutChartName}"],
+    "tags": ["Charting","Data Binding","Getting Started","How Do I"],
+    "guid": "94d1edec-e7b1-4f61-b91e-d1827f82cccd",
+    "buildFlags": ["SL","WPF","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:12.0218764Z"
+}
+|metadata|
+////
+
+= Adding {DoughnutChartName}
+
+== Topic Overview
+
+=== Purpose
+
+This topic explains using a code example how to add the  _{DoughnutChartName}™_   control to a {PlatformName} application.
+
+=== Required background
+
+The following topic is a prerequisite to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:xamdoughnutchart-overview.html[{DoughnutChartName} Overview]
+|This topic gives an overview of the _{DoughnutChartName}_ control and its main features.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref001,Introduction>>
+* <<_Ref002,Preview>>
+* <<_Ref003,Prerequisites>>
+* <<_Ref004,Overview>>
+* <<_Ref005,Steps>>
+* <<_Ref006,Related Content>>
+
+[[_Ref001]]
+== Introduction
+
+The following procedure demonstrates how to add a  _{DoughnutChartName}_   to a {PlatformName} application.
+
+[[_Ref002]]
+
+== Preview
+
+The following screenshot is a preview of the result.
+
+ifdef::wpf[]
+image::images/XamDoughnutChart_Adding_1.png[]
+endif::wpf[]
+
+ifdef::xamarin,win-forms[]
+image::images/XamDoughnutChart_Adding_Xamarin.png[]
+endif::xamarin,win-forms[]
+
+[[_Ref003]]
+== Prerequisites
+
+ifdef::win-forms[]
+To complete the procedure, you need a {PlatformName} application with references to the following assemblies:
+endif::win-forms[]
+  
+ifdef::wpf[]
+
+To complete the procedure, you need a {PlatformName} application with references to the following NuGet package:
+
+* Infragistics.WPF.Charts
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+* {ApiPlatform}{DoughnutChartAssembly}{ApiVersion}.dll
+* {ApiPlatform}{DataVizAssembly}{ApiVersion}.dll
+* {ApiPlatform}Portable.Core{ApiVersion}.dll
+endif::win-forms[]
+
+ifdef::xamarin[]
+Add assembly references by following instructions in the link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages] topic.
+endif::xamarin[]
+
+ifdef::xaml[]
+Also, you need a blank pick:[wpf="page"]pick:[xamarin="ContentPage"] with the Infragistics xml namespace declared as follows:
+
+ifdef::wpf[]
+*In XAML:* 
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+endif::wpf[]
+
+ifdef::xamarin[]
+*In XAML:* 
+[source,xaml]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly=Infragistics.XF.Charts"
+---- 
+endif::xamarin[]
+endif::xaml[]
+
+
+[[_Ref004]]
+== Overview
+
+Following is a conceptual overview of the process:
+
+*1.*   *Adding sample data*
+
+*2.*   *Adding the*   *_{DoughnutChartName}_*   *control*
+
+*3. Adding the series*
+
+[[_Ref005]]
+== Steps
+
+The following steps demonstrate how to add the  _{DoughnutChartName}_   control to an application.
+
+=== 1. Add sample data.
+
+*1. Define the sample data model class*
+
+In the code-behind of your page, add the following class declaration:
+
+ifdef::xaml[]
+
+*In C#:*
+[source,csharp]
+----
+public class Category
+{
+    public string Label { get; set; }
+    public double AveragePrice { get; set; }
+}
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*In C#:*
+[source,csharp]
+----
+public class Category
+{
+    public string Label { get; set; }
+    public double AveragePrice { get; set; }
+}
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Public Class Category
+      Public Property Label As String
+      Public Property AveragePrice As Double
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Public Class Category
+      Public Property Label As String
+      Public Property AveragePrice As Double
+End Class
+----
+
+endif::win-forms[]
+
+Create a list of instances of this class to serve as the pick:[xaml="`ItemsSource`"] pick:[win-forms="`DataSource`"] for the rendered RingSeries.
+
+*2. Create a sample data list pick:[wpf="and set it as the page’s `DataContext`"]pick:[xamarin="and set it as the ContentPage’s `BindingContext`"].*
+
+In the constructor of the page add the following code:
+
+ifdef::xaml[]
+
+*In C#:*
+
+[source,csharp]
+----
+this.DataContext = new List<Category>()
+{
+    new Category () {Label="Footwear", AveragePrice=52.34},
+    new Category () {Label="Clothing", AveragePrice=32.2},
+    new Category () {Label="Accessories", AveragePrice=15.12},
+    new Category () {Label="Equipment", AveragePrice=39.65}
+};
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*In C#:*
+[source,csharp]
+----
+List<Category> categoryList = new List<Category>()
+{
+    new Category () {Label="Footwear", AveragePrice=52.34},
+    new Category () {Label="Clothing", AveragePrice=32.2},
+    new Category () {Label="Accessories", AveragePrice=15.12},
+    new Category () {Label="Equipment", AveragePrice=39.65}
+};
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.DataContext = New List(Of Category)() From { _
+      New Category() With {      .Label = "Footwear", .AveragePrice = 52.34      }, _
+      New Category() With {      .Label = "Clothing", .AveragePrice = 32.2 }, _
+      New Category() With {      .Label = "Accessories", .AveragePrice = 15.12 }, _
+      New Category() With {      .Label = "Equipment",      .AveragePrice = 39.65      } _
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim categoryList = New List(Of Category)() From { _
+      New Category() With {      .Label = "Footwear", .AveragePrice = 52.34      }, _
+      New Category() With {      .Label = "Clothing", .AveragePrice = 32.2 }, _
+      New Category() With {      .Label = "Accessories", .AveragePrice = 15.12 }, _
+      New Category() With {      .Label = "Equipment",      .AveragePrice = 39.65      } _
+}
+----
+
+endif::win-forms[]
+
+=== 2. Add the {DoughnutChartName} control.
+
+Add a  _{DoughnutChartName}_   declaration pick:[wpf="to your page’s root Grid element"]:
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+pick:[win-forms="*In C#:*"]
+
+----
+UltraDoughnutChart dc = new UltraDoughnutChart();
+----
+
+pick:[win-forms="*In VB:*"]
+
+----
+Dim dc As New UltraDoughnutChart()
+----
+endif::win-forms[]
+
+=== 3. Add the series.
+
+*1. Add the series.*
+
+In order to display data in a  _{DoughnutChartName}_  , you need to add one or more series to its link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}series.html[Series] collection. This procedure uses one link:{DoughnutChartLink}.ringseries_members.html[RingSeries].
+
+*2. Set the required properties to the series.*
+
+In order to configure the series correctly, you need to set the  pick:[android,xaml=" link:{DoughnutChartLink}.ringseriesbase{ApiProp}itemssource.html[ItemsSource]"]  pick:[win-forms=" link:{DoughnutChartLink}.ringseriesbase{ApiProp}datasource.html[DataSource]"] , link:{DoughnutChartLink}.ringseriesbase{ApiProp}valuememberpath.html[ValueMemberPath] and optionally the link:{DoughnutChartLink}.ringseriesbase{ApiProp}labelmemberpath.html[LabelMemberPath] and link:{DoughnutChartLink}.ringseriesbase{ApiProp}labelsposition.html[LabelsPosition] properties in accordance with the following steps.
+
+A. Set the pick:[xaml="`ItemsSource`"]pick:[win-forms="`DataSource`"]
+
+The pick:[xaml="`ItemsSource`"]pick:[win-forms="`DataSource`"] is an `IEnumerable` property that is where the data for the series comes from.  pick:[wpf="In this example bind this property directly to the `DataContext`."]pick:[xamarin="In this example bind this property directly to the `BindingContext`."]
+
+[start=2]
+B. Set the `ValueMemberPath`
+
+You must set the `ValueMemberPath` to the name of a property used to calculate the size of its respective slice. In the case of this example set the property to `“AveragePrice”`.
+
+[start=3]
+C. Set the `LabelMemberPath`
+
+You must set the `LabelMemberPath` to the name of a property in your data objects used to get the labels for each slice of the chart. In the case of this example set the property to `“Label”`.
+
+[start=4]
+D. Set the `LabelsPosition`  _(optional)_
+
+The `LabelsPosition` specifies labels positions relative to their slice. In the case of this example set it to `BestFit`.
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:{DoughnutChartName}.Series>
+        <ig:RingSeries ItemsSource="{Binding}" LabelMemberPath="Label" ValueMemberPath="AveragePrice" LabelsPosition="BestFit"/>
+    </ig:{DoughnutChartName}.Series>
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+pick:[win-forms="*In C#:*"]
+
+----
+RingSeries ringSeries = new RingSeries 
+{ 
+    DataSource = list, 
+    LabelMemberPath = "Label",
+    ValueMemberPath = "AveragePrice"
+};
+----
+
+pick:[win-forms="*In VB:*"]
+
+----
+Dim ringSeries As New RingSeries 
+{ 
+    .DataSource = list, _
+    .LabelMemberPath = "Label", _
+    .ValueMemberPath = "AveragePrice" _
+}
+----
+endif::win-forms[]
+
+[[_Ref006]]
+== Related Content
+  
+The following topic provides additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:xamdoughnutchart-configuring-selection-and-explosion.html[Configuring Selection and Explosion ({DoughnutChartName})]
+|This topic explains how to configure selection and explosion for the slices of the _{DoughnutChartName}_ .
+
+|====

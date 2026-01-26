@@ -1,0 +1,423 @@
+﻿////
+|metadata|
+{
+    "name": "chart-use-predefined-and-custom-label-styles",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{29DEF2AB-38C5-4B87-910B-AD692E2EB189}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 事前に定義したラベル スタイルとカスタム ラベル スタイルを使用
+
+このトピックはグラフ ラベルに書式を適用する方法とカスタム ラベル スタイルを作成する方法を説明します。グラフのラベル書式の高度な概要については、 link:chart-label-formatting.html[「ラベル書式」]を参照してください。
+
+[start=1]
+. コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバは完全に記述された名前を常に入力する必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. 各ラベルに組み込みラベル書式スタイルを選択できます。AxisItemLabel の組み込みスタイルは以下のように設定できます。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.DataValue
+----
+
+*C# の場合：*
+
+----
+this.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.DataValue;
+----
+
+[start=3]
+. 以下のリストは、さまざまなラベルで使用できる各スタイルの設定を説明しています。
+
+[options="header", cols="a,a"]
+|====
+|AxisItemLabelStyle|説明
+
+|None
+|ラベルなし
+
+|ItemLabel
+|各目盛でテキストラベルを表示
+
+|DataValue
+|各目盛でデータ値を表示
+
+|Label_and_Data
+|目盛でテキストラベルとデータ値の両方を表示
+
+|Custom
+| 以下のカスタム説明を参照 
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|AxisSeriesLabelStyle|説明
+
+|None
+|ラベルなし
+
+|SeriesLabel
+|各アイテムセットの下にグループセット（グループ）ラベルを表示
+
+|Custom
+| 以下のカスタム説明を参照 
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|PieLabelStyle|説明
+
+|None
+|ラベルなし
+
+|Percent
+|円グラフのスライスの百分率を表示
+
+|Data
+|円グラフのスライスのデータ値を表示
+
+|Label
+|円グラフのスライス ラベルを表示
+
+|Label_and_Percent
+|円グラフのスライス ラベルと百分率を表示
+
+|Custom
+| 以下のカスタム説明を参照 
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|TooltipStyle|説明
+
+|None
+|ラベルなし
+
+|DataValue
+|各ポイントでデータ値を表示
+
+|LabelPlusDataValue
+|各ポイントでテキスト ラベルと DataValue を表示
+
+|RowColumnPlusDataValue
+|各ポイントで、Row、Column、および DataValue を表示
+
+|Custom
+| 以下のカスタム説明を参照 
+
+|====
+
+[start=4]
+. 次は固有のラベルを定義するために、どのようにカスタム ラベルが機能するかの説明です。X 軸が日付フォーマットと仮定すると、アイテム ラベルと日付を別のフォーマットで表示したい場合があります。自分のカスタム ラベルは以下のように作成できます。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom
+Me.UltraChart1.Axis.X.Labels.ItemFormatString = "<ITEM_LABEL><DATA_VALUE:MMM-dd-yyyy>"
+----
+
+*C# の場合：*
+
+----
+this.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom;
+this.UltraChart1.Axis.X.Labels.ItemFormatString = "<ITEM_LABEL><DATA_VALUE:MMM-dd-yyyy>"
+----
+
+ラベルが「My Text」で Date が 5/10/2005 の場合、ラベルは次のようにフォーマットさまれます。
+
+[source]
+----
+"<ITEM_LABEL><DATA_VALUE:MMM-dd-yyyy>"= MyText May 10, 2005
+----
+
+通貨データ タイプの場合は、
+
+[source]
+----
+<DATA_VALUE:$#0.00>
+----
+
+などの書式文字列を使用して、29.5 の値が「$29.50」に書式設定されます。テキスト メッセージは書式文字列に含めることもできます。フィールドのデータが 5/10/2005 の場合、次の書式文字列 を使用して
+
+[source]
+----
+"The date is <DATA_VALUE:MMM-dd-yyyy>"
+----
+
+「The date is May 10, 2005」というメッセージを表示できます。<DATA_VALUE> などのタグ名を挿入すると、コロンの後に標準の Format 文字列を配置できます。たとえば、
+
+[source]
+----
+<DATA_VALUE:MM/dd/yyyy hh:nn:ss>
+----
+
+[start=5]
+. ここにカスタム ラベルで有効なタグのリストがあります。各オブジェクトで、グローバル タグを任意のラベルで使用できます。ローカル タグは、それがリストされているローカル オブジェクトに限って使用できます。常にラベル スタイルを「Custom」に設定してからでなければ、これらのキーワードを使用してフォーマット文字列を設定できません。これらのアクションを実行して表示したり固有のカスタム ラベルを試すためには、ラベル サンプルも参照してください。
+
+==== グローバル キーワード
+
+[options="header", cols="a,a,a"]
+|====
+|キーワード|タイプ|値
+
+|TODAY_DATE
+|System.DateTime
+|System.DateTime.Today
+
+|TODAY_DATETIME
+|System.DateTime
+|System.DateTime.Now
+
+|====
+
+==== ローカル キーワード
+
+*_AxisLabelAppearance Context_*
+[options="header", cols="a,a,a"]
+|====
+
+|キーワード|タイプ|値
+
+|SERIES_LABEL
+|文字列
+|行ラベル(If Data.SwapRowColumn = True, then Column Label)
+
+|ITEM_LABEL
+|文字列
+|列ラベル(If Data.SwapRowColumn = True, then Row Label)
+
+|DATA_VALUE
+|Double
+|使用できる場合、データ値
+
+|====
+
+*_PieLabelAppearance Context_*
+[options="header", cols="a,a,a"]
+|====
+
+|キーワード|タイプ|値
+
+|DATA_COLUMN
+|Integer
+|表示されるデータの列ナンバー
+
+|DATA_ROW
+|Integer
+|表示されるデータの行ナンバー
+
+|ITEM_LABEL
+|文字列
+|列ラベル(If Data.SwapRowColumn = True, then Row Label)
+
+|PERCENT_VALUE
+|Double
+|円グラフが描画されるデータ アイテムの百分率値。
+
+|DATA_VALUE
+|Double
+|描画されるデータのデータ値
+
+|====
+
+*_TooltipAppearance Context_*
+[options="header", cols="a,a,a"]
+|====
+
+|キーワード|タイプ|値
+
+|DATA_COLUMN
+|Integer
+|System.DateTime.Today
+
+|DATA_ROW
+|Integer
+|System.DateTime.Now
+
+|SERIES_LABEL
+|文字列
+|行ラベル(If Data.SwapRowColumn = True, then Column Label)
+
+|ITEM_LABEL
+|文字列
+|列ラベル(If Data.SwapRowColumn = True, then Row Label)
+
+|PERCENT_VALUE
+|Double
+|円グラフが描画されるデータ アイテムの百分率値。(これは、ツールチップが円グラフまたは円グラフ 3D に描画される場合に限って使用できます。)
+
+|DATA_VALUE
+|Double
+|描画されるデータのデータ値
+
+|====
+
+[start=6]
+. 要素のラベル機能を拡張してカスタム ラベル キーワードを作成することもできます。たとえば、従業員データをグラフ表示する人事アプリケーションを使用しており、グラフで示される個々の従業員についての情報を提供するツールチップを表示したい場合があります。表示したい情報は、従業員の ID 番号、今年度の有給休暇日数、就業状況（事務所にいるか不在か）です。この情報はグラフに表示されるデータと関係がないため、グラフを作成するために使用される同じデータソースから描画されないと仮定します。
+
+必要な情報を表示するには、カスタム ラベル キーワードを作成してグラフのツールチップに追加できます。キーワード <MY_EMPLOYEE_INFO> を作成すると仮定します。以下のいずれかとしてツールチップでカスタム キーワードを使用できます。
+
+[source]
+----
+<MY_EMPLOYEE_INFO>
+----
+
+または 
+
+[source]
+----
+<MY_EMPLOYEE_INFO:format1>
+----
+
+このキーワードを使用するには、以下のようにツールチップ書式文字列にキーワードを含めます。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Tooltips.FormatString = "<MY_EMPLOYEE_INFO>"
+----
+
+*C# の場合：*
+
+----
+this.UltraChart1.Tooltips.FormatString = "<MY_EMPLOYEE_INFO>";
+----
+
+カスタム キーワードを定義するには、要素の IRenderLabel インタフェースを実装します。以下のコードは、インタフェースを実装する方法の例です。
+
+
+[source]
+[source, csharp]
+public interface IRenderLabel
+{
+/// <summary>
+/// 描画されているラベルの項目ごとに呼び出されます。
+/// </summary>
+string ToString(Hashtable Context);
+}
+
+
+要素の LabelHash にこれを渡す必要があります。LabelHash は、カスタム キーワード名とインタフェースを実装するオブジェクトを含む名前/値のペアを含みます。上記の例を続行し、インタフェースに以下の組み合わせを渡します。
+
+[source]
+----
+("MY_EMPLOYEE_INFO", UltraChart1)
+----
+
+インタフェースが実装されたら、要素が <MY_EMPLOYEE_INFO> キーワードを描画しなければならないときには必ず適切なコンテキスト情報とのインタフェースを起動します。コンテキスト情報は、それぞれの Chart Appearance クラスの対象となります。レベル コンテキストに加えて、Chart は以下のコンテキスト情報を追加します。
+
+[options="header", cols="a,a,a"]
+|====
+|キーワード|タイプ|値
+
+|RENDER_KEYWORD
+|文字列
+|MY_EMPLOYEE_INFO
+
+|RENDER_FORMAT
+|文字列
+|format1
+
+|LABEL_RENDER_LOCATION
+|LabelRenderLocation オブジェクト
+|TitleLayer, GridLayer, ChartLayer, AdornmentLayer, Axis
+
+|====
+
+[start=7]
+. カスタムラベルは、連続した、対数目盛軸にも適用されます。科学的なグラフ アプリケーションでは（たとえば質量分析）、ラベルが科学的表記で表示される対数目盛軸にラベルをプロットすることが賢明です(1 x 10^3^、1 x 10^6^、1 x 10^9^など)。これはカスタム ラベル、対数修飾子、およびカスタム文字列書式修飾子 E を一致して使用することで可能になります。
+
+対数軸は AxisAppearance の NumericAxisType を対数に設定することによってのみ起動されます。これらの軸の自動ラベル機能を有効にするには、軸の LabelAppearance の ItemFormatString に追加のキーワードを与える必要があります（これはカスタムでなければなりません）。レベルの書式が対数間隔に対応するように設計されていない限り、ラベルは正しく表示されず、デフォルトでは対数目盛軸に表示されません。
+
+この理由は、対数軸の主グリッド線は等間隔ですが（たとえば、1、10、100 がラベルされた主グリッド線は LogBase 10 の対数目盛軸と等しい）、主グリッド線は対数間隔で描画されます。これは、副グリッド線の間の距離が次の主グリッド線に近づくと縮小されるという意味で、副目盛の横の小さい領域にラベルが強制的に描画されます。
+
+対数目盛軸の主グリッド線および副グリッド線でラベルを描画することは、ItemFormatString プロパティの `atmajor` または `atminor` 修飾子を使用するという意味です。これらは修飾子名と共に ItemFormatString に適用され、シンタックスでの関数呼び出しと同じように括弧の中に表示されるカスタム アイテム書式が続きます。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Axis.Y.Labels.ItemFormat = AxisItemLabelFormat.Custom
+Me.UltraChart1.Axis.Y.Labels.ItemFormatString = _
+"atmajor(<DATA_VALUE:00.00>)"
+----
+
+*C# の場合：*
+
+----
+this.UltraChart1.Axis.Y.Labels.ItemFormat = AxisItemLabelFormat.Custom;
+this.UltraChart1.Axis.Y.Labels.ItemFormatString = "atmajor(<DATA_VALUE:00.00>)";
+----
+
+atminor 修飾子を使用する場合、開発者はラベルが重ならないなど、対数目盛軸に十分な間隔（または十分に小さいフォントが使用される）があることを確認する必要があります。
+
+リニアから対数に、またはその逆に連続軸の目盛を変更する場合、その軸のラベルの ItemFormatString を調整する必要があります。または、isLogarithmic が、Y 軸が対数またはリニア目盛のどちらかであるかを示すブール値である以下の例と同様、NumericAxisType プロパティが変更されると、それらは消える場合があります。
+
+*Visual Basic の場合：*
+
+----
+' isLogarithmic はアプリケーションのブール変数。
+    If ( isLogarithmic ) Then
+        Me.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Logarithmic
+' アイテム書式文字列の周囲を atmajor( ) 修飾子で折り返す。
+        Me.UltraChart1.Axis.Y.Labels.ItemFormatString = _
+        String.Format( "atmajor({0})", "<DATA_VALUE:00.00>")
+    Else
+        Dim embeddedFormat As String
+        embeddedFormat = Me.UltraChart1.Axis.Y.Labels.ItemFormatString
+        Me.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Linear
+        Try
+            embeddedFormat = embeddedFormat.Split( New Char( ) { "(", ")" } )( 1)
+        Catch ioore As IndexOutOfRangeException
+' 無視:組み込み書式文字列から削除するためのキーワード修飾子はない。
+        End Try
+    End If
+----
+
+*C# の場合：*
+
+----
+// isLogarithmic はアプリケーションのブール変数。
+if ( isLogarithmic == true )
+{
+    this.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Logarithmic;
+// アイテム書式文字列の周囲を atmajor( ) 修飾子で折り返す。
+    this.UltraChart1.Axis.Y.Labels.ItemFormatString = 
+    String.Format( "atmajor({0})", "<DATA_VALUE:00.00>");
+}
+else
+{
+    string embeddedFormat = 
+    this.UltraChart1.Axis.Y.Labels.ItemFormatString;
+    this.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Linear;
+    try
+    {
+       embeddedFormat = embeddedFormat.Split( new char[] { '(', ')' } )[ 1];
+    }
+    catch ( IndexOutOfRangeException )
+    {
+// 無視:組み込み書式文字列から削除するためのキーワード修飾子はない。
+    }
+}
+----

@@ -1,0 +1,118 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= Configuring Axis Ranges in {FinancialChartName}
+
+In the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control, the range on the axes is calculated from your datasource by default and can be configured as described below. The range minimum is the lowest value of the axis. The range maximum is the highest value of the axis.
+
+=== In this topic
+* <<Overview, Overview>>
+* <<CodeSnippet, Code Snippet>>
+* <<Related, Related Content>>
+
+[[Overview]]
+== Overview
+
+By default, the {FinancialChartName} control will calculate the minimum and maximum values for the X and Y axis range based on the lowest and highest data points in the underlying data source in order to maximize the chart plot area. This automatic calculation of an axis' minimum and maximum values may not be appropriate for your set of data points. For example, if you wanted to show some extra space between the edge of the chart and your plotted series, you would need to format the axis range in the {FinancialChartName}.
+
+You can configure the ranges of the Y-axis by setting the following properties of the {FinancialChartName} control:  
+
+[options="header", cols="a,a,a,a"]
+|====
+|Property Name
+|Property Type
+2+|Description
+
+ifdef::wpf[]
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMinimumValue{HtmlApiExtension}[YAxisMinimumValue]
+|`double`
+2+|Get or sets minimum value on the y-axis
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMaximumValue{HtmlApiExtension}[YAxisMaximumValue]
+|`double`
+2+|Get or sets maximum value on the y-axis
+endif::wpf[]
+
+ifdef::jquery[]
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMinimumValue{HtmlApiExtension}[yAxisMinimumValue]
+|`number`
+2+|Get or sets minimum value on the y-axis
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMaximumValue{HtmlApiExtension}[yAxisMaximumValue]
+|`number`
+2+|Get or sets maximum value on the y-axis
+endif::jquery[]
+
+|====
+
+[[CodeSnippet]]
+== Code Snippet
+
+The following sample code demonstrates how to change the axis range on the Y-axis of the {FinancialChartName} control. 
+
+ifdef::jquery[]
+*In JavaScript:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    xAxisMinimumValue: new Date(2016, 4, 1),
+    xAxisMaximumValue: new Date(2017, 11, 1),
+    yAxisMinimumValue: 600,
+    yAxisMaximumValue: 1000
+});
+----
+endif::jquery[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    XAxisMinimumValue="4/1/2016"
+    XAxisMaximumValue="11/1/2017"
+    YAxisMinimumValue="600"
+    YAxisMaximumValue="1000" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In C#:*
+[source, csharp]
+----
+var chart = new {FinancialChartName}();
+chart.XAxisMinimumValue = new DateTime(2016, 4, 1);
+chart.XAxisMaximumValue = new DateTime(2017, 11, 1);
+chart.YAxisMinimumValue = 600;
+chart.YAxisMaximumValue = 1000;
+----
+endif::wpf[]
+
+ifdef::wpf[]
+*In VB:*
+[source, vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.XAxisMinimumValue = New DateTime(2016, 4, 1)
+chart.XAxisMaximumValue = New DateTime(2017, 11, 1)
+chart.YAxisMinimumValue = 600
+chart.YAxisMaximumValue = 1000
+----
+endif::wpf[]
+
+The above code will result in a {FinancialChartName} that looks like the following:
+
+pick:[wpf="image::images/financialchart_wpf_axis_ranges.png[]"]
+pick:[jquery="image::images/financialchart_jquery_axis_ranges.png[]"]
+
+[[Related]]
+== Related Content
+
+* link:financial-chart-configuring-axis-intervals.html[Configuring Axis Intervals in {FinancialChartName}]
+* link:financial-chart-configuring-axis-labels.html[Configuring Axis Labels {FinancialChartName}]

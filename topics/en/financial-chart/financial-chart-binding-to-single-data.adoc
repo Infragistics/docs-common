@@ -1,0 +1,263 @@
+﻿= Binding to a Single Set of Data
+
+=== Purpose
+This topic demonstrates how to bind data to the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control. At the end of each section, a complete code sample is provided.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Introduction,Introduction>> 
+* <<SupportedChartTypes,Supported Chart Types>>
+
+pick:[wpf="* <<Requirements,Requirements>>"]
+* <<PreviewData,Preview Binding to Data>>
+* <<OverviewData,Overview Binding to Data>>
+* <<StepsData,Steps - Binding to Data>>
+* <<RelatedTopics,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+The procedure below demonstrates how to bind the {FinancialChartName} control to a data collection.
+ifdef::wpf[]
+The {FinancialChartName} allows you to bind to any object that implements the IEnumerable interface. Nested collections that implement ICollection and IEnumerable are also supported.
+endif::wpf[]
+ifdef::jquery[]
+The {FinancialChartName} allows you to bind to JavaScript arrays. Nested collections are also supported. 
+endif::jquery[]
+
+[[SupportedChartTypes]]
+== Supported Chart Types
+
+The link:{FinancialChartLink}.{FinancialChartName}{ApiProp}chartType{HtmlApiExtension}[ChartType] property enables you to choose which series type you wish to display. 
+
+Supported series types:
+
+* Bar
+* Candle
+* Column
+* Line
+
+ifdef::wpf[]
+[[Requirements]]
+== Requirements
+
+Following are the general requirements for adding the {FinancialChartName} control.
+
+Add the following NuGet package reference to your application:
+
+** Infragistics.WPF.FinancialChart
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----  
+
+*In C#:* 
+[source,csharp]
+----
+using {FinancialChartNamespace};  
+----  
+
+*In VB:* 
+[source,vb]
+----
+Imports {FinancialChartNamespace}
+---- 
+endif::wpf[]
+
+[[PreviewData]]
+== Preview Binding to Data
+
+The {FinancialChartName} control as implemented by the binding to data sample code:
+
+pick:[wpf="image::images/financialchart_wpf_singledata.png[]"]
+pick:[jquery="image::images/financialchart_jquery_singledata.png[]"]
+
+[[OverviewData]]
+== Overview Binding to Data
+
+
+1.	Defining a Data Model
+2.	Adding an Instance of the {FinancialChartName} control
+3.	(Optional) Verifying the result
+
+[[StepsData]]
+== Steps – Binding to Data
+
+*Define Data*
+
+ifdef::wpf[]
+Create a class to model the data:
+
+*In C#:*
+[source, csharp]
+----
+public class Price
+{
+    public DateTime Time { get; set; }
+    public double Open { get; set; }
+    public double High { get; set; }
+    public double Low { get; set; }
+    public double Close { get; set; }
+    public double Volume { get; set; }
+    public string Label { get { return this.Time.ToShortDateString(); } }
+}
+----
+
+
+*In Visual Basic:*
+[source, vb]
+----
+Public Class Price
+        Private _time As DateTime
+        Public Property Time() As DateTime
+            Get
+                Return _time
+            End Get
+            Set(ByVal value As DateTime)
+                _time = value
+            End Set
+        End Property
+
+        Private _open As Double
+        Public Property Open As Double
+            Get
+                Return _open
+            End Get
+            Set(ByVal value As Double)
+                _open = value
+            End Set
+        End Property
+
+        Private _high As Double
+        Public Property High As Double
+            Get
+                Return _high
+            End Get
+            Set(ByVal value As Double)
+                _high = value
+            End Set
+        End Property
+
+        Private _low As Double
+        Public Property Low As Double
+            Get
+                Return _low
+            End Get
+            Set(ByVal value As Double)
+                _low = value
+            End Set
+        End Property
+
+        Private _close As Double
+        Public Property Close As Double
+            Get
+                Return _close
+            End Get
+            Set(ByVal value As Double)
+                _close = value
+            End Set
+        End Property
+
+        Private _volume As Double
+        Public Property Volume As Double
+            Get
+                Return _volume
+            End Get
+            Set(ByVal value As Double)
+                _volume = value
+            End Set
+        End Property
+
+        Public ReadOnly Property Label As String
+            Get
+                Return Me.Time.ToShortDateString()
+            End Get
+        End Property
+    End Class
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,js]
+----
+function getData() {
+    var data = PriceData.AMZN();
+	return data;
+}
+----
+endif::jquery[]
+
+*Add an instance of the {FinancialChartName} Control*
+
+Add an instance of the {FinancialChartName} and bind it to the data:
+
+ifdef::wpf[]
+*In XAML*:
+[source, xaml]
+----
+<Window.DataContext>
+    <local:Data />
+</Window.DataContext>
+<Grid>
+    <ig:{FinancialChartName} ItemsSource="{Binding}" />
+</Grid>
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In HTML*
+[source,html]
+----
+<div id="chart" style="width:800px;height:600px"></div>
+----
+*In JavaScript*
+[source,js]
+----
+$(function () {
+    var data = getData();		
+    $("#chart").igFinancialChart({ 
+    	dataSource: data
+    });
+});
+----
+endif::jquery[]
+
+*(Optional) Verify the Result*
+
+Run your application to verify the result. If you have successfully bound the {FinancialChartName} control to the data collection, the resulting chart will look like the one shown above.
+
+[[RelatedTopics]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:financial-chart-binding-to-data.html[Binding to Data]
+|This topic provides an overview of binding data to the Financial Chart control.
+
+|link:financial-chart-binding-to-multiple-data.html[Binding to Multiple sets of Data]
+|This article explains how to bind multiple sets data to the Financial Chart control.
+
+|link:financial-chart-binding-to-live-data.html[Binding to Live Data]
+|This article explains how to bind live data to the Financial Chart control.
+
+ifdef::wpf[]
+|link:resources-financialdata.html[Example Financial Data]
+|Data used for above example.
+endif::wpf[]
+|===== AsciiDoc

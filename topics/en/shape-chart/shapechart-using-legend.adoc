@@ -1,0 +1,112 @@
+﻿= Using Legend with {ShapeChartName}
+
+This topic explains, with a code example, how to add a legend to the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control.
+
+=== Introduction
+
+The link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control has support for showing legends, but does not currently display legends for any series in the chart control by default. In order to show a common Legend for your shape chart, you need to add a link:{ShapeChartLink}.{LegendName}.html[{LegendName}] object to your application and bind it to the link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}legend.html[Legend] property of the {ShapeChartName} control.
+
+The {LegendName} element pulls the names of its items from the link:{ShapeChartLink}.series{ApiProp}title.html[Title] property of the link:{ShapeChartLink}.series.html[Series] that are plotted in the chart, and it will show your series' names in the format of "SeriesType (XMemberPath vs YMemberPath)" by default. In order to prevent this, you should use the `SeriesAdded` event of the {ShapeChartName}. The event arguments of this event can net you the series that is being added by using the Series property, which you can then use to set the `Title` property and modify the way your series is shown in the {LegendName}.
+
+=== Code Example
+
+The following example code demonstrates how to add a common {LegendName} for multiple series plotted in the {ShapeChartName} control and format the name of those series using the `SeriesAdded` event. This code example uses the following data for the shape chart:
+
+
+
+*In C#:*
+[source, csharp]
+----
+public class ScatterData : List<List<Point>>
+{     
+    public ScatterData()
+    {
+        List<Point> list1 = new List<Point>();
+        List<Point> list2 = new List<Point>();
+
+        list1.Add(CreatePoint(20, 20));
+        list1.Add(CreatePoint(20, 40));
+        list1.Add(CreatePoint(40, 40));
+        list1.Add(CreatePoint(40, 20));
+
+        list2.Add(CreatePoint(60, 20));
+        list2.Add(CreatePoint(60, 40));
+        list2.Add(CreatePoint(80, 40));
+        list2.Add(CreatePoint(80, 20));
+        
+        this.Add(list1);
+        this.Add(list2);
+    }
+
+    private Point CreatePoint(double x, double y)
+    {
+        Point point = new Point() { X = x, Y = y };
+        return point;
+    }
+}
+----
+
+*In XAML:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:XamShapeChart x:Name="shapeChart" ItemsSource="{Binding}"
+                      Legend="{Binding ElementName=legend}"
+                      SeriesAdded="shapeChart_SeriesAdded"/>
+
+    <ig:Legend x:Name="legend" />
+</Grid>
+----
+
+*In C#:*
+[source, csharp]
+----
+var shapeChart = new {ShapeChartName}();
+var legend = new {LegendName}();
+
+shapeChart.ItemsSource = new ScatterData();
+shapeChart.Legend = legend;
+shapeChart.SeriesAdded += shapeChart_SeriesAdded;
+
+layoutRoot.Children.Add(shapeChart);
+layoutRoot.Children.Add(legend);
+
+int count = 1;
+private void shapeChart_SeriesAdded(object sender, {DataChartNamespace}.ChartSeriesEventArgs args)
+{
+    Series series = args.Series;
+    series.Title = "Series " + count.ToString();
+    count++;
+}
+----
+
+ifdef::wpf[]
+*In VB:*
+[source, vb]
+----
+Dim shapeChart = New {ShapeChartName}()
+Dim legend = New {LegendName}()
+
+shapeChart.ItemsSource = New ScatterData()
+shapeChart.Legend = legend
+shapeChart.SeriesAdded += shapeChart_SeriesAdded
+
+layoutRoot.Children.Add(shapeChart)
+layoutRoot.Children.Add(legend)
+
+Dim count As Integer = 1
+Private Sub shapeChart_SeriesAdded(sender As Object, args As {DataChartNamespace}.ChartSeriesEventArgs)
+	Dim series As Series = args.Series
+	series.Title = "Series " + count.ToString()
+	count += 1
+End Sub
+----
+endif::wpf[]
+
+If the above steps are followed correctly, the resultant {ShapeChartName} should look like the following:
+
+image:images/shapechart_legend.png[]
+
+=== Related Content
+* link:shapechart-binding-to-shapefile-data.html[Binding to Shape File Data]
+* link:shapechart-binding-to-break-even-data.html[Binding to Break Even Data]

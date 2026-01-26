@@ -1,0 +1,293 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-binding-remote-data-source",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-05T19:09:59.9912322Z"
+}
+|metadata|
+////
+
+= Binding Remote Data Source in {DataGridName}
+
+This topic is designed to familiarize you with the concept of binding remote data source, as it relates to the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+ 
+== In this topic
+
+This topic contains the following sections
+
+* <<_Background,Required Background>>
+* <<_RemoteData,Remote Data>> 
+* <<_BindingRData,Binding Data>> 
+* <<RelatedContent,Related Content>>
+
+[[Background]]   
+== Required Background 
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+| This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data. 
+ 
+|====
+
+[[_RemoteData]]
+== Remote Data
+
+This example will walk you through the process of binding the {DataGridName} control to a remote data source, in this case to a web service hosting the Northwind database. Here you will use the provided oData resources to populate the {DataGridName} control with four link:{DataGridLink}.TextColumn_members.html[TextColumn] objects, (OrderID, CustomerID, ShipName and ShipName) and rows populated with informations about Orders.
+ 
+ifdef::android[]
+[start=1]
+. Copy the odata-client-android-4.0.0-SNAPSHOT library to the libs folder of your application project; add this jar file as a project library, by right clicking it within the project pane and selecting the option for Add as Library, following the same process that was used with the Infragistics jars. 
+
+This java library can be found within the Source > libs folder, included with the Android product installation.
+
+Depending on the install location, the file path for this folder will be similar to: C:\Users\Public\Documents\Infragistics\2016.1\Android\SamplesBrowser\Source\libs
+endif::android[]
+
+ifdef::xamarin[]
+[start=1]
+. Instal the following NuGet packages for XF projects:
+
+* Microsoft.Data.Edm, Version=5.8.1
+* Microsoft.Data.OData, Version=5.8.1
+* Microsoft.Net.Http, Version=2.2.28
+* Microsoft.OData.Edm, Version=6.15.0
+* Microsoft.OData.Core, Version=6.15.0
+* Microsoft.Spatial, Version=6.15.0
+* Simple.OData.Client, Version=4.24.0.1
+* System.Spatial, Version=5.8.1
+
+endif::xamarin[]
+
+ifdef::android[]
+[start=2]
+. Copy the OData folder to your application projects com.infragistics folder.
+
+The OData folder contains the necessary OData resource classes, that was installed with the Android product. Depending on the install location, the file path for this folder will be similar to: 
+C:\Users\Public\Documents\Infragistics\2016.1\Android\SamplesBrowser\Source\src\com\infragistics\odata
+endif::android[]
+
+ifdef::xamarin[]
+[start=2]
+. Include the following OData resource classes in your project:
+
+* link:ODataVirtualDataSource.html[ODataVirtualDataSource] 
+* link:ODataVirtualDataProvider.html[ODataVirtualDataProvider] 
+* link:ODataVirtualDataSettings.html[ODataVirtualDataSettings] 
+* link:ODataSourcePage.html[ODataSourcePage] 
+
+endif::xamarin[]
+
+ifdef::android[]
+[start=3]
+. Add permission to access the Internet by modifying the AndroidManifest.xml file within your application such that is has the following uses-permission tag within the manifest tag, as illustrated in the following code snippet. 
+ 
+*In Java:*
+[source, java]
+----
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infragistics.samplegridapp" >
+    <uses-permission android:name="android.permission.INTERNET"/>
+----
+endif::android[]
+
+ifdef::xamarin[]
+[start=3]
+. Add permission to access the Internet by modifying properties of *.Droid* and *.iOS* projects in your application
+endif::xamarin[]
+
+
+[[_BindingRData]]
+== Binding Data
+
+[start=1]
+. Add an instance of the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control to the main view of your application.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+import com.infragistics.controls.*;
+...
+{DataGridName} DataGrid = new {DataGridName}(this);
+setContentView(DataGrid);
+----
+endif::android[]
+ 
+ifdef::xamarin[]
+*In XAML:*
+[source, xaml]
+----
+xmlns:grids="clr-namespace:Infragistics.XamarinForms.Controls.Grids;assembly=Infragistics.XF.DataGrid"
+xmlns:local="clr-namespace:Infragistics.Data;assembly=YourAppName" 
+...
+<grids:XamDataGrid x:Name="DataGrid" AutoGenerateColumns="False" >
+    <!--TODO add text columns-->
+    <!--TODO bind data source-->
+</grids:XamDataGrid>
+----
+endif::xamarin[]
+
+ifdef::xamarin[]
+*In C#:*
+[source, csharp]
+----
+using {DataGridNamespace};
+using Infragistics.Data;
+...
+var DataGrid = new {DataGridName}();  
+// TODO add text columns
+// TODO bind data source 
+----
+endif::xamarin[]
+
+[start=2]
+. Create four instances of the link:{DataGridLink}.TextColumn_members.html[TextColumn] class and add them to the {DataGridName} control as demonstrated in the following code:
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+TextColumn column1 = new TextColumn();
+column1.setKey("OrderID");
+column1.setHeaderText("Order ID");
+
+TextColumn column2 = new TextColumn();
+column2.setKey("CustomerID");
+column2.setHeaderText("Customer ID");
+
+TextColumn column3 = new TextColumn();
+column3.setKey("ShipName");
+column3.setHeaderText("Ship Name");
+
+TextColumn column4 = new TextColumn();
+column4.setKey("ShipCity");
+column4.setHeaderText("ShipCity");
+
+DataGrid.addColumn(column1);
+DataGrid.addColumn(column2);
+DataGrid.addColumn(column3);
+DataGrid.addColumn(column4);
+----
+endif::android[]
+ 
+ifdef::xamarin[]
+*In XAML:*
+[source, xaml]
+----
+<grids:XamDataGrid.Columns>
+    <grids:TextColumn PropertyPath="OrderID"   />
+    <grids:TextColumn PropertyPath="CustomerID"  />
+    <grids:TextColumn PropertyPath="ShipName"  />
+    <grids:TextColumn PropertyPath="ShipCity" />
+</grids:XamDataGrid.Columns>
+----
+endif::xamarin[]
+
+ifdef::xamarin[]
+*In C#:*
+[source, csharp]
+----
+var column1 = new TextColumn();
+column1.PropertyPath = "OrderID";
+var column2 = new TextColumn();
+column2.PropertyPath = "CustomerID";
+
+var column3 = new NumericColumn();
+column3.PropertyPath = "ShipName";
+var column4 = new NumericColumn();
+column3.PropertyPath = "ShipCity";
+
+DataGrid.Columns.Add(column1);
+DataGrid.Columns.Add(column2);
+DataGrid.Columns.Add(column3);
+DataGrid.Columns.Add(column4);
+----
+endif::xamarin[]
+
+[start=3]
+. Create an instance of the OData virtual data source class with the following properties and assign it to the {DataGridName} control:
+
+* BaseURI - Sets the uniform resource identifier, (URI) of the virtual data source, e.g. the NorthWind web service
+* EntitySet - sets the name of a table defined in the the virtual data source
+* DesiredPageSize - sets the number of records that should be loaded at a time from the remote data source.
+* MaximumCachedPages - Sets the maximum number of cached pages for the virtual data source
+
+Memory usage is a critical aspect of mobile application development and to limit the amount of memory that is used by the {DataGridName} control as well as the amount of network bandwidth required for retrieving remote data, records are only retrieved on as-needed basis. 
+This behavior may be tailored by setting `DesiredPageSize` and `MaximumCachedPages` properties; in this case, we have 25 records per page and we are maintaining only 5 pages of these records at any given time. In the event that the user does not need to view the entire set of records, this is a very useful feature as only those records that are needed by the user are retrieved over the network and displayed.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+OdataVirtualDataSource virtualDataSource = new OdataVirtualDataSource(this);
+virtualDataSource.setBaseURI("link:http://services.odata.org/V4/Northwind/Northwind.svc");
+virtualDataSource.setEntitySet("Orders");
+virtualDataSource.setDesiredPageSize(25);
+virtualDataSource.setMaximumCachedPages(5);
+DataGrid.setAutoGenerateColumns(false);
+DataGrid.setDataSource(virtualDataSource);
+----
+endif::android[]
+
+ifdef::xamarin[]
+*In XAML:*
+[source, xaml]
+----
+<grids:XamDataGrid.ItemsSource>
+    <local:ODataVirtualDataSource
+        EntitySet= "Orders" PageSizeRequested="25" MaxCachedPages="5"
+        BaseUri="http://services.odata.org/V4/Northwind/Northwind.svc">
+    </local:ODataVirtualDataSource>
+</grids:XamDataGrid.ItemsSource> 
+----
+endif::xamarin[]
+
+ifdef::xamarin[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.ItemsSource = new ODataVirtualDataSource()
+{
+    BaseUri = "http://services.odata.org/V4/Northwind/Northwind.svc",
+    EntitySet = "Orders",
+    PageSizeRequested = 25,
+    MaxCachedPages = 5
+};
+----
+endif::xamarin[]  
+
+[start=4]
+. Save and run your application to verify the result. Your application should look like the following screenshot, barring any differences in screen orientation or pixel density.
+
+image::images/Getting_started_with_Databinding_3.png[]
+
+
+[[RelatedContent]]   
+=== Related Content
+
+The following table lists topics that are related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+ 
+| link:datagrid-supported-column-types.html[Supported Column Types]
+|This topic provides information on supported column types in the {DataGridName} control.
+  
+| link:datagrid-working-with-columns.html[Working with Columns]
+|This topic provides code examples on working with columns in the {DataGridName} control.
+
+| link:datagrid-binding-local-data-source.html[Binding Local Data Source in {DataGridName}]
+|This topic provides code examples on binding local data in the {DataGridName} control.
+
+| link:https://github.com/Infragistics/DataSource-Reference-Implementations[DataSource Implementation Reference]
+|Samples on Working with the data sources.
+|====

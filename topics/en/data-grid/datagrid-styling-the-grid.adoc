@@ -1,0 +1,489 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-styling-the-grid",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "2e24e5c5-7f19-4103-b242-fa1a2c77d950","buildFlags": [],
+    "createdOn": "2016-02-05T19:12:12.1065345Z"
+}
+|metadata|
+////
+
+= Styling the {DataGridName}
+
+This topic is designed to get you up and running as quickly as possible with customizing the visual appearance of the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] Control, by describing the basic steps required for styling textual and associated elements of the {DataGridName} control.
+
+== In this topic
+
+This topic contains the following sections
+
+* <<Requirements,Required Background >>
+* <<StylingRows,Styling Rows >>
+* <<StylingHeaders,Styling Column Headers>>
+* <<_Column_Content_Styling,Styling Column Content >>
+* <<RelatedContent,Related Content>>
+
+[[Requirements]]   
+== Required Background 
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+
+| link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+| This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data. 
+
+| link:SampleSalesPerson.html[Sample Sales Person] 
+| This resource topic provides implementation of sample data that you can use a data source for the {DataGridName} control. 
+
+|====
+
+[[StylingRows]]
+== Styling Rows
+
+The {DataGridName} control exposes the following pick:[xaml="properties"]pick:[android="methods"] for styling row elements:
+
+[options="header", cols="a,a,a"]
+|====
+|*{DataGridName} Styling behavior*|*pick:[android="Method"]pick:[xaml="Property"]*|*Details*
+
+|*RowHeight* 
+| link:{DataGridLink}.{DataGridName}{ApiProp}RowHeight.html[DataGrid.pick:[android="set"]RowHeight]
+|Allows you to set the height for all rows within the {DataGridName} control
+
+|*RowSeparatorHeight* 
+| link:{DataGridLink}.{DataGridName}{ApiProp}RowSeparatorHeight.html[DataGrid.pick:[android="set"]RowSeparatorHeight]
+|Allows you to set the height of the separator bar which exists between individual rows
+
+
+|*RowSeparatorStyle* 
+| 
+link:{DataGridLink}.{DataGridName}{ApiProp}RowSeparator.html[DataGrid.pick:[android="set"]RowSeparator]
+
+ifdef::android[]
+link:{DataGridLink}.{DataGridName}{ApiPropGet}RowSeparator.html[DataGrid.pick:[android="get"]RowSeparator] 
+endif::android[]
+
+|Allows you to obtain a reference to the exact link:{DataGridLink}.RowSeparator.html[RowSeparator] instance or to provide your own that will be used by the {DataGridName} control; allowing you to modify any of its appearance properties
+
+|====
+
+The following example will walk you through modifying all these styling behaviors to customize the high level appearance of the {DataGridName} control.
+
+[start=1]
+. Add to the following code snippet to the main code file.
+ 
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+RowSeparator separator = new RowSeparator();
+separator.setBackground(new SolidColorBrush(Color.BLUE));
+DataGrid.setRowSeparator(separator);
+DataGrid.setRowSeparatorHeight(5);
+DataGrid.setRowHeight(50);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In XAML*
+[source, xaml]
+----
+
+<ig:XamDataGrid RowSeparatorHeight="4"
+                RowHeight="50">
+    <ig:XamDataGrid.RowSeparator>
+        <ig:RowSeparator Background="Blue"/>
+    </ig:XamDataGrid.RowSeparator>
+</ig:XamDataGrid>
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.RowSeparator = new RowSeparator();
+DataGrid.RowSeparator.Background = new SolidColorBrush(Color.Blue);
+DataGrid.RowSeparatorHeight = 5;
+DataGrid.RowHeight = 50;
+----
+endif::xaml[]
+
+[start=2]
+. Save and run your application to verify the change in appearance. The RowSeparator will appear with a blue background with a height of five pixels.
+
+image::images/Styling_the_DataGridView_2.png[]
+
+[[StylingHeaders]]
+== Styling Column Header 
+
+The {DataGridName} control’s link:{DataGridLink}.textheader_members.html[Header] object exposes several methods for modifying the visual appearance of its Header as well as its text.
+
+[options="header", cols="a,a,a"]
+|====
+|*Header Styling behavior*|*pick:[android="Method"]pick:[xaml="Property"]*|*Details*
+
+|Height
+| link:{DataGridLink}.{DataGridName}{ApiProp}HeaderHeight.html[DataGrid.pick:[android="set"]HeaderHeight]
+|Allows you to set the height of the header row; this row encompasses all column headers present on the {DataGridName} control
+
+|Background Color
+| link:{DataGridLink}.DefinitionBase{ApiProp}Background.html[Header.pick:[android="set"]Background]
+|Allows you to set the background color of the Header element of the Column
+
+|Font Family
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontFamily.html[Header.pick:[android="set"]FontFamily]
+|Allows you to designate the font family used by text of the Column’s header
+
+|Font Size
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontSize.html[Header.pick:[android="set"]FontSize]
+|Allows you to set the point size of the font used by the Column’s header
+ 
+ifdef::xaml[]
+|Font Style
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontAttributes.html[Header.pick:[android="set"]FontAttributes]
+|Allows you to designate the style attribute of the font, for text within the Column’s header
+endif::xaml[]
+
+ifdef::android[]
+|Font Style
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontStyle.html[Header.pick:[android="set"]FontStyle]
+|Allows you to designate the style of the font, for text within the Column’s header
+endif::android[]
+
+|Horizontal Alignment
+| link:{DataGridLink}.DefinitionBase{ApiProp}HorizontalAlignment.html[Header.pick:[android="set"]HorizontalAlignment]
+|Allows you to set the alignment of the text within the Column’s header, along the horizontal plane
+
+|Vertical Alignment
+| link:{DataGridLink}.DefinitionBase{ApiProp}VerticalAlignment.html[Header.pick:[android="set"]VerticalAlignment]
+|Allows you to set the alignment of the text within the Column’s header, along the vertical plane
+
+ifdef::android[]
+|TypeFace
+| link:{DataGridLink}.DefinitionBase{ApiProp}Typeface.html[Header.pick:[android="set"]Typeface]
+|Allows you to set the TypeFace used by the Column’s header; this takes precedence over font family settings
+endif::android[]
+
+|Text Color
+| link:{DataGridLink}.DefinitionBase{ApiProp}TextColor.html[Header.pick:[android="set"]TextColor]
+|Allows you to specific Brush color to text contained within the Column’s header
+
+ifdef::xaml[]
+|Text Line Break Mode 
+| link:{DataGridLink}.DefinitionBase{ApiProp}LineBreakMode.html[Header.pick:[android="set"]LineBreakMode]
+|Allows you to specific link:{DataGridLink}.TextCellLineBreakMode.html[TextCellLineBreakMode] enum to control how long text should be displayed within the Column’s header
+
+|Text Padding
+| 
+link:{DataGridLink}.Header{ApiProp}PaddingBottom.html[Header.pick:[android="set"]PaddingBottom]
+
+link:{DataGridLink}.Header{ApiProp}PaddingLeft.html[Header.pick:[android="set"]PaddingLeft]
+
+link:{DataGridLink}.Header{ApiProp}PaddingRight.html[Header.pick:[android="set"]PaddingRight]
+
+link:{DataGridLink}.Header{ApiProp}PaddingTop.html[Header.pick:[android="set"]PaddingTop]
+|Allows you to specific padding around text contained within the Column’s header
+endif::xaml[]
+
+|====
+
+The following example will walk you through a basic scenario for customizing the appearance for the {DataGridName} control’s link:{DataGridLink}.Column_members.html[Column] headers, by utilizing several appearance methods for the header element and the headers text.
+
+[start=1]
+. Add to the following code snippet to the main code file.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+TextColumn nameColumn = new TextColumn();
+nameColumn.setKey("FirstName");
+
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.setKey("Sales");
+
+TextColumn territoryColumn = new TextColumn();
+territoryColumn.setKey("Territory");
+
+{DataGridName} DataGrid = new {DataGridName}(this);
+DataGrid.setAutoGenerateColumns(false);
+DataGrid.setDataSource(SampleSalesPerson.GenerateSalesData(300));
+DataGrid.addColumn(nameColumn);
+DataGrid.addColumn(salesColumn);
+DataGrid.addColumn(territoryColumn);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+TextColumn nameColumn = new TextColumn();
+nameColumn.PropertyPath = "FirstName";
+nameColumn.HeaderText = "FirstName";
+
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.PropertyPath = "Sales";
+salesColumn.HeaderText = "Sales"; 
+
+TextColumn territoryColumn = new TextColumn();
+territoryColumn.PropertyPath = "Territory";
+territoryColumn.HeaderText = "Territory";
+  
+DataGrid.Columns.Add(nameColumn);
+DataGrid.Columns.Add(salesColumn);
+DataGrid.Columns.Add(territoryColumn);
+----
+endif::xaml[]
+
+[start=2]
+. Create an instance of the link:{DataGridLink}.TextHeader.html[TextHeader] class with following properties: 
+
+* font size - 15
+* background color - red
+* text color - white
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+TextHeader header = new TextHeader();
+header.setFontSize(15);
+header.setBackground(new SolidColorBrush(Color.RED));
+header.setTextColor(new SolidColorBrush(Color.WHITE));
+nameColumn.setHeader(colHeader);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+var header = new TextHeader();
+header.Background = new SolidColorBrush(Color.Red);
+header.TextColor = new SolidColorBrush(Color.White);
+header.FontSize = 15;
+nameColumn.Header = header;
+----
+endif::xaml[]
+
+
+Alternatively, you could also get the exact instance of the link:{DataGridLink}.header_members.html[Header] object that represents the nameColumn, and modify that instance directly; all property changes using this approach will propagate to the {DataGridName} control's UI; the following code snippet demonstrates this approach.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+Header header = nameColumn.getHeader();
+header.setFontSize(15);
+header.setBackground(new SolidColorBrush(Color.RED));
+header.setTextColor(new SolidColorBrush(Color.WHITE)); 
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+var header = nameColumn.Header;
+header.Background = new SolidColorBrush(Color.Red);
+header.TextColor = new SolidColorBrush(Color.White);
+header.FontSize = 15; 
+----
+endif::xaml[]
+
+
+[start=3]
+. Save and run your application to verify the result, as demonstrated in the following screenshot.
+
+image::images/Styling_the_DataGridView_3.png[]
+
+[[StylingCells]]
+== Styling Column Content 
+
+The link:{DataGridLink}.Column_members.html[Column] object also exposes several methods for modifying the visual components of its contained cells in aggregate, including the Column’s width, text alignment and text appearance.
+
+[options="header", cols="a,a,a"]
+|====
+|*Column Styling behavior*|*pick:[android="Method"]pick:[xaml="Property"]*|* Details*
+
+|Content Opacity
+| link:{DataGridLink}.DefinitionBase{ApiProp}ContentOpacity.html[Column.pick:[android="set"]ContentOpacity]
+|Allows you to adjust the level of transparency for content, (including text and images) within cells of the Column
+
+|Width
+| link:{DataGridLink}.column{ApiProp}Width.html[Column.pick:[android="set"]Width]
+|Allows you to adjust the width for the Column
+
+|Background Color
+| link:{DataGridLink}.DefinitionBase{ApiProp}Background.html[Column.pick:[android="set"]Background]
+|Allows you to set a specific color that will be used to fill cells within the Column
+
+|Selected Background Color
+| link:{DataGridLink}.column{ApiProp}SelectedBackground.html[Column.pick:[android="set"]SelectedBackground]
+|Allows you to set a specific color for cells within a column, when that Column is selected
+
+|Font Family
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontFamily.html[Column.pick:[android="set"]FontFamily]
+|Allows you to designate the FontFamily used by text of the Column’s cells
+
+|Font Size
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontSize.html[Column.pick:[android="set"]FontSize]
+|Allows you to set the point size of the font used by the Column’s cells
+
+ifdef::xaml[]
+|Font Style
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontAttributes.html[Column.pick:[android="set"]FontAttributes]
+|Allows you to designate the style attribute of the font, for text within the Column’s header
+endif::xaml[]
+
+ifdef::android[]
+|Font Style
+| link:{DataGridLink}.DefinitionBase{ApiProp}FontStyle.html[Column.pick:[android="set"]FontStyle]
+|Allows you to designate the style of the font, for text within the Column’s cells
+endif::android[]
+
+|Horizontal Alignment
+| link:{DataGridLink}.DefinitionBase{ApiProp}HorizontalAlignment.html[Column.pick:[android="set"]HorizontalAlignment]
+|Allows you to set the alignment of the text within the Column’s cells, along the horizontal plane
+
+|Vertical Alignment
+| link:{DataGridLink}.DefinitionBase{ApiProp}VerticalAlignment.html[Column.pick:[android="set"]VerticalAlignment]
+|Allows you to set the alignment of the text within the Column’s cells, along the vertical plane
+
+ifdef::android[]
+|TypeFace
+| link:{DataGridLink}.DefinitionBase{ApiProp}Typeface.html[Column.pick:[android="set"]TypeFace]
+|Allows you to set the TypeFace used by the Column’s cells; this takes precedence over FontFamily settings
+endif::android[]
+
+|TextColor
+| link:{DataGridLink}.DefinitionBase{ApiProp}TextColor.html[Column.pick:[android="set"]TextColor]
+|Allows you to assign a specific Brush color to text contained within the Column’s cells
+
+ifdef::xaml[]
+|Text Line Break Mode 
+| link:{DataGridLink}.DefinitionBase{ApiProp}LineBreakMode.html[Column.pick:[android="set"]LineBreakMode]
+|Allows you to specific link:{DataGridLink}.TextCellLineBreakMode.html[TextCellLineBreakMode] enum to control how long text should be displayed within the Column’s cells
+
+|Text Padding
+| 
+link:{DataGridLink}.Column{ApiProp}PaddingBottom.html[Column.pick:[android="set"]PaddingBottom]
+
+link:{DataGridLink}.Column{ApiProp}PaddingLeft.html[Column.pick:[android="set"]PaddingLeft]
+
+link:{DataGridLink}.Column{ApiProp}PaddingRight.html[Column.pick:[android="set"]PaddingRight]
+
+link:{DataGridLink}.Column{ApiProp}PaddingTop.html[Column.pick:[android="set"]PaddingTop]
+|Allows you to specific padding around text contained within the Column’s cells
+endif::xaml[]
+
+|====
+
+This example walks through the customization of the appearance for columns within the {DataGridName} for column elements as well as the content contained within the column’s associated cells.
+
+This example assumes you have created the SampleGridApp project as demonstrated in the link:datagrid-working-with-columns.html[Working with Columns] topic.
+
+[start=1]
+. Add to the following code snippet to the main code file.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+TextColumn nameColumn = new TextColumn();
+nameColumn.setKey("FirstName");
+
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.setKey("Sales");
+
+TextColumn territoryColumn = new TextColumn();
+territoryColumn.setKey("Territory");
+
+{DataGridName} DataGrid = new {DataGridName}(this);
+DataGrid.setAutoGenerateColumns(false);
+DataGrid.setDataSource(SampleSalesPerson.GenerateSalesData(300));
+DataGrid.addColumn(nameColumn);
+DataGrid.addColumn(salesColumn);
+DataGrid.addColumn(territoryColumn);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+TextColumn nameColumn = new TextColumn();
+nameColumn.PropertyPath = "FirstName";
+nameColumn.HeaderText = "FirstName";
+
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.PropertyPath = "Sales";
+salesColumn.HeaderText = "Sales"; 
+
+TextColumn territoryColumn = new TextColumn();
+territoryColumn.PropertyPath = "Territory";
+territoryColumn.HeaderText = "Territory";
+  
+DataGrid.Columns.Add(nameColumn);
+DataGrid.Columns.Add(salesColumn);
+DataGrid.Columns.Add(territoryColumn);
+----
+endif::xaml[]
+
+[start=2]
+. Modify the style of the nameColumn's link:{DataGridLink}.Column_members.html[Column] by setting the following properties:
+
+* background color - gray
+* text color - white
+* font style - bold
+* font size - 15
+
+ifdef::android[]
+*In Java:*
+[source, java]
+---- 
+nameColumn.setFontSize(15);
+nameColumn.setFontStyle(FontStyles.BOLD); 
+nameColumn.setBackground(new SolidColorBrush(Color.GRAY));
+nameColumn.setTextColor(new SolidColorBrush(Color.WHITE));
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+nameColumn.FontSize = 15;
+nameColumn.FontAttributes = FontAttributes.Bold;
+nameColumn.Background = new SolidColorBrush(Color.Gray);
+nameColumn.TextColor = new SolidColorBrush(Color.White);
+----
+endif::xaml[]
+[start=3]
+. Save and run the SampleGridApp to verify the result.
+
+image::images/Styling_the_DataGridView_4.png[]
+
+
+[[RelatedContent]]   
+=== Related Content
+
+The following table lists topics that are related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+ 
+| link:datagrid-supported-column-types.html[Supported Column Types]
+|This topic provides information on supported column types in the {DataGridName} control.
+  
+| link:datagrid-working-with-columns.html[Working with Columns]
+|This topic provides code examples on working with columns in the {DataGridName} control.
+|====

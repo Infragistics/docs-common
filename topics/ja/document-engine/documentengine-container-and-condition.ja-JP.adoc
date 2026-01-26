@@ -1,0 +1,119 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-container-and-condition",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{EE0BD5A8-F862-42EE-8090-D527C14ACF05}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= コンテナと条件
+
+Container エレメントは以下の 2 つの目的のために設計された極めて重要で独自のエレメントです。
+
+* Container エレメントは XML によってレポート コンテンツを挿入できます。
+* Container エレメントは、Condition エレメントと使用した場合、すべてのコンテンツがそのページに収まるかどうかに基づいて、条件付きでコンテンツを表示できます。
+
+== XML の挿入
+
+Container エレメントによって、XML を使用してレポート コンテンツを挿入できます。 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  オブジェクトの  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~save.html[Save]"]  メソッドを呼び出すことによって、レポート コンテンツを XML ファイルに出力できます。XML ファイルがある場合には、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer.html[IContainer]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer.html[IContainer]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer.html[IContainer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer.html[IContainer]"]  インターフェイスの  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer~load.html[Load]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer~load.html[Load]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer~load.html[Load]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icontainer~load.html[Load]"]  メソッドを使用して、コンテナに XML をロードすることができます。ドキュメント オブジェクト モデル（DOM）を使用して作成しても、XML ファイルからロードしてもコンテンツの外観に違いはありません。Report.xml と呼ばれる XML ファイルからレポート コンテンツをロードしたい場合には、以下のようなコードを使用できます。
+
+*Visual Basic の場合：*
+
+----
+' XML ファイルのコンテンツを直接コンテナにロードします。
+container.Load((Application.StartupPath + "..\Report.xml"))
+----
+
+*C# の場合：*
+
+----
+// XML ファイルのコンテンツを直接コンテナにロードします。
+container.Load(Application.StartupPath + @"..\Report.xml");
+----
+
+== 条件付きでコンテンツを表示
+
+Text エレメントとほとんどのその他の link:documentengine-report-layout.html[レイアウト エレメント]を Container エレメントに追加できます。Container エレメントを独特なエレメントとしているのは、この機能だけではありません。しかし Condition エレメントとともに使用すると、1 ページにすべてを収めることができない場合にコンテンツを処理する方法を事前に決定できます。
+
+Condition エレメントのコンストラクタは以下の 2 つのパラメータを認めます。
+
+* 条件を適用するコンテナの名前
+* すべてのコンテンツが 1 ページに収まらない場合に Document Engine が実行すべきことを識別するブール値
+
+Container エレメントを作成し、コンテンツを入れるというのが一般的なシナリオです。Container エレメントが作成されたら、Condition エレメントを作成し、コンテナ名を渡します。つまりテストの対象となる条件は 2 つあります（False: コンテナのコンテンツが 1 ページに収まらない。True: コンテナのコンテンツが 1 ページに収まる）。2 番目のパラメータとして False を渡すことは、Container が収まらない場合に Document Engine はこの Condition エレメントを示すことを意味します。したがって、テキストが収まらないことを述べるテキストまたはその他の代替えコンテンツを Condition エレメントに追加したい場合があります。次に Condition エレメントをもうひとつ追加する必要があります。これは 2 番目のパラメータとして True を渡します。2 番目のパラメータとして True を渡すと、Document Engine がコンテンツを 1 ページに収めることができたことを意味しますが、この Condition エレメントのコンテンツも示します。Condition エレメントを空のままにしておき単に Container エレメントのコンテンツを表示する、または固有のカスタム コンテンツを Condition に追加することができます。
+
+以下のコードを使用して Container エレメントを作成し、次にこの Container エレメントに基づいて Condition エレメントを作成します。コンテナがページに収まらない場合に限り、最初の条件が表示します。コンテナがページに収まる場合に限り、2 番目の条件が表示します。Container エレメント内のコンテンツの量を増減するために、FOR ループが実行する繰り返しの回数を変更することができます。
+
+Text エレメントのコンテンツに以下の文字列を使用します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+[start=1]
+. *Container エレメントを作成し、コンテンツをその中に入れます。*
+
+*Visual Basic の場合：*
+
+----
+Dim container As Infragistics.Documents.Reports.Reports.Report.IContainer = _  section1.AddContainer("Container1")
+' コンテナのための Text エレメントを定義します。
+Dim containerText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  container.AddText()
+' 同じコンテンツを 10 回追加します。1 ページにコンテンツを収めるために、
+' この回数を 5 回以下に減らします。
+For i As Integer = 0 To 9
+	containerText.AddContent("Lorem ipsum...")
+	containerText.AddLineBreak()
+	containerText.AddLineBreak()
+Next i
+----
+
+*C# の場合：*
+
+----
+// Container エレメントを定義します。
+Infragistics.Documents.Reports.Reports.Report.IContainer container =   section1.AddContainer("Container1");
+// コンテナのための Text エレメントを定義します。
+Infragistics.Documents.Reports.Reports.Report.Text.IText containerText =   container.AddText();
+// 同じコンテンツを 10 回追加します。1 ページにコンテンツを収めるために、
+// この回数を 5 回以下に減らします。
+for (int i = 0; i < 10; i++)
+{
+	containerText.AddContent("Lorem ipsum...");
+	containerText.AddLineBreak();
+	containerText.AddLineBreak();
+}
+----
+
+[start=2]
+. *Condition エレメントを作成します。*
+
+*Visual Basic の場合：*
+
+----
+' コンテンツが収まらない場合に、この条件を使用します。
+Dim condition As Infragistics.Documents.Reports.Reports.Report.ICondition =   section1.AddCondition(container, False)
+Dim conditionText As Infragistics.Documents.Reports.Reports.Report.Text.IText =   condition.AddText()
+conditionText.AddContent("Container doesn't fit")
+' コンテンツが収まる場合に、この条件を使用します。
+condition = section1.AddCondition(container, True)
+----
+
+*In C#:*
+
+----
+// コンテンツが収まらない場合に、この条件を使用します。
+Infragistics.Documents.Reports.Reports.Report.ICondition condition =   section1.AddCondition(container, false);
+Infragistics.Documents.Reports.Reports.Report.Text.IText conditionText =   condition.AddText();
+conditionText.AddContent("Container doesn't fit");
+// コンテンツが収まる場合に、この条件を使用します。
+condition = section1.AddCondition(container, true);
+----
+

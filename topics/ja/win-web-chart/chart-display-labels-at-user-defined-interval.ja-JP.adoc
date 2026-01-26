@@ -1,0 +1,151 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-display-labels-at-user-defined-interval",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{948158C9-7E48-47E3-AFB7-34AAF45767AA}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ユーザ定義間隔でのラベル表示
+
+ときには、ラベルの全体的な外観を、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance.html[AxisLabelAppearance]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance.html[AxisLabelAppearance]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance.html[AxisLabelAppearance]"]  での指定以上に加工する必要があります。このトピックでは、ラベルの外観を見栄えよくするための、カスタム キーワードの使用例を紹介します。この例では、X 軸に沿って 4 項目ごとの位置にラベルを配置しています。
+
+ローソク足チャートでは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~skipn.html[SkipN]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~skipn.html[SkipN]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~skipn.html[SkipN]"]  プロパティで日付ラベルの間隔を設定できます。ただし、この機能は設計上すべてのグラフの種類で一様に使用できるわけではありません。AxisLabelAppearance オブジェクトは各ラベルに個々に適用されます。IRenderLabel を実装するアプリケーション オブジェクトが、呼び出された回数のカウンタを管理し、描画パスごとにリセットされるメカニズムを持っている場合は、代わりにカスタム キーワード描画機能を使用して、Chart アプリケーション内で上述した機能や同様の動作をシミュレートできます。以下に示す手順ごとの例でそのような実装について説明します。
+
+[start=1]
+. まず、各軸上にラベルを描画する際に Chart が実行する IRenderLabel オブジェクトを実装する必要があります。これは、このオブジェクト上の ToString というよく知られたメソッドを Chart が呼び出すことによって実装されます。ToString は、アプリケーション オブジェクトが IRenderLabel インタフェースを実装する際に開発者が提供するメソッドです。
+
+VB.NET では、インタフェースは以下の方法で実装することができます。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Resources
+...
+Public Class EveryFourthLabel
+    Implements IRenderLabel
+    Dim count As Integer
+    Dim itemsPerPass As Integer
+    Public Sub New( ByVal columnCount As Integer)
+        itemsPerPass = columnCount
+        count = 0
+    End Sub
+    Public Overloads Function ToString( ByVal context As Hashtable) _
+      As String Implements IRenderLabel.ToString
+' 大部分の場合、何もレンダリングしません。
+        Dim result As String = String.Empty
+        Dim itemLabel As String = String.Empty
+' コンテキストは ITEM_LABEL（SetLabel スタイルの軸）と
+' DATA_VALUE（数値軸）のような組み込みの 
+' キーワードを含みます。
+        itemLabel = CStr( context("ITEM_LABEL"));
+' 各ラベルの完全なパスが終わったら、
+' 次のパスをリセットします。
+        If ( itemsPerPass = count ) Then
+            count = 0
+        End If
+' 4 項目ごとに、項目のラベルをレンダリングします。
+        If ( ( count Mod 4 ) = 0 ) Then
+            result = itemLabel
+        End If
+' IRenderLabel を呼び出した回数を 
+' カウントします。
+        count = count + 1
+        ToString = result
+    End Function
+End Class
+----
+
+C# では、この実装は以下のようになります。
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Resources;
+...
+public class EveryFourthLabel : IRenderLabel
+{
+    private int count;
+    private int itemsPerPass;
+    public EveryFourthLabel( int columnCount)
+    {
+        itemsPerPass = columnCount;
+        count = 0;
+    }
+    public string ToString( Hashtable context)
+    {
+// 大部分の場合、何もレンダリングしません。
+        string result = String.Empty;
+        string itemLabel = String.Empty;
+// コンテキストは ITEM_LABEL（SetLabel スタイルの軸）と
+// DATA_VALUE（数値軸）のような組み込みの 
+// キーワードを含みます。
+        itemLabel = context["ITEM_LABEL"] as string;
+// 各ラベルの完全なパスが終わったら、
+// 次のパスをリセットします。
+        if ( itemsPerPass == count )
+        {
+            count = 0;
+        }
+// 4 項目ごとに、項目のラベルをレンダリングします。
+        if ( count % 4 == 0 )
+        {
+            result = itemLabel;
+        }
+// IRenderLabel を呼び出した回数を
+// カウントします。
+        ++count;
+        return result;
+    }
+}
+----
+
+[start=2]
+. 次に必要な手順は、この IRenderLabel 実装オブジェクト、および Chart でこのオブジェクトが実装しているカスタム キーワードを登録することです。登録は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~labelhash.html[LabelHash]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[LabelHash]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[LabelHash]"]  プロパティを介して行います。このプロパティはカスタム キーワードを、対応する  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  実装に関連付けるハッシュテーブルです。
+
+カスタム IRenderLabel 実装の登録は通常、Chart 要素を含む Page_Load または Form_Load イベントハンドラ内で処理します。
+
+VB.NET では以下のコードで処理できます。
+
+*Visual Basic の場合：*
+
+----
+Private Sub DisplayLabelsataUserDefinedInterval_Load(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Dim labelRenderers As Hashtable = New Hashtable()
+	labelRenderers.Add("EVERY_FOURTH_X", New EveryFourthLabel(16))
+	If (Me.UltraChart1.LabelHash Is Nothing) Then
+		Me.UltraChart1.LabelHash = labelRenderers
+	End If
+	Me.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom
+	Me.UltraChart1.Axis.X.Labels.ItemFormatString = "<EVERY_FOURTH_X>"
+End Sub
+----
+
+C# では、必要なコードは以下のようになります。
+
+*C# の場合：*
+
+----
+private void DisplayLabelsataUserDefinedInterval_Load(object sender, EventArgs e)
+{
+	Hashtable labelRenderers = new Hashtable();
+	labelRenderers.Add( "EVERY_FOURTH_X", new EveryFourthLabel(16));
+	if ( this.ultraChart1.LabelHash == null )
+	{
+		this.ultraChart1.LabelHash = labelRenderers;
+	}
+	this.ultraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom;
+	this.ultraChart1.Axis.X.Labels.ItemFormatString = "<EVERY_FOURTH_X>";
+}
+----
+
+EveryFourthLabel コンストラクタが列カウントを取ることに注意してください。カウンタは、X 軸に沿って正常に描画された項目ラベルの数に対応しているはずです。EveryFourthLabel の ToString() の定義内で使用され、カウンタをリセットするタイミングを指定します。この技法は、IRenderLabel 実装オブジェクトの別個のキーワードとインスタンスを（独自のカウンタと共に）作成して使用する場合、複数の軸に適用できます。

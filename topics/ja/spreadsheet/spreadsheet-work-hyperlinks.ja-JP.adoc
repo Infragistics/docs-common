@@ -1,0 +1,161 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-hyperlinks",
+    "tags": ["How Do I","Navigation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "14b49746-2d12-467b-81f1-c6e1b3e0ede0",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.09539Z"
+}
+|metadata|
+////
+
+= ハイパーリンクでの作業（{SpreadsheetName}）
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、サポートされているハイパーリンクのタイプとその操作方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+|トピック|目的 
+
+|pick:[wpf,sl,xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+| link:spreadsheet-uiu-hyperlinks.html[ハイパーリンクのインタラクション ({SpreadsheetName})] 
+
+|このトピックでは、ハイパーリンクとインタラクションするときにユーザーが実行できる操作を説明します。 
+
+|==== 
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref403575668, ハイパーリンクのタイプ >>
+* <<_Ref403575674, ハイパーリンク コマンドのサポート >>
+* <<_Ref403575680, ハイパーリンクのイベント >>
+ifdef::xaml[]
+* <<_Ref403575687, 関連コンテンツ >>
+endif::xaml[]
+
+[[_Ref403575668]]
+== ハイパーリンクのタイプ
+
+=== ハイパーリンクのタイプの概要
+
+link:{SpreadsheetLink}.{SpreadsheetName}.html[ _{SpreadsheetName}_  ] のコントロールは、2 つのタイプのハイパーリンクをサポートします。
+
+==== ワークシート ハイパーリンク
+
+ワークシート ハイパーリンクは link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheethyperlink_members.html[WorksheetHyperlink] クラスのインスタンス作成により作成され、新たに作成されたオブジェクトを link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheet.html[ワークシート]の link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheet~hyperlinks.html[ハイパーリンク] コレクションに追加します。これらのリンクは、単一セルまたは複数のセル範囲にまたがることができます。そのようなハイパーリンクの作成と構成の詳細は、 pick:[xaml="link:excelengine-addinghyperlinktoworksheet.html[ワークシートに対するハイパーリンクの追加]"]  pick:[win-forms="link:excelengine-adding-a-hyperlink-to-a-cell-in-an-excel-file.html[ワークシートに対するハイパーリンクの追加]"] のトピックを参照してください。
+
+==== 数式ハイパーリンク
+
+数式ハイパーリンクは、ワークシートのセルに「HYPERLINK」 関数を入力すると作成され、定義されたセルのみで機能します。以下の数式例は、インフラジスティックスの Web サイトに数式ハイパーリンクを追加します:
+
+`=HYPERLINK("http://www.infragistics.com", "Infragistics")`
+
+.注:
+[NOTE]
+====
+数式ハイパーリンクはカスタム ツールチップを持つことができません。デフォルト ツールチップのみが表示されます。
+====
+
+.注:
+[NOTE]
+====
+ワークシート ハイパーリンクの 「followed」状態は、ワークシート ハイパーリンクでは元に戻す操作と再実行操作の間で保持されますが、数式ハイパーリンクでは保持されません。
+====
+
+[[_Ref403575674]]
+== ハイパーリンク コマンドのサポート
+
+=== コマンドのサポート
+
+以下に、ハイパーリンクと関連付けられたコマンドを簡単な説明とともに一覧で示します。
+
+[options="header", cols="a,a"]
+|====
+|コマンド|詳細
+
+| *OpenHyperlink* 
+|このコマンドは、単一セル (または単一の結合されたセル) が選択され、そのセルがハイパーリンク (ワークシート ハイパーリンクまたは数式 ハイパーリンク) を持っている場合のみ有効です。このコマンドは、選択されたセルのハイパーリンク ターゲットをオープン / フォローします。
+
+| *RemoveHyperlinks* 
+|このコマンドは、現在の選択内に完全に含まれる、または選択を完全に含む 1 つまたは複数のハイパーリンクを削除します。選択に基づき削除できる 1 つまたは複数のワークシート ハイパーリンクがある場合に有効です。 
+
+.注: 
+[NOTE] 
+==== 
+このコマンドは、数式ハイパーリンクを削除できません。また、選択が数式ハイパーリンクのみを含む場合は有効ではありません。 
+====
+
+| *ClearHyperlinks* 
+|このコマンドは、 *RemoveHyperlinks* とほぼ同じです。ただし、ハイパーリンクの削除時にセルの書式設定は保持されます。 
+
+.注: 
+[NOTE] 
+==== 
+現在の選択が結合されたセルと交差しているが、そのセルを含んでいない場合、このコマンドは使用できません。 
+====
+
+|====
+
+[[_Ref403575680]]
+== ハイパーリンクのイベント
+
+=== イベントの概要
+
+_{SpreadsheetName}_   コントロールは、キャンセル可能なハイパーリンク関係のイベントである link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}hyperlinkexecuting_ev.html[HyperlinkExecuting] をサポートします。このイベントはハイパーリンクをオープンする前に発生します。
+
+イベント ハンドラーで、以下の操作が可能です。
+
+* イベントをキャンセルします。これはターゲットがオープンされ、ハイパーリンクがフォローされるのを防止します。
+* ハイパーリンクがファイルをターゲットにしている場合、ハイパーリンクのターゲットでファイル名のみを指定できるように、作業ディレクトリを設定または取得します。
+* ハイパーリンクのプロパティを変更します。
+
+ifdef::xaml[]
+
+[[_Ref403575687]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-commands.html[コマンドの操作 ({SpreadsheetName})]
+|このトピックでは、コマンドによりコントロールを使用してさまざまな操作を実行する方法を説明します。
+
+|====
+endif::xaml[]

@@ -1,0 +1,117 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-quick-table",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{FBCD9A92-3F02-497C-8B44-7D2EF4695FD0}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= クイック テーブル
+
+表には当然のことながらいくつかのエレメントが含まれるために Quick Table エレメントは軽量の link:documentengine-quick-content.html[クイック コンテンツ] エレメントの中で最も重いエレメントとなっています。以下のエレメントを Quick Table エレメントに追加できます。
+
+* Column
+* Row
+* Cell
+* Header
+* Divider
+* Footer
+
+Quick Table エレメントの外観を変更するいくつかのプロパティを設定することも可能です。
+
+* Background
+* Borders
+* Paddings
+* Margins
+
+Quick Table エレメントは完全な Table エレメントのいくつかを使用します。詳細は、 link:documentengine-tables.html[「表」]を参照してください。Columns、Rows、Cells はすべて繰り返し可能なコンテンツです。つまり、必要なだけこれらのエレメントを追加できます。ただし、Header、Divider、および Footer エレメントは繰り返し可能ではありません。ページあたりに使用可能な Header、Divider、および Footer はひとつだけです。Header エレメントと Footer エレメントは繰り返し可能ではありませんが、セルは繰り返し可能です。これらの 2 つのエレメントはそれぞれ、追加のセルを Header エレメントまたは Footer エレメントに追加するために使用される AddCell メソッドを含んでいます。ほとんど同じようにセルを Row エレメントに追加することもできます。したがって、（Header、Row、または Footer のいずれにあろうとも）セルで一杯の表を作成することはセルあたりひとつのメソッドを呼び出すのと同じように簡単です。
+
+image::images/DocumentEngine_Quick_Table_01.png[]
+
+'''
+
+以下のコードは、シンプルな 3 x 3 の表を作成し、ヘッダとフッタを追加します。表の背景色を LightSteelBlue に、枠の色を Black に設定します。このトピックは、Report エレメントを定義済みでこのエレメントに少なくともひとつの Section エレメントを追加してあることを前提とします。詳細は、 link:documentengine-report.html[「レポート」]および link:documentengine-section.html[「セクション」]を参照してください。
+
+*Visual Basic の場合：*
+
+----
+' Quick Table を追加します。
+section1.AddQuickText("Quick Table")
+Dim quickTable As Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTable = _  quickSection.AddQuickTable()
+' 黒の枠を表の外側に追加します。
+quickTable.Borders = New Borders(New Pen(New Color(0, 0, 0)))
+' lightsteelblue の背景を表全体に追加します。
+quickTable.Background = New Background(Brushes.LightSteelBlue)
+' 列を 3 つ追加します。
+quickTable.AddColumn(100)
+quickTable.AddColumn(100)
+quickTable.AddColumn(100)
+' ヘッダ セルを追加します。
+Dim quickTableHeader As Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTableHeader = _  quickTable.Header
+quickTableHeader.AddCell("Header 1")
+quickTableHeader.AddCell("Header 2")
+quickTableHeader.AddCell("Header 3")
+' それぞれにセルが 3 つある行を 3 つ追加します。
+Dim quickRow As Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTableRow = _  quickTable.AddRow()
+quickRow.AddCell("Cell 1")
+quickRow.AddCell("Cell 2")
+quickRow.AddCell("Cell 3")
+quickRow = quickTable.AddRow()
+quickRow.AddCell("Cell 4")
+quickRow.AddCell("Cell 5")
+quickRow.AddCell("Cell 6")
+quickRow = quickTable.AddRow()
+quickRow.AddCell("Cell 7")
+quickRow.AddCell("Cell 8")
+quickRow.AddCell("Cell 9")
+' フッタ セルを追加します。
+Dim quickTableFooter As Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTableFooter = _  quickTable.Footer
+quickTableFooter.AddCell("Footer 1")
+quickTableFooter.AddCell("Footer 2")
+quickTableFooter.AddCell("Footer 3")
+----
+
+*C# の場合：*
+
+----
+section1.AddQuickText("Quick Table");
+// Quick Table を追加します。
+Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTable quickTable =   section1.AddQuickTable();
+// 黒の枠を表の外側に追加します。
+quickTable.Borders = new Borders(new Pen(new Color(0, 0, 0)));
+// lightsteelblue の背景を表全体に追加します。
+quickTable.Background = new Background(Brushes.LightSteelBlue);
+// 列を 3 つ追加します。
+quickTable.AddColumn(100);
+quickTable.AddColumn(100);
+quickTable.AddColumn(100);
+// ヘッダ セルを追加します。
+Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTableHeader quickTableHeader =   quickTable.Header;
+quickTableHeader.AddCell("Header 1");
+quickTableHeader.AddCell("Header 2");
+quickTableHeader.AddCell("Header 3");
+// それぞれにセルが 3 つある行を 3 つ追加します。
+Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTableRow quickRow =   quickTable.AddRow();
+quickRow.AddCell("Cell 1");
+quickRow.AddCell("Cell 2");
+quickRow.AddCell("Cell 3");
+quickRow = quickTable.AddRow();
+quickRow.AddCell("Cell 4");
+quickRow.AddCell("Cell 5");
+quickRow.AddCell("Cell 6");
+quickRow = quickTable.AddRow();
+quickRow.AddCell("Cell 7");
+quickRow.AddCell("Cell 8");
+quickRow.AddCell("Cell 9");
+// フッタ セルを追加します。
+Infragistics.Documents.Reports.Reports.Report.QuickTable.IQuickTableFooter quickTableFooter =   quickTable.Footer;
+quickTableFooter.AddCell("Footer 1");
+quickTableFooter.AddCell("Footer 2");
+quickTableFooter.AddCell("Footer 3");
+----

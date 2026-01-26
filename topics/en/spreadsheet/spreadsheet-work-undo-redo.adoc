@@ -1,0 +1,301 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-undo-redo",
+    "tags": ["How Do I","Editing"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "5f39e37b-b19e-49fb-9814-7d228a5e0a33",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.1014083Z"
+}
+|metadata|
+////
+
+= Working with Undo and Redo ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to configure and perform undo and redo operations with the control.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|====
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_ . 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref391543492, Undo and Redo Configuration Summary >>
+* <<_Ref391543493, Enable or Disable Undo and Redo Support >>
+* <<_Ref391543494, Invoke Undo Operation  pick:[wpf,xaml,sl="Using Command"]  >>
+* <<_Ref391478524, Invoke Redo Operation  pick:[wpf,sl,xaml="Using Command"]  >>
+* <<_Ref391543514, Related Content >>
+
+[[_Ref391543492]]
+== Undo and Redo Configuration Summary
+
+=== Undo and Redo configuration summary
+
+The {SpreadsheetName} control uses the link:undo-redo-framework.html[Infragistics Undo/Redo Framework] to provide robust undo and redo support for the changes made by the user. The control tracks all changes made to the associated workbook and populates the link:{ApiPlatform}undo{ApiVersion}~infragistics.undo.undomanager.html[UndoManager].
+
+.Note
+[NOTE]
+====
+Each {SpreadsheetName} control uses its own `UndoManager` instance. You can also use the same `UndoManager` across multiple {SpreadsheetName} instances by setting this instance to the link:{SpreadsheetLink}.{SpreadsheetName}~undomanager.html[UndoManager] property.
+====
+
+"Undo" and "Redo" operations are triggered via the following:
+
+* The user presses a specific key combination while the {SpreadsheetName} has focus. For example, Ctrl + Z triggers an  _Undo_   operation while Ctrl + Y triggers a  _Redo_   operation.
+* Invoking the  *Undo*  and  *Redo*   pick:[wpf,sl,xaml="commands"]  pick:[win-forms="actions"]  (see code snippets below)
+* Calling the following  pick:[win-forms="Manager"]  pick:[xaml="methods"] 
+
+ifdef::xaml[]
+** {SpreadsheetName} link:{ApiPlatform}undo{ApiVersion}~infragistics.undo.undomanager~undo.html[.UndoManager.Undo]
+
+endif::xaml[]
+
+ifdef::win-forms[]
+** {SpreadsheetName} link:{SpreadsheetLink}.{SpreadsheetName}~undomanager.html[.UndoManager]
+
+endif::win-forms[]
+
+ifdef::xaml[]
+** {SpreadsheetName} link:{ApiPlatform}undo{ApiVersion}~infragistics.undo.undomanager~redo.html[.UndoManager.Redo]
+
+endif::xaml[]
+
+=== Undo and Redo configuration summary chart
+
+The following table explains briefly the task which may be programmatically executed related to the undo and redo operations.
+
+[options="header", cols="a,a,a"]
+|====
+|Task|Details|Property/ pick:[xaml,sl,wpf="Command"]  pick:[win-forms="Action"]
+
+|<<_Ref391543493,Enable or Disable Undo and Redo Support>>
+|Undo and Redo operations are enabled by default
+| link:{SpreadsheetLink}.{SpreadsheetName}~isundoenabled.html[IsUndoEnabled]
+
+|<<_Ref391543494,Invoke Undo Operation pick:[xaml,wpf,sl="Using Command"] >>
+|Perform an undo operation
+|`Undo`
+
+|<<_Ref391478524,Invoke Redo Operation pick:[xaml,wpf,sl="Using Command"] >>
+|Perform a redo operation
+|`Redo`
+
+|====
+
+[[_Ref391543493]]
+== Enable or Disable Undo and Redo Support
+
+[[_Hlk368069110]]
+
+=== Overview
+
+You can enable or disable the undo/redo support of the control using the `IsUndoEnabled` property.
+
+=== Property settings
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Enable undo operation on a specific {SpreadsheetName} instance.
+|`IsUndoEnabled`
+|`true`
+
+|Disable undo operation on a specific {SpreadsheetName} instance.
+|`IsUndoEnabled`
+|`false`
+
+|====
+
+[[_Ref391543494]]
+== Invoke Undo Operation  pick:[wpf,sl,xaml="Using Command"]
+
+=== Overview
+
+The redo operation incrementally backs out the changes inserted by the undo operation, pops the undo operation record off the redo history stack and adds it to the top of the undo history stack.
+
+=== Property settings
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Instantiate the following command source:|And set the following properties:
+
+|Perform the Undo operation on a specific {SpreadsheetName} instance.
+|`SpreadsheetCommandSource`
+|`EventName` 
+
+`CommandType`
+
+|====
+
+=== Method settings
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Perform the following method:|Set the desired enumerated value:
+
+|Perform the Undo operation on a specific {SpreadsheetName} instance.
+|`PerformAction`
+|`UltraSpreadsheetAction.Undo`
+
+|====
+
+=== Example
+
+ifdef::xaml[]
+
+pick:[xaml="*In XAML:*"]
+
+ifdef::xaml[]
+----
+<Button Content="Undo" 
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="Undo" />
+    </ig:Commanding.Command>
+</Button>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+pick:[win-forms="*In C#:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Undo);
+----
+endif::win-forms[]
+
+pick:[win-forms="*In VB:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Undo)                  
+----
+endif::win-forms[]
+
+[[_Ref391478524]]
+== Invoke Redo Operation  pick:[wpf,sl,xaml="Using Command"]
+
+=== Overview
+
+The redo operation incrementally backs out the changes inserted by the undo operation, pops the undo operation record off the redo history stack and adds it to the top of the undo history stack.
+
+=== Property settings
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Instantiate the following command source:|And set the following properties:
+
+|Perform the Redo operation on a specific {SpreadsheetName} instance.
+|`SpreadsheetCommandSource`
+|`EventName` 
+
+`CommandType`
+
+|====
+
+=== Method settings
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Perform the following method:|Set the desired enumerated value:
+
+|Perform the Redo operation on a specific {SpreadsheetName} instance.
+|`PerformAction`
+|`UltraSpreadsheetAction.Redo`
+
+|====
+
+=== Example
+
+ifdef::xaml[]
+
+pick:[wpf="*In XAML:*"]
+
+ifdef::xaml[]
+----
+< Button Content="Redo" 
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="Redo" />
+    </ig:Commanding.Command>
+</Button>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+pick:[win-forms="*In C#:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Redo);
+----
+endif::win-forms[]
+
+pick:[win-forms="*In VB:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Redo)                  
+----
+endif::win-forms[]
+
+[[_Ref391543514]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+| link:spreadsheet-work-selection.html[Working with Selection ({SpreadsheetName})]
+|This topic explains the selection feature from developer perspective.
+
+|====

@@ -1,0 +1,64 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-determine-which-axis-is-being-scrolled-or-scaled",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{79688CF6-25F1-4B41-B7FB-D3C016AC478E}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Determine Which Axis is Being Scrolled or Scaled
+
+You may encounter cases where you will need to determine which axis in your WinChart™ is being scaled or scrolled by your end users.
+
+The  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartscrollscaleeventargs.html[ChartScrollScaleEventArgs]"]  object, which is passed into the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~scrolling_ev.html[Scrolling]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~scaling_ev.html[Scaling]"]  events, contains the following properties (added since the 2006 Volume 3 release) which hold information about the axis being scrolled.
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartscrollscaleeventargs~axisnumber.html[AxisNumber]"]  -- An enumeration value that identifies the axis being scrolled.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartscrollscaleeventargs~axis.html[Axis]"]  -- An object reference to the Axis layer, which can be used for advanced operations such as mapping coordinates on the axis, or accessing key properties on the axis (e.g.,  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.axis~minimum.html[Minimum]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.axis~maximum.html[Maximum]"] ).
+
+The example code below demonstrates how to reference both the AxisNumber and Axis properties using the Scrolling event.
+
+.Note
+[NOTE]
+====
+The example code below can also be used in a Scaling event handler.
+====
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Shared.Events
+...
+Private Sub UltraChart1_Scrolling(ByVal sender As System.Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartScrollScaleEventArgs) _
+  Handles UltraChart1.Scrolling
+	' Outputs something like "Y_Axis visible axis range is now: 2.25 to 87.34"
+	Me.txtEvents.Text += e.AxisNumber.ToString() + " visible axis range is now: " + _
+	  e.Axis.WindowMinimum.ToString() + " to " + _ 
+	  e.Axis.WindowMaximum.ToString() + _
+	  Environment.NewLine
+End Sub
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Shared.Events;
+...
+private void ultraChart1_Scrolling(object sender, ChartScrollScaleEventArgs e)
+{
+// outputs something like "Y_Axis visible axis range is now: 2.25 to 87.34"
+        Console.WriteLine(e.AxisNumber.ToString() + " visible axis range is now: " + 
+          e.Axis.WindowMinimum.ToString() + " to " + 
+          e.Axis.WindowMaximum.ToString()) + Environment.NewLine;
+}
+----
+
+== Related Topic
+
+link:chart-scrolling-and-scaling-charts.html[Scrolling and Scaling Charts]

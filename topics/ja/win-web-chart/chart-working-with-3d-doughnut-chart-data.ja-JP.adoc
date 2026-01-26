@@ -1,0 +1,75 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-3d-doughnut-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{97CBA62A-FA6E-4947-82CA-6B82A5829104}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= 立体ドーナツ型グラフ データでの作業
+
+このトピックでは、立体ドーナツ型グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、立体ドーナツ型グラフのデータ要件のリストです。
+
+* データ セットには、ひとつの数値列が含まれます。数値列は、数値として解釈できる値のみを含む任意の DataColumn です。UltraChart.DoughnutChart. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  プロパティを設定し、データ ソース内で使用する適切な列のインデックスに一致させる必要があります。
+* 立体ドーナツ型グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* データ値の列の代わりに単一の行を使用するには、列と行を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを立体ドーナツ型グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* 各行がそれぞれのドーナツ型セクタを表します。
+* 列内のデータ値の合計を使用して各行に適用可能なパーセンテージを計算するため、データ値はパーセンテージである必要はありません。このため、負のデータ値は（絶対値を取って）ゼロまたは正の数として処理されます。
+* オプションとして、データ ソース内にラベル列を含め、各セクションを名前または説明と関連付けることができます。これらのラベルは、グラフの凡例、または各セクションの横に表示されるラベルに表示できます。
+UltraChart.DoughnutChart.Labels.ItemFormatString = "<ITEM_LABEL>: <DATA_VALUE:#> (<PERCENT_VALUE:#>%)"
+* チャートのセクションとして列を使用するには、プロパティを 0 に設定する必要があります（以下のコードを参照してください）。データを自動的に検索するには、プロパティを -1 に設定できます。この場合、見つかった最初の数値列はそのセクションの値として使用されます。
+
+UltraChart.DoughnutChart.ColumnIndex = 0
+* ColumnIndex プロパティを使用して指定された列は、チャート内の値に使用される唯一の列です。
+
+描画された立体ドーナツ型グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a"]
+|====
+|製品|販売ユニット
+
+|Java
+|225
+
+|ActiveX
+|653
+
+|$$.NET$$1
+|335
+
+|その他
+|132
+
+|ネイティブ
+|56
+
+|$$.NET$$2
+|62
+
+|Apple
+|42
+
+|====
+
+image::images/Chart_Doughnut_Chart_02.png[]

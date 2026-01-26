@@ -1,0 +1,104 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-performance",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "a542a267-63d5-4050-aa49-a82c68fd1c78",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-12T16:04:33.8760841Z"
+}
+|metadata|
+////
+
+= パフォーマンス
+
+== トピックの概要
+
+=== 目的
+
+大きなデータ ポイントのセットを描画する際に link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] コントロールのパフォーマンスを最適化する方法について説明します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref445568959, パフォーマンス最適化 >>
+* <<_Ref445568965, 関連コンテンツ >>
+
+[[_Ref445568959]]
+== パフォーマンス最適化
+
+=== 概要
+
+_xamScatterSurface3D_ コントロールは、数千ポイントで構成される 3D 表示の描画用に最適化されています。描画するポイントの正確な数はハードウェア構成によって異なり、コントロールのパフォーマンスを最適化する方法がいくつかあります。
+
+=== パフォーマンス最適化の概要表
+
+以下の表は、_xamScatterSurface3D_ コントロールのパフォーマンスの最適化について要約したものです。詳細は、表の後に記載されています。
+
+[options="header", cols="a,a"]
+|====
+|最適化|説明
+
+|<<_Ref445567595,データのサンプリング>>
+|_xamScatterSurface3D_ データ サンプルは link:{SurfaceChartLink}.xamscattersurface3d~samplingthreshold.html[SamplingThreshold] プロパティを構成して有効にできます。
+
+|<<_Ref445567600,コントロールへバインドする前にデータを前もってサンプリングする>>
+|_xamScatterSurface3D_ コントロールへバインドする前にデータを前もってサンプリングする
+
+|<<_Ref445567604,ビジュアル プロパティの無効化>>
+|必要のない、またはパフォーマンスを遅くする可能性のあるビジュアルプロパティ/動作を無効にします。
+
+|====
+
+=== データのサンプリング
+
+_xamScatterSurface3D_ コントロールに含まれるビルトイン サンプルは、パフォーマンスを向上するためにデータ ポイントをコントロールへバインドするサンプルです。適用されるサンプリングのしきい値は、 link:{SurfaceChartLink}.xamscattersurface3d~samplingthreshold.html[SamplingThreshold] プロパティによって決定されます。
+
+ポイント数が `SamplingThreshold` 値より大きい場合、ポイントが標準グリッドに連結され、行数および列数は `SamplingThreshold` 値の平方根になります。
+
+デフォルトの `SamplingThreshold` 値は 10000 ポイントです。状況に応じて変更できます。
+
+=== コントロールへバインドする前にデータを前もってサンプリングする
+
+_xamScatterSurface3D_ コントロールへパスする前にカスタム サンプリング ロジックを適用できます。
+
+=== ビジュアル プロパティの無効化
+
+_xamScatterSurface3D_ コントロールのパフォーマンスは、パフォーマンスに影響する可能性のあるビジュアル プロパティや動作を無効にして向上できます。
+
+_xamScatterSurface3D_ 軸間隔と範囲に固定値を設定し、コントロールのパフォーマンスを向上できます。
+
+以下は無効にできる機能の一覧です。
+
+* マーカー
+* 軸のグリッド線
+* 十字線
+* ツールチップ
+* 回転
+* スケーリング/ズーミング
+
+[[_Ref445568965]]
+== 関連コンテンツ
+
+本トピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-configuring-data-point-markers.html[データ ポイント マーカーの構成]
+|このトピックは、 _XamScatterSurface3D_ コントロールでデータ ポイント マーカーを構成する方法を説明します。
+
+| link:surfacechart-crosshairs.html[十字線の設定]
+|このトピックは、 _XamScatterSurface3D_ コントロールでデータ ポイント マーカーを構成する方法を説明します。
+
+| link:surfacechart-tooltip.html[ツールチップ]
+|このトピックは、xamScatterSurface3D コントロールでデフォルトのツールチップを表示/非表示、およびカスタム ツールチップを適用する方法について説明します。
+
+| link:surfacechart-zooming.html[ズーム]
+|このトピックでは、 _xamScatterSurface3D_ コントロールのスケーリングを実行する方法について説明します。
+
+|====

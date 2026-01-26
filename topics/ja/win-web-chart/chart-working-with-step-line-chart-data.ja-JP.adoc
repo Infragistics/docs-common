@@ -1,0 +1,78 @@
+﻿////
+|metadata|
+{
+    "name": "chart-working-with-step-line-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{14696ADC-37C3-487D-95ED-8E962A26773C}",
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= ステップ折れ線グラフ データでの作業
+
+このトピックでは、ステップ折れ線グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、ステップ折れ線グラフのデータ要件のリストです。
+
+* データ セットには以下のすべてが含まれます。
+** 1 DateTime 列
+** 1 数値列
+** 少なくとも 1 行
+
+* ステップ折れ線グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+* link:chart-composite-chart.html[合成チャート]でステップ折れ線グラフを使用する場合には、チャートの軸要件の詳細は、 link:chart-axis-requirements-for-composite-charts.html[「合成チャートの軸要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データをステップ折れ線グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* データ ソース内の最初の DateTime 列は、x 軸（水平軸)の値に使用されます。
+* データ ソース内の最初の数値列は、Y 軸（垂直軸）の値に使用されます。
+* 各行は、x 軸と y 軸上にデータ値をマップして生成された座標を使用し、ステップ ラインの単一のデータ点としてプロットされます。
+* x 軸（水平軸）は時間のスケール軸で、各点は時間の連続的スケールに従って配置されています。x 軸の Date/Time 値は、x 軸ラベルの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと DateTime 書式文字列を使用して書式設定できます。
+[source]
+----
+UltraChart.Axis.X.Labels.ItemFormatString = "<ITEM_LABEL:MMM dd, yyyy>"
+----
+ｙ 軸（垂直軸）は数値軸です。y 軸のラベルは、FormatString プロパティと数値書式文字列を使用して書式設定できます。
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+描画されたステップ折れ線グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a"]
+|====
+|DateTimeStamp|Column1|Column2
+
+|1/1/2005
+|123123
+|1123
+
+|1/2/2005
+|341212
+|0
+
+|1/3/2005
+|1231234
+|0
+
+|1/4/2005
+|234234
+|0
+
+|====
+
+image::images/Chart_Step_Line_Chart_01.png[]

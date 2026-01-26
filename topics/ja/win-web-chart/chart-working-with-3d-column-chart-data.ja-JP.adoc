@@ -1,0 +1,80 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-3d-column-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{3C276726-29DE-43E2-A7DA-98F1F09A5323}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 立体柱状グラフ データでの作業
+
+このトピックでは、立体柱状グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、立体柱状グラフのデータ要件のリストです。
+
+* データ セットには、ひとつまたは複数の数値列が含まれます。
+* 立体柱状グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを立体柱状グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* 各行は、柱状のグループとして個別に描画されます。これらの柱状グループは「シリーズ」と呼ばれます。
+* 各シリーズは、X 軸の下にシリーズ ラベルを表示します。データ値は、y 軸に沿った柱状の高さで表されます。シリーズは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  の列の幅の間隔だけ間隔をあけることができます。
+* 各シリーズは z 軸に沿って、奥行きで表示されます。
+* 各数値列はチャート内に表示されます。数値列は、数値として解釈できる値のみを含む任意の DataColumn です。
+* データ内で現れる最初の文字列の列は行ラベルに使用されます。
+* 行ラベルに使用する代替の列を選択して、プライマリ/セカンダリ ラベルを切り替えることができます。
+* 開発者は、UltraChart.Data. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用して、任意の列をチャートに追加または削除できます。
+* x 軸（水平軸）は SetLabelAxis オブジェクトで、点はシリーズ（グループ）と項目（柱状）で均等に配置されます。ｙ 軸（垂直軸）は数値軸です。Y 軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+
+描画された立体柱状グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|Week#|ActiveX|Java|NET
+
+|Week 1
+|25
+|85
+|65
+
+|Week 2
+|15
+|200
+|95
+
+|Week 3
+|100
+|45
+|110
+
+|Week 4
+|120
+|75
+|99
+
+|Week 5
+|60
+|113
+|50
+
+|====
+
+image::images/Chart_Column_Chart_02.png[]

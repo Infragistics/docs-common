@@ -1,0 +1,393 @@
+﻿////
+|metadata|
+{
+    "name": "bulletgraph-configuring-comparative-ranges",
+    "controlName": ["{BulletGraphName}"],
+    "tags": ["Charting","How Do I"],
+    "guid": "17579bdd-6bcb-4cf0-95c4-6d83387af629",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0078709Z"
+}
+|metadata|
+////
+
+= Configuring Comparative Ranges
+
+
+
+=== Purpose
+
+This topic explains, with code examples, how to configure ranges in the _{BulletGraphName}_™ control. This includes the number of ranges and their positions, lengths, widths, and formatting.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:bulletgraph-overview.html[ _{BulletGraphName}_ Overview]
+|This topic provides conceptual information about the _{BulletGraphName}_ control including its main features, minimum requirements, and user functionality.
+
+| link:bulletgraph-adding.html[Adding _{BulletGraphName}_ ]
+|This topic explains how to add the _{BulletGraphName}_ control to a {PlatformName} application.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref363721586, Configuring Comparative Ranges >>
+
+** <<_Ref363721595,Comparative ranges configuration summary>>
+** <<_Ref363721665,Comparative ranges configuration summary chart>>
+** <<_Ref362941466,Property settings>>
+** <<_Ref362941470,Example>>
+
+* <<_Ref357787115, Related Content >>
+   
+[[_Ref363721586]]
+== Configuring Comparative Ranges
+
+[[_Ref362941461]]
+
+=== Comparative ranges configuration summary
+
+The _{BulletGraphName}_ control supports multiple comparative ranges through populating its `Ranges` collection.
+
+image::images/BulletGraph_Configuring_Comparative_Ranges_1.png[]
+
+Each range can be configured individually by specifying its starting and ending value (in the measures of the scale), fill color, and border thickness and color. The size of a comparative range in the across-the-scale is configurable by adjusting its inner and outer margins.
+
+[[_Ref363721665]]
+
+=== Comparative ranges configuration summary chart
+
+The following table explains briefly the configurable aspects of _{BulletGraphName}_ control’s comparative ranges and maps them to properties that configure them.
+
+[options="header", cols="a,a,a"]
+|====
+|*Configurable aspects* |Property|Default value
+
+ifdef::wpf,win-universal[]
+|*Number*  (of ranges in the graph)
+|pick:[xaml=" link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ranges.html[{BulletGraphName}.Ranges]"] 
+
+pick:[android=" link:{BulletGraphLink}.{BulletGraphName}~addrange.html[{BulletGraphName}.addRange]"]
+|Not set
+endif::wpf,win-universal[]
+
+ifdef::sl,wpf[]
+| *Caption* 
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}caption.html[{BulletGraphRange}.Caption]
+|Not set
+endif::sl,wpf[]
+
+| *Length, width, and position* 
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}startvalue.html[{BulletGraphRange}.StartValue]
+|Not set
+| 
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}endvalue.html[{BulletGraphRange}.EndValue]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerstartextent.html[{BulletGraphRange}.InnerStartExtent]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerendextent.html[{BulletGraphRange}.InnerEndExtent]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerstartextent.html[{BulletGraphRange}.OuterStartExtent]
+|Not set
+|
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerendextent.html[{BulletGraphRange}.OuterEndExtent]
+|Not set
+
+
+| *Fill color*
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[{BulletGraphRange}.Brush]
+|Defined in the default theme
+
+|*Border color*
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[{BulletGraphRange}.Outline]
+|Defined in the default theme
+
+|*Border thickness*
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}strokethickness.html[{BulletGraphRange}.StrokeThickness]
+| _1.0_ 
+
+ifdef::sl,wpf[]
+|[[_Hlk364441080]] *Tooltip* 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[{BulletGraphName}.RangeToolTip]
+|The start and end values of the range separated by a hyphen (-)
+endif::sl,wpf[]
+
+|====
+
+.Note:
+[NOTE]
+====
+If you do not explicitly provide values for the link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[Brush] and link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[Outline] properties for each range, the values are retrieved from the values of _{BulletGraphName}_ ’s `RangeBrushes` and `RangeOutlines` collections. They can also be used to predefine a set of brushes to be used consecutively for setting each range’s color or outline fill.
+====
+
+[[_Ref362941466]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+
+ifdef::wpf,sl[]
+|*Name*
+|A name for the range. 
+
+Used for displaying in the tooltip.
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}caption.html[{BulletGraphRange}.Caption]
+|A string expressing the name of the range
+endif::wpf,sl[]
+
+|*Range start*
+|Position on the scale at which the range begins
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}startvalue.html[{BulletGraphRange}.StartValue]
+|The desired value (in the measures of the scale)
+
+|*Range end*
+|Position on the scale at which the range ends
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}endvalue.html[{BulletGraphRange}.EndValue]
+|The desired value (in the measures of the scale)
+
+|*Inner vertex of the starting edge of the range*
+|The position of the inner vertex of the starting edge across the scale relative to the edge of the link:bulletgraph-overview.html#_ReservedAreaLink[Reserved area]. 
+
+(Inner vertex is the point of the starting edge that is the closest to the edge of the Reserved area.)
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerstartextent.html[{BulletGraphRange}.InnerStartExtent]
+|The desired value as a relative part of the height/width of the link:bulletgraph-overview.html#_GraphAreaLink[Graph area] depending on the orientation (horizontal / vertical) presented as a fraction of 1 (e.g. _0.2_ )
+
+|*Inner vertex of the ending edge of the range*
+|The position of the inner vertex of the ending edge across the scale relative to the edge of the Reserved area
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerendextent.html[{BulletGraphRange}.InnerEndExtent]
+|The desired value as a relative part of the height/width of the Graph area depending on the orientation (horizontal / vertical) presented as a fraction of 1 (e.g. _0.3_ )
+
+|*Outer vertex of the starting edge of the range*
+|The position of the outer vertex of the starting edge across the scale relative to the edge of the Reserved area. 
+
+(Outer vertex is the point of the starting edge that is the closest to the edge of the Reserved area)
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerstartextent.html[{BulletGraphRange}.OuterStartExtent]
+|The desired value as a relative part of the height/width of the Graph area depending on the orientation (horizontal / vertical) presented as a fraction of 1 (e.g. _0.7_ )
+
+|*Outer vertex of the ending edge of the range*
+|The position of the outer vertex of the ending edge across the scale relative to the edge of the Reserved area
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerendextent.html[{BulletGraphRange}.OuterEndExtent]
+|The desired value as a relative part of the height/width of the Graph area depending on the orientation (horizontal / vertical) presented as a fraction of 1 (e.g. _0.8_ )
+
+|*Fill color*
+|Fill color of the range
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[{BulletGraphRange}.Brush]
+|The desired color
+
+|*Border thickness*
+|Thickness of the range’s border
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}strokethickness.html[{BulletGraphRange}.StrokeThickness]
+|The desired value in pixels
+
+|*Border color*
+|Color of the range’s border
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[{BulletGraphRange}.Outline]
+|The desired color
+
+ifdef::wpf,sl[]
+
+|*Tooltip*
+|Content of the tooltip of the comparative range(s)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[{BulletGraphName}.RangeToolTip]
+|The desired string, `UIElement`, or `DataTemplate` (See link:bulletgraph-configuring-the-tooltips.html[Configuring the Tooltips].)
+
+endif::wpf,sl[]
+
+|====
+
+[[_Ref362941470]]
+
+=== Example
+
+The screenshot below demonstrates how a comparative range added to the _{BulletGraphName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}brush.html[Brush]
+| _“Green”_
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}startvalue.html[StartValue]
+| _“6”_
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}endvalue.html[EndValue]
+| _“89”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerstartextent.html[InnerStartExtent]
+| _“0.5”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}innerendextent.html[InnerEndExtent]
+| _“0.5”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerstartextent.html[OuterStartExtent]
+| _“0.8”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outerendextent.html[OuterEndExtent]
+| _“0.8”_ 
+
+| link:{BulletGraphLink}.{BulletGraphRange}{ApiProp}outline.html[Outline]
+| _“Black”_ 
+
+|====
+
+image::images/BulletGraph_Configuring_Comparative_Ranges_2.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} x:Name="bulletGraph">
+      <ig:{BulletGraphName}.Ranges>
+            <ig:{BulletGraphRange} Brush="Green"
+                                       StartValue="6"
+                                       EndValue="89"
+                                       InnerEndExtent="0.5"
+                                       InnerStartExtent="0.5"
+                                       OuterEndExtent="0.8"
+                                       OuterStartExtent="0.8"
+                                       Outline="Black"
+                                       />
+      </ig:{BulletGraphName}.Ranges>
+</ig:{BulletGraphName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+{BulletGraphRange} range4 = new {BulletGraphRange}();
+range4.Brush = new SolidColorBrush(Color.Green);
+range4.StartValue = 6;
+range4.EndValue = 89;
+range4.InnerEndExtent = .5;
+range4.InnerStartExtent = .5;
+range4.OuterEndExtent = .8;
+range4.OuterStartExtent = .8;
+range4.Outline = new SolidColorBrush(Color.Black);
+
+bulletGraph.Ranges.Add(range4);
+----
+
+*In VB:*
+
+[source,vb]
+----
+Dim range4 as New {BulletGraphRange}()
+range4.Brush = New SolidColorBrush(Color.Green)
+range4.StartValue = 6
+range4.EndValue = 89
+range4.InnerEndExtent = .5
+range4.InnerStartExtent = .5
+range4.OuterEndExtent = .8
+range4.OuterStartExtent = .8
+range4.Outline = New SolidColorBrush(Color.Black)
+
+bulletGraph.Ranges.Add(range4)
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+{BulletGraphRange} range = new {BulletGraphRange}();
+range.Brush = new SolidColorBrush(Color.Green);
+range.StartValue = 6;
+range.EndValue = 89;
+range.InnerEndExtent = .5;
+range.InnerStartExtent = .5;
+range.OuterEndExtent = .8;
+range.OuterStartExtent = .8;
+range.Outline = new SolidColorBrush(Color.Black);
+----
+
+endif::xamarin[]
+
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+LinearGraphRange lgrange1 = new LinearGraphRange();
+lgrange1.setStartValue(6);
+lgrange1.setEndValue(89);
+lgrange1.setBrush(new SolidColorBrush(Color.GREEN));
+lgrange1.setOutline(new SolidColorBrush(Color.BLACK));
+lgrange1.setInnerEndExtent(.5);
+lgrange1.setInnerStartExtent(.5);
+lgrange1.setOuterEndExtent(.8);
+lgrange1.setOuterStartExtent(.8);
+bulletGraph.addRange(lgrange1);
+----
+
+endif::android[]
+
+[[_Ref357787115]]
+== Related Content
+
+[[_Ref362941479]]
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+ifdef::wpf,sl[]
+
+| link:bulletgraph-configuring-the-title-subtitle.html[Configuring the Title/Subtitle ( _{BulletGraphName}_ )]
+|This topic explains, with code examples, how to configure the title and subtitle of the _{BulletGraphName}_ control. This includes the title area width the start position of the text and the title/subtitle text itself.
+
+endif::wpf,sl[]
+
+| link:bulletgraph-configuring-the-scale.html[Configuring the Scale (_{BulletGraphName}_)]
+|This topic explains, with examples, how to configure the scale of the _{BulletGraphName}_ control. This includes positioning the scale inside the control and configuring the scale tick marks and labels.
+
+| link:bulletgraph-configuring-the-performance-bar.html[Configuring the Performance Bar (_{BulletGraphName}_)]
+|This topic explains, with examples, how to configure the performance bar of the _{BulletGraphName}_ control. This includes the value indicated by the bar, its width, position, and formatting.
+
+| link:bulletgraph-configuring-the-comparative-marker.html[Configuring the Comparative Marker (_{BulletGraphName}_)]
+|This topic explains, with code examples, how to configure the comparative measure marker of the _{BulletGraphName}_ control. This includes the marker’s value, width, and formatting.
+
+| link:bulletgraph-configuring-the-background.html[Configuring the Background (_{BulletGraphName}_)]
+|This topic explains, with code examples, how to configure a background for the bullet graph. This includes setting the background’s size, position, color, and border.
+
+ifdef::wpf,sl[]
+
+| link:bulletgraph-configuring-the-tooltips.html[Configuring the Tooltips (_{BulletGraphName}_)]
+|This topic explains, with code examples, how to enable the tooltips in the _{BulletGraphName}_ control and configure the delay with which they are displayed.
+
+endif::wpf,sl[]
+
+|====

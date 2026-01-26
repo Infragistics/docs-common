@@ -1,0 +1,179 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-hyperlinks",
+    "tags": ["How Do I","Navigation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "14b49746-2d12-467b-81f1-c6e1b3e0ede0",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.09539Z"
+}
+|metadata|
+////
+
+= Working with Hyperlinks ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains what type of hyperlinks are supported and how to operate with them.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|====
+
+[options="header", cols="a,a"] 
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_ . 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+| link:spreadsheet-uiu-hyperlinks.html[Hyperlinks Interactions ({SpreadsheetName})] 
+
+|This topic explains what actions can be performed by the user when interacting with hyperlinks. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref403575668, Hyperlinks Types >>
+* <<_Ref403575674, Hyperlinks Command Support >>
+* <<_Ref403575680, Hyperlinks Event >>
+* <<_Ref403575687, Related Content >>
+
+[[_Ref403575668]]
+== Hyperlinks Types
+
+=== Hyperlinks types summary
+
+The link:{SpreadsheetLink}.{SpreadsheetName}.html[ _{SpreadsheetName}'s_  ] control supports two type of hyperlinks:
+
+==== Worksheet Hyperlinks
+
+These hyperlinks are created by instantiating the link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheethyperlink_members.html[WorksheetHyperlink] class and adding the newly created object to the link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheet.html[Worksheet]'s link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheet~hyperlinks.html[Hyperlinks] collection. These links may span over a single cell or multiple cells range. For more information about creating and configuring such hyperlinks look at the  pick:[xaml=" link:excelengine-addinghyperlinktoworksheet.html[Adding a Hyperlink to a Worksheet]"]  pick:[win-forms=" link:excelengine-adding-a-hyperlink-to-a-cell-in-an-excel-file.html[Adding a Hyperlink to a Worksheet]"]  topic
+
+==== Formula Hyperlinks
+
+These hyperlinks are created by entering a "HYPERLINK" function in a worksheet’s cell and they occupy only the cell in which they are defined. The following formula example will add a formula hyperlink to the Infragistics website:
+
+`=HYPERLINK("http://www.infragistics.com", "Infragistics")`
+
+.Note
+[NOTE]
+====
+The formula hyperlinks cannot have custom tooltips. Only the default tooltip is shown for them.
+====
+
+.Note
+[NOTE]
+====
+The "followed" state of the worksheet hyperlinks is retained between undo and redo operations for worksheet hyperlinks, but not for the formula hyperlinks.
+====
+
+[[_Ref403575674]]
+== Hyperlinks Command Support
+
+=== Command support
+
+The following is a list of the commands associated with hyperlinks with a brief description:
+
+[options="header", cols="a,a"]
+|====
+|Command|Details
+
+| *OpenHyperlink* 
+|This command will only be enabled when a single cell (or a single merged cell) is selected and that cell has a hyperlink (either a worksheet hyperlink or a formula hyperlink). The command will open/follow the selected cell’s hyperlink target.
+
+| *RemoveHyperlinks* 
+|This command will remove one or more hyperlinks that are either fully contained within the current selection or that fully contain the selection. This is enabled if there are one or more worksheet hyperlinks that may be removed based on the selection. 
+
+.Note 
+
+[NOTE] 
+
+==== 
+
+This command is not able to remove formula hyperlink(s) and is not enabled when the selection contains only formula hyperlink(s). 
+
+====
+
+| *ClearHyperlinks* 
+|This command is almost identical to *RemoveHyperlinks* except that when removing the hyperlinks the formatting of the cell will be preserved. 
+
+.Note 
+
+[NOTE] 
+
+==== 
+
+If the current selection intersects with but does not contain a merged cell, the command will not be allowed. 
+
+====
+
+|====
+
+[[_Ref403575680]]
+== Hyperlinks Event
+
+=== Event summary
+
+The {SpreadsheetName} control supports one cancelable hyperlinks-related event - link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}hyperlinkexecuting_ev.html[HyperlinkExecuting] which is fired prior to opening the hyperlink.
+
+In the event handler you have the abilities to:
+
+* Cancel the event, which will prevent the target to be opened and the hyperlink to become followed
+* Set or obtain the working directory when the hyperlink is targeting a file (so that you can specify file name only in the hyperlink's target)
+* Modify the hyperlink's properties
+
+ifdef::xaml[]
+
+[[_Ref403575687]]
+== Related Content
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+
+
+ifdef::xaml[]
+
+The following topic provides additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-commands.html[Working with Commands ({SpreadsheetName})]
+|This topic explains how to perform different operations with the control using commands.
+
+|====
+
+endif::xaml[]
+
+endif::xaml[]
+
+ 

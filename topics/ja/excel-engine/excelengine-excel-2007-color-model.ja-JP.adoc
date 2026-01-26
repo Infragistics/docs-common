@@ -1,0 +1,241 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-excel-2007-color-model",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "2bdb3a8a-ae16-4e3f-a17f-2636184cd679","buildFlags": [],
+    "createdOn": "2012-03-29T13:29:35.9752323Z"
+}
+|metadata|
+////
+
+= Excel 2007 カラー モデル　({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、さまざまなセル書式プロパティで色を設定する方法を説明します。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320017019,主要機能>>
+** <<_Ref320017090,機能の概要>>
+** <<_Ref320017100,ワークブック パレット>>
+** <<_Ref320877494,セルを塗りつぶす>>
+
+* <<_Ref320715825,色を指定>>
+** <<_Ref320715856,概要>>
+** <<_Ref320715864,濃淡>>
+** <<_Ref320715868,テーマの色>>
+** <<_Ref320715877,WorkbookColorInfo>>
+** <<_Ref320715882,GetResolvedColor>>
+** <<_Ref320715886,新しいファイル形式で保存>>
+
+* <<_Ref320017114,関連コンテンツ>>
+
+[[_Ref320017019]]
+== 主要機能
+
+[[_Ref320017090]]
+
+=== 機能の概要
+
+以下の表で、Excel 2007 カラー モデルの主要機能を簡単に説明します。その他の詳細は、以下の概要表の後に紹介されています。
+
+[options="header", cols="a,a"]
+|====
+|機能|説明
+
+|ワークブック パレット
+|ワークブック パレットは、`Workbook` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~palette.html[Palette]"] プロパティを介して一般に公開されていますので、Excel の以前のバージョンで保存されたファイルを開くときに使用する色を選択できます。
+
+|セルを塗りつぶす
+|pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[CellFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill_members.html[CellFill]"] は、セルの塗りつぶしを表す抽象クラスです。作成可能なさまさまな塗りつぶしを表す派生タイプがいくつかあります。
+
+|====
+
+[[_Ref320017100]]
+
+=== ワークブック パレット
+
+カラー パレットは、`Workbook`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~palette.html[Palette]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~palette.html[Palette]"] プロパティを介して一般に公開されていますので、最も近い色を見つけるときに使用する色を選択できます。このパレットには、パレットで 56色を取得して設定するためのインデクサーと、プリセット状態に戻すための  _Reset_   メソッドがあります。
+
+このカラー パレットは Microsoft Excel 2007 UI のカラー ダイアログと似ています。[Excel オプション] > [保存] > [カラー] と指定することによってこのカラー ダイアログを開くことができます。
+
+.注:
+[NOTE]
+====
+Excel のカラー ダイアログはカラー パレットに表される順番で色を表示しません。
+====
+
+[[_Ref320877494]]
+
+=== セルを塗りつぶす
+
+.注:
+[NOTE]
+====
+以前のバージョンでは、セルの塗りつぶしは、`IWorksheetCellFormat` インターフェイスで以下の 3 つのプロパティで定義されていました: `FillPattern`、`FillPatternBackgroundColor`、および `FillPatternForegroundColor`。これらすべては、`CellFill` インスタンスへの参照である、単一の  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill_members.html[Fill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill_members.html[Fill]"] プロパティで置き換えられます。
+====
+
+作成可能なさまさまな塗りつぶしを表す派生タイプは以下の通りです:
+
+[options="header", cols="a,a"]
+|====
+|派生タイプ|説明
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfillpattern_members.html[CellFillPattern]"]
+|以下のいずれかを表します: 
+
+* 色なし 
+
+* べた一色 
+
+* セルのパターン塗りつぶし 
+
+Excel の [セルの書式設定] ダイアログの [塗りつぶし] タブに、カラー セクションに直接対応する背景色の情報とパターンの色があります。パターンのスタイルもあります。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfilllineargradient_members.html[CellFillLinearGradient]"]
+|線形グラデーションの塗りつぶしを表します。角度 (左から右の線状グラデーションの時計回りの角度) と、グラデーションの長さに沿って 2 つ以上の色のトランジションを説明するグラデーション境界コレクションがあります。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfillrectangulargradient_members.html[CellFillRectangularGradient]"]
+|四角形グラデーションの塗りつぶしを表します。相対座標で、グラデーションが開始し、セルの端で終わる内側の四角形を説明する上、左、右、下の値があります。内側の四角形からセルの端までのパスに沿って 2 つ以上の色のトランジションを説明するグラデーション境界コレクションもあります。
+
+|====
+
+`CellFill` クラスで静的なプロパティおよびメソッドを使用してすべての可能な塗りつぶしタイプを作成できます。これらは以下の通りです:
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|説明
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~nocolor.html[NoColor]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~nocolor.html[NoColor]"]
+|色なしの塗りつぶしを表します。これはワークシートの背景画像が通して透けて見えるようにできます。
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|メソッド|説明
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createsolidfill.html[CreateSolidFill]"]
+|Solid のパターン スタイルと、メソッドで指定された `Color` または `WorkbookColorInfo` に設定された背景色を持つ `CellFillPattern` インスタンスを返します。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createpatternfill.html[CreatePatternFill]"]
+|指定されたパターン スタイルと、背景とパターンの色に指定された `Color` または `WorkbookColorInfo` 値がある `CellFillPattern` インスタンスを返します。これらのメソッドはベタ一色および色なしの塗りつぶしを作成するためにも使用できます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createlineargradientfill.html[CreateLinearGradientFill]"]
+|角度とグラデーション境界が指定された `CellFillLinearGradient` インスタンスを返します。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.cellfill~createrectangulargradientfill.html[CreateRectangularGradientFill]"]
+|内側の四角形とグラデーション境界の左、上、右、下が指定された `CellFillRectangularGradient` インスタンスを返します。内側の四角形値が指定されていない場合、セルの中心が内側の四角形として使用されます。
+
+|====
+
+[[_Ref320715825]]
+== 色を指定
+
+[[_Ref320715856]]
+
+=== 概要
+
+セルで線状グラデーションと四角形グラデーションを使用して、色 (Excel セルの背景、罫線などの色) を指定できます。これらのグラデーションを付けられたワークブックを XLS ファイル形式で保存して、Excel 2007/2010 で開いたとき、グラデーションを表示したいが、これらのファイルを Microsoft Excel 2003 で開くときは、最初のグラデーション境界からのベタ一色の色でセルが塗りつぶされるようにしたいです。
+
+これらは、以下のように色を定義できる方法です:
+
+* 自動的な色 (これは `WindowText` システム カラー)
+* 任意のユーザー定義の RGB カラー
+* テーマの色
+
+[[_Ref320715864]]
+
+=== 濃淡
+
+RGB またはテーマの色が使用される場合、色を明るくする、または暗くするためにオプションの濃淡を適用できます。この濃淡は Microsoft Excel 2007 UI では直接設定できませんが、ユーザーに表示されるカラー パレットのさまざまな色が濃淡が適用された実際的なテーマの色になります。
+
+[[_Ref320715868]]
+
+=== テーマの色
+
+各ワークブックは 12 の関連付けられたテーマの色があります。これらは以下の通りです:
+
+*  _ライト 1_  
+*  _ライト 2_  
+*  _ダーク 1_  
+*  _ダーク 2_  
+*  _アクセント1_  
+*  _アクセント2_  
+*  _アクセント3_  
+*  _アクセント4_  
+*  _アクセント5_  
+*  _アクセント6_  
+*  _ハイパーリンク_  
+*  _表示済みハイパーリンク_  
+
+* これらはワークブックが作成されるときの既定値で、Excel UI を介してカスタマイズできます。
+
+[[_Ref320715877]]
+
+=== WorkbookColorInfo
+
+* 色は、シールされた不変クラスである、`WorkbookColorInfo` クラスで定義されます。このクラスは静的な Automatic プロパティがあり、自動的な色を返します。色またはテーマ値とオプションの濃淡で `WorkbookColorInfo` インスタンスを作成することを可能にするさまざまなコンストラクターがあります。
+
+[[_Ref320715882]]
+
+=== GetResolvedColor
+
+`GetResolvedColor` メソッドによって、Excel でファイルを開くときにユーザーに実際に表示される色を決定することが可能となります。
+
+* `WorkbookColorInfo` がテーマの色を表す場合、Workbook インストールをこのメソッドに渡す必要があります。これによってテーマの色の RGB 値をワークブックから取得できます。
+
+[[_Ref320715886]]
+
+=== 新しいファイル形式で保存
+
+より新しいファイル形式 (Microsoft Excel 2007 以降のバージョン) で保存するときは、より新しい色の情報が直接ファイルに保存されます。古いファイル形式で保存するときは、パレットの最も近い色へのインデックスが保存されます。さらに、古い形式には、新しい色の情報を示すために保存できる将来の機能レコードがあります。
+
+* Microsoft Excel 2003 およびそれ以前のバージョンで古い形式を開くと、これらの将来の機能レコードは無視されます。しかし、古いファイル形式が Excel 2007 およびそれ以降で開かれるときは、これらのレコードが読み込まれて、これらの色の情報が標準の形式レコードから以前に読み込まれたインデックスを付けられた色を上書きします。
+
+[[_Ref320017114]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-excel-format-support.html[Excel 書式設定のサポート]
+|このトピックは、セル書式に対する {ExcelEngineName} ライブラリのサポートを説明します。
+
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="| "] pick:[win-forms="link:win-breaking-changes-in-2012-volume-1.html[重要な変更点]"] pick:[win-forms-old=" "] pick:[win-forms-old="link:win-breaking-changes-in-2012-volume-1.html[重要な変更点]"] pick:[asp-net="link:known-issues-known-issues-and-breaking-changes.html[重要な変更点]"] pick:[aspnet-old="link:known-issues-known-issues-and-breaking-changes.html[重要な変更点]"] 
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="|このトピックは Excel ライブラリの書式サポートにおける重大な変更点を説明します。 "]
+
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]"]
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。"]
+
+pick:[wpf,xamarin="| link:excelengine-using-the-infragistics-excel-engine.html[{ExcelEngineName} の使用]"]
+pick:[wpf,xamarin="|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。"]
+
+|====
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+=== サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|サンプル|目的
+
+|新しいカラー モデル
+|このサンプルでは、セル書式で新しいカラー モデルの使用法を紹介します。RGB 色を指定して、セル書式のすべての色プロパティに濃淡値を指定できます。セルで線状グラデーションと矩形グラデーションを使用できます。
+
+|====
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]

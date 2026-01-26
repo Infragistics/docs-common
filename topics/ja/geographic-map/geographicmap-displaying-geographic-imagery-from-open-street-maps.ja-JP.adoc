@@ -1,0 +1,138 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Open Street Maps から地理的画像を表示
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで Open Street Maps から地理的画像を表示する方法を説明します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素] 
+
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、 {GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320388672,Open Street Maps からの地理的画像>>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320388681,プレビュー>>
+** <<_Ref320388684,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320388672]]
+== Open Street Maps からの地理的画像
+
+[[_Ref320193474]]
+
+=== 概要
+
+Open Street Maps は、世界中の OpenStreetMap の投稿者が協力して作成する無料の地図サービスです。これは、構成オプションなしで、道路地図スタイル限定で世界の地理的画像を提供します。この地理的画像サービスは、 link:http://www.openstreetmap.org/[www.openstreetmap.org] に直接アクセスして利用できます。
+
+デフォルトでは、 {GeoMapName}     コントロールは、 link:{GeoMapLink}.openstreetmapimagery_members.html[OpenStreetMapImagery] クラスを使用して、マップ背景コンテンツで Open Street Maps からの地理的画像を表示します。したがって、Open Street Maps から地理的画像を表示するように、コントロールを構成する必要はありません。
+
+[[_Ref320388681]]
+
+=== プレビュー
+
+以下の画像は、Open Street Maps サービスからの地理的画像タイルがある {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Displaying_Geographic_Imagery_from_Open_Street_Maps_1.png[]
+
+[[_Ref320388684]]
+
+=== 例
+
+このコード例は、Open Street Maps からの地理的画像タイルを提供する link:{GeoMapLink}.openstreetmapimagery_members.html[OpenStreetMapImagery] オブジェクトに  {GeoMapName}     コントロールの pick:[wpf="link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent]"]pick:[win-forms="BackgroundContent"]  を明示的に設定します。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.BackgroundContent>
+        <ig:OpenStreetMapImagery />
+    </ig:XamGeographicMap.BackgroundContent>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+ifdef::wpf[]
+Dim geoMap As New XamGeographicMap()
+Me.geoMap.BackgroundContent = New OpenStreetMapImagery()
+endif::wpf[]
+ifdef::win-forms[]
+Dim geoMap As New UltraGeographicMap()
+Me.geoMap.SetImagery(New OpenStreetMapImagery())
+endif::win-forms[]
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+ifdef::wpf[]
+XamGeographicMap geoMap = new XamGeographicMap();
+this.GeoMap.BackgroundContent = new OpenStreetMapImagery();
+endif::wpf[]
+ifdef::win-forms[]
+UltraGeographicMap geoMap = new UltraGeographicMap();
+this.GeoMap.SetImagery(New OpenStreetMapImagery());
+endif::win-forms[]
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素] 
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-azure-maps.html[Azure Maps から地理的画像を表示]
+|このトピックは、{GeoMapName} コントロールで Azure Maps サービスからの地理的画像を表示する方法を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-bing-maps.html[Bing Maps から地理的画像を表示]
+|このトピックは、 {GeoMapName} コントロールで Bing Maps サービスからの地理的画像を表示する方法を提供します。
+
+|====

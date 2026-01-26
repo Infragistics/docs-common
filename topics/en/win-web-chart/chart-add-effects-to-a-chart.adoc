@@ -1,0 +1,65 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-add-effects-to-a-chart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{96B5168F-8498-4D21-9993-585433B9FD67}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Add Effects to a Chart
+
+pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~effects.html[Effects]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.effectsappearance~effects.html[Effects]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.effectsappearance~effects.html[Effects]"]  are used to apply an overall look to the chart image; some operate on the chart image (pixel-wise), while others affect  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitives]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitives]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitives]"]  in the SceneGraph like a custom layer.
+
+image::Images\Chart_Add_Effects_to_a_Chart_01.png[Shows a plain 2D Column Chart on a white background..]
+
+image::Images\Chart_Add_Effects_to_a_Chart_02.png[Shows the 2D Column Chart shown above, but with a textured background.]
+
+The above images are the same chart; however the one on the right has three Effects added to its Effects collection: a  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.gradienteffect.html[GradientEffect]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.gradienteffect.html[GradientEffect]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.gradienteffect.html[GradientEffect]"] , a  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.shadoweffect.html[ShadowEffect]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.shadoweffect.html[ShadowEffect]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.shadoweffect.html[ShadowEffect]"] , and a  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect.html[TextureEffect]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect.html[TextureEffect]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect.html[TextureEffect]"] . This was done using the Visual Studio .NET designer, however the code generated is very simple:
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Dim gradientEffect1 As New GradientEffect()
+Dim shadowEffect1 As New ShadowEffect()
+Dim textureEffect1 As New TextureEffect()
+gradientEffect1.Coloring = GradientColoringStyle.Lighten
+gradientEffect1.Style = GradientStyle.ForwardDiagonal
+shadowEffect1.Angle = 45
+shadowEffect1.Color = System.Drawing.Color.DimGray
+textureEffect1.Texture = TexturePresets.Canvas
+Me.ultraChart1.Effects.Add(gradientEffect1)
+Me.ultraChart1.Effects.Add(shadowEffect1)
+Me.ultraChart1.Effects.Add(textureEffect1)
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+...
+GradientEffect gradientEffect1 = new GradientEffect();
+ShadowEffect shadowEffect1 = new ShadowEffect();
+TextureEffect textureEffect1 = new TextureEffect();
+gradientEffect1.Coloring = GradientColoringStyle.Lighten;
+gradientEffect1.Style = GradientStyle.ForwardDiagonal;
+shadowEffect1.Angle = 45;
+shadowEffect1.Color = System.Drawing.Color.DimGray;
+textureEffect1.Texture = TexturePresets.Canvas;
+this.ultraChart1.Effects.Add(gradientEffect1);
+this.ultraChart1.Effects.Add(shadowEffect1);
+this.ultraChart1.Effects.Add(textureEffect1);
+----
+
+== Related Topic
+
+link:chart-layers.html[Layers]

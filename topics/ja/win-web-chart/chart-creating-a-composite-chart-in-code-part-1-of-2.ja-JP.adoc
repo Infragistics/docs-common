@@ -1,0 +1,314 @@
+﻿////
+|metadata|
+{
+    "name": "chart-creating-a-composite-chart-in-code-part-1-of-2",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{249EF87D-397F-4180-A5B8-0BF6887C141A}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= コードで合成チャートを作成（1/2）
+
+このチュートリアルは、コードを使用して link:chart-composite-chart.html[合成チャート]の作成プロセスを説明します。
+
+このチュートリアルのすべてのコードでは、コードファイルの先頭で、以下のインポートまたはディレクティブの使用が必要になります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Core.Layers
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Core.Layers;
+----
+
+このチュートリアルでは、GetData() と呼ばれる関数が参照されます。これは、外部データソースが適用可能な場合のデモンストレーションのために使用されます。実際のアプリケーションでは、ほとんどの場合、このコードはデータベースからテーブルを取得します。GetData() 関数のソースデータを以下に示します。
+
+*Visual Basic の場合：*
+
+----
+Private Function GetData() As DataTable
+Dim table As New DataTable()
+	table.Columns.Add("Label Column", GetType(String))
+	table.Columns.Add("Value Column", GetType(Double))
+	table.Columns.Add("Another Value Column", GetType(Double))
+	table.Rows.Add(New Object() {"Point A", 1.0, 3.0})
+	table.Rows.Add(New Object() {"Point B", 2.0, 2.0})
+	table.Rows.Add(New Object() {"Point C", 3.0, 1.0})
+	table.Rows.Add(New Object() {"Point D", 4.0, 2.0})
+	table.Rows.Add(New Object() {"Point E", 5.0, 3.0})
+	Return table
+End Function
+----
+
+*C# の場合：*
+
+----
+private DataTable GetData()
+{
+	DataTable table = new DataTable();
+	table.Columns.Add("Label Column", typeof(string));
+	table.Columns.Add("Value Column", typeof(double));
+	table.Columns.Add("Another Value Column", typeof(double));
+	table.Rows.Add(new object[] {"Point A", 1.0, 3.0});
+	table.Rows.Add(new object[] {"Point B", 2.0, 2.0});
+	table.Rows.Add(new object[] {"Point C", 3.0, 1.0});
+	table.Rows.Add(new object[] {"Point D", 4.0, 2.0});
+	table.Rows.Add(new object[] {"Point E", 5.0, 3.0});
+	return table;
+}
+----
+
+== 合成チャートの基本設定
+
+合成チャートの最初のグラフ レイヤを設定するために必要ないくつかの手順があります。合成チャートでチャートを完全に制御できるようにするには、グラフ領域、軸、およびチャート レイヤなどの個々の要素をすべて手動で追加する必要があります。最初のセクションでは、これらの最初の手順を詳細に学習します。
+
+このセクションの最後では、2 つの軸、1 つのチャート レイヤ、および凡例を持つ合成チャートを作成します。
+
+[start=1]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~charttype.html[ChartType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~charttype.html[ChartType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~charttype.html[ChartType]"]  プロパティを Composite に変更します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.ChartType = ChartType.Composite
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.ChartType = ChartType.Composite;
+----
+
+[start=2]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea.html[ChartArea]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea.html[ChartArea]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea.html[ChartArea]"]  を  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~chartareas.html[ChartAreas]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~chartareas.html[ChartAreas]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~chartareas.html[ChartAreas]"]  コレクションに追加します。
+
+*Visual Basic の場合：*
+
+----
+Dim myChartArea As New ChartArea()
+Me.UltraChart1.CompositeChart.ChartAreas.Add(myChartArea)
+----
+
+*C# の場合：*
+
+----
+ChartArea myChartArea = new ChartArea();
+this.ultraChart1.CompositeChart.ChartAreas.Add(myChartArea);
+----
+
+[start=3]
+. いくつかの軸を ChartArea に追加します。
+
+最初のグラフ レイヤの要件に一致するプロパティを持ついくつかの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem.html[AxisItem]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem.html[AxisItem]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisitem.html[AxisItem]"]  オブジェクトを作成し、ChartArea の Axes コレクションに追加します。
+
+このチュートリアルの最初の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance.html[ChartLayer]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance.html[ChartLayer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance.html[ChartLayer]"]  は柱状グラフ レイヤです。したがって、ここで作成される軸は柱状グラフの要件を満たします。
+
+*Visual Basic の場合：*
+
+----
+Dim axisX As New AxisItem()
+axisX.OrientationType = AxisNumber.X_Axis
+axisX.DataType = AxisDataType.String
+axisX.SetLabelAxisType = SetLabelAxisType.GroupBySeries
+axisX.Labels.ItemFormatString = "<ITEM_LABEL>"
+axisX.Labels.Orientation = TextOrientation.VerticalLeftFacing
+Dim axisY As New AxisItem()
+axisY.OrientationType = AxisNumber.Y_Axis
+axisY.DataType = AxisDataType.Numeric
+axisY.Labels.ItemFormatString="<DATA_VALUE:0.#>"
+myChartArea.Axes.Add(axisX)
+myChartArea.Axes.Add(axisY)
+----
+
+*C# の場合：*
+
+----
+AxisItem axisX = new AxisItem();
+axisX.OrientationType = AxisNumber.X_Axis;
+axisX.DataType = AxisDataType.String;
+axisX.SetLabelAxisType = SetLabelAxisType.GroupBySeries;
+axisX.Labels.ItemFormatString = "<ITEM_LABEL>";
+axisX.Labels.Orientation = TextOrientation.VerticalLeftFacing;
+AxisItem axisY = new AxisItem();
+axisY.OrientationType = AxisNumber.Y_Axis;
+axisY.DataType = AxisDataType.Numeric;
+axisY.Labels.ItemFormatString="<DATA_VALUE:0.#>";
+myChartArea.Axes.Add(axisX);
+myChartArea.Axes.Add(axisY);
+----
+
+[start=4]
+. いくつかのデータセットを  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~series.html[Series]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~series.html[Series]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~series.html[Series]"]  コレクションに追加します。
+
+チュートリアルの最初のグラフ レイヤは柱状グラフのため、そのデータに NumericSeries を生成します。Series のデータは、コードで作成するか、または  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriesdataappearance~datasource.html[DataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesdataappearance~datasource.html[DataSource]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesdataappearance~datasource.html[DataSource]"]  から取得できます。サンプル データの提供に以下の 2 つの関数を使用できます。
+
+*Visual Basic の場合：*
+
+----
+Private Function GetNumericSeriesBound() As NumericSeries
+	Dim series As New NumericSeries()
+	series.Label = "Series A"
+	' このコードは外部データソースからデータセットを格納します
+	Dim table As DataTable = Me.GetData()
+	series.Data.DataSource = table
+	series.Data.LabelColumn = "Label Column"
+	series.Data.ValueColumn = "Value Column"
+	Return series
+End Function
+Private Function GetNumericSeriesUnBound() As NumericSeries
+	Dim series As New NumericSeries()
+	series.Label = "Series B"
+	' このコードは非連結データを使用してデータセットを格納します
+	series.Points.Add(New NumericDataPoint(5.0, "Point A", False))
+	series.Points.Add(New NumericDataPoint(4.0, "Point B", False))
+	series.Points.Add(New NumericDataPoint(3.0, "Point C", False))
+	series.Points.Add(New NumericDataPoint(2.0, "Point D", False))
+	series.Points.Add(New NumericDataPoint(1.0, "Point E", False))
+	Return series
+End Function
+----
+
+*C# の場合：*
+
+----
+private NumericSeries GetNumericSeriesBound()
+{
+	NumericSeries series = new NumericSeries();
+	series.Label = "Series A";
+	// このコードは外部データソースからデータセットを格納します
+	DataTable table = this.GetData();
+	series.Data.DataSource = table;
+	series.Data.LabelColumn = "Label Column";
+	series.Data.ValueColumn = "Value Column";
+	return series;
+}
+private NumericSeries GetNumericSeriesUnBound()
+{
+	NumericSeries series = new NumericSeries();
+	series.Label = "Series B";
+	// このコードは非連結データを使用してデータセットを格納します
+	series.Points.Add(new NumericDataPoint(5.0, "Point A", false));
+	series.Points.Add(new NumericDataPoint(4.0, "Point B", false));
+	series.Points.Add(new NumericDataPoint(3.0, "Point C", false));
+	series.Points.Add(new NumericDataPoint(2.0, "Point D", false));
+	series.Points.Add(new NumericDataPoint(1.0, "Point E", false));
+	return series;
+}
+----
+
+データセットは、チャートの Series コレクションに追加する必要があります。
+
+*Visual Basic の場合：*
+
+----
+Dim seriesA As NumericSeries = Me.GetNumericSeriesBound()
+Dim seriesB As NumericSeries = Me.GetNumericSeriesUnBound()
+Me.UltraChart1.CompositeChart.Series.Add(seriesA)
+Me.UltraChart1.CompositeChart.Series.Add(seriesB)
+----
+
+*C# の場合：*
+
+----
+NumericSeries seriesA = this.GetNumericSeriesBound();
+NumericSeries seriesB = this.GetNumericSeriesUnBound();
+this.ultraChart1.CompositeChart.Series.Add(seriesA);
+this.ultraChart1.CompositeChart.Series.Add(seriesB);
+----
+
+[start=5]
+. チャート レイヤを追加します。
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance.html[ChartLayerAppearance]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance.html[ChartLayerAppearance]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartlayerappearance.html[ChartLayerAppearance]"]  オブジェクトを作成し、ChartType の軸およびデータ要件を満たす必要があります。各チャート レイヤの軸およびデータ要件の詳細は、 link:chart-chart-data-requirements.html[「チャート データ要件」]を参照してください。
+
+ChartArea プロパティを設定し、現在の ChartType で必要な場合は、Axis プロパティも設定する必要があります。また、以前にグラフの Series コレクションに追加された Series を ChartLayer の Series コレクションに追加する必要があります。
+
+ChartLayerAppearance オブジェクトを作成後、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~chartlayers.html[ChartLayers]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~chartlayers.html[ChartLayers]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.compositechartappearance~chartlayers.html[ChartLayers]"]  コレクションに追加する必要があります。
+
+*Visual Basic の場合：*
+
+----
+Dim myColumnLayer As New ChartLayerAppearance()
+myColumnLayer.ChartType = ChartType.ColumnChart
+myColumnLayer.ChartArea = myChartArea
+myColumnLayer.AxisX = axisX
+myColumnLayer.AxisY = axisY
+myColumnLayer.Series.Add(seriesA)
+myColumnLayer.Series.Add(seriesB)
+Me.UltraChart1.CompositeChart.ChartLayers.Add(myColumnLayer)
+----
+
+*C# の場合：*
+
+----
+ChartLayerAppearance myColumnLayer = new ChartLayerAppearance();
+myColumnLayer.ChartType = ChartType.ColumnChart;
+myColumnLayer.ChartArea = myChartArea;
+myColumnLayer.AxisX = axisX;
+myColumnLayer.AxisY = axisY;
+myColumnLayer.Series.Add(seriesA);
+myColumnLayer.Series.Add(seriesB);
+this.ultraChart1.CompositeChart.ChartLayers.Add(myColumnLayer);
+----
+
+[start=6]
+. 凡例をグラフに追加します。
+
+凡例をグラフに追加するには、CompositeLegend オブジェクトを作成し、Legends コレクションに追加します。 凡例を使用する ChartLayers を凡例の ChartLayers コレクションに追加する必要があります。
+
+デフォルトで、凡例の枠は Rectangle.Empty に設定されます。したがって、凡例はグラフ面全体を占有し、左上隅から項目の描画が開始されます。凡例の枠をカスタマイズして、グラフの任意の場所に配置し、凡例の枠と背景の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  も同様にカスタマイズできます。
+
+グラフ凡例の外観の変更方法についての詳細は、 link:chart-customize-chart-legends.html[「グラフ凡例をカスタマイズ」]を参照してください。
+
+*Visual Basic の場合：*
+
+----
+Dim myLegend As New CompositeLegend()
+myLegend.ChartLayers.Add(myColumnLayer)
+myLegend.Bounds = New Rectangle(0, 75, 20, 25)
+myLegend.BoundsMeasureType = MeasureType.Percentage
+myLegend.PE.ElementType = PaintElementType.Gradient
+myLegend.PE.FillGradientStyle = GradientStyle.ForwardDiagonal
+myLegend.PE.Fill = Color.CornflowerBlue
+myLegend.PE.FillStopColor = Color.Transparent
+myLegend.Border.CornerRadius = 10
+myLegend.Border.Thickness = 0
+Me.UltraChart1.CompositeChart.Legends.Add(myLegend)
+----
+
+*C# の場合：*
+
+----
+CompositeLegend myLegend = new CompositeLegend();
+myLegend.ChartLayers.Add(myColumnLayer);
+myLegend.Bounds = new Rectangle(0, 75, 20, 25);
+myLegend.BoundsMeasureType = MeasureType.Percentage;
+myLegend.PE.ElementType = PaintElementType.Gradient;
+myLegend.PE.FillGradientStyle = GradientStyle.ForwardDiagonal;
+myLegend.PE.Fill = Color.CornflowerBlue;
+myLegend.PE.FillStopColor = Color.Transparent;
+myLegend.Border.CornerRadius = 10;
+myLegend.Border.Thickness = 0;
+this.ultraChart1.CompositeChart.Legends.Add(myLegend);
+----
+
+ここで、このようにプロジェクトとチャートを実行します。
+
+image::images/Chart_Creating_a_Composite_Chart_in_Code_Part_1_of_2.png[]
+
+== 関連トピック
+
+link:chart-axis-requirements-for-composite-charts.html[合成チャートの軸要件]
+
+link:chart-layers.html[レイヤ]

@@ -1,0 +1,365 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-canvas",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{8AB3F599-47D1-4F71-A066-FB34D7CC35ED}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= キャンバス
+
+Canvas エレメントは多目的の描画サーフェイスです。Canvas エレメントを使用すると、複数の異なる方法で操作する間に膨大な形状を描画できます。Canvas エレメントは、その他のレイアウト エレメントで遭遇する  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~background.html[Background]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~background.html[Background]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~background.html[Background]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~background.html[Background]"] 、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~borders.html[Borders]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~borders.html[Borders]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~borders.html[Borders]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~borders.html[Borders]"] 、および  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~margins.html[Margins]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~margins.html[Margins]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~margins.html[Margins]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.icanvas~margins.html[Margins]"]  などのいくつかの標準的なプロパティを公開しています。また、Canvas エレメントは  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics.html[IGraphics]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics.html[IGraphics]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics.html[IGraphics]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics.html[IGraphics]"]  インターフェイスを実装しており、ここでこのエレメントは視覚的プロセスを生成します。IGraphics インターフェイスは System.Drawing.Graphics オブジェクトに非常に似ています。
+
+== 標準的なレイアウト エレメントのプロパティ
+
+Canvas エレメントはキャンバス全体を配置する際に不可欠な標準的なレイアウト プロパティの固有のセットを公開しています。しかし実際に描画されるものに影響するプロパティがいくつかあり、 IGraphics を通して公開されます。IGraphics インターフェイスによって公開される 2 つの重要なプロパティは、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pen.html[Pen]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pen.html[Pen]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pen.html[Pen]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pen.html[Pen]"]  と  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~brush.html[Brush]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~brush.html[Brush]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~brush.html[Brush]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~brush.html[Brush]"]  です（通常そのエレメント自体によって公開される）。これらのプロパティはそれぞれ、IGraphics インターフェイスによって作成されるすべてのオブジェクトのストロークと塗りつぶしに影響します。もうひとつの理解すべき重要な概念は、すべての描画は線形で行われるこということです。つまり、形状を描画する間にペンとブラシを変更して、同じ寸法で同じ形状を異なった表現で描画することができます。
+
+== IGraphics インターフェイス
+
+IGraphics インターフェイスでは、レポートでのグラフィックスの実装のほとんどを行います。このインターフェイスを通して、ページの任意の場所にハイパーリンクを追加する、任意の形状を描画する、これらの形状を塗りつぶしたり、クリッピングする、さらには形状を拡大縮小、傾斜、変形することができます。
+
+== ハイパーリンク
+
+領域の境界矩形に左上隅の座標を指定し、次に矩形の高さと幅を指定することによって、ハイパーリンク領域を追加できます。以下のメソッドによって、キャンバスでハイパーリンクを操作することができます。
+
+[cols="a,a"]
+|====
+|
+* pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~addhyperlinkarea.html[AddHyperlinkArea]"] pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~addhyperlinkarea.html[AddHyperlinkArea]"] pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~addhyperlinkarea.html[AddHyperlinkArea]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~addhyperlinkarea.html[AddHyperlinkArea]"] 
+
+* pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~starthyperlink.html[StartHyperlink]"] pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~starthyperlink.html[StartHyperlink]"] pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~starthyperlink.html[StartHyperlink]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~starthyperlink.html[StartHyperlink]"] 
+
+* pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pausehyperlink.html[PauseHyperlink]"] pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pausehyperlink.html[PauseHyperlink]"] pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pausehyperlink.html[PauseHyperlink]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~pausehyperlink.html[PauseHyperlink]"] 
+
+|
+* pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~resumehyperlink.html[ResumeHyperlink]"] pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~resumehyperlink.html[ResumeHyperlink]"] pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~resumehyperlink.html[ResumeHyperlink]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~resumehyperlink.html[ResumeHyperlink]"] 
+
+* pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~endhyperlink.html[EndHyperlink]"] pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~endhyperlink.html[EndHyperlink]"] pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~endhyperlink.html[EndHyperlink]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.igraphics~endhyperlink.html[EndHyperlink]"] 
+
+|====
+
+== 描画
+
+それぞれの Draw メソッドを呼び出すことによって、以下の各々の形状/描画を作成できます（たとえば、DrawRectangle メソッドを呼び出して矩形を描画）。これらを作成するには、必要な  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.point.html[Point]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.point.html[Point]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.graphics.point.html[Point]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.graphics.point.html[Point]"]  オブジェクトを渡すだけで十分です。その他の描画プロパティ（ペンやブラシなど）は、Canvas エレメント自体で設定され、すべての描画に影響します。
+
+[cols="a,a"]
+|====
+|
+* 円弧 
+
+* ベジェ 
+
+* 弓形 
+
+* 閉曲線 
+
+* 曲線 
+
+* 楕円形 
+
+* 画像 
+
+|
+* 線 
+
+* 円 
+
+* ポリゴン 
+
+* 矩形 
+
+* 角丸の矩形 
+
+* スペーシング 
+
+* 文字列 
+
+|====
+
+== 塗りつぶしとクリッピング
+
+以下の形状のそれぞれで領域を塗りつぶすまたはクリッピングすることができます。Canvas は Brush プロパティを使用して形状を塗りつぶします。領域をクリッピングするために形状を使用する場合、クリッピングの形状の境界矩形内にあるクリッピングの形状の背後の形状の部分のみを見ることができます。形状のそれぞれの Clip メソッドまたは Fill メソッド（たとえば矩形のクリッピング領域を形成するには ClipRectangle、矩形を塗りつぶすには FillRectangle）を使用して、形状でそれぞれのアクションを実行します。
+
+[cols="a,a"]
+|====
+|
+* 円弧 
+
+* ベジェ 
+
+* 弓形 
+
+* 閉曲線 
+
+* 楕円形  
+
+|
+* 円 
+
+* ポリゴン 
+
+* 矩形 
+
+* 角丸の矩形 
+
+|====
+
+image::images/DocumentEngine_Canvas_01.png[]
+
+'''
+
+以下のコードは、Canvas エレメントをセクションに追加し、次にいくつかのスタイルを使用していくつかの形状を描画します。
+
+[start=1]
+. *キャンバスをセクションに追加します。*
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+Imports Infragistics.Documents.Reports.Reports.Graphics
+.
+.
+.
+' キャンバスをセクションに追加します。
+Dim canvas1 As Infragistics.Documents.Reports.Reports.Report.ICanvas = section1.AddCanvas()
+canvas1.Borders = New Borders(Pens.Black, 5)
+canvas1.Margins.Vertical = 5
+canvas1.Paddings.All = 5
+canvas1.Background = New Background(New SolidColorBrush(New Color(240, 240, 220)))
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+using Infragistics.Documents.Reports.Reports.Graphics;
+.
+.
+.
+// キャンバスをセクションに追加します。
+Infragistics.Documents.Reports.Reports.Report.ICanvas canvas1 = section1.AddCanvas();
+canvas1.Borders = new Borders(Pens.Black, 5);
+canvas1.Margins.Vertical = 5;
+canvas1.Paddings.All = 5;
+canvas1.Background = new Background(new SolidColorBrush(new Color(240, 240, 220)));
+----
+
+[start=2]
+. *System.Drawing.Graphics オブジェクトを作成し、矩形を作成します。*
+
+*Visual Basic の場合：*
+
+----
+' System Graphics オブジェクトを作成し、このオブジェクトを使用して
+' 矩形を描画します。
+canvas1.CreateGraphics().DrawRectangle( _
+	System.Drawing.Pens.Green, _
+	New System.Drawing.Rectangle(10, 10, 20, 20))
+----
+
+*C# の場合：*
+
+----
+// System Graphics オブジェクトを作成し、このオブジェクトを使用して
+// 矩形を描画します。
+canvas1.CreateGraphics().DrawRectangle
+(
+	System.Drawing.Pens.Green,
+	new System.Drawing.Rectangle(10, 10, 20, 20)
+);
+----
+
+[start=3]
+. *矩形を描画します。*
+
+*Visual Basic の場合：*
+
+----
+' 内部にハイパーリンクが付けられた矩形を描画します。
+canvas1.StartHyperlink(1, 0, 10)
+canvas1.Pen = New Pen(Colors.Red, 5)
+canvas1.Brush = New SolidColorBrush(New Color(255, 240, 240))
+canvas1.DrawRectangle(50, 50, 150, 100, PaintMode.FillStroke)
+canvas1.AddHyperlinkArea(50, 50, 150, 100)
+canvas1.EndHyperlink()
+' テキストを矩形に追加します（より正確に言うと、矩形の上に追加）。
+canvas1.Font = New Font("Times New Roman", 18, FontStyle.Italic)
+canvas1.Brush = Brushes.BlueViolet
+canvas1.DrawString(70, 90, "Go to page 2")
+----
+
+*C# の場合：*
+
+----
+// 内部にハイパーリンクが付けられた矩形を描画します。
+canvas1.StartHyperlink(1, 0, 10);
+canvas1.Pen = new Pen(Colors.Red, 5);
+canvas1.Brush = new SolidColorBrush(new Color(255, 240, 240));
+canvas1.DrawRectangle(50, 50, 150, 100, PaintMode.FillStroke);
+canvas1.AddHyperlinkArea(50, 50, 150, 100);
+canvas1.EndHyperlink();
+// テキストを矩形に追加します（より正確に言うと、矩形の上に追加）。
+canvas1.Font = new Font("Times New Roman", 18, FontStyle.Italic);
+canvas1.Brush = Brushes.BlueViolet;
+canvas1.DrawString(70, 90, "Go to page ¹2");
+----
+
+[start=4]
+. *緑の斜めの線を描画します。*
+
+*Visual Basic の場合：*
+
+----
+' 緑の線を 5px の太さで描画します。 
+canvas1.Pen = New Pen(Colors.Green, 5)
+canvas1.DrawLine(220, 50, 320, 150)
+----
+
+*C# の場合：*
+
+----
+// 緑の線を 5px の太さで描画します。 
+canvas1.Pen = new Pen(Colors.Green, 5);
+canvas1.DrawLine(220, 50, 320, 150);
+----
+
+[start=5]
+. *楕円形を描画します。*
+
+*Visual Basic の場合：*
+
+----
+' 楕円形を描画し、青い 5px の線で輪郭を描き、
+' 明るい青で塗りつぶします。
+canvas1.Pen = New Pen(Colors.Blue, 5)
+canvas1.Brush = New SolidColorBrush(New Color(240, 240, 255))
+canvas1.DrawEllipse(340, 50, 150, 100, PaintMode.FillStroke)
+----
+
+*C# の場合：*
+
+----
+// 楕円形を描画し、青い 5px の線で輪郭を描き、
+// 明るい青で塗りつぶします。
+canvas1.Pen = new Pen(Colors.Blue, 5);
+canvas1.Brush = new SolidColorBrush(new Color(240, 240, 255));
+canvas1.DrawEllipse(340, 50, 150, 100, PaintMode.FillStroke);
+----
+
+[start=6]
+. *Canvas のペンとブラシのスタイルを変更します。*
+
+*Visual Basic の場合：*
+
+----
+' Canvas のペンとブラシを変更します。
+canvas1.Pen = New Pen(Colors.DarkBlue, 5, DashStyle.DashDot)
+canvas1.Brush = New LinearGradientBrush(Colors.Yellow, Colors.Green, 45.0F)
+----
+
+*C# の場合：*
+
+----
+// Canvas のペンとブラシを変更します。
+canvas1.Pen = new Pen(Colors.DarkBlue, 5, DashStyle.DashDot);
+canvas1.Brush = new LinearGradientBrush(Colors.Yellow, Colors.Green, 45F);
+----
+
+[start=7]
+. *複合した形状を作成します。*
+
+*Visual Basic の場合：*
+
+----
+' 両方の形状がひとつの形状として作成されているため
+' （StartShape と EndShape を使用して）、2 つの形状の交差は 
+' その形状の一部として見なされず、 
+' 塗りつぶされません。さらに、グラデーションは形状全体を
+' 横断し、両方の形状個々にグラデーションが付くわけではありません。
+canvas1.StartShape(PaintMode.FillStroke)
+canvas1.FillRectangle(120, 200, 200, 200)
+canvas1.DrawEllipse(220, 250, 200, 200)
+canvas1.EndShape()
+----
+
+*C# の場合：*
+
+----
+// 両方の形状がひとつの形状として作成されているため
+// （StartShape と EndShape を使用して）、2 つの形状の交差は 
+// その形状の一部として見なされず、 
+// 塗りつぶされません。さらに、グラデーションは形状全体を
+// 横断し、両方の形状個々にグラデーションが付くわけではありません。
+canvas1.StartShape(PaintMode.FillStroke);
+canvas1.FillRectangle(120, 200, 200, 200);
+canvas1.DrawEllipse(220, 250, 200, 200);
+canvas1.EndShape();
+----
+
+[start=8]
+. *矩形をもうひとつ作成します。*
+
+*Visual Basic の場合：*
+
+----
+' 異なるペンとブラシを使用して矩形をもうひとつ描画します。
+canvas1.Pen = New Pen(Colors.Red, 5, DashStyle.DashDotDot)
+canvas1.Brush = New HatchBrush(HatchStyle.Cross, Colors.Red, Colors.White)
+canvas1.DrawRectangle(50, 500, 150, 100, PaintMode.FillStroke)
+----
+
+*C# の場合：*
+
+----
+// 異なるペンとブラシを使用して矩形をもうひとつ描画します。
+canvas1.Pen = new Pen(Colors.Red, 5, DashStyle.DashDotDot);
+canvas1.Brush = new HatchBrush(HatchStyle.Cross, Colors.Red, Colors.White);
+canvas1.DrawRectangle(50, 500, 150, 100, PaintMode.FillStroke);
+----
+
+[start=9]
+. *線をもう 1 本作成します。*
+
+*Visual Basic の場合：*
+
+----
+' 線をもう 1 本作成します。今回は別の破線スタイルを使用します。
+canvas1.Pen = New Pen(Colors.Green, 5, DashStyle.DashDot)
+canvas1.DrawLine(220, 500, 320, 600)
+----
+
+*C# の場合：*
+
+----
+// 線をもう 1 本作成します。今回は別の破線スタイルを使用します。
+canvas1.Pen = new Pen(Colors.Green, 5, DashStyle.DashDot);
+canvas1.DrawLine(220, 500, 320, 600);
+----
+
+[start=10]
+. *楕円形をもうひとつ作成します。*
+
+*Visual Basic の場合：*
+
+----
+' 異なるペンとブラシを使用して楕円形をもうひとつ描画します。
+canvas1.Pen = New Pen(Colors.Blue, 5, DashStyle.Dash)
+canvas1.Brush = New HatchBrush(HatchStyle.DiagonalBrick, Colors.Blue, Colors.White)
+canvas1.DrawEllipse(340, 500, 150, 100, PaintMode.FillStroke)
+----
+
+*C# の場合：*
+
+----
+// 異なるペンとブラシを使用して楕円形をもうひとつ描画します。
+canvas1.Pen = new Pen(Colors.Blue, 5, DashStyle.Dash);
+canvas1.Brush = new HatchBrush(HatchStyle.DiagonalBrick, Colors.Blue, Colors.White);
+canvas1.DrawEllipse(340, 500, 150, 100, PaintMode.FillStroke);
+----

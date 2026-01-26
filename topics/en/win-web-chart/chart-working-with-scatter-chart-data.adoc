@@ -1,0 +1,121 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-scatter-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{39693507-C2F9-47D0-8F66-AA843C7F66DE}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with Scatter Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the scatter chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for scatter charts:
+
+* The data set contains two numeric columns identified by the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  properties.
+* If you are binding the scatter chart to a series object, see link:chart-requirements-for-series-binding.html[Requirements for Series Binding] for information on the series binding requirements.
+* If you are using the scatter chart in a link:chart-composite-chart.html[composite chart], see link:chart-axis-requirements-for-composite-charts.html[Axis Requirements for Composite Charts] for information on the axis requirements for the chart.
+
+.Note
+[NOTE]
+====
+If the data available is in a format where each row represents the x and y values, and each column contains points for each series, then you should swap the rows and columns. For information on how to do this, see link:chart-swap-rows-and-columns.html[Swap Rows and Columns].
+====
+
+== Mapping Data to Scatter Charts
+
+The chart data is rendered using the following rules:
+
+* The first two numeric columns specified as ColumnX and ColumnY are used in the order in which they appear.
+* You can select alternate columns (or rows) for ColumnX and ColumnY.
+* Both the X-axis (horizontal axis) and Y-axis (vertical axis) are numeric in Scatter charts, so that the data is plotted on a two-dimensional plane. Labels on both axes can be formatted using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  property and a “numeric format”:
+
+[source]
+----
+UltraChart.Axis.X.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+* If the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  property is set to True, then line segments connect the points identified by subsequent rows.
+* Each row represents one scatter point.
+* The columns at the indices specified by the ColumnX and ColumnY properties will be used to determine the horizontal (X) position, and vertical (Y) position of each scatter point.
+* Scatter points can be grouped according to the value in a specific column by specifying the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  property, and setting the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  property to True. Different icons/colors will be used for scatter points in different groups. If the ConnectWithLines property is set to True, lines will connect only scatter points within the same group.
+* The first string column encountered in the data will be used for row labels.
+* You can select an alternate column to be used for row labels, and toggle between the primary and secondary labels.
+* You can include or exclude any column from the chart using the UltraChart.Data.  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  method.
+
+See below for an example data set, along with the rendered scatter chart.
+
+[options="header", cols="a,a,a"]
+|====
+|Latitude|Longitude|Crime Rate
+
+|0
+|0
+|2.36
+
+|120
+|25
+|6.69
+
+|-25
+|100
+|3.65
+
+|-80
+|-100
+|5.36
+
+|63
+|-12
+|8.56
+
+|156
+|75
+|5.36
+
+|-129
+|166
+|7.29
+
+|-175
+|-86
+|1.23
+
+|96
+|-177
+|4.69
+
+|36
+|111
+|2.354
+
+|-75
+|69
+|5.58
+
+|-99
+|-50
+|4.36
+
+|29
+|-143
+|6.24
+
+|====
+
+image::Images/Chart_Scatter_Chart_01.png[Shows a Scatter Chart based on the data listed in the table above.]

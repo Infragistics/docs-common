@@ -1,0 +1,200 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-selection",
+    "tags": ["How Do I","Selection"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "96ccf6ca-bc5e-42b1-a79e-6680f4fe6ff6",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0974134Z"
+}
+|metadata|
+////
+
+= 選択の操作 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、選択機能を開発者の観点から説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|インフラジスティックス Excel エンジン
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+| link:spreadsheet-uiu-selection.html[選択のインタラクション ({SpreadsheetName})] 
+
+|このトピックでは、ワークシートのセルを選択する場合にユーザーが実行できる操作を説明します。 
+
+| link:spreadsheet-conf-selection.html[選択の構成 ({SpreadsheetName})] 
+
+|このトピックでは、選択機能を構成する方法について説明します。 
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref390085459, 選択タスクの概要 >>
+* <<_Ref390076629, 現在の選択の取得 >>
+* <<_Ref390076637, プログラムによる選択の変更 >>
+* <<_Ref390076643, 選択変更の通知 >>
+* <<_Ref390085478, 関連コンテンツ >>
+
+[[_Ref390085459]]
+== 選択タスクの概要
+
+=== 選択タスクの概要表
+
+以下の表は、選択を操作する場合に使用できるタスクを簡単に説明し、それらを接続されているメンバーにマップします。詳細は、表の後に記載されています。
+
+[options="header", cols="a,a,a"]
+|====
+|タスク|詳細|プロパティ/イベント
+
+|<<_Ref390076629,現在の選択の取得>>
+|現在の選択のセルの範囲を取得します
+| link:{SpreadsheetLink}.spreadsheetselection~cellranges.html[CellRanges]
+
+|<<_Ref390076637,プログラムによる選択の変更>>
+|さまざまなメソッドを使用して選択を変更します
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}activeselection.html[ActiveSelection]
+
+|<<_Ref390076643,選択変更の通知>>
+|現在の選択が変更されたときに通知を受けます
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}selectionchanged_ev.html[SelectionChanged]
+
+|====
+
+[[_Ref390076629]]
+== 現在の選択の取得
+
+[[_Hlk368069110]]
+
+=== 概要
+
+`CellRanges` プロパティを使用して、シートの現在の選択を取得できます。選択されるセルの範囲の読み取り専用コレクションを返します。
+
+=== プロパティ設定
+
+以下の表は、任意の動作とそれを管理するプロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定値:
+
+|セルの範囲にアクセスする
+| link:{SpreadsheetLink}.spreadsheetselection~cellranges.html[CellRanges]
+|コレクションの項目を読み取ります
+
+|====
+
+=== 例
+
+以下のコードは、現在の選択に 1 つ以上の選択範囲 (行 4、列 7 から開始して、行 6、列 27 で終了) を追加する方法を示します。このコードは、「{SpreadsheetName}1」という名前の　{SpreadsheetName}　のインスタンスへの参照があることを前提としています。
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SpreadsheetName}1.ActiveSelection.AddCellRange(
+  new SpreadsheetCellRange(4, 7, 6, 27)
+);
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SpreadsheetName}1.ActiveSelection.AddCellRange(_
+  New SpreadsheetCellRange(4, 7, 6, 27))
+----
+
+[[_Ref390076637]]
+== プログラムによる選択の変更
+
+=== 概要
+
+`ActiveSelection` プロパティを使用して、プログラムによってシートの現在の選択を取得できます。タイプ link:{SpreadsheetLink}.spreadsheetselection_members.html[SpreadsheetSelection] のこのプロパティはセルの範囲の追加、置き換え、クリアのための多数のメソッドを公開します。
+
+=== プロパティ設定
+
+以下の表は、任意の動作とそれを管理するプロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|操作:
+
+|スプレッドシートの選択の変更
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}activeselection.html[ActiveSelection]
+|選択の変更メソッドを使用します
+
+|====
+
+[[_Ref390076643]]
+== 選択変更の通知
+
+=== 概要
+
+選択の変更が発生したときに通知を受けるには、`SelectionChanged` イベントを処理します。
+
+=== プロパティ設定
+
+以下の表は、任意の動作とそれを管理するイベントのマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このイベントの使用:|操作:
+
+|選択の変更が発生した時に通知する
+|`SelectionChanged`
+|イベント ハンドラーにアタッチします。
+
+|====
+
+[[_Ref390085478]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-undo-redo.html[元に戻す / やり直しの操作 ({SpreadsheetName})]
+|このトピックでは、コントロールを使用して元に戻す / やり直し操作を設定し実行する方法を説明します。
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+|====

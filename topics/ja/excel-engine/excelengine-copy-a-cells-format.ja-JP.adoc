@@ -1,0 +1,82 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-copy-a-cells-format",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Formatting","Getting Started","How Do I"],
+    "guid": "{71975533-A319-42D9-9687-04A1F99C0465}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7537039Z"
+}
+|metadata|
+////
+
+= セルのフォーマットのコピー ({ExcelEngineName})
+
+セルには背景色、書式文字列、フォント スタイルなどさまざまな書式を持つことができます。 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~cellformat.html[CellFormat] プロパティによって公開されている各オプションを個別に設定する代わりに、以前に書式設定したセルと同じ書式をセルに持たせる必要がある場合、CellFormat オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat~setformatting.html[SetFormatting] メソッドを呼び出してコピーする CellFormat オブジェクトを渡すことができます。これによって最初のセルから 2 番目のセルにすべての書式設定をコピーします。行、結合セル領域、または列にもこれを実行することができます。
+
+以下のコードは、2 番目の列の書式を 4 番目の列にコピーする方法を示します。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Imports Infragistics.Documents.Excel
+...
+' 2 番目の列を書式設定します
+worksheet1.Columns(1).CellFormat.Fill = _
+    CellFill.CreateSolidFill(pick:[wpf="System.Windows.Media.Colors."]pick:[xamarin="Infragistics.Core.Graphics.Colors."]Green)
+worksheet1.Columns(1).CellFormat.Font.Bold = ExcelDefaultableBoolean.True
+' 2 番目の列の書式を 4 番目の列にコピーします
+worksheet1.Columns(3).CellFormat.SetFormatting(worksheet1.Columns(1).CellFormat)
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+using Infragistics.Documents.Excel;
+...
+// 2 番目の列を書式設定します
+worksheet1.Columns[1].CellFormat.Fill =
+    CellFill.CreateSolidFill(pick:[wpf="System.Windows.Media.Colors."]pick:[xamarin="Infragistics.Core.Graphics.Colors."]Green);
+worksheet1.Columns[1].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+    // 2 番目の列の書式を 4 番目の列にコピーします
+worksheet1.Columns[3].CellFormat.SetFormatting(worksheet1.Columns[1].CellFormat);
+----
+
+== 関連トピック
+
+link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+
+link:excelengine-creating-a-workbook.html[ワークブックを作成]
+
+link:excelengine-load-an-excel-file.html[Excel ファイルのロード]
+
+link:excelengine-save-a-workbook.html[ワークブックの保存]
+
+link:excelengine-copy-a-cells-format.html[セルのフォーマットのコピー]
+
+link:excelengine-reference-cells-and-regions.html[セルと領域を参照]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-merge-cells.html[セルの結合]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-merging-cells.html[セルの結合]
+endif::wpf,xamarin[]
+
+link:excelengine-add-a-formula-to-a-cell.html[数式をセルに追加]
+
+link:excelengine-add-a-comment-to-a-cell.html[コメントをセルに追加]
+
+link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集を無効にする]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-freeze-rows-and-columns.html[行と列をフリーズ]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-freeze-and-split-panes.html[行と列をフリーズ ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-set-excel-document-properties.html[Excel ドキュメント プロパティの設定]

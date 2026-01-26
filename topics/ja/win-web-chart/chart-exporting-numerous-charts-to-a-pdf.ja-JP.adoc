@@ -1,0 +1,261 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-exporting-numerous-charts-to-a-pdf",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{B158C7DA-77EA-47D6-8CFF-E2C77A28D9A8}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 多数のチャートをひとつの PDF にエクスポート
+
+多数のチャートをひとつの Portable Document Format（PDF）ファイルにエクスポートすることは一般的なシナリオです。この詳細なガイドは以下の方法を示します。
+
+* 4 つのチャートをひとつの PDF ファイルにエクスポート
+* PDF ファイル内にチャートを配置
+
+[NOTE]
+====
+*注:* このトピックは、チャートを作成済みであることを前提としています。チャートの作成方法については、 link:chart-getting-started-with-chart.html[チャートで開始]を参照してください。
+====
+
+以下の手順を完了した後でアプリケーションを保存および実行すると、PDF は以下の画像のようになります。
+
+image::images/Exporting_Numerous_Charts_to_one_PDF_01.png[]
+
+*多数のチャートをひとつの PDF にエクスポートします:*
+
+[start=1]
+. プロジェクトに Infragistics4.Documents.Reports.v{ProductVersion} への参照を追加します。
+[start=2]
+. Load イベントを作成します。
+[start=3]
+. 新しいレポートを作成しページを追加します。
+
+*Visual Basic の場合：*
+
+----
+Dim reportPath As String = _
+    System.Environment.GetFolderPath( _
+     System.Environment.SpecialFolder.MyDocuments)
+UltraChart1.Size = New Size(400, 300) 
+Dim report As New Report()
+Dim page As ISectionPage = report.AddSection().AddPage()
+page.Width = 800
+page.Height = 600
+----
+
+*C# の場合：*
+
+----
+stringreportPath =
+  System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+ultraChart1.Size =  new Size(400, 300);
+Report report = new Report();
+ISectionPage page = report.AddSection().AddPage();
+page.Width = 800;
+page.Height = 600;
+----
+
+[start=4]
+. 最初のチャートを作成します。chartType を ColumnChart に設定し、データの配列にバインドします。
+
+*Visual Basic の場合：*
+
+----
+UltraChart1.ChartType = ChartType.ColumnChart
+UltraChart1.Data.DataSource = New Integer() {1, 2, 3, 4, 5, 6}
+UltraChart1.Data.DataBind()
+----
+
+*C# の場合：*
+
+----
+ultraChart1.ChartType = ChartType.ColumnChart;
+ultraChart1.Data.DataSource = new int[] { 1, 2, 3, 4, 5, 6 };
+ultraChart1.Data.DataBind();
+----
+
+[start=5]
+. 新しいキャンバスを作成して、柱状グラフをキャンバス グラフィックスに描画します。
+
+*Visual Basic の場合：*
+
+----
+Dim canvas As ICanvas = page.AddCanvas(0, 0)
+canvas.Width = New FixedWidth(400)
+canvas.Height = New FixedHeight(300)
+Dim g As Graphics = canvas.CreateGraphics()
+UltraChart1.RenderPdfFriendlyGraphics(g)
+----
+
+*C# の場合：*
+
+----
+ICanvas canvas = page.AddCanvas(0, 0);
+canvas.Width = new FixedWidth(400);
+canvas.Height = new FixedHeight(300);
+Graphics g = canvas.CreateGraphics();
+ultraChart1.RenderPdfFriendlyGraphics(g);
+----
+
+[start=6]
+. 2 つ目のチャートを作成します。chartType を PieChart に設定し、データの配列にバインドします。
+
+*Visual Basic の場合：*
+
+----
+UltraChart1.ChartType = ChartType.PieChart
+UltraChart1.Data.DataSource = New Integer() {1, 2, 3, 4, 5, 6}
+UltraChart1.Data.DataBind()
+----
+
+*C# の場合：*
+
+----
+ultraChart1.ChartType = ChartType.PieChart;
+ultraChart1.Data.DataSource = new int[] { 1, 2, 3, 4, 5, 6 };
+ultraChart1.Data.DataBind();
+----
+
+[start=7]
+. 
+
+別の場所にキャンバスをもうひとつ作成し、円グラフを描画します。
+
+*Visual Basic の場合：*
+
+----
+canvas = page.AddCanvas(400, 0)
+canvas.Width = New FixedWidth(400)
+canvas.Height = New FixedHeight(300)
+g = canvas.CreateGraphics()
+UltraChart1.RenderPdfFriendlyGraphics(g)
+----
+
+*C# の場合：*
+
+----
+canvas = page.AddCanvas(400, 0);
+canvas.Width = new FixedWidth(400);
+canvas.Height = new FixedHeight(300);
+g = canvas.CreateGraphics();
+ultraChart1.RenderPdfFriendlyGraphics(g);
+----
+
+[start=8]
+. 3 つ目のチャートを作成します。chartType を AreaChart に設定し、データの配列にバインドします。
+
+*Visual Basic の場合：*
+
+----
+UltraChart1.ChartType = ChartType.AreaChart
+UltraChart1.Data.DataSource = New Integer() {1, 2, 3, 4, 5, 6}
+UltraChart1.Data.SwapRowsAndColumns = True
+UltraChart1.Data.DataBind()
+----
+
+*C# の場合：*
+
+----
+ultraChart1.ChartType = ChartType.AreaChart;
+ultraChart1.Data.DataSource = new int[] { 1, 2, 3, 4, 5, 6 };
+ultraChart1.Data.SwapRowsAndColumns = true;
+ultraChart1.Data.DataBind();
+----
+
+[start=9]
+. 別の場所にキャンバスをもうひとつ作成し、エリア グラフを描画します。
+
+*Visual Basic の場合：*
+
+----
+canvas = page.AddCanvas(0, 300)
+canvas.Width = New FixedWidth(400)
+canvas.Height = New FixedHeight(300)
+g = canvas.CreateGraphics()
+UltraChart1.RenderPdfFriendlyGraphics(g)
+----
+
+*C# の場合：*
+
+----
+canvas = page.AddCanvas(0, 300);
+canvas.Width = new FixedWidth(400);
+canvas.Height = new FixedHeight(300);
+g = canvas.CreateGraphics();
+ultraChart1.RenderPdfFriendlyGraphics(g);
+----
+
+[start=10]
+. 4 つ目のチャートを作成します。chartType を GanttChart に設定し、データのデモ テーブルにバインドします。
+
+*Visual Basic の場合：*
+
+----
+UltraChart1.ChartType = ChartType.GanttChart
+UltraChart1.Data.SwapRowsAndColumns = False
+UltraChart1.Data.DataSource = Infragistics.UltraChart.Data.DemoTable.Table(4)
+UltraChart1.Data.DataBind()
+----
+
+*C# の場合：*
+
+----
+ultraChart1.ChartType = ChartType.GanttChart;
+ultraChart1.Data.SwapRowsAndColumns = false;
+ultraChart1.Data.DataSource = Infragistics.UltraChart.Data.DemoTable.Table(4);
+ultraChart1.Data.DataBind();
+----
+
+[start=11]
+. 別の場所にキャンバスをもうひとつ作成し、ガント チャートを描画します。
+
+*Visual Basic の場合：*
+
+----
+canvas = page.AddCanvas(400, 300)
+canvas.Width = New FixedWidth(400)
+canvas.Height = New FixedHeight(300)
+g = canvas.CreateGraphics()
+UltraChart1.RenderPdfFriendlyGraphics(g)
+----
+
+*C# の場合：*
+
+----
+canvas = page.AddCanvas(400, 300);
+canvas.Width = new FixedWidth(400);
+canvas.Height = new FixedHeight(300);
+g = canvas.CreateGraphics();
+ultraChart1.RenderPdfFriendlyGraphics(g);
+----
+
+[start=12]
+. レポートを発行します。
+
+*Visual Basic の場合：*
+
+----
+report.Publish(reportPath + "\Report.pdf", FileFormat.PDF)
+----
+
+*C# の場合：*
+
+----
+report.Publish(reportPath + "\\Report.pdf", FileFormat.PDF);
+----
+
+[start=13]
+. アプリケーションを保存して実行します。
+
+== 関連トピック
+
+link:chart-export-to-pdf.html[PDF にエクスポート]
+
+link:chart-exporting-to-pdf.html[PDF にエクスポート]

@@ -1,0 +1,112 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-rotator",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{26019034-4A5F-4047-812A-23E9F75665DB}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 回転器
+
+Rotator エレメントは、コンテンツを時計回りに 90 度または反時計回りに 90 度のいずれかに回転します。コンテンツは、デフォルトで反時計回りに回転されますが、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.irotator.html[Backward]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.irotator.html[Backward]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.irotator.html[Backward]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.irotator.html[Backward]"]  プロパティを True に設定することによって、コンテンツを時計回りに回転することができます。コンテンツを 90 度回転することだけが必要な場合には、Rotator エレメントを使用してください。コンテンツを 45 度またはその他の任意の角度回転する必要がある場合には、Site エレメントを使用する必要があります。Site エレメントの詳細は、 link:documentengine-site.html[「サイト」]を参照してください。
+
+右側の画像では、Rotator エレメント内に 2 つの Text エレメントがあります。最初の Rotator エレメントは、Backward プロパティを True に設定することによって、テキストを時計回りに 90 度回転します。テキストが左揃えだったために、Stretcher エレメントも必要でした。2 番目の Rotator エレメントは最初のエレメントと正反対です。
+
+image::images/Rotator.png[]
+
+'''
+
+以下のコードは、上記のスクリーンショットと同じようにレポートにページを作成します。
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+.
+.
+.
+Dim string1 As String = "Lorem ipsum..."
+' Rotator エレメントを定義してセクションに追加します。
+Dim rotator1 As Infragistics.Documents.Reports.Reports.Report.IRotator = section1.AddRotator()
+' Text エレメントを定義してローテータに追加します。
+' コンテンツを Text エレメントに追加します。'string1' を
+' テキストで置き換えることができます。
+Dim rotatorText1 As Infragistics.Documents.Reports.Reports.Report.Text.IText = rotator1.AddText()
+rotatorText1.AddContent(string1)
+' ローテータがより見やすくなるように、標準的なプロパティを
+' 設定します。Backward プロパティは、コンテンツを 180 度
+' ひっくり返します。AddStretcher メソッドはコンテンツをコンテンツ領域
+' の下部（90 度回転されるので右側）に
+' 引き伸ばします。
+rotator1.Backward = True
+rotator1.Background = New Background(Brushes.LightSteelBlue)
+rotator1.Height = New RelativeHeight(50)
+rotator1.Paddings.All = 10
+rotator1.Margins.All = 5
+rotator1.AddStretcher()
+' 上記と同じようにローテータをもうひとつ定義します。今度は、テキストは
+' 反対方向に回転されて、コンテンツ
+' 領域の上部（-90 度回転されるため左側）
+' になります。
+Dim rotator2 As Infragistics.Documents.Reports.Reports.Report.IRotator = section1.AddRotator()
+Dim rotatorText2 As Infragistics.Documents.Reports.Reports.Report.Text.IText = rotator2.AddText()
+rotatorText2.AddContent(string1)
+rotator2.Backward = False
+rotator2.Background = New Background(Brushes.LightSteelBlue)
+rotator2.Height = New RelativeHeight(100)
+rotator2.Paddings.All = 10
+rotator2.Margins.All = 5
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+.
+.
+.
+string string1 = "Lorem ipsum...";
+// Rotator エレメントを定義してセクションに追加します。
+Infragistics.Documents.Reports.Reports.Report.IRotator rotator1 = section1.AddRotator();
+// Text エレメントを定義してローテータに追加します。
+// コンテンツを Text エレメントに追加します。'string1' を
+// テキストで置き換えることができます。
+Infragistics.Documents.Reports.Reports.Report.Text.IText rotatorText1 = rotator1.AddText();
+rotatorText1.AddContent(string1);
+// ローテータがより見やすくなるように、標準的なプロパティを
+// 設定します。Backward プロパティは、コンテンツを 180 度
+// ひっくり返します。AddStretcher メソッドはコンテンツをコンテンツ領域
+// の下部（90 度回転されるので右側）に
+// 引き伸ばします。
+rotator1.Backward = true;
+rotator1.Background = new Background(Brushes.LightSteelBlue);
+rotator1.Height = new RelativeHeight(50);
+rotator1.Paddings.All = 10;
+rotator1.Margins.All = 5;
+rotator1.AddStretcher();
+// 上記と同じようにローテータをもうひとつ定義します。今度は、テキストは
+// 反対方向に回転されて、コンテンツ
+// 領域の上部（-90 度回転されるため左側）
+// になります。
+Infragistics.Documents.Reports.Reports.Report.IRotator rotator2 = section1.AddRotator();
+Infragistics.Documents.Reports.Reports.Report.Text.IText rotatorText2 = rotator2.AddText();
+rotatorText2.AddContent(string1);
+rotator2.Backward = false;
+rotator2.Background = new Background(Brushes.LightSteelBlue);
+rotator2.Height = new RelativeHeight(100);
+rotator2.Paddings.All = 10;
+rotator2.Margins.All = 5;
+----

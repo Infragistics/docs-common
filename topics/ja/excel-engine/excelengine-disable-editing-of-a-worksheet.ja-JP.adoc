@@ -1,0 +1,60 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-disable-editing-of-a-worksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Editing","How Do I"],
+    "guid": "{065D8BB2-5B34-425A-B1A3-712D386B634D}",  
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7587049Z"
+}
+|metadata|
+////
+
+= ワークシートの編集の無効化 ({ExcelEngineName})
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~protect.html[Protect] メソッドを使用してワークシートを保護することにより、ワークシートの編集を禁止できます。このメソッドには多数の `bool` 引数があり、そのうちの 1 つがセル編集を禁止します。ワークシートが保護されている場合、`Protect` メソッドに対する以後の呼び出しはすべて無視されます。保護パラメーターを変更するには、 link:{ExcelEngineApiLink}infragistics.documents.excel.sheet~unprotect.html[Unprotect] メソッドを使用してワークシートの保護を解除し、引数に新しい保護設定を指定した `Protect` メソッドを再度呼び出す必要があります。 link:{ExcelEngineApiLink}infragistics.documents.excel.sheet~isprotected.html[IsProtected] プロパティを使用してワークシートの保護をチェックできます。
+
+.注:
+[NOTE]
+====
+{ExcelEngineName} のオブジェクト モデルから保護が強制されることはありません。これらの保護設定を履行し、対応する操作の実行をユーザーに許可または制限することは、このオブジェクト モデルを表示する UI の責任です。
+====
+
+また、 link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbook] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~protect.html[Protect] メソッドを使用して、ワークシートの追加、名前変更、順序変更、削除のような構造的変更からワークブックを保護できます。
+
+保護が設定されると、Worksheet オブジェクトの保護をこれらのオブジェクトでオーバーライドするために、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~cellformat.html[CellFormat] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat~locked.html[Locked] プロパティを各セル、行、マージされたセル領域、または列で設定することができます。たとえば、ひとつの列のセルを除き、ワークシートのすべてのセルを読み取り専用にする必要がある場合、特定の link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcolumn.html[WorksheetColumn] オブジェクトで CellFormat プロパティの link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat~locked.html[Locked] を False に設定します。これにより、ユーザーにその列内のセルの編集を許可し、ワークシートの他のセルの編集は禁止できます。
+
+以下のコードは、ひとつの列を編集可能にし、その他のすべてのセルをワークシートで読み取り専用とする方法を示します。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Imports Infragistics.Documents.Excel
+...
+worksheet1.Protect(DirectCast(Nothing, System.Nullable(Of Boolean)))
+worksheet1.Columns(1).CellFormat.Locked = ExcelDefaultableBoolean.False
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+using Infragistics.Documents.Excel;
+...
+worksheet1.Protect((bool)null);
+worksheet1.Columns[1].CellFormat.Locked = ExcelDefaultableBoolean.False;
+----
+
+== 関連トピック
+
+link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+
+link:excelengine-freeze-and-split-panes.html[ペインのフリーズおよび分割 ({ExcelEngineName})]
+
+link:excelengine-set-excel-document-properties.html[ワークブックのプロパティの設定 ({ExcelEngineName})]
+
+link:excelengine-workbook-protection.html[ワークブックの保護 ({ExcelEngineName})]
+
+link:excelengine-worksheet-protection.html[ワークシートの保護 ({ExcelEngineName})]

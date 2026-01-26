@@ -1,0 +1,102 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-importing-shapes-from-excel",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["How Do I"],
+    "guid": "034a215d-da9c-4c0a-a360-641ad028a192",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7857103Z"
+}
+|metadata|
+////
+
+= Excel から形状をインポート ({ExcelEngineName})
+
+== トピックの概要
+
+== 使用目的
+
+このトピックでは、Excel ファイルからの形状を列挙する方法を示します。
+
+== 必要な背景
+
+まず以下のトピックを読む必要があります。
+
+* link:excelengine-load-an-excel-file.html[Excel ファイルのロード ({ExcelEngineName})]
+* link:excelengine-adding-a-shape-to-an-excel-worksheet.html[形状を Excel ワークシートに追加 ({ExcelEngineName})]
+
+== コントロールの構成の概要
+
+== コントロールの構成チャート
+
+次の表は、ユーザーが制御できる {ExcelEngineName} エンジンの動作をまとめたものです。
+
+[options="header", cols="a,a,a"]
+|====
+|ユーザーが制御可能な動作|構成の詳細|構成プロパティ
+
+|Excel ファイルからの形状の列挙
+|すべての形状インスタンスをワークシートから読み込み
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~shapes.html[Worksheet.Shapes]
+
+|====
+
+== Excel ファイルからの形状の列挙
+
+== 例の詳細
+
+まずファイルを link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbook] インスタンスにロードすることによって、ワークシート内の既存の形状を列挙することができます。その後、 link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~worksheets.html[Workbook.Worksheets コレクション]を使用して link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] インスタンスを取得し、その link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~shapes.html[Shapes プロパティ]を列挙します。このプロパティは link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapecollection.html[WorksheetShapeCollection] であり、これを使用して Worksheet の形状を列挙または修正することができます。
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim book As Workbook = Workbook.Load("..\..\test.xlsx")
+For Each sheet As Worksheet In book.Worksheets
+    For Each shape As WorksheetShape In sheet.Shapes
+    Dim bounds As Rect = shape.GetBoundsInTwips()
+        Console.WriteLine(
+            [String].Format("ClassName:{0} – Bounds:{1},{2},{3},{4}",
+                shape.[GetType](),
+                bounds.X,
+                bounds.Y,
+                bounds.Width,
+                bounds.Height))
+    Next
+Next
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+ifdef::wpf[]
+Workbook book = Workbook.Load(@"..\..\test.xlsx");
+endif::wpf[]
+ifdef::xamarin[]
+Workbook book = Workbook.Load(inputStream);
+endif::xamarin[]
+foreach (Worksheet sheet in book.Worksheets)
+{
+    foreach (WorksheetShape shape in sheet.Shapes)
+    {
+        pick:[wpf="Rect"]pick:[xamarin="Rect"] bounds = shape.GetBoundsInTwips();
+        pick:[wpf="Console.WriteLine("]pick:[xamarin="System.Diagnostics.Debug.WriteLine("]
+            String.Format("ClassName:{0} – Bounds:{1},{2},{3},{4}",
+                shape.GetType(),
+                bounds.X,
+                bounds.Y,
+                bounds.Width,
+                bounds.Height));
+    }
+}
+----
+
+== 関連トピック
+
+以下は、その他の役立つトピックです。
+
+* link:excelengine-adding-a-shape-to-an-excel-worksheet.html[形状を Excel ワークシートに追加 ({ExcelEngineName})]
+* link:excelengine-customizing-excel-shapes.html[Excel の形状のカスタマイズ ({ExcelEngineName})]
+* link:excelengine-grouping-excel-shapes.html[Excel の形状のグループ化 ({ExcelEngineName})]

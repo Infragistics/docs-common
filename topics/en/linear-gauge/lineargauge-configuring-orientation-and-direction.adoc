@@ -1,0 +1,659 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-configuring-orientation-and-direction",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Charting","How Do I","Layouts"],
+    "guid": "95412c4b-28ce-4001-b1e5-8c97e5ff4beb",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0488874Z"
+}
+|metadata|
+////
+
+= Configuring Orientation and Direction ({LinearGaugeName})
+
+
+
+=== Purpose
+
+This topic explains how to configure the _{LinearGaugeName}_™ control with vertical scale and/or inverted scale direction.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:lineargauge-overview.html[ _{LinearGaugeName}_ Overview]
+|This topic provides conceptual information about the _{LinearGaugeName}_ control including its main features, minimum requirements, and user functionality.
+
+ifdef::xaml[]
+| link:lineargauge-adding.html[Adding _{LinearGaugeName}_ ]
+|This topic explains how to add the _{LinearGaugeName}_ control to a {PlatformName} application.
+endif::xaml[]
+
+ifdef::android[]
+| pick:[android=" link:android-adding-linear-gauge.html[Adding {LinearGaugeName}]"] 
+|This topic explains how to add the _{LinearGaugeName}_ control to a {PlatformName} application.
+endif::android[]
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+*  *<<Introduction,Introduction>>*
+
+** <<ScaleConfigSummary,Scale orientation and direction configuration summary>>
+** <<ScaleConfigSummaryChart,Scale orientation and direction configuration summary chart>>
+
+*  *<<ConfigScaleOrientation,Configuring the Scale Orientation>>*
+
+** <<OrientationOverview,Overview>>
+** <<OrientationPropertySettings,Property settings>>
+** <<OrientationExample,Example>>
+
+*  *<<ConfigScaleDirection,Configuring the Scale Direction (Scale Inversion)>>*
+
+** <<DirectionOverview,Overview>>
+** <<DirectionPropertySettings,Property settings>>
+** <<DirectionExampleHorizontal,Example – inverted direction at horizontal orientation>>
+** <<DirectionExampleVertical,Example – inverted direction at vertical orientation>>
+
+* <<RelatedContent, Related Content >>
+ 
+
+[[Introduction]]
+== Introduction
+
+[[ScaleConfigSummary]]
+
+=== Scale orientation and direction configuration summary
+
+The _{LinearGaugeName}_ control supports vertical and horizontal orientations of the scale. By default, the scale orientation is horizontal. In vertical orientation, the scale values increase in upward direction and the numbering labels are positioned on its left.
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_1_17_1.png[]
+
+It is defined by the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation] property of the control.
+
+The scale direction is the direction in which the values of the scale increase. It can be standard (left-to-right at horizontal orientation and bottom-to-top at vertical orientation) or inverted (right-to-left at horizontal orientation and top-to-bottom at vertical orientation).
+
+[options="header", cols="a,a"]
+|====
+|Inverted direction at horizontal orientation|Inverted direction at vertical orientation
+
+|image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_2_17_1.png[]
+|image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_3_17_1.png[]
+
+|====
+
+Scale direction is defined by the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}isscaleinverted.html[IsScaleInverted] property of the control. The default orientation is standard.
+
+[[ScaleConfigSummaryChart]]
+
+=== Scale orientation and direction configuration summary chart
+
+The following table explains briefly the configurable aspects of the _{LinearGaugeName}_ ’s control orientation and scale inversion and maps them to properties that configure them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspect|Details|Properties
+
+|[[_Hlk356484826]] 
+
+Scale orientation
+|Horizontal or vertical orientation of the linear gauge scale inside the control.
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation]
+
+|Scale direction
+|Direction of the linear gauge, standard or inverted.
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}isscaleinverted.html[IsScaleInverted]
+
+|====
+
+[[ConfigScaleOrientation]]
+== Configuring the Scale Orientation
+
+[[OrientationOverview]]
+
+=== Overview
+
+The orientation (horizontal or vertical) of the linear gauge is specified by the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation] property of the control.
+
+[[OrientationPropertySettings]]
+
+=== Property settings
+
+The following table maps the desired configuration to its respective property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|[[_Hlk362980085]] 
+
+Specify horizontal orientation
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation]
+| _ScaleOrientation.Horizontal_ 
+
+|Specify vertical orientation
+|`Orientation`
+| _ScaleOrientation.Vertical_ 
+
+|====
+
+[[OrientationExample]]
+
+=== Example
+
+The screenshot below demonstrates how the _{LinearGaugeName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation]
+| _“Vertical”_ 
+
+|====
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_1_17_1.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName}
+    Orientation="Vertical" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+linearGauge.setOrientation(LinearScaleOrientation.VERTICAL);
+----
+
+endif::android[]
+
+[[ConfigScaleDirection]]
+== Configuring the Scale Direction (Scale Inversion)
+
+[[DirectionOverview]]
+
+=== Overview
+
+With horizontal orientation, the standard (default) direction of the scale is left-to-right, which means that the scale begins at the left edge of the link:lineargauge-overview.html#_GraphAreaLink[Graph area] and ends at its right edge (the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scalestartextent.html[ScaleStartExtent] indicates an outset from the left edge of the Graph area and the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scaleendextent.html[ScaleEndExtent] – the distance from the left edge of the Graph area to the end of the scale):
+
+image::images/xamLinearGauge_Overview_5.png[]
+
+When the direction is inverted, the scale begins at the right edge of the Graph area and ends at its left edge (the `ScaleStartExtent` indicates an outset from the right edge of the Graph area and the `ScaleEndExtent` – the distance from the right edge of the Graph area to the end of the scale):
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_4.png[]
+
+With vertical orientation, the standard (default) direction of the scale is bottom-to-top, which means that the scale begins at the bottom of the Graph area and ends at its top (the `ScaleStartExtent` indicates an outset from the bottom edge of the Graph area and the `ScaleEndExtent` – the distance from the bottom edge of the Graph area to the end of the scale):
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_5.png[]
+
+When the direction is inverted, the scale begins at the top edge of the Graph area and ends at its bottom edge (the `ScaleStartExtent` indicates an outset from the top edge of the Graph area and the `ScaleEndExtent` – the distance from the top edge of the Graph area to the end of the scale):
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_6.png[]
+
+[[DirectionPropertySettings]]
+
+=== Property settings
+
+The following table maps the desired configuration to its respective property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Configure standard direction
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}isscaleinverted.html[IsScaleInverted]
+| _“false”_ 
+
+|Configure inverted direction
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}isscaleinverted.html[IsScaleInverted]
+| _“true”_ 
+
+|====
+
+[[DirectionExampleHorizontal]]
+
+=== Example – inverted direction at horizontal orientation
+
+The screenshot below demonstrates how the _{LinearGaugeName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}isscaleinverted.html[IsScaleInverted]
+| _“true”_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation]
+| _“Horizontal”_ 
+
+|====
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_2_17_1.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName}
+    Orientation="Horizontal"
+    IsScaleInverted="True" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*In Visual Basic:*
+
+[source,vb2]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal
+linearGauge.IsScaleInverted = True
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+[source,vb2]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal
+linearGauge.IsScaleInverted = True
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb2]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal
+linearGauge.IsScaleInverted = True
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In Visual Basic:*
+
+[source,vb2]
+----
+linearGauge.Orientation = LinearScaleOrientation.Horizontal
+linearGauge.IsScaleInverted = True
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+linearGauge.setOrientation(LinearScaleOrientation.HORIZONTAL);
+linearGauge.setIsScaleInverted(Boolean.TRUE);
+----
+
+endif::android[]
+
+[[DirectionExampleVertical]]
+
+=== Example – inverted direction at vertical orientation
+
+The screenshot below demonstrates how the _{LinearGaugeName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}isscaleinverted.html[IsScaleInverted]
+| _“true”_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation]
+| _“Vertical”_ 
+
+|====
+
+image::images/xamLinearGauge_Configuring_the_Orientation_and_Direction_3_17_1.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName}
+    Orientation="Vertical" 
+    IsScaleInverted="True" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.IsScaleInverted = true;
+----
+
+endif::xamarin[]
+
+
+ifdef::sl[]
+
+*In Visual Basic:*
+
+[source,vb3]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+linearGauge.IsScaleInverted = True
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+[source,vb3]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+linearGauge.IsScaleInverted = True
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb3]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+linearGauge.IsScaleInverted = True
+----
+
+endif::win-forms[]
+
+
+ifdef::win-universal[]
+
+*In Visual Basic:*
+
+[source,vb3]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical
+linearGauge.IsScaleInverted = True
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js2]
+----
+linearGauge.setOrientation(LinearScaleOrientation.VERTICAL);
+linearGauge.setIsScaleInverted(Boolean.TRUE);
+----
+
+endif::android[]
+
+[[RelatedContent]]
+== Related Content
+
+[[Topics]]
+
+
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:lineargauge-configuring-the-visual-elements.html[Configuring the Visual Elements ( _{LinearGaugeName}_ )]
+|This is a group of topics covering in detail the visual elements of the _{LinearGaugeName}_ control (like the scale elements, performance bar, comparative marker and ranges, etc.) and explaining, with code examples, how to configure them.
+
+|====

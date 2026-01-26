@@ -1,0 +1,92 @@
+﻿= Using Percent Change Y Axis
+
+This topic demonstrates, with code examples, how to use the link:{DataChartLink}.percentchangeyaxis.html[PercentChangeYAxis] in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] control. This axis allows the ability to show percent values as opposed to the actual bound values to the chart.
+
+=== Required Background
+
+The following topics are prerequisites to understanding this topic:
+
+|====
+|Topic|Purpose
+
+|link:datachart-axes.html[Chart Axes]
+|This topic provides conceptual information about link:{DataChartLink}.Axis.html[Axis] objects used in the `{DataChartName}` control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview, Overview>>
+* <<CodeExample, Code Example>>
+* <<Related, Related Content>>
+
+[[Overview]]
+=== Overview
+
+The PercentChangeYAxis may be used with the following series types:
+
+* link:datachart-category-series-overview.html[Category Series]
+* link:datachart-range-series-overview.html[Range Series]
+* link:datachart-financial-indicators-overview.html[Financial Indicators]
+* link:datachart-series-financial-price-series-overview.html[Financial Series]
+* link:datachart-scatter-series-overview.html[Scatter Series]
+
+.Note:
+[NOTE]
+====
+link:datachart-stacked-series-overview.html[StackedSeries] are not currently supported by the `PercentChangeYAxis`.
+====
+
+The PercentChangeYAxis works such that it takes the first data point in your series as a reference value. Each value after the first value is scaled according to what percent increase or decrease it is compared to the reference value.
+
+For CategorySeries, this reference value corresponds to the `ValueMemberPath` for those series.
+
+For ScatterSeries, the reference value will correspond to the `YMemberPath` for those series. 
+
+For RangeSeries, the reference value will correspond to the first low value.
+
+For FinancialSeries and Financial Indicators, the reference value will correspond to the first "Open" value.
+
+[[CodeExample]]
+=== Code Example
+
+The following code example demonstrates usage of the PercentChangeYAxis element in the {DataChartName} control.
+
+ifdef::wpf[]
+**In XAML:**
+[source, xaml]
+----
+<ig:{DataChartName} x:Name="chart">
+    <ig:{DataChartName}.Axes>
+        <ig:PercentChangeYAxis x:Name="yAxis"/>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+**In C#:**
+[source, csharp]
+----
+var dataChart = new {DataChartName}();
+var percentYAxis = new PercentChangeYAxis();
+dataChart.Axes.Add(percentYAxis);
+----
+
+**In VB.NET:**
+[source, vb]
+----
+Dim dataChart As {DataChartName} = New {DataChartName}()
+Dim percentYAxis As PercentChangeYAxis = New PercentChangeYAxis()
+dataChart.Axes.Add(percentYAxis)
+----
+
+Below is a screenshot demonstrating the usage of the PercentChangeYAxis with a FinancialPriceSeries.
+
+image:images/percent_change_y_axis.png[]
+
+[[Related]]
+=== Related Content
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-multiple-axes.html[Using Multiple Axes]

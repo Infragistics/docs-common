@@ -1,0 +1,96 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","Getting Started","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= Configuring Axis Modes
+
+The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control allows you to choose how the data in your charts is represented along the x-axis and y-axis.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<AxisModes,Axis Modes>> 
+* <<CodeSnippet, Code Snippet>>
+* <<RelatedContent,Related Content>>
+
+[[AxisModes]]
+=== Axis Modes
+
+In the {FinancialChartName} control, you can change the modes of the axes with these properties:
+
+[options="header", cols="a,a,a,a"]
+|====
+|Property Name
+|Property Type 
+2+|Description
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xAxisMode{HtmlApiExtension}[pick:[wpf="XAxisMode"]pick:[jquery="xAxisMode"]]
+|pick:[wpf="`FinancialChartXAxisMode`"]pick:[jquery="`enumeration`"]
+2+|Allows you to choose between `Time` and `Ordinal` modes for the x-axis. Time mode will render space along the x-axis for gaps in data (e.g. no stock trading on weekends or holidays). Ordinal mode will collapse date areas where data does not exist.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMode{HtmlApiExtension}[pick:[wpf="YAxisMode"] pick:[jquery="yAxisMode"]]
+|pick:[wpf="`FinancialChartYAxisMode`"] pick:[jquery="`enumeration`"]
+2+|Allows you to choose between `Numeric` and `PercentChange` modes for the y-axis. Numeric mode will be charted with the exact value of the data. PercentChange mode will display the data as percentage change relative to the first data point provided.
+
+|====
+
+[[CodeSnippet]]
+=== Code Snippet
+
+The following code example shows how to change the pick:[wpf="XAxisMode"]pick:[jquery="xAxisMode"] and pick:[wpf="YAxisMode"]pick:[jquery="yAxisMode"]:
+
+ifdef::jquery[]
+*In JavaScript:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    xAxisMode: "ordinal",
+    yAxisMode: "percentChange"
+});
+----
+endif::jquery[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{FinancialChartName} x:Name="chart1"  
+    XAxisMode="Ordinal"
+    YAxisMode="PercentChange">
+</ig:{FinancialChartName}>
+----
+
+endif::wpf[]
+
+ifdef::wpf[]
+
+*In C#:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.XAxisMode = FinancialChartXAxisMode.Ordinal;
+chart.YAxisMode = FinancialChartYAxisMode.PercentChange;
+----
+
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.XAxisMode = FinancialChartXAxisMode.Ordinal
+chart.YAxisMode = FinancialChartYAxisMode.PercentChange
+----
+endif::wpf[]
+
+
+[[RelatedContent]]
+== Related Content
+
+* link:financial-chart-configuring-axis-labels.html[Configuring Axis Labels]

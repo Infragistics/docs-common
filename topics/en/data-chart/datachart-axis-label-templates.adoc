@@ -1,0 +1,102 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-axis-label-templates",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I","Templating"],
+    "guid": "c32b5e51-5bf7-40cd-861b-38a5c2f83208",
+    "buildFlags": ["wpf","win-universal"],
+    "createdOn": "2014-06-05T19:39:00.5953563Z"
+}
+|metadata|
+////
+
+= Configuring Axis Label Templates
+
+In the {DataChartName}™ control, you can change the appearance of the axis label by providing a custom DataTemplate and binding it to the Axis object’s link:{DataChartLink}.axis{ApiProp}label.html[Label] property.
+
+The following sample code shows how to use a custom DataTemplate for link:{DataChartLink}.categoryxaxis.html[CategoryXAxis] and link:{DataChartLink}.numericyaxis.html[NumericYAxis] in the {DataChartName}™ control.
+
+ifdef::sl,wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="xmDataChart">
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xmDateXAxis"
+                          ItemsSource="{Binding}">
+            <ig:CategoryXAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideBottom"
+                                      Visibility="Visible" />
+            </ig:CategoryXAxis.LabelSettings>
+            <ig:CategoryXAxis.Label>
+                <DataTemplate>
+                    <Border Margin="5"
+                            Background="#FF00B3F1"
+                            RenderTransformOrigin="0,0">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="20" />
+                                <TranslateTransform  X="30"/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <TextBlock Foreground="White"
+                                   Margin="2"
+                                   Padding="1"
+                                   Width="68"
+                                   FontSize="14.667"
+                                   Text="{Binding Item.Date}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center">
+                        </TextBlock>
+                    </Border>
+                </DataTemplate>
+            </ig:CategoryXAxis.Label>
+        </ig:CategoryXAxis>
+        <ig:NumericYAxis x:Name="xmPriceYAxis">
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideLeft"
+                                      Extent="80"
+                                      Visibility="Visible" />
+            </ig:NumericYAxis.LabelSettings>
+            <ig:NumericYAxis.Label>
+                <DataTemplate>
+                    <Border Margin="5"
+                            HorizontalAlignment="Right"
+                            Background="#FF484848">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="0" />
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <TextBlock Foreground="White"
+                                       Margin="2"
+                                       Padding="1"
+                                       Width="50"
+                                       Text="{Binding Item}"
+                                       FontSize="14.667"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center">
+                            </TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ig:NumericYAxis.Label>
+            </ig:NumericYAxis>
+        </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+
+endif::sl,wpf,win-universal[]
+
+The following images show how the {DataChartName} control might look like with a custom DataTemplate for CategoryXAxis and NumericYAxis.
+
+ifdef::sl,wpf,win-phone,win-universal[]
+image::images/xamWebDataChart_Axes_Axis_Label_Templates_01.png[]
+endif::sl,wpf,win-phone,win-universal[]
+
+== Related Content:
+
+* link:datachart-axis-label-settings.html[Configuring Axis Label Settings]
+* link:datachart-axis-label-format.html[Configuring Axis Label Format]

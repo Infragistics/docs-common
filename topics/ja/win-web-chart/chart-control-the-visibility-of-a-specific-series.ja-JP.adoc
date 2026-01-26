@@ -1,0 +1,38 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-control-the-visibility-of-a-specific-series",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D87D1390-A4AF-42C9-B7D7-AC324321291D}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 特定のシリーズの表示をコントロール
+
+2006 Volume 3 リリースから開始しましたが、特定のシリーズの pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~visible.html[Visible]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~visible.html[Visible]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~visible.html[Visible]"]  プロパティを切り替えるだけで、チャート（合成または非合成）で特定のシリーズを表示するか非表示にするかを選択できます。
+
+[NOTE]
+====
+*注：* Visible プロパティは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase.html[SeriesBase]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase.html[SeriesBase]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase.html[SeriesBase]"]  クラスのプロパティで、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.iseries.html[ISeries]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.iseries.html[ISeries]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.iseries.html[ISeries]"]  インタフェースのプロパティではありません。後方互換性を保証するためにこのように実装されました。したがって、コードでは、以下の例のコードで示すように、Visible プロパティにアクセスするために SeriesBase クラスにキャストすることが必要です。
+====
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Data.Series
+...
+CType(Me.ultraChart1.Series(0), SeriesBase).Visible = False
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Data.Series;
+...
+((SeriesBase)this.ultraChart1.Series[0]).Visible = false;
+----

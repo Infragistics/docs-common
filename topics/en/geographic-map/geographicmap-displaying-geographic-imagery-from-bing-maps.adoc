@@ -1,0 +1,240 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Displaying Geographic Imagery from Bing Maps
+
+[NOTE]
+As of June 30, 2025 all Microsoft Bing Maps for Enterprise Basic (Free) accounts will be retired. If you're still using an unpaid Basic Account and key, now is the time to act to avoid service disruptions. Bing Maps for Enterprise license holders can continue to use Bing Maps in their applications until June 30,2028.
+
+For more details please visit:
+
+* link:https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025[Microsoft Bing Blogs]
+
+=== Purpose
+
+This topic provides information on displaying geographic imagery from Bing Maps in the background content of the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[Adding {GeoMapName} to a Page] 
+
+|This topic provides information on how to add the _{GeoMapName}_ control to an application page.
+
+| link:geographicmap-visual-elements-of-geographicmap.html[Visual Elements of {GeoMapName}]
+|This topic provides information about the layout of the visual elements in the  control
+
+| link:geographicmap-using-geographic-imagery.html[Using Geographic Imagery] 
+
+|This topic provides an overview of rendering geographic imagery in the background content of the _{GeoMapName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320395369,Geographic Imagery from Bing Maps>>
+
+** <<_Ref320193474,Overview>>
+** <<_Ref320395376,Previews>>
+** <<_Ref320471950,Requirements>>
+** <<Example,Example>>
+
+* <<_Ref320185294,Related Content>>
+
+[[_Ref320395369]]
+== Geographic Imagery from Bing Maps
+
+[[_Ref320193474]]
+=== Overview
+
+Bing Maps is Microsoft’s® licensed geographic imagery mapping service. This geographic imagery service is accessible directly on the link:http://www.bing.com/maps[http://www.bing.com/maps] web site. The _{GeoMapName}_ control displays geographic imagery from Bing Maps in the map’s background content using the link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] class. However, by default the _{GeoMapName}_ control displays geographic imagery from the Open Street Maps in the map background content requiring you to configure the control to display Bing Maps’ geographic imagery. Prior to using Bing Maps’ geographic imagery, you must register and obtain a Bing Map API key from link:http://www.bingmapsportal.com[www.bingmapsportal.com]. You must use the Bing Maps’ API key to set the link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] object’s link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey] property.
+
+ifdef::wpf[]
+Before the 13.1 release, you had to configure a REST Service to access Bing Maps and retrieve the required titles URIs. With the release of 13.1 this functionality is now built-in to the _{GeoMapName}_ control.
+endif::wpf[]
+
+[[_Ref320395376]]
+=== Previews
+
+The following images are previews of the _{GeoMapName}_ control in supported map styles of geographic imagery from the Bing Maps service.
+
+[cols="a"]
+|====
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_2.png[] 
+
+Bing Map imagery with *Road* style
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_1.png[] 
+
+Bing Map imagery with *Aerial and Labels* style
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_3.png[] 
+
+Bing Map imagery with *Aerial* style
+
+|====
+
+[[_Ref320471950]]
+
+=== Requirements
+
+In order to use geographic imagery from Bing Maps, you must first register and obtain a Map API key from the link:http://www.bingmapsportal.com[www.bingmapsportal.com] website. You must set this Bing API key as the link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] object’s link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey] property.
+
+=== Property settings
+
+The following table summarizes important members of the link:{GeoMapLink}.bingmapsmapimagery.html[BingMapsMapImagery] class.
+
+[options="header", cols="a,a,a"]
+|====
+|*Property* *Name*|*Property* *Type*|*Description*
+
+| link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey]
+|_String_
+|Represents the property for setting an API key required for the Bing Maps imagery service. 
+
+You must obtain this key from the link:http://www.bingmapsportal.com/[http://www.bingmapsportal.com] website.
+
+| link:{GeoMapLink}.bingmapsmapimagery~bingimageryresturi.html[BingImageryRestUri]
+|_String_
+|Represents the property for setting the Bing Imagery REST URI specifying where the TilePath and SubDomains will come from. This is an optional property, and if not specified it will use the default REST URI.
+
+| link:{GeoMapLink}.bingmapsmapimagery~culturename.html[CultureName]
+|_String_
+|Represents a property for setting the culture name for the tile source.
+
+| link:{GeoMapLink}.bingmapsimagerystyle.html[ImageryStyle]
+| link:{GeoMapLink}.bingmapsimagerystyle.html[BingMapsImageryStyle]
+|Represents the property for setting the Bing Maps imagery tiles map style. This property can be set to the following link:{GeoMapLink}.bingmapsimagerystyle.html[BingMapsImageryStyle] enumeration values: 
+
+* Aerial - Specifies the Aerial map style without road or labels overlay 
+
+* AerialWithLabels - Specifies the Aerial map style with road and labels overlay 
+
+* Road - Specifies the Roads map style without Aerial overlay 
+
+| link:{GeoMapLink}.bingmapsmapimagery~isdeferredload.html[IsDeferredLoad]
+|_Boolean_
+|Represents the property that specifies whether or not the Bing Maps service should auto-initialized upon the assignment of valid property values.
+
+| link:{GeoMapLink}.bingmapsmapimagery~isinitialized.html[IsInitialized]
+|_Boolean_
+|Represents the property that is set to True occurs when geographic imagery tiles from Bing Maps service have been initialized and they are ready for rendering in the _{GeoMapName}_ control.
+
+| link:{GeoMapLink}.bingmapsmapimagery~subdomains.html[SubDomains]
+|_ObservableCollection<string>_
+|Represents an image collection of URI subdomains
+
+| link:{GeoMapLink}.bingmapsmapimagery~tilepath.html[TilePath]
+|_String_
+|Represents a property that sets the map tile image URI, this is the actual location of the Bing Maps
+
+|====
+
+=== Example
+
+The screenshot following this table illustrates how to display geographic imagery from Bing Maps in the background content of the _{GeoMapName}_ control. This is accomplished by configuring the _{GeoMapName}_ control as follows:
+
+[options="header", cols="a,a"]
+|====
+|*Property*|* Value*
+
+| pick:[wpf="link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent]"]pick:[win-forms="BackgroundContent"]
+|BingMapsMapImagery
+
+| link:{GeoMapLink}.bingmapsimagerystyle.html[ImageryStyle]
+|Road
+
+| link:{GeoMapLink}.bingmapsmapimagery~apikey.html[ApiKey]
+|Bing Map API key
+
+|====
+
+image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_2.png[]
+
+Following is the code used in implementing this example:
+
+.Note
+[NOTE]
+====
+You must replace those strings set to the _ApiKey_ property with your own Bing Map API key.
+====
+ 
+ifdef::wpf[]
+*In XAML:* 
+
+[source,xaml]
+---- 
+<ig:XamGeographicMap Name="igMap">
+   <ig:XamGeographicMap.BackgroundContent>
+      <ig:BingMapsMapImagery ImageryStyle="Road"
+                    ApiKey="API_KEY" />
+   </ig:XamGeographicMap.BackgroundContent>
+</ig:XamGeographicMap>
+---- 
+endif::wpf[]
+
+*In Visual Basic:* 
+
+[source,vb]
+---- 
+Dim igMap As {GeoMapName}
+Dim bingMaps as BingMapsMapImagery
+bingMaps.ImageryStyle = BingMapsImageryStyle.Aerial
+bingMaps.ApiKey = "API_KEY"
+ifdef::wpf[]
+igMap.BackgroundContent = bingMaps
+endif::wpf[]
+ifdef::win-forms[]
+igMap.SetImagery(bingMaps)
+endif::win-forms[]
+---- 
+
+*In C#:* 
+
+[source,csharp]
+---- 
+var igMap = new {GeoMapName}
+var bingMaps = new BingMapsMapImagery();
+bingMaps.ImageryStyle = BingMapsImageryStyle.Aerial; 
+bingMaps.ApiKey = "API_KEY";
+ifdef::wpf[]
+igMap.BackgroundContent = bingMaps;
+endif::wpf[]
+ifdef::win-forms[]
+igMap.SetImagery(bingMaps);
+endif::win-forms[]
+---- 
+ 
+
+[[_Ref320185294]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+| *Topic* | *Purpose* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[Adding {GeoMapName}]
+|This topic provides information on how to bind geographic imagery in the _{GeoMapName}_ control.
+
+| link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Displaying Geographic Imagery from Open Street Maps]
+|This topic provides information on how to display geographic imagery from Open Street Maps service in the _{GeoMapName}_ control.
+
+|====

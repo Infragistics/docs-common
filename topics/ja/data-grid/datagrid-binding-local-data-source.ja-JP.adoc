@@ -1,0 +1,274 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-binding-local-data-source",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-05T19:09:59.9912322Z"
+}
+|metadata|
+////
+
+= {DataGridName} のローカル データ ソースへのバインディング
+
+このトピックでは、link:{DataGridLink}.{DataGridName}.html[{DataGridName}] コントロールのローカル データソース バインディングの概念を分かりやすく説明します。
+ 
+== このトピックの内容
+
+このトピックには、以下のセクションがあります。
+
+* <<_Background,前提条件>>
+* <<_LocalData,ローカル データ>> 
+* <<_BindingRData,データのバインド>> 
+* <<RelatedTopics,関連トピック>>
+
+[[Background]]   
+== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datagrid-getting-started-with-grid.html[{DataGridName} を使用した作業の開始] 
+| このトピックでは、{DataGridName} コントロールをビューに追加してサンプルデータを生成するための基本的な手順を紹介します。
+|====
+
+[[_LocalData]]
+== ローカル データ
+
+この例では、各オブジェクトが Number、Name、Days、および Quarter を含むいくつかのpick:[android="フィールド"]pick:[xaml="プロパティ"]を公開する、Month オブジェクトのシンプルなコレクションを含むローカル データソースの実装を示します。このクラスは、Month オブジェクトと {DataGridName} を生成するために使用する静的メソッドを 1 つ公開します。
+
+ifdef::android[]
+*Java の場合:*
+[source, java]
+----
+package com.infragistics.samplegridapp;
+import java.util.ArrayList;
+
+public class Month 
+{
+    public Month() 
+    {
+    }
+    public String Name;
+    public String Quarter;
+    public int Number;
+    public int Days;
+    
+    public static ArrayList<Month> GenerateList()
+    {
+        String[] names = {
+            "January", "February", "March", "April", 
+            "May", "June", "July", "August", "September", 
+            "October", "November", "December"
+        }; 
+        int[] days = {
+            31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+        };
+        ArrayList<Month> items = new ArrayList<Month>();
+        
+        for (int i = 0; i < 12; i++) {
+            Month monthItem = new Month();
+            monthItem.Name = names[i];
+            monthItem.Days = days[i];
+            monthItem.Number = i+1;
+            monthItem.Quarter = "Q" + ((i/3)+1);
+            items.add(monthItem);
+        }
+        return items;
+    }
+}
+----
+endif::android[]
+
+ifdef::xaml[]
+*C# の場合:*
+[source, csharp]
+----
+using System.Collections.Generic;
+
+namespace Infragistics.Data
+{
+    public class MonthsList : List<Month>
+    {
+        public MonthsList()
+        {
+            var list = Month.GenerateList();
+            this.AddRange(list);
+        }
+    }
+    public class Month
+    {
+        public Month()
+        {
+        }
+        public string Name { get; set; }
+        public int Number { get; set; }
+        public int Days { get; set; }
+        public string Quarter { get; set; }
+
+        public static List<Month> GenerateList()
+        {
+            string[] names = {
+                "January", "February", "March", "April",
+                "May", "June", "July", "August", "September",
+                "October", "November", "December"
+            };
+            int[] days = {
+                31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+            };
+            var items = new List<Month>();
+            for (int i = 0; i < 12; i++)
+            {
+                Month monthItem = new Month();
+                monthItem.Name = names[i];
+                monthItem.Days = days[i];
+                monthItem.Number = i + 1;
+                monthItem.Quarter = "Q" + ((i / 3) + 1);
+                items.Add(monthItem);
+            }
+            return items;
+        }
+    }
+}
+----
+endif::xaml[]
+
+
+[[_BindingRData]]
+== データのバインド
+
+[start=1]
+. プロジェクト内に新しいクラス ファイルを作成し、ファイル名前を *Month* にします。次にこの新しいクラス ファイルに上記の `Month` クラスの実装を貼り付け、そのコンテンツを置き換えます。
+
+[start=2]
+. プロジェクト メイン ビューの `{DataGridName}` コントロールのインスタンスを作成し、link:{DataGridLink}.{DataGridName}~{ApiDataSource}.html[{ApiDataSource}] {ApiMember}を使用して、次のサンプル コードに示すようにサンプル データを生成します。
+ 
+ifdef::android[]
+*Java の場合:*
+[source, java]
+----
+import com.infragistics.controls.*;
+...
+{DataGridName} DataGrid = new {DataGridName}(this);
+DataGrid.setAutoGenerateColumns(false);
+DataGrid.setDataSource(Month.GenerateList());  
+----
+endif::android[]
+
+ifdef::xaml[]
+*XAML の場合:*
+[source, xaml]
+----
+xmlns:grids="clr-namespace:Infragistics.XamarinForms.Controls.Grids;assembly=Infragistics.XF.DataGrid"
+xmlns:local="clr-namespace:Infragistics.Data;assembly=YourAppName" 
+...
+<grids:XamDataGrid x:Name="DataGrid" AutoGenerateColumns="False" >
+    <grids:XamDataGrid.ItemsSource>
+        <local:MonthsList />
+    </grids:XamDataGrid.ItemsSource>          
+</grids:XamDataGrid>
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*C# の場合:*
+[source, csharp]
+----
+using {DataGridNamespace};
+using Infragistics.Data;
+...
+var DataGrid = new {DataGridName}();
+DataGrid.AutoGenerateColumns = false;
+DataGrid.ItemsSource = Month.GenerateList();  
+----
+endif::xaml[]
+
+[start=3]
+. 文字列プロパティのための `TextColumn` の 2 つのインスタンス、そしてデータ項目の数値プロパティのための `NumericColumn` の 2 つのインスタンスを作成します。
+
+ifdef::android[]
+*Java の場合:*
+[source, java]
+----
+TextColumn column1 = new TextColumn();
+column1.setKey("Quarter");
+TextColumn column2 = new TextColumn();
+column2.setKey("Name");
+
+NumericColumn column3 = new NumericColumn();
+column3.setKey("Number");
+NumericColumn column4 = new NumericColumn();
+column4.setKey("Days");
+
+DataGrid.addColumn(column1);
+DataGrid.addColumn(column2);
+DataGrid.addColumn(column3); 
+DataGrid.addColumn(column4); 
+----
+endif::android[]
+
+ifdef::xaml[]
+*XAML の場合:*
+[source, xaml]
+----
+<grids:XamDataGrid.Columns>  
+    <grids:TextColumn PropertyPath="Quarter" /> 
+    <grids:TextColumn PropertyPath="Name" /> 
+    <grids:NumericColumn PropertyPath="Number" /> 
+    <grids:NumericColumn PropertyPath="Days" /> 
+</grids:XamDataGrid.Columns>                
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*C# の場合:*
+[source, csharp]
+----
+var column1 = new TextColumn();
+column1.PropertyPath = "Quarter"; 
+var column2 = new TextColumn();
+column2.PropertyPath = "Name"; 
+
+var column3 = new NumericColumn();
+column3.PropertyPath = "Number"; 
+var column4 = new NumericColumn();
+column3.PropertyPath = "Days"; 
+  
+DataGrid.Columns.Add(column1);
+DataGrid.Columns.Add(column2);
+DataGrid.Columns.Add(column3);
+DataGrid.Columns.Add(column4);
+----
+endif::xaml[]
+ 
+[start=4]
+. アプリケーションを保存、実行して結果を確認します。
+
+アプリケーションには、4 つの link:{DataGridLink}.column.html[Column] (Name、Number、Days 、および Quarter) を含む  {DataGridName} コントロールが表示され、各列が Month オブジェクトを表す 12 列が生成されます。
+
+image::images/Getting_started_with_Databinding_1.png[]
+
+
+[[RelatedTopics]]   
+=== 関連トピック
+
+以下の表は、このトピックに関連するトピックを示します。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+ 
+| link:datagrid-supported-column-types.html[サポートされる列タイプ]
+|このトピックでは、{DataGridName} コントロールでサポートされる列タイプの情報を提供します。
+  
+| link:datagrid-working-with-columns.html[列の作業]
+|このトピックでは、{DataGridName} コントロールで列を使用する際のコード例を提供します。
+
+| link:datagrid-binding-remote-data-source.html[{DataGridName} のリモート データ ソースのバインディング]
+|このトピックでは、リモートデータを {DataGridName} コントロールへバインドするコード例を提供します。
+
+|====

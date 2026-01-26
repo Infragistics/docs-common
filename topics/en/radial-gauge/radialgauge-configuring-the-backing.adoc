@@ -1,0 +1,408 @@
+﻿////
+|metadata|
+{
+    "name": "radialgauge-configuring-the-backing",
+    "tags": ["Getting Started","How Do I"],
+    "controlName": ["{RadialGaugeName}"],
+    "guid": "e48d9906-cb25-4e03-aff8-babf23c27c25",
+    "buildFlags": ["SL","WPF","XAMARIN","ANDROID","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:11.9718525Z"
+}
+|metadata|
+////
+
+= Configuring the Background ({RadialGaugeName})
+
+
+
+=== Purpose
+
+This topic provides a conceptual overview of the _{RadialGaugeName}_™ control’s Background feature. It describes the properties of the background area and provides an example of its implementation.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:radialgauge.html[{RadialGaugeName}]
+|This section gives you an overview of the _{RadialGaugeName}_™ control and its main features.
+
+| link:radialgauge-getting-started-with-radialgauge.html[Adding {RadialGaugeName}]
+|This topic explains using a code example how to add the _{RadialGaugeName}_™ control to a {PlatformName} application.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview,Background Feature Overview>>
+* <<Properties,Background Feature Property Reference>>
+* <<Example,Configuring the Background>>
+* <<RelatedContent,Related Content>>
+
+[[Overview]]
+== Background Feature Overview
+
+=== Background feature summary
+
+Displayed as a circle, the background section of the _{RadialGaugeName}_ control is where all the different elements such as needles and tick marks are added to the gauge.
+
+This area can be customized to be either circular or fitted by setting the link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingshape.html[BackingShape] property. A circular shape creates a 360 degree circle gauge while a fitted shape creates a filled arc segment encompassing the scale.
+
+[[Preview]]
+
+=== Preview
+
+The following image is a preview of the _{RadialGaugeName}_ control rendered with the background configured as Fitted.
+
+image::images/Configuring_the_Backing_1_17_1.png[]
+
+[[Properties]]
+== Background Feature Property Reference
+
+=== Background feature property reference chart
+
+The following table summarizes the properties of the _{RadialGaugeName}_ control related the background area.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|`Brush`
+|Use this property to specify the gauge’s background brush fill.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingcornerradius.html[BackingCornerRadius]
+|`Double`
+|Determines the corner rounding radius to use with the fitted scale background. If the gauge uses a fitted background shape, use this property to provide rounded corners for the background.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|`Double`
+|Determines the inner extent of the gauge’s background. This applies only when using fitted background shapes.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|`Double`
+|Determines the outer extent of the gauge’s background. This applies only when using fitted background shapes.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+|`Brush`
+|Determines the brush used for the outline of the background.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingoversweep.html[BackingOversweep]
+|`Double`
+|Determines the oversweep or undersweep degrees to apply to the fitted background. Use this property to add extra space and extend the background shape past the start and end of the scale.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingshape.html[BackingShape]
+|`RadialGaugeBackingShape`
+|Use this property to set the shape of the gauge’s background to a predefined shape. The background shape can either be circular or fitted. A fitted shape creates a filled arc segment that encompasses the scale.
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+|`Double`
+|Determines the stroke thickness for the background outline.
+
+|====
+
+[[Example]]
+== Configuring the Background
+
+=== Example
+
+The following screenshot shows how the _{RadialGaugeName}_ control renders using this background properties configuration:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|AliceBlue
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingshape.html[BackingShape]
+|Fitted
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingcornerradius.html[BackingCornerRadius]
+|10
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|0.9
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|0.2
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingoversweep.html[BackingOversweep]
+|4
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+|5
+
+|====
+
+image::images/Configuring_the_Backing_2_17_1.png[]
+
+Following is the code that implements this example
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{RadialGaugeName}
+    x:Name="radialGauge"
+    MinimumValue="0"
+    MaximumValue="10" 
+    Value="1"  
+    BackingShape="Fitted"
+    BackingBrush="AliceBlue"
+    BackingCornerRadius="10"
+    BackingOuterExtent=".9"
+    BackingInnerExtent=".2"
+    BackingOversweep="4"
+    BackingStrokeThickness="5"
+/>
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*In C#:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Color.AliceBlue);
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In C#:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Color.AliceBlue);
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+----
+
+endif::sl[]
+
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+radialGauge.BackingBrush = New SolidColorBrush(Colors.AliceBlue)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+radialGauge.BackingBrush = New SolidColorBrush(Color.AliceBlue)
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+radialGauge.BackingBrush = New SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+radialGauge.setMinimumValue(0);
+radialGauge.setMaximumValue(10);
+radialGauge.setValue(1);
+radialGauge.setBackingShape(RadialGaugeBackingShape.FITTED);
+radialGauge.setBackingBrush(new SolidColorBrush(Color.WHITE));
+radialGauge.setBackingCornerRadius(10);
+radialGauge.setBackingOuterExtent(.9);
+radialGauge.setBackingInnerExtent(.2);
+radialGauge.setBackingOversweep(4);
+radialGauge.setBackingStrokeThickness(5);
+----
+
+endif::android[]
+
+[[RelatedContent]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:radialgauge-getting-started-with-radialgauge.html[Adding {RadialGaugeName}]
+|This topic explains using a code example how to add the _{RadialGaugeName}_™ control to a {PlatformName} application.
+
+| link:radialgauge-configuring-labels.html[Configuring Labels ({RadialGaugeName})]
+|This topic provides a conceptual overview of labels with the {RadialGaugeName}™ control. It describes the properties of the labels and also provides an example of how to configure the labels.
+
+| link:radialgauge-configuring-needles.html[Configuring Needles ({RadialGaugeName})]
+|This topic provides a conceptual overview of needles with the {RadialGaugeName}™ control. It describes the properties of the needles and also provides an example of how to configure them.
+
+| link:radialgauge-configuring-ranges.html[Configuring Ranges ({RadialGaugeName})]
+|This topic provides a conceptual overview of the {RadialGaugeName}™ control’s ranges. It describes the properties of the ranges and provides an example of how to add ranges to the radial gauge.
+
+| link:radialgauge-configuring-the-scale.html[Configuring the Scale ({RadialGaugeName})]
+|This topic provides a conceptual overview of the {RadialGaugeName}™ control’s scale. It describes the properties of the scale and also provides an example of how to implement it.
+
+| link:radialgauge-configuring-tick-marks.html[Configuring the Tick Marks ({RadialGaugeName})]
+|This topic provides a conceptual overview of tick marks with the {RadialGaugeName}™ control. It describes the tick marks’ properties and provides an example of how to implement them.
+
+|====
+ 

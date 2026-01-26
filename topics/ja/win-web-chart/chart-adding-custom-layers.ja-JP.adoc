@@ -1,0 +1,110 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-adding-custom-layers",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{140213B0-C6A7-4390-B03B-3ACF06AE6E90}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= カスタム レイヤを追加
+
+チャートのレイヤ コレクションにカスタム レイヤを追加するには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~layer.html[UltraChart.Layer]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~layer.html[UltraChart.Layer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~layer.html[UltraChart.Layer]"]  ハッシュテーブルと  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~userlayerindex.html[UserLayerIndex]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~userlayerindex.html[UserLayerIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~userlayerindex.html[UserLayerIndex]"]  に追加し、次に  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~invalidatelayers.html[UltraChart.InvalidateLayers()]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~invalidatelayers.html[UltraChart.InvalidateLayers()]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~invalidatelayers.html[UltraChart.InvalidateLayers()]"]  を呼び出す必要があります。
+
+レイヤのハッシュテーブルは、レイヤ ID とレイヤ オブジェクトの重要な組み合わせです。UserLayerIndex は、レイヤ ID の順序付けです。InvalidateLayers()により、Chart は重要な情報をレイヤ オブジェクトに渡し（ pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  インタフェースのメンバを介して）、再描画できます。
+
+これを最初に実行する最良の場合は、Form_Load イベント、Page_Load イベント、またはグラフをはじめて表示する場合です。
+
+== UserLayerIndex について
+
+Chart コントロールを構成するレイヤには以下の 3 つの種類があります。
+
+* *標準レイヤ* - このレイヤはすべてのグラフの種類で描出されます。グリッド レイヤは、選択したグラフの種類の要件を満たすグラフの種類によって変わります。円グラフ、レーダー グラフ、ドーナツ グラフなど、いくつかのグラフの種類にはグリッド レイヤがありません。
+* *デフォルト* グラフ レイヤ - このレイヤは、描画するグラフの種類に基づいてグラフ データを描出します。たとえば、柱状グラフのグラフ レイヤは、データソースに基づいてさまざまなサイズと位置の矩形オブジェクトを描画します。
+* *カスタム レイヤ* - アプリケーション デザイナ/開発者が追加する外部レイヤ クラスです。
+
+image::images\Chart_Adding_Custom_Layers_01.png[]
+
+UserLayerIndex は、レイヤをグラフに描画する順序を識別する文字列の配列です。したがって、上図の UserLayerIndex は以下のようになります。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.UserLayerIndex = New String() {"Default", "Custom Layer"}
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.UserLayerIndex = new string[] {"Default", "Custom Layer"};
+----
+
+グラフ レイヤを描画する場合、UserLayerIndex には「デフォルト」を含める必要があります。通常、グラフ レイヤは UserLayerIndex のカスタム レイヤの前に配置されますが、カスタム レイヤを描画した後にカスタム レイヤを描画するためにカスタム レイヤの後に配置することもできます。
+
+開発者が「デフォルト」レイヤを完全に除外する必要があるいくつかの場合があります。たとえば、グラフ レイヤを除外し、それ自体を描画する、標準のグラフの種類がないゲージ レイヤがあります。
+
+ゲージ グラフは以下の 3 つのレイヤの種類でのみ構成されます。
+
+* *ボーダー レイヤ* - ボーダー レイヤは表示する枠を描画します。
+* *タイトル レイヤ* - このレイヤにタイトルが表示されます。
+* *カスタム レイヤ* - ゲージ レイヤです。
+
+[NOTE]
+====
+*注：*グリッド レイヤはありません。上述のとおり、円グラフはグリッド レイヤを含まず、ゲージ グラフは *ChartType* プロパティの設定として円グラフを使用するため、ゲージ グラフは円グラフに基づき、グリッド レイヤはありません。
+====
+
+image::images\Chart_Adding_Custom_Layers_02.png[]
+
+以下のサンプル コードは、カスタム レイヤの追加方法を示しています。
+
+*Visual Basic の場合：*
+
+----
+Private Sub Adding_Custom_Layers_Load(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	' ゲージ レイヤを作成します
+	Dim gauge As New GaugeLayer()
+	' 外観を作成します
+	gauge.Appearance = New GaugeAppearance()
+	' 針を作成し追加します
+	Dim needle As Needle = New Needle(0, New PaintElement(Color.Red))
+	needle.PE.StrokeWidth = 18
+	needle.Length = 75
+	needle.PE.Fill = Color.Red
+	gauge.Appearance.Needles.Add(needle)
+	' グラフにこのレイヤを追加します
+	Me.UltraChart1.Layer.Add("GaugeLayer", gauge)
+	Me.UltraChart1.UserLayerIndex = New String() {"GaugeLayer"}
+	Me.UltraChart1.ChartType = ChartType.PieChart
+	Me.UltraChart1.InvalidateLayers()
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void Adding_Custom_Layers_Load(object sender, EventArgs e)
+{
+	// ゲージ レイヤを作成します
+	GaugeLayer gauge = new GaugeLayer();
+	// 外観を作成します
+	gauge.Appearance = new GaugeAppearance();
+	// 針を作成し追加します
+	Needle needle = new Needle(0, new PaintElement(Color.Red));
+	needle.PE.StrokeWidth = 18;
+	needle.Length = 75;
+	needle.PE.Fill = Color.Red;
+	gauge.Appearance.Needles.Add(needle);
+	// グラフにこのレイヤを追加します
+	this.ultraChart1.Layer.Add("GaugeLayer", gauge);
+	this.ultraChart1.UserLayerIndex = new string[] {"GaugeLayer"};
+	this.ultraChart1.ChartType = ChartType.PieChart;
+	this.ultraChart1.InvalidateLayers();
+}
+----

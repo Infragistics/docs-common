@@ -1,0 +1,756 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-overview",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Charting","Getting Started"],
+    "guid": "f90d204a-c226-4e44-9593-f9e4b7fdd98c",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0428852Z"
+}
+|metadata|
+////
+
+= {LinearGaugeName} 概要
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、主要機能、最小要件、ユーザー機能など、_{LinearGaugeName}_ コントロールに関する概念的な情報を提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref357610654, 概要 >>
+
+* <<_Ref357610659, 主要機能 >>
+
+** <<_Ref361167396,主要機能の概要>>
+** <<_Ref361167400,主要な機能の概要表>>
+
+* <<_Ref357610672, 論理領域と構成可能な視覚要素の概要 >>
+
+** <<_Logical_areas,論理領域>>
+** <<_Configurable_visual_elements_1,構成可能な視覚要素>>
+
+* <<_ConfigurableVisualElementsAndRelatedProperties, 構成可能な視覚要素および関連プロパティ>>
+
+** <<_Ref361168497,構成可能な視覚要素および関連プロパティの概要>>
+
+ifdef::sl,wpf[]
+** <<_TitleSubtitleOverview,タイトル / サブタイトル>>
+
+endif::sl,wpf[]
+
+** <<_ScaleOverview,スケーリング>>
+** <<_NeedleOverview,針>>
+** <<_ComparativeRangesOverview,比較範囲>>
+** <<_BackgroundOverview,背景>>
+
+ifdef::sl,wpf[]
+** <<_TooltipsOverview,ツールチップ>>
+
+endif::sl,wpf[]
+
+* <<_Ref349815332, デフォルトの構成 >>
+
+* <<Animated_Transitions_Heading, アニメーション トランジションの構成 >>
+
+* <<_Ref361168555, 要件 >>
+
+* <<_RelatedContent, 関連コンテンツ >>
+
+[[_Ref357610654]]
+== 概要
+
+=== {LinearGaugeName} 概要
+
+{LinearGaugeName} は、データをリニア ゲージの形で視覚化する {ProductName} コントロールです。スケールおよび 1 つ以上の比較範囲と比較した主要な値をシンプルで簡潔に表示します。
+
+image::images/XamLinearGauge_17_1.png[]
+
+{LinearGaugeName} コントロールは、データを魅力的な表現にするための機能を提供し、複数のアプリケーションを使用するシナリオも準備されています。
+
+[[_Ref357610659]]
+== 主要機能
+
+[[_Ref361167396]]
+
+=== 主要機能の概要
+
+{LinearGaugeName} の機能には構成可能な向きや方向、視覚要素などがあります。このコントロールには、アニメーション化されたトランジションのサポートも組み込まれています。
+
+[[_Ref361167400]]
+
+=== 主要な機能の概要表
+
+以下の表で、{LinearGaugeName} コントロールの主な機能を簡単に説明します。
+
+[options="header", cols="a,a"]
+|====
+|機能|説明
+
+|構成可能な向きと方向
+|{LinearGaugeName} コントロールでは、スケールの向きと方向の状態を設定する API が公開され、ゲージの外観を大幅にカスタマイズすることができます。(詳細は、 link:lineargauge-configuring-orientation-and-direction.html[向きと方向の構成]のトピックを参照してください。)
+
+|構成可能な視覚要素
+|リニア ゲージの各<<_ConfigurableVisualElementsAndRelatedProperties,視覚要素>>は、さまざまな形で構成できます。(詳細は、<<_ConfigurableVisualElementsAndRelatedProperties,{LinearGaugeName} の構成可能な視覚要素と関連プロパティ>>を参照してください。)
+
+|[[_AnimatedTransitions]] 
+
+アニメーション化されたトランジション
+|{LinearGaugeName} コントロールには、その link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}transitionduration.html[TransitionDuration] プロパティによるアニメーションの組み込みサポートが提供されています。アニメーション効果は、コントロール読み込み時および任意のプロパティの値が変更された時に発生します。(詳細は、アニメーション トランジションの構成のトピックを参照してください。)
+
+ifdef::sl,wpf[]
+|ツールチップのサポート
+|{LinearGaugeName} コントロールに組み込まれたツールチップは、針を作成するための値、または異なる範囲に対応したそれぞれの値を示します。コントロールのデフォルト ルックに合わせて初期スタイル設定がされていますが、その外観はテンプレートでカスタマイズできます。デフォルトでは、ツールチップは無効になっています。(詳細は、 link:lineargauge-configuring-the-tooltips.html[ツールチップの構成]を参照してください)
+endif::sl,wpf[]
+
+|====
+
+[[_Ref357610667]]
+[[_Ref361087347]]
+[[_Ref357610672]]
+== 論理領域と構成可能な視覚要素の概要
+
+[[_Logical_areas]]
+
+=== 論理領域
+
+ifdef::sl,wpf[]
+{LinearGaugeName} コントロールの表示領域は、論理的に以下の領域に分割されます: タイトル領域、予約領域、グラフ領域。
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+
+[cols="a,a"]
+|====
+ifdef::sl,wpf[]
+|水平方向|垂直方向
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|image::images/XamLinearGauge_Overview_1.png[]
+|image::images/XamLinearGauge_Overview_2.png[]
+endif::sl,wpf[]
+
+|====
+
+endif::sl,wpf[]
+
+各領域は <<_ConfigurableVisualElementsAndRelatedProperties,{LinearGaugeName}>> コントロールの一部の視覚要素に関連して異なる目的があります。
+
+ifdef::sl,wpf[]
+* タイトル領域 (0) - タイトル領域は、リニア ゲージのタイトル / サブタイトルを表示する領域です。この領域はスケール (<<_ReservedAreaLink,予約領域>> <<_GraphAreaLink,グラフ領域>>) と重ねることはできません。
+
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+デフォルト設定ではありませんが、水平方向のリニア ゲージの場合、タイトル領域はその幅をタイトルとサブタイトルの両方またはいずれか長い方に合わせて自動的に設定します。さらにタイトル領域の幅を明示的に設定することもできます。この機能は、互いに接するようには位置した複数の _{LinearGaugeName}_ コントロールのタイトル領域を同じ幅にして、統一性のあるルック アンド フィールにする場合に役立ちます。
+endif::sl,wpf[]
+
+[[_ReservedAreaLink]]
+* 予約領域 pick:[sl,wpf="(1)"] - この領域は以下のように展開します。
+
+** スケールに沿った方向 - 予約領域はpick:[sl,wpf="タイトル領域が存在しない場合に、"]コントロールの端pick:[sl,wpf="または上の図に示すようにタイトル領域の端のいずれか"]より開始され、コントロールの端で終了します。
+** スケール全域
+
+*** 水平方向: 予約領域は、コントロールの下端から開始され、ラベルのフォントのサイズなどの書式設定に従い、番号ラベルと同じ高さまで上に広がります。
+*** 垂直方向: 予約領域は、コントロールの左端から開始され、スケール測定番号の大きさおよびラベルのフォントのサイズなどの書式設定に従い、番号ラベルと同じ幅まで右に広がります。
+
+予約領域の主な目的は、スケールの番号ラベルに対して、水平方向にも垂直方向にも十分なスペースを与えることにあります。(方向が変化した場合、番号ラベルを表示するための各方向へのスペース要求に対応するために、予約領域はサイズを自動的に調整します。水平方向ではラベルの高さ、垂直方向では最大幅に合わせます。)これは、必ずしも番号ラベルを予約領域に配置する必要があることを意味しません。実際、ラベル行はスケール全域で、<<_GraphAreaLink,グラフ領域>>内のどこにでも配置できます。しかし、ラベル行を予約領域の外に配置しても、予約領域自体のスプレッドおよび位置にはまったく影響はありません。予約領域は変化せず、番号ラベルの高さと幅により (方向に従い) 決定されます。
+
+さらに予約領域が重要なのは、内側の端がスケール全体のディメンションにおいて<<_GraphAreaLink,グラフ領域>>の最初の端を特定する点です。この端が、スケール全域に<<_Configurable_visual_elements_1,構成可能な視覚要素>>および<<_ConfigurableVisualElementsAndRelatedProperties,視覚要素>>の一部を配置する範囲関連プロパティの参照マークの役割を果たします。(最も一般的な場合、これらのプロパティの正の値は視覚要素を<<GraphArea,グラフ領域>>の内部に置き、負の値は視覚要素を予約領域の内部に配置します。)
+
+[[_GraphAreaLink]]
+* チャート領域 pick:[sl,wpf="(2)"] - リニア ゲージの針、目盛、範囲、およびオプションで番号ラベルを表示する領域です。ラベルを除く視覚要素の範囲関連のプロパティはすべて、その端に対して測定されます。グラフ領域は、プレースホルダーではなくコントロール内部にスケールを配置する (正確には、スケールの<<_ConfigurableVisualElementsAndRelatedProperties,視覚要素>>を配置する) 参照フレームとして役割を果たします。
+
+グラフ領域のスプレッド:
+
+* スケールに沿った方向 - グラフ領域はpick:[sl,wpf="<<_TitleAreaLink,タイトル領域>>が存在しない場合に、"]コントロールの端pick:[sl,wpf="または上の図に示すようにタイトル領域の端のいずれか"]より開始され、コントロールの端で終了します。スケールの開始位置および終了位置は両方とも、グラフ領域の始点側の端 (水平方向の左端または垂直方向の下端) に対して測定されます。
+* スケール全域 - グラフ領域は、<<_ReservedAreaLink,予約領域>>の端 (水平方向でグラフ領域の下端または垂直方向でグラフ領域の左端) から開始されます。予約領域の境界線で接しているグラフ領域の端は、スケールの一部の視覚要素の範囲関連プロパティに対する、スケール全域に視覚要素を配置するための参照点としての役割を果たします。
+
+ifdef::sl,wpf[]
+タイトル領域およびグラフと予約領域の配置は、位置の入れ替え (水平方向にグラフおよび予約領域が左側、タイトル領域が右側など) で設定できることに注意してください。この場合、タイトル領域はスケールの終点から開始されるため、グラフと予約領域はコントロールの端から始まりタイトル領域が始まる所で終わります。(詳細は、 link:lineargauge-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成]トピックを参照)
+endif::sl,wpf[]
+
+[[_Configurable_visual_elements_1]]
+
+=== 構成可能な視覚要素
+
+{LinearGaugeName} コントロールは、以下の視覚要素が特徴ですpick:[sl,wpf="(下の図を参照)"]。
+
+* 針 pick:[sl,wpf="(3)"] - コントロールにより表示される主要なメジャーで、バーとして視覚化されます。
+
+* 比較範囲 pick:[sl,wpf="(4)"] - 範囲は、スケール上で指定した値の領域を強調表示する視覚的な要素です。その目的は、パフォーマンス バー メジャーの質的状態を視覚で伝えると同時に、その状態をレベルとして示すことにあります。
+* 目盛 pick:[sl,wpf="(5)"] - 目盛は、リニア ゲージを読み取りやすくするために、目盛の間隔でスケールを分割して見せる役割を果たします。
+
+**  *主目盛*  - 主目盛は、スケールの主要な区切りとして使用されます。表示間隔、範囲、およびスタイルは、対応するプロパティを設定し制御できます。
+**  *副目盛*  - 副目盛は主目盛を補助し、スケールの数値を読み取りやすくするために追加して使用します。主目盛と同じ方法でカスタマイズできます。
+
+* スケール ラベル pick:[sl,wpf="(6)"] - このラベルはスケールのメジャーを示します。
+* 境界線 pick:[sl,wpf="(7)"] - コントロールのディメンションを視覚的に区切る線です。
+* 背景 pick:[sl,wpf="(8)"] – 視覚要素が配置された背景のパターンおよび色を設定できます。
+
+ifdef::sl,wpf[]
+*  *タイトル / サブタイトル*  (9) – グラフのタイトル、およびサブタイトルの形で示す追加の詳細。両方の要素ともタイトル領域に表示されます。コントロール上の位置はその領域に対して調整されます。
+
+endif::sl,wpf[]
+
+ifdef::wpf,sl[]
+image::images/XamLinearGauge_Overview_3.png[]
+endif::wpf,sl[]
+
+ifdef::sl,wpf[]
+*  *ツールチップ*  - 針を作成するための値、または異なる範囲に対応したそれぞれの値を示します。
+
+endif::sl,wpf[]
+
+[[_ConfigurableVisualElementsAndRelatedProperties]]
+== 構成可能な視覚要素および関連プロパティ
+
+[[_Ref361168497]]
+
+=== 構成可能な視覚要素および関連プロパティの概要
+
+各要素は複数の項目で構成することができます。
+
+以下の表は、{LinearGaugeName} コントロールの視覚要素で構成できる項目を示します。構成できる項目の詳細は、この表の次に示す各視覚要素の説明で、図および構成するプロパティと一緒に参照できます。
+
+[options="header", cols="a,a"]
+|====
+|視覚要素|構成できる主な項目
+
+ifdef::sl,wpf[]
+|<<_TitleSubtitleOverview,タイトル / サブタイトル>>
+|
+* タイトル領域の幅 (水平方向のみ) 
+
+* テキスト 
+
+* テキストの開始位置 
+
+endif::sl,wpf[]
+
+|<<_ScaleOverview,スケーリング>>
+|
+* 位置 
+
+* 目盛 
+
+* ラベル 
+
+|<<_NeedleOverview,針>>
+|
+* 表示値 
+
+* 幅と位置 
+
+* ルックアンドフィール (図形) 
+
+|<<_ComparativeRangesOverview,比較範囲>>
+|
+* グラフに表示する範囲の数値 
+
+* 長さ、幅、位置 
+
+* ルックアンドフィール 
+
+|<<_BackgroundOverview,背景>>
+|
+* サイズと位置 
+
+* ルックアンドフィール 
+
+ifdef::sl,wpf[]
+|<<_TooltipsOverview,ツールチップ>>
+|
+* 表示遅延 
+
+endif::sl,wpf[]
+
+|====
+
+[[_Hlk361768585]]
+
+ifdef::sl,wpf[]
+
+[[_TitleSubtitleOverview]]
+
+=== タイトル / サブタイトル
+
+以下の図は、下の表にリストされた<<_TitleAreaLink,タイトル領域>>関連の範囲を示しています。
+
+image::images/XamLinearGauge_Overview_4.png[]
+
+以下の表は、リニア ゲージのタイトル / サブタイトルの構成できる項目を示し、管理に使用する {LinearGaugeName} プロパティにマップします。
+
+ifdef::sl,wpf[]
+
+[cols="a,a,a"]
+|====
+ifdef::sl,wpf[]
+|構成可能な点|プロパティ|デフォルト値
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|タイトル領域の幅 (水平方向のみ)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}titleshorizontalratio.html[TitlesHorizontalRatio]
+|設定なし
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|<<_GraphAreaLink,グラフ領域>>に対する *タイトル領域の位置* 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}titlesposition.html[TitlesPosition]
+|_TitlesPosition.ScaleStart_
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+| タイトル テキスト
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}title.html[Title]
+| _null_ 
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|ルック アンド フィール (スタイルによって構成可能)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}titlestyle.html[TitleStyle]
+|設定なし
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+| サブタイトル テキスト
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}subtitle.html[Subtitle]
+| _null_ 
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|ルック アンド フィール (スタイルによって構成可能)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}subtitlestyle.html[SubtitleStyle]
+|設定なし
+endif::sl,wpf[]
+
+|====
+
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+==== 関連トピック
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+* link:lineargauge-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成]
+
+endif::sl,wpf[]
+
+endif::sl,wpf[]
+
+[[_ScaleOverview]]
+
+=== スケーリング
+
+以下の図は、下の表にリストされたスケール関連の範囲を示しています。
+
+[options="header", cols="a,a"]
+|====
+|グラフ領域内でスケールを配置する範囲|ラベルの位置を設定する範囲
+
+|image::images/XamLinearGauge_Overview_5.png[]
+|image::images/XamLinearGauge_Overview_6.png[]
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|スケールに沿って主目盛を設定する範囲|スケール全域で主目盛を設定する範囲
+
+|image::images/XamLinearGauge_Overview_7.png[]
+|image::images/XamLinearGauge_Overview_8.png[]
+
+|====
+
+[cols="a"]
+|====
+|スケール全域で副目盛を設定する範囲
+
+|image::images/XamLinearGauge_Overview_9.png[]
+
+|====
+
+以下の表は、リニア ゲージのスケールで構成できる項目を示し、管理に使用する {LinearGaugeName} プロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な点|プロパティ|デフォルト値
+
+|位置
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+| _0.05_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+| _0.95_ 
+
+|最小値
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minimumvalue.html[MinimumValue]
+| _0_ 
+
+|最大値
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}maximumvalue.html[MaximumValue]
+| _100_ 
+
+|主目盛
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[interval]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+| _0.02_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.2_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickbrush.html[TickBrush]
+|デフォルトのテーマで定義済み
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _2.0_ 
+
+|副目盛
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+|_3.0_
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+| _0.06_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.2_ 
+
+|色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|デフォルトのテーマで定義済み
+
+|幅
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _1.0_ 
+
+|位置とスペース
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _0_ 
+
+ifdef::sl,wpf[]
+|数値書式
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelformat.html[LabelFormat]
+|設定なし
+endif::sl,wpf[]
+
+|色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}fontbrush.html[FontBrush]
+|デフォルトのテーマで定義済み
+
+|====
+
+==== 関連トピック
+
+* link:lineargauge-configuring-the-scale.html[スケールの構成]
+
+[[_NeedleOverview]]
+
+=== 針
+
+以下の図は、下の表にリストされた針関連の範囲を示しています。
+
+image::images/XamLinearGauge_Overview_10.png[]
+
+以下の表は、リニア ゲージの針の構成できる基本項目を示し、管理に使用する {LinearGaugeName} プロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な点|プロパティ|デフォルト値
+
+|表示値
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}value.html[Value]
+|設定なし
+
+|幅
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlebreadth.html[NeedleBreadth]
+| _10.0_ 
+
+|塗りつぶし色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlebrush.html[NeedleBrush]
+|デフォルトのテーマで定義済み
+
+|境界線の色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needleoutline.html[NeedleOutline]
+|デフォルトのテーマで定義済み
+
+|境界線の線幅
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlestrokethickness.html[NeedleStrokeThickness]
+| _1.0_ 
+
+|図形
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needleshape.html[NeedleShape]
+| _Needle_ 
+
+|====
+
+==== 関連トピック
+
+* link:lineargauge-configuring-the-needle.html[針の構成]
+
+[[_ComparativeRangesOverview]]
+
+=== 比較範囲
+
+以下の図は、下の表にリストされた比較範囲関連の範囲を示しています。
+
+image::images/XamLinearGauge_Overview_11.png[]
+
+以下の表は、リニア ゲージの比較範囲の構成できる項目を示し、管理に使用する {LinearGaugeName} プロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な点|プロパティ|デフォルト値
+
+ifdef::xaml[]
+
+|グラフに表示する範囲の数
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}ranges.html[{LinearGaugeName}.Ranges] 
+|設定なし
+
+endif::xaml[]
+
+ifdef::android[]
+
+|グラフに表示する範囲の数
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~addrange.html[{LinearGaugeName}.addRange]
+|設定なし
+
+endif::android[]
+
+|長さ、幅、位置
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}startvalue.html[{LinearGaugeRange}.StartValue]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}endvalue.html[{LinearGaugeRange}.EndValue]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}innerstartextent.html[{LinearGaugeRange}.InnerStartExtent]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}innerendextent.html[{LinearGaugeRange}.InnerEndExtent]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}outerstartextent.html[{LinearGaugeRange}.OuterStartExtent]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}outerendextent.html[{LinearGaugeRange}.OuterEndExtent]
+|設定なし
+
+|塗りつぶし色
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}brush.html[{LinearGaugeRange}.Brush]
+|デフォルトのテーマで定義済み
+
+|境界線の色
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}outline.html[{LinearGaugeRange}.Outline]
+|デフォルトのテーマで定義済み
+
+|境界線の線幅
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}strokethickness.html[{LinearGaugeRange}.StrokeThickness]
+|_1.0_
+
+ifdef::sl,wpf[]
+|ツールチップ
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[{LinearGaugeName}.RangeToolTip]
+|ハイフン (-) で区切られた範囲の開始値と終了値です。
+endif::sl,wpf[]
+
+|====
+
+==== 関連トピック
+
+* link:lineargauge-configuring-the-ranges.html[範囲の構成 ( _{LinearGaugeName}_ )]
+
+[[_BackgroundOverview]]
+
+=== 背景
+
+以下の図は、下の表にリストされた背景関連の範囲を示しています。
+
+image::images/XamLinearGauge_Overview_12.png[]
+
+以下の表は、リニア ゲージの背景で構成できる項目を示し、管理に使用する {LinearGaugeName} プロパティにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|*構成可能な点*|プロパティ|*デフォルト値*
+
+|スケール全域のスプレッドおよび位置
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|_0_
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|_1.0_
+
+|色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|デフォルトのテーマで定義済み
+
+|境界線の色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+|デフォルトのテーマで定義済み
+
+|境界線の線幅
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+| _2.0_ 
+
+|====
+
+==== 関連トピック
+
+* link:lineargauge-configuring-the-background.html[背景の構成]
+
+ifdef::sl,wpf[]
+
+[[_TooltipsOverview]]
+
+=== ツールチップ
+
+ifdef::sl,wpf[]
+
+以下の表は、ツールチップに関する _{LinearGaugeName}_ コントロールで構成できる項目と管理に使用するプロパティをマップしています。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成可能な項目2|詳細|プロパティ/イベント|デフォルト値
+
+|可視性
+|{LinearGaugeName} コントロールのツールチップを有効または無効にできます。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}showtooltip.html[ShowToolTip]
+|_False_
+
+|遅延
+|視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}showtooltiptimeout.html[ShowToolTipTimeout]
+|_500_
+
+|値
+|ツールチップのプロパティでカスタムに値を設定できます。値は次のとおりです: 
+
+* テンプレート 
+
+* 文字列 
+
+* UI 要素 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needletooltip.html[NeedleToolTip]
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlename.html[NeedleName] の初期化状態による ( link:lineargauge-configuring-the-tooltips.html[針のカスタム ツールチップの構成]を参照)
+
+|
+|
+|link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}rangetooltip.html[RangeToolTip]
+|ハイフン (-) で区切られた範囲の開始値と終了値です。
+
+|====
+
+==== 関連トピック
+
+* link:lineargauge-configuring-the-tooltips.html[ツールチップの構成]
+
+endif::sl,wpf[]
+
+endif::sl,wpf[]
+
+[[Animated_Transitions_Heading]]
+== アニメーション トランジションの構成
+
+[[Animated_Transitions_Summary]]
+
+=== アニメーション トランジションの構成概要
+
+{LinearGaugeName} コントロールには、その link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}transitionduration.html[TransitionDuration] プロパティによるアニメーションの組み込みサポートが提供されています。アニメーション効果は、コントロール読み込み時および任意のプロパティの値が変更された時に発生します。デフォルトで、アニメーション化されたトランジションは無効になっています。ミリ秒単位で値を設定できるコントロールの `TransitionDuration` プロパティにより、ビューでコントロールをスワイプする時間枠を定義します。視覚要素は左下から右上に移動するスライド効果によって、すべて滑らかに表示されます。値を _0_ に設定するとアニメーション トランジションが無効になります。
+
+[[_Ref349815332]]
+== デフォルトの構成
+
+[[_DefaultConfigurationSummary]]
+
+=== デフォルト構成の概要
+
+デフォルトで、{LinearGaugeName} コントロールは水平方向です。表示するスケールの範囲は、0 から 100 までです。コントロールの主目盛は 10 の間隔で表示され、主目盛間は副目盛で 3 つに区切られています。 pick:[sl,wpf="タイトルまたはサブタイトルが表示されていない場合、"]背景色は白になります。境界線は、2 ピクセルのダーク グレーの線です。針または範囲が表示されていません。アニメーション化されたトランジションが無効です。
+
+以下の図は、デフォルト設定の {LinearGaugeName} を示します。
+
+image::images/XamLinearGauge_Overview_13_17_1.png[]
+
+[[_Ref361168555]]
+== 要件
+
+[[_Ref349815334]]
+
+=== 要件の概要
+
+{LinearGaugeName} コントロールは {PlatformName} コントロールの 1 つで、pick:[sl,wpf="アセンブリ"]pick:[android="jar "]とは別にコントロール自体を含んでいます。他のいくつかのpick:[sl,wpf="アセンブリ"]pick:[android=" jars "]に依存します。リニア ゲージに針を表示するには、 link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}value.html[Value] プロパティの設定が必要です。
+
+完全な要件の一覧については、pick:[sl,wpf,xamarin=" link:lineargauge-adding.html[{LinearGaugeName} の追加]"]pick:[android=" link:android-adding-linear-gauge.html[{LinearGaugeName} の追加]"]を参照してください。
+
+[[_RelatedContent]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::sl,wpf,xamarin[]
+| link:lineargauge-adding.html[{LinearGaugeName} の追加]
+|このトピックでは、{LinearGaugeName} コントロールを {ProductName} アプリケーションに追加する方法を説明します。
+endif::sl,wpf,xamarin[]
+
+ifdef::android[]
+| link:{PlatformName}-adding-linear-gauge.html[{LinearGaugeName} の追加]
+|このトピックでは、{LinearGaugeName} コントロールを {ProductName} アプリケーションに追加する方法を説明します。
+endif::android[]
+
+| link:lineargauge-configuring.html[{LinearGaugeName} の構成]
+|このトピック グループは、向きや方向および視覚要素を含む _{LinearGaugeName}_ コントロールのさまざまな要素を構成する方法を説明します。
+
+| link:lineargauge-api-reference.html[API リファレンス ( _xamLinearGauge_ )]
+|このトピックでは、{LinearGaugeName} コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
+
+|====

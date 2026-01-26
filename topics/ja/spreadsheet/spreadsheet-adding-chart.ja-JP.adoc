@@ -1,0 +1,226 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-adding-chart",
+    "tags": ["How To Add","Chart"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "96ccf6ca-bc5e-42b1-a79e-6680f4fe6ff6",
+    "buildFlags": [],
+    "createdOn": "2015-03-25T16:53:37.0974134Z"
+}
+|metadata|
+////
+
+= ({SpreadsheetName}) コントロールにチャートを表示
+
+
+=== 目的
+
+このトピックは Spreadsheet でチャートを表示する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|このセクションでは、_Infragistics Excel エンジン_のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|このトピックでは、link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、{SpreadsheetName} コントロールの視覚要素についての概要を紹介します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Intro, はじめに>>
+* <<Adding_Chart, Spreadsheet にチャートを追加>>
+* <<Chart_Types, サポートされるチャート タイプ>>
+* <<Preview, プレビュー>>
+* <<Code_Snippets, コードスニペット>>
+* <<Related_Content, 関連コンテンツ>>
+
+[[Intro]]
+== はじめに
+
+link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.{SpreadsheetName}~chartadapter.html[ChartAdapter] を使用してスプレッドシートのチャートを表示することができます。スプレッドシート チャート アダプタは、Infragistics.Documents.Excel.WorksheetChart インスタンスに基づいてスプレッド シートのチャート要素を作成および初期化します。
+
+ワークシートに `WorksheetChart` を追加するには、ワークシートの Shapes コレクションの link：[AddChart] メソッドを使用する必要があります。Excel にチャートを追加する方法の詳細については pick:[xaml=" link:excelengine-adding-a-chart-to-an-excel-worksheet.html[ここ]"] をご覧ください。
+
+以下はその手順です。
+
+1.	SpreadsheetChartAdapter アセンブリ参照をプロジェクトに追加します。 
+2.	SpreadsheetChartAdapter クラスのインスタンスを作成します
+3.	ステップ 2 で作成したチャート アダプタ インスタンスを Spreadsheet の Chart Adapter プロパティに割り当てます。
+4.	アプリを実行してチャートを含むワークシートを読み込みます。
+
+
+[[Adding_Chart]]
+== {SpreadsheetName} にチャートを追加
+
+[[Chart_Types]]
+
+Spreadsheet ChartAdapter は、折れ線、エリア、柱状、ドーナツを含む 35 以上のチャート タイプがサポートされます。チャート タイプ一覧:
+
+* 柱状チャート
+** クラスタ柱状チャート 
+** 積層型の柱状チャート
+** 100% 積層型柱状チャート
+* 折れ線チャート
+** 折れ線チャート
+** マーカー付き折れ線チャート
+** 積層型折れ線チャート
+** マーカー付き積層型折れ線チャート
+** 100% 積層型折れ線チャート
+** マーカー付き 100% 積層型折れ線
+* 円チャート
+* ドーナツ型チャート
+* 棒チャート
+** クラスター棒チャート
+** 積層型棒チャート
+** 100% 積層型棒チャート
+** エリア チャート
+** エリア
+** 積層型エリア チャート
+** 100% 積層型エリア チャート
+* XY (散布図) とバブル チャート
+** 散布図 (マーカーのみ)
+** 滑らかな線を使用した散布図
+** 滑らかな線とマーカーを使用した散布図
+** 直接を使用した散布図
+** 直線とマーカーを使用した散布図
+** バブル (エフェクトなし) チャート
+* 積層型チャート
+** 高値-安値-終値
+** 始値-高値-安値-終値
+** 出来高-高値-安値-終値
+** 出来高-始値-高値-安値-終値
+* レーダー チャート
+** マーカーなしのレーダー
+** マーカー付きレーダー
+** 塗りつぶしたレーダー
+* コンボ チャート
+** xAxis を共有する柱状チャートと折れ線チャート
+** 柱状チャートと折れ線チャート、および 2 番目の xAxis
+** 積層領域と柱状チャート
+** カスタムな組み合わせ
+
+[[Preview]]
+== プレビュー
+
+以下は、折れ線チャート、柱状チャート、エリア チャート、円チャートとデータを以下のコード スニペットを使用して表示した {SpreadsheetName} の最終結果のプレビューです。
+
+image::images/charts.png[]
+
+[[Code_Snippets]]
+=== コード スニペット
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+*XAML*:
+
+[source,xaml]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+   …>
+    <ig:XamSpreadsheet x:Name="Spreadsheet1">
+        <ig:XamSpreadsheet.ChartAdapter>
+            <ig:SpreadsheetChartAdapter />
+        </ig:XamSpreadsheet.ChartAdapter>
+    </ig:XamSpreadsheet>
+----
+endif::xaml[]
+
+*C#:*
+
+[source,csharp]
+----
+   
+Spreadsheet1 = new {SpreadsheetName}();
+Spreadsheet1.ChartAdapter = new SpreadsheetChartAdapter();
+
+//Get the cells for the four charts that will placed in the Worksheet.
+WorksheetCell cell1 = sheet.GetCell("A1");
+WorksheetCell cell2 = sheet.GetCell("B1");
+WorksheetCell cell3 = sheet.GetCell("C1");
+WorksheetCell cell4 = sheet.GetCell("D1");
+
+////Create Line chart.
+WorksheetChart chart1 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Line, cell1, new Point(0, 0), cell1, new Point(100, 100));
+chart1.SetSourceData("A2:D4", true);
+
+//Create Column chart.
+WorksheetChart chart2 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.ColumnClustered, cell2, new Point(0, 0), cell2, new Point(100, 100));
+chart2.SetSourceData("A2:D4", true);
+
+//Create Area chart.
+WorksheetChart chart3 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Area, cell3, new Point(0, 0), cell3, new Point(100, 100));
+chart3.SetSourceData("A2:D4", true);
+
+//Create Pie chart.
+WorksheetChart chart4 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Pie, cell4, new Point(0, 0), cell4, new Point(100, 100));
+chart4.SetSourceData("A2:D4", false);
+      
+this.Spreadsheet1.Workbook = workbook;
+
+----
+
+*Visual Basic:*
+
+[source,vb]
+----
+
+Dim spreadsheet As {SpreadsheetName} = New {SpreadsheetName}()
+spreadsheet1.ChartAdapter = New SpreadsheetChartAdapter() 
+
+' Get the cells for the four charts that will placed in the Worksheet.
+Dim cell1 As WorksheetCell = sheet.GetCell("A1")
+Dim cell2 As WorksheetCell = sheet.GetCell("B1")
+Dim cell3 As WorksheetCell = sheet.GetCell("C1")
+Dim cell4 As WorksheetCell = sheet.GetCell("D1")
+
+' Create Line chart.
+Dim chart1 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Line, cell1, New Point(0, 0), cell1, New Point(100, 100))
+chart1.SetSourceData("A2:D4", True)
+
+' Create Column chart.
+Dim chart2 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.ColumnClustered, cell2, New Point(0, 0), cell2, New Point(100, 100))
+chart2.SetSourceData("A2:D4", True)
+
+' Create Area chart.
+Dim chart3 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Area, cell3, New Point(0, 0), cell3, New Point(100, 100))
+chart3.SetSourceData("A2:D4", True)
+
+' Create Pie chart.
+Dim chart4 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Pie, cell4, New Point(0, 0), cell4, New Point(100, 100))
+chart4.SetSourceData("A2:D4", False)
+
+Me.Spreadsheet1.Workbook = workbook
+
+----
+
+
+[[Related_Content]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+* link:spreadsheet-working.html[{SpreadsheetName} での作業]
+* link:spreadsheet-work-data-validation.html[データ検証]

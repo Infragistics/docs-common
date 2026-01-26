@@ -1,0 +1,404 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-accessing-cells-and-cell-regions-by-name",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "c2bd820f-7a6f-4575-9047-c15afa2663e0",  
+    "buildFlags": [],
+    "createdOn": "2012-03-19T15:30:09.8362806Z"
+}
+|metadata|
+////
+
+= Accessing Cells and Cell Regions by Name
+
+*Topic Overview*
+
+=== Purpose
+
+This topic explains, with code examples, how to access cells and regions within a worksheet in a Microsoft® Excel® workbook by their names or by their named references. For information about how to access cells and regions by their reference strings, refer to the link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Accessing Cells and Regions by their Reference Strings] topic.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref317855283,Accessing Cells and Ranges by Names – Conceptual Overview>>
+
+** <<_Ref317855288,Introduction>>
+** <<_Ref317855293,Requirements>>
+** <<OLE_LINK88,Naming cells and regions in Excel>>
+** <<OLE_LINK59,Naming cells and regions in code>>
+** <<_Ref317855324,Referencing cells and regions by Name>>
+
+* <<_Ref317855459,Accessing Cells and Regions by Name – Code Examples>>
+* <<OLE_LINK71,Naming Cells and Regions in Code>>
+
+** <<_Ref317855486,Description>>
+** <<_Ref317855491,Code>>
+
+* <<_Ref317855505,Referencing Cells and Regions by Name – Example 1>>
+
+** <<_Ref317855553,Description>>
+** <<OLE_LINK61,Code>>
+
+* <<_Ref317855563,Referencing Cells and Regions by Name – Example 2>>
+
+** <<_Ref317855569,Description>>
+** <<_Ref317855573,Code>>
+
+* <<_Ref317855606,Referencing Cells and Ranges by Name – Example 3>>
+
+** <<_Ref317855612,Description>>
+** <<OLE_LINK99,Prerequisites>>
+** <<_Ref317855629,Code>>
+
+* <<_Ref317855636,Defining Names for a Cell and a Range and Referencing Them>>
+
+** <<_Ref317855683,Description>>
+** <<_Ref317855688,Prerequisites>>
+** <<_Ref317855693,Code>>
+
+* <<_Ref317855719,Related Content>>
+
+[[_Accessing_Cells_and]]
+[[_Ref317855283]]
+== Accessing Cells and Regions by Names – Conceptual Overview
+
+[[_Introduction]]
+
+=== Introduction
+
+In Microsoft Excel, individual cells, as well as cell regions can have Names assigned to them, (The Names are assigned and displayed in the link:http://spreadsheets.about.com/od/glossary/g/name_box_def.htm[Name Box] of the spreadsheet.) The Name of a cell or region can be used to reference that cell or region instead of their cell references. The Names of cells and regions can be defined either in Excel or programmatically in code.
+
+Infragistics supports the referencing of cells and regions by Name through the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  and  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  methods of the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  object. You refer to the cell or region using the  _NamedReference_   instance that refers to that cell or region.
+
+[[_Reqguirements]]
+
+=== Requirements
+
+To be able to access an individual cell or a region of cells, they must be Named, either in MS Excel or programmatically in code.
+
+=== Naming cells and regions in Excel
+
+To define a Name for a cell or region in an Excel spreadsheet, with the cell or region selected,  *click the*  link:http://spreadsheets.about.com/od/glossary/g/name_box_def.htm[Name Box] *,*   *type the desired name*  *,*   *and*   *then press Enter* .
+
+[[_Naming_cells_and_1]]
+
+=== Naming cells and regions in code
+
+Cell or region Names defined in code are sometimes referred to as “named references”.
+
+To Name a cell or a region in code, use the syntax that follows. In your actual code, replace the variables (cell_Name, range_Name, sheet_name, cell_reference, range_cell_reference, instance_for_cell_NamedReference, and instance_for_range_NamedReference) with specific names.
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' Define a Name for a cell.
+Dim instance_for_cell_NamedReference As NamedReference = wrkBook.NamedReferences.Add("cell_Name", "=sheet_name!cell reference ", sheet_name)
+' Define a Name for a region.
+Dim instance_for_range_NamedReference As NamedReference = wrkBook.NamedReferences.Add("range_Name ", "= sheet_name!range cell reference ", sheet_name )
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// Define a Name for a cell.
+NamedReference instance_for_cell_NamedReference = wrkBook.NamedReferences.Add("cell_Name", "=sheet_name!cell reference", sheet_name);
+// Define a Name for a region.
+NamedReference instance_for_range_NamedReference = wrkBook.NamedReferences.Add("range_Name", "=sheet_name!range cell reference", sheet_name);
+----
+
+[[_Referencing_cells_and]]
+
+=== Referencing cells and regions by Name
+
+To reference a cell or a region by Name in code, use the following syntax. In your actual code replace the variables (cell_Name, range_Name) with specific names.
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' Access a cell by its name.
+sampleSheet.GetCell("cell_Name")
+' Access a region by its name
+sampleSheet.GetRegion("range_Name")
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// Access a cell by its Name.
+sampleSheet.GetCell("cell_Name");
+// Access a region by its Name.
+sampleSheet.GetRegion("range_Name");
+----
+
+[[_Accessing_Cells_and_3]]
+[[_Ref317855459]]
+== Accessing Cells and Regions by Name – Code Examples
+
+[[_Overview]]
+
+=== Overview
+
+The following table lists the code examples included in this topic.
+
+[options="header", cols="a,a"]
+|====
+|Example|Description
+
+|<<OLE_LINK71,Naming Cells and Regions in Code>>
+|Names are created in code for cell _B5_ and for cell region _G1_ _÷_ _G10_ of Sheet1.
+
+|<<_Ref317855505,Referencing Cells and Regions by Name – Example 1>>
+|Demonstrates how to access a cell with a Name _refNameB3_ and a cell region with a Name _refNameRegionC1C10_ .
+
+|<<_Ref317855563,Referencing Cells and Regions by Name – Example 2>>
+|Demonstrates how to reference a Named cell and region for displaying their content as a string in a message box.
+
+|<<_Ref317855606,Referencing Cells and Regions by Name – Example 3>>
+|Demonstrates how to access by their names, a cell and region in the first worksheet of workbook _Book1.xls_ residing on C:\, add a comment to that cell, apply a formula to the region, and then save the workbook.
+
+|<<_Ref317855636,Defining Names for a Cell and a Region and Referencing Them>>
+|Demonstrates how to define a pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] for a cell and region and get access to them from the _NamedReference_ instance.
+
+|====
+
+[[_Naming_Cells_and_2]]
+== *Naming Cells and Regions in Code*
+
+[[_Description]]
+
+=== Description
+
+In the following code, Names are created in code for cell  _B5_  and for cell region  _G1_  _÷_  _G10_  of  _Sheet1_ .
+
+[[_Creating_named_references]]
+
+=== Code
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' Define a Name for the cell.
+Dim nameRefCell As NamedReference = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet)
+' Define a Name for the region.
+Dim namerefRegion As NamedReference = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// Define a Name for the cell.
+NamedReference nameRefCell = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet);
+// Define a Name for the region.
+NamedReference namerefRegion = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet);
+----
+
+[[_Referencing_Cells_and_1]]
+[[_Ref317855505]]
+== *Referencing Cells and Regions by Name – Example 1*
+
+[[_Description_1]]
+
+=== Description
+
+The following code demonstrates how to access a cell with a Name  _refNameB3_  and a cell region with a Name  _refNameRegionC1C10_ .
+
+=== Code
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' Access a cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment
+' Access a region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1")
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// Access a cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment;
+// Access a region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1");
+----
+
+[[_Referencing_Cells_and_2]]
+[[_Ref317855563]]
+== *Referencing Cells and Regions by Name – Example 2*
+
+[[_Description_2]]
+
+=== Description
+
+The following code demonstrates how to reference a Named cell and region for displaying their content as a string in a message box.
+
+[[_Code_2]]
+
+=== Code
+
+*In Visual Basic:*
+
+[source,vb]
+----
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString())
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString())
+----
+
+*In C#:*
+
+[source,csharp]
+----
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString());
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString());
+----
+
+[[_Accessing_Cells_and_1]]
+[[_Ref317855606]]
+== Referencing Cells and Regions by Name – Example 3
+
+[[_Introduction_1]]
+
+=== Description
+
+The following example demonstrates how to access by their names, the cell  _B3_  and the region  _C1:C10_  in the first worksheet of workbook named  _Book1.xls_  residing on C:. The cell and the region are named  _refNameB3_  and  _refNameRegionC1C10_, respectively earlier in Excel.
+
+The example code loads a Workbook and creates an instance of the Worksheet. Cell  _B3_  of the Worksheet is accessed using the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  method by passing in the named reference of the cell. A comment is added to cell  _B3_ .
+
+Similarly  _RegionC1:C10_  is accessed using the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  method by passing in the named reference of the region. A formula is applied to the region  _C1:C10_ .
+
+[[_Prerequisites]]
+
+=== Prerequisites
+
+This example has the following prerequisites:
+
+* An Excel file named Book1.xls residing in C:\
+* Arbitrary numbers added in regions A1:A10 and B1:B10 of the Worksheet
+* Names added for Cell B3 and region C1:C10 as explained in <<OLE_LINK88,Naming cells and regions in Excel>>
+
+[[_Code]]
+
+=== Code
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+' Load the workbook.
+Dim wrkBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls")
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = wrkBook.Worksheets(0)
+Dim testComment As Infragistics.Documents.Excel.WorksheetCellComment = New WorksheetCellComment
+Dim formatted As FormattedString = New FormattedString("This cell has a reference name.")
+testComment.Text = formatted
+' Access the cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment
+' Access the region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1")
+' Save the workbook.
+wrkBook.Save("C:\\Book1.xls")
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// Load the workbook.
+Infragistics.Documents.Excel.Workbook wrkBook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls");
+Infragistics.Documents.Excel.Worksheet sampleSheet = wrkBook.Worksheets[0];
+Infragistics.Documents.Excel.WorksheetCellComment testComment = new WorksheetCellComment();
+FormattedString formatted = new FormattedString ("This cell has a reference name.");
+testComment.Text = formatted;
+// Access the cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment;
+// Access the region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1");
+// Save the workbook.
+wrkBook.Save("C:\\Book1.xls");
+----
+
+[[_Accessing_Cells_and_2]]
+[[_Defining_Names_for]]
+[[_Ref317855636]]
+== Defining Names for a Cell and a Region and Referencing Them
+
+[[_Introduction_2]]
+
+=== Description
+
+The following code demonstrates how to define a  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  for a cell and region and get access to them from the  _NamedReference_   instance.
+
+[[_Ref317855688]]
+
+=== Prerequisites
+
+This example has the following prerequisites:
+
+* An Excel file named Book1.xls residing in C:\
+
+Arbitrary numbers added in Regions  _A1:A10_  and  _B1:B10_  of the Worksheet
+
+[[_Code_1]]
+
+=== Code
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' Load the workbook.
+Dim wrkBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls")
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = wrkBook.Worksheets(0)
+'Define a Name for the cell.
+Dim nameRefCell As NamedReference = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet)
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString())
+' Define a Name for the region.
+Dim namerefRegion As NamedReference = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet)
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString())
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// Load the workbook.
+Infragistics.Documents.Excel.Workbook wrkBook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls");
+Infragistics.Documents.Excel.Worksheet sampleSheet = wrkBook.Worksheets[0];
+// Define a Name for the cell.
+NamedReference nameRefCell = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet);
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString());
+// Define a Name for the region.
+NamedReference namerefRegion = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet);
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString());
+----
+
+[[_Related_Content]]
+[[_Ref317855719]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:excelengine-save-and-load-files-in-excel-template-format.html[Save and Load Files in Excel Template Format]
+|This topic illustrates saving and loading of Excel files.
+
+| link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Accessing Cells and Regions by their Reference Strings]
+|This topic demonstrates accessing cells and regions within a worksheet in an Excel® Workbook using their reference strings.
+
+|====

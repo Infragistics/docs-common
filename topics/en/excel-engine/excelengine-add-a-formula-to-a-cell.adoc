@@ -1,0 +1,74 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-add-a-formula-to-a-cell",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Application Blocks","Calculations","Exporting","Getting Started","How Do I"],
+    "guid": "{090BEB57-8245-4C9F-9159-0A419C5A94F8}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7497031Z"
+}
+|metadata|
+////
+
+= Adding a Formula to a Cell ({ExcelEngineName})
+
+The {ExcelEngineName} allows you to add Microsoft® Excel® formulas to a cell or group of cells in a worksheet. You can do this using the link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] object’s link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~applyformula.html[ApplyFormula] method or by instantiating a link:{ExcelEngineApiLink}infragistics.documents.excel.formula.html[Formula] object and applying it to a cell. Regardless of the manner in which you apply a formula to a cell, you can access the Formula object using the WorksheetCell object's link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~formula.html[Formula] property. If you need the value, use the cell's link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~value.html[Value] property.
+
+The following code shows you how to add a formula to a cell. The example code assumes you have a reference to a Worksheet object named worksheet1.
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+worksheet1.Rows(5).Cells(0).ApplyFormula("=Sum(A1:A5)")
+'Using a Formula object to apply a formula
+Dim sumFormula As Formula = Formula.Parse("=Sum(A1:A5)"pick:[xamarin=", CellReferenceMode.A1"])
+sumFormula.ApplyTo(worksheet1.Rows(5).Cells(0))
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+worksheet1.Rows[5].Cells[0].ApplyFormula("=Sum(A1:A5)");
+//Using a Formula object to apply a formula
+Formula sumFormula = Formula.Parse("=Sum(A1:A5)"pick:[xamarin=", CellReferenceMode.A1"]);
+sumFormula.ApplyTo(worksheet1.Rows[5].Cells[0]);
+----
+
+== Related Topics
+
+link:excelengine-about-infragistics-excel-engine.html[About {ExcelEngineName}]
+
+link:excelengine-creating-a-workbook.html[Creating a Workbook ({ExcelEngineName})]
+
+link:excelengine-load-an-excel-file.html[Loading an Excel File ({ExcelEngineName})]
+
+link:excelengine-save-a-workbook.html[Saving a Workbook ({ExcelEngineName})]
+
+link:excelengine-format-a-cell.html[Formatting a Cell ({ExcelEngineName})]
+
+link:excelengine-copy-a-cells-format.html[Copying a Cell's Format ({ExcelEngineName})]
+
+link:excelengine-reference-cells-and-regions.html[Referenceing Cells and Regions ({ExcelEngineName})]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-merge-cells.html[Merging Cells ({ExcelEngineName})]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-merging-cells.html[Merging Cells ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-add-a-comment-to-a-cell.html[Adding a Comment to a Cell ({ExcelEngineName})]
+
+link:excelengine-disable-editing-of-a-worksheet.html[Disable Editing of a Worksheet ({ExcelEngineName})]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-freeze-rows-and-columns.html[Freezing and Splitting Panes ({ExcelEngineName})]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-freeze-and-split-panes.html[Freezing and Splitting Panes ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-set-excel-document-properties.html[Setting Workbook Properties ({ExcelEngineName})]

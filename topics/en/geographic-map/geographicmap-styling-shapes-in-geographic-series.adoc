@@ -1,0 +1,392 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Styling Shapes in Geographic Series
+
+=== Purpose
+
+This topic provides information on how to style shapes of geographic series in the link:{GeoMapLink}.{GeoMapName}.html[{GeoMapName}]™ control.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources with information about maps, shape files, and geo-spatial related material. Use these resources to learn about and obtain geo-spatial shape files as well as tools for their editing.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the  control.
+
+| link:geographicmap-using-geographic-series.html[Using Geographic Series]
+|This topic provides information about supported types of geographic series in the _{GeoMapName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320651776, Introduction >>
+
+ifdef::wpf[]
+
+* <<_RefExamples, Code Examples >>
+
+endif::wpf[]
+
+* <<_Ref320833482, Code Example: Applying a Style to Shapes of Geographic Series >> 
+
+ifdef::wpf[]
+
+* <<_Ref320833487, Code Example: Applying a Style Selector to Shapes of Geographic Series >> 
+endif::wpf[]
+* <<_Ref320185294, Related Content >>
+
+[[_Ref320651776]]
+=== Introduction
+
+In the _{GeoMapName}_ control, shapes are visual elements that represent polygons or polylines in a geographic context. These shapes are defined by a data column mapped to the link:{GeoMapLink}.geographicshapeseriesbase~shapememberpath.html[ShapeMemberPath] property of geographic series.
+
+The following types of geographic series support shapes:
+
+* link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries]
+* link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries]
+
+The following table summarized properties for styling shape elements in geographic series:
+
+[options="header", cols="a,a"]
+|====
+|Property|Description
+
+| link:{DataChartLink}.series~brush.html[Brush]
+|Specifies a brush for rendering fill of shape elements.
+
+| link:{DataChartLink}.series~outline.html[Outline]
+|Specifies a brush for rendering stroke of shape elements.
+ 
+| link:{GeoMapLink}.GeographicShapeSeries~ShapeStyle.html[ShapeStyle]
+|Specifies a style for rendering shape elements.
+
+ifdef::wpf[]
+
+| link:{GeoMapLink}.GeographicShapeSeries~ShapeStyleSelector.html[ShapeStyleSelector]
+|Specifies a style selector that randomly or conditionally selects a style for rendering shape elements
+
+endif::wpf[]
+
+|====
+
+ifdef::wpf[]
+
+[[_RefExamples]]
+== Examples
+The following table lists the code examples included in this topic.
+
+
+[options="header", cols="a,a"]
+|====
+|Example|Description
+
+|Applying a Style to Shapes of Geographic Series
+|Demonstrates how to apply a style to shapes elements using the link:{GeoMapLink}.GeographicShapeSeries~ShapeStyle.html[ShapeStyle] property of geographic series.
+
+| Applying a Style Selector to Shapes of Geographic Series
+|Demonstrates how to apply a style selector with conditional rules for rendering shape elements using the link:{GeoMapLink}.GeographicShapeSeries~ShapeStyleSelector.html[ShapeStyleSelector] property of geographic series.
+ 
+|Specifies a style selector that randomly or conditionally selects a style for rendering shape elements
+
+
+|====
+ 
+endif::wpf[]
+
+[[_Ref320833482]]
+=== Code Example: Applying a Style to Shapes of Geographic Series
+
+ifdef::wpf[]
+
+The link:https://msdn.microsoft.com/en-us/library/system.windows.style.targettype.aspx[TargetType] property of a link:https://msdn.microsoft.com/en-us/library/system.windows.style.aspx[Style] applied to the link:{GeoMapLink}.GeographicShapeSeries~ShapeStyle.html[ShapeStyle][ShapeStyle] property must match the type of shape elements used by geographic series.
+
+The following table maps the types geographic series to expected types of shape elements:
+
+
+
+[options="header", cols="a,a"]
+|====
+|Geographic Series|Target Type
+
+|link:{GeoMapLink}.GeographicPolylineSeries.html[GeographicPolylineSeries].link:{GeoMapLink}.GeographicPolylineSeries~ShapeStyle.html[ShapeStyle] 
+|Path
+
+|link:{GeoMapLink}.GeographicShapeSeries.html[GeographicShapeSeries].link:{GeoMapLink}.GeographicShapeSeries~ShapeStyle.html[ShapeStyle] 
+|Path
+
+
+|link:{GeoMapLink}.GeographicShapeControlSeries.html[GeographicShapeControlSeries].link:{GeoMapLink}.GeographicShapeControlSeries~ShapeStyle.html[ShapeStyle] 
+|ShapeControl
+
+|====
+
+endif::wpf[]
+
+The following is a preview of the _{GeoMapName}_ with a style applied to shape elements of geographic series.
+
+image::images/GeographicMap_Styling_Shapes_in_Geographic_Series_1.png[]
+
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.Series>
+        <ig:GeographicShapeSeries x:Name="geoSeries" >
+           <ig:GeographicShapeSeries.ShapeStyle>
+                 <Style TargetType="Path">                  
+                       <Setter Property="Fill" Value="#E2444748" />
+                       <Setter Property="Stroke" Value="#B1B0B7BA" />
+                       <Setter Property="StrokeThickness" Value="1" />
+                 </Style>
+           </ig:GeographicShapeSeries.ShapeStyle>
+        </ig:GeographicShapeSeries>
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim style = New Style(pick:[wpf="GetType(Path)"])
+ifdef::wpf[]
+style.Setters.Add(new Setter(Path.FillProperty, "#E2444748"))
+style.Setters.Add(new Setter(Path.StrokeProperty, "#B1B0B7BA"))
+style.Setters.Add(new Setter(Path.StrokeThicknessProperty, 1))
+endif::wpf[]
+ifdef::win-forms[]
+style.Fill = New SolidBrush(Color.FromArgb(68, 71, 72))
+style.Stroke = New SolidBrush(Color.FromArgb(176, 183, 186))
+style.StrokeThickness = 1
+endif::win-forms[]
+
+Dim geoSeries = New GeographicShapeSeries()
+geoSeries.ShapeStyle = style 
+Me.GeoMap.Series.Add(geoSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var style = new Style(pick:[wpf="typeof(Path)"]);
+ifdef::wpf[]
+style.Setters.Add(new Setter(Path.FillProperty, "#E2444748"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "#B1B0B7BA"));
+style.Setters.Add(new Setter(Path.StrokeThicknessProperty, 1));
+endif::wpf[]
+ifdef::win-forms[]
+style.Fill = new SolidBrush(Color.FromArgb(68, 71, 72));
+style.Stroke = new SolidBrush(Color.FromArgb(176, 183, 186));
+style.StrokeThickness = 1;
+endif::win-forms[]
+
+var geoSeries = new GeographicShapeSeries();
+geoSeries.ShapeStyle = style; 
+this.GeoMap.Series.Add(geoSeries);
+----
+
+
+ifdef::wpf[]
+[[_Ref320833487]]
+=== Code Example: Applying a Style Selector to Shapes of Geographic Series
+
+
+The following table summarizes types of style selector that can be applied to the link:{GeoMapLink}.GeographicShapeSeries~ShapeStyleSelector.html[ShapeStyleSelector] property of a geographic series.
+ 
+[options="header", cols="a,a"]
+|====
+|Geographic Series|Target Type
+ 
+
+|link:{DataChartLink}.RandomFillStyleSelector.html[RandomFillStyleSelector]
+|Provides rendering fill of shape elements using a collection of brushes set to the Brushes property.
+
+|link:{DataChartLink}.RandomSelectStyleSelector.html[RandomSelectStyleSelector] 
+|Provides a random rendering of shape elements using a collection of Style objects set to the Styles property.
+
+
+|link:{DataChartLink}.ConditionalStyleSelector.html[ConditionalStyleSelector] 
+|Provides conditional rendering of shape elements using a collection of ConditionalStyleRule objects set to the Rules property.
+ 
+  
+
+|====
+
+
+The following is a preview of the _{GeoMapName}_ with conditional styling of shape elements of geographic series.
+
+image::images/GeographicMap_Styling_Shapes_in_Geographic_Series_2.png[]
+
+
+The following code applies the ConditionalStyleSelector with conditional rules for rendering shape elements based on values of data items bound to the {ApiDataSource} property of the GeographicShapeSeries.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.Resources>      
+        <Style TargetType="Path" x:Key="shapeAsiaStyle">
+            <Setter Property="Fill" Value="#FF5F3E9D" />
+            <Setter Property="Stroke" Value="White" />
+        </Style>
+        <Style TargetType="Path" x:Key="shapeEuropeStyle">
+            <Setter Property="Fill" Value="#FFBF3D3D" />
+            <Setter Property="Stroke" Value="White" />
+        </Style>
+        <Style TargetType="Path" x:Key="shapeAfricaStyle">
+            <Setter Property="Fill" Value="#FF3B7F2A" />
+            <Setter Property="Stroke" Value="White" />
+        </Style>
+        <Style TargetType="Path" x:Key="shapeNorthAmericaStyle">
+            <Setter Property="Fill" Value="#FF3D5DAF" />
+            <Setter Property="Stroke" Value="White" />
+        </Style>
+        <Style TargetType="Path" x:Key="shapeLatinAmericaStyle">
+            <Setter Property="Fill" Value="#FF5B5D61" />
+            <Setter Property="Stroke" Value="White" />
+        </Style>
+        <Style TargetType="Path" x:Key="shapeAustraliaStyle">
+            <Setter Property="Fill" Value="#FFC6B046" />
+            <Setter Property="Stroke" Value="White" />
+        </Style>
+     </ig:XamGeographicMap.Resources>
+    <ig:XamGeographicMap.Series>
+        <ig:GeographicShapeSeries 
+            {ApiDataSource}="{StaticResource shapeFileSource}"
+            ShapeMemberPath="Points">
+            <ig:GeographicShapeSeries.ShapeStyleSelector>
+               <ig:ConditionalStyleSelector>
+                    <ig:ConditionalStyleSelector.Rules>
+                        <ig:EqualToConditionalStyleRule ValueMemberPath="Fields[REGION]" ComparisonValue="Asia" StyleToApply="{StaticResource shapeAsiaStyle}" />
+                        <ig:EqualToConditionalStyleRule ValueMemberPath="Fields[REGION]" ComparisonValue="Europe" StyleToApply="{StaticResource shapeEuropeStyle}" />
+                        <ig:EqualToConditionalStyleRule ValueMemberPath="Fields[REGION]" ComparisonValue="Africa" StyleToApply="{StaticResource shapeAfricaStyle}" />
+                        <ig:EqualToConditionalStyleRule ValueMemberPath="Fields[REGION]" ComparisonValue="North America" StyleToApply="{StaticResource shapeNorthAmericaStyle}" />
+                        <ig:EqualToConditionalStyleRule ValueMemberPath="Fields[REGION]" ComparisonValue="Latin America" StyleToApply="{StaticResource shapeLatinAmericaStyle}" />
+                        <ig:EqualToConditionalStyleRule ValueMemberPath="Fields[REGION]" ComparisonValue="Australia" StyleToApply="{StaticResource shapeAustraliaStyle}" />
+                    </ig:ConditionalStyleSelector.Rules>
+                </ig:ConditionalStyleSelector>
+            </ig:GeographicShapeSeries.ShapeStyleSelector>
+        </ig:GeographicShapeSeries>
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim shapeAsiaStyle = New Style(typeof(Path))
+style.Setters.Add(New Setter(Path.FillProperty, "#FF5F3E9D"))
+style.Setters.Add(New Setter(Path.StrokeProperty, "White")) 
+Dim shapeEuropeStyle = New Style(typeof(Path))
+style.Setters.Add(New Setter(Path.FillProperty, "#FFBF3D3D"))
+style.Setters.Add(New Setter(Path.StrokeProperty, "White")) 
+Dim shapeAfricaStyle = New Style(typeof(Path))
+style.Setters.Add(New Setter(Path.FillProperty, "#FF3B7F2A"))
+style.Setters.Add(New Setter(Path.StrokeProperty, "White")) 
+Dim shapeNorthAmericaStyle = New Style(typeof(Path))
+style.Setters.Add(New Setter(Path.FillProperty, "#FF3D5DAF"))
+style.Setters.Add(New Setter(Path.StrokeProperty, "White")) 
+Dim shapeLatinAmericaStyle = New Style(typeof(Path))
+style.Setters.Add(New Setter(Path.FillProperty, "#FFC6B046"))
+style.Setters.Add(New Setter(Path.StrokeProperty, "White")) 
+Dim shapeAustraliaStyle = New Style(typeof(Path))
+style.Setters.Add(New Setter(Path.FillProperty, "#FFC6B046"))
+style.Setters.Add(New Setter(Path.StrokeProperty, "White")) 
+
+Dim selector = New ConditionalStyleSelector()
+selector.Rules.Add(New EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Asia", StyleToApply = shapeAsiaStyle } )
+selector.Rules.Add(New EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Europe", StyleToApply = shapeEuropeStyle });
+selector.Rules.Add(New EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Africa", StyleToApply = shapeAfricaStyle })
+selector.Rules.Add(New EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "North America", StyleToApply = shapeNorthAmericaStyle })
+selector.Rules.Add(New EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Latin America", StyleToApply = shapeLatinAmericaStyle })
+selector.Rules.Add(New EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Australia", StyleToApply = shapeAustraliaStyle })
+
+var geoSeries = New GeographicShapeSeries()
+geoSeries.StyleSelector = selector
+GeoMap.Series.Add(geoSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+
+var shapeAsiaStyle = new Style(typeof(Path));
+style.Setters.Add(new Setter(Path.FillProperty, "#FF5F3E9D"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "White")); 
+var shapeEuropeStyle = new Style(typeof(Path));
+style.Setters.Add(new Setter(Path.FillProperty, "#FFBF3D3D"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "White")); 
+var shapeAfricaStyle = new Style(typeof(Path));
+style.Setters.Add(new Setter(Path.FillProperty, "#FF3B7F2A"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "White")); 
+var shapeNorthAmericaStyle = new Style(typeof(Path));
+style.Setters.Add(new Setter(Path.FillProperty, "#FF3D5DAF"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "White"));
+var shapeLatinAmericaStyle = new Style(typeof(Path));
+style.Setters.Add(new Setter(Path.FillProperty, "#FFC6B046"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "White"));
+var shapeAustraliaStyle = new Style(typeof(Path));
+style.Setters.Add(new Setter(Path.FillProperty, "#FFC6B046"));
+style.Setters.Add(new Setter(Path.StrokeProperty, "White"));
+
+var selector = new ConditionalStyleSelector();
+selector.Rules.Add(new EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Asia", StyleToApply = shapeAsiaStyle } );
+selector.Rules.Add(new EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Europe", StyleToApply = shapeEuropeStyle }); 
+selector.Rules.Add(new EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Africa", StyleToApply = shapeAfricaStyle });
+selector.Rules.Add(new EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "North America", StyleToApply = shapeNorthAmericaStyle });
+selector.Rules.Add(new EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Latin America", StyleToApply = shapeLatinAmericaStyle });
+selector.Rules.Add(new EqualToConditionalStyleRule { ValueMemberPath = "Fields[REGION]", ComparisonValue = "Australia", StyleToApply = shapeAustraliaStyle });
+
+var geoSeries = new GeographicShapeSeries();
+geoSeries.StyleSelector = selector; 
+GeoMap.Series.Add(geoSeries);
+----
+
+endif::wpf[]
+
+[[_Ref320185294]]
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+ 
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources with information about maps, shape files, and geo-spatial related material. Use these resources to learn about and obtain geo-spatial shape files as well as tools for their editing.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-series.html[Using Geographic Series]
+|This topic provides information about supported types of geographic series in the _{GeoMapName}_ control.
+
+|====

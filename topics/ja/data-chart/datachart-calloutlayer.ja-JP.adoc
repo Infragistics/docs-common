@@ -1,0 +1,264 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I"],
+    "controlName": ["{DataChartName}"]
+}
+|metadata|
+////
+
+= コールアウト レイヤー
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、pick:[wpf="ホバー"]pick:[xamarin="タッチ"]操作に使用されるコールアウト レイヤーについての情報を提供します。コールアウト レイヤーのプロパティについて説明し、実装例を提供します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|_{DataChartName}_ コントロールは、コントロールの DataContext プロパティにマップされるデータ オブジェクト モデルを必要とします。ここでは、単純なデータ オブジェクト モデルを提供しますが、自分自身で作成して、代わりにこのサンプル コードと使用することができます。
+
+| link:datachart-category-series-overview.html[カテゴリ シリーズ]
+|このトピックは、_{DataChartName}_ コントロールのカテゴリ シリーズのさまざまなタイプを説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Overview,概要>>
+* <<Preview,プレビュー>>
+* <<Properties,プロパティ>>
+* <<Example,例>>
+* <<Related,関連コンテンツ>>
+
+[[Overview]]
+== 概要
+
+=== コールアウト レイヤーの概要
+
+link:{DataChartLink}.calloutlayer.html[CalloutLayer] は _{DataChartName}_ コントロールに既存または新しいデータからの注釈を表示します。注釈はデータ ソースのデータ値の横に表示されます。
+
+コールアウト レイヤーは {DataChartName} のすべてのシリーズ タイプで使用されることをサポートします。
+
+ユーザーに注目させるデータポイントの詳細またはノートなどの追加情報のためにコールアウト注釈を使用します。
+
+別の構成を持つ複数のコールアウト レイヤーが必要な場合、特別なシリーズを対象とするコールアウトを構成できます。これは link:{DataChartLink}.calloutlayer{ApiProp}TargetSeries.html[TargetSeries] プロパティで設定できます。
+
+[[Preview]]
+== プレビュー
+
+以下の画像は、link:{DataChartLink}.calloutlayer.html[CalloutLayer] を追加した _{DataChartName}_ コントロールのプレビューです。
+
+pick:[win-forms="image::images/datachart_calloutlayer_winforms.png[]"]
+pick:[wpf="image::images/datachart_calloutlayer_wpf.png[]"]
+pick:[xamarin="image::images/datachart_calloutlayer_xamarin.png[]"]
+
+[[Properties]]
+== プロパティ
+
+=== コールアウト レイヤーのまとめ
+
+以下の表で、link:{DataChartLink}.calloutlayer.html[CalloutLayer] レイヤーのプロパティを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ型|説明
+
+| link:{DataChartLink}.calloutlayer{ApiProp}LabelMemberPath.html[LabelMemberPath]
+|`String`
+|チャートの注釈に表示される項目のためのデータ ソースでのメンバー パス。
+
+| link:{DataChartLink}.calloutlayer{ApiProp}XMemberPath.html[XMemberPath]
+|`String`
+|注釈の x 値のためのデータ ソースでのメンバー パス。
+
+| link:{DataChartLink}.calloutlayer{ApiProp}YMemberPath.html[YMemberPath]
+|`String`
+|注釈の y 値のためのデータ ソースでのメンバー パス。
+
+| link:{DataChartLink}.calloutlayer{ApiProp}IsCalloutOffsettingEnabled.html[IsCalloutOffsettingEnabled]
+|`Boolean`
+|コールアウトは競合の解決に基づいてオフセットされる場合、true に設定します。デフォルトで True。
+
+|====
+
+[[Example]]
+== 例
+
+以下のコードは上記の例を実装します。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+
+<ig:{DataChartName} x:Name="DataChart" Grid.Column="1"
+                 HorizontalZoomable="True" 
+                 VerticalZoomable="True"  
+                 DataContext="{StaticResource VM}" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="XAxis" ItemsSource="{Binding USA}"
+                          Label="{}{Year}"  Interval="1"/>
+        <ig:NumericYAxis x:Name="YAxis" MinimumValue="0" Label="{}{} M"
+                         Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:LineSeries ValueMemberPath="ValueInMln"
+                       DataContext="{Binding USA}"
+                       ItemsSource="{Binding}"
+                       Title="{Binding Country}"
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}" >
+        </ig:LineSeries>
+        <ig:LineSeries ValueMemberPath="ValueInMln"
+                       DataContext="{Binding RUS}"
+                       ItemsSource="{Binding}"
+                       Title="{Binding Country}"
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}" >
+        </ig:LineSeries>      
+        <!-- this single callout layer is targeting ItemsSource of multiple series: -->
+        <ig:CalloutLayer x:Name="AutoCallout" 
+                         IsAutoCalloutBehaviorEnabled="True"
+                         UseValueForAutoCalloutLabels="True"
+                         AutoCalloutLabelPrecision="1"
+                         XMemberPath="Index"
+                         YMemberPath="ValueInMln"
+                         LabelMemberPath="ChangePercentage"
+                         CalloutLeaderBrush="Gray"
+                         CalloutOutline="Gray"
+                         CalloutBackground="DodgerBlue"
+                         CalloutTextColor="White"
+                         CalloutStrokeThickness="1.5">
+        </ig:CalloutLayer>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding USA}" Label="Year" Interval="1"/>
+        <ig:NumericYAxis x:Name="yAxis" MinimumValue="0" Title="Population (M)" LabelLocation="OutsideRight"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesUSA"
+                           BindingContext="{Binding USA}"
+                           ItemsSource="{Binding}"
+                           Title="{Binding Country}"
+                           XAxis="{x:Reference xAxis}"
+                           YAxis="{x:Reference yAxis}" >
+        </ig:LineSeries>
+        <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesRUS"
+                           BindingContext="{Binding RUS}"
+                           ItemsSource="{Binding}"
+                           Title="{Binding Country}"
+                           XAxis="{x:Reference xAxis}"
+                           YAxis="{x:Reference yAxis}" >
+        </ig:LineSeries>
+        <!-- these two callout layers are targeting ItemsSource for each series: -->
+        <ig:CalloutLayer  
+                CollisionChannel="MultipleCallouts"
+                TargetSeries="{x:Reference SeriesUSA}"
+                ItemsSource="{Binding CalloutsUSA}"
+                IsAutoCalloutBehaviorEnabled="False"
+                UseValueForAutoCalloutLabels="False" 
+                XMemberPath="DataItem.Index"
+                YMemberPath="DataItem.ValueInMln"
+                LabelMemberPath="Label"
+                ContentMemberPath="Content"
+                CalloutLeaderBrush="{Binding Source={x:Reference SeriesUSA}, Path=Brush}"
+                CalloutOutline="{Binding Source={x:Reference SeriesUSA}, Path=Brush}"
+                CalloutBackground="{Binding Source={x:Reference SeriesUSA}, Path=Brush}"
+                CalloutTextColor="White"
+                CalloutStrokeThickness="1.5">
+        </ig:CalloutLayer>
+        <ig:CalloutLayer  
+                CollisionChannel="MultipleCallouts"
+                TargetSeries="{x:Reference SeriesRUS}"
+                ItemsSource="{Binding CalloutsRUS}"
+                IsAutoCalloutBehaviorEnabled="False"
+                UseValueForAutoCalloutLabels="False"
+                AutoCalloutLabelPrecision="1"
+                XMemberPath="DataItem.Index"
+                YMemberPath="DataItem.ValueInMln"
+                LabelMemberPath="Label"
+                ContentMemberPath="Content"
+                CalloutLeaderBrush="{Binding Source={x:Reference SeriesRUS}, Path=Brush}"
+                CalloutOutline="{Binding Source={x:Reference SeriesRUS}, Path=Brush}"
+                CalloutBackground="{Binding Source={x:Reference SeriesRUS}, Path=Brush}"
+                CalloutTextColor="White"
+                CalloutStrokeThickness="1.5">
+        </ig:CalloutLayer>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+*C# の場合:*
+[source,cs]
+----
+var callout = new CalloutLayer();
+callout.IsAutoCalloutBehaviorEnabled = true;
+callout.UseValueForAutoCalloutLabels = true;
+callout.AutoCalloutLabelPrecision = 1;
+callout.XMemberPath = "Index";
+callout.YMemberPath = "ValueInMln";
+callout.LabelMemberPath = "ChangePercentage";
+callout.CalloutLeaderBrush = new SolidColorBrush(Colors.Gray);
+callout.CalloutOutline = new SolidColorBrush(Colors.Gray);
+callout.CalloutBackground = new SolidColorBrush(Colors.DodgerBlue);
+callout.CalloutTextColor = new SolidColorBrush(Colors.White);
+callout.CalloutStrokeThickness = 1.5;
+DataChart.Series.Add(callout);
+----
+endif::wpf[]
+
+[[Related]]
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-commonproperties.html[共通のプロパティ]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作機能が、link:{DataChartLink}.series_members.html[Series] クラスから継承したツールチップの相互作用を強調表示、pick:[wpf,win-universal="ホバリング"]pick:[xamarin="タッチ"]および相互作用するために使用するプロパティおよびメソッドについての情報を提供します。
+
+| link:datachart-crosshairlayer.html[十字線レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ」]操作に使用される十字線 レイヤーについての情報を提供します。十字線のプロパティについて説明し、実装例を示します。
+
+| link:datachart-categoryitemhighlightlayer.html[カテゴリ項目強調表示レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作に使用される項目強調表示線 レイヤーについての情報を提供します。カテゴリ項目強調表示レイヤーのプロパティについて説明し、実装例を示します。
+
+| link:datachart-categorytooltiplayer.html[カテゴリ ツールチップ レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作に使用されるカテゴリ ツールチップ レイヤーについての情報を提供します。
+
+| link:datachart-itemtooltiplayer.html[項目ツールチップ レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作に使用される項目ツールチップ線 レイヤーについての情報を提供します。項目ツールチップ レイヤーのプロパティについて説明し、実装例も提供します。
+
+|====

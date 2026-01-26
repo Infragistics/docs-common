@@ -1,0 +1,157 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理的シンボル シリーズを使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™  コントロールで link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] 要素を使用する方法を提供します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、 {GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+|このトピックは、 {GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320651776, 地理的シンボル シリーズ >>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320651783,プレビュー>>
+** <<_Ref320651786,データ要件>>
+** <<_Ref320651790,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320651776]]
+== 地理的シンボル シリーズ
+
+[[_Ref320193474]]
+
+=== 概要
+
+{GeoMapName} コントロールでは、 link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] は、地理的コンテキストでポイントまたはマーカーを使用して地理的データを表示する視覚地図要素です。地理的シリーズのこのタイプは、都市、空港、地震または興味のあるポイントなどの地理的位置のコレクションを描画するためにしばしば使用されます。
+
+[[_Ref320651783]]
+
+=== プレビュー
+
+以下の画像は、世界の主要都市をプロットする link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] のある  {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Using_Geographic_Symbol_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== データ要件
+
+{GeoMapName} コントロールの地理的シリーズの他のタイプと同様、 link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] には、データ バインディングのための link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}]  プロパティがあります。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/6sh2ey19.aspx[List]、 link:http://msdn.microsoft.com/ja-jp/library/ms132397.aspx[Collection]、 link:http://msdn.microsoft.com/ja-jp/library/7977ey2c.aspx[Queue]、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.stack.aspx[Stack] など link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイスを実装するオブジェクトにバインドできます。さらに、このオブジェクトの各項目は、地理的位置（経度と緯度）を保存する 2 つの数値データ列を持つ必要があります。これらのデータ列は、 link:{GeoMapLink}.geographicsymbolseries~latitudememberpath.html[LatitudeMemberPath] および link:{GeoMapLink}.geographicsymbolseries~longitudememberpath.html[LongitudeMemberPath] プロパティにマップされます。 link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] は、 {GeoMapName} コントロールでシンボル要素をプロットするために、このマップされたデータ列の値を使用します。
+
+[[_Ref320651790]]
+
+=== 例
+
+以下のコードは、ShapefileConverter を使用してシェープ ファイルからロードした都市の場所に link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] をバインドする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:ShapefileConverter x:Key="shapefileConverter"
+                        ShapefileSource="ShapeFiles/world_cities.shp"
+                        DatabaseSource="ShapeFiles/world_cities.dbf" >
+</ig:ShapefileConverter>
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.Series>
+        <ig:GeographicSymbolSeries {ApiDataSource}="{StaticResource shapefileConverter}"
+                                   LongitudeMemberPath="Points[0][0].X"
+                                   LatitudeMemberPath="Points[0][0].Y">
+        </ig:GeographicSymbolSeries>
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' GeographicSymbolSeries を作成して、データ バインディングを設定します
+Dim geoSeries = New GeographicSymbolSeries()
+geoSeries.{ApiDataSource} = shapefileConverter
+geoSeries.LongitudeMemberPath = "Points[0][0].X"
+geoSeries.LatitudeMemberPath = "Points[0][0].Y"
+' GeographicSymbolSeries を {GeoMapName} に追加します
+Me.GeoMap.Series.Add(geoSeries)
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// GeographicSymbolSeries を作成して、データ バインディングを設定します
+var geoSeries = new GeographicSymbolSeries();
+geoSeries.{ApiDataSource} = shapefileConverter;
+geoSeries.LongitudeMemberPath = "Points[0][0].X";
+geoSeries.LatitudeMemberPath = "Points[0][0].Y";
+// GeographicSymbolSeries を {GeoMapName} に追加します
+this.GeoMap.Series.Add(geoSeries);
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加] 
+
+|このトピックは、{GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、{GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+|このトピックは、{GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+|====

@@ -1,0 +1,135 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-getting-started-with-piechart",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Charting","Getting Started"],
+    "guid": "9435211d-6fdc-4546-88a3-6c0406196dea",
+    "buildFlags": ["SL","WPF","win-phone","XAMARIN","ANDROID","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:12.0708966Z"
+}
+|metadata|
+////
+
+= {PieChartName} を使用した作業の開始
+
+== はじめに
+
+link:{PieChartLink}.{PieChartName}.html[{PieChartName}] コントロールの使用を開始するには、 link:piechart-data-binding.html[データ バインディング]トピックを参照してください。
+
+== 基本的な {PieChartName} プロパティ
+
+以下は、円チャート コントロールの機能の基本的なプロパティの要約です。
+
+ifdef::xaml,win-forms[]
+*  pick:[xaml=" link:{PieChartLink}.{PieChartBase}{ApiProp}itemssource.html[ItemsSource]"]  pick:[win-forms=" link:{PieChartLink}.{PieChartBase}{ApiProp}datasource.html[DataSource]"] - 円チャートのデータへの参照を格納します。
+
+endif::xaml,win-forms[]
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}valuememberpath.html[ValueMemberPath] - 値、つまり各円スライスの円弧の長さとして使用されるプロパティ名をデータ モデルで指定する文字列。
+* link:{PieChartLink}.{PieChartBase}{ApiProp}labelmemberpath.html[LabelMemberPath] - この文字列は、ラベル、つまり各円スライスに表示したり凡例内に表示するテキストとして使用されるプロパティ名をデータ モデルで指定します。
+* link:{PieChartLink}.{PieChartBase}{ApiProp}LegendLabelMemberPath.html[LegendLabelMemberPath] - この文字列は各円スライスの凡例で使用されるデータ モデルのプロパティ名を指定します。設定されない場合、代わりに link:{PieChartLink}.{PieChartBase}{ApiProp}labelmemberpath.html[LabelMemberPath] を使用します。
+
+ifdef::wpf,sl[]
+* Tooltip - 円スライス上にマウスを移動するとヒントとして表示するフォーマットされた文字列。たとえば、{}{Value} はデータ モデルで Value プロパティのコンテンツを表示します。
+
+endif::wpf,sl[]
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}labelsposition.html[LabelsPosition] - ラベルの配置を指定する列挙型。
+
+ifdef::xaml,win-forms[]
+** None: すべてのラベルを非表示。
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+** Center: スライスの中央にラベルを表示。ラベルが収まらない場合、非表示。
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+** InsideEnd: ラベルをスライスの端に近い内側に表示。ラベルが収まらない場合、非表示。
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+** OutsideEnd: スライスの外側にラベルを表示。
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+** BestFit: 優先順位 Center、InsideEnd、OutsideEnd の順序でラベルを配置。
+
+endif::xaml,win-forms[]
+
+ifdef::android[]
+** NONE: すべてのラベルを非表示。
+
+endif::android[]
+
+ifdef::android[]
+** CENTER: スライスの中央にラベルを表示。ラベルが収まらない場合、非表示。
+
+endif::android[]
+
+ifdef::android[]
+** INSIDE_END: ラベルをスライスの端に近い内側に表示。ラベルが収まらない場合、非表示。
+
+endif::android[]
+
+ifdef::android[]
+** OUTSIDE_END: スライスの外側にラベルを表示。
+
+endif::android[]
+
+ifdef::android[]
+** BEST_FIT: 優先順位 Center、InsideEnd、OutsideEnd の順序でラベルを配置。
+
+endif::android[]
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}labelextent.html[LabelExtent] - 円スライスの端とラベルの先頭の間の距離を指定します。LabelsPosition が OutsideEnd に設定されている場合に関係します。
+
+ifdef::xaml[]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}leaderlinevisibility.html[LeaderLineVisibility] - pick:[wpf,sl="ブール値。"]引き出し線が表示されるかどうかを指定します。LabelsPosition が OutsideEnd に設定されている場合に関係します。
+
+endif::xaml[]
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}explodedradius.html[ExplodedRadius] - 展開される時に円スライスが外側に移動する距離を決定します。有効な値の範囲は 0～1 です。
+* link:{PieChartLink}.{PieChartBase}{ApiProp}radiusfactor.html[RadiusFactor] 円チャートの半径を決定します。1 に設定されると、半径はコントロールの Width と Height の最大に等しくなります。有効な値の範囲は 0～1 です。
+* link:{PieChartLink}.{PieChartBase}{ApiProp}allowsliceselection.html[AllowSliceSelection] - ブール値。円スライス選択を許可または禁止します。
+
+ifdef::xaml[]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}selectedslices.html[SelectedSlices] - インデックス値の配列。現在選択されている円スライスを記述します。
+
+endif::xaml[]
+
+ifdef::xaml[]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}explodedslices.html[ExplodedSlices] - インデックス値の配列。現在展開されている円スライスを記述します。
+
+endif::xaml[]
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}startangle.html[StartAngle] - 円スライスが描画を開始するオフセット角度（度）。
+
+ifdef::xaml[]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}sweepdirection.html[SweepDirection] - StartAngle から開始する、円スライスが描画される角度方向を決定します。
+
+endif::xaml[]
+
+ifdef::xaml[]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}sliceclick_ev.html[SliceClick] - 円スライスをクリックすると発生するイベント。「選択および展開」を参照してください。
+
+endif::xaml[]
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}legend.html[Legend] - 円チャートに関連付けられた ItemLegend オブジェクトへのオプションの参照を格納します。
+* link:{PieChartLink}.{PieChartBase}{ApiProp}brushes.html[Brushes] - 円スライスに色を付けるために起こった順番に使用されるブラシのコレクションへのオプション参照。
+
+== 関連トピック
+
+* link:piechart-data-binding.html[データ バインディング]
+* link:piechart-others-category.html[その他の分類項目]
+
+ifdef::xaml,win-forms[]
+* link:piechart-selection-and-explosion.html[展開]
+* link:piechart-selection.html[選択]
+
+endif::xaml,win-forms[]

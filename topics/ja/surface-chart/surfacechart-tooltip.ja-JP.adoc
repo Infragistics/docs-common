@@ -1,0 +1,235 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-tooltip",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "30bf8c74-7695-483d-9084-a7d5f2483a52",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-02-29T14:00:43.6141694Z"
+}
+|metadata|
+////
+
+= ツールチップ
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] コントロールでデフォルトのツールチップを表示/非表示、およびカスタム ツールチップを適用する方法について説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref443077597, デフォルト ツールチップの表示/非表示>>
+* <<_Ref443077603, カスタム ツールチップの適用>>
+* <<_Ref443077611, 関連コンテンツ>>
+
+[[_Ref443077597]]
+== デフォルト ツールチップの表示/非表示
+
+=== 概要
+
+2D ツールチップは、_xamScatterSurface3D_ シリーズ サーフェスにマウスオーバーしている間表示され、X、Y、Z のデータ ポイント座標を提供します。
+
+_xamScatterSurface3D_   コントロールで link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamchart3d~tooltipvisibility.html[ToolTipVisibility] プロパティを使用してデータポイント マーカーを表示/非表示にします。
+
+デフォルトで、`ToolTipVisibility` の初期値は `Visible` です。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|デフォルト ツールチップの表示/非表示
+| link:{SurfaceChartLink}.xamchart3d~tooltipvisibility.html[ToolTipVisibility]
+|`Visibility`
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果として _xamScatterSurface3D_ コントロールの動作がどうなるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamchart3d~tooltipvisibility.html[ToolTipVisibility]
+| _Visible_ 
+
+|====
+
+image::images/Tooltip_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ToolTipVisibility="Visible"/>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+SurfaceChart.ToolTipVisibility = Visibility.Visible;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+SurfaceChart.ToolTipVisibility = Visibility.Visible
+----
+
+[[_Ref443077603]]
+== カスタム ツールチップの適用
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamchart3d~tooltiptemplate.html[ToolTipTemplate] プロパティを使用して _xamScatterSurface3D_ コントロールにカスタム ツールチップ DataTemplate を適用し、外観を変更します。
+
+作成した `DataTemplate` のランタイム `DataContext` は link:{SurfaceChartLink}.surfacecharttooltipdatacontext_members.html[SurfaceChartToolTipDataContext] オブジェクトです。
+
+`SurfaceChartToolTipDataContext` は、3D スペースのマウス位置に相対するタイプ `Point3D` のプロパティ link:{SurfaceChartLink}.surfacecharttooltipdatacontext~location.html[Location] を提供します。
+
+ネガティブ コンテナーを使用してマウス位置の上または左にツールチップを配置します。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|カスタム ツールチップの適用
+| link:{SurfaceChartLink}.xamchart3d~tooltiptemplate.html[ToolTipTemplate]
+|`DataTemplate`
+
+|====
+
+=== 例
+
+以下の設定は、以下のコードの結果として _xamScatterSurface3D_ コントロールの外観がどのようになるかを示しています。
+
+image::images/Tooltip_2.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<Grid>
+    <Grid.Resources>
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="4,2"/>
+        </Style>
+        <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource TextBlockStyle}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <DataTemplate x:Key="ToolTipTemplate">
+            <Border BorderBrush="LightGray" BorderThickness="1" Margin="12" Padding="5" Background="White" Opacity="0.8" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="X" Grid.Column="0" Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}"/>
+                    <TextBlock Text="Y" Grid.Column="1" Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}"/>
+                    <TextBlock Text="Z" Grid.Column="2" Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}"/>
+                    <Border BorderBrush="Black" BorderThickness="0.5" HorizontalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="3"/>
+                    <TextBlock Text="{Binding Location.X, StringFormat=N2}" Grid.Column="0" Grid.Row="2" Style="{StaticResource TextBlockStyle}" />
+                    <TextBlock Text="{Binding Location.Y, StringFormat=N2}" Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBlockStyle}"/>
+                    <TextBlock Text="{Binding Location.Z, StringFormat=N2}" Grid.Column="2" Grid.Row="2" Style="{StaticResource TextBlockStyle}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Grid.Resources>
+    <ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ToolTipTemplate="{StaticResource ToolTipTemplate}"/>
+</Grid>
+----
+
+[[_Ref443077611]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-aspect-perspective.html[次元と視点]
+|このトピックでは、 _xamScatterSurface3D_ コントロールの次元および視点を構成する方法を説明します。
+
+| link:surfacechart-axis.html[軸設定]
+|このグループ トピックでは、 _xamScatterSurface3D_ コントロールの軸設定を構成する方法を説明します。
+
+| link:surfacechart-crosshairs.html[十字線の設定]
+|このトピックでは、 _xamScatterSurface3D_ コントロールで十字線を構成する方法を説明します。
+
+| link:surfacechart-cube.html[キューブ設定]
+|このトピックでは、 _xamScatterSurface3D_ コントロールの縁の太さとキューブの素材を構成する方法を説明します。
+
+| link:surfacechart-data-point-marker.html[データ ポイント マーカー]
+|このグループ トピックでは、 _xamScatterSurface3D_ コントロールのデータ ポイント マーカーを構成する方法を説明します。
+
+| link:surfacechart-floor.html[フロアの設定]
+|このトピックでは、 _xamScatterSurface3D_ コントロールのフロア設定を構成する方法について説明します。
+
+| link:surfacechart-performance.html[パフォーマンス]
+|大きなデータ ポイントのセットを描画する際に _xamScatterSurface3D_ コントロールのパフォーマンスを最適化する方法について説明します。
+
+| link:surfacechart-rotation.html[回転]
+|このトピックでは、 _XamScatterSurface3D_ コントロールを構成する方法を説明します。
+
+| link:surfacechart-series.html[シリーズ設定]
+|このグループ トピックでは、 _xamScatterSurface3D_ コントロールのシリーズ設定を構成する方法を説明します。
+
+| link:surfacechart-zooming.html[ズーム]
+|このトピックでは、 _xamScatterSurface3D_ コントロールのスケーリングを実行する方法について説明します。
+
+|====

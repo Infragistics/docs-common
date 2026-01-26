@@ -1,0 +1,124 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-customizing-excel-shapes",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Exporting","Styling"],
+    "guid": "deec345d-ef68-4aef-afd5-341aaeaada81",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7807093Z"
+}
+|metadata|
+////
+
+= Excel の形状のカスタマイズ ({ExcelEngineName})
+
+== トピックの概要
+
+== 使用目的
+
+このトピックでは、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape.html[WorksheetShape] プロパティを使用して形状のルックアンドフィールを変更する方法を示します。
+
+== 必要な背景
+
+まず以下のトピックを読む必要があります。
+
+* link:excelengine-adding-a-shape-to-an-excel-worksheet.html[形状を Excel ワークシートに追加 ({ExcelEngineName})]
+
+== コントロールの構成の概要
+
+以下の表は、コントロールの構成可能な動作を示しています。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な動作|構成の詳細|構成プロパティ
+
+|<<customize,形状をカスタマイズ>>
+|形状をFill、Outline およびテキストに設定します。
+|
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~fill.html[Fill] 
+
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~outline.html[Outline] 
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext~text.html[Text] 
+
+|====
+
+[[customize]]
+== 形状をカスタマイズ
+
+== 概要
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。プロパティは、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape.html[WorksheetShape] および link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText] のクラスを通してアクセスされます。
+
+[options="header", cols="a,a,a"]
+|====
+|以下を行うために...|使用するプロパティ|設定値
+
+|塗りつぶしの色を設定します
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~fill.html[Fill プロパティ]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.shapefill.html[ShapeFill クラス]
+
+|アウトラインの色を設定します
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~outline.html[Outline プロパティ]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.shapeoutline.html[ShapeOutline クラス]
+
+|形状の表示/非表示を設定します
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~visible.html[Visible プロパティ]
+|False
+
+|形状を反転します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~flippedhorizontally.html[FlippedHorizontally プロパティ] 
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~flippedvertically.html[FlippedVertically プロパティ]
+|True
+
+|形状の内側のテキストを設定します
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext~text.html[Text プロパティ]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.formattedstring.html[FormattedString クラス]
+
+|====
+
+== コード例: Excel 形状のカスタマイズ
+
+以下のコードは、以前に作成された形状の塗りつぶし、アウトライン、および/またはテキストを変更する方法を示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|設定
+
+|Fill
+|SteelBlue
+
+|Outline
+|RoyalBlue
+
+|テキスト
+|「形状の内部のテキスト」
+
+|====
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+shape.Fill = ShapeFill.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].SteelBlue)
+shape.Outline = ShapeOutline.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].RoyalBlue)
+shape.Text = New Infragistics.Documents.Excel.FormattedText("Inside text of a shape")
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+shape.Fill = ShapeFill.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].SteelBlue);
+shape.Outline = ShapeOutline.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].RoyalBlue);
+shape.Text = new Infragistics.Documents.Excel.FormattedText("Inside text of a shape");
+----
+
+== 関連トピック
+
+以下は、その他の役立つトピックです。
+
+* link:excelengine-adding-a-shape-to-an-excel-worksheet.html[形状を Excel ワークシートに追加]
+* link:excelengine-grouping-excel-shapes.html[Excel の形状のグループ化]
+* link:excelengine-importing-shapes-from-excel.html[Excel から形状をインポート]

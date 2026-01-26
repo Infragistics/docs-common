@@ -1,0 +1,202 @@
+﻿////
+|metadata|
+{
+    "name": "chart-working-with-gantt-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{C7EDF332-9226-47ED-BC17-D8E9E0A7932D}",
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= ガント チャート データでの作業
+
+このトピックでは、ガント チャートでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、ガント チャートのデータ要件のリストです。
+
+* データ セットには以下のいずれかが含まれます。
+
+** 以下の両方から構成される DataTable オブジェクト:
+
+*** DateTime 値を含む 2 列
+*** 文字列または数値を含む 2 列
+
+** 少なくとも 1 項目から構成される GanttDataSource オブジェクト。
+
+* DataTable が使用される場合、データで使用するための正しい列インデックスを識別するために、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~starttimecolumnindex.html[StartTimeColumnIndex]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~starttimecolumnindex.html[StartTimeColumnIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~starttimecolumnindex.html[StartTimeColumnIndex]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~endtimecolumnindex.html[EndTimeColumnIndex]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~endtimecolumnindex.html[EndTimeColumnIndex]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~endtimecolumnindex.html[EndTimeColumnIndex]"]  プロパティを設定する必要があります。
+* ガント チャートを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+* link:chart-composite-chart.html[合成チャート]でガント チャートを使用する場合には、チャートの軸要件の詳細は、 link:chart-axis-requirements-for-composite-charts.html[「合成チャートの軸要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データをガント チャートにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* ガント チャートのデータソースとして DataTable を使用する場合、必須の開始時間、終了時間、シリーズ、およびタスク列に加えて使用できる情報の列が多数あります。
+
+描画されたガント チャートとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a,a,a,a,a"]
+|====
+|GanttSeries|GanttTask|GanttStart|GanttEnd|GanttID|GanttLinkTo|GanttPercentComplete|GanttOwner
+
+|計画
+|Establish Goals
+|1/9/2006
+|1/15/2006
+|0
+|1
+|100
+|Thomas
+
+|計画
+|Determine Milestones
+|1/17/2006
+|1/21/2006
+|1
+|-1
+|25
+|Thomas
+
+|計画
+|Delegate Effort
+|1/9/2006
+|1/11/2006
+|2
+|3
+|0
+|Thomas
+
+|計画
+|Review
+|1/11/2006
+|1/13/2006
+|3
+|4
+|0
+|Thomas
+
+|デザイン
+|Outline Plans
+|1/15/2006
+|1/21/2006
+|4
+|5
+|100
+|Bill
+
+|デザイン
+|Create Diagram
+|1/21/2006
+|1/29/2006
+|5
+|-1
+|33
+|Bill
+
+|実装
+|Phase 1
+|1/10/2006
+|1/14/2006
+|6
+|7
+|100
+|David
+
+|実装
+|Phase 2
+|1/14/2006
+|1/16/2006
+|7
+|8
+|25
+|David
+
+|実装
+|Phase 3
+|1/17/2006
+|1/19/2006
+|8
+|9
+|0
+|David
+
+|実装
+|Phase 4
+|1/9/2006
+|1/24/2006
+|9
+|-1
+|0
+|David
+
+|====
+
+image::images/Chart_Gantt_Chart_01.png[]
+
+モデルとして上記のデータ セットを使用する場合、ガント　チャートにこの情報をロードするために以下のプロパティを設定する必要があります。
+
+[source]
+----
+UltraChart.GanttChart.Columns.SeriesLabelsColumnIndex = 0
+
+UltraChart.GanttChart.Columns.ItemLabelsColumnIndex = 1
+
+UltraChart.GanttChart.Columns.StartTimeColumnIndex = 2
+
+UltraChart.GanttChart.Columns.EndTimeColumnIndex = 3
+
+UltraChart.GanttChart.Columns.IDColumnIndex = 4
+
+UltraChart.GanttChart.Columns.LinkToColumnIndex = 5
+
+UltraChart.GanttChart.Columns.PercentCompleteColumnIndex = 6
+
+UltraChart.GanttChart.Columns.OwnerColumnIndex = 7
+----
+
+== GanttDataSource
+
+特化したコレクション クラスである  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.ganttdatasource.html[GanttDataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.ganttdatasource.html[GanttDataSource]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.ganttdatasource.html[GanttDataSource]"]  がガント チャート タイプに提供されます。外部のデータ ソースが使用されない、または、オブジェクト指向である場合、より厳密に型指定されたデータ モデルが望ましいので、GanttDataSource で作業することが賢明です。以下のサンプル コードを参照してください。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Data
+Dim ganttData As New GanttDataSource()
+Dim seriesA As GanttSeries = ganttData.Series.Add("Series A")
+Dim task1 As GanttItem = seriesA.Items.Add("Task 1")
+task1.Times.Add(DateTime.Parse("11/29/2004 12:00 PM"), DateTime.Parse("12/01/2004 12:00 PM"))
+task1.Times(0).ID = 0
+task1.Times(0).LinkToID = 1
+task1.Times(0).PercentComplete = 100
+task1.Times(0).Owner = "Worker A"
+Dim task2 As GanttItem = seriesA.Items.Add("Task 2")
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Data;
+GanttDataSource ganttData = new GanttDataSource();
+GanttSeries seriesA = ganttData.Series.Add("Series A");
+GanttItem task1 = seriesA.Items.Add("Task 1");
+task1.Times.Add(DateTime.Parse("11/29/2004 12:00 PM"), DateTime.Parse("12/01/2004 12:00 PM"));
+task1.Times[0].ID = 0;
+task1.Times[0].LinkToID = 1;
+task1.Times[0].PercentComplete = 100;
+task1.Times[0].Owner = "Worker A";
+GanttItem task2 = seriesA.Items.Add("Task 2");
+// など ...
+----

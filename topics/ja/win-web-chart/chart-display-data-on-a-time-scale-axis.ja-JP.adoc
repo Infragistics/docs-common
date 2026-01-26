@@ -1,0 +1,79 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-display-data-on-a-time-scale-axis",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{69F8B61E-07DE-4D33-A48D-F059BBB14A6D}",  
+    "buildFlags": [],
+    "createdOn": "2006-03-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 時間のスケール軸でデータを表示
+
+通常は、グラフではデータ内の日付と時刻の値を文字列値として取り扱い、X 軸には序数を配し、時間軸とはしません。グラフのデータを時系列的に処理したいのであれば（データ自体は時系列のものでなくても）、次の種類のグラフで時間のスケール軸を使用できます。
+
+* link:chart-about-2d-area-charts.html[エリア グラフ]
+* link:chart-gantt-chart.html[ガント チャート]
+* link:chart-about-2d-line-charts.html[折れ線グラフ]
+* link:chart-about-scatter-charts.html[散布図]
+* link:chart-about-2d-spline-charts.html[スプライン グラフ]
+* link:chart-about-2d-spline-area-charts.html[スプライン エリア グラフ]
+* link:chart-about-stacked-area-charts.html[積層型エリア グラフ]
+* link:chart-about-stacked-line-charts.html[積層型折れ線グラフ]
+* link:chart-about-stacked-spline-area-charts.html[積層型スプライン エリア グラフ]
+* link:chart-about-stacked-spline-charts.html[積層型スプライン グラフ]
+* link:chart-about-step-area-charts.html[ステップ エリア グラフ]
+* link:chart-about-step-line-charts.html[ステップ折れ線グラフ]
+
+[NOTE]
+====
+*注：* X 軸に時間値を配した散布図を作成するには、1 つ以上の NumericTimeSeries がある Series コレクションを使用します。X 軸のラベルには、ITEM_LABEL:MM/dd/yyyy などの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  を使用します。FormatString を書式指定子を使用せずに <ITEM_LABEL> に設定すると、使用するデータ範囲に最適の書式が選択されます。
+====
+
+=== 時間スケール軸を使用するには、以下の手順に従ってください。
+
+[start=1]
+. デザイン ビューの [プロパティ] ウィンドウで、構成するチャートのタイプに対応するプロパティをダブルクリックします。たとえば、Area チャートを構成する場合、AreaChart プロパティをダブルクリックします。
+[start=2]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~treatdatetimeasstring.html[TreatDateTimeAsString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~treatdatetimeasstring.html[TreatDateTimeAsString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~treatdatetimeasstring.html[TreatDateTimeAsString]"]  プロパティの値を False に変更します。（たとえば、エリア グラフのフォームのコードビハインドで、これは AreaChartAppearance.TreatDateTimeAsString=false として表示されます）。
+
+== データ要件
+
+X 軸に時間スケール軸を使用するための要件は、列名に DateTime 値として解析される値を使用することです。 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  が True の場合は、DateTime 列、または DateTime 値として解析される文字列を含む列がなければなりません（行ラベルと処理されるように）。
+
+[NOTE]
+====
+*注：* 上記のデータ要件は、ガント チャート、ステップ エリア グラフ、ステップ ライン チャート以外のすべての時間スケール軸をサポートするグラフに適用されます。
+====
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriescollection.html[Series]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriescollection.html[Series]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriescollection.html[Series]"]  コレクションを使用する場合は、1 つ以上の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.numerictimeseries.html[NumericTimeSeries]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.numerictimeseries.html[NumericTimeSeries]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.numerictimeseries.html[NumericTimeSeries]"]  を作成して、エリア グラフのデータソースとして使用します。
+
+軸ラベルを特定の間隔で表示する方法については、 link:chart-display-labels-at-intervals-on-a-time-scale-axis.html[「時間の連続的スケール軸への間隔ラベルの表示」]を参照してください。
+
+image::images/Chart_Displaying_Data_on_a_Time_Scale_Axis_01.png[]
+
+[options="header", cols="a,a,a"]
+|====
+|DateTimeStamp|Column1|Column2
+
+|1/1/2005
+|123123
+|1123
+
+|1/2/2005
+|341212
+|0
+
+|1/3/2005
+|1231234
+|0
+
+|1/4/2005
+|234234
+|0
+
+|====

@@ -1,0 +1,165 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-commands",
+    "tags": ["Commands","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "394a4d78-3155-4119-9e9f-fa709b22adad",
+    "buildFlags": ["XAML","SL","WPF"],
+    "createdOn": "2015-11-06T16:53:37.0884084Z"
+}
+|metadata|
+////
+
+= Working with Commands ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to perform different operations with the control using commands.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|====
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_ . 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref395009375, Commands Introduction >>
+* <<_Ref395009433, Code Example: Invoking a Command in XAML >>
+* <<_Ref395009434, Code Example: Invoking a Command in Code >>
+* <<_Ref395009440, Related Content >>
+
+[[_Ref395009375]]
+== Commands Introduction
+
+=== Commands summary
+
+The {SpreadsheetName} control provides a lot of commands for activating different features by instantiating the link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.primitives.spreadsheetcommandsource_members.html[SpreadsheetCommandSource] type. You can find the full list of commands in the link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.spreadsheetcommandtype.html[SpreadsheetCommandType] enumeration.
+
+.Note
+[NOTE]
+====
+Some of the commands (like Clipboard commands or Undo/Redo commands) are mapped to the routed commands in the link:http://msdn.microsoft.com/en-us/library/system.windows.input.applicationcommands(v=vs.110).aspx[ApplicationCommands] class, and also some editing commands (like alignments or text styling) are mapped to the routed commands in the link:http://msdn.microsoft.com/en-us/library/system.windows.documents.editingcommands(v=vs.110).aspx[EditingCommands] class.
+====
+
+.Note
+[NOTE]
+====
+Many  _xamSpreadsheet's_   commands will affect all user selected worksheets.
+====
+
+[[_Ref395009433]]
+== Code Example: Invoking a Command in XAML
+
+=== Description
+
+The following code snippet shows how to invoke a command in XAML on the  _xamSpreadsheet_   control using a button. The code snippet assumes you have a reference to a  _xamSpreadsheet_   instance named "xamSpreadsheet1".
+
+=== Code
+
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+  xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+  …>
+<Button Content="Zoom to 100%"
+  ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+  <ig:Commanding.Command>
+    <igPrim:SpreadsheetCommandSource
+      EventName="Click"
+      CommandType="ZoomTo100" />
+  </ig:Commanding.Command>
+</Button>
+----
+
+[[_Ref395009434]]
+== Code Example: Invoking a Command in Code
+
+=== Description
+
+The following code snippet shows how to invoke a command in code on the  _xamSpreadsheet_   control. The code snippet assumes you have a reference to a  _xamSpreadsheet_   instance named "xamSpreadsheet1".
+
+=== Code
+
+Following is the code that implements this example.
+
+*In C#:*
+
+[source,csharp]
+----
+using Infragistics.Controls.Grids;
+using Infragistics.Controls.Grids.Primitives;
+...
+SpreadsheetCommand cmd = new SpreadsheetCommand(SpreadsheetCommandType.ToggleCellEditMode);
+cmd.Execute(this.{SpreadsheetName}1);
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Import Infragistics.Controls.Grids
+Import Infragistics.Controls.Grids.Primitives
+...     
+Dim cmd As New SpreadsheetCommand(SpreadsheetCommandType.ToggleCellEditMode)
+cmd.Execute(Me.{SpreadsheetName}1)
+----
+
+[[_Ref395009440]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+| link:spreadsheet-work-selection.html[Working with Selection ({SpreadsheetName})]
+|This topic explains the selection feature from developer perspective.
+
+| link:spreadsheet-work-undo-redo.html[Working with Undo and Redo ({SpreadsheetName})]
+|This topic explains how to configure and perform undo and redo operations with the control.
+
+|====

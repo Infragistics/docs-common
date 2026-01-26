@@ -1,0 +1,163 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-sorting",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "529a67f4-caed-4327-b2ed-7dd7e808371d","buildFlags": [],
+    "createdOn": "2016-02-05T19:11:35.6935295Z"
+}
+|metadata|
+////
+
+= Sorting
+
+This topic is designed to quickly familiarize you with sorting behaviors that can be implemented with the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+
+== In this topic
+This topic contains the following sections 
+
+* <<RequiredBackground,Required Background>>
+* <<_Ref441830695,Overview>>
+* <<_Ref441830703,Column Sort Descriptions>>
+* <<_Ref441830710,Sorting Records of a Column>>
+* <<_Ref441830728,Sorting Records of Multiple Columns>>
+* <<RelatedContent,Related Content>>
+
+[[RequiredBackground]]   
+== Required Background 
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+| This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data. 
+
+| link:SampleSalesPerson.html[Sample Sales Person] 
+| This resource topic provides implementation of sample data that you can use a data source for the {DataGridName} control. 
+
+|====
+
+[[_Ref441830695]]
+== Overview
+
+The {DataGridName} control allows you to sort records of a link:{DataGridLink}.Column_members.html[Column]; the associated content of the remaining columns will be sorted accordingly and then the aggregate of these sorted records is displayed on the UI of the {DataGridName} control. Sorting can be implemented on Local and Remote data sources; for more information, refer to the following topics:
+
+* link:datagrid-binding-remote-data-source.html[Binding Remote Data Source]
+* link:datagrid-binding-local-data-source.html[Binding Local Data Source]
+
+The following steps demonstrate how to implement sorting:
+
+== {DataGridLinkBase}.ListSortDirection
+
+[start=1]
+. Bind the {DataGridName} control to data.
+[start=2]
+. Creating a new instance of the link:{DataGridLink}.ColumnSortDescription.html[ColumnSortDescription] class, passing as its parameters the pick:[android="key"]pick:[xaml="`PropertyPath`"] of the link:{DataGridLink}.Column_members.html[Column] that you are interested in sorting as well as the desired link:{DataGridLinkBase}.ListSortDirection.html[ListSortDirection], (ascending or descending).
+[start=3]
+. Add the `ColumnSortDescription` object to the {DataGridName} control's link:{DataGridLink}.ColumnSortDescriptionCollection.html[ColumnSortDescriptionCollection] collection.
+
+[[_Ref441830703]]
+== Column Sort Descriptions
+
+A link:{DataGridLink}.ColumnSortDescription.html[ColumnSortDescription] object is used to tell the {DataGridName} control how it should sort its records; each `ColumnSortDescription` is responsible for a single sorting behavior, (for example, the LastName link:{DataGridLink}.Column_members.html[Column] should be sorted with an Ascending order). Multiple `ColumnSortDescription` objects may be assigned to the {DataGridName} control simultaneously to achieve even more complex sorting behaviors, (for more information, see the <<_Ref441830728,Example Sorting Records of Multiple Columns:>>).
+
+The {DataGridName} control determines how it should sort its records by iterating through the `ColumnSortDescription` objects, (if any) within its link:{DataGridLink}.ColumnSortDescriptionCollection.html[ColumnSortDescriptionCollection] collection. If no `ColumnSortDescription` objects are present, the {DataGridName} control will persist the original record order of its underlying link:{DataGridLink}.{DataGridName}~{ApiDatasource}.html[{ApiDataSource}].
+
+Each `ColumnSortDescription` object is assigned a property on the {DataGridName} control's {ApiDataSource}, (for example, such as a public property associated with a link:{DataGridLink}.Column_members.html[Column]) whose records will be sorted, as well as a `ColumnSortDescription`, which indicates the sorting direction to be applied to the column records, (either ascending or descending).
+
+
+[[_Ref441830710]]
+== Sorting Records of Single Column
+
+The following example demonstrates how to implement a basic sorting behavior. In this scenario, the {DataGridName} control is bound to data containing three link:{DataGridLink}.Column_members.html[Columns] : FirstName, LastName, and Territory; with an ascending sort order applied to the LastName link:{DataGridLink}.Column_members.html[Column].
+
+
+This code snippets creates an instance of the link:{DataGridLink}.ColumnSortDescription.html[ColumnSortDescription] class, with the pick:[android="key"]pick:[xaml="`PropertyPath`"] of the LastName link:{DataGridLink}.Column_members.html[Column] and it uses the link:{DataGridLinkBase}.ListSortDirection.html[ListSortDirection] enumeration to pass in an ascending sort order. Then it adds the `ColumnSortDescription` object to a link:{DataGridLink}.ColumnSortDescriptionCollection.html[ColumnSortDescriptionCollection] collection off of the {DataGridName} control, using its link:{DataGridLink}.{DataGridName}{ApiPropGet}SortDescriptions.html[pick:[android="set"]SortDescriptions] {ApiMember}.
+
+ifdef::android[]
+*In Java:*
+
+[source, java]
+----
+SortDescription nameSortDescription = new SortDescription("LastName", SortDirection.ASCENDING);
+DataGrid.getSortDescriptions().add(nameSortDescription);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+var description = new ColumnSortDescription("LastName", ListSortDirection.Ascending);
+DataGrid.SortDescriptions.Add(description);
+----
+endif::xaml[]
+ 
+The following screenshot illustrates the resulting sort behavior, note that records within the LastName link:{DataGridLink}.Column_members.html[Column] are sorted in an ascending order, with all other associated records being sorted accordingly.
+
+image::images/Sorting_with_DataGridView_1.png[]
+
+[[_Ref441830728]]
+== Sorting Records of Multiple Columns
+
+Multiple link:{DataGridLink}.ColumnSortDescription.html[ColumnSortDescription] objects may be applied simultaneously to the {DataGridName} control. In such a circumstance, the {DataGridName} control will attempt to reconcile its sort conditions by performing a sync operation for its assigned link:{DataGridLink}.ColumnSortDescriptionCollection.html[ColumnSortDescriptionCollection]. This process involves the {DataGridName} control iterating through its `ColumnSortDescriptionCollection` collection and will prioritizing the sorting behavior of each `ColumnSortDescription` based on the order that it is present in the collection, (item[0] executed first, item[1] executed second, etc). In this way, multi-column sorting is possible, wherein data may be sorted into groups, which are also sorted.
+
+This multi-sort behavior is demonstrated in the following example.
+
+In this scenario, two `ColumnSortDescription` objects have been applied to the {DataGridName} control; the primary `ColumnSortDescription` targets the Territory link:{DataGridLink}.Column_members.html[Column] and sorts in an ascending order, the second targets the LastName `Column` and also sorts in an ascending order. Using this combination of `ColumnSortDescription` objects, a pseudo grouping behavior is achieved, where the names of individuals assigned to a given territory are grouped by that territory, (the list of which is sorted in an ascending order) and each group of individuals is also listed in an ascending order.
+ 
+ifdef::android[]
+*In Java:*
+
+[source, java]
+----
+SortDescription sorting1 = new SortDescription("Territory”, SortDirection.ASCENDING);
+SortDescription sorting2 = new SortDescription("LastName”, SortDirection.ASCENDING);
+
+DataGrid.getSortDescriptions().add(sorting1);
+DataGrid.getSortDescriptions().add(sorting2);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+var sorting1 = new ColumnSortDescription("Territory", ListSortDirection.Ascending);
+var sorting2 = new ColumnSortDescription("LastName", ListSortDirection.Ascending);
+
+DataGrid.SortDescriptions.Add(sorting1);
+DataGrid.SortDescriptions.Add(sorting2);
+----
+endif::xaml[]
+
+
+The following screenshot illustrates the resulting sort behavior on the Territory and LastName Columns.
+
+Note that the Territory link:{DataGridLink}.Column_members.html[Column] has been sorted first, in an ascending order followed by the LastName column which is also sorted in an ascending order. The {DataGridName} control has synced these sorting operations, so that both conditions are satisfied, (with the order that the link:{DataGridLink}.ColumnSortDescription.html[ColumnSortDescription] are executed in indicating their priority). In this way, all data items assigned to a territory are grouped by that territory and each group of item is also sorted in an ascending order.
+
+image::images/Sorting_with_DataGridView_2.png[]
+
+
+[[RelatedContent]]   
+=== Related Content
+
+The following table lists topics that are related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+ 
+| link:datagrid-supported-column-types.html[Supported Column Types]
+|This topic provides information on supported column types in the {DataGridName} control.
+  
+| link:datagrid-working-with-columns.html[Working with Columns]
+|This topic provides code examples on working with columns in the {DataGridName} control.
+
+| link:datagrid-filtering-grid.html[Filtering Grid]
+|This topic provides information and code examples on filtering behaviors in the {DataGridName} control.
+|====

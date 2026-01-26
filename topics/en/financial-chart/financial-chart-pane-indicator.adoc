@@ -1,0 +1,316 @@
+﻿= Indicator Panes
+
+=== Purpose
+This topic demonstrates the Indicator Panes of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control.
+
+The below screenshot highlights the Indicator Panes of the chart and the drop down that is used to adjust the chart type at run time.
+
+pick:[wpf="image::images/financialchart_wpf_pane_indicator.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_indicator.png[]"]
+
+=== Enabling Indicator Panes
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Type|Description
+
+ifdef::wpf,win-forms[]
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorTypes{HtmlApiExtension}[IndicatorTypes]
+|`FinancialIndicatorTypeCollection`
+|Gets or Sets the collection of Indicator Types:
+link:{FinancialChartLink}.financialIndicatorType{HtmlApiExtension}[FinancialIndicatorType].
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorDisplayTypes{HtmlApiExtension}[IndicatorDisplayTypes]
+|`IndicatorDisplayTypeCollection`
+|Gets or sets the collection of Indicator Display Types: link:{DataChartLink}.indicatorDisplayType{HtmlApiExtension}[IndicatorDisplayType].
+endif::wpf,win-forms[]
+
+ifdef::jquery[]
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorTypes{HtmlApiExtension}[IndicatorTypes]
+|`FinancialIndicatorTypeCollection`
+|Gets or Sets the collection of Indicator Types:
+`FinancialIndicatorType`.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorDisplayTypes{HtmlApiExtension}[IndicatorDisplayTypes]
+|`IndicatorDisplayTypeCollection`
+|Gets or sets the collection of Indicator Display Types: `IndicatorDisplayType`.
+
+endif::jquery[]
+
+
+|====
+
+By default the Indicator Panes are not displayed. You can set the indicator types through code as follows:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{FinancialChartName}>
+    <ig:{FinancialChartName}.IndicatorTypes>
+        <ig:FinancialIndicatorTypeCollection>
+            <ig:FinancialIndicatorType>AverageTrueRange</ig:FinancialIndicatorType>
+            <ig:FinancialIndicatorType>MassIndex</ig:FinancialIndicatorType>
+        </ig:FinancialIndicatorTypeCollection>
+    </ig:{FinancialChartName}.IndicatorTypes>
+    <ig:{FinancialChartName}.IndicatorDisplayTypes>
+        <ig:IndicatorDisplayTypeCollection>
+            <ig:IndicatorDisplayType>Area</ig:IndicatorDisplayType>
+            <ig:IndicatorDisplayType>Column</ig:IndicatorDisplayType>
+        </ig:IndicatorDisplayTypeCollection>
+    </ig:{FinancialChartName}.IndicatorDisplayTypes>
+</ig:{FinancialChartName}>
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart as New {FinancialChartName}()
+chart.IndicatorTypes = new FinancialIndicatorTypeCollection()
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.AverageTrueRange)
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.MassIndex)
+
+chart.IndicatorDisplayTypes = new IndicatorDisplayTypeCollection()
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Area)
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Column)
+----
+
+*In C#:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.IndicatorTypes = new FinancialIndicatorTypeCollection();
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.AverageTrueRange);
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.MassIndex);
+
+chart.IndicatorDisplayTypes = new IndicatorDisplayTypeCollection();
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Area);
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Column);
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    indicatorTypes: ["AverageTrueRange", "MassIndex"],
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "indicatorTypes", ["AverageTrueRange", "MassIndex"]);
+----
+endif::jquery[]
+
+=== Configuring Indicator Panes
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Type|Description
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorLongPeriod{HtmlApiExtension}[IndicatorLongPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the `IndicatorLongPeriod` period which applies only to these indicator types:
+
+MovingAverageConvergenceDivergenceIndicator +
+AbsoluteVolumeOscillatorIndicator +
+ChaikinOscillatorIndicator +
+PercentagePriceOscillatorIndicator +
+PercentageVolumeOscillatorIndicator   
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorPeriod{HtmlApiExtension}[IndicatorPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the `IndicatorPeriod` period which applies only to these indicator types:
+
+BollingerBandWidthIndicator +
+FullStochasticOscillatorIndicator +
+AverageDirectionalIndexIndicator +
+AverageTrueRangeIndicator +
+BollingerBandsOverlay +
+ChaikinVolatilityIndicator +
+CommodityChannelIndexIndicator +
+DetrendedPriceOscillatorIndicator +
+FastStochasticOscillatorIndicator +
+ForceIndexIndicator +
+MoneyFlowIndexIndicator +
+PriceChannelOverlay +
+RateOfChangeAndMomentumIndicator +
+RelativeStrengthIndexIndicator +
+SlowStochasticOscillatorIndicator +
+StandardDeviationIndicator +
+StochRSIIndicator +
+TRIXIndicator +
+WilliamsPercentRIndicator
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorShortPeriod{HtmlApiExtension}[IndicatorShortPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the `IndicatorShortPeriod` period which applies only to these indicator types:
+
+MovingAverageConvergenceDivergenceIndicator +
+AbsoluteVolumeOscillatorIndicator +
+ChaikinOscillatorIndicator +
+PercentagePriceOscillatorIndicator +
+PercentageVolumeOscillatorIndicator 
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorSignalPeriod{HtmlApiExtension}[IndicatorSignalPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the `IndicatorSignalPeriod` period which applies only to these indicator types:
+
+MovingAverageConvergenceDivergenceIndicator
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorSmoothingPeriod{HtmlApiExtension}[IndicatorSmoothingPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the `IndicatorSmoothingPeriod` period which applies only to these indicator types:
+
+FullStochasticOscillatorIndicator  
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorMultiplier{HtmlApiExtension}[IndicatorMultiplier]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the `IndicatorMultiplier` period which applies only to these indicator types:
+
+BollingerBandWidthIndicator
+
+|====
+
+=== Styling Indicator Panes
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Type|Description
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorBrushes{HtmlApiExtension}[IndicatorBrushes]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for coloring of positive values of indicators in order they were defined in IndicatorTypes property
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorNegativeBrushes{HtmlApiExtension}[IndicatorNegativeBrushes]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for coloring of negative values of indicators in order they were defined in IndicatorTypes property
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorThickness{HtmlApiExtension}[IndicatorThickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the thickness of all indicators
+
+|====
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamFinancialChart IndicatorTypes="Area"
+    IndicatorBrushes="Blue"
+    IndicatorNegativeBrushes="Red"
+    IndicatorThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart as New XamFinancialChart()
+chart.IndicatorBrushes = New Infragistics.BrushCollection()
+Dim brush = As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Blue;
+chart.IndicatorBrushes.Add(brush)
+
+chart.IndicatorNegativeBrushes = new Infragistics.BrushCollection()
+Dim brush2 = As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Red
+chart.IndicatorNegativeBrushes.Add(brush2)
+
+chart.IndicatorThickness = 2
+----
+
+*In C#:*
+[source,csharp]
+----
+var chart = new XamFinancialChart();
+chart.IndicatorBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Blue;
+chart.IndicatorBrushes.Add(brush);
+
+chart.IndicatorNegativeBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush2 = new SolidColorBrush();
+brush2.Color = Colors.Red;
+chart.IndicatorNegativeBrushes.Add(brush2);
+
+chart.IndicatorThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    indicatorTypes: ["AverageTrueRange", "MassIndex"],
+    indicatorBrushes: ["Blue"],
+    indicatorNegativeBrushes: ["Red"],
+    indicatorThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "indicatorBrushes", ["Blue"]);
+$("#financialChart").{FinancialChartName}("option", "indicatorNegativeBrushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "indicatorThickness", 2);
+----
+endif::jquery[]
+
+pick:[wpf="image::images/financialchart_wpf_pane_indicator_style.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_indicator_style.png[]"]
+
+
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|link:financial-chart-chartpanes.html[Chart Panes]
+|This article is an overview of the different chart panes.
+
+|====

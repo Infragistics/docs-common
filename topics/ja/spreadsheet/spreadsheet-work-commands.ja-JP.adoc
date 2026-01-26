@@ -1,0 +1,166 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-commands",
+    "tags": ["Commands","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "394a4d78-3155-4119-9e9f-fa709b22adad",
+    "buildFlags": ["XAML","SL","WPF"],
+    "createdOn": "2015-11-06T16:53:37.0884084Z"
+}
+|metadata|
+////
+
+= コマンドの操作 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、コマンドによりコントロールを使用してさまざまな操作を実行する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref395009375, コマンドの概要 >>
+* <<_Ref395009433, コード例:XAML でのコマンドの呼び出し >>
+* <<_Ref395009434, コード例:コードでのコマンドの呼び出し >>
+* <<_Ref395009440, 関連コンテンツ >>
+
+[[_Ref395009375]]
+== コマンドの概要
+
+=== コマンドの概要
+
+{SpreadsheetName} コントロールは、 link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.primitives.spreadsheetcommandsource_members.html[SpreadsheetCommandSource] 型をインスタンス化し、さまざまな機能を起動するコマンドを提供します。すべてのコマンドのリストは、 link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.spreadsheetcommandtype.html[SpreadsheetCommandType] にあります。
+
+注:
+
+[NOTE]
+====
+コマンドの一部 (クリップボード コマンドや元に戻す / やり直しコマンドなど) は、 link:http://msdn.microsoft.com/ja-jp/library/system.windows.input.applicationcommands(v=vs.110).aspx[ApplicationCommands] クラスのルーティングされたコマンドにマップされます。また、編集コマンドの一部 (配置やテキストのスタイル設定など) は、 link:http://msdn.microsoft.com/ja-jp/library/system.windows.documents.editingcommands(v=vs.110).aspx[EditingCommands] クラスのルーティングされたコマンドにマップされます。
+====
+
+注:
+
+[NOTE]
+====
+_{SpreadsheetName}_   の複数のコマンドはユーザーによって選択されているすべてのワークシートに影響します。
+====
+
+[[_Ref395009433]]
+== コード例:XAML でのコマンドの呼び出し
+
+=== 説明
+
+以下のコードは、ボタンを使用して  _{SpreadsheetName}_   コントロールに対して XAML でコマンドを呼び出す方法を示します。このコードは、「xamSpreadsheet1」という名前の  _{SpreadsheetName}_   のインスタンスへの参照があることを前提としています。
+
+=== コード
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+  xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+  …>
+<Button Content="Zoom to 100%"
+  ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+  <ig:Commanding.Command>
+    <igPrim:SpreadsheetCommandSource
+      EventName="Click"
+      CommandType="ZoomTo100" />
+  </ig:Commanding.Command>
+</Button>
+----
+
+[[_Ref395009434]]
+== コード例:コードでのコマンドの呼び出し
+
+=== 説明
+
+以下のコードは、 _{SpreadsheetName}_   コントロールに対してコードでコマンドを呼び出す方法を示します。このコードは、「xamSpreadsheet1」という名前の  _{SpreadsheetName}_   のインスタンスへの参照があることを前提としています。
+
+=== コード
+
+以下のコードはこの例を実装します。
+
+*C# の場合:*
+
+[source,csharp]
+----
+using Infragistics.Controls.Grids;
+using Infragistics.Controls.Grids.Primitives;
+...
+SpreadsheetCommand cmd = new SpreadsheetCommand(SpreadsheetCommandType.ToggleCellEditMode);
+cmd.Execute(this.xamSpreadsheet1);
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Import Infragistics.Controls.Grids
+Import Infragistics.Controls.Grids.Primitives
+...     
+Dim cmd As New SpreadsheetCommand(SpreadsheetCommandType.ToggleCellEditMode)
+cmd.Execute(Me.xamSpreadsheet1)
+----
+
+[[_Ref395009440]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-selection.html[選択の操作 ({SpreadsheetName})]
+|このトピックでは、選択機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-undo-redo.html[元に戻す / やり直しの操作 ({SpreadsheetName})]
+|このトピックでは、コントロールを使用して元に戻す / やり直し操作を設定し実行する方法を説明します。
+
+|====

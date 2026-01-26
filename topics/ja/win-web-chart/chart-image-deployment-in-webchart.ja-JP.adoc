@@ -1,0 +1,45 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-image-deployment-in-webchart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{169A9093-F807-4ECA-8ACF-554CBD953A1E}",  
+    "buildFlags": ["asp-net","aspnet-old"],
+    "createdOn": "2006-04-01T00:00:00Z"
+}
+|metadata|
+////
+
+= WebChart での画像の配備
+
+WebChart は、HTML を作成する以外に、各要求ごとにサーバー上に画像を生成する点が他の Web コントロールと異なります。生成された画像は、クライアントのブラウザ ウィンドウからアクセスできるように何らかの方法で配備される必要があります。
+
+このために、 pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~scenario.html[DeploymentScenario.Scenario]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~scenario.html[DeploymentScenario.Scenario]"]  プロパティにより 2 つのオプションが提供されています。
+
+* DeploymentScenario = Session:グラフ画像が、1 つの SecureImagePipe コントロールを含む ImagePipe.aspx というページを介してストリームされます。
+* DeploymentScenario = FileSystem:グラフ画像が、ファイル システム上にファイルとして保存されます。
+
+以下のセクションでは、上記のシナリオについてより詳しく説明しています。
+
+== セッションベースの配備
+
+ブラウザがグラフが含まれるページを要求すると、サーバーはグラフを作成して、それを識別するための一意のキーを付けてセッション状態で格納します。
+
+サーバーは  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.secureimagepipe.html[SecureImagePipe]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.secureimagepipe.html[SecureImagePipe]"]  ページ（普通は ImagePipe.aspx という名前）へのリンクを含む IMG 要素を QueryString とともにレンダリングします。QueryString には、セッション状態で格納されたグラフの一意のキーが含まれています。ブラウザがこの IMG 要素を要求すると、SecureImagePipe ページがロードされ、グラフ画像をストリームに送ります。これで、画像がクライアントのブラウザに表示できるようになります。
+
+セッションベースの配備は、負荷がバランスされた「Web ファーム」環境で、セッション状態がアプリケーションで正常に管理されている場合に有効です。
+
+[NOTE]
+====
+*注：* セッション状態が「InProc」に設定されていると、この配備方法は複数のサーバー上で機能しません。
+====
+
+DeploymentScenario.Scenario プロパティが Session に設定されている場合は、アプリケーションに 1 つの SecureImagePipe コントロールがある ASPX ページがなければなりません。通常は、このページは ImagePipe.aspx と名付けられ、グラフが含まれている Web フォームと同じフォルダに入っています。ただし、このページの名前と位置は、 pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~imagepipepagename.html[ImagePipePageName]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~imagepipepagename.html[ImagePipePageName]"]  プロパティを使用してカスタマイズできます。
+
+== ファイル システムベースの配備
+
+ファイル システム画像配備においては、画像は Web サーバー上のファイル システムに保存され、それに対応する URL が生成されます。 pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~imageurl.html[DeploymentScenario.ImageURL]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~imageurl.html[DeploymentScenario.ImageURL]"]  プロパティにトークン "#SEQNUM" が含まれていると、グラフには有限数の画像が保存されてファイル名がリセットされます。たとえば、ImageURL プロパティが "Chart_#SEQNUM(100).jpg" に設定されていると、"Chart_1.jpg"、"Chart_2.jpg"、というようにファイルに名前が付けられます。.「Chart_99.jpg」、「Chart_100.jpg」に達すると、「Chart_1.jpg」に戻ります。
+
+このシナリオでは、この Web アプリケーションを実行しているユーザ アカウントには、 pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~filepath.html[DeploymentScenario.FilePath]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~filepath.html[DeploymentScenario.FilePath]"]  プロパティで指定されたフォルダにあるファイルに書き込みや変更を行う権限が必要です。デフォルトでは、このユーザ アカウントは、Windows® XP では「aspnet-old」に、Windows Server 2003 では「NETWORK SERVICE」です。

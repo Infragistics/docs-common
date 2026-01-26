@@ -1,0 +1,108 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-widthtoheightratio",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "42a60ab4-0c94-48ce-8789-fad226d9698c",
+    "buildFlags": [],
+    "createdOn": "2015-09-23T20:41:02.0969289Z"
+}
+|metadata|
+////
+
+= Configuring WidthToHeight Ratio
+
+The link:{BarcodesLink}.{BarcodesBase}{ApiProp}widthtoheightratio.html[WidthToHeightRatio] property (for all barcode grid symbologies pick:[xaml=", excluding the MaxiCode"] ) defines the width to height ratio of a barcode row. For the linear symbologies, it defines the ratio of the bars height depending on the XDimension property value, i.e. if barcode. pick:[android="set"] WidthToHeightRatio = 30, the bar height is 30$$*$$barcode.XDimension. The property value is used to define the symbol bar height when Stretch.None is used and no Height is specified. The nominal value for every barcode is set as its default value.
+
+ifdef::xaml[]
+Note that for the GS1 DataBar family controls, the WidthToHeight property defines the height of the whole symbol, not only for one row. This is necessary because for some code types (Stacked, StackedOmnidirectional, ExpandedStacked) the Height is different for every row of the symbol.
+endif::xaml[]
+
+pick:[xaml="*Here is a comparison between two barcodes:*"]
+
+ifdef::xaml,win-forms[]
+
+image::images/xamBarcode_WidthToHeightRatio_01.png[]
+
+endif::xaml,win-forms[]
+
+ifdef::xaml[]
+
+*In XAML:*
+
+----
+<ig:{Barcode128Name}
+	x:Name="barcode1"
+	Data="CODE Data"
+	Stretch="None"
+	WidthToHeightRatio="25" />
+	
+<ig:{Barcode128Name}
+	x:Name="barcode2"
+	Data="CODE Data"
+	Stretch="None"
+	WidthToHeightRatio="35" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In Visual Basic:*
+
+[source]
+----
+Dim barcode1 As New {Barcode128Name} With _
+{
+  .Stretch = 320, _  
+  .Data = "Code Data", _
+  .WidthToHeightRatio = 25 _
+}
+
+Dim barcode2 As New {Barcode128Name} With _
+{
+  .Stretch = 320, _  
+  .Data = "Code Data", _
+  .WidthToHeightRatio = 35 _
+}
+----
+ 
+*In C#:*
+
+[source]
+----
+var barcode1 = new {Barcode128Name}
+{
+  Width = 320,
+  Data = "Code Data",  
+  WidthToHeightRatio = 25
+};
+
+var barcode2 = new {Barcode128Name}
+{
+  Width = 320,
+  Data = "Code Data",  
+  WidthToHeightRatio = 35
+};
+----
+
+endif::xaml,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+ 
+----
+{Barcode128Name} barcode1 = new {Barcode128Name};
+barcode1.setData("Code Data");
+barcode1.setStretch(Stretch.None);
+barcode1.setWidthToHeightRatio("25");
+
+{Barcode128Name} barcode2 = new {Barcode128Name};
+barcode2.setData("Code Data");
+barcode2.setStretch(Stretch.None);
+barcode2.setWidthToHeightRatio("35");
+----
+
+endif::android[]

@@ -1,0 +1,166 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-clipboard",
+    "tags": ["Editing","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "db2b6264-1789-42fc-8d5b-246c5b32b3c8",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0863897Z"
+}
+|metadata|
+////
+
+= Working with Clipboard ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to perform clipboard operations.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_. 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref395009375, Clipboard Introduction >>
+* <<_Ref395009433, Code Example: Invoking a Command >>
+* <<_Ref395009440, Related Content >>
+
+[[_Ref395009375]]
+== Clipboard Introduction
+
+=== Clipboard summary
+
+The {SpreadsheetName}’s control provides `Cut`, `Copy` and `Paste` clipboard operations allowing the user to copy information between cells, worksheets and even from and to external sources like another instance of the {SpreadsheetName} control or MS Excel.
+
+==== Cut and Copying
+
+When coping information to the clipboard the control supports the following formats:
+
+* BIFF8
+* CSV (comma separated values)
+* TSV (tab separated values)
+
+There is also an internal format used when copying information to the clipboard and it is used when copying information between two instances of the {SpreadsheetName} control.
+
+==== Pasting
+
+When pasting information in the {SpreadsheetName} the control is updating the worksheet cells depending on the formats present in the clipboard. When pasting simple text (for example from Notepad), the text is treated as tab separated values and applied to the cells relative to the upper left cell of the selection similar to how MS Excel performs that operation. The {SpreadsheetName} will attempt to parse the value for each cell to try to determine the numeric value of the string and infer the number format for the cell similar to what is done when editing a cell.
+
+.Note
+[NOTE]
+====
+When pasting simple text with merged cells completely within the target range will be unmerged.
+====
+
+=== Restrictions
+
+The clipboard support feature of the {SpreadsheetName} has the following restrictions:
+
+* One may not select overlapping ranges but one can select multiple ranges that share the same top row or first column and have the same height or width (for example "B2:C3,E2:G3,B7:C9,E7:G9").
+* Some formats (for example text/csv) will just copy the cells that represent the union of these areas into the clipboard but others (such as the internal format used for copying/pasting within a {SpreadsheetName}) will only copy the selected cells.
+* When selecting columns/rows, only the intersection of those selected columns/rows with some content (values or formatting) will be copied to the clipboard.
+
+[[_Ref395009433]]
+== Code Example: Invoking a Command
+
+=== Description
+
+The following code snippet shows how to invoke a clipboard command on the {SpreadsheetName} control using a button. The code snippet assumes you have a reference to an {SpreadsheetName} instance named "{SpreadsheetName}1".
+
+=== Code
+
+Following is the code that implements this example.
+
+ifdef::win-forms[]
+*In C#:*
+[source, csharp]
+----
+private void ultraButton1_Click(object sender, EventArgs e)
+{
+   ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Paste);
+}
+----
+
+*In VB:*
+[source, vb]
+----
+Private Sub ultraButton1_Click(sender As Object, e As EventArgs) Handles UltraButton1.Click
+ ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Paste);
+End Sub
+----
+endif::win-forms[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+  xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+  …>
+<Button Content="Paste"
+  ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+  <ig:Commanding.Command>
+    <igPrim:SpreadsheetCommandSource
+      EventName="Click"
+      CommandType="Paste" />
+  </ig:Commanding.Command>
+</Button>
+----
+endif::xaml[]
+
+[[_Ref395009440]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+| link:spreadsheet-work-selection.html[Working with Selection ({SpreadsheetName})]
+|This topic explains the selection feature from developer perspective.
+
+| link:spreadsheet-work-undo-redo.html[Working with Undo and Redo ({SpreadsheetName})]
+|This topic explains how to configure and perform undo and redo operations with the control.
+
+|====

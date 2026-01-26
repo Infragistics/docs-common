@@ -1,0 +1,212 @@
+﻿////
+|metadata|
+{
+    "name": "igexcelengine-creating-a-workbook",
+    "controlName": ["IG Excel Engine"],
+    "tags": ["Exporting","How Do I"],
+    "guid": "{969A9A83-5421-4C3F-AAB3-01D3E81815AC}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7557043Z"
+}
+|metadata|
+////
+
+= ワークブックを作成 ({ExcelEngineName})
+
+== 始める前に
+
+{ExcelEngineName} は、データを Microsoft® Excel® に保存、また Microsoft® Excel® からロードすることを可能にします。ライブラリーのさまざまなクラスを使用して、ワークブックおよびワークシートを作成、データを入力、データを Excel にエクスポートできます。{ExcelEngineName} によって Excel スプレッドシートとしてアプリケーションでデータをエクスポートすることだけでなく、Excel からアプリケーションにデータをインポートすることも簡単になります。
+
+== 達成すること
+
+シンプルなワークブックを作成して、Excel pick:[wpf="ファイル"]pick:[xamarin="出力ストリーム"]として保存します。
+
+== 次の手順を実行します
+
+[start=1]
+ifdef::wpf[]
+. Microsoft Windows® Presentation Foundation プロジェクトを作成します。
+
+endif::wpf[]
+
+ifdef::xamarin[]
+. Xamarin.Forms アプリケーション プロジェクトを作成します。
+
+endif::xamarin[]
+
+ifdef::win-forms,win-universal[]
+. {PlatformName} アプリケーション プロジェクトを作成します。
+
+endif::win-forms,win-universal[]
+
+[start=2]
+ifdef::xamarin[]
+. link:xamarin-project-with-infragistics-controls.html#NuGetPackages[NuGet パッケージで参照を追加します]。
+endif::xamarin[]
+
+ifdef::win-forms,win-universal[]
+. ソリューション エクスプローラーで、次のアセンブリへの参照を追加します。
++
+* {ApiPlatform}Documents.Excel.{DllVersion}dll 
+* {ApiPlatform}Documents.Core.{DllVersion}dll 
+
+endif::win-forms,win-universal[]
+
+ifdef::wpf[]
+
+. 以下の NuGet パッケージへの参照を追加します。
+
+* Infragistics.WPF.Excel
+
++
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+[start=3]
+. `Button` コントロールを追加し...
++
+--
+.. `pick:[wpf="Content"]pick:[xamarin="Text"]` プロパティを "Create a Workbook" に設定します。
+.. `Button` コントロールの `pick:[wpf="Click"]pick:[xamarin="Clicked"]` イベントにイベント ハンドラーを接続します。
+--
+*XAML の場合:*
++
+[source,xaml]
+----
+<Button Content="Create a Workbook" pick:[wpf="Click"]pick:[xamarin="Clicked"]="Button_Click" />
+----
+
+[start=4]
+. コードビハインドを開いて以下の名前スペースを追加します。
+ifdef::wpf[]
++
+*Visual Basic の場合:*
++
+[source,vb]
+----
+Imports Infragistics.Documents.Excel
+----
+endif::wpf[]
++
+*C# の場合：*
++
+[source,csharp]
+----
+using Infragistics.Documents.Excel;
+----
+
+[start=5]
+. メソッド スタブがまだ作成されていない場合には、`Button` コントロールの `pick:[wpf="Click"]pick:[xamarin="Clicked"]` イベントのイベント ハンドラーを追加します。
+ifdef::wpf[]
++
+*Visual Basic の場合:*
++
+[source,vb]
+----
+Sub Button_Click(sender As Object, e As pick:[wpf="Routed"]EventArgs) 
+    'TODO: Workbook オブジェクトのインスタンスを作成します 
+    'TODO: ワークシートをワークブックに追加します。
+    'TODO: テキストを最初のセルに追加します
+    'TODO: ワークブックを保存します
+End Sub
+----
+endif::wpf[]
++
+*C# の場合：*
++
+[source,csharp]
+----
+void Button_Click(object sender, pick:[wpf="Routed"]EventArgs e)
+{
+    //TODO: Workbook オブジェクトのインスタンスを作成します
+    //TODO: ワークシートをワークブックに追加します。
+    //TODO: テキストを最初のセルに追加します
+    //TODO: ワークブックを保存します
+}
+----
+
+[start=6]
+. link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbook] オブジェクトをインスタンス化します。
+ifdef::wpf[]
++
+*Visual Basic の場合:*
++
+[source,vb]
+----
+Dim workbook1 As New Workbook()
+----
+endif::wpf[]
++
+*C# の場合：*
++
+[source,csharp]
+----
+Workbook workbook1 = new Workbook();
+----
+
+[start=7]
+. link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] オブジェクトをワークブックに追加します。
+ifdef::wpf[]
++
+*Visual Basic の場合:*
++
+[source,vb]
+----
+Dim worksheet1 As Worksheet = workbook1.Worksheets.Add("Sheet 1")
+----
+endif::wpf[]
++
+*C# の場合：*
++
+[source,csharp]
+----
+Worksheet worksheet1 = workbook1.Worksheets.Add("Sheet 1");
+----
+
+[start=8]
+. 最初の link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~value.html[Value] プロパティを 42 に設定します。
+ifdef::wpf[]
++
+*Visual Basic の場合:*
++
+[source,vb]
+----
+worksheet1.Rows(0).Cells(0).Value = 42
+----
+endif::wpf[]
++
+*C# の場合：*
++
+[source,csharp]
+----
+worksheet1.Rows[0].Cells[0].Value = 42;
+----
+
+[start=9]
+. ワークブックを保存します。
+ifdef::wpf[]
++
+*Visual Basic の場合:*
++
+[source,vb]
+----
+workbook1.Save(pick:[wpf=""Workbook1.xls""]pick:[xamarin="outputStream"])
+----
+endif::wpf[]
++
+*C# の場合：*
++
+[source,csharp]
+----
+workbook1.Save(pick:[wpf=""Workbook1.xls""]pick:[xamarin="outputStream"]);
+----
+
+[start=10]
+. プロジェクトを実行して、ボタンをクリックします。
+
+== 関連トピック
+
+link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+
+link:excelengine-using-the-infragistics-excel-engine.html[{ExcelEngineName} の使用]

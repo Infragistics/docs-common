@@ -1,0 +1,212 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= {GeoMapName}
+
+=== 概要
+
+link:{GeoMapLink}.{GeoMapName}.html[{GeoMapName}]™ コントロールによって、ビュー モデルからの地理的位置を含むデータや、地理的画像地図でシェープ ファイルから読み込まれた地理的データを表示できます。
+
+=== このトピックの構成
+
+このトピックには次のセクションがあります。
+
+* <<_Ref321151531,機能の概要>>
+* <<_Ref321151536,地理的画像地図>>
+* <<_Ref321151541,地理的シリーズ>>
+* <<_Ref321151550,シェープ ファイルのコンバーター>>
+* <<_Ref321151553,データ バインディング>>
+* <<_Ref321151558,高性能のレンダリング>>
+ifdef::wpf[]
+* <<_Ref321151561,カスタマイズ可能なシェイプ テンプレート>>
+endif::wpf[]
+ifdef::wpf[]
+* <<_Ref321151565,カスタマイズ可能なマーカー テンプレート>>
+endif::wpf[]
+* <<_Ref321151568,マップ ナビゲーション>>
+
+[[_Ref321151531]]
+
+=== 機能の概要
+
+以下の表で、{GeoMapName} コントロールの機能を簡単に説明します。追加の詳細は、以下の概要表の後に提供します。
+
+[options="header", cols="a,a"]
+|====
+| *機能* | *説明* 
+
+|<<_Ref321151536,地理的画像地図>>
+|Azure Maps™、Bing Maps™ pick:[wpf="、"] pick:[win-forms="および"] Open Street Maps pick:[wpf="および ArcGIS Maps "]からの地理的画像の描画を提供します。pick:[wpf="また、Map Quest© などの他の地理的画像ソースからの地図の作成もサポートします。"]
+
+|<<_Ref321151541,地理的シリーズ>>
+|ポイント、ポリライン、および多角形として地理的データを表示できる無制限の数の地理的シリーズの描画を提供します。複数の地理的シリーズを使用して、州、市、および道路などのマップ要素の複雑なレイヤーを作成できます。
+
+|<<_Ref321151550,シェープ ファイルのコンバーター>>
+|シェープ ファイルからの地理的データの読み込み、項目ソースとして地理的シリーズにバインドできるデータ モデルへの変換を提供します。
+
+|<<_Ref321151553,データ バインディング>>
+|地理的シリーズのデータ バインディングおよびデータ マッピング プロパティを使用して、地理的データがある他のデータ ソースへのデータバインディングを提供します。
+
+|<<_Ref321151558,高性能のレンダリング>>
+|多数のデータ ポイントをプロットして、数ミリ秒ごとに更新できます。これによって、コントロールはリアルタイムのフィードを処理できます。
+
+|<<_Ref321151561,カスタマイズ可能なシェイプ テンプレート>>
+|データ値に基づき条件付きでスタイルできるカスタマイズ可能な図形テンプレートを提供します。
+
+|<<_Ref321151565,カスタマイズ可能なマーカー テンプレート>>
+|都市、空港、地震、または興味のあるポイントなどの地理的位置を表示するためのカスタマイズ可能なマーカー テンプレートを提供します。
+
+|<<_Ref321151568,マップ ナビゲーション>>
+|マウス、キーボード、またはコードビハインドを使用して、マップ コンテンツをナビゲートするためのカスタマイズ可能なナビゲーション動作を提供します。
+
+|====
+
+[[_Ref321151536]]
+
+=== 地理的画像地図
+
+.注:
+[NOTE]
+2025 年 6 月 30 日をもって、すべての Microsoft Bing Maps for Enterprise Basic (無料) アカウントはすべて廃止されます。無料の Basic アカウントおよびキーをご利用中の場合は、サービスの中断を回避するために今すぐ対応する必要があります。Bing Maps for Enterprise の有償ライセンスをお持ちの方は、2028 年 6 月 30 日までアプリケーション内で Bing Maps を引き続きご利用いただけます。
+
+詳細は以下をご覧ください:
+
+* link:https://blogs.bing.com/maps/2025-06/Bing-Maps-for-Enterprise-Basic-Account-shutdown-June-30,2025[Microsoft Bing ブログ]
+
+{GeoMapName} コントロールによって、Azure Maps™ pick:[wpf="、"] pick:[win-forms="および"]Open Street Maps、pick:[wpf=" および ArcGIS Maps"]
+からの地理的画像を描画できます。pick:[wpf="また、Map Quest© などの他の地理的画像ソースからの地図の作成もサポートします。"]
+
+以下は、異なる地理的画像ソースからの地図がある {GeoMapName} コントロールのプレビューです。
+
+[cols="a,a"]
+|====
+
+|image::images/GeographicMap_1.png[]
+
+図 1: Open Street Maps からの地理的画像がある {GeoMapName}
+
+|image::images/GeographicMap_3.png[]
+
+図 2: Azure Maps からの地理的画像がある {GeoMapName}
+
+|====
+
+*関連トピック:*
+
+* link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+* link:geographicmap-displaying-geographic-imagery-from-Azure-maps.html[Azure Maps から地理的画像を表示]
+
+* link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Open Street Maps から地理的画像を表示]
+
+ifdef::wpf[]
+* link:geographicmap-creating-custom-geographic-imagery-from-map-quest.html[Map Quest からカスタムの地理的画像を作成]
+endif::wpf[]
+
+[[_Ref321151541]]
+
+=== 地理的シリーズ
+
+{GeoMapName} コントロールの link:{DataChartLinkBase}.{DataChartBase}~series.html[Series]  プロパティは、地理的シリーズの無制限の数の描画をサポートするために使用されます。このプロパティは、地理的シリーズ オブジェクトのコレクションで、任意のタイプの地理的シリーズをそれに追加できます。たとえば、都市などの地理的位置をプロットするために link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries]、またこれらの地理的位置の間の接続 (道路など) をプロットするために link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] を追加できます。
+
+image::images/GeographicMap_5.png[]
+
+*関連トピック:*
+
+* link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+* link:geographicmap-using-geographic-shape-series.html[地理的シェイプ シリーズを使用]
+* link:geographicmap-using-geographic-symbol-series.html[地理的シンボル シリーズを使用]
+* link:geographicmap-using-geographic-polyline-series.html[地理的ポリライン シリーズを使用]
+* link:geographicmap-displaying-multiple-geographic-series.html[複数の地理的シリーズを表示]
+
+[[_Ref321151550]]
+
+=== シェープ ファイルのコンバーター
+
+{GeoMapName} コントロールでは、 link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] クラスはシェープ ファイルから地理的データを読み込んで、それを  link:{DataVizMapsLink}.shapefilerecord_members.html[ShapefileRecord]  オブジェクトのコレクションに変換します。地理的シリーズは、このコレクションにバインドでき、地理的データを描画します。
+
+*関連トピック:*
+
+* link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+* link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+
+[[_Ref321151553]]
+
+=== データ バインディング
+
+シェープ ファイルおよび地理的画像マップからのデータの描画に加えて、{GeoMapName} コントロールは、地理的シリーズのデータ バインディングおよびデータ マッピング プロパティを使用して、地理的データを持つ他のデータ ソースへのデータ バインディングも提供します。
+
+以下は、世界の都市の場所を含むデータ モデルにバインドされた link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] を持つ  {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_6.png[]
+
+*関連トピック:*
+
+* link:geographicmap-binding-geographic-data-models.html[地理的データ モデルをバインディング]
+* link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+* link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+
+[[_Ref321151558]]
+
+=== 高性能のレンダリング
+
+{GeoMapName} コントロールは、多数のデータ ポイントをプロットして、数ミリ秒ごとに更新できます。これによって、コントロールはリアルタイムのフィードを処理できます。
+
+以下は、多数のデータ ポイントがあるデータ ソースにバインドされた link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries]を持つ  {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_7.png[]
+
+*関連トピック:*
+
+* link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+* link:geographicmap-using-geographic-shape-series.html[地理的シェイプ シリーズを使用]
+* link:geographicmap-using-geographic-symbol-series.html[地理的シンボル シリーズを使用]
+* link:geographicmap-using-geographic-polyline-series.html[地理的ポリライン シリーズを使用]
+* link:geographicmap-displaying-multiple-geographic-series.html[複数の地理的シリーズを表示]
+
+
+ifdef::wpf[]
+[[_Ref321151561]]
+
+=== カスタマイズ可能なシェイプ テンプレート
+
+{GeoMapName} コントロールは、データ値に基づき条件付きでスタイルできるカスタマイズ可能な図形テンプレートを提供します。
+
+以下は、地理的シリーズの図形要素の条件付きスタイルがある {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_8.png[]
+endif::wpf[]
+
+[[_Ref321151565]]
+
+=== カスタマイズ可能なマーカー テンプレート
+
+{GeoMapName} コントロールは、都市、空港、地震、または興味のあるポイントなどの地理的位置を表示するためのカスタマイズ可能なマーカー テンプレートを提供します。
+
+*関連トピック:*
+
+* link:geographicmap-using-markers-in-geographic-series.html[地理的シリーズでマーカーを使用]
+* link:geographicmap-using-geographic-symbol-series.html[地理的シンボル シリーズを使用]
+* link:geographicmap-using-geographic-shape-series.html[地理的シェイプ シリーズを使用]
+
+[[_Ref321151568]]
+
+=== マップ ナビゲーション
+
+{GeoMapName} コントロールは、マウス、キーボード、またはコードビハインドを使用して、マップ コンテンツをナビゲートするためのカスタマイズ可能なナビゲーション動作を提供します。
+
+以下は、マップ コンテンツの領域 (アフリカ大陸やヨーロッパ大陸など) にズームしたときに、 link:{GeoMapLink}.{GeoMapName}~worldrect.html[WorldRect] の位置とサイズを強調表示した  {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_9.png[]
+
+*関連トピック:*
+
+* link:geographicmap-navigating-map-content.html[マップ コンテンツをナビゲート]
+* link:geographicmap-navigating-map-content-using-code.html[コードを使用してマップ コンテンツをナビゲート]
+* link:geographicmap-navigating-map-content-using-keyboard.html[キーボードを使用してマップ コンテンツをナビゲート]
+* link:geographicmap-navigating-map-content-using-a-mouse.html[マウスを使用してマップ コンテンツをナビゲート]

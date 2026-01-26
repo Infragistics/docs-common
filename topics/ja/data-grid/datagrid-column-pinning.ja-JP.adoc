@@ -1,0 +1,90 @@
+= 列のピン固定
+
+このトピックでは、link:{DataGridLink}.{DataGridName}.html[{DataGridName}] コントロールを使用した列のピン固定を実装するプロセスの手順を追って説明します。 
+
+== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<ReqBackground,前提条件>>
+* <<Overview,概要>>
+* <<ColumnPinningProperties,列のピン固定プロパティ>>
+
+[[ReqBackground]]
+== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+|===
+|トピック|目的
+
+|link:datagrid-getting-started-with-grid.html[{DataGridName} を使用した作業の開始] 
+|このトピックでは、{DataGridName} コントロールをビューに追加し、サンプル データを生成するために必要な基本的な手順を紹介します。
+
+|link:datagrid-working-with-columns.html[列の作業]
+|このトピックでは、{DataGridName} コントロールの列を操作する際のコード例を紹介します。
+
+|===
+
+[[Overview]]
+== 概要
+
+{DataGridName} コントロールは列をピン固定する機能をサポートし、エンド ユーザーが特定の列順序で列をロックできます。
+
+単一または複数の列をデータ グリッドの左側または右側にピン固定できます。その他、‘PinColumn’ 関数を介して列のピン固定状態を変更できます。
+
+[[ColumnPinningProperties]]
+== 列のピン固定プロパティ
+
+データグリッドの列ピン固定APIは、列の `Pinned` プロパティ、つまり `PinnedPositions` を設定するか、グリッドの `PinColumn` 関数を設定することで有効にできます。
+
+`Pinned` プロパティに 3 つのオプションがあります。
+
+- Left - `Left` を有効にすると、ピン固定した列がグリッドの左側に配置されます。
+- Right - `Right` を有効にすると、ピン固定した列がグリッドの右側に配置されます。
+- None - `None` を有効にすると、列のピン固定を解除し、グリッド内のデフォルトの配置を再配置します。
+
+ピン固定された列に近接するピン固定されていない列は、水平スクロールを維持します。
+
+`PinColumn` 関数に 2 つのパラメーターがあります。最初のパラメーターはピン固定する列で、2 番目は `PinnedPositions` 列挙体設定です。 
+
+*XAML の場合:*
+[source, xaml]
+----
+xmlns:ig="clr-namespace:{DataGridNamespace};assembly={ApiPlatform}DataGrid"
+...
+<ig:{DataGridName} ItemsSource="{Binding}">
+        <ig:TextColumn HeaderText="DataName" PropertyPath="Name" HorizontalAlignment="Center" Pinned="Left" />
+</ig:{DataGridName}>
+----
+endif::xamarin[]
+
+*C# の場合:*
+[source, csharp]
+----
+ContactsDataSource data = new ContactsDataSource();
+{DataGridName} grid = new {DataGridName}() { ItemsSource = data };
+
+//Pin via PinColumn function
+this.grid.PinColumn(this.grid.Columns[0], PinnedPositions.Left);
+//Pin via Pinned property
+this.DataGrid.Columns[0].Pinned = PinnedPositions.Left;
+----
+
+以上のコード スニペットは以下のような {DataGridName} になります。
+
+image:images/datagrid-column-pinning.png[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+以下の表は、このトピックに関連するトピックを示します。
+
+|===
+|トピック|目的
+
+|行のグループ化
+
+|このトピックでは、{DataGridName} コントロールで行のグループ化のコード例を紹介します。
+
+|===

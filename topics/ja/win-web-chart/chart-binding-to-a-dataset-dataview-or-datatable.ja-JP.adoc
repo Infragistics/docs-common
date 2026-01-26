@@ -1,0 +1,91 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-binding-to-a-dataset-dataview-or-datatable",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{22BCDEB9-9D99-4AC6-A0B2-3F142B8B4934}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= DataSet、DataView、または DataTable へのバインディング
+
+Chart コントロールをバインドできるデータ ソースのいくつかは DataSet、DataTable、および DataView です。
+
+== DataTable の作成
+
+以下のコードは、コードで DataTable を作成する方法を示します。ただし、手順は Chart を DataSet または DataView にバインディングするのと基本的に同じです。
+
+*Visual Basic の場合：*
+
+----
+Private Function GetStackColumnData() As DataTable
+	Dim mydata As New DataTable()
+	' 列と列名を定義します。
+	mydata.Columns.Add("Series Label", GetType(String))
+	mydata.Columns.Add("Segment A", GetType(Integer))
+	mydata.Columns.Add("Segment B", GetType(Integer))
+	mydata.Columns.Add("Segment C", GetType(Integer))
+	mydata.Columns.Add("Segment D", GetType(Integer))
+	' データの行を追加します。
+	mydata.Rows.Add(New [Object]() {"Stack A", 1, 4, 10, 4})
+	mydata.Rows.Add(New [Object]() {"Stack B", 3, 6, 4, 5})
+	mydata.Rows.Add(New [Object]() {"Stack C", 5, 8, 6, 7})
+	mydata.Rows.Add(New [Object]() {"Stack D", 7, 10, 7, 7})
+	Return mydata
+End Function
+----
+
+*C# の場合：*
+
+----
+private DataTable GetStackColumnData()
+{
+	DataTable mydata = new DataTable();
+	// 列と列名を定義します。
+	mydata.Columns.Add("Series Label", typeof(string));
+	mydata.Columns.Add("Segment A", typeof(int));
+	mydata.Columns.Add("Segment B", typeof(int));
+	mydata.Columns.Add("Segment C", typeof(int));
+	mydata.Columns.Add("Segment D", typeof(int));
+	// データの行を追加します。
+	mydata.Rows.Add(new Object[] {"Stack A",1,4,10,4});
+	mydata.Rows.Add(new Object[] {"Stack B",3,6,4,5});
+	mydata.Rows.Add(new Object[] {"Stack C",5,8,6,7});
+	mydata.Rows.Add(new Object[] {"Stack D",7,10,7,7});
+	return mydata;
+}
+----
+
+== Chart を DataTable にバインド
+
+Chart を上記の例のコードで作成した DataTable にバインドするには、チャートの *DataSource* プロパティを新たに作成されたメソッドに設定します。以下の例のコードは、Chart を DataTable にバインドする方法を示します。例のコードを使用して、Chart を DataSet または DataView にバインドできます。ただし、DataSet または DataView を返すものに *GetStackColumnData* メソッドを変更する必要があります。
+
+[NOTE]
+====
+*注：* DataSet から使用するテーブル、または DataView から使用ビューを指定しなければならない場合があります。
+====
+
+*Visual Basic の場合：*
+
+----
+Private Sub Binding_to_a_DataSet_DataView_or_DataTable_Load(ByVal sender As System.Object, _
+ ByVal e As System.EventArgs) Handles MyBase.Load
+	Me.UltraChart1.DataSource = GetStackColumnData()
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void Binding_to_a_DataSet_DataView_or_DataTable_Load(object sender, EventArgs e)
+{
+	this.ultraChart1.DataSource = GetStackColumnData();
+}
+----
+
+image::images/Chart_Binding_to_a_DataSet_DataView_or_DataTable_01.png[]

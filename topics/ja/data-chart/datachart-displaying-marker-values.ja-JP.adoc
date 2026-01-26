@@ -1,0 +1,81 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-displaying-marker-values",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I","Templating"],
+    "guid": "ed6b6329-a299-445b-bcf9-6809a8344153",  
+    "buildFlags": ["wpf","win-universal"],
+    "createdOn": "2014-06-05T19:39:00.6863924Z"
+}
+|metadata|
+////
+
+= マーカー値の表示
+
+このトピックは、コード例を使って、マーカー値を link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで表示する方法を説明します。
+
+== 概要
+
+{DataChartName} コントロールで、データ ポイントの値をマーカーに表示できます。(図 1) これを行うには、 link:{DataChartLink}.markerseries.html[MarkerSeries] クラスから継承した link:datachart-series.html[チャート シリーズ] の link:{DataChartLink}.markerseries{ApiProp}markertemplate.html[MarkerTemplate] プロパティに、カスタム マーカー データ テンプレートを追加します。
+
+ifdef::sl,wpf,win-phone[]
+image::images/xamDataChart_Marker_Values_01.png[]
+endif::sl,wpf,win-phone[]
+
+ifdef::win-rt[]
+image::images/xamDataChart_RT_Marker_Values_01.png[]
+endif::win-rt[]
+
+図 1: データ ポイントの値を表示するカスタム マーカー テンプレートを設定した {DataChartName}
+
+== コード例
+
+以下のコードは、 link:{DataChartLink}.columnseries.html[ColumnSeries] のマーカー内に値を表示する方法を示しています。
+
+.注:
+[NOTE]
+====
+示されている方法は、 link:{DataChartLink}.markerseries.html[MarkerSeries] ベース クラスを継承する他のシリーズにも使用できます。
+====
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="dataChart" >
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ItemsSource="{Binding}"
+                         ValueMemberPath="Value" 
+                         XAxis="{Binding ElementName=xAxis}"
+                         YAxis="{Binding ElementName=yAxis}">
+             <ig:ColumnSeries.MarkerTemplate>
+                  <DataTemplate>
+                      <Grid Width="40" Height="30" Margin="0,0,0,0">
+                           <Border CornerRadius="5" Background="#72010101" 
+                                   BorderBrush="DimGray" BorderThickness="0.5">
+                                   <!--注: TextBlock is のテキスト プロパティは、
+                                   データ ソースを構成するアイテムのプロパティとバインドします -->
+                              <TextBlock Margin="2" Text="{Binding Item.Value}" 
+                                         Foreground="White" FontSize="15" 
+                                         HorizontalAlignment="Center" />
+                           </Border>
+                      </Grid>
+                  </DataTemplate>
+             </ig:ColumnSeries.MarkerTemplate>
+        </ig:ColumnSeries >
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:datachart-customizing-markers.html[マーカーのカスタマイズ]
+* link:datachart-chart-synchronization.html[チャートの同期]
+* link:datachart-series-types.html[シリーズ タイプ]
+* link:datachart-series-requirements.html[シリーズ要件]

@@ -1,0 +1,102 @@
+﻿////
+|metadata|
+{
+    "name": "chart-custom-skins-and-paint-elements",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{CFFB938C-6DF0-4AFA-A9B1-B00B685C13BA}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Custom Skins and Paint Elements
+
+A simplistic definition of a chart is: "an image with several figures of various shapes and color." A custom skin specifies a set of color/styles that is used to "paint" each shape in the chart.
+
+== Custom Skins and the Paint Element
+
+link:{ApiPlatform}pick:[win-forms="win.ultrawinchart"]pick:[asp-net,aspnet-old="webui.ultrawebchart"]{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[Paint Elements] are objects that hold information about color, texture, and other visual styles. Drawing an analogy from an artist's perspective, a Paint Element is an instance of a paintbrush of a certain shape and size, after it has been dipped in color on the palette.
+
+image::Images/Chart_Custom_Skins_01.png[Graphic of an artist palette and a paint brush.]
+
+A skin can be described as:
+
+* a set of shapes, and
+* a set of colored brushes or "paint elements."
+
+A skin allows for the association of these shapes with paint elements. This is done by setting the chart color model to a  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.styles.colormodels.html[CustomSkin]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.colormodels.html[CustomSkin]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.colormodels.html[CustomSkin]"]  and adding paint elements to the PaintElement collection of the color model. This can be done using the following code:
+
+*In Visual Basic:*
+
+----
+UltraChart.ColorModel.ModelStyle = ColorModels.CustomSkin
+UltraChart.ColorModel.Skin.PEs.Add(new PaintElement(Color.Red))
+UltraChart.ColorModel.Skin.PEs.Add(new PaintElement(Color.Green))
+----
+
+*In C#:*
+
+----
+UltraChart.ColorModel.ModelStyle = ColorModels.CustomSkin;
+UltraChart.ColorModel.Skin.PEs.Add(new PaintElement(Color.Red));
+UltraChart.ColorModel.Skin.PEs.Add(new PaintElement(Color.Green));
+----
+
+The above code sets the color model as a custom skin and adds two paint elements to the custom skin. The following figure shows the concept of coloring the chart with PaintElements. The chart on the left is without a skin, followed to the right by set of vertical gradient paint elements (or PEs), and finally the chart on right is the custom skinned chart.
+
+image::Images/Chart_Custom_Skins_02.png[Shows how the chart uses vertical gradient PaintElements to create a custom skin for the chart.]
+
+In the following figure, the chart on the left is without a skin, followed to the right by a set of solid fill color paint elements (or PEs), and finally the chart on right is the custom skinned chart.
+
+image::Images/Chart_Custom_Skins_03.png[Shows how the chart uses solid file color PaintElements to create a custom skin for the chart.]
+
+== Applying the Custom Skin
+
+Paint elements can be applied to charted items row-wise or column-wise. The individual paint elements can be applied in order across each item (column), or each series (row). The following property can be used to change the way the skin is applied on the charted items:
+
+*In Visual Basic:*
+
+----
+UltraChart.ColorModel.Skin.ApplyRowWise = true
+----
+
+*In C#:*
+
+----
+UltraChart.ColorModel.Skin.ApplyRowWise = true;
+----
+
+Primitives and certain  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartappearance.html[ChartAppearance]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartappearance.html[ChartAppearance]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartappearance.html[ChartAppearance]"]  sub-classes that expose properties with sophisticated filling features use PaintElement objects to describe the characteristics of how they are filled and outlined. This Type encapsulates those methods and properties developers may already expect from Brush (  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"] ) and Pen (  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"] ) objects in other GUI environments. PaintElement objects are only applicable to objects that support all of the following sophisticated filling techniques:
+
+* Solid fills
+* Tiled texture fills
+* Gradient fills
+* Hatch pattern fills
+
+== Paint Element Properties
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~imagefitstyle.html[ImageFitStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~imagefitstyle.html[ImageFitStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~imagefitstyle.html[ImageFitStyle]"]  - Identifies the Fit style applied to Image.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~elementtype.html[ElementType]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~elementtype.html[ElementType]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~elementtype.html[ElementType]"]  - Identifies the type of painting applied. A object may actively only be one of the types in the enumeration. Setting a property will automatically update the property with the most current value. It is sometimes convenient for developers to pre-initialize several sets of paint properties (a texture, a gradient and a hatch for instance) and then switch between them by adjusting the PaintElement's type with one assignment during the application's processing.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~imagewrapmode.html[ImageWrapMode]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~imagewrapmode.html[ImageWrapMode]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~imagewrapmode.html[ImageWrapMode]"]  - Defines how textures should be tiled and/or wrapped. This property only applies to texture fills specified with the FillImage property. Please see the documentation for WrapMode for further information on tiling of textures.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~hatch.html[Hatch]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~hatch.html[Hatch]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~hatch.html[Hatch]"]  - Hatchwork fill pattern applied to the graphical object. Specifies the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.styles.fillhatchstyle.html[FillHatchStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.fillhatchstyle.html[FillHatchStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.fillhatchstyle.html[FillHatchStyle]"]  for pattern filling of the associated Primitive or Appearance object.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  - Fill color of the associated graphical object. Fill is used interchangeably as the solid fill color or the starting color for gradient fills (see also the FillStopColor property), depending on whether the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillgradientstyle.html[FillGradientStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillgradientstyle.html[FillGradientStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillgradientstyle.html[FillGradientStyle]"]  has been set, and the foreground color for FillHatchStyle pattern fills when the Hatch property is set.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopcolor.html[FillStopColor]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopcolor.html[FillStopColor]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopcolor.html[FillStopColor]"]  - Secondary fill color for the associated graphical object. This property value is only used when the FillGradientStyle or Hatch property has been set to one of the supported gradient or hatch patterns. A gradient is a Bell Curve blend from the Fill color to the FillStopColor. In a hatch, this property describes the background color.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopopacity.html[FillStopOpacity]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopopacity.html[FillStopOpacity]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopopacity.html[FillStopOpacity]"]  -An opacity for the secondary rendering brush. A value of 0 represents a transparent brush, whereas a value of 255 represents a completely opaque brush (items behind the filled area are not visible). Values between 0 and 255 represent varying degrees of translucency. Although it is possible to assign a color with an  _alpha_  component to FillStopColor, developers should assign such opacity values using this property instead.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillopacity.html[FillOpacity]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillopacity.html[FillOpacity]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillopacity.html[FillOpacity]"]  - An opacity for the rendering brush. A value of 0 represents a transparent brush, whereas a value of 255 represents a completely opaque brush (items behind the filled area are not visible). Values between 0 and 255 represent varying degrees of translucency. Although it is possible to assign a color with an  _alpha_  component to Fill, developers should assign such opacity values using this property instead.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillgradientstyle.html[FillGradientStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillgradientstyle.html[FillGradientStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillgradientstyle.html[FillGradientStyle]"]  - Determines the gradient fill style applied to the Paint Element's brush. The gradient fill is a linear interpolation of colors starting from the Fill and running to the FillStopColor, where the change in color is in the direction indicated by the gradient vector.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillimage.html[FillImage]"]  - Texture to apply to the graphical object.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"]  - Color of the pen used to outline drawn shapes. Use this property to affect the color of shape outlines). There are several methods to deactivate the pen used for outlining Primitives when this functionality is not desired, including:
+
+** Set this property to Color.Transparent. This is the preferred means of turning off the use of a pen. Alternatively, set the StrokeWidth property to 0 (this is technically equivalent to setting this property to Transparent).
+** While colors with an  _alpha_  component may be assigned directly to Stroke, it is highly recommended that developers use the StrokeOpacity property instead.
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokeopacity.html[StrokeOpacity]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokeopacity.html[StrokeOpacity]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokeopacity.html[StrokeOpacity]"]  - An opacity for the rendering pen. A value of 0 represents a transparent pen, whereas a value of 255 represents a completely opaque pen. Values between 0 and 255 represent varying degrees of translucency.
+
+** This property value overrides any  _alpha_  component of the color defined by Stroke.
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokewidth.html[StrokeWidth]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokewidth.html[StrokeWidth]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokewidth.html[StrokeWidth]"]  - Thickness of the pen used to outline graphical objects.
+
+== Related Topic
+
+link:chart-render-charts-using-the-paint-element.html[Render Charts Using the Paint Element]

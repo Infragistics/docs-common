@@ -1,0 +1,74 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-axis-label-layout-behaviors",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{B26CD62C-0F07-43C8-8426-4971278CDDEC}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 軸ラベルのレイアウト ビヘイビア
+
+サイズとコンテンツが可変のチャートを生成するアプリケーションで、チャートに使用可能なスペースに適合するように、軸ラベルが適切に調整できることが重要です。
+
+image::images/Chart_Axis_Label_Layout_Behaviors_01.png[]
+
+これを実行するために最も効果的な方法は、レベルをレイアウトする方法を決定するルール セットを規定しておくことです。使用可能なスペースでラベルがはっきりとレイアウトできるようになるまで、フォントのスケーリング、テキストの折り返し、回転、テキストの切り取りのような動作が使用されます。
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~layout.html[AxisLabelAppearanceBase.Layout]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~layout.html[AxisLabelAppearanceBase.Layout]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~layout.html[AxisLabelAppearanceBase.Layout]"]  プロパティは、このような動作が適用される方法を定義します。このプロパティは、以下のプロパティを使用して外観オブジェクトを公開します。これらは以降のセクションで説明します。
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~behavior.html[Behavior]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~behavior.html[Behavior]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~behavior.html[Behavior]"] 
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~behaviorcollection.html[BehaviorCollection]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~behaviorcollection.html[BehaviorCollection]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~behaviorcollection.html[BehaviorCollection]"] 
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~padding.html[Padding]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~padding.html[Padding]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabellayoutappearance~padding.html[Padding]"] 
+
+== 動作
+
+この列挙体によって、軸ラベル レイアウトのモードを設定することができます。以下のモードを使用できます。
+
+* AxisLabelLayoutBehaviors.Auto -- これは推奨モードです。レイアウト アルゴリズムが自動的に選択されます。軸レベルを表示するために適度なスペースがある場合には軸ラベルの衝突は発生しません。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Me.UltraChart1.Axis.X.Labels.Layout.Behavior = AxisLabelLayoutBehaviors.Auto
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+...
+this.ultraChart1.Axis.X.Labels.Layout.Behavior = AxisLabelLayoutBehaviors.Auto;
+----
+
+* AxisLabelLayoutBehaviors.None -- ラベルの重複や衝突が防止されません。
+* AxisLabelLayoutBehaviors.UseCollection -- BehaviorCollection を使用して、レイアウト アルゴリズムを決定します（以下のセクションを参照してください）。
+
+== Behavior コレクション
+
+軸ラベルのレイアウト アルゴリズムを生成するために必要とされるルール セットとして、BehaviorCollection プロパティが使用されます。このオプションによって最大限のカスタマイズが可能ですが、アプリケーション開発者の多大な努力を必要とします。詳細は、 link:chart-using-the-behaviors-collection.html[「Behavior コレクションを使用」]を参照してください。
+
+== Padding
+
+このプロパティを使用して、軸とラベルの間にスペースを追加できます。値はピクセルで表す必要があります。
+
+[NOTE]
+====
+*注：* Behavior プロパティが None に設定されている場合、このプロパティは無視されます。
+====
+
+== 関連トピック
+
+* link:chart-apply-chart-text-labels.html[チャート テキスト ラベルの適用]
+* link:chart-display-data-on-a-time-scale-axis.html[時間のスケール軸でデータを表示]
+* link:chart-display-labels-at-intervals-on-a-time-scale-axis.html[時間のスケール軸で間隔でラベルを表示]
+* link:chart-scale-chart-axes.html[チャート軸のスケール]
+* link:chart-set-minimum-and-maximum-data-values.html[最小データ値と最大データ値の設定]
+* link:chart-plot-log-zero-values.html[ログ ゼロ値をプロット]

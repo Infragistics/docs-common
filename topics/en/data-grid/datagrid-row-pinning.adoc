@@ -1,0 +1,215 @@
+﻿= Row Pinning
+
+This topic will walk you through the process of implementing row pinning on the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+
+== In this topic
+
+This topic contains the following sections:
+
+* <<ReqBackground,Required Background>>
+* <<Overview,Overview>>
+* <<PinItems,Pinning Rows by Items>>
+* <<PinKeys,Pinning Rows by Keys of Items>>
+* <<Styling, Styling Pinned Rows>>
+* <<RelatedContent,Related Content>>
+
+[[ReqBackground]]
+== Required Background
+
+The following topics are prerequisites to understanding this topic:
+
+|===
+|Topic|Purpose
+
+|link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+|This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data.
+
+|link:datagrid-working-with-columns.html[Working with Columns]
+|This topic provides code examples on working with columns in the {DataGridName} control.
+
+|===
+
+[[Overview]]
+== Overview
+
+The {DataGridName} control allows row pinning by either using keys or the underlying data source items. When a row is pinned, it will show at the top of the data grid and remain fixed there.
+
+The following sections show, with code examples, how to pin rows and style them in the grid. Each of the following code examples uses the link:contactsdatasource.html[Contact Info Data Source].
+
+[[PinItems]]
+== Pinning Rows by Items
+
+You can pin rows in the {DataGridName} control by adding the target row's underlying data item to the link:{DataGridLink}.{DataGridName}{ApiPropGet}pinneditems.html[PinnedItems] collection of the grid. 
+ 
+The following code demonstrates how to pin rows in the grid using the actual underlying data item:
+
+*In C#:*
+[source, csharp]
+----
+ContactsDataSource data = new ContactsDataSource();
+{DataGridName} grid = new {DataGridName}() { ItemsSource = data };
+
+grid.PinnedItems.Add(data[5]);
+grid.PinnedItems.Add(data[8]);
+grid.PinnedItems.Add(data[20]);
+----
+
+The above code-snippet will result in a {DataGridName} that looks like the following:
+
+image:images/datagrid_pinned_row_nostyle.png[]
+
+[[PinKeys]]
+== Pinning Rows by Keys of Items
+
+You can also pin rows by using the link:{DataGridLink}.{DataGridName}{ApiPropGet}pinnedkeys.html[PinnedKeys] collection of the {DataGridName}. This will require you to set the link:{DataGridLink}.{DataGridName}{ApiPropGet}primarykey.html[PrimaryKey] property of the grid as well. In doing so, you can add the values of the property mapped to that PrimaryKey to the PinnedKeys collection to pin the corresponding data items to that key using a link:{DataGridLink}.primarykeyvalue.html[PrimaryKeyValue] element.
+
+
+
+The following code examples show how to programmatically pin a row in the {DataGridName} using the `PinnedKeys` collection.
+
+[start = 1]
+. Set the ItemsSource of the {DataGridName}:
+
+*In C#:*
+[source, csharp]
+----
+var data = new ContactsDataSource();
+var grid = new {DataGridName}() { ItemsSource = data };
+----
+
+[start = 2]
+. Create a string array instance with its content pointing at the property name or names that you wish to use as a primary key, and assign it to the `PrimaryKey` property of the {DataGridName}:
+
+*In C#:*
+[source, csharp]
+----
+string[] key = { "Index" };
+grid.PrimaryKey = key;
+----
+
+.Note
+[NOTE]
+====
+If the PrimaryKey for the {DataGridName} control is not set, the hashcode of the object will instead be used as the PrimaryKey. If multiple objects share the same hashcode, then all of the rows representing those objects will be pinned.
+====
+
+[start = 3]
+. Create `PrimaryKeyValue` elements to be used with the `PinnedKeys` collection, pointed at the values of the "Index" property in this case:
+
+*In C#:*
+[source, csharp]
+----
+var pk1 = new PrimaryKeyValue(5);
+var pk2 = new PrimaryKeyValue(8);
+var pk3 = new PrimaryKeyValue(20);
+----
+
+[start = 4]
+. Add the `PrimaryKeyValue` elements to the `PinnedKeys` collection.
+
+*In C#:*
+[source, csharp]
+----
+grid.PinnedKeys.Add(pk1);
+grid.PinnedKeys.Add(pk2);
+grid.PinnedKeys.Add(pk3);
+----
+
+The above code-snippet will result in a {DataGridName} that looks like the following:
+
+image:images/datagrid_pinned_row_nostyle.png[]
+
+[[Styling]]
+== Styling Pinned Rows
+
+The row that represents a pinned row in the scrollable data area of the grid will have a reduced opacity by default. You can modify the style of the pinned rows in the {DataGridName} control by setting the following properties on the Column elements of the grid:
+
+|===
+|Column Property|Property Type|Default Value|Description
+
+|link:{DataGridLink}.definitionbase{ApiPropGet}pinnedrowbackground.html[PinnedRowBackground]
+|link:{DataVizLinkBase}.Brush.html[Brush]
+|`null`
+|Gets or sets the color to be used for the row backgrounds representing the pinned rows in the scrollable data area of the {DataGridName}.
+
+|link:{DataGridLink}.definitionbase{ApiPropGet}pinnedrowopacity.html[PinnedRowOpacity]
+|`double`
+|`0.3`
+|Gets or sets the opacity of the rows representing the pinned rows in the scrollable data area of the {DataGridName}. 
+
+|link:{DataGridLink}.definitionbase{ApiPropGet}stickyrowbackground.html[StickyRowBackground]
+|link:{DataVizLinkBase}.Brush.html[Brush]
+|`#F5F5F5`
+|Gets or sets the color to be used for the row backgrounds for the pinned rows in the fixed area of the {DataGridName}.
+
+|link:{DataGridLink}.definitionbase{ApiPropGet}laststickyrowbackground.html[LastStickyRowBackground]
+|link:{DataVizLinkBase}.Brush.html[Brush]
+|`null`
+|Gets or sets the color to be used for the background of the last pinned row in the fixed area of the {DataGridName}. If this is not set, the StickyRowBackground will be used for the last row.
+
+|===
+
+.Note
+[NOTE]
+====
+Each of the properties exist for the Column elements of the grid, and will style the cells of that column, not the row.
+====
+
+The following code-snippet demonstrates how to style the pinned rows in the data row area and fixed row area of the {DataGridName} control using the properties above:
+
+*In C#:*
+[source, csharp]
+----
+var col1 = new TextColumn() { PropertyPath = "Index" };
+var col2 = new TextColumn() { PropertyPath = "FirstName" };
+var col3 = new TextColumn() { PropertyPath = "LastName" };
+
+var pinnedRowBrush = new SolidColorBrush(Color.Orange);
+col1.PinnedRowBackground = pinnedRowBrush;
+col2.PinnedRowBackground = pinnedRowBrush;
+col3.PinnedRowBackground = pinnedRowBrush;
+
+col1.PinnedRowOpacity = 1.0;
+col2.PinnedRowOpacity = 0.7;
+col3.PinnedRowOpacity = 0.5;
+
+var stickyRowBrush = new SolidColorBrush(Color.LightBlue);
+col1.StickyRowBackground = stickyRowBrush;
+col2.StickyRowBackground = stickyRowBrush;
+col3.StickyRowBackground = stickyRowBrush;
+
+var lastStickyRowBrush = new SolidColorBrush(Color.LightGreen);
+col1.LastStickyRowBackground = lastStickyRowBrush;
+col2.LastStickyRowBackground = lastStickyRowBrush;
+col3.LastStickyRowBackground = lastStickyRowBrush;
+
+var data = new ContactsDataSource();
+var grid = new {DataGridName}() { ItemsSource = data, AutoGenerateColumns = false };
+
+grid.PrimaryKey = new string[] { "Index" };
+grid.PinnedKeys.Add(new PrimaryKeyValue(5));
+grid.PinnedKeys.Add(new PrimaryKeyValue(8));
+grid.PinnedKeys.Add(new PrimaryKeyValue(20));
+
+grid.Columns.Add(col1);
+grid.Columns.Add(col2);
+grid.Columns.Add(col3);
+----
+
+Using the above code example will result in a {DataGridName} that looks like the following:
+
+image:images/datagrid_pinned_row_styling.png[]
+
+[[RelatedContent]]
+== Related Content
+
+The following table lists topics that are related to this topic:
+
+|===
+|Topic|Purpose
+
+|Row Grouping
+
+|This topic provides code examples on grouping rows in the {DataGridName} control.
+
+|===

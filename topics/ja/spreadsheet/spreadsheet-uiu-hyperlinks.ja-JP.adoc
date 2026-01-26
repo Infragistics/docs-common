@@ -1,0 +1,183 @@
+﻿////
+
+|metadata|
+{
+    "name": "spreadsheet-uiu-hyperlinks",
+    "tags": ["Getting Started","Navigation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "85e207ea-ef51-4d65-b07b-870b7c7cc27b",  
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0604181Z"
+}
+|metadata|
+////
+
+= ハイパーリンクのインタラクション ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、ハイパーリンクとインタラクションするときにユーザーが実行できる操作を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[wpf,sl,xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+| link:spreadsheet-uiu-activation-navigation.html[アクティベーションとナビゲーションのインタラクション ({SpreadsheetName})] 
+
+|このトピックでは、コントロールのセルをナビゲートする場合にサポートされるユーザー操作を説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref403562762, 概要 >>
+* <<_Ref403562772, フォロー状態 >>
+* <<_Ref403562777, ユーザー インタラクションと操作性 >>
+* <<_Ref403562782, 関連コンテンツ >>
+
+[[_Ref403562762]]
+== 概要
+
+=== ハイパーリンクの概要
+
+{SpreadsheetName} コントロールは、クリックすると特定の場所にユーザーをナビゲートできる特別なテキスト オブジェクトのハイパーリンクをサポートします。サポートされる場所の一覧を以下に示します。
+
+* ワークシート セル (別のワークシートでもよい)
+* ワークシート セルの範囲 (別のワークシートでもよい)
+* 名前付き参照
+* その他のターゲット (ファイル、メール アドレス、インターネット アドレスなど) はすべて OS により処理されます。
+
+ハイパーリンクはマウスでホバーしたときにツールチップもサポートします。
+
+以下のスクリーンショットは、表示テキストが「Infragistics」で、ターゲットがインフラジスティックスの Web サイトに設定されたハイパーリンクを示しています。ハイパーリンクがホバーされているため、ツールチップが表示されています。
+
+image::images/xamSpreadsheet_16.png[]
+
+注:
+
+[NOTE]
+====
+コードによるハイパーリンクの作成とカスタマイズの詳細は、 pick:[xaml="link:excelengine-addinghyperlinktoworksheet.html[ハイパーリンクをワークシートに追加 (Infragistics Excel Engine)]"]  pick:[win-forms="link:excelengine-adding-a-hyperlink-to-a-cell-in-an-excel-file.html[Excel ファイルのセルにハイパーリンクを追加]"] のトピックを参照してください。
+====
+
+[[_Ref403562772]]
+== フォロー状態
+
+=== フォロー状態の概要
+
+_{SpreadsheetName}_   コントロールは各ハイパーリンク インスタンスのフォロー状態をサポートします。この状態は一時的で、オープン中のワークブックを閉じる時点まで保持されます。ワークブックを再オープンすると、すべてのリンクのフォロー状態はクリアされています。
+
+ユーザーがハイパーリンクをクリックすると、そのフォロー状態が設定されます。また、別のスタイルを使用してハイパーリンクのレンダリングを変更することもできます (デフォルトではフォローされたハイパーリンクは、下線付きの茶系の色で表示されます)。
+
+フォロー状態は、ハイパーリンクのターゲットの場所ではなく、インスタンスによって追跡されます。つまり、同じ場所をターゲットとするハイパーリンクが複数ある場合、クリックされたハイパーリンクのみがフォロー状態として描画されます。
+
+[[_Ref403562777]]
+== ユーザー インタラクションと操作性
+
+=== ユーザー インタラクションの概要表
+
+以下の表に、 _{SpreadsheetName}_   のハイパーリンクのユーザー インタラクション機能を簡単に説明します。
+
+[options="header", cols="a,a,a,a"]
+|====
+|目的|方法|詳細|構成可能
+
+|ハイパーリンクのフォロー
+|
+* ハイパーリンクをクリックします 
+
+* ハイパーリンクを含むセルを右クリックし、“Open Hyperlink” メニュー項目を選択します 
+
+|このハイパーリンクをクリック後、フォロー状態が設定され、別にレンダリングされます。
+|image::images/Yes.png[] 
+
+link:spreadsheet-work-hyperlinks.html[ハイパーリンクでの作業（{SpreadsheetName}）]
+
+|ハイパーリンクを含むセルの選択
+|
+* ハイパーリンクの周囲の空いたスペースをクリックします 
+
+* ハイパーリンク上でマウスのボタンを押し、1 秒間押した状態にします 
+
+|なし
+|image::images/No.png[]
+
+|ハイパーリンクのツールチップの表示
+|マウスでハイパーリンクの上をホバーします
+|マウスがハイパーリンクの境界の外に出ると、ツールチップは非表示になります
+|image::images/Yes.png[] 
+
+pick:[xaml="link:excelengine-addinghyperlinktoworksheet.html[ハイパーリンクをワークシートに追加 (Infragistics Excel Engine)]"]
+pick:[win-forms="link:excelengine-adding-a-hyperlink-to-a-cell-in-an-excel-file.html[Excel ファイルのセルにハイパーリンクを追加]"]
+
+|====
+
+ifdef::xaml[]
+注:
+
+[NOTE]
+====
+_{SpreadsheetName}_   のコンテキスト メニュー ( link:spreadsheet-uiu-context-menu.html[コンテキスト メニューのインタラクション ({SpreadsheetName}) のトピックで説明]) に、ハイパーリンクのオープンや削除するための使用可能なユーザー オプションがあります。
+====
+endif::xaml[]
+
+[[_Ref403562782]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-uiu-cell-editing.html[セル編集のインタラクション ({SpreadsheetName})]
+|このトピックでは、セルを編集する場合にユーザーが実行できる操作を説明します。
+
+| link:spreadsheet-uiu-columns-and-rows.html[行と列のインタラクション ({SpreadsheetName})]
+|このトピックでは、ワークシートの行と列を操作する場合にユーザーが実行できる操作を説明します。
+
+| link:spreadsheet-uiu-selection.html[選択のインタラクション ({SpreadsheetName})]
+|このトピックでは、セル、行、または列を選択する場合にサポートされるユーザー操作を説明します。
+
+ifdef::wpf,sl,xaml[]
+| link:spreadsheet-uiu-context-menu.html[コンテキスト メニューのインタラクション ({SpreadsheetName})]
+|このトピックでは、コントロールのコンテキスト メニューを使用してユーザーが実行できる操作を説明します。
+endif::wpf,sl,xaml[]
+
+| link:spreadsheet-work-hyperlinks.html[ハイパーリンクでの作業（{SpreadsheetName}）]
+|このトピックでは、サポートされているハイパーリンクのタイプとその操作方法を説明します。
+
+|====

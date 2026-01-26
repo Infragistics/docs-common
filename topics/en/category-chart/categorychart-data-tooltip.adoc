@@ -1,0 +1,215 @@
+﻿= Chart Data Tooltip
+
+In {ProductName}, the data tooltip of the link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] displays values and titles of series as well as legend badges of series in a tooltip. In addition, it provides many configuration properties of the link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] for filtering series rows and values columns, styling, and formatting values. This tooltip type updates while moving the mouse inside of the plot area of the link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}].
+
+== Data Tooltip Elements
+
+The data tooltip of the link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] displays content using a set of three types of rows and four types of columns. 
+
+=== Data Tooltip Rows
+
+The rows of the data tooltip include the header row, series row(s), and the summary row.
+
+The header row displays the axis label of the point that is hovered, and can be changed using the link:{CategoryChartLink}.{DomainChartName}~DataToolTipHeaderText.html[DataToolTipheaderText] property.
+
+The series row can actually be a set of rows corresponding to each series plotted in the chart. These rows will display the legend badge, series title, actual/abbreviated value of the the series, and abbreviation symbol and unit, if specified.
+
+Finally, there is a summary row that displays the total of all series values. The default summary title can be changed using the link:{CategoryChartLink}.{DomainChartName}~DataToolTipSummaryTitleText.html[DataToolTipSummaryTitleText] property of the series. Also, you can use the link:{CategoryChartLink}.{DomainChartName}~DataToolTipSummaryType.html[DataToolTipSummaryType] property to customize whether you display the Total, Min, Max, or Average of series values in the summary row.
+
+The following code snippet demonstrates setting the properties mentioned above to have a data tooltip with a `Total` summary type with a custom title for the summary and a custom header:
+
+ifdef::wpf[]
+
+*In XAML*:
+
+[source, xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipHeaderText="My Custom Data Tooltip Header"
+                     DataToolTipSummaryType="Total"
+                     DataToolTipSummaryTitleText="Grand Total:"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipHeaderText = "My Custom Data Tooltip Header";
+categoryChart1.DataToolTipSummaryType = DataLegendSummaryType.Total;
+categoryChart1.DataToolTipSummaryTitleText = "Grand Total:";
+----
+
+endif::wpf,win-forms[]
+
+=== Data Tooltip Columns
+
+The columns of the data tooltip include the title, label, value, and units columns. Each series in the chart can have multiple columns for label, value, and units depending on the link:{DataChartLink}.{DomainChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] or link:{DataChartLink}.{DomainChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] collections of the chart.
+
+The title column displays legend badges and series titles, which come from the `Title` property of the different series plotted in the chart.
+
+The label column displays the name or abbreviation of the different property paths in the link:{DataChartLink}.{DomainChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] or link:{DataChartLink}.{DomainChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] collections of the chart.
+
+The value column displays series values as abbreviated text which can be formatted using the link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Precision of abbreviated values is controlled using the link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] and link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions] for minimum and maximum digits, respectively.
+
+The units column displays an abbreviation symbol and/or unit text, which can be set on the tooltip by setting the link:{CategoryChartLink}.{DomainChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText].
+    
+The following code snippet demonstrates the link:{CategoryChartLink}.{DomainChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText] and the minimum/maximum fractions set for the data tooltip on the link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}]:
+    
+ifdef::wpf[]
+
+*In XAML*:
+[source, xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipUnitsText="K"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipUnitsText = "K";
+categoryChart1.DataToolTipValueFormatMinFractions = 2;
+categoryChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+
+== Data Tooltip Styling
+
+The link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] provides properties for styling each type of column in its data tooltip. Each of these properties begins with Title, Label, Value, or Units, and you can style the text's color, font, and margin. For example, if you wanted to set the text color of each of these, you would set the link:{CategoryChartLink}.{DomainChartName}~DataToolTipTitleTextColor.html[DataToolTipTitleTextColor], link:{CategoryChartLink}.{DomainChartName}~DataToolTipLabelTextColor.html[DataToolTipLabelTextColor], link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueTextColor.html[DataToolTipValueTextColor], and link:{CategoryChartLink}.{DomainChartName}~DataToolTipUnitsTextColor.html[DataToolTipUnitsTextColor] properties.
+
+The following code snippet demonstrates how to set the styling properties mentioned above:
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipTitleTextColor="LightGray"
+                     DataToolTipLabelTextColor="LightGray"
+                     DataToolTipValueTextColor="Green"
+                     DataToolTipUnitsTextColor="Green"
+                     DataToolTipUnitsText="K"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipTitleTextColor = Brushes.LightGray;
+categoryChart1.DataToolTipLabelTextColor = Brushes.LightGray;
+categoryChart1.DataToolTipValueTextColor = Brushes.Green;
+categoryChart1.DataToolTipUnitsTextColor = Brushes.Green;
+categoryChart1.DataToolTipUnitsText = "K";
+----
+
+endif::wpf,win-forms[]
+
+== Data Tooltip Grouping & Positioning
+
+You can set the link:{CategoryChartLink}.{DomainChartName}~DataToolTipGroupingMode.html[DataToolTipGroupingMode] property to either `Grouped` or `Individual` to group content for multiple series into single tooltip or separate content for each series in multiple tooltips. In the `Grouped` mode, you can customize where the tooltip is shown by setting the link:{CategoryChartLink}.{DomainChartName}~DataToolTipGroupedPositionModeX.html[DataToolTipGroupedPositionModeX] and link:{CategoryChartLink}.{DomainChartName}~DataToolTipGroupedPositionModeY.html[DataToolTipGroupedPositionModeY] properties. This essentially allows you to customize the horizontal and vertical alignments of the tooltip and whether you want it to track to the closest series points to the mouse position or pin the tooltip to edge of plot area.
+
+The following code snippet demonstrates a data tooltip that will be pinned to the top-left of the link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] as you scroll:
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipGroupingMode="Grouped"
+                     DataToolTipGroupedPositionModeX="PinLeft"
+                     DataToolTipGroupedPositionModeY="PinTop"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipGroupingMode = DataToolTipLayerGroupingMode.Grouped;
+categoryChart1.DataToolTipGroupedPositionModeX = DataTooltipGroupedPositionX.PinLeft;
+categoryChart1.DataToolTipGroupedPositionModeY = DataTooltipGroupedPositionY.PinTop;
+----
+
+endif::wpf,win-forms[]
+
+== Data Tooltip Value Formatting
+
+The link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] provides automatic abbreviation of large numbers for its data tooltip using its link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] property. This adds a multiplier in the units column such as kilo, million, billion, etc. You can customize the number of fractional digits that are displayed by setting the link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] and link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions]. This will allow you to determine the minimum and maximum number of digits that appear after the decimal point, respectively.
+
+The following code snippet demonstrates how to set the minimum and maximum fractions of the data tooltip of the link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}]:
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipValueFormatMinFractions = 2;
+categoryChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+== Data Tooltip Value Mode
+
+You can change the default decimal display of values within the data tooltip to be currency by changing the link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] property of the chart. The link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] also exposes the ability to modify the culture of the displayed currency symbol in the tooltip by using its link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] property and setting it to its corresponding culture tag.
+
+For example, the following code snippet will create a chart with the link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] set to "en-GB" and the link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] set to "Currency":
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatCulture="en-GB"
+                     DataToolTipValueFormatMode="Currency"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipValueFormatCulture = "en-GB";
+categoryChart1.DataToolTipValueFormatMode = DataLegendValueMode.Currency;
+----
+
+endif::wpf,win-forms[]

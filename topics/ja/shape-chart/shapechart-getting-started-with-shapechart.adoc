@@ -1,0 +1,125 @@
+﻿= {ShapeChartName} を使用した作業の開始
+
+== トピックの概要
+
+=== 目的
+
+このトピックではコード例を使用して、link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+=== このトピックの内容
+
+* <<Introduction, 概要>>
+* <<Preview, プレビュー>>
+* <<Requirements, 要件>>
+* <<Steps, {ShapeChartName} の追加>>
+* <<Related, 関連コンテンツ>>
+
+[[Introduction]]
+=== 概要
+
+以下の手順は、{ShapeChartName} を {PlatformName} アプリケーションに追加する方法を示します。
+
+[[Preview]]
+=== プレビュー
+
+以下は {ShapeChartName} の画像です。
+
+image::images/shapechart_getting_started.png[]
+
+[[Requirements]]
+== 要件
+
+ifdef::wpf[]
+
+以下の NuGet パッケージをアプリケーションに追加します。
+
+** Infragistics.WPF.Charts
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+以下の Infragistics アセンブリ参照をアプリケーションに追加します:
+
+** {ApiPlatform}{ShapeChartAssembly}.dll
+** {ApiPlatform}{DataVizAssembly}.dll
+** {ApiPlatform}dll
+
+endif::win-forms[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+using {ShapeChartNamespace};
+----
+
+ifdef::wpf,win-forms[]
+*VB の場合：*
+[source,vb]
+----
+Imports {ShapeChartNamespace}
+----
+endif::wpf,win-forms[]
+
+
+[[Steps]]
+== {CategoryChartName} を {PlatformName} アプリケーションへ追加
+
+=== 1. {ShapeChartName} をページに追加
+
+以下のコードは、表示に必要な最小限のコードとプロパティ設定で {ShapeChartName} コントロールを追加します。以下のコード はlink:resources-sample-scatter-data.html[サンプル散布データ]のリソースを使用しています。
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} ItemsSource="{Binding DataCollection}" />
+</Grid>
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+var data = new ScatterDataSource();
+var shapeChart = new {ShapeChartName}();
+shapeChart.ItemsSource = data;
+this.layoutRoot.Children.Add(shapeChart);
+----
+
+ifdef::wpf,win-forms[]
+*VB の場合：*
+[source,vb]
+----
+Dim data As New ScatterDataSource()
+Dim shapeChart As New {ShapeChartName}()
+shapeChart.ItemsSource = data
+Me.layoutRoot.Children.Add(shapeChart)
+----
+endif::wpf,win-forms[]
+
+
+=== 2. 結果を確認します。
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、{ShapeChartName} は上記のプレビュー セクションで示したように表示されます。
+
+[[Related]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+* link:shapechart-binding-to-shapefile-data.html[シェープ ファイル データのバインド]
+* link:shapechart-binding-to-break-even-data.html[損益分岐点データのバインド]

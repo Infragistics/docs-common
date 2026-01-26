@@ -1,0 +1,39 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-control-the-visibility-of-a-specific-series",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D87D1390-A4AF-42C9-B7D7-AC324321291D}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Control the Visibility of a Specific Series
+
+Starting in the 2006 Volume 3 release, you can choose to display or hide a specific series on a chart (composite or non-composite) by simply toggling its  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~visible.html[Visible]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~visible.html[Visible]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase~visible.html[Visible]"]  property.
+
+.Note
+[NOTE]
+====
+The Visible property is a property of the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase.html[SeriesBase]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase.html[SeriesBase]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriesbase.html[SeriesBase]"]  class, but not the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.iseries.html[ISeries]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.iseries.html[ISeries]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.iseries.html[ISeries]"]  interface. It was implemented as such to ensure backwards compatibility. Consequently, in code, it is necessary to cast to the SeriesBase class in order to access the Visible property, as shown in the example code below.
+====
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Data.Series
+...
+CType(Me.ultraChart1.Series(0), SeriesBase).Visible = False
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Data.Series;
+...
+((SeriesBase)this.ultraChart1.Series[0]).Visible = false;
+----

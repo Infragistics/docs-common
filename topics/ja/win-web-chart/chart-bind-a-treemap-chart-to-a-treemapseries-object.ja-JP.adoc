@@ -1,0 +1,76 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-bind-a-treemap-chart-to-a-treemapseries-object",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{76C53BCF-5427-403F-86DC-DC179C447349}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ツリーマップ チャートを TreeMapSeries オブジェクトへのバインディング
+
+ツリーマップ グラフを TreeMapSeries オブジェクトにバインドできます。ツリーマップ グラフの各ノードは TreeMapDataPoint オブジェクトによって表されます。TreeMapDataPoint がリーフ ノードの場合には、対応する TreeMapDataPoint オブジェクトの SizeValue プロパティと ColorValue プロパティを修正できます。TreeMapDataPoint がリーフではない場合には、SizeValue または ColorValue プロパティを設定しても影響はありません。
+
+以下のコード例は、ツリーマップ グラフを TreeMapSeries オブジェクトにバインドする方法を示します。
+
+image::images\Chart_Binding_Treemap_Chart_to_a_TreeMapSeries_Object_01.png[]
+
+*Visual Basic の場合：*
+
+----
+' TreeMapSeries オブジェクトをインスタンス化します。 
+Dim myTreeMapSeries As New Infragistics.UltraChart.Resources.Appearance.TreeMapSeries()
+' 親ノードを作成します。
+myTreeMapSeries.Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (20, 0, "Item1", False))
+' 子ノードを追加します。 
+myTreeMapSeries.Points(0).Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (20, 0, "Child1 of Item1", False))
+' 親ノードをもうひとつ作成します。 
+myTreeMapSeries.Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (10, 5, "Item2", False))
+' 子ノードを追加します。 
+myTreeMapSeries.Points(1).Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (10, 5, "Child1 of Item2", False)) '
+' シリーズをグラフにバインドします。 
+Me.ultraChart1.Series.Add(myTreeMapSeries)
+----
+
+*C# の場合：*
+
+----
+// TreeMapSeries オブジェクトをインスタンス化します。 
+Infragistics.UltraChart.Resources.Appearance.TreeMapSeries myTreeMapSeries = 
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapSeries();
+//  親ノードを作成します。 
+myTreeMapSeries.Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(20,  
+   0, "Item1", false));
+// 子ノードを追加します。   
+myTreeMapSeries.Points[0].Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(20, 
+   0, "Child1 of Item1", false));
+// 親ノードをもうひとつ作成します。 
+myTreeMapSeries.Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(10, 
+   5, "Item2", false));
+// 子ノードを追加します。 
+myTreeMapSeries.Points[1].Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(10, 
+   5, "Child1 of Item2", false));
+// シリーズをグラフにバインドします。 
+this.ultraChart1.Series.Add(myTreeMapSeries);
+----
+
+== 関連トピック
+
+link:chart-set-a-leaf-nodes-color-using-a-treemapseries-object.html[TreeMapSeries オブジェクトを使用してリーフ ノードの色を設定]

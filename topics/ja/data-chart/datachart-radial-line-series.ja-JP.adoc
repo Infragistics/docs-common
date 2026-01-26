@@ -1,0 +1,220 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-radial-line-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"],
+    "guid": "1b57d54f-f064-4bfc-8f78-7e19ba82e6c3",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5433355Z"
+}
+|metadata|
+////
+
+= ラジアル折れ線シリーズ
+
+このトピックは、コード例を示して、ラジアル折れ線シリーズを link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで使用する方法を説明します。
+
+== 概要
+
+ラジアル折れ線シリーズは、データ ポイントを結ぶ直線のコレクションを使用して描画されます。link:{DataChartLink}.radiallineseries.html[RadialLineSeries] は link:{DataChartLink}.lineseries.html[LineSeries] と同じデータ プロットの概念を使用していますが、横の線に沿って伸びるのではなく、円の周りでデータ ポイントをラップします。このシリーズのグループの詳細については、 link:datachart-radial-series-overview.html[ラジアル シリーズ] トピックを参照してください。
+
+== プレビュー
+
+図 1 は、{DataChartName} コントロールにプロットされた時にラジアル折れ線シリーズがどのように表示されるのかを示します。
+
+image::images/xamDataChart_Radial_Series_03.png[]
+
+図 1: RadialLineSeries の実装例
+
+== データ バインディング
+
+以下のコードは、サンプルのラジアル データ (link:resources-sample-category-data.html[サンプル カテゴリ データ]リソースからダウンロードで入手可能) を RadialLineSeries にバインドする方法を示します。この例は {DataChartName} コントロール用のプロジェクトを設定済みであることを前提としています。
+
+ifdef::sl,wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <models:CategoryDataSource x:Key="data" />
+        <SolidColorBrush x:Key="AxisStripBrush" Color="LightGray" Opacity=".4" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryAngleAxis x:Name="angleAxis"
+                              Interval="1"
+                              Label="{}{Category}" 
+                              ItemsSource="{StaticResource data}">
+        </ig:CategoryAngleAxis>
+        <ig:NumericRadiusAxis x:Name="radiusAxis" 
+                              Strip="{StaticResource AxisStripBrush}"                                      
+                              MinimumValue="0"
+                              MaximumValue="150"
+                              Interval="50"
+                              RadiusExtentScale="0.8"
+                              InnerRadiusExtentScale="0.2">
+        </ig:NumericRadiusAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:RadialLineSeries AngleAxis="{Binding ElementName=angleAxis}"
+                             ValueAxis="{Binding ElementName=radiusAxis}"
+                             ValueMemberPath="Value"
+                             Brush="#7F58A6C7"
+                             MarkerType="None"
+                             Outline="#FF58A6C7"
+                             Thickness="5"
+                             ItemsSource="{StaticResource data}">
+        </ig:RadialLineSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <ResourceDictionary>
+			<local:CategoryDataSource x:Name="data" />
+		</ResourceDictionary>
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryAngleAxis x:Name="angleAxis"
+                              Interval="1"
+                              Label="Category" 
+                              ItemsSource="{StaticResource data}">
+        </ig:CategoryAngleAxis>
+        <ig:NumericRadiusAxis x:Name="radiusAxis"                                    
+                              MinimumValue="0"
+                              MaximumValue="150"
+                              Interval="50"
+                              RadiusExtentScale="0.8"
+                              InnerRadiusExtentScale="0.2">
+        </ig:NumericRadiusAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:RadialLineSeries AngleAxis="{x:Reference angleAxis}"
+                             ValueAxis="{x:Reference radiusAxis}"
+                             ValueMemberPath="Value"
+                             Brush="#7F58A6C7"
+                             MarkerType="None"
+                             Outline="#FF58A6C7"
+                             Thickness="5"
+                             ItemsSource="{StaticResource data}">
+        </ig:RadialLineSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*C# の場合:*
+[source,csharp]
+---- 
+var data = new CategoryDataSource();
+
+var angleAxis = new CategoryAngleAxis();
+angleAxis.{ApiDataSource} = data;
+angleAxis.Label = "{Category}";
+angleAxis.Interval = 1;
+
+var radiusAxis = new NumericRadiusAxis();
+radiusAxis.MinimumValue = 0;
+radiusAxis.MaximumValue = 150;
+radiusAxis.Interval = 50;
+radiusAxis.RadiusExtentScale = 0.8;
+radiusAxis.InnerRadiusExtentScale = 0.2;
+
+var series = new RadialLineSeries();
+series.{ApiDataSource} = data; 
+series.ValueMemberPath = "Value";
+series.AngleAxis = angleAxis;
+series.ValueAxis = radiusAxis; 
+series.MarkerType = MarkerType.None;
+series.Thickness = 5;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(angleAxis);
+chart.Axes.Add(radiusAxis);  
+chart.Series.Add(series);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim data As New CategoryDataSource()
+Dim angleAxis As New CategoryAngleAxis()
+angleAxis.{ApiDataSource} = data
+angleAxis.Label = "{Category}"
+angleAxis.Interval = 1
+
+Dim radiusAxis As New NumericRadiusAxis()
+radiusAxis.MinimumValue = 0
+radiusAxis.MaximumValue = 150
+radiusAxis.Interval = 50
+radiusAxis.RadiusExtentScale = 0.8
+radiusAxis.InnerRadiusExtentScale = 0.2
+
+Dim series As New RadialLineSeries()
+series.{ApiDataSource} = data 
+series.ValueMemberPath = "Value"
+series.AngleAxis = angleAxis
+series.ValueAxis = radiusAxis
+series.MarkerType = MarkerType.None
+series.Thickness = 5
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(angleAxis)
+chart.Axes.Add(radiusAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+*Java の場合:*
+[source,java]
+----
+CategoryDataSource data = new CategoryDataSource();
+CategoryAngleAxis angleAxis = new CategoryAngleAxis();
+angleAxis.setDataSource(data);
+angleAxis.setLabel("Category");
+angleAxis.setInterval(1);
+
+NumericRadiusAxis radiusAxis = new NumericRadiusAxis();
+radiusAxis.setMinimumValue(0);
+radiusAxis.setMaximumValue(150);
+radiusAxis.setInterval(50);
+radiusAxis.setRadiusExtentScale(0.8);
+radiusAxis.setInnerRadiusExtentScale(0.2);
+
+RadialLineSeries series = new RadialLineSeries();
+series.setDataSource(data);
+series.setValueMemberPath("Value");
+series.setAngleAxis(angleAxis);
+series.setValueAxis(radiusAxis);
+series.setMarkerType(MarkerType.NONE);
+series.setThickness(5); 
+
+DataChartView chart = new DataChartView(root.getContext());
+chart.addAxis(angleAxis);
+chart.addAxis(radiusAxis);
+chart.addSeries(series);
+----
+endif::android[]
+
+== 関連コンテンツ
+
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-using-category-angle-axis.html[カテゴリ角度軸の使用]
+* link:datachart-using-numeric-radius-axis.html[数値半径軸の使用]

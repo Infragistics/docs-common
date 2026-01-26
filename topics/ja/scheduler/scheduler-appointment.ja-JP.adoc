@@ -1,0 +1,107 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-appointment",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-30T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= 予定 ({SchedulerName})
+
+== 目的
+
+このトピックは予定アクティビティ型を説明します。
+
+== 前提条件
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-overview.html[概要 ({SchedulerName})]
+|このトピックでは、{SchedulerName} コントロール シリーズの概要を説明します。
+
+|link:scheduler-binding-schedulelistdatasource.html[ScheduleListDataSource へのバインド ({SchedulerName})]
+|このトピックでは、コントロールを ScheduleListDataSource を使用してデータ ソースへバインドする方法を説明します。
+
+|=======
+
+== このトピックの構成
+
+* <<Ref00001, 概要>>
+* <<Ref00002, 主なプロパティ>>
+* <<Ref00003, コード例>>
+* <<Ref00004, 関連トピック>>
+
+[[Ref00001]]
+== 概要
+
+アクティビティは、指定した時間で開始し、指定した時間で終了するイベントを表します。アクティビティは、link:{SchedulerCoreLink}.activitybase.html[ActivityBase] 型の抽象基本クラスから派生し、このイベントとの関連情報をすべてカプセル化する link:{SchedulerCoreLink}.appointment.html[Appointment] 型で表現されます。
+
+アクティビティは、複数の時、日、またはそれより長い期間があります。
+
+[[Ref00002]]
+== 主なプロパティ
+
+以下の表は、`Appointment` の主なプロパティとその使用目的を示します。
+
+[options="header", cols="a,a"]
+|=======
+|プロパティ|目的
+
+|link:{SchedulerCoreLink}.activitybase~subject.html[Subject]
+|この `string` 型プロパティは、アクティビティの短い説明として使用されます。コントロールのビューで表示される主な情報です。特定のアクティビティをその他のアクティビティから識別するために使用されます。
+
+|link:{SchedulerCoreLink}.appointment~location.html[Location]
+|この `string` 型プロパティは、アクティビティの場所を指定します。
+
+|link:{SchedulerCoreLink}.activitybase~start.html[Start]
+|この `DateTime` 型プロパティは、アクティビティの開始日時を含みます。
+
+|link:{SchedulerCoreLink}.activitybase~end.html[End]
+|この `DateTime` 型プロパティは、アクティビティの終了日時を含みます。
+
+|link:{SchedulerCoreLink}.activitybase~id.html[Id]
+|この `string` 型プロパティは、その他のアクティビティからこの予定を識別します。一意にする必要があります。
+
+|link:{SchedulerCoreLink}.activitybase~resourceid.html[ResourceId]
+|この string 型プロパティは、現在のアクティビティをリソースと関連付けるために使用されます。
+
+|link:{SchedulerCoreLink}.activitybase~resource.html[Resource]
+|この読み取り専用 `ScheduleResource` 型プロパティは、現在のアクティビティと関連するリソースを取得するために使用されます。
+
+|=======
+
+[[Ref00003]]
+== コード例
+
+以下のコード例は、予定を作成する方法を示します。
+
+*C# の場合:*
+[source,csharp]
+----
+Appointment appointment1 = new Appointment();
+appointment1.Subject = "Team Meeting";
+appointment1.Location = "Conf. Room #3";
+appointment1.Start = new DateTime(today.Year, today.Month, today.Day, 10, 0, 0);
+appointment1.End = new DateTime(today.Year, today.Month, today.Day, 10, 30, 0);
+----
+
+[[Ref00004]]
+== 関連トピック
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-recurrence.html[繰り返しアクティビティ ({SchedulerName})]
+|このトピックはアクティビティの繰り返し機能を説明します。
+
+|link:scheduler-resources.html[リソース ({SchedulerName})]
+|このトピックは、{SchedulerName} コントロールのリソース概念について説明します。
+
+|=======

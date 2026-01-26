@@ -1,0 +1,178 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-clipboard",
+    "tags": ["Editing","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "db2b6264-1789-42fc-8d5b-246c5b32b3c8",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0863897Z"
+}
+|metadata|
+////
+
+= クリップボードの操作 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、クリップボードの操作を実行する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|インフラジスティックス Excel エンジン
+|====
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref395009375, クリップボードの概要 >>
+* <<_Ref395009433, コード例:コマンドの呼び出し >>
+* <<_Ref395009440, 関連コンテンツ >>
+
+[[_Ref395009375]]
+== クリップボードの概要
+
+=== クリップボードの概略
+
+{SpreadsheetName} コントロールは、クリップボード操作 (`Cut`、`Copy`、`Paste`) を実装し、セル間、ワークシート間、 _{SpreadsheetName}_   コントロールまたは Microsoft の Excel の別のインスタンスなどの外部ソース間で、ユーザーが情報をコピーできるようにします。
+
+==== 切り取りおよびコピー
+
+クリップボードの情報をコピーする場合、以下の形式がサポートされます。
+
+* BIFF8
+* CSV (カンマで区切られた値)
+* TSV (タブで区切られた値)
+
+これに加え、情報をクリップボードにコピーする場合に使用される内部形式もあります。この形式は、 _{SpreadsheetName}_   コントロールの 2 つのインスタンス間で情報をコピーするときに使用します。
+
+==== 貼り付け
+
+_{SpreadsheetName}_   で情報を貼り付ける場合、クリップボードに存在する形式に応じて、コントロールはワークシートのセルを更新します。単純なテキスト (メモ帳のテキストなど) を貼り付ける場合、Microsoft の Excel の場合と同様に、テキストはタブで区切られた値として扱われ、選択対象の左上のセルに対応したセルに適用されます。 _{SpreadsheetName}_   は、文字列の数値を決定するために各セルの値を解析し、セルの編集時と同様に、セルの数値書式を判断します。
+
+注:
+
+[NOTE]
+====
+結合されたセルを持つ単純なテキストを貼り付ける場合、ターゲットの範囲内の結合は解除されます。
+====
+
+=== 制限
+
+_{SpreadsheetName}_   のクリップボード サポート機能には、以下の制限があります。
+
+* 重複する範囲は選択できません。ただし、同じ最上行または先頭列を共有し、高さまたは幅が同じ範囲 (B2:C3,E2:G3,B7:C9,E7:G9 など) を複数選択することができます。
+* 形式 (テキストや CSV など) によっては、これらの領域の結合を表すセルをクリップボードにコピーします。また、 _{SpreadsheetName}_   内部でのコピーや貼り付けに使用する内部形式などのように、選択されたセルをコピーするのみの形式もあります。
+* 列や行を選択する場合、選択された列や行と、一部のコンテンツとの公差部 (値または書式設定) のみがクリップボードにコピーされます。
+
+[[_Ref395009433]]
+== コード例:コマンドの呼び出し
+
+=== 説明
+
+以下のコードは、ボタンを使用して  _{SpreadsheetName}_   コントロールに対してクリップボード コマンドを呼び出す方法を示します。このコードは、「{SpreadsheetName}1」という名前の  _{SpreadsheetName}_   のインスタンスへの参照があることを前提としています。
+
+=== コード
+
+以下のコードはこの例を実装します。
+
+ifdef::win-forms[]
+*C# の場合:*
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+----
+private void ultraButton1_Click(object sender, EventArgs e)
+{
+   ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Paste);
+}
+----
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*VB の場合:*
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+----
+Private Sub ultraButton1_Click(sender As Object, e As EventArgs) Handles UltraButton1.Click
+ ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Paste);
+End Sub
+----
+endif::win-forms[]
+
+pick:[xaml="*XAML の場合:*"]
+
+ifdef::xaml[]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+  xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives"
+  …>
+<Button Content="Paste"
+  ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+  <ig:Commanding.Command>
+    <igPrim:SpreadsheetCommandSource
+      EventName="Click"
+      CommandType="Paste" />
+  </ig:Commanding.Command>
+</Button>
+----
+endif::xaml[]
+
+[[_Ref395009440]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-selection.html[選択の操作 ({SpreadsheetName})]
+|このトピックでは、選択機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-undo-redo.html[元に戻す / やり直しの操作 ({SpreadsheetName})]
+|このトピックでは、コントロールを使用して元に戻す / やり直し操作を設定し実行する方法を説明します。
+
+|====

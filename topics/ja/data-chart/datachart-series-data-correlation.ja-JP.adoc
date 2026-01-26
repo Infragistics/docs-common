@@ -1,0 +1,530 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-series-data-correlation",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Presentation","Getting Started","How Do I"],
+    "guid": "2c836c87-4b28-44b0-91f8-ed796e1cf69e",  
+    "buildFlags": ["wpf","win-universal"],
+    "createdOn": "2014-06-05T19:39:00.6453753Z"
+}
+|metadata|
+////
+
+= シリーズ データの相関
+
+このトピックでは link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールのシリーズ データの相関機能を紹介し、コード例を示しつつそれを説明します。
+
+== 概要
+
+トピックは以下のとおりです。
+
+* <<Introduction,概要>>
+* <<Requirements,要件>>
+
+** アセンブリの要件
+** データ要件
+
+* <<Example,例>>
+
+** プレビュー
+** 手順
+
+* <<RelatedContent,関連コンテンツ>>
+
+** link:datachart-series-requirements.html[シリーズ要件]
+** link:datachart-series-value-overlay.html[値オーバーレイ]
+** link:ig-math-calculators.html[Infragistics 数学計算式]
+
+== 概要
+
+シリーズ データの相関は、 link:{DataChartLink}.scatterseries.html[ScatterSeries] を使用して表示されるデータ セットの 2 変数間の相関の計算を可能にする link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] をもつ {DataChartName} コントロールの統合です。データの相関はデータセット中の 2 つの変数が互いにどう関係し合っているかを識別するのに役立ちます。たとえば、{DataChartName} コントロールにプロットされた高血圧測定値と患者の年齢グループとの間に関連があるかどうかを判断するのに相関を使うことができます。link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] やデータ相関の異なるタイプについてのより詳細な情報は link:ig-math-calculators.html[Infragistics Math Calculators] のトピックを参照してください。
+
+== 要件
+
+このセクションでは {DataChartName} コントロールのシリーズ データの相関機能を使用する際の前提条件を示しています。
+
+ifdef::win-forms[]
+
+== アセンブリの要件
+
+表 1 – {PlatformName} プロジェクトに加えられる必要があるアセンブリのリスト。
+
+[options="header", cols="a,a"]
+|====
+|アセンブリ|説明
+
+|{ApiPlatform}Math.Calculators{ApiVersion}.dll
+|相関、平均、中央値、バリアンスなど多くの数値を計算するための Math Calculators を含む {ProductName} アセンブリ。
+
+|{ApiPlatform}Math{ApiVersion}.dll
+|標準的な数学定数と多様な数学的なオブジェクトで機能するように設計された汎用的な数学関数を含む {ProductName} アセンブリ。
+
+|{ApiPlatform}{DataChartAssembly}{ApiVersion}.dll
+|データをプロットするための {DataChartName} コントロールとさまざまなタイプのシリーズと軸を含む {ProductName} アセンブリ。
+
+|====
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+== アセンブリの要件
+
+表 1 – {PlatformName} プロジェクトに加えられる必要がある NuGet パッケージのリスト。
+
+[options="header", cols="a,a"]
+|====
+|NuGet パッケージ|説明
+
+|Infragistics.Math.Calculators
+|相関、平均、中央値、バリアンスなど多くの数値を計算するための Math Calculators を含む {ProductName} NuGet パッケージ。
+
+|Infragistics.WPF.Math
+|標準的な数学定数およびさまざまな数学的なオブジェクトで使用するように設計された汎用的な数学関数を含む {ProductName} NuGet パッケージ。
+
+|Infragistics.WPF.Charts
+|データをプロットするための {DataChartName} コントロールおよびさまざまなタイプのシリーズと軸を含む {ProductName} NuGet パッケージ。
+
+|====
+
+endif::wpf[]
+
+== データ要件
+
+CorrelationCalculator は link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイス (link:http://msdn.microsoft.com/ja-jp/library/6sh2ey19.aspx[List]、 link:http://msdn.microsoft.com/ja-jp/library/ms132397.aspx[Collection]、 link:http://msdn.microsoft.com/ja-jp/library/7977ey2c.aspx[Queue]、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.stack.aspx[Stack] など) を導入しなければならないデータ オブジェクトを必要とし、このオブジェクトの項目はデータ相関が計算される 2 つの数値データ列でなければなりません。さらに、これらの 2 つのデータ列は CorrelationCalculator と ScatterSeries オブジェクトの XMemberPath と YMemberPath プロパティにマップされなければなりません。
+
+上記の基準を満たすオブジェクトの例は CorrelationDataSample で、 link:resources-correlationdatasample.html[相関データの例]リソースからダウンロードしてプロジェクトで使用できます。
+
+.注:
+[NOTE]
+====
+データが link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] の ItemsSource へバインドされると、相関が計算され、数値として link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] の値プロパティに格納されます。
+====
+
+== 例
+
+次の例は {DataChartName} コントロールの ScatterSeries にバインドされたデータの相関がどのように計算され、チャートの凡例にシリーズのタイトルとして結果が表示されるかについて説明します。これは、アセンブリ要件セクションにリストされている必要なアセンブリをすべて追加していることを前提とします。
+
+== プレビュー
+
+ifdef::sl,wpf,win-phone,win-universal[]
+image::images/Series_Data_Correlation_01.png[]
+endif::sl,wpf,win-phone,win-universal[]
+
+図 1 – CorrelationCalculator をもつ {DataChartName} コントロールの組み込み例
+
+== 手順
+
+この手順は CorrelationCalculator をもつ {DataChartName} コントロールを組み込み、計算結果を表示するために必要なステップを提供します。
+
+.注:
+[NOTE]
+====
+この例は CorrelationDataSample オブジェクトをデータ ソースとして使用しますが、自身のデータを使用することもできます。データ要件のより詳細な情報はこのトピックのデータ要件セクションを参照してください。
+====
+
+[start=1]
+. 相関を計算するためのデータを提供するデータ ソースとして link:resources-correlationdatasample.html[相関データ例]オブジェクトを追加します。
+
+ifdef::win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:local="using:Infragistics.Samples.Data.Models"
+----
+
+endif::win-universal[]
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+----
+xmlns:local="clr-namespace:Infragistics.Samples.Data.Models"
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<local:CorrelationDataSample x:Key="Data">
+    <local:CorrelationDataSample.Settings>
+        <local:CorrelationDataSettings DataDistribution="RandomlyIncreasing" />
+    </local:CorrelationDataSample.Settings>
+</local:CorrelationDataSample>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports Infragistics.Samples.Data.Models
+...
+Dim data As New CorrelationDataSample()
+data.Settings = New CorrelationDataSettings()
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports Infragistics.Samples.Data.Models
+...
+Dim data As New CorrelationDataSample()
+data.Settings = New CorrelationDataSettings()
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports Infragistics.Samples.Data.Models
+...
+Dim data As New CorrelationDataSample()
+data.Settings = New CorrelationDataSettings()
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using Infragistics.Samples.Data.Models;
+...
+CorrelationDataSample data = new CorrelationDataSample();
+data.Settings = new CorrelationDataSettings();
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using Infragistics.Samples.Data.Models;
+...
+CorrelationDataSample data = new CorrelationDataSample();
+data.Settings = new CorrelationDataSettings();
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using Infragistics.Samples.Data.Models;
+...
+CorrelationDataSample data = new CorrelationDataSample();
+data.Settings = new CorrelationDataSettings();
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing;
+----
+
+endif::xamarin[]
+
+.注:
+[NOTE]
+====
+CorrelationCalculator は視覚的な要素ではなく、データ ソースを定義するのと同じようにアプリケーション、ページ、またはコントロールのレベルでリソース セクションに定義する必要があります。
+====
+
+[start=2]
+. 適切なデータ バインディングで link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] のインスタンスを作成します。
+
+ifdef::win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:ig="using:Infragistics.Controls.Charts"
+xmlns:igMath="using:Infragistics.Math.Calculators"
+----
+
+endif::win-universal[]
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+xmlns:igMath="http://schemas.infragistics.com/xaml"
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:CorrelationCalculator x:Key="correlationCalc" 
+                          XMemberPath="X" YMemberPath="Y" 
+                          ItemsSource="{StaticResource Data}" />
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports Infragistics.Math.Calculators
+...
+Dim correlationCalc As New CorrelationCalculator()
+correlationCalc.XMemberPath = "X"
+correlationCalc.YMemberPath = "Y"
+correlationCalc.ItemsSource = data
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports Infragistics.Math.Calculators
+...
+Dim correlationCalc As New CorrelationCalculator()
+correlationCalc.XMemberPath = "X"
+correlationCalc.YMemberPath = "Y"
+correlationCalc.ItemsSource = data
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports Infragistics.Math.Calculators
+...
+Dim correlationCalc As New CorrelationCalculator()
+correlationCalc.XMemberPath = "X"
+correlationCalc.YMemberPath = "Y"
+correlationCalc.ItemsSource = data
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using Infragistics.Math.Calculators;
+...
+CorrelationCalculator correlationCalc = new CorrelationCalculator();
+correlationCalc.XMemberPath = "X";
+correlationCalc.YMemberPath = "Y";
+correlationCalc.ItemsSource = data;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using Infragistics.Math.Calculators;
+...
+CorrelationCalculator correlationCalc = new CorrelationCalculator();
+correlationCalc.XMemberPath = "X";
+correlationCalc.YMemberPath = "Y";
+correlationCalc.ItemsSource = data;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using Infragistics.Math.Calculators;
+...
+CorrelationCalculator correlationCalc = new CorrelationCalculator();
+correlationCalc.XMemberPath = "X";
+correlationCalc.YMemberPath = "Y";
+correlationCalc.ItemsSource = data;
+----
+
+endif::xamarin[]
+
+[start=3]
+. link:{DataChartLink}.scatterseries.html[ScatterSeries] オブジェクトのタイトル プロパティを CorrelationCalculator リソースの値プロパティにバインドします。あるいは、静的なリソースにバインディングして他のコントロール (たとえば、TextBlock) のデータ相関結果を表示できます。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<Grid >
+    <ig:{DataChartName} x:Name="DataChart" Legend="{Binding ElementName=Legend1}" Margin="5">
+        <ig:{DataChartName}.Axes>
+            <ig:NumericXAxis x:Name="xAxis" />
+            <ig:NumericYAxis x:Name="yAxis" />
+        </ig:{DataChartName}.Axes>
+        <ig:{DataChartName}.Series>
+            <!-- ========================================================================== -->
+            <ig:ScatterSeries Title="{Binding Value, Source={StaticResource correlationCalc}}"
+                              ItemsSource="{StaticResource Data}" 
+                              XMemberPath="X" YMemberPath="Y" 
+                              XAxis="{Binding ElementName=xAxis}" 
+                              YAxis="{Binding ElementName=yAxis}">
+            </ig:ScatterSeries>
+            <!-- ========================================================================== -->
+        </ig:{DataChartName}.Series>
+    </ig:{DataChartName}>
+    <ig:Legend x:Name="Legend1" Content="Data Correlation" 
+               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
+</Grid>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports {DataChartNamespace}
+...
+Dim binding As New Binding()
+binding.Source = correlationCalc
+binding.Path = New PropertyPath("Value")
+binding.Mode = BindingMode.OneWay
+...
+Dim series As ScatterSeries = Me.DataChart.Series.OfType(Of ScatterSeries)().First()
+series.SetBinding(Series.TitleProperty, binding)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports {DataChartNamespace}
+...
+Dim binding As New Binding()
+binding.Source = correlationCalc
+binding.Path = New PropertyPath("Value")
+binding.Mode = BindingMode.OneWay
+...
+Dim series As ScatterSeries = Me.DataChart.Series.OfType(Of ScatterSeries)().First()
+series.SetBinding(Series.TitleProperty, binding)
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports {DataChartNamespace}
+...
+Dim binding As New Binding()
+binding.Source = correlationCalc
+binding.Path = New PropertyPath("Value")
+binding.Mode = BindingMode.OneWay
+...
+Dim series As ScatterSeries = Me.DataChart.Series.OfType(Of ScatterSeries)().First()
+series.SetBinding(Series.TitleProperty, binding)
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using {DataChartNamespace};
+...
+Binding binding = new Binding();
+binding.Source = correlationCalc;
+binding.Path = new PropertyPath("Value");
+binding.Mode = BindingMode.OneWay;
+...
+ScatterSeries series = this.DataChart.Series.OfType<ScatterSeries>().First();
+series.SetBinding(Series.TitleProperty, binding);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using {DataChartNamespace};
+...
+Binding binding = new Binding();
+binding.Source = correlationCalc;
+binding.Path = new PropertyPath("Value");
+binding.Mode = BindingMode.OneWay;
+...
+ScatterSeries series = this.DataChart.Series.OfType<ScatterSeries>().First();
+series.SetBinding(Series.TitleProperty, binding);
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using {DataChartNamespace};
+...
+Binding binding = new Binding();
+binding.Source = correlationCalc;
+binding.Path = new PropertyPath("Value");
+binding.Mode = BindingMode.OneWay;
+...
+ScatterSeries series = this.DataChart.Series.OfType<ScatterSeries>().First();
+series.SetBinding(Series.TitleProperty, binding);
+----
+
+endif::xamarin[]
+
+== 関連コンテンツ
+
+link:datachart-series-requirements.html[シリーズ要件]
+
+link:datachart-series-value-overlay.html[値オーバーレイ]
+
+link:ig-math-calculators.html[Infragistics 数学計算式]

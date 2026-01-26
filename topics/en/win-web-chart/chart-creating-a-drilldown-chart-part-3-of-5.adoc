@@ -1,0 +1,217 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-3-of-5",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{7B4E166D-F23F-4B1B-B70D-AE383F1E1E34}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Creating a Drilldown Chart (Part 3 of 5)
+
+This topic is a continuation of link:chart-creating-a-drilldown-chart-part-2-of-5).html[Creating a Drilldown Chart (Part 2 of 5)].
+
+The BuildChart method accepts a string that represents the value of an entity which, will be used to build a SQL query that will fetch the appropriate chart data. The value of the parameter represents a field from each of the different entities which vary from drill level to drill level.
+
+For example, at Level 1 a value is not needed as all the customers are displayed. At Level 2, a Customer ID needs to be passed to the method to display all the orders related to that customer. At Level 3, an Order ID needs to be passed to the method to display all the order details related to that order.
+
+Each level must clearly define what entity attribute is represented by the parameter. In the code, the drill level as well as the parameter value is used to build a query that fetches data from the appropriate database tables.
+
+*In Visual Basic:*
+
+----
+Private Sub BuildChart(ByVal FieldValue As String)
+    Dim theCommand As SqlCommand = New SqlCommand
+    theCommand.Connection = Me.sqlConnection1
+    theCommand.CommandType = CommandType.Text
+    Dim s As String = String.Empty
+    Select Case _currDrill
+    Case 1 'theChartInfo should be null at this level
+          'Build the command
+          s += " select TOP 10 a.customerID as 'Customer', count(b.OrderID) as 'Order Count' "
+          s += " FROM "
+          s += " Customers a, Orders b "
+          s += " WHERE a.CustomerID = b.CustomerID "
+          s += " GROUP BY a.CustomerID "
+          s += " ORDER BY 2 DESC "
+          theCommand.CommandText = s
+          'Set Chart properties for this drill level
+          Me.ultraChart1.ChartType = ChartType.BarChart3D
+          Me.ultraChart1.Legend.Visible = True
+          'Set DataSource
+          Me.ultraChart1.Data.DataSource = Me.GetChartData(theCommand)
+          'Set link labels for this level
+          Me.lnk1.Text = "Root"
+          Me.lnk1.Enabled = False
+          Me.lnk1.Visible = True
+          Me.lnk2.Enabled = False
+          Me.lnk2.Visible = False
+          Me.lnk3.Enabled = False
+          Me.lnk3.Visible = False
+          'Set the UI labels for this level
+          Me.lbl1.Enabled = True
+          Me.lbl2.Enabled = False
+          Me.lbl3.Enabled = False
+'Level 2: We can get the actual Orders PER customer
+    Case 2 
+          'Build the command
+          s += " select TOP 10 CONVERT(VARCHAR(10), a.OrderID) as 'Order ID', 
+                 count(b.OrderID) as 'Line Items' "
+          s += " FROM Orders a, [Order Details] b "
+          s += " WHERE a.OrderID = b.OrderID AND "
+          s += " a.CustomerID = @CustomerID "
+          s += " group by a.OrderID order by 2 DESC "
+          theCommand.CommandText = s
+          theCommand.Parameters.Add("@CustomerID", FieldValue)
+          'Set Chart properties for this drill level
+        Me.ultraChart1.ChartType = ChartType.PieChart3D
+        Me.ultraChart1.Legend.Visible = True
+        'Set DataSource
+          Me.ultraChart1.Data.DataSource = Me.GetChartData(theCommand)
+          'Set link labels for this level
+          Me.lnk1.Enabled = True
+          Me.lnk1.Visible = True
+          Me.lnk2.Text = FieldValue
+          Me.lnk2.Enabled = False
+          Me.lnk2.Visible = True
+          Me.lnk3.Enabled = False
+          Me.lnk3.Visible = False
+          'Set the UI labels for this level
+          Me.lbl1.Enabled = False
+          Me.lbl2.Enabled = True
+          Me.lbl3.Enabled = False
+    'Build the command
+    Case 3
+          s += " select a.ProductName as 'Product', b.Quantity as 'Quantity' "
+          s += " FROM Products a, [Order Details] b WHERE a.ProductID = b.ProductID "
+          s += " AND b.OrderID = @OrderID ORDER BY b.Quantity ASC"
+          theCommand.CommandText = s
+          theCommand.Parameters.Add("@OrderID", FieldValue)
+          'Set Chart properties for this drill level
+          Me.ultraChart1.ChartType = ChartType.CylinderColumnChart3D
+          Me.ultraChart1.Legend.Visible = True
+          'Set DataSource
+          Me.ultraChart1.Data.DataSource = Me.GetChartData(theCommand)
+          'Set link labels for this level
+          Me.lnk1.Enabled = True
+          Me.lnk1.Visible = True
+          Me.lnk2.Enabled = True
+          Me.lnk2.Visible = True
+          Me.lnk3.Text = FieldValue
+          Me.lnk3.Enabled = False
+          Me.lnk3.Visible = True
+          'Set the UI labels for this level
+          Me.lbl1.Enabled = False
+          Me.lbl2.Enabled = False
+          Me.lbl3.Enabled = True
+    Case Else
+          Throw New ApplicationException("Unhandled Drill Level")
+    End Select
+End Sub
+----
+
+*In C#:*
+
+----
+private void BuildChart(string FieldValue)
+{
+    SqlCommand theCommand = new SqlCommand();
+    theCommand.Connection = this.sqlConnection1;
+    theCommand.CommandType = CommandType.Text;
+    string s = string.Empty;
+    switch (_currDrill)
+    {
+        case 1:  // theChartInfo should be null at this level
+            // Build the command
+	   s += " select TOP 10 a.customerID as 'Customer', count(b.OrderID) as 'Order Count' ";
+	   s += " FROM ";
+	   s += " Customers a, Orders b ";
+	   s += " WHERE a.CustomerID = b.CustomerID ";
+	   s += " GROUP BY a.CustomerID ";
+	   s += " ORDER BY 2 DESC ";					
+	   theCommand.CommandText = s;
+	   // Set Chart properties for this drill level
+	   this.ultraChart1.ChartType = ChartType.BarChart3D;
+	   this.ultraChart1.Legend.Visible = true;
+	   // Set DataSource
+	   this.ultraChart1.Data.DataSource = this.GetChartData(theCommand);
+	   // Set link labels for this level
+	   this.lnk1.Text = "Root";
+	   this.lnk1.Enabled = false;
+	   this.lnk1.Visible = true;
+	   this.lnk2.Enabled = false;
+	   this.lnk2.Visible = false;
+	   this.lnk3.Enabled = false;
+	   this.lnk3.Visible = false;
+	   //S et the UI labels for this level
+	   this.lbl1.Enabled = true;
+	   this.lbl2.Enabled = false;
+	   this.lbl3.Enabled = false;
+	   break;
+       case 2: //Level 2: We can get the actual Orders PER customer
+	   // Build the command
+	   s += " select TOP 10 CONVERT(VARCHAR(10), a.OrderID) as 'Order ID', 
+	          count(b.OrderID) as 'Line Items' ";
+	   s += " FROM Orders a, [Order Details] b ";
+	   s += " WHERE a.OrderID = b.OrderID AND ";
+	   s += " a.CustomerID = @CustomerID ";
+	   s += " group by a.OrderID order by 2 DESC ";
+	   theCommand.CommandText = s;
+	   theCommand.Parameters.Add("@CustomerID", FieldValue);
+	   // Set Chart properties for this drill level
+	   this.ultraChart1.ChartType = ChartType.PieChart3D;
+	   this.ultraChart1.Legend.Visible = true;	
+	   // Set DataSource
+	   this.ultraChart1.Data.DataSource = this.GetChartData(theCommand);
+	   // Set link labels for this level
+	   this.lnk1.Enabled = true;
+	   this.lnk1.Visible = true;
+	   this.lnk2.Text = FieldValue;
+	   this.lnk2.Enabled = false;
+	   this.lnk2.Visible = true;
+	   this.lnk3.Enabled = false;
+	   this.lnk3.Visible = false;
+	   // Set the UI labels for this level
+	   this.lbl1.Enabled = false;
+	   this.lbl2.Enabled = true;
+	   this.lbl3.Enabled = false;
+	   break;
+       case 3:
+	   // Build the command
+	   s += " select a.ProductName as 'Product', b.Quantity as 'Quantity' ";
+	   s += " FROM Products a, [Order Details] b WHERE a.ProductID = b.ProductID "; 
+	   s += " AND b.OrderID = @OrderID ORDER BY b.Quantity ASC";
+	   theCommand.CommandText = s;
+	   theCommand.Parameters.Add("@OrderID", FieldValue);
+	   // Set Chart properties for this drill level
+	   this.ultraChart1.ChartType = ChartType.CylinderColumnChart3D;
+	   this.ultraChart1.Legend.Visible = true;
+	   // Set DataSource
+	   this.ultraChart1.Data.DataSource = this.GetChartData(theCommand);
+	   // Set link labels for this level
+	   this.lnk1.Enabled = true;
+	   this.lnk1.Visible = true;
+	   this.lnk2.Enabled = true;
+	   this.lnk2.Visible = true;
+	   this.lnk3.Text = FieldValue;
+	   this.lnk3.Enabled = false;
+	   this.lnk3.Visible = true;
+	   // Set the UI labels for this level
+	   this.lbl1.Enabled = false;
+	   this.lbl2.Enabled = false;
+	   this.lbl3.Enabled = true;
+	   break;
+       default:
+	   throw new ApplicationException("Unhandled Drill Level");
+      }
+}
+----
+
+== Related Topic
+
+link:chart-creating-a-drilldown-chart-part-4-of-5.html[Creating a Drilldown Chart (Part 4 of 5)]

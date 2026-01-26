@@ -1,0 +1,202 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-modify-scene-graph-using-fillscenegraph-event",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{CF0FCB1B-1667-49AE-A758-4046FA3FB1CA}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= FillSceneGraph イベントを使用してシーン グラフを変更
+
+このトピックは FillSceneGraph イベントを使用してチャートを描画する前にチャート間でプリミティブを追加/削除する方法を示します。このイベントを使用すると、カスタムのレイヤ クラスを作成する必要性を排除します。
+
+[NOTE]
+====
+*注:* このトピックは、チャートを作成済みであることを前提としています。チャートの作成方法については、 link:chart-getting-started-with-chart.html[「チャートで開始」]を参照してください。
+====
+
+以下の手順を完了した後でアプリケーションを保存および実行すると、チャートは以下の画像のようになります。
+
+image::images/Chart_FillSceneGraphEvent_01.png[]
+
+*FillSceneGraph イベントを使用してシーン グラフを変更するには、次の手順に従ってください。*
+
+[start=1]
+. コードの記述を開始する前にコードビハインドに使用/インポートのディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常にタイプする必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.ColorModel
+Imports Infragistics.UltraChart.Core.Util
+Imports Infragistics.UltraChart.Core.Layers
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Data
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Resources.Editor
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core;
+using Infragistics.UltraChart.Core.ColorModel;
+using Infragistics.UltraChart.Core.Util;
+using Infragistics.UltraChart.Core.Layers;
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Data;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Resources.Editor;
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~fillscenegraph_ev.html[FillSceneGraph]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~fillscenegraph_ev.html[FillSceneGraph]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~fillscenegraph_ev.html[FillSceneGraph]"]  イベントを作成します。
+
+*Visual Basic の場合：*
+
+----
+Private Sub UltraChart1_FillSceneGraph(ByVal sender As System.Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.FillSceneGraphEventArgs) _
+  Handles UltraChart1.FillSceneGraph
+----
+
+*C# の場合：*
+
+----
+private void ultraChart1_FillSceneGraph(object sender, 
+  Infragistics.UltraChart.Shared.Events.FillSceneGraphEventArgs e)
+----
+
+[start=3]
+. 機能をマッピングするために必要なので x 軸値と y 軸値を取得します。
+
+*Visual Basic の場合：*
+
+----
+Dim xAxis As IAdvanceAxis = CType(e.Grid("X"), IAdvanceAxis)
+Dim yAxis As IAdvanceAxis = CType(e.Grid("Y"), IAdvanceAxis)
+----
+
+*C# の場合：*
+
+----
+IAdvanceAxis xAxis = (IAdvanceAxis)e.Grid["X"];
+IAdvanceAxis yAxis = (IAdvanceAxis)e.Grid["Y"];
+----
+
+[start=4]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.text.html[Text]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.text.html[Text]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.text.html[Text]"]   pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[Primitive]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[Primitive]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[Primitive]"]  を作成し、以下の値を設定します。
+
+** Color -- Red
+** Bounds
+
+*** X-axis -- 8
+*** Y-axis -- 10
+
+** Text -- Sample Text
+
+*Visual Basic の場合：*
+
+----
+Dim [text] As New [Text]()
+[text].PE.Fill = Color.Red
+[text].bounds = New Rectangle(CInt(xAxis.Map(8)), CInt(yAxis.Map(10)), 100, 20)
+[text].SetTextString("Sample Text")
+----
+
+*C# の場合：*
+
+----
+Text text = new Text();
+text.PE.Fill = Color.Red;
+text.bounds = new Rectangle((int)xAxis.Map(8), (int)yAxis.Map(10), 100, 20);
+text.SetTextString("Sample Text");
+----
+
+[start=5]
+. テキスト Primitive を SceneGraph に追加します。
+
+*Visual Basic の場合：*
+
+----
+e.SceneGraph.Add([text])
+----
+
+*C# の場合：*
+
+----
+e.SceneGraph.Add(text);
+----
+
+[start=6]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Box]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Box]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Box]"]  Primitive を作成して以下の値を設定します:
+
+** Color -- Blue
+** Stroke Color -- Red
+** Stroke Width -- 3
+** Row -- 0
+** Column -- 0
+** Layer -- GetChartLayer()
+** Chart -- ChartType
+** Value -- 42
+** Caps -- PCaps.HitTest | PCaps.Tooltip
+
+*Visual Basic の場合：*
+
+----
+Dim box As New Box(New Rectangle( _
+  CInt(xAxis.Map(5)), CInt(yAxis.Map(10)), 70, 20))
+box.PE.Fill = Color.Blue
+box.PE.Stroke = Color.Red
+box.PE.StrokeWidth = 3
+box.Row = 0
+box.Column = 0
+box.Layer = e.ChartCore.GetChartLayer()
+box.Chart = Me.UltraChart1.ChartType
+box.Value = 42
+box.Caps = PCaps.HitTest Or PCaps.Tooltip
+----
+
+*C# の場合：*
+
+----
+Box box = new Box(new Rectangle( 
+  (int)xAxis.Map(5), (int)yAxis.Map(10), 70, 20));
+box.PE.Fill = Color.Blue;
+box.PE.Stroke = Color.Red;
+box.PE.StrokeWidth = 3;
+box.Row = 0;
+box.Column = 0;
+box.Layer = e.ChartCore.GetChartLayer();
+box.Chart = this.ultraChart1.ChartType;
+box.Value = 42;
+box.Caps = PCaps.HitTest | PCaps.Tooltip;
+----
+
+[start=7]
+. Box Primitive を SceneGraph に追加します。
+
+*Visual Basic の場合：*
+
+----
+e.SceneGraph.Add(box)
+----
+
+*C# の場合：*
+
+----
+e.SceneGraph.Add(box);
+----
+
+[start=8]
+. アプリケーションを保存して実行します。

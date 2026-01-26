@@ -1,0 +1,137 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-workingdayshours",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-09-15T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= 稼動日および稼働時間 ({SchedulerName})
+
+== 目的
+
+このトピックは、コントロールの稼動日および稼働時間概念を説明します。
+
+== 前提条件
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-overview.html[概要 ({SchedulerName})]
+|このトピックでは、{SchedulerName} コントロール シリーズの概要を説明します。
+
+|link:scheduler-binding-schedulelistdatasource.html[ScheduleListDataSource へのバインド ({SchedulerName})]
+|このトピックでは、コントロールを ScheduleListDataSource を使用してデータ ソースへバインドする方法を説明します。
+
+|=======
+
+== このトピックの内容
+
+* <<Ref00001, 概要>>
+* <<Ref00002, コントロール レベル>>
+* <<Ref00003, リソース レベル>>
+* <<Ref00004, 関連トピック>>
+
+[[Ref00001]]
+== 概要
+
+{SchedulerName} コントロールは稼動日および稼働時間をサポートします。日や時間が稼動日または稼働時間かどうかを説明する設定です。コントロールは稼動日/稼働時間および非稼動日/非稼働時間を異なる背景色などで描画します。コントロールで非稼動日および非稼働時間を表示/非表示するためにlink:{SchedulerXFLink}.xamscheduler~workinghoursdisplaymode.html[WorkingHoursDisplayMode] プロパティを使用して構成できます。
+
+[[Ref00002]]
+== コントロール レベル
+
+コントロール レベルで稼動日および稼働時間を定義するには link:{SchedulerXFLink}.xamscheduler~daysofweeksettings.html[{SchedulerName}.DaysOfWeekSettings] プロパティを使用します。
+
+デフォルトで、稼働日は月曜日から金曜日まで、稼働時間は 09:00 から 17:00 までです。
+
+以下のコード例はコントロール レベルでカスタムに稼動日および稼働時間を定義する方法を紹介します。
+
+*C# の場合:*
+[source,csharp]
+----
+WorkingHoursCollection morningShift = new WorkingHoursCollection();
+morningShift.Add(new TimeSpan(6, 0, 0), new TimeSpan(14, 0, 0));
+WorkingHoursCollection afternoonShift = new WorkingHoursCollection();
+afternoonShift.Add(new TimeSpan(14, 0, 0), new TimeSpan(22, 0, 0));
+
+this.scheduler.DaysOfWeekSettings = new ScheduleDaysOfWeekSettings()
+{
+  Monday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Tuesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Wednesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift },
+  Thursday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Friday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Saturday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Sunday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift }
+};
+----
+
+[[Ref00003]]
+== リソース レベル
+
+リソース レベルで稼動日および稼働時間を link:{SchedulerCoreLink}.scheduleresource~daysofweeksettings.html[DaysOfWeekSettings] を使用して定義できます。
+
+.注:
+[NOTE]
+====
+リソース レベルで稼動日および稼働時間の構成が優先されて、コントロール レベルの設定を上書きします。
+====
+
+以下のコード例はリソース レベルでカスタム稼動日および稼働時間を定義する方法を紹介します。
+
+*C# の場合:*
+[source,csharp]
+----
+WorkingHoursCollection morningShift = new WorkingHoursCollection();
+morningShift.Add(new TimeSpan(6, 0, 0), new TimeSpan(14, 0, 0));
+WorkingHoursCollection afternoonShift = new WorkingHoursCollection();
+afternoonShift.Add(new TimeSpan(14, 0, 0), new TimeSpan(22, 0, 0));
+
+ScheduleResource res1 = new ScheduleResource();
+res1.DaysOfWeekSettings = new ScheduleDaysOfWeekSettings()
+{
+  Monday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Tuesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Wednesday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift },
+  Thursday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Friday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = morningShift },
+  Saturday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = false },
+  Sunday = new ScheduleDayOfWeekSettings()
+    { IsWorkday = true, WorkingHours = afternoonShift }
+};
+----
+
+[[Ref00004]]
+== 関連トピック
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-dayview.html[日表示 ({SchedulerName})]
+|このトピックは、{SchedulerName} の日表示でデータの表示方法を説明します。
+
+|link:scheduler-weekview.html[週表示 ({SchedulerName})]
+|このトピックは、{SchedulerName} の週表示でデータの表示方法を説明します。
+
+|=======

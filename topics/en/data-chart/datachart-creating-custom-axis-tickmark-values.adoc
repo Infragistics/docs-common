@@ -1,0 +1,256 @@
+﻿////
+|metadata|
+{
+	"name":"datachart-creating-custom-axis-tickmark-values",
+	"controlName":["xamDataChart"],
+	"tags":["Charting","Data Presentation","Getting Started","How Do I"],
+	"guid":"53c071d7-caf6-4c9c-8d59-4aedc8857f99",
+	"buildFlags":["wpf"],
+	"createdOn":"2014-06-05T19:39:00.5823511Z"}
+|metadata|
+////
+
+= Creating Custom Axis Tickmark Values
+
+This topic introduces custom axis tickmark values feature of the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control and explains, with code examples, how to use it to create custom tickmark values for a numeric axis.
+
+== Overview
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<SupportedAxes,Supported Axes>> 
+* <<TickmarkValuesProperty,TickmarkValues Property>> 
+* <<TickmarkValuesClass,TickmarkValues Class>> 
+* <<Example,Example>> 
+ ** <<Preview,Preview>> 
+ ** <<Implementation,Implementation>>
+* <<RelatedContent,Related Content>>
+ ** link:datachart-axes.html[Chart Axes]
+ ** link:datachart-creating-custom-axis-scalers.html[Creating Custom Axis Scalers]
+ ** link:datachart-using-axis-scales.html[Configuring Axis Scales]
+
+[[Introduction]]
+== Introduction
+
+The {DataChartName} control is designed to allow application developers to implement custom axis tickmark values in their applications. This is accomplished by setting the link:{DataChartLink}.numericaxisbase{ApiProp}tickmarkvalues.html[TickmarkValues] property of a numeric axis (e.g. link:{DataChartLink}.numericyaxis.html[NumericYAxis]) to an object that inherits from abstract class called link:{DataChartLink}.tickmarkvalues.html[TickmarkValues].
+
+[[SupportedAxes]]
+== Supported Axes
+
+Refer to the link:datachart-axes.html[Chart Axes] topic for more information on axes in the {DataChartName} control.
+
+Table 1 – List of types of axes that support custom axis tickmark values.
+
+[options="header", cols="a,a"]
+|====
+|Axes Type|Description
+
+| link:{DataChartLink}.numericxaxis.html[NumericXAxis]
+|Represents horizontal x-axis on which numeric values are plotted in the {DataChartName} using link:datachart-scatter-series-overview.html[Scatter Series].
+
+| link:{DataChartLink}.numericyaxis.html[NumericYAxis]
+|Represents vertical y-axis on which numeric values are plotted in the {DataChartName} using link:datachart-scatter-series-overview.html[Scatter Series], link:datachart-series-financial-price-series-overview.html[Financial Series], and link:datachart-category-series-overview.html[Category Series].
+
+| link:{DataChartLink}.numericradiusaxis.html[NumericRadiusAxis]
+|Represents a radial axis on which numeric values are plotted in the {DataChartName} using link:datachart-polar-series-overview.html[Polar Series] and link:datachart-radial-series-overview.html[Radial Series].
+
+| link:{DataChartLink}.numericangleaxis.html[NumericAngleAxis]
+|Represents an angular axis on which numeric values are plotted in the {DataChartName} using link:datachart-polar-series-overview.html[Polar Series].
+
+|====
+
+[[TickmarkValuesProperty]]
+== TickmarkValues Property
+
+Table 2 – API overview of axis properties related to tickmark values.
+
+[options="header", cols="a,a,a"]
+|====
+|Axes Property|Property Type|Description
+
+| link:{DataChartLink}.numericaxisbase{ApiProp}tickmarkvalues.html[TickmarkValues]
+| link:{DataChartLink}.tickmarkvalues.html[TickmarkValues]
+|Gets or sets values that define tickmark positions on an axis.
+
+|====
+
+[[TickmarkValuesClass]]
+== TickmarkValues Class
+
+The TickmarkValues is an abstract class that provides override-able methods for defining custom tickmark values.
+
+Table 3 – API overview of override-able methods in TickmarkValues class.
+
+[options="header", cols="a,a,a"]
+|====
+|Method|Return Type|Description
+
+| link:{DataChartLink}.tickmarkvalues{ApiProp}majorvalues.html[MajorValues]
+| IEnumerable<double>
+|Returns values for major tickmarks of a numeric axis
+
+| link:{DataChartLink}.tickmarkvalues{ApiProp}minorvalues.html[MinorValues]
+| IEnumerable<double>
+|Returns values for minor tickmarks of a numeric axis
+
+| Initialize
+| void
+|Perform initialization of tickmark values prior to rendering axis labels, strip lines, and gridlines.
+
+|====
+
+[[Example]]
+== Example
+
+An example of an object that defines custom tickmark values is CustomTickmarkValues. This object defines positions of major tickmarks at: 0, 4, 5, 6, 10, 14, 15, 16, 20, and minor tickmarks at intervals of one.
+
+[[Preview]]
+== Preview
+
+image::images/xamDataChart_Creating_Custom_Axis_Tickmark_Values_01.png[]
+
+Figure 1 – Preview of the {DataChartName} control with CustomTickmarkValues set to y-axis.
+
+[[Implementation]]
+== Implementation
+
+The following code snippet shows how to create custom CustomTickmarkValues that defines custom positions for major and minor tickmarks.
+
+**In Visual Basic:**
+
+[source,vb]
+----
+Imports {DataChartNamespace}
+
+Namespace Infragistics.Samples.Common
+    Public Class CustomTickmarkValues
+        Inherits TickmarkValues
+        Public Sub New()
+            ' define custom tickmark values
+            Me.Tickmarks = New DoubleCollection() From { 0.0, 4.0, 5.0, 6.0, 10.0, 14.0, 15.0, 16.0, 20.0 }
+        End Sub
+
+        Protected First As Double
+        Protected Last As Double
+        Protected Tickmarks As DoubleCollection
+
+        ''' <summary>
+        ''' Initializes tickmark values prior to rendering axis labels, strip bars, and gridlines
+        ''' </summary>
+        ''' <param name="initializationParameters"></param>
+        Public Overrides Sub Initialize(initializationParameters As TickmarkValuesInitializationParameters)
+            MyBase.Initialize(initializationParameters)
+            ' Initialize is overridden in order to store the minimum and maximum values, 
+            ' which will be later used in the MajorValues() and MinorValues() methods.
+            Me.First = initializationParameters.VisibleMinimum
+            Me.Last = initializationParameters.VisibleMaximum
+        End Sub
+
+        ''' <summary>
+        ''' Returns values of major tickmarks
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function MajorValues() As IEnumerable(Of Double)
+            Dim values As IEnumerable(Of Double) = Tickmarks.Where(Function(value) value >= Me.First AndAlso value <= Me.Last)
+            Return values
+        End Function
+
+        ''' <summary>
+        ''' Returns values of minor tickmarks
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function MinorValues() As IEnumerable(Of Double)
+            Dim start As Double = Me.First
+            Dim minorValue As Double = start
+            While minorValue < Me.Last
+                yield Return minorValue
+                minorValue += 1.0
+            End While
+        End Function
+    End Class
+End Namespace
+----
+
+**In C#:**
+
+[source,csharp]
+----
+using {DataChartNamespace};
+
+namespace Infragistics.Samples.Common
+{
+    public class CustomTickmarkValues : TickmarkValues
+    {
+        public CustomTickmarkValues()
+        {
+            // define custom tickmark values
+            this.Tickmarks = new DoubleCollection { 0.0, 4.0, 5.0, 6.0, 10.0, 14.0, 15.0, 16.0, 20.0 };
+        }
+
+        protected double First;
+        protected double Last;
+        protected DoubleCollection Tickmarks;
+        
+        /// <summary>
+        /// Initializes tickmark values prior to rendering axis labels, strip bars, and gridlines
+        /// </summary>
+        /// <param name="initializationParameters"></param>
+        public override void Initialize(TickmarkValuesInitializationParameters initializationParameters)
+        {
+            base.Initialize(initializationParameters);
+            // Initialize is overridden in order to store the minimum and maximum values, 
+            // which will be later used in the MajorValues() and MinorValues() methods.
+            this.First = initializationParameters.VisibleMinimum;
+            this.Last = initializationParameters.VisibleMaximum;
+        }
+        
+        /// <summary>
+        /// Returns values of major tickmarks
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<double> MajorValues()
+        {
+            IEnumerable<double> values = Tickmarks.Where((value) => value >= this.First && value <= this.Last);
+            return values;
+        }
+
+        /// <summary>
+        /// Returns values of minor tickmarks
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<double> MinorValues()
+        {
+            double start = this.First;  
+            for (double minorValue = start; minorValue < this.Last; minorValue += 1.0)
+            {
+                yield return minorValue;
+            }
+        }
+    }
+}
+----
+
+The following code snippet shows how to set custom CustomTickmarkValues to the y-axis in the {DataChartName} control.
+
+**In XAML:**
+
+[source,xaml]
+----
+<ig:{DataChartName}.Axes>
+    <ig:NumericYAxis Name="yAxis" Label="{}{} %" >
+        <!-- ========================================================================== -->
+        <ig:NumericYAxis.TickmarkValues>
+            <common:CustomTickmarkValues />
+        </ig:NumericYAxis.TickmarkValues>
+        <!-- ========================================================================== -->
+    </ig:NumericYAxis>
+</ig:{DataChartName}.Axes>
+----
+
+[[RelatedContent]]
+== Related Content
+
+* link:datachart-axes.html[Chart Axes]
+* link:datachart-creating-custom-axis-scalers.html[Creating Custom Axis Scalers]
+* link:datachart-using-axis-scales.html[Configuring Axis Scales]

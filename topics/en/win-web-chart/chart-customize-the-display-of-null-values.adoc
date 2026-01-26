@@ -1,0 +1,95 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-customize-the-display-of-null-values",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{A61BA0B3-8E2A-4BC7-8EC1-B3602532A6D8}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Customize the Display of Null Values
+
+At some point during the building of your application using the Chart control, you may have asked the following questions:
+
+* How much should the null values stand out?
+* How distinct should the null values be, compared to the other values?
+
+.Note
+[NOTE]
+====
+For information on the various ways that you can plot null values, see link:chart-null-values.html[Null Values].
+====
+
+The  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~emptystyle.html[UltraChart.Data.EmptyStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~emptystyle.html[UltraChart.Data.EmptyStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~emptystyle.html[UltraChart.Data.EmptyStyle]"]  property can be used to customize this aspect of the chart. It provides properties which are used for:
+
+* Customizing the way lines are drawn on or around null values:
+
+** EmptyStyle.LineStyle
+
+* Customizing the way areas are painted when they represent null values:
+
+** EmptyStyle.PE
+
+* Drawing points at locations where null values are plotted:
+
+** EmptyStyle.PointStyle
+** EmptyStyle.PointPE
+
+* Enabling or disabling any of the above features:
+
+** EmptyStyle.EnableLineStyle
+** EmptyStyle.EnablePE
+** EmptyStyle.EnablePoint
+
+.Note
+[NOTE]
+====
+When using value types in .NET (e.g., System.Int32, System.Double, and System.DateTime), you cannot have null values because value types are not nullable. If you wish to have null values in a dataset, use nullable types, such as the types contained in the System.Data.SqlTypes namespace.
+====
+
+This will be done through a few visual examples.
+
+Starting with a InterpolateSimple line chart, the Data.EmptyStyle.EnablePoint property is set to True.
+
+image::Images/Chart_Null_Handling_and_Empty_Styles_05.png[Shows the InterpolateSimple line chart with the Data.EmptyStyle.EnabledPoint set to True.]
+
+The result is that a symbol is drawn to indicate which values are null on the chart. By default, this symbol is an "X". The symbol can be customized using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointstyle.html[EmptyStyle.PointStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointstyle.html[EmptyStyle.PointStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointstyle.html[EmptyStyle.PointStyle]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointpe.html[EmptyStyle.PointPE]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointpe.html[EmptyStyle.PointPE]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointpe.html[EmptyStyle.PointPE]"]  properties.
+
+Tip: to access a wide variety of symbols, try setting the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~icon.html[PointStyle.Icon]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~icon.html[PointStyle.Icon]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~icon.html[PointStyle.Icon]"]  property to  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~character.html[Character]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~character.html[Character]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~character.html[Character]"]  and the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~characterfont.html[CharacterFont]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~characterfont.html[CharacterFont]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~characterfont.html[CharacterFont]"]  property to the Wingdings font.
+
+To demonstrate some customization, the PointStyle.Icon property is set to Plus, the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[PointPE.Stroke]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[PointPE.Stroke]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[PointPE.Stroke]"]  property is set to DarkRed, and the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[PointPE.Fill]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[PointPE.Fill]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[PointPE.Fill]"]  property is set to Red.
+
+image::Images/Chart_Null_Handling_and_Empty_Styles_06.png[Shows the same image as the first, but the points have been customized to show a DarkRed plus instead of the default X.]
+
+Now, the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~enablelinestyle.html[EnableLineStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~enablelinestyle.html[EnableLineStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~enablelinestyle.html[EnableLineStyle]"]  property is set to True. By default, the LineStyle property provides a dashed line. For clarity, the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~linethickness.html[AreaChart.LineThickness]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~linethickness.html[AreaChart.LineThickness]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~linethickness.html[AreaChart.LineThickness]"]  property is set to 5 for this image:
+
+image::Images/Chart_Null_Handling_and_Empty_Styles_07.png[Shows the same image as the second image, but now EnableLineStyle has been set to True, and Default LineStyle is used, and the AreaChart.LineThickness has been set to five.]
+
+The result is a dashed line across the points which are null.
+
+Finally, the EnablePE property is set to True, and the PE property is configured to use a ForwardDiagonal gradient from DimGray to WhiteSmoke with decreasing opacity, and Red Stroke. This will affect the painted portion of the area chart around the null value:
+
+image::Images/Chart_Null_Handling_and_Empty_Styles_08.png[Same as the third image shown, but the EnablePE has been set to True, and it has been configured to use a ForwardDiagonal gradient that goes from DimGray to WhiteSmoke with a decreasing opacity, and a Red Stroke.]
+
+Because each chart type displays data in a different way, null handling and empty styles vary for each chart type. Following are a few visual examples:
+
+[cols="a,a"]
+|====
+|image::Images/Chart_Null_Handling_and_Empty_Styles_09.png[Shows how Null Values display on a 2D Column Chart.]
+|image::Images/Chart_Null_Handling_and_Empty_Styles_10.png[Shows how Null Values display on a Scatter Line Chart.]
+
+|image::Images/Chart_Null_Handling_and_Empty_Styles_11.png[Shows how Null Values display on a Radar Chart.]
+|image::Images/Chart_Null_Handling_and_Empty_Styles_12.png[Shows how Null Values display on a 2D Stacked Bar Chart.]
+
+|====
+
+Some chart types, such as Gantt and candle charts, do not have any null handling enabled. 3D charts have limited null handling, with no interpolation feature or empty style.
+
+For a representation of empty values in the chart legend, set the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~showinlegend.html[EmptyStyle.ShowInLegend]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~showinlegend.html[EmptyStyle.ShowInLegend]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~showinlegend.html[EmptyStyle.ShowInLegend]"]  property to True. The  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~text.html[EmptyStyle.Text]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~text.html[EmptyStyle.Text]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~text.html[EmptyStyle.Text]"]  property can also be set to determine how this legend entry is labeled.
+
+image::Images/Chart_Null_Handling_and_Empty_Styles_13.png[Shows how the Legend can look when you set EmptyStyle.ShowInLegend to True.]

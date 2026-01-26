@@ -1,0 +1,193 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-configuring-the-normal-range",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","How Do I","Layouts"],
+    "guid": "52797b6e-1ae8-430f-ab9f-05e25d553ff1",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2173546Z"
+}
+|metadata|
+////
+
+= Configuring the Normal Range
+
+
+
+=== Purpose
+
+This topic explains, with code examples, how to configure and customize the appearance of the Normal Range of the link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ control.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-overview.html[{SparklineName} Overview]
+|This topic provides an overview of the _{SparklineName}_ control, its benefits, and the supported chart types.
+
+| link:sparkline-configuring-sparkline.html[Configuring {SparklineName}]
+|This topic provides an overview of the ways to configure the _{SparklineName}_ control. Links to the detailed configurations (available in separate topics) are provided as well.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref317087505,Configuring the NormalRange – Conceptual Overview>>
+
+** <<_Ref317163220,Overview>>
+** <<Property_Settings,Property Settings>>
+
+* <<Configuring_the_Normal_Range_Code_Example,Configuring the Normal Range - Code Example>>
+
+** <<Description,Description>>
+** <<Preview,Preview>>
+** <<Property_Settings_2,Property Settings>>
+** <<_Ref317178255,Code>>
+
+* <<_Ref317163399,Related Content>>
+
+[[_Ref317087505]]
+== Configuring the Normal Range – Conceptual Overview
+
+[[_Ref317163220]]
+
+=== Overview
+
+By default, the normal range is not displayed. When enabled, the normal range has light gray color fill by default. The minimum settings required for displaying the Normal Range are the visibility, the position of the bottom border of the range, and the position of the upper border of range.
+
+The Normal Range can be customized in the following aspects:
+
+* width and position
+* fill (gradient and color)
+
+These settings are managed, respective properties:
+
+* link:sparkline-sparkline-property-reference.html#NormalRangeMaximum[NormalRangeMaximum]
+
+* link:sparkline-sparkline-property-reference.html#NormalRangeMinimum[NormalRangeMinimum]
+
+* link:sparkline-sparkline-property-reference.html#NormalRangeFill[NormalRangeFill]
+
+[[Property_Settings]]
+
+=== Property settings
+
+The following table maps the configuration tasks to the corresponding Normal Range property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Specify the width and position of the Normal Range
+| link:sparkline-sparkline-property-reference.html#NormalRangeMinimum[NormalRangeMinimum]
+|The desired number (integer)
+
+|
+| link:sparkline-sparkline-property-reference.html#NormalRangeMaximum[NormalRangeMaximum]
+|The desired number (integer)
+
+|Set the fill (gradient and color) of the Normal Range
+| link:sparkline-sparkline-property-reference.html#NormalRangeFill[NormalRangeFill]
+|The desired color, such as _SolidColorBrush_ or one of the gradient color brushes
+
+|====
+
+[[Configuring_the_Normal_Range_Code_Example]]
+== Configuring the Normal Range – Code Example
+
+[[Description]]
+
+=== Description
+
+This example demonstrates how to configure a Normal Range of yellow color. The Normal Range is 4 value levels wide and is placed between value levels 1 and 5.
+
+This is achieved through customizing the link:{SparklineLink}.{SparklineName}~normalrangefill.html[NormalRangeFill] property of  _{SparklineName}_ . 
+
+[[Preview]]
+
+=== Preview
+
+image::images/Defining_a_Range_3.png[]
+
+[[Property_Settings_2]]
+
+=== Property settings
+
+[options="header", cols="a,a"]
+|====
+|Property|Setting
+
+| link:{SparklineLink}.{SparklineName}~normalrangevisibility.html[NormalRangeVisibility]
+| _Visible_ 
+
+| link:{SparklineLink}.{SparklineName}~normalrangemaximum.html[NormalRangeMaximum]
+|_5_
+
+| link:{SparklineLink}.{SparklineName}~normalrangeminimum.html[NormalRangeMinimum]
+|_1_
+
+| link:{SparklineLink}.{SparklineName}~normalrangefill.html[NormalRangeFill]
+|_#6FE7B134_
+
+|====
+
+[[_Ref317178255]]
+
+=== Code
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+
+<ig:{SparklineName} 
+    NormalRangeVisibility="Visible"
+    NormalRangeMaximum="5" 
+    NormalRangeMinimum="1">
+    <ig:{SparklineName}.NormalRangeFill>
+      <dv:SolidColorBrush Color="#6FE7B134"/>
+    </ig:{SparklineName}.NormalRangeFill>
+</ig:{SparklineName}>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+ifdef::win-forms[]
+*In C#*
+[source,csharp]
+----
+            this.ultraSparkline2.NormalRangeVisibility = Infragistics.Portable.Components.UI.Visibility.Visible;
+            this.ultraSparkline2.NormalRangeMaximum = 5;
+            this.ultraSparkline2.NormalRangeMinimum = 1;
+            this.ultraSparkline2.NormalRangeFill = System.Drawing.Color.FromArgb(150, 213, 225, 27);
+----
+
+*In Visual Basic*
+[source,vb]
+----
+            me.ultraSparkline2.NormalRangeVisibility = Infragistics.Portable.Components.UI.Visibility.Visible
+            me.ultraSparkline2.NormalRangeMaximum = 5
+            me.ultraSparkline2.NormalRangeMinimum = 1
+            me.ultraSparkline2.NormalRangeFill = System.Drawing.Color.FromArgb(150, 213, 225, 27)
+----
+endif::win-forms[]
+[[_Ref317163399]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} Property Reference]
+|This topic explains the featured properties of the _{SparklineName}_ control.
+
+|====

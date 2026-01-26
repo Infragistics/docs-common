@@ -1,0 +1,125 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-preserving-table-formatting-when-loading-excel-files",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "d8e7f912-66ab-4404-b63f-881b112110e4","buildFlags": [],
+    "createdOn": "2012-03-30T18:41:56.0821963Z"
+}
+|metadata|
+////
+
+= Preserving Table Formatting When Loading Excel Files pick:[wpf,xamarin="({ExcelEngineName})"]
+
+== Topic Overview
+
+=== Purpose
+
+This topic demonstrates how you can preserve table formatting when loading Microsoft Excel files.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref318816533, Introduction>>
+
+* <<_Ref319500277, Code Example: Preserving Formatting While Loading Excel Tables>>
+
+* <<_Ref318816561, Related Content>>
+
+[[_Ref318816533]]
+== Introduction
+=== Overview
+
+Each table has an associated style which provides default format settings for cells in many different areas of the table. This style is represented by the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  class and is exposed on a table through the `WorksheetTable`{empty}'s  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~style.html[Style]"]  property. Preserving `WorksheetTableStyles` is supported, so when you are loading Excel files, your table formatting will be preserved.
+
+[[_Ref318816540]]
+[[_Ref319500277]]
+== Code Example: Preserving Formatting While Loading Excel Tables
+
+=== Description
+
+Code snippet below shows how Microsoft Excel table formats are preserved. It loads a Microsoft Excel file with tables in it and saves it under a different name, so you are able to compare files and assure that formatting is preserved.
+
+=== Preview
+
+The following screenshot is a preview of the final result.
+
+image::images/Preserving_Table_Formatting_when_Loading_Excel_files_1.png[]
+
+=== Prerequisites
+
+ifdef::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+* A Microsoft Excel file named Book4.xlsx with a worksheet saved at your C: hard drive.
+endif::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+ifdef::xamarin[]
+* An input stream to a Microsoft Excel file.
+endif::xamarin[]
+* Random numbers in range C3:F6 and random names in range C2:F2 and B2:B6. Selection B2:F6 is formatted as Table with style Table Style Medium 3. This is done by selecting range and choosing Home $$->$$ Format as Table $$->$$ Table Style Medium 3.
+* Random numbers in range C8:F12 and random names in range C8:F8 and B8:B12. Selection B8:F12 is formatted as table with custom style. You can create custom style by choosing Home $$->$$ Format as Table $$->$$ New Table Style…
+* Empty table in region B14:F18. It is created by selecting B14:F18 and choosing Insert$$->$$Table. Microsoft Excel chooses as default style _Table Style Medium 2_.
+
+=== Code
+
+The following code sample loads a Microsoft Excel file and saves it back under a different name.
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+' Load a Workbook with tables in it
+Dim workbook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\Book4.xlsx""]pick:[xamarin="inputStream"])
+' Save the workbook under different name in order to compare with original source that table formats are preserved
+workbook.Save(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\Book4-TableFormatPreserved.xlsx""]pick:[xamarin="outputStream"])
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+// Load a Workbook with tables in it
+Infragistics.Documents.Excel.Workbook workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\\Book4.xlsx""]pick:[xamarin="inputStream"]);
+// Save the workbook under different name in order to compare with original source that table formats are preserved
+workbook.Save(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\\Book4-TableFormatPreserved.xlsx""]pick:[xamarin="outputStream"]);
+----
+
+[[_Ref318816561]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:excelengine-support-named-tables-in-an-excel-spreadsheet.html[Supporting Named Tables in a Worksheet ({ExcelEngineName})]
+|This topic describes the creating and accessing of named tables.
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-applying-styles-to-cells.html[Applying Styles to Cells]
+|The Infragistics Excel Engine allows you to customize the look and behavior of a cell.
+| link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding the {ExcelEngineName}]
+|This section is your gateway to important task-based information that will help you to effectively use the various features and functionalities provided by the {ExcelEngineName}.
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+| link:excelengine-about-infragistics-excel-engine.html[About {ExcelEngineName}]
+|In this section you'll find information that will help you to better understand the object model and the functionalities of the {ExcelEngineName}.
+endif::wpf,xamarin[]
+
+|====
+
+=== Resources
+
+The following material (available outside the Infragistics family of content) provides additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Title|Purpose
+
+| link:http://office.microsoft.com/en-us/excel-help/create-or-delete-an-excel-table-in-a-worksheet-HA010013764.aspx?CTT=1[Create or delete an Excel table in a worksheet]
+|Gives information about creating/deleting a table and converting a table to a range of data.
+
+|====

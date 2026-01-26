@@ -1,0 +1,172 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-lists",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{FAF201D6-62AA-460B-B6D9-5B01C9CE9732}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= リスト
+
+List エレメントは、項目のグループを番号の付いた形式または黒丸の付いた形式のいずれかで提示する時に非常に役に立ちます。リストは、レポートのフローにしたがって、必要に応じてシンプルに、または複雑になる可能性があります。リストはテキスト項目で構成されるシンプルなリストになる場合もあれば、Bands から Images、さらに Quick Text までの個別のレイアウト エレメントで構成される複雑な配列になる場合もあります。
+
+List エレメントの興味深い特徴は、パターンをリストに適用する機能です。これでこれらのパターンはスタイルの変更をリストに適用します。いくつかのパターンを単一のリストに適用することができます。パターンを適用した後で特定のスタイル プロパティを設定することによって、パターンをオーバーライドすることもできます。
+
+ほとんどのレイアウト エレメントから AddList メソッドを呼び出すことによってリストを作成できます。いったんリストを作成したら、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist.html[IList]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist.html[IList]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist.html[IList]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist.html[IList]"]  インターフェイスから  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist~additem.html[AddItem]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist~additem.html[AddItem]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist~additem.html[AddItem]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.list.ilist~additem.html[AddItem]"]  メソッドを呼び出すことによって、項目をリストに追加できます。これで、別の List エレメントを含み、それぞれの Add メソッドによって、ほとんどのレイアウト項目をそれぞれ個々のリストに追加できます。
+
+image::images/DocumentEngine_Lists_01.png[]
+
+'''
+
+以下のコードは 4 つの手順に分けられます。第 1 の手順は、リストの特定のスタイルを変更する 2 つのリスト パターンを作成します。第 2 の手順は、リストを作成し、第 1 のパターンを適用します。第 3 の手順は、リストをもうひとつ作成し、第 2 のパターンを適用します。最後の手順は、リスト パターンによってすでに設定されているスタイル プロパティを設定することによって、パターンをオーバーライドする方法を示します。以下のようなコードでレポートをパブリッシュすると、上記のスクリーンショットのようなページが表示されます。
+
+[start=1]
+. *2 つのリスト パターンを作成します。*
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+.
+.
+.
+' リスト パターンを作成します。リスト パターンは基本的に特定のリストに
+' 適用したいスタイルです。
+Dim listPattern1 As New Infragistics.Documents.Reports.Reports.Report.List.ListPattern()
+listPattern1.Background = New Background(Brushes.LightSteelBlue)
+listPattern1.Bullets = New Infragistics.Documents.Reports.Reports.Report.List.Bullets(BulletType.WhiteCircle)
+listPattern1.Borders = New Borders(New Pen(New Color(0, 0, 0)))
+listPattern1.Paddings = New Paddings(5)
+' 2 番目のリスト パターンを作成します。
+Dim listPattern2 As New Infragistics.Documents.Reports.Reports.Report.List.ListPattern()
+listPattern2.Background = New Background(Brushes.LightSlateGray)
+listPattern2.Bullets = New Infragistics.Documents.Reports.Reports.Report.List.Bullets(BulletType.BlackCircle)
+listPattern2.Borders = New Borders(New Pen(New Color(0, 0, 0)))
+listPattern2.Paddings = New Paddings(5)
+listPattern2.Interval = 10
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+.
+.
+.
+// リスト パターンを作成します。リスト パターンは基本的に特定のリストに
+// 適用したいスタイルです。
+Infragistics.Documents.Reports.Reports.Report.List.ListPattern listPattern1 = new ListPattern();
+listPattern1.Background = new Background(Brushes.LightSteelBlue);
+listPattern1.Bullets = new Infragistics.Documents.Reports.Reports.Report.List.Bullets(BulletType.WhiteCircle);
+listPattern1.Borders = new Borders(new Pen(new Color(0, 0, 0)));
+listPattern1.Paddings = new Paddings(5);
+// 2 番目のリスト パターンを作成します。
+Infragistics.Documents.Reports.Reports.Report.List.ListPattern listPattern2 = new ListPattern();
+listPattern2.Background = new Background(Brushes.LightSlateGray);
+listPattern2.Bullets = new Infragistics.Documents.Reports.Reports.Report.List.Bullets(BulletType.BlackCircle);
+listPattern2.Borders = new Borders(new Pen(new Color(0, 0, 0)));
+listPattern2.Paddings = new Paddings(5);
+listPattern2.Interval = 10;
+----
+
+[start=2]
+. *リストを作成して、最初のパターンを適用します。*
+
+*Visual Basic の場合：*
+
+----
+' リストを作成して、最初のパターンをそのリストに適用します。
+Dim sectionList1 As Infragistics.Documents.Reports.Reports.Report.List.IList = section1.AddList()
+sectionList1.ApplyPattern(listPattern1)
+' リスト項目を作成します。
+Dim sectionListItem1 As Infragistics.Documents.Reports.Reports.Report.List.IListItem
+' BulletType 列挙体の名前ごとに、新しいリスト項目を追加します。
+For Each s As String In [Enum].GetNames(GetType(BulletType))
+	sectionListItem1 = sectionList1.AddItem()
+	sectionListItem1.AddQuickText(s)
+Next s
+----
+
+*C# の場合：*
+
+----
+// リストを作成して、最初のパターンをそのリストに適用します。
+Infragistics.Documents.Reports.Reports.Report.List.IList sectionList1 = section1.AddList();
+sectionList1.ApplyPattern(listPattern1);
+// リスト項目を作成します。
+Infragistics.Documents.Reports.Reports.Report.List.IListItem sectionListItem1;
+// BulletType 列挙体の名前ごとに、新しいリスト項目を追加します。
+foreach (string s in Enum.GetNames(typeof(BulletType)))
+{
+	sectionListItem1 = sectionList1.AddItem();
+	sectionListItem1.AddQuickText(s);
+}
+----
+
+[start=3]
+. *リストをもうひとつ作成して、2 番目のパターンを適用します。*
+
+*Visual Basic の場合：*
+
+----
+Dim sectionList2 As Infragistics.Documents.Reports.Reports.Report.List.IList = section1.AddList()
+listPattern2.Apply(sectionList2)
+Dim sectionListItem2 As Infragistics.Documents.Reports.Reports.Report.List.IListItem
+For Each s As String In [Enum].GetNames(GetType(Alignment))
+	sectionListItem2 = sectionList2.AddItem()
+	sectionListItem2.AddQuickText(s)
+Next s
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Reports.Reports.Report.List.IList sectionList2 = section1.AddList();
+listPattern2.Apply(sectionList2);
+Infragistics.Documents.Reports.Reports.Report.List.IListItem sectionListItem2;
+foreach (string s in Enum.GetNames(typeof(Alignment)))
+{
+	sectionListItem2 = sectionList2.AddItem();
+	sectionListItem2.AddQuickText(s);
+}
+----
+
+[start=4]
+. *3 番目のリストを作成して、最初のパターンをそのリストに適用します。*
+
+いったんパターンを適用したら、*Bullets* プロパティを新しい Bullets オブジェクトに設定します。これによってパターンの設定がオーバーライドされます。パターンはスタイル プロパティ変更のコレクションにすぎません。したがって個々のプロパティを変更した後で再度パターンを適用する場合には、パターンは個々のスタイル変更をオーバーライドすることができます。
+
+*Visual Basic の場合：*
+
+----
+Dim sectionList3 As Infragistics.Documents.Reports.Reports.Report.List.IList = section1.AddList()
+listPattern1.Apply(sectionList3)
+' Bullet プロパティのパターンのスタイルをオーバーライドします。
+sectionList3.Bullets = New Infragistics.Documents.Reports.Reports.Report.List.Bullets(BulletType.BlackCircle)
+Dim sectionListItem3 As Infragistics.Documents.Reports.Reports.Report.List.IListItem
+For Each s As String In [Enum].GetNames(GetType(BrushType))
+	sectionListItem3 = sectionList3.AddItem()
+	sectionListItem3.AddQuickText(s)
+Next s
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Reports.Reports.Report.List.IList sectionList3 = section1.AddList();
+listPattern1.Apply(sectionList3);
+// Bullet プロパティのパターンのスタイルをオーバーライドします。
+sectionList3.Bullets = new Infragistics.Documents.Reports.Reports.Report.List.Bullets(BulletType.BlackCircle);
+Infragistics.Documents.Reports.Reports.Report.List.IListItem sectionListItem3;
+foreach (string s in Enum.GetNames(typeof(BrushType)))
+{
+	sectionListItem3 = sectionList3.AddItem();
+	sectionListItem3.AddQuickText(s);
+}
+----

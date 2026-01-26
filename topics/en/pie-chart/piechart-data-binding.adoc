@@ -1,0 +1,463 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-data-binding",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Data Binding"],
+    "guid": "8a5963d0-af62-4426-8aeb-547da883d52d",
+    "buildFlags": ["SL","WPF","win-phone","XAMARIN","ANDROID","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:12.0748984Z"
+}
+|metadata|
+////
+
+= Data Binding
+
+This topic demonstrates how to bind data to the link:{PieChartLink}.{PieChartName}.html[{PieChartName}]™ control. At the end of the topic, a complete code sample is provided.
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<Preview,Preview>>
+* <<Requirements,Requirements>>
+* <<Overview,Overview>>
+* <<Steps,Steps>>
+* <<RelatedTopics,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+The procedure below demonstrates how to bind the {PieChartName} control to a data collection.  pick:[xaml="You will define a data collection, add the Pie Chart control to your application, and then bind the control’s"]   pick:[xaml=" link:{PieChartLink}.{PieChartBase}~itemssource.html[ItemsSource]"]   pick:[xaml="to an instance of the data collection."]
+
+[[Preview]]
+== Preview
+
+ifdef::android,xaml[]
+image::images/PieChart_DataBinding_01.png[]
+endif::android,xaml[]
+
+ifdef::win-forms[]
+image::images/PieChartWithLegend_Win.png[]
+endif::win-forms[]
+
+Figure 1: The {PieChartName} control as implemented by the sample code
+
+[[Requirements]]
+== Requirements
+  
+ifdef::android[]
+Add the following Infragistics jars to your main project:
+
+** Infragistics.DataChart.jar
+** Infragistics.Core.jar
+** Infragistics.UI.jar
+** DV.Shared.jar
+endif::android[]
+
+ifdef::wpf[]
+
+Add the following NuGet package to your main project:
+
+** Infragistics.WPF.Charts
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+Add the following Infragistics assemblies to your main project:
+
+** {ApiPlatform}{PieChartAssembly}.{DllVersion}dll 
+** {ApiPlatform}{DataVizAssembly}.{DllVersion}dll
+** {ApiPlatform}Win.Portable.Core.{DllVersion}dll 
+endif::win-forms[]
+ 
+
+ifdef::xamarin[]
+Add assembly references by following instructions in the link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages] topic.
+endif::xamarin[]
+
+Also, add the following Infragistics namespaces:
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="clr-namespace:{PieChartNamespace};assembly={ApiPlatform}Charts"
+----
+*In C#:*
+[source,csharp]
+----
+using {PieChartNamespace};
+----
+endif::xamarin[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+*In C#:*
+[source,csharp]
+----
+using {PieChartNamespace};
+----
+*In VB:* 
+[source,vb]
+----
+Imports {PieChartNamespace}
+---- 
+endif::wpf[]
+ 
+
+ifdef::android[] 
+*In Java:* 
+[source,js]
+----
+import {PieChartNamespace}.{PieChartName};
+---- 
+endif::android[]
+
+ifdef::win-forms[] 
+*In C#:* 
+[source,csharp]
+----
+using {PieChartNamespace}; 
+using Infragistics.Win.DataVisualization.Shared; 
+using Infragistics.Win.Portable.Core;
+---- 
+endif::win-forms[]
+
+ifdef::win-forms[] 
+*In VB:* 
+[source,vb]
+----
+Imports {PieChartNamespace} 
+Imports Infragistics.Win.DataVisualization.Shared 
+Imports Infragistics.Win.Portable.Core
+---- 
+endif::win-forms[]
+
+[[Overview]]
+== Overview
+
+[start=1]
+. Defining a Data Model
+[start=2]
+. Adding an Instance of the Pie Chart control
+[start=3]
+. (Optional) Verifying the result
+
+[[Steps]]
+== Steps
+
+[start=1]
+. *Define a Data Model*.
+
+Create a class to model the data. The following code creates a DataItem class representing simple value-label pairs, as well as a Data class representing a collection of those pairs:
+
+ifdef::xaml[]
+
+*In C#:*
+
+----
+public class DataItem
+{
+    public string Label { get; set; }
+    public double Value { get; set; }
+}
+
+public class Data : ObservableCollection<DataItem>
+{
+    public Data()
+    {
+        Add(new DataItem { Label = "Item 1", Value = 5 });
+        Add(new DataItem { Label = "Item 2", Value = 6 });
+        Add(new DataItem { Label = "Item 3", Value = 3 });
+        Add(new DataItem { Label = "Item 4", Value = 7 });
+        Add(new DataItem { Label = "Item 5", Value = 5 });
+    }
+}
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+    public class DataItem
+    {
+        public string Label { get; set; }
+        public double Value { get; set; }
+    }
+    public class Data : ObservableCollection<DataItem>
+    {
+        public Data()
+        {
+            Add(new DataItem { Label = "Item 1", Value = 5 });
+            Add(new DataItem { Label = "Item 2", Value = 6 });
+            Add(new DataItem { Label = "Item 3", Value = 3 });
+            Add(new DataItem { Label = "Item 4", Value = 7 });
+            Add(new DataItem { Label = "Item 5", Value = 5 });
+        }
+    }
+----
+
+endif::win-forms[]
+
+ifdef::wpf,sl[]
+
+*In Visual Basic:*
+
+----
+Public Class DataItem    
+   Public Property Label() As String 
+      Get          
+         Return _Label        
+       End Get     
+       Set            
+          _Label = Value          
+       End Set    
+    End Property  
+    Private _Label As String    
+    Public Property Value() As Double 
+       Get    
+          Return _Value         
+       End Get        
+       Set    
+          _Value = Value         
+       End Set      
+    End Property    
+    Private _Value As Double   
+End Class    
+Public Class Data    
+   Inherits ObservableCollection(Of DataItem)       
+   Public Sub New()   
+      Add(New DataItem() With { .Label = "Item 1", .Value = 5 })         
+      Add(New DataItem() With { .Label = "Item 2", .Value = 6 })           
+      Add(New DataItem() With { .Label = "Item 3", .Value = 3 })           
+      Add(New DataItem() With { .Label = "Item 4", .Value = 7 })           
+      Add(New DataItem() With { .Label = "Item 5", .Value = 5 })           
+   End Sub  
+ End Class
+----
+
+endif::wpf,sl[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Public Class DataItem    
+   Public Property Label() As String 
+      Get          
+         Return _Label        
+       End Get     
+       Set            
+          _Label = Value          
+       End Set    
+    End Property  
+    Private _Label As String    
+    Public Property Value() As Double 
+       Get    
+          Return _Value         
+       End Get        
+       Set    
+          _Value = Value         
+       End Set      
+    End Property    
+    Private _Value As Double   
+End Class    
+Public Class Data    
+   Inherits ObservableCollection(Of DataItem)       
+   Public Sub New()   
+      Add(New DataItem() With { .Label = "Item 1", .Value = 5 })         
+      Add(New DataItem() With { .Label = "Item 2", .Value = 6 })           
+      Add(New DataItem() With { .Label = "Item 3", .Value = 3 })           
+      Add(New DataItem() With { .Label = "Item 4", .Value = 7 })           
+      Add(New DataItem() With { .Label = "Item 5", .Value = 5 })           
+   End Sub  
+ End Class
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+public class DataItem { 
+private String _label; 
+public String getLabel() { 
+return _label; 
+ } 
+public void setLabel(String label) {
+_label = label;
+} 
+private double _value;
+public double getValue(){ 
+return _value; 
+}
+public void setValue(double value) {
+_value = value; 
+} 
+public DataItem(String label, double value){ 
+_label = label; 
+_value = value; 
+}
+}
+public class Data extends ArrayList<DataItem> {
+public Data() { 
+add(new DataItem("Item 1", 5));
+add(new DataItem("Item 2", 6));
+add(new DataItem("Item 3", 3));
+add(new DataItem("Item 4", 7)); 
+add(new DataItem("Item 5", 5)); 
+}
+}
+----
+
+endif::android[]
+
+[start=2]
+. *Add an instance of the {PieChartName} Control*.
+
+To the pick:[xaml,android="layout root"] pick:[win-forms="form"], add an instance of the data collection, a legend instance, and an instance of the Pie Chart:
+
+ifdef::wpf,sl[]
+
+*In XAML:*
+
+----
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Resources>
+            <local:Data x:Key="data" />
+        </Grid.Resources>
+        <ig:ItemLegend x:Name="Legend"
+                       Grid.Row="1"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Right"  />
+        <ig:{PieChartName} Name="pieChart"
+                       Grid.Row="2"
+                       ItemsSource="{StaticResource data}"
+                       LabelMemberPath="Label"
+                       ValueMemberPath="Value"
+                       Legend="{Binding ElementName=Legend}"/>
+    </Grid>
+----
+
+endif::wpf,sl[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+----
+<Grid x:Name="layoutRoot">
+    
+    <ig:ItemLegend x:Name="legend"/>
+    
+     <ig:XamPieChart x:Name="pieChart"
+                    LabelMemberPath="Label"
+                    ValueMemberPath="Value"                    
+                    Legend="{x:Reference legend}">
+      <ig:XamPieChart.ItemsSource>
+        <local:Data/>
+      </ig:XamPieChart.ItemsSource>
+    </ig:XamPieChart>
+
+</Grid>
+----
+
+endif::xamarin[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+public class MainActivityFragment extends Fragment {
+public MainActivityFragment() {
+}
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container,                             Bundle savedInstanceState) {
+View rootView = inflater.inflate(R.layout.fragment_main, container, false); 
+Context context = rootView.getContext();
+Data data = new Data(); 
+PieChartView pieChart = new PieChartView(context);
+RelativeLayout.LayoutParams chartParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+pieChart.setLayoutParams(chartParams);
+ItemLegendView legend = new ItemLegendView(context);
+FrameLayout.LayoutParams legendParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);        legendParams.gravity = Gravity.TOP | Gravity.LEFT;
+legend.setLayoutParams(legendParams);
+pieChart.setLegend(legend);
+pieChart.setDataSource(data);
+pieChart.setLabelMemberPath("Label");
+pieChart.setValueMemberPath("Value");
+return pieChart;
+}
+}
+----
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+UltraPieChart pieChart = new UltraPieChart();
+this.Controls.Add(pieChart);
+pieChart.Dock = DockStyle.Fill;
+pieChart.LabelMemberPath = "Label";
+pieChart.ValueMemberPath = "Value";
+pieChart.DataSource = new Data(); 
+UltraItemLegend legend = new UltraItemLegend();
+this.Controls.Add(legend);
+legend.Dock = DockStyle.Right;
+legend.Height = 500;
+pieChart.Legend = legend;
+legend.BringToFront();
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+Dim pieChart As New UltraPieChart ()
+Me.Controls.Add(pieChart)
+pieChart.Dock = DockStyle.Fill
+pieChart.LabelMemberPath = "Label"
+pieChart.ValueMemberPath = "Value"
+pieChart.DataSource = New Data ()  
+Dim legend As New UltraItemLegend()
+legend.Dock = DockStyle.Right
+legend.Height = 500
+pieChart.Legend = legend
+legend.BringToFront()
+----
+
+endif::win-forms[]
+
+[start=3]
+. *(Optional) Verify the Result*.
+
+Run your application to verify the result. If you have successfully bound the Pie Chart control to the data collection, the resulting chart will look like the one shown in Figure 1, above.
+
+[[RelatedTopics]]
+== Related Content
+
+* link:piechart-others-category.html[Others Category]
+* link:piechart-selection-and-explosion.html[Selection and Explosion]

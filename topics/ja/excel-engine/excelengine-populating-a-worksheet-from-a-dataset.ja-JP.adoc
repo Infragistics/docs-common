@@ -1,0 +1,201 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-populating-a-worksheet-from-a-dataset",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{8C124E1B-5FF9-447E-8DF1-2CCF2570797A}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:26:25Z"
+}
+|metadata|
+////
+
+= DataSet からのデータをワークシートに格納
+
+== 始める前に
+
+Microsoft® Excel® ワークシートは主にデータを表示するために使用します。既存の DataSet からワークブックに簡単にデータを転送して、Excel で表示できます。DataSet はひとつまたは複数の DataTable オブジェクトで構成されます。各 DataTable はワークシートにマップできます。
+
+== 達成すること
+
+この詳細なガイドでは、データベースのいくつかのテーブルから DataSet を作成する方法を示します。次に DataSet からワークブックにデータをコピーして、DataSet の各 DataTable のデータを表示するために Worksheet オブジェクトを作成する方法を示します。
+
+== 次の手順を実行します
+
+[start=1]
+. *DataTable を作成し、既存のデータベースからのデータをこの DataTable に格納します。*
+
+.. 新しい Visual Basic または C# プロジェクトを作成します。 
+.. Button をフォームに追加します。
+.. Button をダブルクリックして、その Click イベントのコード ビハインドを開きます。
+.. 既存の Access データベースに接続し、データベース内のいくつかのテーブルからのデータを DataSet に格納します。
+
+*Visual Basic の場合：*
+
+----
+Dim northWindDbConnection As New System.Data.OleDb.OleDbConnection( _
+  "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\NWind.mdb")
+Dim dataSet As New DataSet()
+northWindDbConnection.Open()
+Try
+	Dim customersSelectCommand As New System.Data.OleDb.OleDbCommand( _
+	  "SELECT $$*$$ FROM Customers", northWindDbConnection)
+	Dim customersReader As System.Data.OleDb.OleDbDataReader = _
+	  customersSelectCommand.ExecuteReader()
+	' データベースの顧客テーブルからすべてのデータをロードします。
+	Dim customersTable As New DataTable("Customers")
+	customersTable.Load(customersReader)
+	' 顧客データ テーブルをデータ セットに追加します。
+	dataSet.Tables.Add(customersTable)
+	Dim ordersSelectCommand As New System.Data.OleDb.OleDbCommand( _
+	  "SELECT $$*$$ FROM Orders", northWindDbConnection)
+	Dim ordersReader As System.Data.OleDb.OleDbDataReader = _
+	  ordersSelectCommand.ExecuteReader()
+	' データベースの顧客注文からすべてのデータをロードします。
+	Dim ordersTable As New DataTable("Orders")
+	ordersTable.Load(ordersReader)
+	' 注文データ テーブルをデータ セットに追加します。
+	dataSet.Tables.Add(ordersTable)
+Finally
+	northWindDbConnection.Close()
+End Try
+----
+
+*C# の場合：*
+
+----
+System.Data.OleDb.OleDbConnection northWindDbConnection =
+  new System.Data.OleDb.OleDbConnection(
+  @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\NWind.mdb" );
+DataSet dataSet = new DataSet();
+northWindDbConnection.Open();
+try
+{
+	System.Data.OleDb.OleDbCommand customersSelectCommand =
+	  new System.Data.OleDb.OleDbCommand(
+	  "SELECT $$*$$ FROM Customers", northWindDbConnection );
+	System.Data.OleDb.OleDbDataReader customersReader =
+	  customersSelectCommand.ExecuteReader();
+	// データベースの顧客テーブルからすべてのデータをロードします。
+	DataTable customersTable = new DataTable( "Customers" );
+	customersTable.Load( customersReader );
+	// 顧客データ テーブルをデータ セットに追加します。
+	dataSet.Tables.Add( customersTable );
+	System.Data.OleDb.OleDbCommand ordersSelectCommand =
+	  new System.Data.OleDb.OleDbCommand(
+	  "SELECT $$*$$ FROM Orders", northWindDbConnection );
+	System.Data.OleDb.OleDbDataReader ordersReader =
+	  ordersSelectCommand.ExecuteReader();
+	// データベースの顧客注文からすべてのデータをロードします。
+	DataTable ordersTable = new DataTable( "Orders" );
+	ordersTable.Load( ordersReader );
+	// 注文データ テーブルをデータ セットに追加します。
+	dataSet.Tables.Add( ordersTable );
+}
+finally
+{
+	northWindDbConnection.Close();
+}
+----
+
+[start=2]
+. *データをワークブックにロードします。*
+
+.. DataSet からのデータを保持するためにワークブックを作成します。
+
+*Visual Basic の場合：*
+
+----
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+----
+
+[start=2]
+.. データセットでデータ テーブルを繰り返してそれぞれにワークシートを作成します。また、データ テーブルからのデータをワークシートに格納します。
+
+*Visual Basic の場合：*
+
+----
+For Each table As DataTable In dataSet.Tables
+	' このデータ テーブルを表すためにワークシートを作成します。
+	Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
+	  workbook.Worksheets.Add(table.TableName)
+	' 列ごとに列ヘッダを作成します。
+	For columnIndex As Integer = 0 To table.Columns.Count – 1
+		worksheet.Rows.Item(0).Cells.Item(columnIndex).Value = _
+		  table.Columns.Item(columnIndex).ColumnName
+	Next
+	' 列インデックス 1 から開始して、データ テーブル内の
+	' すべてのデータ行をワークシートにコピーします。
+	Dim rowIndex As Integer = 1
+	For Each dataRow As DataRow In table.Rows
+		Dim row As Infragistics.Documents.Excel.WorksheetRow = _
+		  worksheet.Rows.Item(rowIndex)
+		rowIndex = rowIndex + 1
+		For columnIndex As Integer = 0 To dataRow.ItemArray.Length – 1
+			row.Cells.Item(columnIndex).Value = _
+			  dataRow.ItemArray(columnIndex)
+		Next
+	Next
+Next
+----
+
+*C# の場合：*
+
+----
+foreach ( DataTable table in dataSet.Tables )
+{
+	// このデータ テーブルを表すためにワークシートを作成します。
+	Infragistics.Documents.Excel.Worksheet worksheet =
+	  workbook.Worksheets.Add( table.TableName );
+	// 列ごとに列ヘッダを作成します。
+	for ( int columnIndex = 0;
+	  columnIndex < table.Columns.Count;
+	  columnIndex++ )
+	{
+		worksheet.Rows[ 0 ].Cells[ columnIndex ].value =
+		  table.Columns[ columnIndex ].ColumnName;
+	}
+	// 列インデックス 1 から開始して、データ テーブル内の
+	// すべてのデータ行をワークシートにコピーします。
+	int rowIndex = 1;
+	foreach ( DataRow dataRow in table.Rows )
+	{
+		Infragistics.Documents.Excel.WorksheetRow row =
+		  worksheet.Rows[ rowIndex++ ];
+		for ( int columnIndex = 0;
+		  columnIndex < dataRow.ItemArray.Length;
+		  columnIndex++ )
+		{
+			row.Cells[ columnIndex ].value =
+			  dataRow.ItemArray[ columnIndex ];
+		}
+	}
+}
+----
+
+[start=3]
+. *ワークブックを保存します。*
+
+ワークブックをファイルに書き出します。
+
+*Visual Basic の場合：*
+
+----
+workbook.Save("C:\Data.xls")
+----
+
+*C# の場合：*
+
+----
+workbook.Save( "C:\\Data.xls" );
+----
+
+image::images/ExcelEngine_Populating_a_Worksheet_from_a_DataSet_01.png[]

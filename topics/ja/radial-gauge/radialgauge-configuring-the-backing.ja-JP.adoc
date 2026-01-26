@@ -1,0 +1,403 @@
+﻿////
+|metadata|
+{
+    "name": "radialgauge-configuring-the-backing",
+    "controlName": ["{RadialGaugeName}"],
+    "tags": ["Getting Started","How Do I"],
+    "guid": "e48d9906-cb25-4e03-aff8-babf23c27c25",
+    "buildFlags": ["SL","WPF","XAMARIN","ANDROID","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:11.9718525Z"
+}
+|metadata|
+////
+
+= 背景の構成 ({RadialGaugeName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、{RadialGaugeName} コントロールの背景機能の概念的な概要を提供します。背景領域のプロパティについて説明し、実装例を提供します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:radialgauge.html[{RadialGaugeName}]
+|このセクションでは、 _{RadialGaugeName}_ コントロールおよびその主要機能の概要を説明します。
+
+| link:radialgauge-getting-started-with-radialgauge.html[{RadialGaugeName} の追加]
+|このトピックではコード例を使用して、{RadialGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Overview,背景機能の概要>>
+* <<Properties,背景機能のプロパティ参照>>
+* <<Example,背景の構成>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[Overview]]
+== 背景機能の概要
+
+=== 背景機能の概要
+
+円で表示される {RadialGaugeName} コントロールの背景セクションには、ゲージに追加される針や目盛など、さまざまな要素があります。
+
+この領域は、 link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingshape.html[BackingShape] プロパティの設定で円形またはフィットのいずれかにカスタマイズできます。円形の場合は 360 度の円形のゲージが作成されますが、一方フィット図形の場合はスケールの範囲を円弧として塗りつぶされた円のセグメントが作成されます。
+
+[[Preview]]
+
+=== プレビュー
+
+以下の画像は、フィットで構成した背景に描画された {RadialGaugeName} コントロールのプレビューです。
+
+image::images/Configuring_the_Backing_1_17_1.png[]
+
+[[Properties]]
+== 背景機能のプロパティ参照
+
+=== 背景機能のプロパティ参照表
+
+以下の表で、背景領域に関連した {RadialGaugeName} コントロールの背景領域に関連するプロパティを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|`Brush`
+|このプロパティは、ゲージの背景をブラシで塗りつぶす設定に使用します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingcornerradius.html[BackingCornerRadius]
+|`Double`
+|フィット スケールの背景に使用する角丸の半径を決定します。ゲージがフィット背景の図形を使用する場合に、このプロパティを使用して背景の角丸を指定します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|`Double`
+|ゲージの背景の内側範囲を決定します。フィット背景の図形を使用する場合のみ適用されます。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|`Double`
+|ゲージの背景の外側範囲を決定します。フィット背景の図形を使用する場合のみ適用されます。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+|`Brush`
+|背景のアウトラインに使用するブラシを決定します。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingoversweep.html[BackingOversweep]
+|`Double`
+|フィット背景に適用されるオーバースイープまたはアンダースイープの角度を決定します。このプロパティを使用すると、スペースを追加して背景図形をスケールの開始および終了より大きくすることができます。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingshape.html[BackingShape]
+|`RadialGaugeBackingShape`
+|このプロパティを使用すると、ゲージの背景図形を事前定義された図形に設定できます。背景の形状は、円形またはフィットです。フィット図形の場合は、スケールの範囲を円弧として塗りつぶされた円のセグメントが作成されます。
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+|`Double`
+|背景アウトラインのストロークの太さを決定します。
+
+|====
+
+[[Example]]
+== 背景の構成
+
+=== 例
+
+以下のスクリーンショットは、以下の背景のプロパティの構成を使用して {RadialGaugeName} コントロールを描画する方法を示します。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|AliceBlue
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingshape.html[BackingShape]
+|Fitted
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingcornerradius.html[BackingCornerRadius]
+|10
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|0.9
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|0.2
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingoversweep.html[BackingOversweep]
+|4
+
+| link:{RadialGaugeLink}.{RadialGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+|5
+
+|====
+
+image::images/Configuring_the_Backing_2_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{RadialGaugeName}
+    x:Name="radialGauge"
+    MinimumValue="0"
+    MaximumValue="10" 
+    Value="1"  
+    BackingShape="Fitted"
+    BackingBrush="AliceBlue"
+    BackingCornerRadius="10"
+    BackingOuterExtent=".9"
+    BackingInnerExtent=".2"
+    BackingOversweep="4"
+    BackingStrokeThickness="5"
+/>
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+----
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+radialGauge.MinimumValue = 0;
+radialGauge.MaximumValue = 10;
+radialGauge.Value = 1;
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted;
+radialGauge.BackingCornerRadius = 10;
+radialGauge.BackingOuterExtent = 0.9;
+radialGauge.BackingInnerExtent = 0.2;
+radialGauge.BackingOversweep = 4;
+radialGauge.BackingStrokeThickness = 5;
+radialGauge.BackingBrush = new SolidColorBrush(Colors.AliceBlue);
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+radialGauge.BackingBrush = New SolidColorBrush(Colors.AliceBlue)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+radialGauge.BackingBrush = New SolidColorBrush(Colors.AliceBlue)
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim radialGauge As {RadialGaugeName} = New {RadialGaugeName}
+radialGauge.MinimumValue = 0
+radialGauge.MaximumValue = 10
+radialGauge.Value = 1
+radialGauge.BackingShape = RadialGaugeBackingShape.Fitted
+radialGauge.BackingCornerRadius = 10
+radialGauge.BackingOuterExtent = 0.9
+radialGauge.BackingInnerExtent = 0.2
+radialGauge.BackingOversweep = 4
+radialGauge.BackingStrokeThickness = 5
+radialGauge.BackingBrush = New SolidColorBrush(Colors.AliceBlue)
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+radialGauge.setMinimumValue(0);
+radialGauge.setMaximumValue(10);
+radialGauge.setValue(1);
+radialGauge.setBackingShape(RadialGaugeBackingShape.FITTED);
+radialGauge.setBackingBrush(new SolidColorBrush(Color.WHITE));
+radialGauge.setBackingCornerRadius(10);
+radialGauge.setBackingOuterExtent(.9);
+radialGauge.setBackingInnerExtent(.2);
+radialGauge.setBackingOversweep(4);
+radialGauge.setBackingStrokeThickness(5);
+----
+
+endif::android[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:radialgauge-getting-started-with-radialgauge.html[{RadialGaugeName} の追加]
+|このトピックではコード例を使用して、{RadialGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+| link:radialgauge-configuring-labels.html[ラベルの構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールを使用したラベルの概念的な概要を提供します。ラベルのプロパティの説明およびラベルの構成方法を例で示します。
+
+| link:radialgauge-configuring-needles.html[針の構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールを使用した針の概念的な概要を提供します。針のプロパティの説明および針の構成方法を例で示します。
+
+| link:radialgauge-configuring-ranges.html[範囲の構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールの範囲の概念的な概要を提供します。範囲のプロパティについて説明し、範囲をラジアル ゲージに追加する方法の例も示します。
+
+| link:radialgauge-configuring-the-scale.html[スケールの構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールのスケールの概念的な概要を提供します。スケールのプロパティの説明およびスケールの実装方法を例で示します。
+
+| link:radialgauge-configuring-tick-marks.html[目盛の構成 ({RadialGaugeName})]
+|このトピックでは、{RadialGaugeName} コントロールを使用した目盛の概念的な概要を提供します。目盛プロパティの説明および目盛の実装方法を例で示します。
+
+|====

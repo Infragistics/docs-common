@@ -1,0 +1,232 @@
+﻿////
+|metadata|
+{
+    "name": "surfacechart-grid-lines",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "6e956ce9-4844-4a3c-9e52-2640c8196c91","buildFlags": ["wpf"],
+    "createdOn": "2016-02-29T13:56:23.5165684Z"
+}
+|metadata|
+////
+
+= Configuring Axis Grid Lines
+
+
+
+=== Purpose
+
+This topic explains how to configure the brush and thickness of the grid lines in the link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D]™ control.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:surfacechart-getting-started-with-surfacechart.html[Adding xamScatterSurface3D to Your Page]
+|This topic provides detailed instructions to help you get up and running as soon as possible with the _xamScatterSurface3D_™ control.
+
+| link:surfacechart-features-overview.html[Features Overview]
+|This topic explains the features supported by the control from developer perspective.
+
+| link:surfacechart-visual-elements.html[Visual Elements]
+|This topic provides an overview of the visual elements of the control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref444011785, Configuring Grid Lines Stroke >>
+* <<_Ref444011790, Configuring Grid Lines Stroke Thickness >>
+* <<_Ref444011800, Related Content >>
+ 
+
+[[_Ref444011785]]
+== Configuring Grid Lines Stroke
+
+=== Overview
+
+Use the link:{SurfaceChartLink}.surfacechartaxis_members.html[SurfaceChartAxis] link:{SurfaceChartLink}.surfacechartaxis~gridstroke.html[GridStroke] property to configure the grid lines stroke in the _xamScatterSurface3D_ control.
+
+=== Property settings
+
+The following table maps the desired configuration to the property settings that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Configure the grid lines brush
+| link:{SurfaceChartLink}.surfacechartaxis~gridstroke.html[GridStroke]
+|`Brush`
+
+|====
+
+=== Example
+
+The screenshot below demonstrates how the grid lines look as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{SurfaceChartLink}.surfacechartaxis~gridstroke.html[GridStroke]
+| _Orange_ 
+
+|====
+
+image::images/3D_Surface_Chart_Grid_Lines_1.png[]
+
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z"                                    
+ ShowFloorProjection=" FloorMaterial="{x:Null}">
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis GridStroke="Orange" />
+    </ig:XamScatterSurface3D.XAxis>
+</ig:XamScatterSurface3D>
+----
+
+*In C#:*
+
+[source,csharp]
+----
+…
+var linearAxis = new LinearAxis();
+linearAxis.GridStroke = new SolidColorBrush(Colors.Orange);
+SurfaceChart.XAxis = linearAxis;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+…
+Dim linearAxis = New LinearAxis()
+linearAxis.GridStroke = New SolidColorBrush(Colors.Orange)
+SurfaceChart.XAxis = linearAxis
+----
+
+[[_Ref444011790]]
+== Configuring Grid Lines Stroke Thickness
+
+=== Overview
+
+Use the link:{SurfaceChartLink}.surfacechartaxis_members.html[SurfaceChartAxis] link:{SurfaceChartLink}.surfacechartaxis~gridstrokethickness.html[GridStrokeThickness] property to configure the grid lines thickness in the _xamScatterSurface3D_ control.
+
+=== Property settings
+
+The following table maps the desired configuration to the property settings that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Configure the grid lines thickness
+| link:{SurfaceChartLink}.surfacechartaxis~gridstrokethickness.html[GridStrokeThickness]
+|`double`
+
+|====
+
+=== Example
+
+The screenshot below demonstrates how the _xamScatterSurface3D_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{SurfaceChartLink}.surfacechartaxis~gridstrokethickness.html[GridStrokeThickness]
+| _3_ 
+
+|====
+
+image::images/3D_Surface_Chart_Grid_Lines_2.png[]
+
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ ShowFloorProjection=" FloorMaterial="{x:Null}">
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis GridStroke="Orange" GridStrokeThickness="3" />
+    </ig:XamScatterSurface3D.XAxis>
+</ig:XamScatterSurface3D>
+----
+
+*In C#:*
+
+[source,csharp]
+----
+…
+var linearAxis = new LinearAxis();
+linearAxis.GridStroke = new SolidColorBrush(Colors.Orange);
+linearAxis.GridStrokeThickness = 3;
+SurfaceChart.XAxis = linearAxis;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+…
+Dim linearAxis = New LinearAxis()
+linearAxis.GridStroke = New SolidColorBrush(Colors.Orange)
+linearAxis.GridStrokeThickness = 3
+SurfaceChart.XAxis = linearAxis
+----
+
+[[_Ref444011800]]
+== Related Content
+
+[[_Ref444011805]]
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:surfacechart-configuring-axis-interval.html[Configuring Axis Interval]
+|This topic explains how to configure the axis interval in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-configuring-axis-label.html[Configuring Axis Label]
+|The topics in this group explain how to configure different aspects of the visual representation of the axis label in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-configuring-axis-line.html[Configuring Axis Line]
+|This topic explains how to configure the axes lines in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-configuring-axis-range.html[Configuring Axis Range]
+|This topic explains how to configure the axis range by setting the MinimumValue and MaximumValue properties in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-configuring-axis-scales.html[Configuring Axis Types]
+|This topic explains the axis types available in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-configuring-axis-tick-marks-range.html[Configuring Axis Tick Marks Range]
+|This topic explains how to configure the axis tick marks range in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-configuring-axis-title.html[Configuring Axis Title]
+|The topics in this group explain how to configure different aspects of the visual representation of the axis title in the _xamScatterSurface3D_ control.
+
+| link:surfacechart-inverting-axis.html[Inverting Axis]
+|This topic explains how to invert an axis in the _xamScatterSurface3D_ control.
+
+|====

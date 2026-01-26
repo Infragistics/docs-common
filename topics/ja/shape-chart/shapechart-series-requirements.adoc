@@ -1,0 +1,335 @@
+﻿= シリーズ要件
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<settingcharttype,チャート タイプの設定>>
+* <<requiredsettings,必須のデータ列>>
+* <<creatingdataitems,データ項目の作成>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[settingcharttype]]
+== チャート タイプの設定
+
+link:shapechart-chart-types.html[チャート タイプ] トピックに説明がありますが、チャートはプロパティを変更するだけでさまざまなチャートタイプを描画できます。
+
+初期化時にチャート タイプを割り当てる方法:
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{ShapeChartName} x:Name="ShapeChart" 
+    ChartType="Spline" >
+</ig:{ShapeChartName}>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+var ShapeChart = new XamShapeChart 
+{ 
+    ChartType = ShapeChartType.Spline;
+}
+----
+
+*VB の場合：*
+
+[source,vb]
+----
+Dim ShapeChart = New XamShapeChart() With 
+{ 
+    .ChartType = ShapeChartType.Spline 
+}
+----
+
+
+[[requiredsettings]]
+== 必須の日付列
+
+以下の表はチャートと共に生成される DataItems で必要なプロパティについて説明します。
+
+[options="header", cols="6*<"]
+|====
+|シリーズ タイプ
+| X
+| Y
+| Value
+| Radius
+| Points*
+
+
+| ポイント
+|X
+|X
+|
+|
+|
+
+| 折れ線
+|X
+|X
+|
+|
+|
+
+| スプライン
+|X
+|X
+|
+|
+|
+
+| 高密度
+|X
+|X
+|
+|
+|
+
+| バブル
+|X
+|X
+|
+|X
+|
+
+| エリア
+|X
+|X
+|X
+|
+|
+
+| 等高線
+|X
+|X
+|X
+|
+|
+
+| ポリライン
+|
+|
+|
+|
+|X
+
+| 多角形
+|
+|
+|
+|
+|X
+
+|====
+
+ifdef::xaml[]
+注: Points 列は X/Y オブジェクト一覧のリストです。
+endif::xaml[]
+
+[[creatingdataitems]]
+== データ項目の作成
+
+以下の例は、各チャート タイプの最小要件です。以下の各データ クラスは、チャートのビジュアル データを描画するプロパティを含みます。
+
+==== ポイント、線、スプライン、高密度: 
+*C# の場合:*
+
+[source,csharp]
+----
+public class ScatterPoint
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+}
+----
+
+*VB の場合：*
+[source,vb]
+----
+Public Class ScatterPoint
+
+        Private m_X As Double
+	Public Property X() As Double
+        	Get
+        	    Return m_X
+        	End Get
+        	Set
+        	    m_X = Value
+        	End Set
+	End Property
+	
+	Private m_Y As Double
+	Public Property Y() As Double
+        	Get
+        	    Return m_Y
+        	End Get
+        	Set
+        	    m_Y = Value
+        	End Set
+	End Property
+	
+End Class
+----
+
+==== 等高線またはエリア:
+*C# の場合:*
+
+[source,csharp]
+----
+public class ScatterValue 
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double V { get; set; }
+}
+----
+
+*VB の場合：*
+[source,vb]
+----
+Public Class ScatterValue
+
+        Private m_X As Double
+	Public Property X() As Double
+		Get
+			Return m_X
+		End Get
+		Set
+			m_X = Value
+		End Set
+	End Property
+	
+	Private m_Y As Double
+	Public Property Y() As Double
+		Get
+			Return m_Y
+		End Get
+		Set
+			m_Y = Value
+		End Set
+	End Property
+	
+	Private m_V As Double
+	Public Property V() As Double
+		Get
+			Return m_V
+		End Get
+		Set
+			m_V = Value
+		End Set
+	End Property
+	
+End Class
+----
+
+==== バブル:
+*C# の場合:*
+
+[source,csharp]
+----
+public class ScatterBubble 
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double R { get; set; }
+    public double Fill { get; set; } // an optional value
+}
+----
+
+*VB の場合：*
+[source,vb]
+----
+Public Class ScatterBubble
+    
+        Private m_X As Double
+	Public Property X() As Double
+		Get
+			Return m_X
+		End Get
+		Set
+			m_X = Value
+		End Set
+	End Property
+	
+	Private m_Y As Double
+	Public Property Y() As Double
+		Get
+			Return m_Y
+		End Get
+		Set
+			m_Y = Value
+		End Set
+	End Property
+	
+	Private m_R As Double
+	Public Property R() As Double
+		Get
+			Return m_R
+		End Get
+		Set
+			m_R = Value
+		End Set
+	End Property
+	
+	Private m_Fill As Double ' an optional value
+	Public Property Fill() As Double
+		Get
+			Return m_Fill
+		End Get
+		Set
+			m_Fill = Value
+		End Set
+	End Property
+	
+End Class
+----
+
+==== ポリラインまたは多角形:
+*C# の場合:*
+
+[source,csharp]
+----
+public class ScatterShape
+{
+  public List<List<Point>> Points { get; set; } 
+  // a nested list of list of points 
+}
+----
+
+*VB の場合：*
+[source,vb]
+----
+Public Class ScatterShape
+
+	Public Property Points() As List(Of List(Of Point))
+		Get
+			Return m_Points
+		End Get
+		Set
+			m_Points = Value
+		End Set
+	End Property
+	Private m_Points As List(Of List(Of Point))
+	' a nested list of list of points 
+	
+End Class
+----
+
+
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:shapechart-getting-started-with-shapechart.html[シェープ チャートを使用した作業の開始]
+|このトピックは、シェープ チャート コントロールを追加する方法を紹介します。
+
+| link:shapechart-chart-types.html[チャート タイプ]
+|このトピックはチャート タイプについて説明します。

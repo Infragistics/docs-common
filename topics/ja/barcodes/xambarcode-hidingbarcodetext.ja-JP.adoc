@@ -1,0 +1,141 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-hidingbarcodetext",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "0b29a5da-85ec-4144-bdf6-c32999525c71",
+    "buildFlags": ["XAML","WINFORMS"],
+    "createdOn": "2015-09-23T20:37:53.1741392Z"
+}
+|metadata|
+////
+
+= バーコード テキストを非表示
+
+== トピックの概要
+
+=== 目的
+
+人間が認識できるテキストを非表示にするために {Barcode128Name} コントロールを使用したデモ。
+
+=== 前提条件
+
+この題材を理解するのにあらかじめ必要となるトピック。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:xambarcode-about-xambarcode.html[{BarcodesName} について]
+|コントロールおよび関連トピックを説明します。
+
+|====
+
+== 人間が認識できるテキストを非表示 – 概念的概要
+
+=== 概要
+
+{Barcode128Name} はブール型 link:{BarcodesLink}.{Barcode128Name}{ApiProp}showtext.html[ShowText] プロパティを公開します。このプロパティをデフォルト値である  _true_   に設定すると、人間が認識できるテキストまたはバーコードのデータは、バーコードの下で表示されます。このプロパティは、人間が認識できるテキストが画面に描画されることを停止するには  _false_   に設定する必要があります。
+
+[options="header", cols="a,a"]
+|====
+|人間が認識できるテキストを有効：|人間が認識できるテキストを無効：
+
+|image::images/xamBarcode_HidingBarcodeText_01.png[]
+|image::images/xamBarcode_HidingBarcodeText_02.png[]
+
+|====
+
+=== サポートされる記号のタイプ
+
+{BarcodesName} がサポートされる link:http://en.wikipedia.org/wiki/Barcode#Symbologies[Symbologies]
+
+ifdef::xaml,win-forms[]
+* link:{BarcodesLink}.{BarcodeGS1DataBarName}.html[{BarcodeGS1DataBarName}]
+endif::xaml,win-forms[]
+
+* link:xambarcode-configuring-code128.html[{Barcode128Name}]
+
+ifdef::xaml,win-forms[]
+
+* link:{BarcodesLink}.{Barcode39Name}.html[{Barcode39Name}]
+
+* link:{BarcodesLink}.{BarcodeEanUpcName}.html[{BarcodeEanUpcName}]
+
+* link:{BarcodesLink}.{BarcodeInterleaved2of5Name}.html[{BarcodeInterleaved2of5Name}]
+
+* link:{BarcodesLink}.{BarcodeRoyalMailName}.html[{BarcodeRoyalMailName}]
+
+endif::xaml,win-forms[]
+
+== バーコード テキストを非表示 – コード例
+
+=== 説明
+
+以下のコード例は、{Barcode128Name} の link:{BarcodesLink}.{Barcode128Name}{ApiProp}showtext.html[ShowText] プロパティを使用して、人間が認識できるバーコード テキストを表示または非表示にする方法を示します。デフォルトでは、このプロパティは  _true_   に設定され、テキストを表示します。このプロパティは、人間が認識できるテキストを非表示にするには、 _false_   に設定する必要があります。
+
+=== コード
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGs1DataBarBarcode 
+    CodeType="Expanded"
+    Data="1234567890"
+    ShowText=" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+ifdef::xaml[]
+----
+XamGs1DataBarBarcode   
+Barcode = new XamGs1DataBarBarcode;
+Barcode.Data = "1234567890";
+Barcode.CodeType = GS1CodeType.Expanded;
+Barcode.ShowText = false;
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----  
+UltraCode128Barcode Barcode = new UltraCode128Barcode();
+Barcode.Data = "1234567890";
+Barcode.CodeType = Code128CodeType.Standard;
+Barcode.ShowText = false;
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New  XamGs1DataBarBarcode()
+Barcode.Data = "1234567890"
+Barcode.CodeType = GS1CodeType.Expanded   
+Barcode.ShowText = false
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+Dim Barcode As New UltraCode128Barcode()
+Barcode.Data = "1234567890"
+Barcode.CodeType = Code128CodeType.Standard 
+Barcode.ShowText = False
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]

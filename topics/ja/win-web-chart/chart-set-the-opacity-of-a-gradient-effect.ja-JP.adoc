@@ -1,0 +1,95 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-set-the-opacity-of-a-gradient-effect",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{C6AC841F-7FC6-4569-8DDA-DA25387BB395}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= グラデーションの不透明度を設定
+
+グラデーションは、不透明度（透明性）と組み合わせて使用すると、さらに素晴らしい効果を生み出すことができます。グラデーションの開始色値（Fill）と終了色値（FillStopColor）の両方を個別の不透明度値に関連付けることができます。これはそれぞれ、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillopacity.html[FillOpacity]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillopacity.html[FillOpacity]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillopacity.html[FillOpacity]"]  と  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopopacity.html[FillStopOpacity]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopopacity.html[FillStopOpacity]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopopacity.html[FillStopOpacity]"]  プロパティで指定します。
+
+下の図は、白から黒へのグラデーション上で不透明度を小さくした場合と大きくした場合を示しています。棒グラフの棒のボックスの場合。
+
+[cols="a,a"]
+|====
+|image::images/Chart_Rendering_With_Paint_Element_05.png[]
+|image::images/Chart_Rendering_With_Paint_Element_06.png[]
+
+|
+
+|====
+
+以下の例は、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、グラデーションの不透明度を変更する方法を示します。これでこの例を拡張して、チャートのすべてのプリミティブの不透明度を変更することができます。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b1 As Box = Nothing
+		b1 = CType(e.Primitive, Box)
+		If Not b1 Is Nothing AndAlso b1.Row = 0 AndAlso b1.Column = 2 Then
+			b1.PE = b1.PE.Clone()
+			' Primitives の PaintElement Type を Gradient に設定します。
+			b1.PE.ElementType = PaintElementType.Gradient
+			' グラデーションの開始色と終了色を設定します。
+			b1.PE.Fill = Color.Red
+			b1.PE.FillStopColor = Color.Black
+			' グラデーションの開始不透明値と終了不透明値を設定します。
+			b1.PE.FillOpacity = 255
+			b1.PE.FillStopOpacity = 0
+			' グラデーションの線形方向を設定します。
+			b1.PE.FillGradientStyle = GradientStyle.Horizontal
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b1 = e.Primitive as Box;
+		if(b1 != null && b1.Row == 0 && b1.Column == 2)
+		{
+			b1.PE = b1.PE.Clone();
+			// Primitives PaintElement の Type を Gradient に設定します。
+			b1.PE.ElementType = PaintElementType.Gradient;
+			// グラデーションの開始色と終了色を設定します。
+			b1.PE.Fill = Color.Red;
+			b1.PE.FillStopColor = Color.Black;
+			// グラデーションの開始不透明値と終了不透明値を設定します。
+			b1.PE.FillOpacity = 255;
+			b1.PE.FillStopOpacity = 0;
+			// グラデーションの線形方向を設定します。
+			b1.PE.FillGradientStyle = GradientStyle.Horizontal;
+		}
+	}
+}
+----
+
+image::images/Chart_Set_the_Opacity_of_a_Gradient_Effect_01.png[]
+
+Fill（および FillStopColor）に割り当てられた Color オブジェクト上に直接不透明度を設定することも可能ですが、これはあまりお勧めできません。Chart 描画エンジンは、必要に応じて任意の不透明度の適切な適用を実現しています。

@@ -1,0 +1,237 @@
+﻿= {ExcelEngineName} での条件付き書式
+
+=== 目的
+
+このトピックは、{ExcelEngineName} を使用して link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] で条件付き書式を構成して設定する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件となる概念とトピックを示します。
+
+|====
+|トピック|目的
+
+ifdef::xamarin,wpf[]
+|link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+endif::xamarin,wpf[]
+ifdef::win-forms,asp-net[]
+|link:waw-infragistics-excel-engine.html[{ExcelEngineName}]
+endif::win-forms,asp-net[]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<FormattingSummary, 条件付き書式の構成の概要>>
+* <<FormattingChart, 条件付き書式の構成の概要表>>
+* <<CodeExample, コード例>>
+ifdef::xamarin,wpf[]
+* <<Related, 関連コンテンツ>>
+endif::xamarin,wpf[]
+
+[[FormattingSummary]]
+== 条件付き書式の構成の概要
+
+特定の `Worksheet` の条件付き書式を構成するには、ワークシートの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet{ApiProp}conditionalformats.html[ConditionalFormats] コレクションに公開される Add メソッドを使用できます。この Add メソッドの最初のパラメーターは条件付き書式に適用する Worksheet の文字列領域です。
+
+Worksheet に追加可能な条件付き書式にその条件が true の場合に link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] 要素の外観を決定する `CellFormat` プロパティがあります。たとえば、Fill および Font などのこの CellFormat プロパティにアタッチされるプロパティを使用してセルの背景およびフォント設定を決定できます。
+
+条件付き書式が作成され、CellFormat が適用される場合、`Worksheet` の `Cell` にサポートされるプロパティのサブセットがあります。現在サポートされる CellFormat プロパティは Fill、Border プロパティ、FormatString、および Strikethrough、Underline、Italic、Bold、Color などの Font プロパティです。以下のコード スニペットに複数のプロパティが設定されます。
+
+`WorksheetCell` の可視化の動作が異なるため、`CellFormat` プロパティがない条件付き書式もあります。この条件付き書式は `DataBarConditionalFormat`、`ColorScaleConditionalFormat`、および `IconSetConditionalFormat` です。
+
+既存の Workbook を Excel から読み込む場合、その Workbook が読み込んだときに書式設定が保持されます。Workbook を Excel ファイルに保存する場合にも保持されます。
+
+[[FormattingChart]]
+== 条件付き書式の構成の概要表
+
+以下の表は、`Worksheet` 要素でサポートされる条件付き書式を説明し、その要素の `ConditionalFormats` コレクションの追加するメソッドにマップします。
+
+|====
+|条件付き書式オブジェクト|メソッド|詳細
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.averageconditionalformat.html[AverageConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addaveragecondition.html[AddAverageCondition]
+|セルの値が関連する範囲の平均または標準偏差の上下にあるかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.blanksconditionalformat.html[BlanksConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addblankscondition.html[AddBlanksCondition]
+|セルの値が設定されていないかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.colorscaleconditionalformat.html[ColorScaleConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addcolorscalecondition.html[AddColorScaleCondition]
+|最小値、中値、および最大値のしきい値に相対してセル値に基づいて WorksheetCell の色設定を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.databarconditionalformat.html[DataBarConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adddatabarcondition.html[AddDataBarCondition]
+|関連する値範囲に相対するセルの値に基づいて WorksheetCell でデータ バーを表示するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.datetimeconditionalformat.html[DateTimeConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adddatetimecondition.html[AddDateTimeCondition]
+|セルの DateTime 値が指定した範囲にあるかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.duplicateconditionalformat.html[DuplicateConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addduplicatecondition.html[AddDuplicateCondition]
+|セルの値が関連する範囲で一意または複製かどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.errorsconditionalformat.html[ErrorsConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adderrorscondition.html[AddErrorsCondition]
+|セルの値が有効かどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.formulaconditionalformat.html[FormulaConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addformulacondition.html[AddFormulaCondition]
+|セルの値が Formula によって定義される条件に一致するかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.iconsetconditionalformat.html[IconSetConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addiconsetcondition.html[AddIconSetCondition]
+|しきい値に相対するセルの値に基づいて WorksheetCell でアイコンを表示するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.noblanksconditionalformat.html[NoBlanksConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addnoblankscondition.html[AddNoBlanksCondition]
+|セルの値が設定されるかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.noerrorsconditionalformat.html[NoErrorsConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addnoerrorscondition.html[AddNoErrorsCondition]
+|セルの値が有効かどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.operatorconditionalformat.html[OperatorConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addoperatorcondition.html[AddOperatorCondition]
+|セルの値が論理演算子によって定義される条件に一致するかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.rankconditionalformat.html[RankConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addrankcondition.html[AddRankCondition]
+|セルの値が関連する範囲の上位または下位にあるかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.textoperatorconditionalformat.html[TextOperatorConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addtextcondition.html[AddTextCondition]
+|セルのテキスト値が AddTextCondition メソッドのパラメーターの文字列および FormatConditionTextOperator 値によって定義される条件に合うかどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.uniqueconditionalformat.html[UniqueConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adduniquecondition.html[AddUniqueCondition]
+|セルの値が関連する範囲で一意かどうかに基づいて WorksheetCell のビジュアル属性を制御するプロパティを公開します。
+
+|====
+
+[[CodeExample]]
+== コード例
+
+以下のコード例は上記の条件付き書式オブジェクトの使用方法を紹介します。
+
+*C# の場合:*
+[source, csharp]
+----
+Workbook book = new Workbook();
+Worksheet sheet = book.Worksheets.Add("Sheet1");
+
+AverageConditionalFormat avgFormat = sheet.ConditionalFormats.AddAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage);            
+avgFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+
+BlanksConditionalFormat blankFormat = sheet.ConditionalFormats.AddBlanksCondition("B1:B10");
+blankFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.Gray);
+
+ColorScaleConditionalFormat colorFormat = sheet.ConditionalFormats.AddColorScaleCondition("C1:C10", ColorScaleType.ThreeColor);
+colorFormat.MinimumThreshold.FormatColor = new WorkbookColorInfo(System.Drawing.Color.Green);
+colorFormat.MidpointThreshold.FormatColor = new WorkbookColorInfo(System.Drawing.Color.Orange);
+colorFormat.MaximumThreshold.FormatColor = new WorkbookColorInfo(System.Drawing.Color.Red);            
+
+DataBarConditionalFormat dataBarFormat = sheet.ConditionalFormats.AddDataBarCondition("D1:D10");
+
+DateTimeConditionalFormat dateTimeFormat = sheet.ConditionalFormats.AddDateTimeCondition("E1:E10", FormatConditionTimePeriod.NextWeek);
+dateTimeFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Blue);
+
+DuplicateConditionalFormat duplicateFormat = sheet.ConditionalFormats.AddDuplicateCondition("F1:F10");
+duplicateFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Magenta);
+
+FormulaConditionalFormat formulaFormat = sheet.ConditionalFormats.AddFormulaCondition("H1:H10", "=H1>2");
+formulaFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Blue);
+
+IconSetConditionalFormat iconFormat = sheet.ConditionalFormats.AddIconSetCondition("I1:I10", FormatConditionIconSet.IconSet3Arrows);           
+            
+NoBlanksConditionalFormat noBlanksFormat = sheet.ConditionalFormats.AddNoBlanksCondition("J1:J10");
+noBlanksFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.LightGray);
+   
+OperatorConditionalFormat operatorFormat = sheet.ConditionalFormats.AddOperatorCondition("L1:L10", FormatConditionOperator.Greater);            
+operatorFormat.SetOperand1(500);
+operatorFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+
+RankConditionalFormat rankFormat = sheet.ConditionalFormats.AddRankCondition("M1:M10", FormatConditionTopBottom.Top, 5);
+rankFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Blue);
+
+TextOperatorConditionalFormat textFormat = sheet.ConditionalFormats.AddTextCondition("N1:N10", "A", FormatConditionTextOperator.Contains);
+textFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Magenta);
+
+UniqueConditionalFormat uniqueFormat = sheet.ConditionalFormats.AddUniqueCondition("O1:O10");
+uniqueFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+----
+
+*Visual Basic の場合:*
+[source, vbnet]
+----
+Dim book As New Workbook()
+Dim sheet As Worksheet = book.Worksheets.Add("Sheet1")
+
+Dim avgFormat As AverageConditionalFormat = sheet.ConditionalFormats.AddAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage)
+avgFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Red)
+
+Dim blankFormat As BlanksConditionalFormat = sheet.ConditionalFormats.AddBlanksCondition("B1:B10")
+blankFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.Gray)
+
+Dim colorFormat As ColorScaleConditionalFormat = sheet.ConditionalFormats.AddColorScaleCondition("C1:C10", ColorScaleType.ThreeColor)
+colorFormat.MinimumThreshold.FormatColor = New WorkbookColorInfo(System.Drawing.Color.Green)
+colorFormat.MidpointThreshold.FormatColor = New WorkbookColorInfo(System.Drawing.Color.Orange)
+colorFormat.MaximumThreshold.FormatColor = New WorkbookColorInfo(System.Drawing.Color.Red)
+
+Dim dataBarFormat As DataBarConditionalFormat = sheet.ConditionalFormats.AddDataBarCondition("D1:D10")
+
+Dim dateTimeFormat As DateTimeConditionalFormat = sheet.ConditionalFormats.AddDateTimeCondition("E1:E10", FormatConditionTimePeriod.NextWeek)
+dateTimeFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Blue)
+
+Dim duplicateFormat As DuplicateConditionalFormat = sheet.ConditionalFormats.AddDuplicateCondition("F1:F10")
+duplicateFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Magenta)
+
+Dim formulaFormat As FormulaConditionalFormat = sheet.ConditionalFormats.AddFormulaCondition("H1:H10", "=H1>2")
+formulaFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Blue)
+
+Dim iconFormat As IconSetConditionalFormat = sheet.ConditionalFormats.AddIconSetCondition("I1:I10", FormatConditionIconSet.IconSet3Arrows)
+
+Dim noBlanksFormat As NoBlanksConditionalFormat = sheet.ConditionalFormats.AddNoBlanksCondition("J1:J10")
+noBlanksFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.LightGray)
+
+Dim operatorFormat As OperatorConditionalFormat = sheet.ConditionalFormats.AddOperatorCondition("L1:L10", FormatConditionOperator.Greater)
+operatorFormat.SetOperand1(500)
+operatorFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Red)
+
+Dim rankFormat As RankConditionalFormat = sheet.ConditionalFormats.AddRankCondition("M1:M10", FormatConditionTopBottom.Top, 5)
+rankFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Blue)
+
+Dim textFormat As TextOperatorConditionalFormat = sheet.ConditionalFormats.AddTextCondition("N1:N10", "A", FormatConditionTextOperator.Contains)
+textFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Magenta)
+
+Dim uniqueFormat As UniqueConditionalFormat = sheet.ConditionalFormats.AddUniqueCondition("O1:O10")
+uniqueFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Red)
+----
+
+ifdef::xamarin,wpf[]
+[[Related]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-configuringgridlines.html[グリッド線の構成 ({ExcelEngineName})]
+|このトピックは、グリッド線を表示または非表示にし、カラーを設定する方法を説明します。
+
+| link:excelengine-configuringheaders.html[ヘッダーの構成 ({ExcelEngineName})]
+|このトピックでは、列と行のヘッダーを表示または非表示にする方法を説明します。
+
+| link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集の無効化 ({ExcelEngineName})]
+|このトピックでは、ワークシートのセル値が編集されないようにする方法を説明します。
+
+|====
+endif::xamarin,wpf[]

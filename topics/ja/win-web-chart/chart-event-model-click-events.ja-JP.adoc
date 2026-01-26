@@ -1,0 +1,76 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-event-model-click-events",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D61B44B4-E42B-4AA4-A87B-58F4123AB9A5}",  
+    "buildFlags": [],
+    "createdOn": "2008-05-12T10:52:53Z"
+}
+|metadata|
+////
+
+= Click イベント
+
+Chart コンポーネントを使用する時に、使用のために公開された異なるクリック イベントがあります。これらのイベントによってエンド ユーザーはマウス クリックを介して Chart コンポーネントを操作することができます。たとえば、エンド ユーザーがクリックするデータ値に基づいて、特定のロジックを実行できます。
+
+使用可能なクリック イベントは以下のとおりです:
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~chartdataclicked_ev.html[ChartDataClicked]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdataclicked_ev.html[ChartDataClicked]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdataclicked_ev.html[ChartDataClicked]"] -- エンドユーザーがグラフ データ ポイントをクリックすると、このイベントが発生します。このイベントは、sender と  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  の 2 つのパラメーターを受け入れます。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~chartdatadoubleclicked_ev.html[ChartDataDoubleClicked]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdatadoubleclicked_ev.html[ChartDataDoubleClicked]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdatadoubleclicked_ev.html[ChartDataDoubleClicked]"] -- エンドユーザーがグラフ データ ポイントをダブル クリックすると、このイベントが発生します。このイベントは、sender と  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  の 2 つのパラメーターを受け入れます。
+
+デザイン タイムに、プロパティ ウィンドウの Events セクションでサーバー側イベントを見つけることができます。
+
+次のコードは ChartDataClicked イベントの処理方法を説明します。
+
+*Visual Basic の場合：*
+
+----
+'ハンドラーを追加します
+Me.UltraChart1.ChartDrawClicked += 
+new ChartDrawItemEventHandler(Me.UltraChart1_ChartDataClicked) 
+' ChartDataClicked イベント コード
+Protected Sub UltraChart1_ChartDataClicked(sender As Object, e As ChartDataEventArgs)
+  ' クリックされた DataColumn に関連付けられたテキスト ラベル
+  DimColumnLabel As String = e.ColumnLabel
+  ' クリックされた DataRow に関連付けられたテキスト ラベル
+  Dim RowLabel As String = e.RowLabel
+  ' クリックされたデータ値
+  Dim DataValue As Double = e.DataValue
+  ' クリックされた DataRow のインデックス
+  Dim DataRow As Integer = e.DataRow
+  ' DataValue が 4 より小さい場合、グラフ タイプとグラフの色を変更します
+  If DataValue < 4 Then
+     Me.UltraChart1.BackColor = System.Drawing.Color.Red
+     Me.UltraChart1.ChartType = ChartType.ColumnChart3D
+  End If
+----
+
+*C# の場合：*
+
+----
+// ハンドラーを指定します
+this.UltraChart1.ChartDrawItem += 
+new ChartDrawItemEventHandler(this.UltraChart1_ChartDrawItem);
+// ChartDataClicked イベント コード
+protected void UltraChart1_ChartDataClicked(object sender, 
+                                      ChartDataEventArgs e)
+{
+   // クリックされた DataColumn に関連付けられたテキスト ラベル
+   string ColumnLabel = e.ColumnLabel;
+   // クリックされた DataRow に関連付けられたテキスト ラベル
+   string RowLabel = e.RowLabel;
+   // クリックされたデータ値
+   double DataValue = e.DataValue;
+   // クリックされた DataRow のインデックス
+   int DataRow = e.DataRow;
+   // DataValue が 4 より小さい場合、グラフ タイプとグラフの色を変更します
+   if (DataValue < 4)
+   {
+      this.UltraChart1.BackColor = System.Drawing.Color.Red;
+      this.UltraChart1.ChartType = ChartType.ColumnChart3D; 
+    } 
+}
+----

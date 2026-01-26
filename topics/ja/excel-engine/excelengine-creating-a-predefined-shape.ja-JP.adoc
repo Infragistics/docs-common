@@ -1,0 +1,135 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-creating-a-predefined-shape",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "12ed0b48-7d3b-4716-9bc2-9c17d0cbaa22",  
+    "buildFlags": [],
+    "createdOn": "2011-09-07T14:25:43.9588978Z"
+}
+|metadata|
+////
+
+= 定義済みの図形の作成
+
+このトピックは、Infragistics Excel Engine を介して定義済みの形状を作成する方法を示します。
+
+トピックは以下のとおりです。
+
+* <<One,要件>>
+* <<Two,定義済みの図形の作成>>
+
+** <<TwoOne,プレビュー>>
+** <<TwoTwo,コードスニペット>>
+
+* <<Three,関連トピック>>
+
+[[One]]
+== 要件
+
+* ユーザーの Visual Studio Windows Forms に追加される Infragistics4.Documents.Excel.v{ProductVersion} アセンブリ
+* Click イベントのあるボタン
+
+[[Two]]
+== コード例: 定義済みの図形の作成
+
+== はじめに
+
+以下のコード スニペットは、以下のパラメータで定義済みの図形を作成します:
+
+* 形状: ダイヤモンド
+* 左右反転: True
+* 上下反転: True
+* 塗りつぶし: DeepSkyBlue
+* アウトライン: 黒
+
+ボタンの Click イベントにコードを貼り付ける必要があります。
+
+形状の各操作についての説明コメントはコード内に示されます。
+
+[[TwoOne]]
+== プレビュー
+
+以下は最終結果のプレビューです。
+
+image::images/ExcelEngine_Using_Predefined_Shapes_03.png[]
+
+図 1: サンプル コードから作成された定義済み形状
+
+[[TwoTwo]]
+== コードスニペット
+
+*C# の場合：*
+
+----
+// ワークブックとワークシートを使用して、定義済み形状を保持します
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("Shapes");
+// 定義済みの図形を作成します
+WorksheetShape shape = WorksheetShape.CreatePredefinedShape(PredefinedShapeType.Diamond);
+// 形状のテキスト値の設定方法
+WorksheetShapeWithText shapeWithText = shape as WorksheetShapeWithText;
+if (shapeWithText != null)
+{
+    shapeWithText.Text = new FormattedText("Your Text");
+}
+// 形状を左右反転する方法
+shape.FlippedHorizontally = true;
+// 形状を上下反転する方法
+shape.FlippedVertically = true;
+// 形状を色で塗りつぶす方法
+shape.Fill = ShapeFill.FromColor(Color.DeepSkyBlue);
+// 形状の周りのアウトラインを色つきで作成する方法
+shape.Outline = ShapeOutline.FromColor(Color.Black);
+// 形状の位置を設定する方法
+//  - 形状の左上隅をセル A0 に設定します
+shape.TopLeftCornerCell = worksheet.Rows[0].Cells[0];
+//  - 形状の右下隅をセル D12 に設定します
+shape.BottomRightCornerCell = worksheet.Rows[11].Cells[4];
+// 形状をワークシートに追加します
+worksheet.Shapes.Add(shape);
+// ワークブックを保存します。
+workbook.Save("your_workbook.xls");
+----
+
+*Visual Basic の場合:*
+
+----
+' ワークブックとワークシートを使用して、定義済み形状を保持します
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("Shapes")
+' 定義済みの図形を作成します
+Dim shape As WorksheetShape = WorksheetShape.CreatePredefinedShape(PredefinedShapeType.Diamond)
+' 形状のテキスト値の設定方法
+Dim shapeWithText As WorksheetShapeWithText = TryCast(shape, WorksheetShapeWithText)
+If shapeWithText IsNot Nothing Then
+    shapeWithText.Text = New FormattedText("Your Text")
+End If
+' 形状を左右反転する方法
+shape.FlippedHorizontally = True
+' 形状を上下反転する方法
+shape.FlippedVertically = True
+' 形状を色で塗りつぶす方法
+shape.Fill = ShapeFill.FromColor(Color.DeepSkyBlue)
+' 形状の周りのアウトラインを色つきで作成する方法
+shape.Outline = ShapeOutline.FromColor(Color.Black)
+' 形状の位置を設定する方法
+'  - 形状の上左隅をセル A0 に設定します
+shape.TopLeftCornerCell = worksheet.Rows(0).Cells(0)
+'  - 形状の右下隅をセル D12 に設定します
+shape.BottomRightCornerCell = worksheet.Rows(11).Cells(4)
+' 形状をワークシートに追加します
+worksheet.Shapes.Add(shape)
+' ワークブックを保存します
+workbook.Save("your_workbook.xls")
+----
+
+[[Three]]
+== 関連トピック
+
+* link:excelengine-using-predefined-shapes.html[定義済みの図形の使用]
+* link:excelengine-adding-shapes-to-a-worksheet.html[形状をワークシートに追加]
+* link:excelengine-add-an-image-to-a-worksheet.html[画像をワークシートに追加]
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Reference Strings による Cells および Regions のアクセス]

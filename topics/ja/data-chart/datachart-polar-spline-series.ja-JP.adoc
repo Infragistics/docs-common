@@ -1,0 +1,167 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-polar-spline-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting"],
+    "guid": "d2ffae26-6687-45f9-8b43-4bddc871f953",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5573411Z"
+}
+|metadata|
+////
+
+= 極座標スプライン シリーズ
+
+このトピックは、コード例を示して、極座標スプライン シリーズを link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで使用する方法を説明します。
+
+== 概要
+
+極座標 スプライン シリーズは、極座標 (角度、半径) でデータ ポイントを結ぶスプライン線のコレクションを使用して描画されます。link:{DataChartLink}.polarsplineseries.html[PolarSplineSeries] は link:{DataChartLink}.scattersplineseries.html[ScatterSplineSeries] と同じデータ プロットの概念を使用していますが、横の線に沿って伸びるのではなく、円の周りでデータ ポイントをラップします。他のシリーズ タイプと同じように、複数の PolarSplineSeries は同じデータ チャートにプロットでき、データ セットの相違点を示すために互いにオーバーレイできます。このシリーズのグループの詳細については、ポラー シリーズ トピックをご覧ください。
+
+== プレビュー
+
+図 1 は、{DataChartName} コントロールにプロットされた時に極座標 スプライン シリーズがどのように表示されるのかを示します。
+
+image::images/xamDataChart_Polar_Spline_Series_01.png[]
+
+図 1: PolarSplineSeries の実装例
+
+== データ バインディング
+
+以下のコード スニペットでは、サンプルの極座標データ (link:resources-sample-polar-data.html[サンプル極座標データ]リソースからダウンロードで入手可能) を PolarSplineAreaSeries にバインドする方法を示します。この例は {DataChartName} コントロール用のプロジェクトを設定済みであることを前提としています。
+
+ifdef::sl,wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+        <local:PolarDataSource x:Key="data" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericAngleAxis  x:Name="AngleAxis"  MinimumValue="0" MaximumValue="360" Interval="30"/>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis" MinimumValue="0" MaximumValue="100" Interval="20"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:PolarSplineSeries AngleAxis="{Binding ElementName=AngleAxis}" 
+                            RadiusAxis="{Binding ElementName=RadiusAxis}" 
+                            AngleMemberPath="Angle" 
+                            RadiusMemberPath="Radius" 
+                            ItemsSource="{StaticResource data}" 
+                            Thickness="5" 
+                            MarkerType="None" 
+                            Brush="#7F58A6C7">
+        </ig:PolarSplineSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:PolarDataSource x:Key="data" />
+		</ResourceDictionary>
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericAngleAxis  x:Name="AngleAxis"  MinimumValue="0" MaximumValue="360" Interval="30"/>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis" MinimumValue="0" MaximumValue="100" Interval="20"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:PolarSplineSeries AngleAxis="{x:Reference AngleAxis}" 
+                            RadiusAxis="{x:Reference RadiusAxis}" 
+                            AngleMemberPath="Angle" 
+                            RadiusMemberPath="Radius" 
+                            ItemsSource="{StaticResource data}" 
+                            Thickness="5" 
+                            MarkerType="None" 
+                            Brush="#7F58A6C7">
+        </ig:PolarSplineSeries> 
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+var data = new PolarDataSource(); 
+var AngleAxis = new NumericYAxis();
+var RadiusAxis = new CategoryXAxis(); 
+
+var series = new PolarSplineSeries();
+series.{ApiDataSource} = data;
+series.AngleMemberPath = "Angle"; 
+series.RadiusMemberPath = "Radius"; 
+series.AngleAxis = AngleAxis;
+series.RadiusAxis = RadiusAxis;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(AngleAxis);
+chart.Axes.Add(RadiusAxis);
+chart.Series.Add(series);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim data As New PolarDataSource()
+Dim AngleAxis As New NumericAngleAxis()
+Dim RadiusAxis As New NumericRadiusAxis()
+
+Dim series As New PolarSplineSeries()
+series.ItemsSource = polarDataSample
+series.AngleMemberPath = "Angle"
+series.RadiusMemberPath = "Radius"
+series.AngleAxis = AngleAxis
+series.RadiusAxis = RadiusAxis
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(AngleAxis)
+chart.Axes.Add(RadiusAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+*JavaScript の場合:*
+
+[source,js]
+----
+PolarDataSource data = new PolarDataSource();
+DataChartView dataChart = new DataChartView(root.getContext());
+NumericAngleAxis AngleAxis = new NumericAngleAxis();
+NumericRadiusAxis RadiusAxis = new NumericRadiusAxis();
+PolarSplineSeries series = new PolarSplineSeries();
+series.setDataSource(data);
+series.setAngleMemberPath("Angle");
+series.setRadiusMemberPath("Radius");
+series.setAngleAxis(AngleAxis);
+series.setRadiusAxis(RadiusAxis);
+
+DataChartView chart = new DataChartView(rootView.getContext());
+chart.addAxis(RadiusAxis);
+chart.addAxis(AngleAxis);
+chart.addSeries(series);
+----
+
+== 関連コンテンツ
+
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-using-numeric-angle-axis.html[数値角度軸の使用]
+* link:datachart-using-numeric-radius-axis.html[数値半径軸の使用]

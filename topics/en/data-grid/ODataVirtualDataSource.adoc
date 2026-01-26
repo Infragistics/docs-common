@@ -1,0 +1,144 @@
+﻿////
+|metadata|
+{
+    "name": "samplesalesperson",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "2cc8d149-9ad2-4c93-96f2-147aef421868","buildFlags": [],
+    "createdOn": "2016-02-05T21:36:41.4654175Z"
+}
+|metadata|
+////
+
+= ODataVirtualDataSource
+ 
+This topic provides implementation of virtual data source that can be used with the link:{DataGridLink}.{DataGridName}.html[{DataGridName}]™ control
+
+=== Required Components
+
+* link:ODataVirtualDataSettings.html[ODataVirtualDataSettings] 
+* link:ODataVirtualDataProvider.html[ODataVirtualDataProvider] 
+* link:ODataSourcePage.html[ODataSourcePage] 
+ 
+=== Implementation  
+
+*In C#:*
+[source,csharp]
+----
+public class ODataVirtualDataSource
+       : VirtualDataSource
+{
+    protected override IDataSourceVirtualDataProvider ResolveDataProviderOverride()
+    {
+        return new ODataVirtualDataSourceDataProvider();
+    }
+
+    private void OnBaseUriChanged(string oldValue, string newValue)
+    {
+        if (ActualDataProvider is ODataVirtualDataSourceDataProvider)
+        {
+            ((ODataVirtualDataSourceDataProvider)ActualDataProvider).BaseUri = BaseUri;
+        }
+        QueueAutoRefresh();
+    }
+
+    public static ODataVirtualDataSource Instance { get; private set; }
+   
+    public ODataVirtualDataSource()
+    {
+        Instance = this;
+    }
+
+    public static void Dispose()
+    {
+        if (Instance == null) return;
+
+        var provider = Instance.ActualDataProvider as ODataVirtualDataSourceDataProvider;
+        if (provider != null)
+        {
+            Debug.WriteLine(">>> OData Disposing... " + provider.BaseUri);
+            provider.Close();
+        }
+            
+    }
+    private string _baseUri = null;
+    /// <summary>
+    /// Gets or sets the root uri of the OData API that data should be fetched from.
+    /// </summary>
+    public string BaseUri
+    {
+        get
+        {
+            return _baseUri;
+        }
+        set
+        {
+            var oldValue = _baseUri;
+            _baseUri = value;
+            if (oldValue != _baseUri)
+            {
+                OnBaseUriChanged(oldValue, _baseUri);
+            }
+        }
+    }
+
+    private void OnEntitySetChanged(string oldValue, string newValue)
+    {
+        if (ActualDataProvider is ODataVirtualDataSourceDataProvider)
+        {
+            ((ODataVirtualDataSourceDataProvider)ActualDataProvider).EntitySet = EntitySet;
+        }
+        QueueAutoRefresh();
+    }
+
+    private string _entitySet = null;
+    /// <summary>
+    /// Gets or sets the desired entity set within the root OData API from which to retrieve data.
+    /// </summary>
+    public string EntitySet
+    {
+        get
+        {
+            return _entitySet;
+        }
+        set
+        {
+            var oldValue = _entitySet;
+            _entitySet = value;
+            if (_entitySet != oldValue)
+            {
+                OnEntitySetChanged(oldValue, _entitySet);
+            }
+        }
+    }
+
+    private void OnTimeoutMillisecondsChanged(int oldValue, int newValue)
+    {
+        if (ActualDataProvider is ODataVirtualDataSourceDataProvider)
+        {
+            ((ODataVirtualDataSourceDataProvider)ActualDataProvider).TimeoutMilliseconds = TimeoutMilliseconds;
+        }
+    }
+
+    private int _timeoutMilliseconds = 10000;
+    /// <summary>
+    /// Gets or sets the desired timeout to use for requests of the OData API.
+    /// </summary>
+    public int TimeoutMilliseconds
+    {
+        get
+        {
+            return _timeoutMilliseconds;
+        }
+        set
+        {
+            var oldValue = _timeoutMilliseconds;
+            _timeoutMilliseconds = value;
+            if (oldValue != _timeoutMilliseconds)
+            {
+                OnTimeoutMillisecondsChanged(oldValue, _timeoutMilliseconds);
+            }
+        }
+    }
+}
+----

@@ -1,0 +1,136 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-use-the-paintelements-fill-stroke-and-strokewidth-properties",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{E480D72C-A8E5-4966-A614-B23E34616FBF}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= PaintElement の Fill、Stroke、および StrokeWidth プロパティを使用する
+
+チャートのカラー モデルの処理の汎用目的のアプローチは、 link:chart-assign-custom-colors-to-chart-elements.html[「チャート エレメントにカスタム カラーを割り当てる」]で説明した手順によるものです。ただし、場合によって開発者は、チャート エレメントの塗りつぶしの色に対して、カスタムのカラー パレットが提供できる以上のコントロールを必要とします。
+
+== Fill プロパティ
+
+以下の例は、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、プリミティブの塗りつぶしの色を変更する方法を示します。これでこの例を拡張して、チャートのすべてのプリミティブの塗りつぶしの色を変更することができます。
+
+[NOTE]
+====
+*注：* Color オブジェクトへのすべての参照は、System.Drawing 名前空間からの .NET Framework の色です。
+====
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b As Box = Nothing
+		b = CType(e.Primitive, Box)
+		If Not b Is Nothing AndAlso b.Row = 0 AndAlso b.Column = 2 Then
+			b.PE = b.PE.Clone()
+			' Set the Fill color
+			b.PE.Fill = Color.Yellow
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b = e.Primitive as Box;
+		if(b != null && b.Row == 0 && b.Column == 2)
+		{
+			b.PE = b.PE.Clone();
+			// 塗りつぶしの色を設定します。
+			b.PE.Fill = Color.Yellow;
+		}
+	}
+}
+----
+
+上記のコードは、プリミティブの色を青にするだけでなく、アプリケーション ロジックからプリミティブ形状を取得する方法も示しています。最後の Invalidate メソッドの呼び出しもシーン グラフを再描画するために重要です。次のサンプル コードでは、ボックスへの参照を取得済みで、シーン グラフの変更内容を描画する前にシーン グラフを更新することを前提しています。
+
+== Stroke および StrokeWidth プロパティ
+
+チャート上に表示されるプリミティブまたはその他のグラフィカル エレメントで内部を塗りつぶすことに加えて、アプリケーションは、形状の各辺の輪郭線を描画するペンの幅（または太さ）や色に対する制御を必要とする場合があります。これは  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  クラスの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[Stroke]"] 、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokewidth.html[StrokeWidth]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokewidth.html[StrokeWidth]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokeopacity.html[StrokeOpacity]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~strokeopacity.html[StrokeOpacity]"]  プロパティによって公開されます。以下の図は、Stroke と StrokeWidth のさまざまな値を例示するいくつかの楕円形プリミティブを示します。
+
+image::images/Chart_Rendering_With_Paint_Element_01.png[]
+
+以下のサンプル コードは、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、プリミティブの Stroke および StrokeWidth を変更する方法を示します。これでこの例を拡張して、チャートのすべてのプリミティブの Stroke および StrokeWidth を変更することができます。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Styles
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b As Box = Nothing
+		b = CType(e.Primitive, Box)
+		If Not b Is Nothing AndAlso b.Row = 0 AndAlso b.Column = 2 Then
+			b.PE = b.PE.Clone()
+			' 塗りつぶしの色を設定します。
+			b.PE.Fill = Color.Yellow
+			' その境界線を緑色で塗ります。
+			b.PE.Stroke = Color.Green
+			' 境界線の太さを 6 ピクセルにします。
+			b.PE.StrokeWidth = 6
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Shared.Styles;
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b = e.Primitive as Box;
+		if(b != null && b.Row == 0 && b.Column == 2)
+		{
+			b.PE = b.PE.Clone();
+			// 塗りつぶしの色を設定します。
+			b.PE.Fill = Color.Yellow;
+			// その境界線を緑色で描画します。
+			b.PE.Stroke = Color.Green;
+			// 境界線の太さを　6　ピクセルにします。
+			b.PE.StrokeWidth = 6;
+		}
+	}
+}
+----
+
+image::images/Chart_Use_the_PaintElements_Fill_Stroke_and_StrokeWidth_Properties_01.png[]
+
+*注：* 不透明度（透明度またはアルファ レベルとしても知られる）は、 link:chart-set-the-opacity-of-a-gradient-effect.html[「グラデーションの不透明度を設定」]で詳細に説明します。

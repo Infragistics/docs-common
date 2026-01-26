@@ -1,0 +1,102 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-print-titles",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "f4ff685f-4b10-4d12-be83-58b202bfbcf3",  
+    "buildFlags": [],
+    "createdOn": "2011-10-10T14:03:15.9876395Z"
+}
+|metadata|
+////
+
+= 印刷タイトル
+
+このトピックは、Infragistics Excel Engine における印刷タイトルのサポートの概要を説明し、使い方のコード例を示します。
+
+トピックは以下のとおりです。
+
+* <<One,はじめに>>
+* <<Two,印刷タイトルの作成>>
+
+** <<TwoOne,概要>>
+** <<TwoTwo,コード例>>
+
+* <<Three,関連トピック>>
+
+[[One]]
+== はじめに
+
+Infragistics Excel Engine では、Microsoft Excel の印刷タイトル機能のように、それぞれの印刷ページ上で「タイトル」として繰り返す行や列の連続セットを指定できます。
+
+印刷タイトルは、ワークシートの PrintOptions クラスに見られる 2 つのプロパティのいずれか、または両方を使用してサポートされます。繰り返す行のプロパティの 1 つは pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"]   pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~rowstorepeatattop.html[RowsToRepeatAtTop]"] で、繰り返す列のプロパティの 1 つは pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]   pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.printoptions~columnstorepeatatleft.html[ColumnsToRepeatAtLeft]"]  です。
+
+[[Two]]
+== 印刷タイトルの作成
+
+[[TwoOne]]
+== 概要
+
+以下のコード スニペットは、以下のプロパティを持つワークブックを使用してスプレッドシートの最上位行から印刷タイトル範囲を作成します:
+
+* ワークブック名: output.xls
+* ワークシート名: PageTitles
+* 印刷タイトル範囲: row 1
+
+[[TwoTwo]]
+== コード例
+
+*C# の場合：*
+
+----
+// PageTitles というワークシートを持つワークブックを作成します
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("PageTitles");
+// 最初の行で繰り返す印刷タイトル範囲のセル
+RepeatTitleRange rtr = new RepeatTitleRange(0, 0);
+// 繰り返すタイトル範囲を RowsToRepeatAtTop プロパティに割り当てます
+worksheet.PrintOptions.RowsToRepeatAtTop = rtr;
+try
+{
+    // 作成したワークブックを保存します
+    workbook.Save("output.xls");
+    // ワークブックを開いて結果を表示します
+    System.Diagnostics.Process.Start("output.xls");
+}
+catch
+{
+    MessageBox.Show("If the workbook is open, please close it before saving.", "Save Error",
+        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+}
+----
+
+*Visual Basic の場合:*
+
+----
+' PageTitles というワークシートを持つワークブックを作成します
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("PageTitles")
+' 最初の行で繰り返す印刷タイトル範囲のセル
+Dim rtr As New RepeatTitleRange(0, 0)
+' 繰り返すタイトル範囲を RowsToRepeatAtTop プロパティに割り当てます
+worksheet.PrintOptions.RowsToRepeatAtTop = rtr
+Try
+    ' 作成したワークブックを保存します。
+    workbook.Save("output.xls")
+    ' ワークブックを開いて結果を表示します。
+    System.Diagnostics.Process.Start("output.xls")
+Catch
+    MessageBox.Show("If the workbook is open, please close it before saving.", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.[Stop])
+End Try
+----
+
+[[Three]]
+== 関連トピック
+
+* link:excelengine-print-areas.html[印刷範囲]
+* link:excelengine-page-breaks.html[改ページ]
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Reference Strings による Cells および Regions のアクセス]
+* link:excelengine-create-a-workbook.html[ワークブックを作成]
+* link:excelengine-write-a-workbook-to-an-excel-file.html[ワークブックを Excel ファイルに書き出す]

@@ -1,0 +1,204 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-context-menu",
+    "tags": ["Application Blocks","Editing","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "52e45388-27db-4452-bf2e-e4d99b637bfa",
+    "buildFlags": ["XAML","SL","WPF"],
+    "createdOn": "2015-11-06T16:53:37.0914077Z"
+}
+|metadata|
+////
+
+= Create Custom Context Menu ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to create your own context menu.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|====
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_ . 
+
+| link:xamcontextmenu-about-xamcontextmenu.html[About xamContextMenu] 
+
+|In this topic you’ll find information that will help you understand the functionalities of the _xamContextMenu_ control. 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+| link:spreadsheet-uiu-context-menu.html[Context Menu Interactions ({SpreadsheetName})] 
+
+|This topic explains what operations can be performed by the user with the control’s context menu. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref396466832, Create Custom Context Menu >>
+* <<_Ref396466850, Code Example: Create Custom Context Menu >>
+* <<_Ref396466858, Related Content >>
+
+[[_Ref396466832]]
+== Create Custom Context Menu
+
+=== Process summary
+
+Although the {SpreadsheetName} control supports built-in context menus for all its major areas you can define your own custom context menu(s).
+
+To create custom context menu(s) do the following:
+
+[start=1]
+. Create an instance of link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.spreadsheetcontextmenuprovider_members.html[SpreadsheetContextMenuProvider] and set it to the link:{SpreadsheetLink}.{SpreadsheetName}~contextmenuprovider.html[ContextMenuProvider] property of the {SpreadsheetName}.
+[start=2]
+. Create a `ResourceDictionary` and set it to the link:{SpreadsheetLink}.spreadsheetcontextmenuprovider~resourceoverrides.html[SpreadsheetContextMenuProvider.ResourceOverrides] property.
+[start=3]
+. Add one or more instances of the link:{ApiPlatform}controls.menus.xammenu{ApiVersion}~infragistics.controls.menus.xamcontextmenu.html[xamContextMenu] control to the resource dictionary from step 2 to customize the {SpreadsheetName}’s context menu(s) of your choice.
+
+.Note
+[NOTE]
+====
+The {SpreadsheetName} instances should have a "x:Key" specified with a predefined value from the link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.spreadsheetcontextmenuarea.html[SpreadsheetContextMenuArea] enumeration to allow the control to properly override the correct context menu.
+====
+
+[[_Ref396466850]]
+== Code Example: Create Custom Context Menu
+
+=== Description
+
+This example demonstrates how to define a context menu on the  _xamSpreadsheet’s_   "cells" area with the following options:
+
+* toggle bold
+* toggle italic
+* navigate cell above
+* navigate cell below
+* navigate cell left
+* navigate cell right
+
+ifdef::xaml[]
+=== Code
+
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<Page
+  …
+  xmlns:ig="http://schemas.infragistics.com/xaml"
+  xmlns:igPrim="http://schemas.infragistics.com/xaml/primitives">
+<ig:XamSpreadsheet>
+  <ig:XamSpreadsheet.ContextMenuProvider>
+    <ig:SpreadsheetContextMenuProvider>
+      <ig:SpreadsheetContextMenuProvider.ResourceOverrides>
+        <ResourceDictionary>
+          <ig:XamContextMenu x:Key="Cell">
+            <ig:XamContextMenu.DataContext>
+              <igPrim:SpreadsheetMenuDataContext />
+            </ig:XamContextMenu.DataContext>
+            <ig:XamMenuItem Header="Bold">
+              <ig:XamMenuItem.Icon>
+                <Image Source="/Assembly;component/Folder/Bold.png" />
+              </ig:XamMenuItem.Icon>
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="ToggleBold" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Italic">
+              <ig:XamMenuItem.Icon>
+                <Image Source="/Assembly;component/Folder/Italic.png" />
+              </ig:XamMenuItem.Icon>
+              <ig:Commanding.Command>
+              <igPrim:SpreadsheetCommandSource
+                CommandType="ToggleItalic" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuSeparator />
+            <ig:XamMenuItem Header="Navigate Up">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellAbove" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Navigate Down">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellBelow" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Navigate Left">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellLeft" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+            <ig:XamMenuItem Header="Navigate Right">
+              <ig:Commanding.Command>
+                <igPrim:SpreadsheetCommandSource
+                  CommandType="CellRight" EventName="Click" />
+              </ig:Commanding.Command>
+            </ig:XamMenuItem>
+          </ig:XamContextMenu>
+        </ResourceDictionary>
+      </ig:SpreadsheetContextMenuProvider.ResourceOverrides>
+    </ig:SpreadsheetContextMenuProvider>
+  </ig:XamSpreadsheet.ContextMenuProvider>
+</ig:XamSpreadsheet>
+----
+endif::xaml[]
+
+[[_Ref396466858]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-commands.html[Working with Commands ({SpreadsheetName})]
+|This topic explains how to perform different operations with the control using commands.
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+| link:spreadsheet-work-selection.html[Working with Selection ({SpreadsheetName})]
+|This topic explains the selection feature from developer perspective.
+
+| link:spreadsheet-work-undo-redo.html[Working with Undo and Redo ({SpreadsheetName})]
+|This topic explains how to configure and perform undo and redo operations with the control.
+
+|====

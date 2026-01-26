@@ -1,0 +1,127 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-modify-the-default-bubble-size",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{0A5CE3FC-C0E3-4B03-A66F-A7B637455223}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= デフォルトのバブル サイズを修正
+
+場合によっては、バブル チャートのバブルの半径を、チャートが描画する元のサイズより小さくしたり大きくしたりする必要があります。この問題の一般的なソリューションは、半径の決定に使用するデータ値であるバブル チャートの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.bubblechartappearance~columnz.html[ColumnZ]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.bubblechartappearance~columnz.html[ColumnZ]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.bubblechartappearance~columnz.html[ColumnZ]"]  に連結されたデータ列のデータ値を、定係数で掛ける（または割る）ことです。ただし、この方法を使用しようとすると、不十分な結果になることがあります。これは、バブルが大きすぎたり小さすぎたりしないようにバブル チャートが設計されているためです。
+
+バブル チャートには、バブル チャートの Column Z 内のデータ値を反映して、バブル同士を比例的な大きさに保つ比例ロジックが含まれています。列内のすべてのデータ値に定係数、または除数を適用しても、値同士の比例関係は変わりません。
+
+以下の表は、この関係の例を示しています。
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|バブル ID.2|元の値（ _n_ ）|2 ( _n_ /2)で割ってバブルを縮小|前のバブルとの比率|後のバブルとの比率
+
+|#1
+|4
+|2
+|#2 の 1/2 
+
+#3 の 1/4
+|#2 の 1/2 
+
+#3 の 1/4
+
+|#2
+|8
+|4
+|#1 の 2X 
+
+#3 の 1/2
+|#1 の 2X 
+
+#3 の 1/2
+
+|#3
+|16
+|8
+|#1 の 4X 
+
+#2 の 2X
+|#1 の 4X 
+
+#2 の 2X
+
+|====
+
+表 1 から、各バブルの他のバブルに対する比率は Column Z のデータ値が半分になる前と同じままであることがわかります。したがって、バブル同士の半径の比率は変更されていません。
+
+この機能を使用するには、Column Z 内で使用されるデータを非定係数で調整する必要があります（表 2 参照）。この方法を適用する開発者は、バブルのサイズを変化させることにより、より優れた視覚的効果でバブル チャートを表示させることができますが、バブルの半径に備わっている固有の情報内容も歪められてしまうことに注意してください。アプリケーションとの関連で、精度よりも美的事項を優先しても大丈夫だと思われる場合があるかもしれませんが、それによってグラフの正確さが損なわれることに留意してください。
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|バブル ID|元の値（ _n_ ）|(100- _n_ ) で割ってバブルを縮小|前のバブルとの比率|後のバブルとの比率
+
+|#1
+|1
+|1/99^th^
+|1/50^th^ of #2 
+
+1/99^th^ of #3
+|1/99^th^ of #2 
+
+1/9801^th^ of #3
+
+|#2
+|50
+|1
+|#1 の 50X 
+
+#3 の ~1/2
+|#1 の 99X 
+
+#3 の 1/99^th^   
+
+|#3
+|99
+|99
+|#1 の 99X 
+
+#2 の ~2X  
+|#1 の 9801X 
+
+#2 の 99X  
+
+|====
+
+この 2 番目の変形はバブル間の比率を変えるので、バブル チャートが描画するバブルの半径に影響が見られます。
+
+バブルを小さくするための一般的な数式は以下のとおりです。
+
+[source]
+----
+( DataZ × scalingFactor ) ÷ ( | DataZmax - DataZmin | ) - DataZ
+----
+
+この数式の各変数は以下のとおりです。
+
+* *Data~Z~* - 現在のバブルの BubbleChartAppearance オブジェクトの ColumnZ プロパティで指定したデータ列にある現在のデータ値。
+* *Data~Zmax~* - BubbleChartAppearance オブジェクトの ColumnZ プロパティで指定したデータ列の最大データ値。
+* *Data~Zmin~* - BubbleChartAppearance オブジェクトの ColumnZ プロパティで指定したデータ列の最小データ値。
+* *scalingFactor* - チャート データを Chart に連結する前に、開発者が *ColumnZ* で指定したデータ列のデータ値に対して掛ける係数。
+
+コードでは、この数式を以下のように実装します。
+
+----
+Data_Znew = (Data_Z * scalingFactor) / (Abs(Data_Zmax - Data_Zmin) -  Data_Z)
+----
+
+ここで説明したように、scalingFactor は 1.0 となりますが、これを大きくし、その効果の強さを抑えて表示の視覚的ニーズに合わせることができます。
+
+== 関連トピック
+
+link:chart-bubble-chart-2d.html[平面バブル チャート]
+
+link:chart-bubble-chart-3d.html[立体バブル チャート]

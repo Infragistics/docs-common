@@ -1,0 +1,356 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-configuring-axis-scales",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "7b866588-a7c6-4270-84bb-b134e977c351",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-01T14:00:08.2699182Z"
+}
+|metadata|
+////
+
+= 軸型の構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] コントロールで使用できる軸タイプについて説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref445717634, リニア軸の構成 >>
+* <<_Ref445717639, 対数軸の構成 >>
+* <<_Ref445800007, 対数軸ベースの構成 >>
+* <<_Ref445717645, 関連コンテンツ >>
+
+[[_Ref445717634]]
+== リニア軸の構成
+
+=== 概要
+
+link:{SurfaceChartLink}.linearaxis_members.html[LinearAxis] を使用して _xamScatterSurface3D_ コントロールのリニア数値スケールを適用します。
+
+デフォルトで `LinearAxis` は _xamScatterSurface3D_ コントロールにプロットされたデータに適用されます。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|リニア数値軸上に X 値を設定
+| link:{SurfaceChartLink}.xamchart3d~xaxis.html[XAxis]
+| link:{SurfaceChartLink}.linearaxis_members.html[LinearAxis]
+
+|リニア数値軸上に Y 値を設定
+| link:{SurfaceChartLink}.xamchart3d~yaxis.html[YAxis]
+| link:{SurfaceChartLink}.linearaxis_members.html[LinearAxis]
+
+|リニア数値軸上に Z 値を設定
+| link:{SurfaceChartLink}.xamchart3d~zaxis.html[ZAxis]
+| link:{SurfaceChartLink}.linearaxis_members.html[LinearAxis]
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下のコードの結果として _xamScatterSurface3D_ コントロールがどのような外観になるかを示します。
+
+image::images/Configuring_Axis_Scales_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis Title="X" />
+    </ig:XamScatterSurface3D.XAxis>
+    <ig:XamScatterSurface3D.YAxis>
+        <ig:LinearAxis Title="Y" />
+    </ig:XamScatterSurface3D.YAxis>
+    <ig:XamScatterSurface3D.ZAxis>
+        <ig:LinearAxis Title="Z" />
+    </ig:XamScatterSurface3D.ZAxis>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var xLinearAxis = new LinearAxis();
+var yLinearAxis = new LinearAxis();
+var zLinearAxis = new LinearAxis();
+xLinearAxis.Title = "X";
+yLinearAxis.Title = "Y";
+zLinearAxis.Title = "Z";
+SurfaceChart.XAxis = xLinearAxis;
+SurfaceChart.YAxis = yLinearAxis;
+SurfaceChart.ZAxis = zLinearAxis;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim xLinearAxis = New LinearAxis()
+Dim yLinearAxis = New LinearAxis()
+Dim zLinearAxis = New LinearAxis()
+xLinearAxis.Title = "X"
+yLinearAxis.Title = "Y"
+zLinearAxis.Title = "Z"
+SurfaceChart.XAxis = xLinearAxis
+SurfaceChart.YAxis = yLinearAxis
+SurfaceChart.ZAxis = zLinearAxis
+----
+
+[[_Ref445717639]]
+== 対数軸の構成
+
+=== 概要
+
+link:{SurfaceChartLink}.logarithmicaxis_members.html[LogarithmicAxis] を使用して _xamScatterSurface3D_ コントロールに対数軸を適用します。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|対数数値線上に X 値を設定
+| link:{SurfaceChartLink}.xamchart3d~xaxis.html[XAxis]
+| link:{SurfaceChartLink}.logarithmicaxis_members.html[LogarithmicAxis]
+
+|対数数値軸上に Y 値を設定
+| link:{SurfaceChartLink}.xamchart3d~yaxis.html[YAxis]
+| link:{SurfaceChartLink}.logarithmicaxis_members.html[LogarithmicAxis]
+
+|対数数値軸上に Z 値を設定
+| link:{SurfaceChartLink}.xamchart3d~zaxis.html[ZAxis]
+| link:{SurfaceChartLink}.logarithmicaxis_members.html[LogarithmicAxis]
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下 ZAxis を LogarithmicAxis に設定したコードの結果として _xamScatterSurface3D_ コントロールがどのような外観になるかを示します。
+
+image::images/Configuring_Axis_Scales_2.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis Title="X" />
+    </ig:XamScatterSurface3D.XAxis>
+    <ig:XamScatterSurface3D.YAxis>
+        <ig:LinearAxis Title="Y" />
+    </ig:XamScatterSurface3D.YAxis>
+ <ig:XamScatterSurface3D.ZAxis>
+        <ig:LogarithmicAxis Title="Z" />
+    </ig:XamScatterSurface3D.ZAxis>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var xLinearAxis = new LinearAxis();
+var yLinearAxis = new LinearAxis();
+var zLogarithmicAxis = new LogarithmicAxis();
+xLinearAxis.Title = "X";
+yLinearAxis.Title = "Y";
+zLogarithmicAxis.Title = "Z";
+SurfaceChart.XAxis = xLinearAxis;
+SurfaceChart.YAxis = yLinearAxis;
+SurfaceChart.ZAxis = zLogarithmicAxis;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim xLinearAxis = New LinearAxis()
+Dim yLinearAxis = New LinearAxis()
+Dim zLogarithmicAxis = New LogarithmicAxis()
+xLinearAxis.Title = "X"
+yLinearAxis.Title = "Y"
+zLogarithmicAxis.Title = "Z"
+SurfaceChart.XAxis = xLinearAxis
+SurfaceChart.YAxis = yLinearAxis
+SurfaceChart.ZAxis = zLogarithmicAxis
+----
+
+[[_Ref445800007]]
+== 対数軸ベースの構成
+
+=== 概要
+
+link:{SurfaceChartLink}.logarithmicaxis~logarithmbase.html[LogarithmBase] を使用して _xamScatterSurface3D_ コントロールに対数軸ベースを変更します。
+
+デフォルトでは、ベース 10 の共通対数が _xamScatterSurface3D_ コントロールで使用されます。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|対数のベース数の変更
+| link:{SurfaceChartLink}.logarithmicaxis~logarithmbase.html[LogarithmBase]
+|`double`
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、ZAxis を LogarithmBase を 2 に設定した LogarithmicAxis に設定した場合に _xamScatterSurface3D_ コントロールがどのように表示されるかを示します。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.logarithmicaxis~logarithmbase.html[LogarithmBase]
+| _2_ 
+
+|====
+
+image::images/Configuring_Axis_Scales_3.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart8" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis Title="X" />
+    </ig:XamScatterSurface3D.XAxis>
+    <ig:XamScatterSurface3D.YAxis>
+        <ig:LinearAxis Title="Y" />
+    </ig:XamScatterSurface3D.YAxis>
+ <ig:XamScatterSurface3D.ZAxis>
+        <ig:LogarithmicAxis Title="Z" 
+ LogarithmBase="2" />
+    </ig:XamScatterSurface3D.ZAxis>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var xLinearAxis = new LinearAxis();
+var yLinearAxis = new LinearAxis();
+var zLogarithmicAxis = new LogarithmicAxis();
+xLinearAxis.Title = "X";
+yLinearAxis.Title = "Y";
+zLogarithmicAxis.Title = "Z";
+zLogarithmicAxis.LogarithmBase = 2;
+SurfaceChart.XAxis = xLinearAxis;
+SurfaceChart.YAxis = yLinearAxis;
+SurfaceChart.ZAxis = zLogarithmicAxis;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim xLinearAxis = New LinearAxis()
+Dim yLinearAxis = New LinearAxis()
+Dim zLogarithmicAxis = New LogarithmicAxis()
+xLinearAxis.Title = "X"
+yLinearAxis.Title = "Y"
+zLogarithmicAxis.Title = "Z"
+zLogarithmicAxis.LogarithmBase = 2
+SurfaceChart.XAxis = xLinearAxis
+SurfaceChart.YAxis = yLinearAxis
+SurfaceChart.ZAxis = zLogarithmicAxis
+----
+
+[[_Ref445717645]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-grid-lines.html[軸のグリッド線の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールでグリッド線のブラシおよび太さを構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-interval.html[軸間隔の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸間隔を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label.html[軸ラベルの構成]
+|このグループのトピックでは、 _xamScatterSurface3D_ コントロールの軸ラベルの外観を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-line.html[軸線の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸線を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-range.html[軸範囲の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸範囲を構成するために MinimumValue および MaximumValue プロパティを設定方法を説明します。
+
+| link:surfacechart-configuring-axis-tick-marks-range.html[軸目盛範囲の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸目盛の範囲を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-title.html[軸タイトルの構成]
+|このグループのトピックでは、 _xamScatterSurface3D_ コントロールの軸タイトルの外観を構成する方法を説明します。
+
+| link:surfacechart-inverting-axis.html[軸を反転]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸を反転する方法を説明します。
+
+|====

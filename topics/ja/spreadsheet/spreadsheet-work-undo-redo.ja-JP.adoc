@@ -1,0 +1,302 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-undo-redo",
+    "tags": ["How Do I","Editing"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "5f39e37b-b19e-49fb-9814-7d228a5e0a33",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.1014083Z"
+}
+|metadata|
+////
+
+= 元に戻す / やり直しの操作 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、コントロールを使用して元に戻す / やり直し操作を設定し実行する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref391543492, 元に戻す / やり直しの構成の概要 >>
+* <<_Ref391543493, 元に戻す / やり直しサポートの有効化 / 無効化 >>
+* <<_Ref391543494,  pick:[wpf,xaml,sl="コマンドを使用した"] 元に戻す操作の起動 >>
+* <<_Ref391478524,  pick:[wpf,xaml,sl="コマンドを使用した"] やり直し操作の起動 >>
+* <<_Ref391543514, 関連コンテンツ >>
+
+[[_Ref391543492]]
+== 元に戻す / やり直しの構成の概要
+
+=== 元に戻す / やり直しの構成の概要
+
+_{SpreadsheetName}_   コントロールは、 link:undo-redo-framework.html[Infragistics Undo/Redo Framework] を使用して、ユーザーが行った変更に対して、堅牢な元に戻す / やり直しのサポート機能を提供します。コントロールは、関連するワークブックに行われたすべて変更を追跡し、 pick:[xaml="link:{ApiPlatform}undo{ApiVersion}~infragistics.undo.undomanager.html[UndoManager]"]pick:[win-forms="link:{ApiPlatform}undo{ApiVersion}.html[Undo]"]  を作成します。
+
+.注:
+[NOTE]
+====
+それぞれの  _{SpreadsheetName}_ コントロールは、独自の `UndoManager` インスタンスを使用します。{SpreadsheetName} インスタンスを link:{SpreadsheetLink}.{SpreadsheetName}~undomanager.html[UndoManager] プロパティに設定することにより、複数の _{SpreadsheetName}_ インスタンスで同じ `UndoManager` を使用することもできます。
+====
+
+「元に戻す」と「やり直し」の操作は、以下の操作によりトリガーされます。
+
+* {SpreadsheetName} にフォーカスがあるときに、ユーザーが特別な組み合わせのキーを押す。たとえば、Ctrl + Z は、 _元に戻す_  操作をトリガーし、Ctrl + Y は、 _やり直し_  操作をトリガーします。
+*  *元に戻す* および *やり直し* の pick:[xaml="コマンド"]  pick:[win-forms="アクション"] の起動 (以下のコードを参照)
+* 以下の pick:[win-forms="マネージャー"]  pick:[xaml="メソッド"] のどちらかを呼び出す
+
+ifdef::xaml[]
+** {SpreadsheetName} link:{ApiPlatform}undo{ApiVersion}~infragistics.undo.undomanager~undo.html[.UndoManager.Undo]
+
+endif::xaml[]
+
+ifdef::win-forms[]
+** {SpreadsheetName} link:{SpreadsheetLink}.{SpreadsheetName}~undomanager.html[.UndoManager]
+
+endif::win-forms[]
+
+ifdef::xaml[]
+** {SpreadsheetName} link:{ApiPlatform}undo{ApiVersion}~infragistics.undo.undomanager~redo.html[.UndoManager.Redo]
+
+endif::xaml[]
+
+=== 元に戻す / やり直し構成の概要表
+
+以下の表は、元に戻す　/　やり直し操作に関連して、プログラムによって実行することが可能なタスクを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|タスク|詳細|プロパティ /  pick:[xaml,sl,wpf="コマンド"]  pick:[win-forms="アクション"]
+
+|<<_Ref391543493,元に戻す / やり直しサポートの有効化 / 無効化>>
+|元に戻す/やり直し操作はデフォルトで有効になっています。
+| link:{SpreadsheetLink}.{SpreadsheetName}~isundoenabled.html[IsUndoEnabled]
+
+|<<_Ref391543494, pick:[wpf,xaml,sl="コマンドを使用した"] 元に戻す操作の起動>>
+|やり直しの操作を実行します。
+|`Undo`
+
+|<<_Ref391478524, pick:[wpf,xaml,sl="コマンドを使用した"] やり直し操作の起動>>
+|やり直し操作を実行します
+|`Redo`
+
+|====
+
+[[_Ref391543493]]
+== 元に戻す / やり直しサポートの有効化 / 無効化
+
+[[_Hlk368069110]]
+
+=== 概要
+
+`IsUndoEnabled` プロパティを使用して、コントロールの元に戻す　/　やり直しサポートを有効または無効にできます。
+
+=== プロパティ設定
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定値:
+
+|元に戻す操作を特定の _{SpreadsheetName}_ インスタンスで有効にします。
+|`IsUndoEnabled`
+|`true`
+
+|元に戻す操作を特定の _{SpreadsheetName}_ インスタンスで無効にします。
+|`IsUndoEnabled`
+|`false`
+
+|====
+
+[[_Ref391543494]]
+pick:[wpf,sl,xaml="== コマンドを使用した"] 元に戻す操作の起動
+
+=== 概要
+
+やり直し操作は、元に戻す操作により挿入された変更を増分でバック アウトします。やり直し履歴スタックから元に戻す操作記録を取り出し、元に戻す履歴スタックの一番上に追加します。
+
+=== プロパティ設定
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|以下のコマンド ソースをインスタンス化します。|設定するプロパティ:
+
+|元に戻す操作を特定の _{SpreadsheetName}_ インスタンスで実行します。
+|`SpreadsheetCommandSource`
+|`EventName` 
+
+`CommandType`
+
+|====
+
+ifdef::win-forms[]
+
+=== メソッド設定
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|以下のメソッドを実行します。|設定する列挙値:
+
+|元に戻す操作を特定の {SpreadsheetName} インスタンスで実行します。
+|`PerformAction`
+|`UltraSpreadsheetAction.Undo`
+
+|====
+
+endif::win-forms[]
+
+=== 例
+
+ifdef::xaml[]
+
+pick:[xaml="*XAML の場合:*"]
+
+----
+<Button Content="Undo" 
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="Undo" />
+    </ig:Commanding.Command>
+</Button>
+----
+
+endif::xaml[]
+
+pick:[win-forms="*C# の場合:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Undo);
+----
+
+pick:[win-forms="*VB の場合:*"]
+
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Undo)                  
+----
+endif::win-forms[]
+
+[[_Ref391478524]]
+pick:[xaml="== コマンドを使用した"] やり直し操作の起動
+
+=== 概要
+
+やり直し操作は、元に戻す操作により挿入された変更を増分でバック アウトします。やり直し履歴スタックから元に戻す操作記録を取り出し、元に戻す履歴スタックの一番上に追加します。
+
+=== プロパティ設定
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|以下のコマンド ソースをインスタンス化します。|設定するプロパティ:
+
+|やり直し操作を特定の _{SpreadsheetName}_ インスタンスで実行します。
+|`SpreadsheetCommandSource`
+|`EventName` 
+
+`CommandType`
+
+|====
+
+ifdef::win-forms[]
+
+=== メソッド設定
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|以下のメソッドを実行します。|設定する列挙値:
+
+|やり直し操作を特定の {SpreadsheetName} インスタンスで実行します。
+|`PerformAction`
+|`UltraSpreadsheetAction.Redo`
+
+|====
+
+endif::win-forms[]
+
+=== 例
+
+ifdef::xaml[]
+
+pick:[xaml="*XAML の場合:*"]
+
+----
+<Button Content="Redo" 
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="Redo" />
+    </ig:Commanding.Command>
+</Button>
+----
+endif::xaml[]
+
+pick:[win-forms="*C# の場合:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Redo);
+----
+endif::win-forms[]
+
+pick:[win-forms="*VB の場合:*"]
+
+ifdef::win-forms[]
+----
+ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.Redo)                  
+----
+endif::win-forms[]
+
+[[_Ref391543514]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-selection.html[選択の操作 ({SpreadsheetName})]
+|このトピックでは、選択機能を開発者の観点から説明します。
+
+|====

@@ -1,0 +1,343 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 散布等高線シリーズの使用
+
+=== 目的
+
+このトピックでは、link:{DataChartLink}.{DataChartName}_members.html[{DataChartName}]™ コントロールで link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] 要素を使用する方法を提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref320651776, 散布等高線シリーズ >>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320651783,プレビュー>>
+** <<_Ref320651786,データ要件>>
+** <<_Ref335249132,データ バインディング>>
+** <<_Ref335248897,等高線の塗りつぶしスケール>>
+** <<_Ref335252263,等高線値リゾルバー>>
+** <<_Ref320651790,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320651776]]
+== 散布エリア シリーズ
+
+[[_Ref320193474]]
+
+=== 概要
+
+{DataChartName} コントロールでは、link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] が各ポイントに割り当てられた数値を使って、X および Y データの三角形分割に基づいて、色付きの等高線を描画します。
+
+このシリーズのタイプはヒート マップ、磁場の強さ、またはオフィスの WIFI の強さを描画する場合などに便利です。link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] は link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] と同様ですが、データを塗りつぶしスケールを使用する色付きの等高線として表し、散布エリア シリーズはカラー スケールを使用して補間された面としてデータを表します。
+
+[[_Ref320651783]]
+
+=== プレビュー
+
+以下は、3D サーフェイス データをプロットする link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] を持つ {DataChartName} コントロールのプレビューです。Z 軸は、サーフェイスでの色変更として描画されます。より低い Z 値は青色で、より高い値は赤色になります。
+
+image::images/DataChart_Using_Scatter_Contour_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== データ要件
+
+{DataChartName} コントロールのシリーズの他のタイプと同様、link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] には、データ バインディングのための link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}] プロパティがあります。このプロパティは、link:http://msdn.microsoft.com/ja-jp/library/6sh2ey19.aspx[List]、link:http://msdn.microsoft.com/ja-jp/library/ms132397.aspx[Collection]、link:http://msdn.microsoft.com/ja-jp/library/7977ey2c.aspx[Queue]、link:http://msdn.microsoft.com/ja-jp/library/system.collections.stack.aspx[Stack] など link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイスを実装するオブジェクトにバインドできます。また、このオブジェクトで各項目にポイント位置 (X および Y) を保存する 2 つのデータ列が必要です。これらのデータ列は、link:{DataChartLink}.ScatterTriangulationSeries~XMemberPath.html[XMemberPath] および link:{DataChartLink}.ScatterTriangulationSeries~YMemberPath.html[YMemberPath] プロパティにマップされます。データにも各ポイントの値を保存するデータ列が必要です。この値は link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] でサーフェイスの色を設定するために使用されます。この値列は、link:{DataChartLink}.ScatterContourSeries~ValueMemberPath.html[ValueMemberPath] プロパティにマップされます。
+
+link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] は、三角測量が link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] プロパティに設定されていない場合、link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}] の項目で定義済みのデータ三角測量を自動的に実行します。
+ただし、三角測量の計算は非常に時間のかかるプロセスであるため、このプロパティのために link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] を指定すると、ランタイム パフォーマンスがよくなります。特にデータ項目が多数ある場合には顕著です。
+
+ifdef::wpf[]
+.注:
+[NOTE]
+====
+三角測量データの作成、保存、読み込みのプロセスに関する詳細は、link:datachart-triangulating-data.html[データの三角測量]トピックを参照してください。
+====
+endif::wpf[]
+
+[[_Ref335249132]]
+
+=== データ バインディング
+
+以下の表に、データ バインドに使用される link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] の必須プロパティをまとめています。
+
+[options="header", cols="25a,25a,50a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}]
+|IEnumerable
+|link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] プロパティに提供する三角測量データがない場合三角測量を実行するための項目のソースを取得または設定します。
+
+| link:{DataChartLink}.ScatterTriangulationSeries~XMemberPath.html[XMemberPath]
+|string
+|{ApiDataSource} の各項目の X 位置を含むプロパティの名前。
+
+| link:{DataChartLink}.ScatterTriangulationSeries~YMemberPath.html[YMemberPath]
+|string
+|{ApiDataSource} の各項目の Y 位置を含むプロパティの名前。
+
+| link:{DataChartLink}.ScatterContourSeries~ValueMemberPath.html[ValueMemberPath]
+|string
+|link:{DataChartLink}.ScatterContourSeries~FillScale.html[FillScale] プロパティに設定された塗りつぶしスケールによってブラシへの変換が可能な数値を含む {ApiDataSource} の各項目のプロパティの名前。
+
+|====
+
+以下の表に、データ バインドに使用される link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] のオプションのプロパティをまとめています。
+
+[options="header", cols="25a,25a,50a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource]
+|IEnumerable
+|三角測量データのソースを取得または設定します。link:{DataVizChartsLink}.TriangulationSource_members.html[TriangulationSource] オブジェクトの link:{DataVizChartsLink}.TriangulationSource~Triangles.html[Triangles] をこのプロパティに設定すると、ランタイム パフォーマンスとシリーズの描画の両方が改善します。
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TriangleVertexMemberPath1.html[TriangleVertexMemberPath1]
+|string
+|各三角形に対して {ApiDataSource} の最初の頂点のインデックスを含む、link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] 項目のプロパティ名。このプロパティの設定は必須ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取得されます。
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TriangleVertexMemberPath2.html[TriangleVertexMemberPath2]
+|string
+|各三角形に対して {ApiDataSource} の第 2 の頂点のインデックスを含む、link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] 項目のプロパティ名。このプロパティの設定は必須ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取得されます。
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TriangleVertexMemberPath3.html[TriangleVertexMemberPath3]
+|string
+|各三角形に対して {ApiDataSource} の第 3 の頂点のインデックスを含む、link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] 項目のプロパティ名。このプロパティの設定は必須ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取得されます。
+
+|====
+
+[[_Ref335248897]]
+
+=== 等高線の塗りつぶしスケール
+
+link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] の link:{DataChartLink}.ScatterContourSeries~FillScale.html[FillScale] を使用して等高線の塗りブラシを解決します。
+
+提供された link:{DataChartLink}.ValueBrushScale_members.html[ValueBrushScale] クラスはユーザーのほとんどのカラーリング ニーズを満たすはずですが、カスタムのカラリング ロジックのアプリケーションが link:{DataChartLink}.ValueBrushScale_members.html[ValueBrushScale] クラスを継承できます。
+
+以下の表は link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] の面のカラーリングに影響する link:{DataChartLink}.ValueBrushScale_members.html[ValueBrushScale] プロパティをリストします。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+|link:{DataChartLink}.BrushScale~Brushes.html[Brushes] 
+| pick:[wpf="link:{APIPlatform}datavisualization~Infragistics.brushcollection_members.html[BrushCollection]"]pick:[win-forms="Infragistics.Win.DataVisualization.BrushCollection"]
+|link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] の塗りつぶし等高線のためのブラシのコレクションを取得または設定します。
+
+| link:{DataChartLink}.ValueBrushScale~MaximumValue.html[MaximumValue]
+|double
+|塗りつぶしスケールでブラシを割り当てるための最高値。
+
+| link:{DataChartLink}.ValueBrushScale~Minimumvalue.html[MinimumValue]
+|double
+|塗りつぶしスケールでブラシを割り当てるための最低値。
+
+|====
+
+[[_Ref335252263]]
+
+=== 等高線値リゾルバー
+
+link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] は、link:{DataChartLink}.ScatterContourSeries~ValueMemberPath.html[ValueMemberPath] プロパティにマップされた項目の最小値と最大値の間を等間隔でちょうど 10 本の等高線を使用して描画します。これより多くの等高線が必要な場合、またはこれより少ない等高線が必要な場合、等高線の数を持つ link:{DataChartLink}.LinearContourValueResolver_members.html[LinearContourValueResolver] を link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] の link:{DataChartLink}.ScatterContourSeries~ValueResolver.html[ValueResolver] プロパティに割り当てることができます。
+
+以下のコードは、link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] の等高線の数を構成する方法を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:ScatterContourSeries>
+        <ig:ScatterContourSeries.ValueResolver>
+                  <ig:LinearContourValueResolver ValueCount="5" />
+        </ig:ScatterContourSeries.ValueResolver>
+</ig:ScatterContourSeries>
+----
+
+endif::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var valueResolver = new LinearContourValueResolver();
+valueResolver.ValueCount = 5;
+scatterContourSeries1.ValueResolver = valueResolver;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim valueResolver As New LinearContourValueResolver()
+valueResolver.ValueCount = 5
+scatterContourSeries1.ValueResolver = valueResolver
+----
+
+アプリケーションで等高線の位置を決定するには、カスタムの値リゾルバーを実装します。これは、link:{DataChartLink}.ContourValueResolver.html[ContourValueResolver] から継承し link:{DataChartLink}.ContourValueResolver~GetContourValues.html[GetContourValues] メソッドをオーバーライドすることによって実行されます。
+
+以下のコードは、定義済みの位置に等高線を指定するカスタムの等高線値リゾルバーの実装を示します。
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class CustomValueResolver : Infragistics.Controls.Charts.ContourValueResolver
+{
+    public override IEnumerable<double> GetContourValues(IFastItemColumn<double> valueColumn)
+    {
+        return new double[] {1, 2, 4, 5, 8};
+    }
+}
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class CustomValueResolver
+    Inherits Infragistics.Controls.Charts.ContourValueResolver
+    Overrides Function GetContourValues(valueColumn As IFastItemColumn(Of Double)) As IEnumerable(Of Double)
+        Return New Double() { 1, 2, 4, 5, 8 }
+    End Function
+End Class
+----
+
+[[_Ref320651790]]
+
+=== 例
+
+以下のコードは、以上のスクリーンショットを作成するために link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] を 3D サーフェイス データにバインドする方法を紹介します。使用される 3D サーフェイス データはlink:resources-3d-surface-data.html[ここ]です。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName}>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="xAxis"/>
+        <ig:NumericYAxis x:Name="yAxis"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ScatterContourSeries XAxis="{Binding ElementName=xAxis}"
+                                 YAxis="{Binding ElementName=yAxis}"
+                                 XMemberPath="X"
+                                 YMemberPath="Y"
+                                 ValueMemberPath="Z">
+            <ig:ScatterContourSeries.ItemsSource> 
+                <model:CosXPlusCosY "/>
+            </ig:ScatterContourSeries.ItemsSource>
+            <ig:ScatterContourSeries.FillScale>
+                <ig:ValueBrushScale>
+                    <ig:ValueBrushScale.Brushes>
+                        <SolidColorBrush>Blue</SolidColorBrush>
+                        <SolidColorBrush>Green</SolidColorBrush>
+                        <SolidColorBrush>Yellow</SolidColorBrush>
+                        <SolidColorBrush>Red</SolidColorBrush>
+                    </ig:ValueBrushScale.Brushes>
+                </ig:CustomPaletteColorScale>
+            </ig:ScatterContourSeries.FillScale>
+        </ig:ScatterContourSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' ScatterContourSeries requires numeric X and Y axis
+Dim xAxis As New NumericXAxis()
+Dim yAxis As New NumericYAxis()
+Me.dataChart.Axes.Add(xAxis)
+Me.dataChart.Axes.Add(yAxis)
+
+' create and set data binding to the ScatterContourSeries
+Dim series As New ScatterContourSeries()
+series.{ApiDataSource} = New CosXPlusCosY()
+series.XMemberPath = "X"
+series.YMemberPath = "Y"
+series.ValueMemberPath = "Z"
+series.XAxis = xAxis
+series.YAxis = yAxis
+
+' set a color scale 
+Dim brushScale As New ValueBrushScale()
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Blue))
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Green))
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Yellow))
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Red))
+series.FillScale = brushScale
+
+' add the ScatterContourSeries to the {DataChartName}
+Me.dataChart.Series.Add(series)
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// ScatterContourSeries requires numeric X and Y axis
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+this.dataChart.Axes.Add(xAxis);
+this.dataChart.Axes.Add(yAxis);
+
+// create and set data binding to the ScatterContourSeries;
+var series = new ScatterContourSeries();
+series.{ApiDataSource} = New CosXPlusCosY();
+series.XMemberPath = "X";
+series.YMemberPath = "Y";
+series.ValueMemberPath = "Z";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+
+// set a color scale 
+var brushScale = new ValueBrushScale();
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Blue));
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Green));
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Yellow));
+brushScale.Brushes.Add(new SolidColorBrush(Colors.Red));
+series.FillScale = brushScale;
+
+// add the ScatterContourSeries to the {DataChartName}
+this.dataChart.Series.Add(series);
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::xaml[]
+| link:datachart-creating-chart-in-xaml-code.html[XAML コードでチャートを作成] 
+|このトピックでは、コントロールをアプリケーション ページに追加する方法を示します。
+endif::xaml[]
+
+| link:datachart-series-requirements.html[シリーズ要件]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+ifdef::wpf[]
+| link:datachart-triangulating-data.html[データを三角測量]
+|このトピックは三角測量についての情報を提供します。
+endif::wpf[]
+
+|====

@@ -1,0 +1,199 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-table-of-contents",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{4778E9FD-EAF7-4CB0-8F95-18FEA35F5431}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 目次
+
+目次（TOC）の作成はほとんどの人が考えているよりもはるかにシンプルです。Infragistics Document Engine™ でレポートをすでに書いている場合には、目次の作成の工程の半分はすでに完了していると言えるかもしれません。TOC 要素は、レポートの構造に基づいて目次を作成します。したがって、TOC 要素を活用するためには、レポートを適切に作成することが重要となります。
+
+Text 要素は、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]   pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]  プロパティを公開しており、このプロパティは  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]   pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]  列挙体に設定することができます。この列挙体の値は、H1、H2、H3 というようになります。Text 要素の見出しを設定するときに、目次の生成方法を TOC 要素に通知します。 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc.html[ITOC]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc.html[ITOC]"]   pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc.html[ITOC]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc.html[ITOC]"]  インターフェイスには、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc~addlevel.html[AddLevel]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc~addlevel.html[AddLevel]"]   pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc~addlevel.html[AddLevel]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.itoc~addlevel.html[AddLevel]"]  メソッドが含まれており、このメソッドを異なる見出しとともに使用することができます。目次に追加する最初のレベルは、見出しの最初のレベルつまり H1 に対応します。目次にもうひとつのレベルを追加すると H2 に対応し、最後の見出し H9 まで続きます。したがって、見出しのラベルを適切に設定すれば、目次を生成するためにさほどの追加作業を行う必要はありません。
+
+pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.ilevel.html[ILevel]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.ilevel.html[ILevel]"]   pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.ilevel.html[ILevel]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.toc.ilevel.html[ILevel]"]  インターフェイスは、目次を処理する時に一般的ないくつかのプロパティを公開します。
+
+* *Indents* -- 垂直、水平、上、下、左、右、すべてインデントを設定することによって、TOC レベルのインデントを制御できます。これは、見出しのレベルごとに異なるインデントを指定できるようにすることによって読みやすさを向上するために役立ちます。
+* *Style* -- Style オブジェクトをこのプロパティに設定することは、見出し、リーダー、ページ番号がどのように表示されるのかを決定します。
+* *Leader* -- リーダー線は、ほとんどの目次で点線で表示されます。この線は、ページのもう一方の側まで線を引くことによって、読む人が見出しとページ番号を結び付けやすくします。 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.leaderformat.html[LeaderFormat]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.leaderformat.html[LeaderFormat]"]   pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.leaderformat.html[LeaderFormat]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.leaderformat.html[LeaderFormat]"]  列挙体によって、この線を破線、点線、実線、またはスペースに設定することができます。
+
+image::images/DocumentEngine_Table_of_Contents_01.png[PDF の目次は、上記に示したコードの結果であることを示します。]
+
+'''
+
+以下のコードは、4 つの見出しと各見出しの下の 2 つの小見出しで構成される目次を生成します。見出しは H1 で、小見出しは H2 です。
+
+[start=1]
+. *見出しと小見出しのスタイルに対して 2 つの Style オブジェクトを宣言します。*
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+...
+Dim mainStyle1 As New _
+  Infragistics.Documents.Reports.Reports.Report.Text.Style( _
+  New Font("Verdana", 18), Brushes.Black)
+Dim mainStyle2 As New _
+  Infragistics.Documents.Reports.Reports.Report.Text.Style( _
+  New Font("Arial", 24), Brushes.SteelBlue)
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+...
+Infragistics.Documents.Reports.Reports.Report.Text.Style mainStyle1 = 
+  new Infragistics.Documents.Reports.Reports.Report.Text.Style( 
+  new Font("Verdana", 18), Brushes.Black);
+Infragistics.Documents.Reports.Reports.Report.Text.Style mainStyle2 = 
+  new Infragistics.Documents.Reports.Reports.Report.Text.Style( 
+  new Font("Arial", 24), Brushes.SteelBlue);
+----
+
+[start=2]
+. *目次を配置するために新しいセクションを作成します。*
+
+*Visual Basic の場合：*
+
+----
+' 新しいセクションを作成して、ページ サイズとマージンを設定します。
+Dim tocSection As Infragistics.Documents.Reports.Reports.Report.Section.ISection = _
+  report.AddSection()
+tocSection.PageSize = PageSizes.Letter
+tocSection.PageMargins.All = 35
+----
+
+*C# の場合：*
+
+----
+// 新しいセクションを作成して、ページ サイズとマージンを設定します。
+Infragistics.Documents.Reports.Reports.Report.Section.ISection tocSection = report.AddSection();
+tocSection.PageSize = PageSizes.Letter;
+tocSection.PageMargins.All = 35;
+----
+
+[start=3]
+. *TOC を作成して、2 つのレベルを定義します。*
+
+*Visual Basic の場合：*
+
+----
+' TOC のタイトルを作成します。
+Dim tocText As Infragistics.Documents.Reports.Reports.Report.Text.IText = tocSection.AddText()
+tocText.Style = mainStyle2
+tocText.Margins.Top = 10
+tocText.Margins.Bottom = 15
+tocText.AddContent("Table of contents")
+' 新しい TOC を作成します.Dim toc As Infragistics.Documents.Reports.Reports.Report.TOC.ITOC = tocSection.AddTOC()
+' TOC に最初のレベルを追加します
+' (corresponding to H1)
+Dim tocLevel As Infragistics.Documents.Reports.Reports.Report.TOC.ILevel = toc.AddLevel()
+tocLevel.Indents.Right = 20
+tocLevel.Indents.Bottom = 5
+tocLevel.Style = mainStyle1
+tocLevel.Leader = LeaderFormat.Dots
+' TOC に第 2 のレベルを追加します
+' (corresponding to H2)
+tocLevel = toc.AddLevel()
+tocLevel.Indents.Left = 20
+tocLevel.Indents.Right = 40
+tocLevel.Indents.Bottom = 5
+tocLevel.Style = mainStyle1
+tocLevel.Leader = LeaderFormat.Dots
+----
+
+*C# の場合：*
+
+----
+// TOC のタイトルを作成します。Infragistics.Documents.Reports.Reports.Report.Text.IText tocText = tocSection.AddText();
+tocText.Style = mainStyle2;
+tocText.Margins.Top = 10;
+tocText.Margins.Bottom = 15;
+tocText.AddContent("Table of contents");
+// 新しい TOC を作成しますInfragistics.Documents.Reports.Reports.Report.TOC.ITOC toc = tocSection.AddTOC();
+// TOC に最初のレベルを追加します
+// (corresponding to H1)
+Infragistics.Documents.Reports.Reports.Report.TOC.ILevel tocLevel = toc.AddLevel();
+tocLevel.Indents.Right = 20;
+tocLevel.Indents.Bottom = 5;
+tocLevel.Style = mainStyle1;
+tocLevel.Leader = LeaderFormat.Dots;
+// TOC に第 2 のレベルを追加します
+// (corresponding to H2)
+tocLevel = toc.AddLevel();
+tocLevel.Indents.Left = 20;
+tocLevel.Indents.Right = 40;
+tocLevel.Indents.Bottom = 5;
+tocLevel.Style = mainStyle1;
+tocLevel.Leader = LeaderFormat.Dots;
+----
+
+[start=4]
+. *目次をコンテンツと分離するために、Gap 要素を追加します。*
+
+*Visual Basic の場合：*
+
+----
+Dim tocGap As Infragistics.Documents.Reports.Reports.Report.IGap = tocSection.AddGap()
+tocGap.Height = New FixedHeight(50)
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Reports.Reports.Report.IGap tocGap = tocSection.AddGap();
+tocGap.Height = new FixedHeight(50);
+----
+
+[start=5]
+. *いくつかの見出しと小見出しを追加して生成された目次を確認します。*
+
+*Visual Basic の場合：*
+
+----
+Dim sampleHeading As Infragistics.Documents.Reports.Reports.Report.Text.IText
+Dim sampleSubHeading As Infragistics.Documents.Reports.Reports.Report.Text.IText
+For i As Integer = 1 To 4
+	sampleHeading = tocSection.AddText()
+	sampleHeading.Heading = TextHeading.H1
+	sampleHeading.Style = mainStyle2
+	sampleHeading.AddContent(("Heading " + i.ToString()))
+	For j As Integer = 1 To 2
+		sampleSubHeading = tocSection.AddText()
+		sampleSubHeading.Heading = TextHeading.H2
+		sampleSubHeading.Style = mainStyle1
+		sampleSubHeading.AddContent(("Sub-Heading " + j.ToString()))
+	Next j
+Next i
+----
+
+*C# の場合：*
+
+----
+// 見出しを作成して TOC を示します。
+Infragistics.Documents.Reports.Reports.Report.Text.IText sampleHeading;
+Infragistics.Documents.Reports.Reports.Report.Text.IText sampleSubHeading;
+for (int i = 1; i < 5; i++)
+{
+	sampleHeading = tocSection.AddText();
+	sampleHeading.Heading = TextHeading.H1;
+	sampleHeading.Style = mainStyle2;
+	sampleHeading.AddContent("Heading " + i);
+	for (int j = 1; j < 3; j++)
+	{
+		sampleSubHeading = tocSection.AddText();
+		sampleSubHeading.Heading = TextHeading.H2;
+		sampleSubHeading.Style = mainStyle1;
+		sampleSubHeading.AddContent("Sub-Heading " + j);
+	}
+}
+----

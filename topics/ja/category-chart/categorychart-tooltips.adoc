@@ -1,0 +1,171 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-tooltips",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= {CategoryChartName} ツールチップ
+
+このトピックではコード例を使用して、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] コントロールのツールチップを構成する方法を説明します。
+
+== 概要
+
+{CategoryChartName} で、チャートのプロット領域で長押しのジェスチャが実行されたときにツールチップは表示されます。また、長押ししてから、放さずに指をその他のプロット領域の部分に移動させると、ツールチップの値が更新されます。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+|====
+|トピック|目的
+
+| link:categorychart-overview.html[ {CategoryChartName} の概要]
+
+| このトピックは、主要機能、最小要件およびユーザー機能性など、{CategoryChartName} コントロールの概念的な情報を提供します。
+
+| link:categorychart-binding-to-data.html[データ バインド]
+
+| このトピックでは、データを {CategoryChartName} コントロールにバインドする方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<tooltipoverview, ツールチップの概要>>
+* <<propertysettings, プロパティの設定>>
+* <<codesnippet, コード スニペット>>
+* <<relatedcontent, 関連コンテンツ>>
+
+[[tooltipoverview]]
+== ツールチップの概要
+
+ツールチップ コンテンツは、{CategoryChartName} オブジェクトの link:{CategoryChartLink}.{CategoryChartName}{ApiProp}tooltiptemplate.html[ToolTipTemplate] プロパテによって提供されます。 {PlatformName} では、ツールチップを構成する視覚要素を含む link:https://developer.xamarin.com/guides/xamarin-forms/application-fundamentals/templates/data-templates/creating/[DataTemplate] を使用します。
+
+{CategoryChartName} のツールチップは、チャートでプロットされる各シリーズを表します。値プロパティ名が同じ階層構造を使用している場合以外、ToolTipTemplate プロパティと link:https://developer.xamarin.com/guides/xamarin-forms/application-fundamentals/templates/data-templates/selector/[DataTemplateSelector] を使用してください。
+
+ToolTipTemplate で使用される DataTemplate に配置される要素が link:{DataVizLink}.DataContext.html[DataContext] オブジェクトのバインディング コンテキストを持ちます。このオブジェクトが特定のツールチップの基本データ項目を Item プロパティによってアクセスできるし、表されている Series を Series プロパティによってアクセスできます。この DataContext クラスおよび DataTemplateSelector の使用が以下のコード スニペットで表示されます。
+
+[[propertysettings]]
+== プロパティの設定
+
+{CategoryChartName} コントロールのツールチップのルック アンド フィールをカスタマイズするには、ToolTipTemplate プロパティに追加して以下のプロパティを設定できます。
+
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+|link:{CategoryChartLink}.{CategoryChartName}{ApiProp}tooltipbackgroundcolor.html[ToolTipBackgroundColor]
+|link:{DataVizLinkBase}.Brush.html[Brush]
+|ツールチップの背景色を取得または設定します。
+
+|link:{CategoryChartLink}.{CategoryChartName}{ApiProp}tooltipbordercolor.html[ToolTipBorderColor]
+|link:{DataVizLinkBase}.Brush.html[Brush]
+|ツールチップの境界線の色を取得または設定します。
+
+|link:{CategoryChartLink}.{CategoryChartName}{ApiProp}tooltipborderthickness.html[ToolTipBorderThickness]
+|`double`
+|ツールチップの境界線の太さを取得または設定します。
+
+|====
+
+[[codesnippet]]
+== コード スニペット
+
+以下のコード例は、上記のプロパティおよび DataTemplateSelector を使用して {CategoryChartName} コントロールのツールチップをカスタマイズする方法を紹介します。
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+[source, xaml]
+----
+
+xmlns:ig="clr-namespace:{CategoryChartNamespace};assembly={ApiPlatform}Charts"
+xmlns:local="clr-namespace:MyAppNamespace"
+
+----
+
+*XAML の場合:*
+[source,xaml]
+----
+
+<ig:{CategoryChartName} ItemsSource="{Binding}"
+                     ChartType="Column"
+                     ToolTipBackgroundColor="LightGray"
+                     ToolTipBorderColor="DarkOrange"
+                     ToolTipBorderThickness="2">
+    <ig:{CategoryChartName}.ToolTipTemplate>
+        <local:TooltipSelector/>
+    </ig:{CategoryChartName}.ToolTipTemplate>
+</ig:{CategoryChartName}>
+
+
+----
+
+*C# の場合:*
+[source, csharp]
+----
+
+namespace MyAppNamespace
+{
+    public class TooltipSelector : DataTemplateSelector
+    {
+        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        {
+            if (container is ColumnSeries)
+            {
+                ColumnSeries series = container as ColumnSeries;
+                DataTemplate template = CreateDataTemplate(series);
+                return template;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private DataTemplate CreateDataTemplate(ColumnSeries series)
+        {
+            DataTemplate template = new DataTemplate(() =>
+            {
+                StackLayout layout = new StackLayout() { Orientation = StackOrientation.Horizontal, Margin = new Thickness(5, 2) };
+                
+                Label titleLabel = new Label() { TextColor = ((SolidColorBrush)series.ActualBrush).Color };
+                titleLabel.Text = series.ValueMemberPath + ": ";
+
+                Label valueLabel = new Label() { TextColor = ((SolidColorBrush)series.ActualBrush).Color };
+                valueLabel.SetBinding(Label.TextProperty, new Binding("Item." + series.ValueMemberPath));
+
+                layout.Children.Add(titleLabel);
+                layout.Children.Add(valueLabel);
+
+                return layout;
+            });
+            
+            return template;
+        }
+    }
+}
+
+----
+
+endif::xamarin[]
+
+image::images/categorychart_tooltip.png[]
+
+[[relatedcontent]]
+== 関連コンテンツ
+
+|====
+|トピック|目的
+
+| link:categorychart-walkthrough.html[カテゴリ チャートの追加]
+
+| このトピックは、{CategoryChartName} コントロールを追加する方法を紹介します。
+
+|====

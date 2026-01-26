@@ -1,0 +1,442 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-creating-chart-in-code-behind-xaml",
+    "controlName": [],
+    "tags": [],
+    "guid": "189b488d-7833-4379-bc1f-0770ff6a6844",
+    "buildFlags": ["XAML","ANDROID"],
+    "createdOn": "2014-09-22T08:56:15.6932306Z"
+}
+|metadata|
+////
+
+= コード ビハインドでチャートを作成
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、コード ビハインドで _link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™_   コントロールを作成する詳細な方法を紹介します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-datachart.html[{DataChartName}]
+|このトピックでは、 _{DataChartName}_ コントロールの概要を説明します。
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|このトピックでは、{DataChartName} コントロールを使用して作業を開始する方法に関する情報を提供します。
+
+| link:datachart-series-requirements.html[シリーズ要件]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref397371182,概要>>
+
+** <<_Ref397371188,プレビュー>>
+ifdef::wpf,win-forms,sl,win-universal,android[]
+** <<_Ref396219292,アプリケーションの要件>>
+endif::wpf,win-forms,sl,win-universal,android[]
+** <<_Ref397371278,チャート要件>>
+** <<_Ref396236025,アプリケーションの作成>>
+** <<_Ref396236029,データ ソースの作成>>
+** <<_Ref396236032,軸の作成>>
+** <<_Ref396236034,シリーズの作成>>
+** <<_Ref396236037,チャートの作成>>
+
+* <<_Ref388439099,関連コンテンツ>>
+
+[[_Ref397371182]]
+== 概要
+
+[[_Ref397371188]]
+
+=== プレビュー
+
+以下は、コードビハインドでチャート コントロールを作成した結果のプレビューです。
+
+image::images/DataChart_Creating_Chart_In_Code_Behind_1.png[]
+
+ifdef::wpf,win-forms,sl,win-universal,android[]
+[[_Ref396219292]]
+
+=== アプリケーションの要件
+
+以下の表では、 _{DataChartName}_ の作成の要件を簡単に説明します。
+
+[options="header", cols="a,a"]
+|====
+|要件|説明
+
+|Infragistics 製品をインストール
+|チャート コントロールは Infragistics 製品に含まれます。
+
+|====
+
+endif::wpf,win-forms,sl,win-universal,android[]
+
+[[_Ref397371278]]
+
+=== チャート要件
+
+チャート コントロールは シリーズと呼ばれ、さまざまなデータ視覚化をサポートします。このシリーズ オブジェクトは広範なデータ ソースを可視化できます。チャート コントロールにサポートされるシリーズの一覧は、 link:datachart-series-types.html[シリーズ タイプ] トピックを参照してください。各シリーズ タイプは一定の要件を満たす (データ列の数およびタイプなど) データおよびデータをサポートされる軸によって、そのデータがプロットできます。各シリーズの要件については、 link:datachart-series-requirements.html[シリーズ要件]トピックを参照してください。
+
+このトピックは link:{DataChartLink}.areaseries.html[AreaSeries] 1 つと 2 つの軸 (CategoryXAxis および NumericYAxis)、そして link:resources-sample-energy-data.html[サンプル エネルギー データ]を使用します。
+
+[[_Ref396236025]]
+
+=== アプリケーションの作成
+
+[start=1]
+. {PlatformIDE} またはそれ以降のバージョンで {PlatformName} アプリケーション プロジェクトを作成し、名前を *SampleApp* に設定します。
+
+[start=2]
+. 以下の名前空間をメイン コード ファイルにインポートします。
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+ifdef::wpf,win-universal[]
+----
+using {DataChartNamespace};
+ 
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+---- 
+using Infragistics.XamarinForms.Controls.Charts; 
+----
+endif::xamarin[]
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+----
+Imports {DataChartNamespace}
+ 
+----
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+import com.infragistics.controls.DataChartView;
+import com.infragistics.controls.CategoryXAxis;
+import com.infragistics.controls.NumericYAxis;
+import com.infragistics.controls.AreaSeries;
+----
+
+endif::android[]
+
+[[_Ref396236025]]
+
+=== アセンブリ参照の追加
+
+ifdef::win-forms,sl,win-universal,android[]
+. 以下の Infragistics アセンブリを *SampleApp* プロジェクトに追加します。
+
+endif::win-forms,sl,win-universal,android[]
+
+ifdef::wpf[]
+
+. 以下の NuGet パッケージを *SampleApp* プロジェクトに追加します。
+
+endif::wpf[]
+
+ifdef::wpf,win-universal[]
+
+** Infragistics.WPF.Charts
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+** Infragistics.DataChart.jar
+
+** Infragistics.UI.jar
+
+** Infragistics.Core.jar
+
+** Infragistics.DV.Shared jar
+
+endif::android[]
+
+ifdef::xamarin[]
+link:xamarin-project-with-infragistics-controls.html#NuGetPackages[「NuGet パッケージで参照を追加」]を参照してください。
+
+endif::xamarin[]
+
+[[_Ref396236029]]
+
+=== データ ソースの作成
+
+[start=1]
+. サンプル データ コードを link:resources-sample-energy-data.html[サンプル エネルギー データ] リソースからコピーして *SampleApp* プロジェクトに追加します。
+
+[start=2]
+. カテゴリ サンプル データのインスタンスを作成します。
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var data = new EnergyProductionDataSample();
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim data As New EnergyProductionDataSample()
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+EnergyProductionDataSample data = new EnergyProductionDataSample();
+----
+
+endif::android[]
+
+[[_Ref396236032]]
+
+=== 軸の作成
+
+横軸でラベルを表示するためのカテゴリ X 軸を作成します
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+ifdef::wpf,win-universal[]
+----
+var xAxis = new CategoryXAxis();
+xAxis.ItemsSource = data;
+xAxis.Label = "{}{County}"; 
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+----
+var xAxis = new CategoryXAxis();
+xAxis.ItemsSource = data;
+ 
+xAxis.Label = "County";
+----
+endif::xamarin[]
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+----
+Dim xAxis = New CategoryXAxis() 
+xAxis.ItemsSource = data
+xAxis.Label = "{}{County}" 
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.setDataSource(data);
+xAxis.setLabel("Country");
+----
+
+endif::android[]
+
+縦軸で値を表示するための数値 Y 軸を作成します
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var yAxis = new NumericYAxis();
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim yAxis = New NumericYAxis()
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+NumericYAxis yAxis = new NumericYAxis();
+----
+
+endif::android[]
+
+[[_Ref396236034]]
+
+=== シリーズの作成
+
+サンプル データ ソースへのバインディングおよびデータ マッピングが設定されるシリーズのインスタンスを作成します。また、シリーズに前のセクションで作成した 2 つの軸の設定が必要です。
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var series = new AreaSeries();
+series.ValueMemberPath = "Coal";
+series.ItemsSource = data;
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim series = New AreaSeries() 
+series.ValueMemberPath = "Coal"
+series.ItemsSource = data
+series.XAxis = xAxis
+series.YAxis = yAxis
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+AreaSeries series = new AreaSeries();
+series.setValueMemberPath("Coal");
+series.setDataSource(data);
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+----
+
+endif::android[]
+
+[[_Ref396236037]]
+
+=== チャートの作成
+
+1 つのシリーズおよび 2 つの軸の設定を持つチャート コントロールのインスタンスを作成します。
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim chart As New {DataChartName}() 
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+
+endif::wpf,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+DataChartView chart = new DataChartView(root.getContext());
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+
+endif::android[]
+
+[[_Ref388439099]]
+== 関連コンテンツ
+
+[[_Ref386478106]]
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-datachart.html[*{DataChartName}* ]
+|このトピックでは、 _{DataChartName}_ コントロールの概要を説明します。
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|このトピックでは、{DataChartName} コントロールを使用して作業を開始する方法に関する情報を提供します。
+
+| link:datachart-series-requirements.html[*シリーズ要件* ]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+|====

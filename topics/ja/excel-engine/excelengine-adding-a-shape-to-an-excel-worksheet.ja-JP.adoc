@@ -1,0 +1,341 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-adding-a-shape-to-an-excel-worksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Exporting"],
+    "guid": "6621af60-43b5-4ba1-94d0-85367c0064b9",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7787089Z"
+}
+|metadata|
+////
+
+= 形状を {ExcelEngineName} ワークシートに追加
+
+[[topic_overview]]
+== トピックの概要
+
+[[purpose]]
+== 使用目的
+
+このトピックでは、事前定義された形状を、{ExcelEngineName} を使って Excel® ワークシートに追加する方法を示します。
+
+[[in_this_topic]]
+== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+[start=1]
+. <<topic_overview,トピックの概要>>
+
+.. <<purpose,使用目的>>
+.. <<in_this_topic,本トピックの内容>>
+.. <<required_background,必要な背景>>
+
+[start=2]
+. <<adding_shape,形状を Excel ワークシートに追加>>
+
+.. <<introduction,はじめに>>
+.. <<preview,プレビュー>>
+.. <<requirments2,要件>>
+.. <<overview,概要>>
+.. <<steps,手順>>
+
+[start=3]
+. <<related_topics,関連トピック>>
+
+[[required_background]]
+== 必要な背景
+
+まず以下のトピックを読む必要があります。
+
+* link:excelengine-creating-a-workbook.html[ワークブックを作成]
+* link:excelengine-save-a-workbook.html[ワークブックの保存]
+
+[[introduction]]
+== はじめに
+
+{ExcelEngineName} を使用すると、link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] オブジェクト内の事前定義された形状のサブセットを操作できます。
+
+[[supported_shapes]]
+== サポートされる形状
+
+Excel のユーザーの視点からは、形状は *挿入* $$->$$ *形状* ドロップダウン メニューからアクセスできます。
+
+image::images/Excel_AddingShape_01.png[]
+
+これらの全ての形状が {ExcelEngineName} API 経由で利用できる訳ではありません。
+
+サポートされる事前定義された全ての形状には、対応するクラスが link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes_namespace.html[Infragistics.Documents.Excel.PredefinedShapes Namespace] で定義されています。各クラスは link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape.html[WorksheetShape クラス]から (必ずしも直接ではなく) 派生しています。 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape.html[WorksheetShape クラス]から直接派生していない形状は link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]から派生しており、内部に書式設定されたテキストを含む機能を備えます。
+
+以下はサポートされる事前定義された形状およびクラスのリストです。このクラスを通して形状が実装されます。
+
+[options="header", cols="a,a,a,a"]
+|====
+|形式|外観|クラス|元のクラス
+
+|Line
+|image::images/ExcelShaped_Line.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.lineshape.html[LineShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape.html[WorksheetShape クラス]
+
+|直線コネクタ
+|image::images/ExcelShaped_StraightConnector.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.straightconnector1shape.html[StraightConnector1Shape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape.html[WorksheetShape クラス]
+
+|不明な形状
+|視覚的表示はありません。全ての未定義の形状のシリアル化を解除するために使用されます。詳細は link:excelengine-importing-shapes-from-excel.html[Excel から形状をインポート]を参照してください。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.unknownshape.html[UnknownShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|ダイアモンド
+|image::images/ExcelShaped_Diamod.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.diamondshape.html[DiamondShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|楕円 (長円形)
+|image::images/ExcelShaped_Ellipse.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.ellipseshape.html[EllipseShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|ハート
+|image::images/ExcelShaped_Hearth.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.heartshape.html[HeartShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|爆発 1
+|image::images/ExcelShaped_IrregularStar1.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.irregularseal1shape.html[IrregularSeal1Shape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|爆発 2
+|image::images/ExcelShaped_IrregularStar2.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.irregularseal2shape.html[IrregularSeal2Shape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|雷光
+|image::images/ExcelShaped_LightningBolt.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.lightningboltshape.html[LightningBoltShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|ペンタゴン
+|image::images/ExcelShaped_Pentagon.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.pentagonshape.html[PentagonShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|矩形
+|image::images/ExcelShaped_Rectangle.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.rectangleshape.html[RectangleShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|直角三角形
+|image::images/ExcelShaped_RightTriangle.png[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.predefinedshapes.righttriangleshape.html[RightTriangleShape クラス]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapewithtext.html[WorksheetShapeWithText クラス]
+
+|====
+
+[[adding_shape]]
+== 形状を Excel ワークシートに追加
+
+[[inproduction2]]
+== はじめに
+
+形状をワークシートに追加するには、事前定義された形状の 1 つを初期化してその位置を設定し、カスタマイズを行ってからそれをワークシートに追加します。詳細手順が以下に説明されています。以下の手順では、サンプル テキストを含む青色の四角形が、Excel グリッドの C3 および K11 のセルの間に置かれています。四角形の側端はそれぞれ、C 列および K 列のちょうど中央に配置されています。
+
+[[preview]]
+== プレビュー
+
+以下は、Microsoft Excel 2010 で表示された最終結果のプレビューです。
+
+image::images/Excel_AddingShape_02.png[]
+
+[[requirments2]]
+== 要件
+
+手順を完了するには、以下が必要です:
+
+* ワークシート項目の 1 つにアクセスできる初期化された Excel ワークブック。
+
+[[overview]]
+== 概要
+
+以下はプロセスの概念的概要です。
+
+[start=1]
+. *形状インスタンスの作成*
+[start=2]
+. *位置とサイズの構成*
+[start=3]
+. *形状のカスタマイズ*
+[start=4]
+. (オプション) *結果を検証します*
+
+[[steps]]
+== 手順
+
+[start=1]
+. *形状インスタンスを作成します。*これには、標準の乗算演算子（$$* $$）を使う方法とproduct関数を使う方法の２通りがあります。
+
+** 形状のコンストラクターの使用
+** CreatePredefinedShape メソッドの使用
+
+それぞれは以下のコードに示されています
+
+.. *形状のコンストラクターの使用。*
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim shape As New RectangleShape()
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+RectangleShape shape = new RectangleShape();
+----
+
+[start=2]
+.. *CreatePredefinedShape メソッドの使用。*
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim shape As RectangleShape =
+    WorksheetShape.CreatePredefinedShape(PredefinedShapeType.Rectangle)
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+RectangleShape shape =
+    (RectangleShape)WorksheetShape.CreatePredefinedShape(PredefinedShapeType.Rectangle);
+----
+
+[start=2]
+. *位置とサイズを構成します。* これを行うには 2 通りの位置指定メソッドがあります。
+
+** セルの使用 (推奨)
+** トゥウィップの使用
+
+トゥウィップ メソッドは、形状の座標を指定する簡単な方法を提供するために開発されています。両方の配置メソッドは同じ結果で終わります。つまりアンカー セルを使用して形状を配置します (「セルの使用」の動作と同様)。
+
+それぞれは以下のコードに示されています。両方の配置メソッドでは、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~positioningmode.html[PositioningMode プロパティ]を使用して、セルを含む形状の自動サイズ変更の動作を指定します。
+
+.. *セルの使用。*
+
+Excel のグリッドで形状を配置するには、左上と右下のアンカーを指定する必要があります (アンカーはポイントであり、単一セル内で定義されます。たとえば、セル K9 の中央またはセル A0 の右上隅)。
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~topleftcornercell.html[TopLeftCornerCell] および  link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~topleftcornerposition.html[TopLeftCornerPosition] プロパティは左上隅のアンカーを定義し、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~bottomrightcornercell.html[BottomRightCornerCell] および  link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~bottomrightcornerposition.html[BottomRightCornerPosition] プロパティは右下隅のアンカーを定義します。
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~topleftcornerposition.html[TopLeftCornerPosition プロパティ]および link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~bottomrightcornerposition.html[BottomRightCornerPosition プロパティ]には `Point` が含まれます。*X* と *Y* 座標は、絶対値 (ピクセル) ではなく相対値 (パーセンテージ) を使用します。たとえば、PointF(50,50) は選択したセルの中央のコントロールの隅を配置します。対応する位置を設定する前に、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~topleftcornercell.html[TopLeftCornerCell] および link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~bottomrightcornercell.html[BottomRightCornerCell] を設定することによって、アンカーを選択する必要があります。
+.. 
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+shape.TopLeftCornerCell = sheet.Rows(2).Cells(2)
+shape.TopLeftCornerPosition = New pick:[wpf="System.Windows.Point"]pick:[xamarin="Infragistics.Core.Point"](50, 100)
+shape.BottomRightCornerCell = sheet.Rows(10).Cells(10)
+shape.BottomRightCornerPosition = New pick:[wpf="System.Windows.Point"]pick:[xamarin="Infragistics.Core.Point"](50, 100)
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+shape.TopLeftCornerCell = sheet.Rows[2].Cells[2];
+shape.TopLeftCornerPosition = new pick:[wpf="System.Windows.Point"]pick:[xamarin="Infragistics.Core.Point"](50, 100);
+shape.BottomRightCornerCell = sheet.Rows[10].Cells[10];
+shape.BottomRightCornerPosition = new pick:[wpf="System.Windows.Point"]pick:[xamarin="Infragistics.Core.Point"](50, 100);
+----
+
+[start=2]
+.. *トゥウィップの使用*
+
+トゥウィップは ポイントの 1/20 または 1 インチの 1/1440 です。たとえば、96 DPI の解像度では、1 ピクセルの幅と高さは 15 トゥウィップになります。ここで、これらを使用して形状の左上隅と右下隅の位置を指定します。
+
+このメソッドでは、形状の左上隅とサイズは、トゥウィップで形状の座標を含むワークシート オブジェクトおよび四角形オブジェクトを受け入れる SetBoundsInTwips メソッドによって設定されています。
+
+GetBoundsInTwips メソッドを使用して、形状の現在の位置とサイズを取得できます。
+
+SetBoundsInTwips メソッドを使用して、ワークシートの現在の構成に基づいてアンカー セルを設定します。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+shape.SetBoundsInTwips(sheet, New pick:[wpf="System.Windows.Rect"]pick:[xamarin="Infragistics.Core.Rect"](150, 150, 3000, 3000))
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+shape.SetBoundsInTwips(sheet, new pick:[wpf="System.Windows.Rect"]pick:[xamarin="Infragistics.Core.Rect"](150, 150, 3000, 3000));
+----
+
+上記のコードでは、形状は左上隅の 10, 10 に配置され、右下隅の 200, 200 に配置されます (96 DPI で)。これは、正しいセルと位置を自動的に設定します。
+
+[start=3]
+. *形状のカスタマイズ*
+
+以下のように形状をカスタマイズします。
+
+** 塗りつぶし色 - 暗青灰色
+** 塗りつぶし色 - 藤紫色
+** 形状テキスト -  _Infragistics_ 
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+shape.Fill = ShapeFill.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].SteelBlue)
+shape.Outline = ShapeOutline.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].RoyalBlue)
+sheet.Shapes.Add(shape)
+Dim ft As New Infragistics.Documents.Excel.FormattedText("infragistics")
+shape.Text = ft
+ft.GetFont(0, 12).Bold = ExcelDefaultableBoolean.[True]
+ft.GetFont(0, 12).Color = New WorkbookColorInfo(Colors.Red)
+ft.GetFont(0, 1).Height = 1000
+ft.GetFont(5, 1).Height = 1000
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+shape.Fill = ShapeFill.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].SteelBlue);
+shape.Outline = ShapeOutline.FromColor(pick:[wpf="System.Windows.Media.Colors"]pick:[xamarin="Infragistics.Core.Graphics.Colors"].RoyalBlue);
+sheet.Shapes.Add(shape);
+Infragistics.Documents.Excel.FormattedText ft = new Infragistics.Documents.Excel.FormattedText("infragistics");
+shape.Text = ft;
+ft.GetFont(0, 12).Bold = ExcelDefaultableBoolean.True;
+ft.GetFont(0, 12).Color = new WorkbookColorInfo(Colors.Red);
+ft.GetFont(0, 1).Height = 1000;
+ft.GetFont(5, 1).Height = 1000;
+----
+
+詳細は、 link:excelengine-customizing-excel-shapes.html[Excel の形状のカスタマイズ]のトピックを参照してください。
+
+テキスト プロパティの設定前に、形状がワークシートに追加されたことに留意してください。形状がワークシートに追加された場合に限り、形状にフォーマット済み文字列を追加できます。
+[start=4]
+. _(任意作業)_  *結果を確認します。*
+
+結果を検証するには、アプリケーションをコンパイルおよび実行してから、その手順の出力を Excel ファイルにエクスポートします (Excel でプレビューするため)。
+
+[[related_topics]]
+
+== 関連トピック
+
+* link:excelengine-customizing-excel-shapes.html[Excel の形状のカスタマイズ ({ExcelEngineName})]
+* link:excelengine-grouping-excel-shapes.html[Excel の形状のグループ化 ({ExcelEngineName})]
+* link:excelengine-importing-shapes-from-excel.html[Excel から形状をインポート ({ExcelEngineName})]

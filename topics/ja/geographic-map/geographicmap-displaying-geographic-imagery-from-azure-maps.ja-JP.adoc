@@ -1,0 +1,246 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Azure Maps から地理的画像を表示
+
+=== 目的
+
+このトピックは、link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで Azure Maps から地理的画像を表示する方法を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加する] 
+
+|このトピックでは、{GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックでは、コントロール内の視覚要素のレイアウトに関する情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理画像を使用] 
+
+|このトピックは、{GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref320395369,Azure Maps から地理的画像>>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320395376,プレビュー>>
+** <<_Ref320471950,要件>>
+** <<Example,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320395369]]
+== Azure Maps から地理的画像
+
+[[_Ref320193474]]
+=== 概要
+
+Azure Maps は Microsoft® のライセンス付きの地理画像マッピング サービスです。この地理的画像サービスは、link:https://azure.microsoft.com/ja-jp/products/azure-maps/[Azure Maps] に直接アクセスして利用できます。{GeoMapName} コントロールは、link:{GeoMapLink}.Azuremapsimagery.html[AzureMapsImagery] クラスを使用してマップ背景コンテンツで Azure Maps から地理的画像を表示します。ただし、{GeoMapName} コントロールはデフォルトで Open Street Maps の地理画像をマップ背景コンテンツに表示します。Azure Maps の地理画像を表示するには、コントロールを構成する必要があります。Azure Maps の地理画像を使用する前に、link:http://www.Azuremapsportal.com[www.Azuremapsportal.com] と登録して Azure Maps API キーを取得する必要があります。link:{GeoMapLink}.Azuremapsimagery.html[AzureMapsImagery] オブジェクトの link:{GeoMapLink}.Azuremapsimagery~apikey.html[ApiKey] プロパティを設定するには、Azure Maps の API キーを使用する必要があります。
+
+[[_Ref320395376]]
+=== プレビュー
+
+以下の画像は、Azure Maps サービスがサポートする地理的画像のマップ スタイルの {GeoMapName} コントロールのプレビューです。
+
+[cols="a"]
+|====
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Azure_Maps_1.png[] 
+
+*Satellite* のスタイルが付いた Azure Map 画像
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Azure_Maps_2.png[] 
+
+*Road* のスタイルが付いた Azure Map 画像
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Azure_Maps_3.png[] 
+
+*HybridRoad* のスタイルが付いた Azure Map 画像
+
+|====
+
+[[_Ref320471950]]
+
+=== 要件
+
+Azure Maps から地理的画像を使用するには、link:http://www.Azuremapsportal.com[www.Azuremapsportal.com] から Map API キーを登録して入手する必要があります。この Azure API キーを link:{GeoMapLink}.Azuremapsimagery.html[AzureMapsImagery] オブジェクトの link:{GeoMapLink}.Azuremapsimagery~apikey.html[ApiKey] プロパティとして設定する必要があります。
+
+マップを正しくレンダリングするには TLS1.2 または TLS1.3 が必要です。.NET 4.7 以降を使用している場合、この手順は無視して構いません。詳細については以下をご確認ください: link:https://learn.microsoft.com/ja-jp/azure/azure-maps/azure-maps-authentication/[https://learn.microsoft.com/ja-jp/azure/azure-maps/azure-maps-authentication]
+
+TLS に対応したフレームワークの完全な一覧はこちらに記載されています:
+link:https://learn.microsoft.com/ja-jp/dotnet/framework/network-programming/tls#tls-support-in-net-framework[.NET Framework での TLS サポート]
+
+.TLS 1.2
+[TLS 1.2]
+====
+ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+====
+
+$$.NET 4.0$$ のように標準でこれを提供していない環境では明示的に必要です。マップを追加する前に、フォームのコンストラクターなどに上記の行を必ず追加してください。
+
+=== プロパティ設定
+
+以下の表で、link:{GeoMapLink}.Azuremapsimagery.html[AzureMapsImagery] クラスの重要なメンバーを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{GeoMapLink}.Azuremapsimagery~apikey.html[ApiKey]
+|文字列
+|Azure Maps 画像サービスで必要となる API キーを設定するためのプロパティを表します。 
+
+このキーを link:http://www.Azuremapsportal.com/[http://www.Azuremapsportal.com] ウェブサイトから取得する必要があります。
+
+| link:{GeoMapLink}.Azuremapsimagery~culturename.html[CultureName]
+|文字列
+|タイル ソースのカルチャ名を設定するためのプロパティを表します。
+
+| link:{GeoMapLink}.Azuremapsimagerystyle.html[ImageryStyle]
+| link:{GeoMapLink}.Azuremapsimagerystyle.html[AzureMapsImageryStyle]
+|Azure Maps 画像タイルのマップ スタイルを設定するプロパティを表します。このプロパティは、以下の link:{GeoMapLink}.Azuremapsimagerystyle.html[AzureMapsImageryStyle] 列挙値に設定できます。 
+
+* Satellite - 道路やラベルがなく、衛星からの視点を提供するマップ スタイルを指定します。
+
+* Road - 道路およびラベルを含む航空オーバーレイ付きのマップスタイルを指定します。
+
+* DarkGrey - 道路とラベルのオーバーレイを含む白黒の地図を指定します。
+
+* LabelsRoadOverlay - 道路とラベルのオーバーレイのみを含むマップを指定します。
+
+* TerraOverlay - 標高や地形の特徴をハイライト表示する陰影起伏付きの地形マップ スタイルを指定します。
+
+* HybridRoadOverlay - 衛星画像の背景に道路とラベルのオーバーレイを組み合わせます。
+
+* HybridDarkGreyOverlay - 衛星画像の背景にダーク グレーのラベル オーバーレイを組み合わせます。
+
+* LabelsDarkGreyOverlay - 都市ラベルのオーバーレイの 1 つです。
+
+* LabelsDarkGreyOverlay - 都市ラベルのオーバーレイの 1 つです。
+
+* TrafficAbsoluteOverlay - 現在の交通速度を絶対値で表示します。
+
+* TrafficReducedOverlay - 減少した交通流を光ベースの視覚化で表示します。
+
+* TrafficRelativeOverlay - 通常の状況に対する相対的な交通速度を表示します。
+
+* TrafficRelativeDarkOverlay - 通常時と比較した交通速度を表示し、コントラストを強調します。
+
+* WeatherRadarOverlay - 降水のほぼリアルタイムのレーダー画像を表示します。
+
+* WeatherInfraredOverlay - 雲量の赤外線衛星画像を表示します。
+
+|====
+
+=== 例
+
+この表の下の画像は、{GeoMapName} コントロールの背景コンテンツで Azure Maps から地理的画像を表示する方法を提供します。{GeoMapName} コントロールを以下のように構成します。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| pick:[wpf="link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent]"]pick:[win-forms="BackgroundContent"]
+|AzureMapsImagery
+
+| link:{GeoMapLink}.Azuremapsimagerystyle.html[ImageryStyle]
+|Road
+
+| link:{GeoMapLink}.Azuremapsimagery~apikey.html[ApiKey]
+|Azure Map API キー
+
+|====
+
+image::images/GeographicMap_Displaying_Geographic_Imagery_from_Azure_Maps_2.png[]
+
+以下のコードはこの例を実装します。
+
+.注:
+[NOTE]
+====
+自身の Azure Map API キーで ApiKey プロパティに設定した文字列を置き換える必要があります。
+====
+ 
+ifdef::wpf[]
+*XAML の場合:* 
+
+[source,xaml]
+----
+<ig:XamGeographicMap Name="igMap">
+   <ig:XamGeographicMap.BackgroundContent>
+      <ig:AzureMapsImagery ImageryStyle="Road"
+                    ApiKey="API_KEY" />
+   </ig:XamGeographicMap.BackgroundContent>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim igMap As {GeoMapName}
+Dim AzureMaps as AzureMapsImagery
+AzureMaps.ImageryStyle = AzureMapsImageryStyle.Road
+AzureMaps.ApiKey = "API_KEY"
+ifdef::wpf[]
+igMap.BackgroundContent = AzureMaps
+endif::wpf[]
+ifdef::win-forms[]
+igMap.SetImagery(AzureMaps)
+endif::win-forms[]
+----
+
+*C# の場合:* 
+
+[source,csharp]
+----
+var igMap = new {GeoMapName}
+var AzureMaps = new AzureMapsImagery();
+AzureMaps.ImageryStyle = AzureMapsImageryStyle.Road; 
+AzureMaps.ApiKey = "API_KEY";
+ifdef::wpf[]
+igMap.BackgroundContent = AzureMaps;
+endif::wpf[]
+ifdef::win-forms[]
+igMap.SetImagery(AzureMaps);
+endif::win-forms[]
+----
+
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+| トピック | 目的 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} の追加]
+|このトピックは、{GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Open Street Maps から地理的画像を表示]
+|このトピックは、{GeoMapName} コントロールで Open Street Maps サービスからの地理的画像を表示する方法を提供します。
+
+|====

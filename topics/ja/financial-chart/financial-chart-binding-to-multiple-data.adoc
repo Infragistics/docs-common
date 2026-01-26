@@ -1,0 +1,294 @@
+﻿= 複数のデータ セットへのバインド
+
+=== 目的
+このトピックは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールにデータをバインドする方法を示します。各セクションの最後で、サンプルの全コードを提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Introduction,概要>> 
+* <<SupportedChartTypes,サポートされるチャート タイプ>>
+
+pick:[wpf="* <<Requirements,要件>>"]
+* <<PreviewData,プレビュー>>
+* <<OverviewData,概要>>
+* <<StepsData,手順>>
+* <<RelatedTopics,関連コンテンツ>>
+
+[[Introduction]]
+== 概要
+
+以下の手順は、{FinancialChartName} コントロールをデータ コレクションにバインドする方法を示します。
+ifdef::wpf[]
+{FinancialChartName} は、IEnumerable インターフェイスを実装する任意のオブジェクトにバインドすることができます。ICollection および IEnumerable を実装するネスト コレクションがサポートされます。
+endif::wpf[]
+ifdef::jquery[]
+{FinancialChartName} は JavaScript 配列にバインドできます。ネスト コレクションもサポートされます。
+endif::jquery[]
+
+{FinancialChartName} は、データ ソースの項目の数が異なる場合、Time モードで XAxis に複数のデータ ソースをプロットできません。コントロールは複数のデータ ソースの項目も整列しません。結果として、データ ソースに対応する項目がない場合、null 項目を挿入してデータ項目を整列する必要があります。
+
+[[SupportedChartTypes]]
+== サポートされるチャート タイプ
+
+link:{FinancialChartLink}.{FinancialChartName}{ApiProp}chartType{HtmlApiExtension}[ChartType] プロパティは、表示するシリーズ タイプを選択できます。 
+
+サポートされるシリーズ タイプ:
+
+* 棒
+* ローソク足
+* 柱状
+* 折れ線
+ifdef::wpf[]
+
+[[Requirements]]
+== 要件
+
+以下は、{FinancialChartName} コントロールを追加するための一般要件です。
+
+以下の NuGet パッケージ参照をアプリケーションに追加します。
+
+** Infragistics.WPF.FinancialChart
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----  
+
+*C# の場合:* 
+[source,csharp]
+----
+using {FinancialChartNamespace};  
+----  
+
+*VB の場合:* 
+[source,vb]
+----
+Imports {FinancialChartNamespace}
+---- 
+endif::wpf[]
+
+[[PreviewData]]
+== プレビュー
+
+サンプル データにバインドした {FinancialChartName} コントロール:
+
+pick:[wpf="image::images/financialchart_wpf_multidata.png[]"]
+pick:[jquery="image::images/financialchart_jquery_multidata.png[]"]
+
+[[OverviewData]]
+== 概要
+
+
+1.	データ モデルの定義
+2.	{FinancialChartName} コントロールのインスタンスの追加
+3.	(オプション) 結果の検証
+
+[[StepsData]]
+== 手順
+
+*データの定義*
+
+ifdef::wpf[]
+データをモデル化するためのクラスを作成します。
+
+*C# の場合:*
+[source, csharp]
+----
+public MainWindow()
+{
+    InitializeComponent();
+    Data data = new Data();
+    List<List<Price>> multiData = new List<List<Price>>();
+    multiData.Add(data.AMZN);
+    multiData.Add(data.GOOG);
+    this.DataContext = multiData;
+}
+
+public class Price
+{
+    public DateTime Time { get; set; }
+    public double Open { get; set; }
+    public double High { get; set; }
+    public double Low { get; set; }
+    public double Close { get; set; }
+    public double Volume { get; set; }
+    public string Label { get { return this.Time.ToShortDateString(); } }
+}
+----
+
+
+*Visual Basic の場合:*
+[source, vb]
+----
+    Class MainWindow
+
+        Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
+            Dim data As Data = New Data
+            Dim multiData As List(Of List(Of Price)) = New List(Of List(Of Price))
+            multiData.Add(data.AMZN)
+            multiData.Add(data.GOOG)
+            Me.DataContext = multiData
+        End Sub
+    End Class
+
+    Public Class Price
+        Private _time As DateTime
+        Public Property Time() As DateTime
+            Get
+                Return _time
+            End Get
+            Set(ByVal value As DateTime)
+                _time = value
+            End Set
+        End Property
+
+        Private _open As Double
+        Public Property Open As Double
+            Get
+                Return _open
+            End Get
+            Set(ByVal value As Double)
+                _open = value
+            End Set
+        End Property
+
+        Private _high As Double
+        Public Property High As Double
+            Get
+                Return _high
+            End Get
+            Set(ByVal value As Double)
+                _high = value
+            End Set
+        End Property
+
+        Private _low As Double
+        Public Property Low As Double
+            Get
+                Return _low
+            End Get
+            Set(ByVal value As Double)
+                _low = value
+            End Set
+        End Property
+
+        Private _close As Double
+        Public Property Close As Double
+            Get
+                Return _close
+            End Get
+            Set(ByVal value As Double)
+                _close = value
+            End Set
+        End Property
+
+        Private _volume As Double
+        Public Property Volume As Double
+            Get
+                Return _volume
+            End Get
+            Set(ByVal value As Double)
+                _volume = value
+            End Set
+        End Property
+
+        Public ReadOnly Property Label As String
+            Get
+                Return Me.Time.ToShortDateString()
+            End Get
+        End Property
+    End Class
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,js]
+----
+function getMultiData() {
+    var data = [];
+    data.push(PriceData.AMZN());
+    data.push(PriceData.GOOG());
+    data.push(PriceData.MSFT());
+    data.push(PriceData.TGT());	
+    data.push(PriceData.TSLA());
+    
+    return data;
+}
+----
+endif::jquery[]
+
+
+*{FinancialChartName} コントロールのインスタンスの追加*
+
+{FinancialChartName} インスタンスを追加し、データにバインドします。
+
+ifdef::wpf[]
+*XAML の場合*:
+[source, xaml]
+----
+<Window.DataContext>
+    <local:MultiData />
+</Window.DataContext>
+<Grid>
+    <ig:{FinancialChartName} ItemsSource="{Binding}" />
+</Grid>
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*HTML の場合:*
+[source,html]
+----
+<div id="chart" style="width:800px;height:600px"></div>
+----
+*JavaScript の場合:*
+[source,js]
+----
+$(function () {
+    var data = getMultiData();		
+    $("#chart").igFinancialChart({ 
+    	dataSource: data
+    });
+});
+----
+endif::jquery[]
+
+*結果の確認 (オプション)*
+
+結果を検証するために、アプリケーションを実行します。{FinancialChartName} コントロールのデータ コレクションへのバインドが成功すれば、結果のチャートは上記に示すようなものになります。
+
+[[RelatedTopics]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:financial-chart-binding-to-data.html[データ バインド]
+|このトピックでは、{FinancialChartName} コントロールをデータにバインドする概要を提供します。
+
+|link:financial-chart-binding-to-single-data.html[データの単一のセットにバインド]
+|このトピックは、{FinancialChartName} コントロールを単一のデータ セットにバインドする方法を紹介します。
+
+|link:financial-chart-binding-to-live-data.html[ライブ データへのバインド]
+|このトピックは、{FinancialChartName} コントロールをライブ データにバインドする方法を紹介します。
+
+ifdef::wpf[]
+|link:resources-financialdata.html[サンプル財務データ]
+|上記のコード例で使用されるデータ。
+endif::wpf[]
+
+|====

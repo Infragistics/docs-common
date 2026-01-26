@@ -1,0 +1,220 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-selection",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting", "Selection", "Data Binding","Getting Started"],
+    "guid": "3d087135-84b0-4f6e-b3eb-afe7e962e406",
+    "buildFlags": [],
+    "createdOn": "2024-07-29T19:39:00.6883931Z"
+}
+|metadata|
+////
+
+= Chart Selection
+
+=== Purpose
+This topic introduces the concept of chart's selection functionality and guides you to the discussion of types of options available. This feature allows users to interactively select, highlight, outline and vice-versa deselect single or multiple series within a chart. This provides many different possibilities with how users interact with the data presented in more meaningful ways.
+
+== Configuring Selection
+The default behavior link:{DataChartLink}.{DataChartName}{ApiProp}SelectionMode.html[SelectionMode] turned off and requires opting into one of the following options. There are several selection modes available in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]:
+
+- `Auto`
+- `None`
+- `Brighten`
+- `FadeOthers`
+- `GrayscaleOthers`
+- `FocusColorThickOutline`
+- `FocusColorOutline`
+- `SelectionColorThickOutline`
+- `SelectionColorOutline`
+- `FocusColorFill`
+- `SelectionColorFill`
+- `ThickOutline`
+
+Brighten will fade the selected item while FadeOthers will cause the opposite effect occur. `GrayscaleOthers` will behave similarily to FadeOthers but instead show a gray color to the rest of the series. Note this will override any SelectionBrush setting. `SelectionColorOutline` and `SelectionColorThickOutline` will draw a border around the series.
+
+In conjuction, a link:{DataChartLink}.{DataChartName}{ApiProp}SelectionBehavior.html[SelectionBehavior] is available to provide greater control on which items get selected. The default behavior for `Auto` is `PerSeriesAndDataItemMultiSelect`.
+
+- `Auto`
+- `PerDataItemMultiSelect`
+- `PerDataItemSingleSelect`
+- `PerSeriesAndDataItemMultiSelect`
+- `PerSeriesAndDataItemSingleSelect`
+- `PerSeriesAndDataItemGlobalSingleSelect`
+- `PerSeriesMultiSelect`
+- `PerSeriesSingleSelect`
+
+`PerSeriesAndDataItemGlobalSingleSelect` allows any one series to be selected at once across all categories compared to `PerSeriesSingleSelect` that selects the same series for every category at once.
+
+The following is a code example that implements single series selection across all categories example:
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" SelectionMode="SelectionColorFill" SelectionBehavior="PerSeriesSingleSelect">
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new XamDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesSingleSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new UltraDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesSingleSelect;
+----
+
+endif::win-forms[]
+
+== Configuring Multiple Selection
+
+Data Item selection will limit one series to be selected across the chart, unless you set use one with that includes series in the name. eg. `PerSeriesAndDataItemMultiSelect`. This has no restraints.  
+
+Other selection modes offer various methods of selection. For example using link:{DataChartLink}.{DataChartName}{ApiProp}SelectionBehavior.html[SelectionBehavior] with PerDataItemMultiSelect will select all series in entire category when multiple series are present, but only one category at a time, deselecting anything selected previously. 
+
+You would use "PerDataItemSingleSelect" selection when your series are bound to the same data source and you want to select all items in a record in that datasource. For example if the records in the datasource have fields label, value1, value2 and series 1 is bound to value1 and series 2 is bound to value2 then selecting a point on either series would select values from both series.
+
+The following is a code example that implements multiple selection across all data items and series:
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" SelectionMode="SelectionColorFill" SelectionBehavior="PerSeriesAndDataItemMultiSelect">
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new XamDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new UltraDataChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+== Configuring Outline Selection
+A `FocusBrush` can be applied to style the outline of a series, along with the selection modes. Selected series will appear with a border when the link:{DataChartLink}.{DataChartName}{ApiProp}SelectionMode.html[SelectionMode] property is set to one of the focus options.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" FocusBrush="Green" SelectionMode="FocusColorThickOutline" SelectionBehavior="PerSeriesAndDataItemMultiSelect">
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new XamDataChart();
+this.ColumnChart.FocusBrush = new SolidColorBrush(Colors.Green);
+chart.SelectionMode = SeriesSelectionMode.FocusColorThickOutline;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new UltraDataChart();
+this.ColumnChart.FocusBrush = Colors.Green; 
+chart.SelectionMode = SeriesSelectionMode.FocusColorThickOutline;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+== Related Content
+
+This section provides you with useful information about task-based procedures on working with series of the {DataChartName} control.
+
+ifdef::sl,wpf[]
+* link:datachart-creating-custom-series.html[Creating Custom Series]
+endif::sl,wpf[]
+
+* link:datachart-multiple-series.html[Adding Multiple Series]
+
+ifdef::sl,wpf,win-phone[]
+* link:datachart-series-data-correlation.html[Series Data Correlation]
+endif::sl,wpf,win-phone[]
+
+ifdef::sl,wpf,win-phone[]
+* link:datachart-series-error-bars.html[Series Error Bars]
+endif::sl,wpf,win-phone[]
+
+* link:datachart-trend-lines.html[Series Trend Lines]
+
+ifdef::sl,wpf,win-universal[]
+* link:datachart-series-highlighting.html[Series Highlighting]
+endif::sl,wpf,win-universal[]
+
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-series-types.html[Series Types]

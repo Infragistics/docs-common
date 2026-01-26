@@ -1,0 +1,174 @@
+﻿////
+|metadata|
+{
+    "name": "android-adding-linear-gauge",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": [],
+    "guid": "feb10bdf-4cc6-45ce-b33c-aa7bb722be11",
+	"buildFlags": ["ANDROID"],
+    "createdOn": "2015-07-01T15:23:08.8447303Z"
+}
+|metadata|
+////
+
+= Adding {LinearGaugeName}
+
+
+
+=== Purpose
+
+This topic explains using a code example how to add the _{LinearGaugeName}_™ control to {PlatformName} applications.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Adding,Adding _{LinearGaugeName}_ to the {PlatformName} application>>
+
+** <<Introduction,Introduction>>
+** <<Preview,Preview>>
+** <<Prerequisites,Prerequisites>>
+** <<Overview,Overview>>
+** <<Steps,Steps>>
+
+* <<RelatedContent,Related Content>>
+
+[[Adding]]
+== Adding _{LinearGaugeName}_ to the {PlatformName} application
+
+[[Introduction]]
+
+=== Introduction
+
+The following procedure demonstrates adding the _{LinearGaugeName}_ to {PlatformName} applications.
+
+[[Preview]]
+
+=== Preview
+
+The following is a screenshot of the _{LinearGaugeName}_ .
+
+image::images/XamLinearGauge_Adding_1.png[]
+
+[[Prerequisites]]
+
+=== Prerequisites
+
+To complete the procedure, you need the following:
+
+* A {PlatformName} project with a page
+* The required Jars added to the project (See <<_Ref361648047,Requirements>>.)
+
+[[Overview]]
+
+=== Overview
+
+Following is a conceptual overview of the process:
+
+*1. Adding the {LinearGaugeName} control to {PlatformName} applications*
+
+*2. Verifying the results*
+
+[[_Ref361648047]]
+
+=== Requirements
+
+Following are the general requirements for adding the _{LinearGaugeName}_ control.
+
+[options="header", cols="a,a"]
+|====
+|Requirement|Description
+
+|Jar References
+|
+* Infragistics.Gauges.jar 
+
+* Infragistics.UI.jar 
+
+* Infragistics.DV.Shared.jar 
+
+|Namespace References
+|import com.infragistics.controls.LinearGaugeView; 
+
+import com.infragistics.controls.LinearGraphRange;
+
+|====
+
+[[Steps]]
+
+=== Steps
+
+The following procedure takes you through the steps necessary for adding the _{LinearGaugeName}_ control to a page.
+
+=== 1. Add the {LinearGaugeName} control to the page.
+
+[start=1]
+. Start a new project and select the option "blank activity with fragment" when prompted.
+[start=2]
+. Open the "MainActivityFragment" file and enter the following code snippet in the "onCreateView" method
+[start=3]
+. *In Java:*
+
+[source,js]
+----
+LinearGaugeView linearGauge = new LinearGaugeView(rootView.getContext());
+int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
+RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+linearGauge.setMaximumValue(55);
+linearGauge.setMinimumValue(5);
+linearGauge.setValue(43);
+LinearGraphRange range1 = new LinearGraphRange();
+range1.setStartValue(0);
+range1.setEndValue(15);
+range1.setBrush(new SolidColorBrush(Color.RED));
+LinearGraphRange range2 = new LinearGraphRange();
+range2.setStartValue(15);
+range2.setEndValue(30);
+range2.setBrush(new SolidColorBrush(Color.YELLOW));
+LinearGraphRange range3 = new LinearGraphRange();
+range3.setStartValue(30);
+range3.setEndValue(55);
+range3.setBrush(new SolidColorBrush(Color.GREEN));
+linearGauge.addRange(range1);
+linearGauge.addRange(range2);
+linearGauge.addRange(range3);
+----
+
+=== 2. Verify the results.
+
+Build and run your project with either an emulator or a connected device. If you built it properly it will look like the screenshot at the top of the page.
+
+[[_Ref348111483]]
+
+[[RelatedContent]]
+
+== Related Content
+
+
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:radialgauge-configuring-the-backing.html[Configuring the Background ({LinearGaugeName})]
+|This topic provides a conceptual overview of the _{LinearGaugeName}_™ control’s backing feature. It describes the properties of the backing area and provides an example of its implementation.
+
+| link:radialgauge-configuring-labels.html[Configuring Labels ({LinearGaugeName})]
+|This topic provides a conceptual overview of labels with the {LinearGaugeName}™ control. It describes the properties of the labels and also provides an example of how to configure the labels.
+
+| link:radialgauge-configuring-needles.html[Configuring Needles ({LinearGaugeName})]
+|This topic provides a conceptual overview of needles with the {LinearGaugeName}™ control. It describes the properties of the needles and also provides an example of how to configure them.
+
+| link:radialgauge-configuring-ranges.html[Configuring Ranges ({LinearGaugeName})]
+|This topic provides a conceptual overview of the {LinearGaugeName}™ control’s ranges. It describes the properties of the ranges and provides an example of how to add ranges to the radial gauge.
+
+| link:radialgauge-configuring-the-scale.html[Configuring the Scale ({LinearGaugeName})]
+|This topic provides a conceptual overview of the {LinearGaugeName}™ control’s scale. It describes the properties of the scale and also provides an example of how to implement it.
+
+| link:radialgauge-configuring-tick-marks.html[Configuring the Tick Marks ({LinearGaugeName})]
+|This topic provides a conceptual overview of tick marks with the {LinearGaugeName}™ control. It describes the tick marks’ properties and provides an example of how to implement them.
+
+|====

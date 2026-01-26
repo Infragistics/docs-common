@@ -1,0 +1,1208 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-chart-performance",
+    "controlName": ["{DataChartName}"],
+    "tags": [],
+    "guid": "2a69d461-3484-4f39-9a15-363a7792dbf7","buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.6723864Z"
+}
+|metadata|
+////
+
+= Chart Performance
+
+[[Overview]]
+== Overview
+
+This topic is your gateway to important conceptual and task-based information that will help you make the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control work as fast as possible in your application.
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<ChartFeatures,Chart Features>>
+
+** <<Series,Series Types>>
+** <<SeriesResolution,Series Resolution>>
+** <<Markers,Markers>>
+** <<Axes,Axes Types>>
+** <<AxisLabels,Axis Labels>>
+** <<AxisExtent,Axis Extent>>
+
+ifdef::wpf,win-forms,xamarin[]
+* <<DataImplementation,Data Implementation>>
+
+** <<DataSource,Data Source>>
+** <<DataItems,Data Items>>
+
+endif::wpf,win-forms,xamarin[]
+
+* <<RelatedContent,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+Although the {DataChartName} is capable of handling high volumes of data,  pick:[sl,wpf="ranging into the millions of data points, and updating them every few milliseconds,"]  there are several chart features that affect performance of the chart and they should be considered when optimizing performance in your application. Also, there are a few data patterns that should be considered while implementing the data source for the {DataChartName} control.
+
+[[ChartFeatures]]
+== Chart Features
+
+The following section lists chart features that add to the overhead and processing updates in the {DataChartName} control.
+
+[[Series]]
+=== Series Types
+
+The number of series defined in the {DataChartName} control’s  pick:[xaml,win-forms=" link:{DataChartLinkBase}.{DataChartBase}{ApiProp}series.html[Series] collection"]  pick:[android=" link:{DataChartLinkBase}~addseries.html[Series] method"]  contributes to the performance of the chart. Also, the type of series has some impact on the chart; for example, using link:{DataChartLink}.lineseries.html[LineSeries] is recommended over usage of link:{DataChartLink}.splineseries.html[SplineSeries] because of the complex interpolation of spline lines between data points. The same applies to link:{DataChartLink}.polarlineseries.html[PolarLineSeries] and link:{DataChartLink}.polarsplineseries.html[PolarSplineSeries] or link:{DataChartLink}.polarsplineareaseries.html[PolarSplineAreaSeries].
+
+This code snippet shows how to replace link:{DataChartLink}.splineseries.html[SplineSeries] with link:{DataChartLink}.lineseries.html[LineSeries] in the {DataChartName} control.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:SplineSeries ItemsSource="{Binding}"
+                             ValueMemberPath="Value"
+                             XAxis="{Binding ElementName=categoryXAxis}"
+                             YAxis="{Binding ElementName=numericYAxis}">
+            </ig:SplineSeries>            <ig:LineSeries ItemsSource="{Binding}"
+                           ValueMemberPath="Value"
+                           XAxis="{Binding ElementName=categoryXAxis}"
+                           YAxis="{Binding ElementName=numericYAxis}">
+            </ig:LineSeries>
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+----
+<ig:XamDataChart x:Name="DataChart" >
+      <ig:XamDataChart.Series>
+            <ig:SplineSeries ItemsSource="{Binding}"
+                             ValueMemberPath="Value"
+                             XAxis="{x:Reference categoryXAxis}"
+                             YAxis="{x:Reference numericYAxis}">
+            </ig:SplineSeries>
+            <ig:LineSeries ItemsSource="{Binding}"
+                           ValueMemberPath="Value"
+                           XAxis="{x:Reference categoryXAxis}"
+                           YAxis="{x:Reference numericYAxis}">
+            </ig:LineSeries>
+      </ig:XamDataChart.Series>
+</ig:XamDataChart>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*In Visual Basic:*
+
+ifdef::win-forms[]
+----
+Dim splineSeries As New SplineSeries()
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value"
+splineSeries.XAxis = categoryXAxis
+splineSeries.YAxis = numericYAxis
+Dim lineSeries As New LineSeries()
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value"
+lineSeries.XAxis = Me.categoryXAxis
+lineSeries.YAxis = Me.numericYAxis
+Me.DataChart.Series.Add(splineSeries)Me.DataChart.Series.Add(lineSeries)
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+*In C#:*
+
+ifdef::win-forms[]
+----
+var splineSeries = new SplineSeries();
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value";
+splineSeries.XAxis = this.categoryXAxis;  
+splineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(splineSeries);var lineSeries = new LineSeries();
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value";
+lineSeries.XAxis = this.categoryXAxis;  
+lineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(lineSeries);
+----
+endif::win-forms[]
+
+ifdef::xaml[]
+----
+var splineSeries = new SplineSeries();
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value";
+splineSeries.XAxis = this.categoryXAxis;  
+splineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(splineSeries);var lineSeries = new LineSeries();
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value";
+lineSeries.XAxis = this.categoryXAxis;  
+lineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(lineSeries);
+----
+endif::xaml[]
+
+endif::wpf,win-forms,xamarin[]
+
+[[SeriesResolution]]
+=== Series Resolution
+
+Setting the link:{DataChartLink}.series{ApiProp}resolution.html[Resolution] property on a link:{DataChartLink}.series.html[Series] to a higher value can help with performance, but it will lower the graphical fidelity of the line. As such, it can be increased up until the fidelity is unacceptable.
+
+This code snippet shows how to increase resolution of a series in the {DataChartName} control.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:LineSeries Resolution="1.5" />
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Dim series As New LineSeries()
+series.Resolution = 1.5
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Dim series As New LineSeries()
+series.Resolution = 1.5
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+LineSeries series = new LineSeries();
+series.Resolution = 1.5;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+LineSeries series = new LineSeries();
+series.Resolution = 1.5;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+LineSeries series = new LineSeries();
+series.Resolution = 1.5;
+----
+
+endif::xamarin[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+LineSeries series = new LineSeries();
+series.setResolution(1.5);
+----
+
+endif::android[]
+
+[[Markers]]
+=== Markers
+
+Markers are especially expensive when it comes to performance of the Data Chart because they add to the layout complexity of the chart, and perform data binding to obtain certain information.
+ifdef::wpf,sl,win-forms,win-universal,android[]
+Their impact can be reduced somewhat by removing some of the bindings they perform from their templates. But, the
+endif::wpf,sl,win-forms,win-universal,android[]
+ifdef::xamarin[]
+An
+endif::xamarin[]
+additional layout complexity still adds to the overhead. Therefore, if markers are not needed, they should be removed from the chart by setting the link:{DataChartLink}.markerseries{ApiProp}markertype.html[MarkerType] property of a Series to  pick:[wpf,win-universal,android=" link:{DataChartLink}.markertype.html[MarkerType]"]  pick:[xamarin,win-forms=" link:{DataChartLinkBase}.markertype.html[MarkerType]"]  enumerable value.
+
+This code snippet shows how to remove markers from the {DataChartName} control.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:LineSeries MarkerType="None" />
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Dim series As New LineSeries()
+series.MarkerType = MarkerType.None
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Dim series As New LineSeries()
+series.MarkerType = MarkerType.None
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+LineSeries series = new LineSeries();
+series.setMarkerType(MarkerType.NONE);
+----
+
+endif::android[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+var series = new LineSeries();
+series.MarkerType = MarkerType.None;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+var series = new LineSeries();
+series.MarkerType = MarkerType.None;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+var series = new LineSeries();
+series.MarkerType = MarkerType.None;
+----
+
+endif::xamarin[]
+
+[[Axes]]
+=== Axes Types
+
+link:datachart-category-series-overview.html[XAxis] property. However, usage of link:{DataChartLink}.categorydatetimexaxis.html[CategoryDateTimeXAxis] is not recommended if spaces between data points, based on the amount of time span between them, are not important. Instead, link:{DataChartLink}.categoryxaxis.html[CategoryXAxis] should be used because it is more efficient in the way it coalesces data, and it doesn’t perform any sorts on the data like the CategoryDateTimeXAxis does.
+
+This code snippet shows how to replace CategoryDateTimeXAxis with CategoryXAxis in the {DataChartName} control.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="categoryXAxis"
+                      ItemsSource="{Binding}"
+                      Label="{}{Date}">
+    </ig:CategoryXAxis>
+    <ig:CategoryDateTimeXAxis x:Name="categoryDateTimeXAxis"
+                      ItemsSource="{Binding}"
+                      DateTimeMemberPath="Date"
+                      Label="{}{Date}">
+    </ig:CategoryDateTimeXAxis>
+</ig:XamDataChart.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="categoryXAxis"
+                      ItemsSource="{Binding}"
+                      Label="Date">
+    </ig:CategoryXAxis>
+    <ig:CategoryDateTimeXAxis x:Name="categoryDateTimeXAxis"
+                      ItemsSource="{Binding}"
+                      DateTimeMemberPath="Date"
+                      Label="Date">
+    </ig:CategoryDateTimeXAxis>
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Dim categoryXAxis As New CategoryXAxis()
+categoryXAxis.Label = "Date"
+Dim categoryDateTimeXAxis As New CategoryDateTimeXAxis()
+categoryDateTimeXAxis.DateTimeMemberPath = "Date"
+categoryDateTimeXAxis.Label = "Date"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Dim categoryXAxis As New CategoryXAxis()
+categoryXAxis.Label = "Date"
+Dim categoryDateTimeXAxis As New CategoryDateTimeXAxis()
+categoryDateTimeXAxis.DateTimeMemberPath = "Date"
+categoryDateTimeXAxis.Label = "Date"
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+CategoryXAxis categoryXAxis = new CategoryXAxis();
+categoryXAxis.setLabel("Date");
+CategoryDateTimeXAxis categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.setDateTimeMemberPath("Date");
+categoryDateTimeXAxis.setLabel("Date");
+----
+
+endif::android[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+var categoryXAxis = new CategoryXAxis();
+categoryXAxis.Label = "Date";
+var categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.DateTimeMemberPath = "Date";
+categoryDateTimeXAxis.Label = "Date";
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+var categoryXAxis = new CategoryXAxis();
+categoryXAxis.Label = "Date";
+var categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.DateTimeMemberPath = "Date";
+categoryDateTimeXAxis.Label = "Date";
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+var categoryXAxis = new CategoryXAxis();
+categoryXAxis.Label = "Date";
+var categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.DateTimeMemberPath = "Date";
+categoryDateTimeXAxis.Label = "Date";
+----
+
+endif::xamarin[]
+
+.Note:
+[NOTE]
+====
+Turning off the axis gridlines does not currently improve the performance of the {DataChartName}.
+====
+
+[[AxisLabels]]
+=== Axis Labels
+
+ifdef::wpf,sl,win-forms,win-universal,android[]
+In the same way as Markers, axis labels are also expensive because they use templates and bindings, and may have their data context changed often.  pick:[sl,wpf="Their performance has been greatly improved for in the 2011 volume 1 release, but they are still expensive."]
+endif::wpf,sl,win-forms,win-universal,android[]
+If labels are not used, they should be turned off on Axis.
+
+ifdef::sl,wpf[]
+.Note:
+[NOTE]
+====
+Prior to the 2011 volume 1 release, the suggestion was to use DataTemplates for the axis labels rather than the shorthand, as this resulted in less label churn. However, this is not the case anymore because of the improvements made to the default configuration. As a result, this suggestion is reversed and usage of DataTemplates should be avoided.
+====
+endif::sl,wpf[]
+
+This code snippet shows how to hide axis labels in the {DataChartName} control.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName}.Axes>
+    <ig:CategoryXAxis x:Name="axis">
+           <ig:CategoryXAxis.LabelSettings>
+                    <ig:AxisLabelSettings Visibility="Collapsed" />
+           </ig:CategoryXAxis.LabelSettings>
+    </ig:CategoryXAxis>
+</ig:{DataChartName}.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="axis" LabelVisibity="Collapsed" />
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*In Visual Basic:*
+
+ifdef::wpf,win-universal[]
+----
+Dim axis As New CategoryXAxis()
+axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Visibility = Visibility.Collapsed
+axis.LabelsVisible = false
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+----
+Dim axis As New CategoryXAxis()
+axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Visibility = Visibility.Collapsed
+axis.LabelsVisible = false
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+*In C#:*
+
+ifdef::wpf,win-universal[]
+----
+var axis = new CategoryXAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Visibility = Visibility.Collapsed;
+axis.LabelsVisible = false;
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+----
+var axis = new CategoryXAxis();
+axis.LabelVisibility = Visibility.Collapsed;
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+----
+var axis = new CategoryXAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Visibility = Visibility.Collapsed;
+axis.LabelsVisible = false;
+----
+endif::win-forms[]
+
+endif::wpf,win-forms,xamarin[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+CategoryXAxis axis = new CategoryXAxis();
+axis.setLabelsVisible(false);
+----
+
+endif::android[]
+
+[[AxisExtent]]
+=== Axis Label Extent
+
+ifdef::sl,wpf[]
+Prior to the 2011 volume 1 release, it was important to set the link:{DataChartLink}.axislabelsettings{ApiProp}extent.html[Extent] property of the y-axis labels to avoid extra chart refreshes. This still may be a good idea, but is not as important now.
+endif::sl,wpf[]
+
+The chart control adjust at runtime extent of labels on y-axis based on a label with longest value. This might decrease chart performance if range of data changes and labels need to be updated. Therefore it is recommended to set label extent at design time in order to improve chart performance. The following code snippet shows how to set a fixed extent for labels on y-axis in the {DataChartName} control.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName}.Axes>
+    <ig:NumericYAxis x:Name="numericYAxis"
+                     LabelExtent="50" />
+</ig:{DataChartName}.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:NumericYAxis x:Name="numericYAxis"
+                     LabelExtent="50" />
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*In Visual Basic:*
+
+ifdef::wpf,win-universal[]
+----
+Dim axis As New NumericYAxis()axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Extent = 50
+axis.LabelExtent = 50
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+----
+Dim axis As New NumericYAxis()axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Extent = 50
+axis.LabelExtent = 50
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+NumericYAxis axis = new NumericYAxis();
+axis.setLabelExtent(50);
+----
+
+endif::android[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+*In C#:*
+
+ifdef::wpf,win-universal[]
+----
+var axis = new NumericYAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Extent = 50;
+axis.LabelExtent = 50;
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+----
+var axis = new NumericYAxis();
+axis.LabelExtent = 50;
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+----
+var axis = new NumericYAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Extent = 50;
+axis.LabelExtent = 50;
+----
+endif::win-forms[]
+
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+[[DataImplementation]]
+== Data Implementation
+
+endif::wpf,win-forms,xamarin[]
+
+[[DataSource]]
+
+ifdef::wpf,win-forms,xamarin[]
+=== Data Source
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+If changing only one or two points in data that is bound to the link:{DataChartLink}.series.html[Series] object’s link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] property, you should avoid sending the `Reset` event from the `INotifyCollectionChanged` interface because the `{DataChartName}` control is optimized to better handle several `Add`, `Remove`, `Replace`, and `Move` events from the `INotifyCollectionChanged` interface. Sending one reset event instead of several smaller events can have a higher net cost than a lot of smaller operations with the `{ApiDataSource}` performed in the same interaction.
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+This code snippet shows how to notify about changes in custom collection using the Add event action instead of the Reset event action when a new data point is added to the collection.
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Imports System.Collections
+Imports System.Collections.Generic
+Imports System.Collections.Specialized
+Imports NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs
+Imports NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction
+Public Class DataCollection
+    Implements INotifyCollectionChanged
+    Implements IEnumerable
+    Protected Data As New List(Of DataPoint)()
+      Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+    Protected Sub OnCollectionChanged(e As NotifyEventArgs)
+        RaiseEvent CollectionChanged(Me, e)
+    End Sub
+    Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Return Me.Data.GetEnumerator()
+    End Function
+    Public Sub Add(dataPoint As DataPoint)
+        Me.Data.Add(dataPoint)
+        Dim e As New NotifyEventArgs(NotifyAction.Add, dataPoint)
+        ' use the Add event action instead of the Reset event action 
+        ' when changing only one or two points
+        'NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+        Me.OnCollectionChanged(e)
+    End Sub
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Imports System.Collections
+Imports System.Collections.Generic
+Imports System.Collections.Specialized
+Imports NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs
+Imports NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction
+Public Class DataCollection
+    Implements INotifyCollectionChanged
+    Implements IEnumerable
+    Protected Data As New List(Of DataPoint)()
+      Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+    Protected Sub OnCollectionChanged(e As NotifyEventArgs)
+        RaiseEvent CollectionChanged(Me, e)
+    End Sub
+    Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Return Me.Data.GetEnumerator()
+    End Function
+    Public Sub Add(dataPoint As DataPoint)
+        Me.Data.Add(dataPoint)
+        Dim e As New NotifyEventArgs(NotifyAction.Add, dataPoint)
+        ' use the Add event action instead of the Reset event action 
+        ' when changing only one or two points
+        'NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+        Me.OnCollectionChanged(e)
+    End Sub
+End Class
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+public class DataCollection : INotifyCollectionChanged, IEnumerable
+{
+        protected List<DataPoint> Data = new List<DataPoint>();
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected void OnCollectionChanged(NotifyEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        } 
+        public IEnumerator GetEnumerator()
+        {
+            return this.Data.GetEnumerator();
+        } 
+        public void Add(DataPoint dataPoint)
+        {
+            this.Data.Add(dataPoint);
+            NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Add, dataPoint);
+            // use the Add event action instead of the Reset event action 
+            // when adding only one or two points to the collection
+            //NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+            this.OnCollectionChanged(e);
+        } 
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+public class DataCollection : INotifyCollectionChanged, IEnumerable
+{
+        protected List<DataPoint> Data = new List<DataPoint>();
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected void OnCollectionChanged(NotifyEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        } 
+        public IEnumerator GetEnumerator()
+        {
+            return this.Data.GetEnumerator();
+        } 
+        public void Add(DataPoint dataPoint)
+        {
+            this.Data.Add(dataPoint);
+            NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Add, dataPoint);
+            // use the Add event action instead of the Reset event action 
+            // when adding only one or two points to the collection
+            //NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+            this.OnCollectionChanged(e);
+        } 
+}
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+public class DataCollection : INotifyCollectionChanged, IEnumerable
+{
+        protected List<DataPoint> Data = new List<DataPoint>();
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected void OnCollectionChanged(NotifyEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        } 
+        public IEnumerator GetEnumerator()
+        {
+            return this.Data.GetEnumerator();
+        } 
+        public void Add(DataPoint dataPoint)
+        {
+            this.Data.Add(dataPoint);
+            NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Add, dataPoint);
+            // use the Add event action instead of the Reset event action 
+            // when adding only one or two points to the collection
+            //NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+            this.OnCollectionChanged(e);
+        } 
+}
+----
+
+endif::xamarin[]
+
+[[DataItems]]
+
+ifdef::wpf,win-forms,xamarin[]
+=== Data Items
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+If the values of the data items in the bound collection won’t change their values, a faster alternative is to not implement the INotifyPropertyChanged interface.
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+If they do implement this interface, the data binding engine of the {DataChartName} control assumes it has to register handlers for each of them, and this increases overhead.
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+This code snippet shows a data item with and without implementation of the INotifyPropertyChanged interface.
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Imports System.ComponentModel
+Public Class DataPoint
+#Region "Properties"
+    Public Property X() As Double
+        Get
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            _x = Value
+        End Set
+    End Property
+    Private _x As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            _y = Value
+        End Set
+    End Property
+    Private _y As Double
+#End Region
+End Class
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value : OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Imports System.ComponentModel
+Public Class DataPoint
+#Region "Properties"
+    Public Property X() As Double
+        Get
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            _x = Value
+        End Set
+    End Property
+    Private _x As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            _y = Value
+        End Set
+    End Property
+    Private _y As Double
+#End Region
+End Class
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value : OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+using System.ComponentModel;
+public class DataPoint
+{
+    #region Properties
+    public double X { get; set; }
+    public double Y { get; set; }
+    #endregion
+}
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+using System.ComponentModel;
+public class DataPoint
+{
+    #region Properties
+    public double X { get; set; }
+    public double Y { get; set; }
+    #endregion
+}
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+using System.ComponentModel;
+public class DataPoint
+{
+    #region Properties
+    public double X { get; set; }
+    public double Y { get; set; }
+    #endregion
+}
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::xamarin[]
+
+[[RelatedContent]]
+== Related Content
+
+* link:datachart-axes.html[Chart Axes]
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-series-types.html[Series Types]

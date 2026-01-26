@@ -1,0 +1,133 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-text",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{E5AE0152-1BD9-4ABC-9C5D-1E99F05F512C}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= テキスト
+
+Text エレメントは高度にカスタマイズしたパラグラフ コンテンツをレポートに追加します。Text エレメントには、どのような場合であってもコンテンツを目立たせるいくつかのテキスト固有のプロパティを含みます。これらのプロパティのいくつかは、 link:documentengine-report-graphics.html[「レポート グラフィックス」]のセクションで見つけることができますが、以下のようなテキスト固有のプロパティがいくつかあります。
+
+* *First Letter* – パラグラフの先頭文字がドロップ キャップかどうかを決定します。
+* *Heading* – テキストに複数の異なるスタイルの見出しを提供します。
+* *Indents* – テキストのインデントの値を決定します。
+* *Interval* – テキスト各行間に余分のスペースを追加することができます。
+* *Line Numbering* – 読む人が特定の文を指定しやすいようにテキストの各行に番号を付けることができます。
+* *Style* – 異なるテキスト エレメントに同じフォントと色を繰り返し設定する時に便利です。
+
+Text エレメントもすべての種類のテキスト コンテンツを挿入する支援をするいくつかのメソッドを公開しています。これらのメソッドのいくつかを以下にリストします。
+
+* *AddContent* – 多数のオーバーロードで最も一般的に使用されるメソッド。単に 1 回のオーバーロードでひとつの文字列を入力する、または別のオーバーロードでスタイル エレメントを適用することが可能です。ユーザーのニーズに合わせるためにいくつかの使用可能な組み合わせがあります。
+* *AddDateTime* – いくつかの標準的なフォーマットで現在の日時を追加することができます。
+* *AddLeader* – リーダー線をテキストに追加することができます。
+* *AddLineBreak* – 改行を追加すると、コンテンツは継続した行上にひとかたまりになりません。
+* *AddPageNumber* – 十進数、文字、またはローマ数字で現在のページのベージ番号を追加します。
+* *AddRichContent* – HTML 同様のタグを使用して限られたリッチ コンテンツを追加します。
+
+image::images/DocumentEngine_Text_01.png[]
+
+'''
+
+以下のコードは単一の Text エレメントを作成します。ひとつのパターンが Text エレメント全体に適用され、2 つのスタイルが個々のコンテンツ エレメントに適用されます。
+
+[start=1]
+. *スタイルを作成します。*
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+Imports Infragistics.Documents.Reports.Reports.Report.Text
+Imports Infragistics.Documents.Reports.Reports.Graphics
+.
+.
+.
+Dim style1 As New Style(New Font("Arial", 16), Brushes.White)
+Dim style2 As New Style(New Font("Verdana", 10), Brushes.Black)
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+using Infragistics.Documents.Reports.Reports.Report.Text;
+using Infragistics.Documents.Reports.Reports.Graphics;
+.
+.
+.
+Style style1 = new Style(new Font("Arial", 16), Brushes.White);
+Style style2 = new Style(new Font("Verdana", 10), Brushes.Black);
+----
+
+[start=2]
+. *テキストのパターンを作成します。*
+
+*Visual Basic の場合：*
+
+----
+Dim textPattern As New TextPattern()
+textPattern.Margins = New Margins(5, 10)
+textPattern.Paddings = New Paddings(5)
+textPattern.Interval = 5
+textPattern.Borders = New Borders(New Pen(New Color(0, 0, 0)), 5)
+textPattern.Background = New Background(Brushes.LightSteelBlue)
+----
+
+*C# の場合：*
+
+----
+TextPattern textPattern = new TextPattern();
+textPattern.Margins = new Margins(5, 10);
+textPattern.Paddings = new Paddings(5);
+textPattern.Interval = 5;
+textPattern.Borders = new Borders(new Pen(new Color(0, 0, 0)), 5);
+textPattern.Background = new Background(Brushes.LightSteelBlue);
+----
+
+[start=3]
+. *Text エレメントを作成してコンテンツを追加します。*
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+*Visual Basic の場合：*
+
+----
+Dim sectionText As IText = section1.AddText()
+sectionText.ApplyPattern(textPattern)
+Dim string1 As String = "Lorem ipsum..."
+sectionText.AddContent("Heading 1", style1)
+sectionText.AddLineBreak()
+sectionText.AddContent(string1, style2)
+sectionText.AddLineBreak()
+sectionText.AddContent("Heading 2", style1)
+sectionText.AddLineBreak()
+sectionText.AddContent(string1, style2)
+----
+
+*C# の場合：*
+
+----
+IText sectionText = section1.AddText();
+sectionText.ApplyPattern(textPattern);
+string string1 = "Lorem ipsum...";
+sectionText.AddContent("Heading 1", style1);
+sectionText.AddLineBreak();
+sectionText.AddContent(string1, style2);
+sectionText.AddLineBreak();
+sectionText.AddContent("Heading 2", style1);
+sectionText.AddLineBreak();
+sectionText.AddContent(string1, style2);
+----

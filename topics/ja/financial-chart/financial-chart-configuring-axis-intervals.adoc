@@ -1,0 +1,139 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= 軸の間隔
+
+=== 目的
+このトピックでは、コード例を使用して link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールのチャート軸に主目盛と副目盛を構成する方法を示します。
+
+{FinancialChartName} コントロールで、軸の主間隔は主グリッド線および軸ラベルが軸に描画される頻度を指定します。同様に、軸副間隔は副グリッド線が軸に描画される頻度を指定します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<ConfiguringAxes,X 軸および Y 軸のグリッド線>>
+* <<CodeSnippet,コード スニペット>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[ConfiguringAxes]]
+== X 軸および Y 軸のグリッド線
+
+[options="header", cols="a,a,a"]
+|====
+|構成の目的:|使用するプロパティ|設定値
+
+|主間隔グリッド線の頻度。
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisInterval{HtmlApiExtension}[pick:[wpf="YAxisInterval"]pick:[jquery="yAxisInterval"]]
+|この値は、Y 軸ラベルおよび主グリッド線に構成可能なスペースを提供します。軸ラベルの間隔も、この値によって設定され、間隔に関連付けられた軸のポイントにラベルが 1 つ表示されることに注意してください。
+
+{FinancialChartName} コントロールの軸では、この値は軸の最小値から最大値の範囲の数値として表されます。この軸はデフォルトで、軸の最小値および最大値から四捨五入されたバランスの良い数値に自動的に計算されます。
+
+|主間隔グリッド線の色。
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xAxisMajorStroke{HtmlApiExtension}[pick:[wpf="XAxisMajorStroke"]pick:[jquery="xAxisMajorStroke"]] +
+link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMajorStroke{HtmlApiExtension}[pick:[wpf="YAxisMajorStroke"]pick:[jquery="yAxisMajorStroke"]] 	
+|軸の主グリッド線の色。
+|主間隔グリッド線の太さ。
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xAxisMajorStrokeThickness{HtmlApiExtension}[pick:[wpf="XAxisMajorStrokeThickness"]pick:[jquery="xAxisMajorStrokeThickness"]] +
+link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMajorStrokeThickness{HtmlApiExtension}[pick:[wpf="YAxisMajorStrokeThickness"]pick:[jquery="yAxisMajorStrokeThickness"]]	
+|double 値として設定された軸の主グリッド線ストロークの太さ。
+
+|副間隔グリッド線の色。
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xAxisMinorStroke{HtmlApiExtension}[pick:[wpf="XAxisMinorStroke"]pick:[jquery="xAxisMinorStroke"]] +
+link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMinorStroke{HtmlApiExtension}[pick:[wpf="YAxisMinorStroke"]pick:[jquery="yAxisMinorStroke"]]	
+|軸の副グリッド線の色。
+|副間隔グリッド線の太さ。
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xAxisMinorStrokeThickness{HtmlApiExtension}[pick:[wpf="XAxisMinorStrokeThickness"]pick:[jquery="xAxisMinorStrokeThickness"]] +
+link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMinorStrokeThickness{HtmlApiExtension}[pick:[wpf="YAxisMinorStrokeThickness"]pick:[jquery="yAxisMinorStrokeThickness"]]		
+|double 値として設定された軸の副グリッド線ストロークの太さ。
+
+|====
+
+[[CodeSnippet]]
+== コード スニペット
+
+以下のコード スニペットは、Y 軸の間隔を設定する方法を示します。
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    yAxisInterval: 400,
+    yAxisMajorStroke: "Green",
+    yAxisMinorStroke: "Blue",
+    yAxisMajorStrokeThickness: 3,
+    yAxisMinorStrokeThickness: 1
+});
+----
+endif::jquery[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} x:Name="chart1"
+    YAxisInterval="400"
+    YAxisMajorStroke="Green"
+    YAxisMinorStroke="Blue"
+    YAxisMajorStrokeThickness="3"
+    YAxisMinorStrokeThickness="1" >
+</ig:{FinancialChartName}>
+----
+
+*C# の場合:*
+[source, csharp]
+----
+{FinancialChartName} chart1 = new {FinancialChartName}();
+chart1.YAxisInterval = 400;
+chart1.YAxisMajorStroke = Brushes.Green;
+chart1.YAxisMinorStroke = Brushes.Blue;
+chart1.YAxisMajorStrokeThickness = 3;
+chart1.YAxisMinorStrokeThickness = 1;
+----
+
+*Visual Basic の場合:*
+[source, vbnet]
+----
+Dim chart1 As {FinancialChartName} = new {FinancialChartName}()
+chart1.YAxisInterval = 400
+chart1.YAxisMajorStroke = Brushes.Green
+chart1.YAxisMinorStroke = Brushes.Blue
+chart1.YAxisMajorStrokeThickness = 3
+chart1.YAxisMinorStrokeThickness = 1
+----
+endif::wpf[]
+
+pick:[wpf="image::images/financialchart_wpf_axis_intervals.png[]"]
+pick:[jquery="image::images/financialchart_jquery_axis_intervals.png[]"]
+
+
+[[RelatedContent]]
+
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:financial-chart-overview.html[概要]
+|このトピックは、{FinancialChartName} コントロールの概要を提供します。
+
+|link:financial-chart-configuring-axis-labels.html[軸ラベルの構成]
+|このトピックでは、{FinancialChartName} コントロールで軸のラベルを構成する方法を説明します。
+
+|link:financial-chart-configuring-axis-range.html[軸範囲の構成]
+|このトピックでは、{FinancialChartName} コントロールで Y 軸の範囲を構成する方法を説明します。
+
+|====

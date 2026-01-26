@@ -1,0 +1,217 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-barsfillmode",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "f049d804-e9c4-40c9-b7ad-80a3fc098539",
+    "buildFlags": [],
+    "createdOn": "2015-09-23T20:39:25.9275798Z"
+}
+|metadata|
+////
+
+= バー塗りつぶしモードの構成
+
+link:{BarcodesLink}.{BarcodesBase}{ApiProp}barsfillmode.html[BarsFillMode] プロパティは、( pick:[wpf="MaxiCode を除き、"] すべてのバーコード グリッド記号に対して) 棒を含む内部グリッドが {BarcodesName} コントロールの寸法を塗りつぶす方法を定義します。これは以下の値を含みます:
+
+* FillSpace – 内部グリッドが {BarcodesName} コントロールを塗りつぶすことを保証します。コントロールの寸法、バー グリッドおよびユーザーの DPI に基づいて場合によっては棒の幅と高さは実際のものとピクセルで異なることを考慮します。これによってバーコードが読み取れなくなる場合があります。内部グリッドに 200 列あり、コントロールの幅が 300 px の場合、コントロールを塗りつぶすために柱状バーは整数の幅を持ちます (1px と 2px の場合があります)。このモードはマシンの読み取りを行わないすべてのシナリオに推奨されます。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamIntelligentMailBarcode x:Name="Barcode" Width="321"  
+    Data="1212312345612345678912345"    
+    BarsFillMode="FillSpace" />
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var Barcode = new XamIntelligentMailBarcode();
+Barcode.Width = 321;
+Barcode.Data = "1212312345612345678912345";
+Barcode.BarsFillMode = BarsFillMode.FillSpace;
+----
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim Barcode As New XamIntelligentMailBarcode()
+Barcode.Width = 321
+Barcode.Data = "1212312345612345678912345"
+Barcode.BarsFillMode = BarsFillMode.FillSpace
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<Frame WidthRequest="100" HeightRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <ig:XamQRCodeBarcode x:Name="Barcode" Data="1212312345612345678912345" BarsFillMode="FillSpace"/>
+</Frame>
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var Barcode = new XamQRCodeBarcode();
+Barcode.Data = "1212312345612345678912345";
+Barcode.BarsFillMode = BarsFillMode.FillSpace;
+----
+endif::xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+----
+Code128BarcodeView bar128 = new Code128BarcodeView();;
+bar128.setWidth("321");
+bar128.setData("1212312345612345678912345");
+bar128.setBarsFillMode(BarsFillMode.FillSpace);
+----
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim barcodeQR As New UltraCode128Barcode With _
+{
+    .Width = 321, _
+    .Data = "Code 128", _
+    .BarsFillMode = BarsFillMode.Fillspace _
+}
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+var barcode = new UltraCode128Barcode
+{
+    Width = 321,
+    Data = "Code 128",  
+    BarsFillMode = BarsFillMode.Fillspace
+};
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+image::images/xamBarcode_BarsFillMode_01.png[]
+
+endif::wpf[]
+
+[NOTE]
+====
+注: FillSpace が BarsFillMode プロパティのデフォルト値です。
+====
+* EnsureEqualSize – すべての内部グリッド バーのセルが同じ寸法になることを保証します。内部グリッドに 200 列あり、コントロールの幅が 300px の場合、グリッドの幅は 200px に縮小し、すべてのセルが等しくなります。このモードはマシンの読み取りに推奨します。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamIntelligentMailBarcode x:Name="Barcode" Width="321"    
+    Data="1212312345612345678912345"    
+    BarsFillMode="EnsureEqualSize" />
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim Barcode As New XamIntelligentMailBarcode()
+Barcode.Width = 321
+Barcode.Data = "1212312345612345678912345"
+Barcode.BarsFillMode = BarsFillMode.EnsureEqualSize
+----
+
+*C# の場合:*
+[source,csharp]
+----
+XamIntelligentMailBarcode Barcode = new XamIntelligentMailBarcode();
+Barcode.Width = 321;
+Barcode.Data = "1212312345612345678912345";
+Barcode.BarsFillMode = BarsFillMode.EnsureEqualSize;
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+[source,xaml]
+----
+ <Frame WidthRequest="100" HeightRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <ig:XamQRCodeBarcode x:Name="Barcode" Data="1212312345612345678912345" BarsFillMode="EnsureEqualSize"/>
+</Frame>
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var Barcode = new XamQRCodeBarcode();
+Barcode.Data = "1212312345612345678912345";
+Barcode.BarsFillMode = BarsFillMode.EnsureEqualSize;
+----
+endif::xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+----
+Code128BarcodeView bar128 = new Code128BarcodeView();;
+bar128.setWidth("321");
+bar128.setData("1212312345612345678912345");
+bar128.setBarsFillMode(BarsFillMode.EnsureEqualSize);
+----
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim barcodeQR As New UltraCode128Barcode With _
+{
+    .Width = 321, _  
+    .Data = "Code 128", _
+    .BarsFillMode = BarsFillMode.Fillspace _
+}
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+var barcode = new UltraCode128Barcode
+{
+    Width = 321,  
+    Data = "Code 128",  
+    BarsFillMode = BarsFillMode.Fillspace
+};
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+image::images/xamBarcode_BarsFillMode_02.png[]
+
+endif::wpf[]

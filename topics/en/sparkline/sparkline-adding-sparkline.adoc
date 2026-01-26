@@ -1,0 +1,170 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-adding-{SparklineName}",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","Getting Started"],
+    "guid": "81ddee34-34ab-4723-bd2b-ca9a43ccfbcd",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2873585Z"
+}
+|metadata|
+////
+
+= Adding {SparklineName}
+
+
+
+=== Purpose
+
+This topic explains conceptually how to add the link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}] control and introduces to the available adding options.
+
+=== Required background
+
+The following table lists the materials required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-overview.html[{SparklineName} Overview]
+|This topic provides an overview of the _{SparklineName}_ control, its benefits, and the supported chart types.
+
+| link:sparkline-configuring-sparkline.html[Configuring {SparklineName}]
+|This topic provides an overview of the possible ways to configure the _{SparklineName}_ control. Links to the detailed configurations (available in separate topics) are provided as well.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref317075029,Adding a Sparkline>>
+
+** <<Introduction,Introduction>>
+** <<_Ref317075452,Requirements>>
+** <<_Ref320180895,Options for adding the {SparklineName} control>>
+
+* <<_Ref317075104,Related Content>>
+
+[[_Ref317075029]]
+== Adding a Sparkline
+
+=== Introduction
+
+Sparkline can be displayed in {PlatformName} application as a stand-alone control, in small spaces such as grid cells, or in-line with text. The  _{SparklineName}_   control can be added through pick:[sl,wpf,win-phone,win-universal,xamarin="XAML"]pick:[win-forms="the designer"], as well as in-code.
+
+In order to determine what data is to be displayed, you need a data source with at least two numeric fields in the class as the data points. This is handled by the ItemsSource and link:sparkline-sparkline-property-reference.html#ValueMemberPath[ValueMemberPath] properties, respectively. These are the minimum set of properties you need to configure for the  _{SparklineName}_   control.
+
+The project requirements for adding the  _{SparklineName}_   control include adding assembly references and namespaces as well as some data requirements.
+
+The  _{SparklineName}_   supports any one-dimensional data source, as long as the data contains at least two numeric fields in order to render the chart.
+
+[[_Ref317075452]]
+
+=== Requirements
+
+ifdef::wpf[]
+
+Add the following NuGet package references to your main project:
+
+** Infragistics.WPF.Sparkline
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+Add the following Infragistics assemblies to the your main project:
+
+** {ApiPlatform}{SparklineAssembly}{ApiVersion}.dll 
+** {ApiPlatform}{DataVizAssembly}{ApiVersion}.dll
+** {ApiPlatform}{ApiVersion}dll
+endif::win-forms[]
+
+ifdef::win-forms[]
+** {ApiPlatform}Win.Portable.Core{ApiVersion}.dll 
+endif::win-forms[]
+ 
+
+ifdef::xamarin[]
+Add assembly references by following instructions in the link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages] topic.
+endif::xamarin[]
+
+Also, add the following Infragistics namespaces:
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly={ApiPlatform}Sparkline"
+----
+*In C#:*
+[source,csharp]
+----
+using Infragistics.XamarinForms.Controls.Charts;
+----
+endif::xamarin[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+*In C#:*
+[source,csharp]
+----
+using Infragistics.Controls.Charts;
+----
+*In VB:* 
+[source,vb]
+----
+Imports Infragistics.Controls.Charts
+---- 
+endif::wpf[]
+ 
+Final requirement to create _{SparklineName}_ control, is one-dimensional data that contains numeric values.  *Note:* With the Win/Loss display type of Sparkline, only two values will be used for the chart – the highest one and the lowest one. The rest of the values in the data set will be ignored.
+   
+[[_Ref320022805]]
+
+=== Options for adding the {SparklineName} control
+
+The following table lists the ways in which you can add the  _{SparklineName}_   control.
+
+[options="header", cols="a,a"]
+|====
+|Example|Description
+
+| link:sparkline-adding-a-sparkline-to-a-page.html[Adding {SparklineName} to a Page]
+|You can add the _{SparklineName}_ control directly to a Page using one-dimensional data.
+
+ifdef::sl,wpf[]
+| link:xamgrid-sparkline-column.html[Sparkline Column]
+|You can add the _{SparklineName}_ control to _xamGrid_™ cells using the Sparkline column type.
+endif::sl,wpf[]
+
+|====
+
+[[_Ref317075039]]
+
+[[_Ref317075104]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} Property Reference]
+|This topic explains the featured properties of the _{SparklineName}_ control.
+
+ifdef::sl,wpf[]
+| link:xamgrid-sparkline-column.html[Sparkline Column]
+|This topic introduces the Sparkline column type of the _xamGrid_ control and demonstrates its use.
+endif::sl,wpf[]
+
+|====

@@ -1,0 +1,404 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-accessing-cells-and-cell-regions-by-name",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "c2bd820f-7a6f-4575-9047-c15afa2663e0",  
+    "buildFlags": [],
+    "createdOn": "2012-03-19T15:30:09.8362806Z"
+}
+|metadata|
+////
+
+= セルとセル領域に名前でアクセス
+
+*トピックの概要*
+
+=== 目的
+
+このトピックでは、コード例を示し、Microsoft® Excel® ワークブックのワークシート内のセルと領域に名前または名前付き参照でアクセスする方法を説明します。参照文字列でセルと領域にアクセスする方法の詳細は、 link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[参照文字列でセルおよび領域にアクセス]を参照してください。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref317855283,セルと範囲に名前でアクセス - 概念的概要>>
+
+** <<_Ref317855288,概要>>
+** <<_Ref317855293,要件>>
+** <<OLE_LINK88,Excel でセルと領域の名前を指定>>
+** <<OLE_LINK59,コードでセルと領域の名前を指定>>
+** <<_Ref317855324,セルと領域を名前で参照>>
+
+* <<_Ref317855459,セルと領域に名前でアクセス - コード例>>
+* <<OLE_LINK71,コードでセルと領域の名前を指定>>
+
+** <<_Ref317855486,説明>>
+** <<_Ref317855491,コード>>
+
+* <<_Ref317855505,セルと領域を名前で参照 - 例 1>>
+
+** <<_Ref317855553,説明>>
+** <<_Referencing_cells/regions_by,コード>>
+
+* <<_Ref317855563,セルと領域を名前で参照 - 例 2>>
+
+** <<_Ref317855569,説明>>
+** <<_Ref317855573,コード>>
+
+* <<_Ref317855606,セルと範囲を名前で参照 - 例 3>>
+
+** <<_Ref317855612,説明>>
+** <<OLE_LINK99,前提条件>>
+** <<_Ref317855629,コード>>
+
+* <<_Ref317855636,セルと範囲の名前を設定して参照する>>
+
+** <<_Ref317855683,説明>>
+** <<_Ref317855688,前提条件>>
+** <<_Ref317855693,コード>>
+
+* <<_Ref317855719,関連コンテンツ>>
+
+[[_Accessing_Cells_and]]
+[[_Ref317855283]]
+== セルと領域に名前でアクセス - 概念的概要
+
+[[_Introduction]]
+
+=== 概要
+
+Microsoft Excel で、個々のセルだけでなく、セル領域は、それらに割り当てられた名前を付けることができます (名前が割り当てられて表計算の link:http://spreadsheets.about.com/od/glossary/g/name_box_def.htm[[名前] ボックス]に表示されます)。セルまたは領域の名前を使用して、セル参照の代わりにそのセルまたは領域を参照できます。セルおよび領域の名前は、Excel で、またはプログラムによってコードで定義できます。
+
+Infragistics は、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet_members.html[Worksheet]"]  オブジェクトの  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  メソッドと  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  メソッドによって、名前でのセルおよび領域の参照をサポートします。そのセルまたは領域を参照する  _NamedReference_   インスタンスを使用してセルまたは領域を参照します。
+
+[[_Reqguirements]]
+
+=== 要件
+
+個々のセルまたはセルの領域にアクセスするために、MS Excel で、またはプログラムによってコードで名前を指定する必要があります。
+
+=== Excel でセルと領域の名前を指定
+
+Excel 表計算でセルまたは領域の名前を定義するには、セルまたは領域を選択し、 link:http://spreadsheets.about.com/od/glossary/g/name_box_def.htm[[名前] ボックス]をクリックして、希望の名前を入力し、Enter を押します。
+
+[[_Naming_cells_and_1]]
+
+=== コードでセルと領域の名前を指定
+
+コードで定義されたセルまたは領域の名前は、「名前付き参照」と呼ばれる場合があります。
+
+コードでセルと領域の名前を指定するには、以下の構文を使用します。実際のコードでは、変数 (cell_Name, range_Name, sheet_name, cell_reference, range_cell_reference, instance_for_cell_NamedReference, および instance_for_range_NamedReference) を特定の名前で置き換えます。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' Define a Name for a cell.
+Dim instance_for_cell_NamedReference As NamedReference = wrkBook.NamedReferences.Add("cell_Name", "=sheet_name!cell reference ", sheet_name)
+' Define a Name for a region.
+Dim instance_for_range_NamedReference As NamedReference = wrkBook.NamedReferences.Add("range_Name ", "= sheet_name!range cell reference ", sheet_name )
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// Define a Name for a cell.
+NamedReference instance_for_cell_NamedReference = wrkBook.NamedReferences.Add("cell_Name", "=sheet_name!cell reference", sheet_name);
+// Define a Name for a region.
+NamedReference instance_for_range_NamedReference = wrkBook.NamedReferences.Add("range_Name", "=sheet_name!range cell reference", sheet_name);
+----
+
+[[_Referencing_cells_and]]
+
+=== セルと領域を名前で参照
+
+コードでてセルと領域を名前で参照するには、以下の構文を使用します。実際のコードでは、変数 (cell_Name, range_Name) を特定の名前で置き換えます。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' Access a cell by its name.
+sampleSheet.GetCell("cell_Name")
+' Access a region by its name
+sampleSheet.GetRegion("range_Name")
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// Access a cell by its Name.
+sampleSheet.GetCell("cell_Name");
+// Access a region by its Name.
+sampleSheet.GetRegion("range_Name");
+----
+
+[[_Accessing_Cells_and_3]]
+[[_Ref317855459]]
+== セルと領域に名前でアクセス - コード例
+
+[[_Overview]]
+
+=== 概要
+
+以下の表には、このトピックのコード例が示されています。
+
+[options="header", cols="a,a"]
+|====
+|例|説明
+
+|<<OLE_LINK71,コードでセルと領域の名前を指定>>
+|Sheet1 のセル _B5_ およびセル領域 _G1_ _÷_ _G10_ の名前をコードで設定します。
+
+|<<_Ref317855505,セルと領域を名前で参照 - 例 1>>
+|_refNameB3_ の名前を持つセルおよび _refNameRegionC1C10_ の名前を持つセル領域にアクセスする方法を紹介します。
+
+|<<_Ref317855563,セルと領域を名前で参照 - 例 2>>
+|名前付きのセルおよび領域を参照してメッセージ ボックスでコンテンツを文字列として表示する方法を紹介します。
+
+|<<_Ref317855606,セルと領域を名前で参照 - 例 3>>
+|C:\ の _Book1.xls_ ワークブックの最初のワークシートで名前によってセルおよび領域にアクセスし、セルにコメントを追加し、領域に数式を適用して、ワークブックを保存する方法を紹介します。
+
+|<<_Ref317855636,セルと領域の名前を設定して参照する>>
+|セルおよび領域の pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"] を定義し、 _NamedReference_ インスタンスからアクセスする方法を紹介します。
+
+|====
+
+[[_Naming_Cells_and_2]]
+== *コードでセルと領域の名前を指定*
+
+[[_Description]]
+
+=== 説明
+
+以下のコードでは、 _Sheet1_  のセル  _B5_  およびセル領域  _G1_  _÷_  _G10_  の名前をコードで設定します。
+
+[[_Creating_named_references]]
+
+=== コード
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' Define a Name for the cell.
+Dim nameRefCell As NamedReference = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet)
+' Define a Name for the region.
+Dim namerefRegion As NamedReference = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet)
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// Define a Name for the cell.
+NamedReference nameRefCell = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet);
+// Define a Name for the region.
+NamedReference namerefRegion = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet);
+----
+
+[[_Referencing_Cells_and_1]]
+[[_Ref317855505]]
+== *セルと領域を名前で参照 - 例 1*
+
+[[_Description_1]]
+
+=== 説明
+
+以下のコードは、 _refNameB3_  の名前を持つセルおよび  _refNameRegionC1C10_  の名前を持つセル領域にアクセスする方法を紹介します。
+
+=== コード
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' Access a cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment
+' Access a region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1")
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// Access a cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment;
+// Access a region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1");
+----
+
+[[_Referencing_Cells_and_2]]
+[[_Ref317855563]]
+== *セルと領域を名前で参照 - 例 2*
+
+[[_Description_2]]
+
+=== 説明
+
+以下のコードは、名前付きのセルおよび領域を参照してメッセージ ボックスでコンテンツを文字列として表示する方法を紹介します。
+
+[[_Code_2]]
+
+=== コード
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString())
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString())
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString());
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString());
+----
+
+[[_Accessing_Cells_and_1]]
+[[_Ref317855606]]
+== セルと領域を名前で参照 - 例 3
+
+[[_Introduction_1]]
+
+=== 説明
+
+以下の例は、C:\ の  _Book1.xls_  ワークブックの最初のワークシートの  _B3_  セルおよび  _C1:C10_  領域を名前によってアクセスする方法を紹介します。セルは  _refNameB3_  を名前付きで、領域は  _refNameRegionC1C10_  を名前付きます。
+
+例のコードはワークブックを読み込んでワークシートのインスタンスを作成します。ワークシートのセル B3 は、セルの名前付き参照を渡すことによって、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getcell.html[GetCell]"]  メソッドを使用してアクセスされます。コメントがセル B3 に追加されます。
+
+同様に、領域 C1:C10 は、領域の名前付き参照を渡すことによって、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~getregion.html[GetRegion]"]  メソッドを使用してアクセスされます。数式が領域 C1:C10 に適用されます。
+
+[[_Prerequisites]]
+
+=== 前提条件
+
+この例は以下の前提条件があります。
+
+* C:\ で Book1.xls Excel ファイルがあります
+* ワークシートの範囲 A1:A10 と B1:B10 内のランダムな数字があります
+* <<OLE_LINK88,Excel でセルと領域の名前を指定>>トピックで説明したとおり、セル B3 および領域 C1:C10 の名前を設定します
+
+[[_Code]]
+
+=== コード
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' Load the workbook.
+Dim wrkBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls")
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = wrkBook.Worksheets(0)
+Dim testComment As Infragistics.Documents.Excel.WorksheetCellComment = New WorksheetCellComment
+Dim formatted As FormattedString = New FormattedString("This cell has a reference name.")
+testComment.Text = formatted
+' Access the cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment
+' Access the region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1")
+' Save the workbook.
+wrkBook.Save("C:\\Book1.xls")
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// Load the workbook.
+Infragistics.Documents.Excel.Workbook wrkBook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls");
+Infragistics.Documents.Excel.Worksheet sampleSheet = wrkBook.Worksheets[0];
+Infragistics.Documents.Excel.WorksheetCellComment testComment = new WorksheetCellComment();
+FormattedString formatted = new FormattedString ("This cell has a reference name.");
+testComment.Text = formatted;
+// Access the cell by its Name.
+sampleSheet.GetCell("refNameB3").Comment = testComment;
+// Access the region by its Name.
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1");
+// Save the workbook.
+wrkBook.Save("C:\\Book1.xls");
+----
+
+[[_Accessing_Cells_and_2]]
+[[_Defining_Names_for]]
+[[_Ref317855636]]
+== セルと領域の名前を設定して参照する
+
+[[_Introduction_2]]
+
+=== 説明
+
+以下のコードは、セルおよび領域の  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.namedreference_members.html[NamedReference]"]  を定義し、 _NamedReference_   インスタンスからアクセスする方法を紹介します。
+
+[[_Ref317855688]]
+
+=== 前提条件
+
+この例は以下の前提条件があります。
+
+* C:\ で Book1.xls Excel ファイルがあります
+
+ワークシートの範囲  _A1:A10_  と  _B1:B10_  内のランダムな数字があります
+
+[[_Code_1]]
+
+=== コード
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' Load the workbook.
+Dim wrkBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls")
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = wrkBook.Worksheets(0)
+'Define a Name for the cell.
+Dim nameRefCell As NamedReference = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet)
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString())
+' Define a Name for the region.
+Dim namerefRegion As NamedReference = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet)
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString())
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// Load the workbook.
+Infragistics.Documents.Excel.Workbook wrkBook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xls");
+Infragistics.Documents.Excel.Worksheet sampleSheet = wrkBook.Worksheets[0];
+// Define a Name for the cell.
+NamedReference nameRefCell = wrkBook.NamedReferences.Add("NamedRefCell", "=Sheet1!$B$5", sampleSheet);
+MessageBox.Show(nameRefCell.ReferencedCell.Value.ToString());
+// Define a Name for the region.
+NamedReference namerefRegion = wrkBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$G$1:$G$10", sampleSheet);
+MessageBox.Show(namerefRegion.ReferencedRegion.Worksheet.ToString());
+----
+
+[[_Related_Content]]
+[[_Ref317855719]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-save-and-load-files-in-excel-template-format.html[Excel テンプレート フォーマットでファイルを保存およびロード]
+|このトピックは、Excel ファイルの保存と読み込みを紹介します。
+
+| link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[参照文字列でセルおよび領域にアクセス]
+|このトピックは、Excel® ワークブックのワークシートのセルおよび領域を参照文字列によってアクセスする方法を紹介します。
+
+|====

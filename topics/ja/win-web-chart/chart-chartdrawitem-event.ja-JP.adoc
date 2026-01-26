@@ -1,0 +1,99 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-chartdrawitem-event",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{1B453409-C13D-4058-B21F-EA7077B0407B}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Chart DrawItem イベントの実装
+
+グラフの種類を選択する際、Chart は適切なレイヤを作成し、グラフのプリミティブの作成をこれらのレイヤにデリゲートします。プリミティブの作成が完了すると、それらのプリミティブを受けを取って、グラフ画像上でプリミティブの描画を開始します。カラー モデルや他のプロパティにより、グラフ項目のさまざまな局面を変更できますが、ときには、完全な制御が容易にできない場合がよくあります。こういった場合には、プリミティブがグラフィックス レンダラに送られる直前に発生するイベントを実装します。 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs.html[ChartDrawItem]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs.html[ChartDrawItem]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs.html[ChartDrawItem]"]  イベントは、以下の情報で呼び出されます。
+
+[start=1]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitive]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitive]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitive]"]  –  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[Infragistics.UltraChart.Core.Primitive]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[Infragistics.UltraChart.Core.Primitive]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[Infragistics.UltraChart.Core.Primitive]"] 
+[start=2]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~hasdata.html[HasData]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~hasdata.html[HasData]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~hasdata.html[HasData]"]  – プリミティブがデータと関連しているかどうかを示します。同様のグラフ タイトル テキストは描画するデータと関係がありません。それに対し、棒グラフの場合に描画される列（ボックス）はデータ値を表すデータを持っています。
+
+アプリケーションは、プリミティブの Visual プロパティ以外のすべての値を変更できます。Visual プロパティは、変更を有効にする描画パイプライン内の終わりにあります。以下は開発者にとって重要な項目です。これらはプリミティブの描画方法に影響します。
+
+[start=1]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~primitive.html[ChartDrawItemEventArgs.Primitive]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~primitive.html[ChartDrawItemEventArgs.Primitive]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~primitive.html[ChartDrawItemEventArgs.Primitive]"]  – null を指定した場合、プリミティブのインスタンスをグラフ画像上に描画しません。
+[start=2]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive~pe.html[ChartDrawItemEventArgs.Primitive.PE]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive~pe.html[ChartDrawItemEventArgs.Primitive.PE]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive~pe.html[ChartDrawItemEventArgs.Primitive.PE]"]  – プリミティブの外観、および描画要素の色/テクスチャ、その他の関連項目グラフでは通常、描画要素の 1 つのインスタンスが複数のプリミティブの間で共有されます。グラフでは通常、描画要素のひとつのインスタンスが、複数のプリミティブで共有されます。そのため、1つのインスタンス内の変更は後続の他のインスタンスに影響します。概して、コントロールの外観を変える場合、描画要素の別のインスタンスを割り当てたほうがよくなります。
+[start=3]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive~visible.html[ChartDrawItemEventArgs.Primitive.Visible]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive~visible.html[ChartDrawItemEventsArgs.Primitive.Visible]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive~visible.html[ChartDrawItemEventsArgs.Primitive.Visible]"]  – このプロパティを使用し、描画要素の表示/非表示を設定できます。
+[start=4]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~hasdata.html[ChartDrawItemEventArgs.HasData]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~hasdata.html[ChartDrawItemEventArgs.HasData]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdrawitemeventargs~hasdata.html[ChartDrawItemEventArgs.HasData]"]  – IF ステートメント内で使用し、描画されたプリミティブがデータと関連付けられているかどうかを調べます。
+
+イベントのサブスクリプション
+
+*Visual Basic の場合：* 最初のドロップダウン リストから UltraChart1、そして 2 番目のリストから ChartDrawItem を選択します。
+
+*C# の場合：*
+
+----
+this.ultraChart1.ChartDrawItem += 
+new ChartDrawItemEventHandler(this.chart1_ChartDrawItem);
+----
+
+=== ハンドル コード
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Events
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	If e.HasData Then
+		Console.WriteLine(e.Primitive.ToString())
+		Console.WriteLine(e.Primitive.Layer)
+		If TypeOf e.Primitive Is Box Then
+			e.Primitive.PE.ElementType = PaintElementType.Gradient
+			e.Primitive.PE.Fill = Color.Red
+			e.Primitive.PE.FillStopColor = Color.Yellow
+			e.Primitive.PE.FillGradientStyle = GradientStyle.ForwardDiagonal
+			CType(e.Primitive, Box).Roundness = 10
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core.Primitives; 
+using Infragistics.UltraChart.Shared.Events;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void chart1_ChartDrawItem(object sender, ChartDrawItemEventArgs e)
+{
+	if (e.HasData) 
+	{
+		Console.WriteLine(e.Primitive.ToString());
+		Console.WriteLine(e.Primitive.Layer);
+		if (e.Primitive is Box) 
+		{
+			e.Primitive.PE.ElementType = PaintElementType.Gradient;
+			e.Primitive.PE.Fill = Color.Red;
+			e.Primitive.PE.FillStopColor = Color.Yellow;
+			e.Primitive.PE.FillGradientStyle = GradientStyle.ForwardDiagonal;
+			((Box)e.Primitive).Roundness = 10;
+		}
+	}
+}
+----
+
+これは、以下のようなチャートを生成します。
+
+image::images/Chart_Implement_the_ChartDrawItem_Event_01.png[]

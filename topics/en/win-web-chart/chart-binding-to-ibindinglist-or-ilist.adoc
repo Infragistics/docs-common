@@ -1,0 +1,474 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-binding-to-ibindinglist-or-ilist",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{72B2176D-5035-47FC-858C-365CE8A81334}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Binding to IBindingList or IList
+
+One of the data sources that you can bind the Chart control to is IBindingList. IBindingList is an interface derived from IList, ICollection, and IEnumerable, and provides a number of members that support data binding. One example of a class that implements IBindingList is DataView.
+
+=== To bind Chart to IBindingList:
+
+.Note
+[NOTE]
+====
+You can also use this procedure to bind the Chart control to the IList data source.
+====
+
+[start=1]
+. First, you will need a class that you will be adding to the IBindingList. For this example we will be using a class called Widget.
+
+*In Visual Basic:*
+
+----
+Public Class Widget
+    Public Sub New(ByVal name As String, ByVal marketValue As Double, _
+    ByVal magnitude As Long)
+        Me.Name = name
+        Me.MarketValue = marketValue
+        Me.Magnitude = magnitude
+    End Sub
+    Private _name As String
+    Private _marketValue As Double
+    Private _magnitude As Long
+    Public Property Name() As String
+        Get
+            Return Me._name
+        End Get
+        Set(ByVal Value As String)
+            Me._name = Value
+        End Set
+    End Property
+    Public Property MarketValue() As Double
+        Get
+            Return Me._marketValue
+        End Get
+        Set(ByVal Value As Double)
+            Me._marketValue = Value
+        End Set
+    End Property
+    Public Property Magnitude() As Long
+        Get
+            Return Me._magnitude
+        End Get
+        Set(ByVal Value As Long)
+            Me._magnitude = Value
+        End Set
+    End Property
+End Class
+----
+
+*In C#:*
+
+----
+/// <summary>
+/// Widget class.
+/// </summary>
+public class Widget
+{
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="name">Name</param>
+	/// <param name="marketValue">Market value</param>
+	/// <param name="magnitude">Magnitude</param>
+	public Widget(string name, double marketValue, long magnitude)
+	{
+		this.Name=name;
+		this.MarketValue=marketValue;
+		this.Magnitude=magnitude;
+	}
+	private string name;
+	private double marketValue;
+	private long magnitude;
+	/// <summary>
+	/// Public property Name
+	/// </summary>
+	public string Name
+	{
+		get
+		{
+			return this.name;
+		}
+		set
+		{
+			this.name=value;
+		}
+	}
+	/// <summary>
+	/// Public property Market value
+	/// </summary>
+	public double MarketValue
+	{
+		get
+		{
+			return this.marketValue;
+		}
+		set
+		{
+			this.marketValue=value;
+		}
+	}
+	/// <summary>
+	/// Public property Magnitude
+	/// </summary>
+	public long Magnitude
+	{
+		get
+		{
+			return this.magnitude;
+		}
+		set
+		{
+			this.magnitude=value;
+		}
+	}
+}
+----
+
+[start=2]
+. Create a class that implements IBindingList. For this sample we will be using the following class.
+
+*In Visual Basic:*
+
+----
+Public Class MyIBindingList
+    Inherits CollectionBase
+    Implements IBindingList
+    Public Sub AddIndex(ByVal [property] As _
+      System.ComponentModel.PropertyDescriptor) _
+      Implements System.ComponentModel.IBindingList.AddIndex
+    End Sub
+    Public Function AddNew() As Object Implements _
+      System.ComponentModel.IBindingList.AddNew
+        Return Me.AddNew("New Widget", 0, 0)
+    End Function
+    Public Function AddNew(ByVal name As String, _
+      ByVal marketValue As Double, ByVal magnitude _
+      As Long) As Widget
+        Dim w As New Widget(name, marketValue, magnitude)
+        Me.List.Add(w)
+        Return w
+    End Function
+    Public Function Find(ByVal [property] As _
+      System.ComponentModel.PropertyDescriptor, ByVal key As Object) _
+      As Integer Implements System.ComponentModel.IBindingList.Find
+	Return 0
+    End Function
+    Public Sub ApplySort(ByVal [property] As _
+      System.ComponentModel.PropertyDescriptor, ByVal direction As _
+      System.ComponentModel.ListSortDirection) _
+      Implements System.ComponentModel.IBindingList.ApplySort
+    End Sub
+    Public Sub RemoveSort() _
+      Implements System.ComponentModel.IBindingList.RemoveSort
+    End Sub
+    Public ReadOnly Property SupportsSorting() As Boolean _
+      Implements System.ComponentModel.IBindingList.SupportsSorting
+        Get
+		Return True
+        End Get
+    End Property
+    Public Sub RemoveIndex(ByVal [property] As _
+      System.ComponentModel.PropertyDescriptor) _
+      Implements System.ComponentModel.IBindingList.RemoveIndex
+    End Sub
+    Public ReadOnly Property SupportsSearching() As Boolean _
+      Implements System.ComponentModel.IBindingList.SupportsSearching
+        Get
+		Return True
+        End Get
+    End Property
+    Public ReadOnly Property SupportsChangeNotification() As Boolean _
+      Implements System.ComponentModel.IBindingList.SupportsChangeNotification
+        Get
+		Return True
+        End Get
+    End Property
+    Public ReadOnly Property SortDirection() As _
+      System.ComponentModel.ListSortDirection _
+      Implements System.ComponentModel.IBindingList.SortDirection
+        Get
+		Return New System.ComponentModel.ListSortDirection()
+        End Get
+    End Property
+    Public ReadOnly Property SortProperty() As _
+      System.ComponentModel.PropertyDescriptor _
+      Implements System.ComponentModel.IBindingList.SortProperty
+        Get
+		Return Nothing
+        End Get
+    End Property
+    Public ReadOnly Property IsSorted() As Boolean _
+      Implements System.ComponentModel.IBindingList.IsSorted
+        Get
+		Return True
+        End Get
+    End Property
+    Public ReadOnly Property AllowNew() As Boolean _
+      Implements System.ComponentModel.IBindingList.AllowNew
+        Get
+		Return True
+        End Get
+    End Property
+    Public ReadOnly Property AllowEdit() As Boolean 
+      Implements System.ComponentModel.IBindingList.AllowEdit
+        Get
+		Return True
+        End Get
+    End Property
+    Public ReadOnly Property AllowRemove() As Boolean _
+      Implements System.ComponentModel.IBindingList.AllowRemove
+        Get
+		Return True
+        End Get
+    End Property
+    Public Event ListChanged(ByVal sender _
+      As Object, ByVal e As _
+      System.ComponentModel.ListChangedEventArgs) Implements _
+      System.ComponentModel.IBindingList.ListChanged
+    Default Public ReadOnly Property Item(ByVal _
+      index As Integer) As Widget
+        Get
+            Return CType(Me.List(index), Widget)
+        End Get
+    End Property
+End Class
+----
+
+*In C#:*
+
+----
+/// <summary>
+/// A custom collection
+/// </summary>
+public class MyIBindingList : CollectionBase, IBindingList
+{
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	public MyIBindingList()
+	{
+	}
+	/// <summary>
+	/// Adds a new index.
+	/// </summary>
+	/// <param name="property">Provides an abstraction of 
+	/// a property on a class.</param>
+	public void AddIndex(System.ComponentModel.PropertyDescriptor property)
+	{
+	}
+	/// <summary>
+	/// Adds a new item to the list.
+	/// </summary>
+	/// <returns>New item</returns>
+	public object AddNew()
+	{
+		return this.AddNew("New Widget", 0, 0);			
+	}
+	/// <summary>
+	/// Adds a new item to the list.
+	/// </summary>
+	/// <param name="name">Name</param>
+	/// <param name="marketValue">Market value</param>
+	/// <param name="magnitude">Magnitude</param>
+	/// <returns>Widget</returns>
+	public Widget AddNew(string name, double marketValue, long magnitude)
+	{
+		Widget w = new Widget(name, marketValue, magnitude);
+		this.List.Add(w);
+		return w;			
+	}
+	/// <summary>
+	/// Gets whether you can update items in the list.
+	/// </summary>
+	public bool AllowEdit
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Gets whether you can add items to the list using AddNew.
+	/// </summary>
+	public bool AllowNew
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Gets whether you can remove items from the list, 
+	/// using Remove or RemoveAt.
+	/// </summary>
+	public bool AllowRemove
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Sorts the list based on a PropertyDescriptor and 
+	/// a ListSortDirection.
+	/// </summary>
+	/// <param name="property">The PropertyDescriptor to sort by.</param>
+	/// <param name="direction">One of the ListSortDirection values.</param>
+	public void ApplySort(System.ComponentModel.PropertyDescriptor property, 
+	  System.ComponentModel.ListSortDirection direction)
+	{
+	}
+	/// <summary>
+	/// Returns the index of the row that has the given PropertyDescriptor.
+	/// </summary>
+	/// <param name="property">The PropertyDescriptor to search on.</param>
+	/// <param name="key">The value of the property parameter to 
+	/// search for.</param>
+	/// <returns>The index of the row that has the given 
+	/// PropertyDescriptor.</returns>
+	public int Find(System.ComponentModel.PropertyDescriptor property, 
+	  object key)
+	{
+		return 0;
+	}
+	/// <summary>
+	/// Gets whether the items in the list are sorted.
+	/// </summary>
+	public bool IsSorted
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Represents the method that will handle the 
+	/// ListChanged event of the IBindingList class.
+	/// </summary>
+	public event System.ComponentModel.ListChangedEventHandler ListChanged;
+	/// <summary>
+	/// Removes the PropertyDescriptor from the indexes used for searching.
+	/// </summary>
+	/// <param name="property">The PropertyDescriptor to remove 
+	/// from the indexes used for searching.</param>
+	public void RemoveIndex(System.ComponentModel.PropertyDescriptor property)
+	{
+	}
+	/// <summary>
+	/// Removes any sort applied using ApplySort.
+	/// </summary>
+	public void RemoveSort()
+	{
+	}
+	/// <summary>
+	/// Gets the direction of the sort.
+	/// </summary>
+	public System.ComponentModel.ListSortDirection SortDirection
+	{
+		get
+		{
+			return new System.ComponentModel.ListSortDirection();
+		}
+	}
+	/// <summary>
+	/// Gets the PropertyDescriptor that is being used for sorting.
+	/// </summary>
+	public System.ComponentModel.PropertyDescriptor SortProperty
+	{
+		get
+		{
+			return null;
+		}
+	}
+	/// <summary>
+	/// Gets whether a ListChanged event is raised when the list changes 
+	/// or an item in the list changes.
+	/// </summary>
+	public bool SupportsChangeNotification
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Gets whether the list supports searching using the Find method.
+	/// </summary>
+	public bool SupportsSearching
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Gets whether the list supports sorting.
+	/// </summary>
+	public bool SupportsSorting
+	{
+		get
+		{
+			return true;
+		}
+	}
+	/// <summary>
+	/// Returns a specific member of a Collection object either by 
+	/// position or by key.
+	/// </summary>
+	public Widget this[int index]
+	{
+		get
+		{
+			return this.List[index] as Widget;
+		}
+		set
+		{
+			this.List[index] = value;
+		}
+	}
+}
+----
+
+[start=3]
+. Once you have created the above-mentioned classes, you need to instantiate them in the following manner, then bind the Chart control to the instance of MyIBindingList that is created.
+
+*In Visual Basic:*
+
+----
+Private Sub Binding_to_IBindingList_or_IList_Load( _
+  ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Dim iBL As New MyIBindingList()
+	iBL.AddNew("Average Widget", 700.15, 300)
+	iBL.AddNew("Super Widget", 1500.7, 432)
+	iBL.AddNew("Super Fantastic Widget", 1700.5, 500)
+	iBL.AddNew("Messiah Widget", 2000.0, 600)
+	Me.UltraChart1.Data.DataSource = iBL
+End Sub
+----
+
+*In C#:*
+
+----
+private void Binding_to_IBindingList_or_IList_Load(object sender, 
+  EventArgs e)
+{
+	MyIBindingList iBL = new MyIBindingList();
+	iBL.AddNew("Average Widget", 700.15, 300);
+	iBL.AddNew("Super Widget", 1500.7, 432);
+	iBL.AddNew("Super Fantastic Widget", 1700.5, 500);
+	iBL.AddNew("Messiah Widget", 2000.00, 600);				
+	this.ultraChart1.Data.DataSource = iBL;
+}
+----

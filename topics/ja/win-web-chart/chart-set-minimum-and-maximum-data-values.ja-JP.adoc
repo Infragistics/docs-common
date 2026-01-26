@@ -1,0 +1,67 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-set-minimum-and-maximum-data-values",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{4C905F38-56E7-463E-9C37-CA36D7EC69F4}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 最小データ値と最大データ値の設定
+
+このトピックでは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~zeroaligned.html[ZeroAligned]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~zeroaligned.html[ZeroAligned]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~zeroaligned.html[ZeroAligned]"]  プロパティを使用して、Chart コントロールの軸の最小と最大データ値を変更する方法を説明します。このプロパティの値から、値が正数か負数かに基づいて、最小データ値～最大データ値、0（ゼロ）～最小データ値、0（ゼロ）～最大データ値のいずれかの範囲のデータをグラフ化できます。以下の表は、すべての可能な組み合わせを示しています。データ最小値とデータ最大値はそれぞれ、グラフ化するデータセットの最小値と最大値です。ZeroAligned プロパティを False に設定すると、グラフは常に、データ最小値～データ最大値の範囲の値を使用します。
+
+[options="header", cols="a,a,a,a"]
+|====
+|データ最小値|データ最大値|ゼロ範囲|グラフ化する範囲
+
+|負数
+|負数
+|True
+|DataMin...0
+
+|負数
+|正数
+|True
+|DataMin...Data Max
+
+|正数
+|最大
+|True
+|0～データ最大値
+
+|負数
+|負数
+|False
+|DataMin...DataMax
+
+|負数
+|正数
+|False
+|DataMin...DataMax
+
+|正数
+|正数
+|False
+|DataMin...DataMax
+
+|====
+
+以下のコードを使用し、ZeroAligned プロパティを設定します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Data.ZeroAligned = True
+----
+
+*C# の場合：*
+
+----
+this.UltraChart1.Data.ZeroAligned = true;
+----

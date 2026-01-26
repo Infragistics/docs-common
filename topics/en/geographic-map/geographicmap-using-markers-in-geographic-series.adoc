@@ -1,0 +1,240 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Using Markers in Geographic Series
+
+
+
+=== Purpose
+
+This topic provides information on how to use markers in geographic series of the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources with information about maps, shape files, and geo-spatial related material. Use these resources to learn about and obtain geo-spatial shape files as well as tools for their editing.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-symbol-series.html[Using Geographic Symbol Series]
+|This topic provides information on how to use the link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] element in the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-shape-series.html[Using Geographic Shape Series]
+|This topic provides information on how to use the link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] element in the _{GeoMapName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320745633, Displaying Basic Markers in Geographic Series >>
+
+** <<_Ref320745641,Overview>>
+** <<_Ref320745644,Property settings>>
+** <<_Ref320745648,Example>>
+** <<_Ref320745654,Code>>
+
+ifdef::wpf[]
+* <<_Ref320745637, Creating Custom Markers in Geographic Series >>
+
+** <<_Ref320745659,Overview>>
+** <<_Ref320745688,Preview>>
+** <<_Ref320745668,Example>>
+endif::wpf[]
+
+* <<_Ref320185294, Related Content >>
+
+[[_Ref320745633]]
+== Displaying Basic Markers in Geographic Series
+
+[[_Ref320745641]]
+
+=== Overview
+
+In the _{GeoMapName}_ control, markers are visual elements that display values of data items bound to geographic series in geographic locations of the map. Marker can be represented as labels, symbols or custom data templates.
+
+The following types of geographic series support markers:
+
+* link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries]
+* link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries]
+
+[[_Ref320745644]]
+
+=== Property settings
+
+The following table maps the desired configuration to property settings of geographic series.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Display markers
+| link:{GeoMapLink}.geographicsymbolseries~markertype.html[MarkerType]
+| Circle
+
+|Change markers’ brush
+| link:{GeoMapLink}.geographicsymbolseries~markerbrush.html[MarkerBrush]
+| pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.media.brush.aspx[Brush]"]pick:[win-forms="Infragistics.Win.DataVisualization.Brush"]
+
+|Change markers’ outline
+| link:{GeoMapLink}.geographicsymbolseries~markeroutline.html[MarkerOutline]
+| pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.media.brush.aspx[Brush]"]pick:[win-forms="Infragistics.Win.DataVisualization.Brush"]
+
+|Enable markers’ collision avoidance
+| link:{GeoMapLink}.geographicsymbolseries~markercollisionavoidance.html[MarkerCollisionAvoidance]
+| Fade
+
+|====
+
+[[_Ref320745648]]
+
+=== Example
+
+The screenshot below demonstrates how the _{GeoMapName}_ control looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{GeoMapLink}.geographicsymbolseries~markertype.html[MarkerType]
+| Circle
+
+| link:{GeoMapLink}.geographicsymbolseries~markerbrush.html[MarkerBrush]
+|Blue
+
+| link:{GeoMapLink}.geographicsymbolseries~markeroutline.html[MarkerOutline]
+|Black
+
+| link:{GeoMapLink}.geographicsymbolseries~markercollisionavoidance.html[MarkerCollisionAvoidance]
+| None
+
+|====
+
+image::images/GeographicMap_Using_Markers_in_Geographic_Series_1.png[]
+
+[[_Ref320745654]]
+
+=== Code
+
+The following code changes the appearance of markers in the link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries]
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap.Series>
+    <ig:GeographicSymbolSeries ItemsSource="{StaticResource shapefileConverter}"
+                                MarkerBrush="Blue" 
+                                MarkerOutline="Black"
+                                MarkerCollisionAvoidance="None"
+                                LongitudeMemberPath="Points[0][0].X"
+                                LatitudeMemberPath="Points[0][0].Y">
+    </ig:GeographicSymbolSeries>
+</ig:XamGeographicMap.Series>
+----
+endif::wpf[]
+
+*In C#:*
+[source,c#]
+----
+var geoSeries = new GeographicSymbolSeries();
+geoSeries.{ApiDataSource} = shapefileConverter;
+geoSeries.MarkerBrush = new SolidBrush(Color.Blue);
+geoSeries.MarkerOutline = new SolidBrush(Color.Black);
+geoSeries.MarkerCollisionAvoidance = CollisionAvoidanceType.None;
+geoSeries.LatitudeMemberPath = "Points[0][0].X";
+geoSeries.LongitudeMemberPath = "Points[0][0].Y";
+this.geoMap.Series.Add(geoSeries);
+----
+
+*In VB:*
+[source,c#]
+----
+Dim geoSeries = new GeographicSymbolSeries()
+geoSeries.{ApiDataSource} = shapefileConverter
+endif::win-forms[]
+geoSeries.MarkerBrush = new SolidBrush(Color.Blue)
+geoSeries.MarkerOutline = new SolidBrush(Color.Black)
+geoSeries.MarkerCollisionAvoidance = CollisionAvoidanceType.None
+geoSeries.LatitudeMemberPath = "Points[0][0].X"
+geoSeries.LongitudeMemberPath = "Points[0][0].Y"
+Me.geoMap.Series.Add(geoSeries)
+----
+
+ifdef::wpf[]
+[[_Ref320745637]]
+== Creating Custom Markers in Geographic Series
+
+[[_Ref320745659]]
+
+=== Overview
+
+The link:{GeoMapLink}.geographicshapeseries~markertemplate.html[MarkerTemplate] property of geographic series can be used to provide custom data templates to display custom symbols and/or values of data items. Custom data templates can access values of data items bound to the {ApiDataSource} property of geographic series by binding to the Item property. When a geographic series is bound to the link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] then the Item property is resolved to a link:{DataVizMapsLink}.shapefilerecord_members.html[ShapefileRecord] object and values loaded from a shape database (.dbf) file can be accessed through the link:{DataVizMapsLink}.shapefilerecord~fields.html[Fields] property.
+
+[[_Ref320745688]]
+
+=== Preview
+
+The following is a preview of the _{GeoMapName}_ control with markers displaying names of countries on all shapes of link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries].
+
+image::images/GeographicMap_Using_Markers_in_Geographic_Series_2.png[]
+
+[[_Ref320745668]]
+
+=== Example
+
+The following code creates a custom data template for markers of link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] with binding to a data column that contains names of countries.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:GeographicShapeSeries {ApiDataSource}="{StaticResource shapefileConverter}"
+                          ShapeMemberPath="Points"
+                          MarkerCollisionAvoidance="Fade">
+    <ig:GeographicShapeSeries.MarkerTemplate>
+        <DataTemplate>
+            <TextBlock Text="{Binding Path=Item.Fields[CNTRY_NAME]}" FontWeight="Bold" />
+        </DataTemplate>
+    </ig:GeographicShapeSeries.MarkerTemplate>
+</ig:GeographicShapeSeries>
+----
+
+endif::wpf[]
+
+[[_Ref320185294]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources with information about maps, shape files, and geo-spatial related material. Use these resources to learn about and obtain geo-spatial shape files as well as tools for their editing.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-series.html[Using Geographic Series]
+|This topic provides information about supported types of geographic series in the _{GeoMapName}_ control.
+
+|====

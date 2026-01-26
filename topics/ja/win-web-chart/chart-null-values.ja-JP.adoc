@@ -1,0 +1,103 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-null-values",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{9F5EAE6E-2494-4623-9E52-B66334A6A031}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Null 値
+
+通常、チャートは null 値を含むデータセットを表示する必要があります。データソースの null 値には異なる意味を持つ場合があるため、Chart コントロールはセット内の null 値をプロットするさまざまな方法を提供します。
+
+null 値を処理する場合の一般的な質問は、値が null の場合にチャートのどこに配置するかということです。
+
+ほとんどのチャート タイプでは、Chart コントロールは  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  プロパティを提供します。デザイナ ビューの [プロパティ] ウィンドウで、NullHandling プロパティはチャート タイプに対応するプロパティの下で使用できます。たとえば、Column チャートの [プロパティ] ウィンドウで、NullHandling プロパティは ColumnChart プロパティの下で使用できます。
+
+[NOTE]
+====
+*注：* .NET の値（System.Int32、System.Double、および System.DateTime など）を使用すると、値のタイプが null 指定できないため、null 値を持つことができません。データセットで null 値を指定したい場合は、System.Data.SqlTypes 名前空間に含まれるタイプなどの null に指定可能なタイプを使用します。
+====
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  値のリストを以下に示します。各値は null 値を個別に取り扱います。
+
+* NullHandling.Zero -- null 値を Y 軸の 0.0 にプロットします。
+* NullHandling.DontPlot -- セグメントを接続しません。セグメントをスキップし、隣接ポイントを接続しません。
+* NullHandling.InterpolateSimple -- 単純な（線形）補間を使用して、null 値の前と後の数式間に点をプロットします。このために使用する数式は以下のとおりです。
+
+----
+	interpolatedValue = (precedingValue / 2) + (subsequentValue / 2)
+----
+
+* NullHandling.InterpolateCustom -- アプリケーション レベルでカスタム補間ロジックを実行して、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.interpolatevalueseventargs.html[UltraChart.InterpolateValues]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.interpolatevalueseventargs.html[UltraChart.InterpolateValues]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.interpolatevalueseventargs.html[UltraChart.InterpolateValues]"]  イベントを処理することにより、null 値を格納します。上記の例では、このイベント ハンドラは値 120 を使用して null 値を格納します。
+
+以下の表は、Area チャートのデータセットの例です。
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockName|月曜日|火曜日|水曜日|木曜日|金曜日
+
+|IBM
+|111
+|96
+|85
+|null
+|65
+
+|MSN
+|75
+|23
+|15
+|75
+|100
+
+|MCI
+|55
+|63
+|84
+|95
+|80
+
+|ATT
+|12
+|12
+|40
+|60
+|50
+
+|VER
+|69
+|95
+|110
+|98
+|123
+
+|====
+
+以下の領域チャート画像は、null 処理の 4 つの異なるタイプを使用してデータをプロットする方法を説明しています。
+
+[cols="a,a"]
+|====
+|NullHandling.Zero
+|NullHandling.DontPlot
+
+|image::images\Chart_Null_Handling_and_Empty_Styles_01.png[]
+|image::images\Chart_Null_Handling_and_Empty_Styles_02.png[]
+
+|NullHandling.InterpolateSimple
+|NullHandling.InterpolateCustom
+
+|image::images\Chart_Null_Handling_and_Empty_Styles_03.png[]
+|image::images\Chart_Null_Handling_and_Empty_Styles_04.png[]
+
+|====
+
+== 関連トピック
+
+link:chart-customize-the-display-of-null-values.html[Null 値の表示をカスタマイズ]

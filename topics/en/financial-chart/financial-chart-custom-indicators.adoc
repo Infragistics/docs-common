@@ -1,0 +1,142 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","Data Presentation","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= Custom Indicators
+
+The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control allows you to define custom financial indicators to display in the link:financial-chart-pane-indicator.html[Indicator Pane].
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<ConfigureCustomIndicators,Configuring Custom Indicators>> 
+* <<CodeSnippet, Code Snippet>>
+* <<RelatedContent,Related Content>>
+
+[[ConfigureCustomIndicators]]
+=== Configuring Custom Indicators
+
+In the {FinancialChartName}, you can enable custom financial indicators by adding names for them to the link:{FinancialChartLink}.{FinancialChartName}{ApiProp}customindicatornames{HtmlApiExtension}[pick:[wpf="CustomIndicatorNames"]pick:[jquery="customIndicatorNames"]] property and performing calculations for them in the pick:[wpf="link:{FinancialChartLink}.{FinancialChartName}{ApiProp}applycustomindicators_ev.html[ApplyCustomIndicators]"]pick:[jquery="link:{FinancialChartLink}.{FinancialChartName}#events:applycustomindicators[applyCustomIndicators]"] event.
+
+[[CodeSnippet]]
+=== Code Snippet
+
+ifdef::wpf[]
+The following code example shows how to set up and calculate two custom indicators, one featuring the Simple Moving Average (SMA) and one displaying random values:
+endif::wpf[]
+
+ifdef::jquery[]
+The following code example shows how to display a custom indicator displaying random values:
+endif::jquery[]
+
+ifdef::jquery[]
+*In JavaScript:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    customIndicatorNames: ["Open Price"],
+    applyCustomIndicators: function (e, ui) {
+        var ds = ui.indicatorInfo.getDataSource();
+        for (var i = 0; i < ds.indicatorColumn.length; i++) {
+            ds.indicatorColumn[i] = ds.openColumn[i];
+        }
+    }
+});
+----
+endif::jquery[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamFinancialChart x:Name="chart"
+    ItemsSource="{Binding}"
+    ApplyCustomIndicators="ApplyCustomIndicators" />
+----
+
+*In C#:*
+[source,csharp]
+----
+public MainWindow()
+{
+    InitializeComponent();
+    this.DataContext = new ViewModel();
+    
+    var names = new ObservableCollection<string>();
+    names.Add("SMA 100");
+    names.Add("Random");
+    chart.CustomIndicatorNames = names;
+}
+
+private void ApplyCustomIndicators(object sender, FinancialChartCustomIndicatorArgs e)
+{
+    var SMAValues = e.IndicatorInfo.SupportingCalculations.SMA.Strategy.Invoke(e.IndicatorInfo.DataSource.CloseColumn, 100);
+    int length = e.IndicatorInfo.DataSource.IndicatorColumn.Count;
+    switch (e.Index)
+    {
+        case 0:
+            for (int i = 0; i < length; i++)
+                e.IndicatorInfo.DataSource.IndicatorColumn[i] = SMAValues.ToList()[i];
+            break;
+        case 1:
+            Random rand = new Random();
+            for (int i = 0; i < length; i++)
+                e.IndicatorInfo.DataSource.IndicatorColumn[i] = rand.Next();
+            break;
+    }
+}
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Public Sub New()
+    MyBase.New()
+    InitializeComponent()
+    Me.DataContext = New ViewModel
+
+    Dim names = New ObservableCollection(Of String)
+    names.Add("SMA 100")
+    names.Add("Random")
+    chart.CustomIndicatorNames = names
+End Sub
+
+Private Sub ApplyCustomIndicators(ByVal sender As Object, ByVal e As FinancialChartCustomIndicatorArgs)
+    Dim SMAValues = e.IndicatorInfo.SupportingCalculations.SMA.Strategy.Invoke(e.IndicatorInfo.DataSource.CloseColumn, 100)
+    Dim length As Integer = e.IndicatorInfo.DataSource.IndicatorColumn.Count
+    Select Case (e.Index)
+        Case 0
+            Dim i As Integer = 0
+            Do While (i < length)
+                e.IndicatorInfo.DataSource.IndicatorColumn(i) = SMAValues.ToList(i)
+                i = (i + 1)
+            Loop
+
+        Case 1
+            Dim rand As Random = New Random
+            Dim i As Integer = 0
+            Do While (i < length)
+                e.IndicatorInfo.DataSource.IndicatorColumn(i) = rand.Next()
+                i = (i + 1)
+            Loop
+
+    End Select
+
+End Sub
+----
+endif::wpf[]
+
+pick:[wpf="image::images/financialchart_wpf_custom_indicators.png[]"]
+pick:[jquery="image::images/financialchart_jquery_custom_indicators.png[]"]
+
+[[RelatedContent]]
+== Related Content
+
+* link:financial-chart-pane-indicator.html[Indicator Pane]

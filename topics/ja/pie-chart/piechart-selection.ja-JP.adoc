@@ -1,0 +1,166 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-selection",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Charting","Data Presentation","How Do I"],
+    "guid": "",
+    "buildFlags": ["SL","WPF","win-phone","WINFORMS","ANDROID","XAMARIN"],
+    "createdOn": "2014-06-05T19:53:12.0788999Z"
+}
+|metadata|
+////
+
+= 選択
+
+このトピックでは、link:{PieChartLink}.{PieChartName}.html[{PieChartName}]™ コントロールの選択機能の有効化および使用方法について説明します。
+
+このトピックは、以下のセクションで構成されています。
+
+* <<Requirements,要件>>
+* <<Overview,概要>>
+* <<EnablingSelection,選択の有効化>>
+* <<SelectionModes,選択モード>>
+* <<SelectionEvents,選択イベント>>
+ifdef::wpf,sl,win-universal,win-forms,android[]
+* <<SelectingOthers,「その他」スライスの選択>>
+endif::wpf,sl,win-universal,win-forms,android[]
+* <<RelatedTopics,関連トピック>>
+
+[[Requirements]]
+== 要件
+
+このトピックは、ユーザーがlink:piechart-data-binding.html[データ バインディング] トピックを既に読んでいることを前提とし、はじめにそのコードを使用します。
+
+[[Overview]]
+== 概要
+
+デフォルトで、{PieChartName}　はマウス クリックによるスライス選択をサポートします。選択されたスライスは、link:{PieChartLink}.{PieChartBase}{ApiProp}SelectedItem.html[SelectedItem] プロパティで取得します。 以下の画像にあるように、選択されたスライスは強調表示されます。
+
+image::images/PieChart_SingleSelection_01.png[SingleSelection]
+
+[[EnablingSelection]]
+== 選択の有効化
+
+円チャートのモードは link:{PieChartLink}.{PieChartBase}{ApiProp}SelectionMode.html[SelectionMode] プロパティで設定します。 デフォルトは Single です。 選択機能を無効化するためにはプロパティを Manual に設定します。
+
+以下のコード例では、選択機能を無効化する方法を示します。
+
+ifdef::xaml[]
+*XAML の場合:*
+
+----
+
+<ig:{PieChartName} x:Name="pieChart" SelectionMode="Manual" />
+
+----
+endif::xaml[]
+
+ifdef::wpf,sl,win-forms[]
+
+*Visual Basic の場合:*
+
+----
+
+pieChart.SelectionMode = SliceSelectionMode.Manual
+
+----
+
+endif::wpf,sl,win-forms[]
+
+*C# の場合:*
+
+----
+
+pieChart.SelectionMode = SliceSelectionMode.Manual; 
+
+----
+
+
+[[SelectionModes]]
+== 選択モード
+
+円チャートは、選択モードを 3 つサポートします。
+
+* Single
+* Multiple
+* Manual
+
+=== Single
+
+Single モードに設定すると、一度に 1 つのスライスのみ選択します。他のスライスを選択すると、最初に選択したスライスは選択解除され、新しいスライスが選択されます。
+
+image::images/PieChart_SingleSelection_01.png[SingleSelection]
+
+=== Multiple
+
+Multiple モードに設定すると、一度に複数のスライスを選択します。スライスをクリックするとスライスが選択され、他のスライスをクリックすると、最初のスライスも、新しくクリックしたスライスも選択されます。
+
+image::images/PieChart_MultipleSelection_01.png[MultipleSelection]
+
+=== Manual 
+
+Manual モードに設定すると、選択は無効化されます。
+
+[[SelectionEvents]]
+== 選択イベント
+
+円チャートには、選択機能に関連する 4 つのイベントがあります。
+
+* link:{PieChartLink}.{PieChartBase}{ApiProp}SelectedItemChanging_ev.html[SelectedItemChanging]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}SelectedItemChanged_ev.html[SelectedItemChanged]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}SelectedItemsChanging_ev.html[SelectedItemsChanging]
+* link:{PieChartLink}.{PieChartBase}{ApiProp}SelectedItemsChanged_ev.html[SelectedItemsChanged]
+
+「Changing」で終わるイベントはキャンセル可能なイベントです。すなわち、イベント引数プロパティ Cancel を true に設定することで、スライスの選択を停止します。 True に設定すると、関連付けられたプロパティは更新されず、その結果スライスは選択されません。この設定はたとえば、スライスのデータによって一定のスライスの選択を無効化する場合に使用します。
+
+
+ifdef::xaml[]
+*XAML の場合:*
+
+----
+
+<ig:XamPieChart x:Name="pieChart" SelectedItemChanging="pieChart_SelectedItemChanging" />
+
+----
+endif::xaml[]
+
+ifdef::wpf,sl,win-forms[]
+
+*Visual Basic の場合:*
+
+----
+
+Private Sub pieChart_SelectedItemChanging(sender As Object, e As SelectedItemChangingEventArgs)
+	e.Cancel = True
+End Sub
+
+----
+
+endif::wpf,sl,win-forms[]
+ 
+*C# の場合:*
+
+----
+
+pieChart.SelectedItemChanging += pieChart_SelectedItemChanging;
+void pieChart_SelectedItemChanging(object sender, SelectedItemChangingEventArgs e)
+{
+    e.Cancel = true;
+}
+
+----
+
+ifdef::wpf,sl,win-universal,win-forms,android[]
+[[SelectingOthers]]
+
+== 「その他」スライスの選択
+
+「その他」スライスをクリックすると、link:{ApiPlatform}{DataChartAssembly}{ApiVersion}{ApiProp}{PieChartNamespace}.piesliceotherscontext.html[PieSliceOthersContext] オブジェクトが返されます。 オブジェクトは、「その他」スライスに含まれるデータ項目のリストがあります。
+endif::wpf,sl,win-universal,win-forms,android[]
+
+[[RelatedTopics]]
+== 関連トピック
+
+* link:piechart-data-binding.html[データ バインディング]
+* link:piechart-others-category.html[その他の分類項目]

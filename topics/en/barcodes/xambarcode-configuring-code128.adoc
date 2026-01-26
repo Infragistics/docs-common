@@ -1,0 +1,936 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-configuring-code128",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "8376e007-8d23-4b84-898a-0e6575254214","buildFlags": [],
+    "createdOn": "2015-09-23T20:38:57.6600296Z"
+}
+|metadata|
+////
+
+= Configuring Code 128
+
+The {Barcode128Name}™ generates the high-density alpha-numeric variable-length Code 128 symbology. It allows encoding of all 256 standard ASCII characters as well as 4 special symbol characters- FNC1, FNC2, FNC3 and FNC4$$*$$:
+
+* FNC1 is used in UCC/EAN128 to act as UCC/EAN-128 identifier and field delimiter.
+* FNC2 is used to tell the barcode reader to store the data and transmit it with the next symbol.
+* FNC3 is reserved for future use.
+* FNC4 is used as a latch code word to switch into extended ASCII mode.
+
+.Note:
+[NOTE]
+====
+The current version of {Barcode128Name} uses only FNC1. The control will be improved with the functions of the other special symbol characters in the next versions.
+====
+
+During the encoding process {Barcode128Name} internally uses 3 code sets (A, B and C) to generate the shortest possible symbol. Code 128 requires a mandatory checksum character to ensure the data integrity which is not represented in the human readable interpretation. Two Code 128 code symbologies are supported and specified by the CodeType property– Standard and Ucc (also known as UCC/EAN-128).
+
+When CodeType is set to Ucc, the control checks internally if the Data consists of valid Application Identifier(s) with data content with an explicit format (see the table at the bottom). Each Application Identifier should be enclosed in parentheses.
+
+*Example:*
+
+image::images/xamBarcode_XamCode128Barcode_03.png[]
+
+The {Barcode128Name} from the image has a Data property set to "(11)100518(15)111018(10)17".
+
+Reading and extracting the Data from the example as follows:
+
+[start=1]
+. The AI (11) indicates that its data content should be 6 numerical digits and it is Production Date (YYMMDD);
+
+[start=2]
+. The value 100518 stands for May 18, 2010;
+
+[start=3]
+. The second AI - (15) indicates that the data content is Best Before Date (YYMMDD) and should be 6 numerical digits;
+
+[start=4]
+. The value 111018 stands for October 18, 2011;
+
+[start=5]
+. The last AI - (10) indicates that the data content is Batch or Lot Number. It should be up to 20 alphanumerical characters long;
+
+[start=6]
+. The value is 17.
+
+For information about the supported Application Identifier(s) and the format of their corresponding data content see the table at the end of this topic.
+
+== Code Examples:
+
+ifdef::xaml[]
+
+*In XAML:*
+
+ifdef::xaml[]
+----
+<ig:XamCode128Barcode x:Name="Barcode" CodeType="Standard" Data="Code 128" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In Visual Basic:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamCode128Barcode()
+Barcode.Data = "Code 128"
+Barcode.CodeType = Code128CodeType.Standard
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In C#:*
+
+[source]
+----
+XamCode128Barcode Barcode = new UltraCode128Barcode
+Barcode.Data = "Code 128";
+Barcode.CodeType = Code128CodeType.Standard;
+----
+
+endif::xaml[]
+
+ifdef::android[]
+
+*In Java:*
+
+ifdef::android[]
+----
+Code128BarcodeView Barcode = new Code128BarcodeView();
+Barcode.setData("Code 128");
+Barcode.setCodeType(Code128CodeType.Standard);
+----
+endif::android[]
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source]
+----
+Dim barcode As New UltraCode128Barcode With _
+{
+    .Data = "Code 128", _
+    .CodeType = Code128CodeType.Standard _
+}
+----
+
+this.Controls.Add(barcode)
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source]
+----
+var barcode = new UltraCode128Barcode
+{
+    Data = "Code 128",
+    CodeType = Code128CodeType.Standard
+};
+this.Controls.Add(barcode);
+----
+
+endif::win-forms[]
+
+image::images/xamBarcode_XamCode128Barcode_01.png[]
+
+ifdef::xaml[]
+
+*In XAML:*
+
+ifdef::xaml[]
+----
+<ig:XamCode128Barcode x:Name="Barcode" CodeType="Ucc" Data="(01)00653216546543" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In Visual Basic:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamCode128Barcode()
+Barcode.Data = "(01)00653216546543"
+Barcode.CodeType = Code128CodeType.Ucc
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In C#:*
+
+ifdef::xaml[]
+----
+XamCode128Barcode Barcode = new XamCode128Barcode();
+Barcode.Data = "(01)00653216546543";
+Barcode.CodeType = Code128CodeType.Ucc;
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::android[]
+
+*In Java:*
+
+ifdef::android[]
+----
+Code128BarcodeView bar128 = new Code128BarcodeView();
+bar128.setData("(01)00653216546543");
+bar128.setCodeType(Code128CodeType.Ucc);
+----
+endif::android[]
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source]
+----
+Dim barcode As New UltraCode128Barcode With _
+{  
+    .Data = "(01)00653216546543", _
+    .CodeType = Code128CodeType.Ucc _
+}
+this.Controls.Add(barcode)
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+var barcode = new UltraCode128Barcode
+{
+    Data = "(01)00653216546543",
+    CodeType = Code128CodeType.Ucc
+};
+this.Controls.Add(barcode);
+----
+
+endif::win-forms[]
+
+image::images/xamBarcode_XamCode128Barcode_02.png[]
+
+ifdef::xaml[]
+
+*In XAML:*
+
+ifdef::xaml[]
+----
+<ig:XamCode128Barcode x:Name="Barcode" CodeType="Ucc" Data="(11)100518(15)111018(10)17" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In Visual Basic:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamCode128Barcode()
+Barcode.Data = "(11)100518(15)111018(10)17"
+Barcode.CodeType = Code128CodeType.Ucc
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In C#:*
+
+ifdef::xaml[]
+----
+XamCode128Barcode Barcode = new XamCode128Barcode();
+Barcode.Data = "(11)100518(15)111018(10)17";
+Barcode.CodeType = Code128CodeType.Ucc;
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::android[]
+
+*In Java*
+
+ifdef::android[]
+----
+Code128BarcodeView bar128 = new Code128BarcodeView();
+bar128.setData("(11)100518(15)111018(10)17");
+bar128.setCodeType(Code128CodeType.Ucc);
+----
+endif::android[]
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source]
+----
+Dim barcode As New UltraCode128Barcode With _
+{   
+    .Data = "(11)100518(15)111018(10)17", _
+    .CodeType = Code128CodeType.Ucc _
+}
+this.Controls.Add(barcode)
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source]
+----
+var barcode = new UltraCode128Barcode
+{
+    Data = "(11)100518(15)111018(10)17",
+    CodeType = Code128CodeType.Ucc
+};
+this.Controls.Add(barcode);
+----
+
+endif::win-forms[]
+
+image::images\xamBarcode_Adding_Code128_03.png[]
+
+== Application Identifiers
+
+*Notes:*
+
+____
+*(a):* The following convention is applied:
+____
+
+____
+*n* - numeric digit
+
+*an* - any character
+
+*n3* - 3 numeric digits
+
+*n..3* - up to 3 numeric digits
+
+*an..3* - up to 3 characters
+
+The first position of the Format field indicates the length (number of digits) of the Application Identifier. The following values refer to the format of the data content.
+
+Example: *n4+n14+an..16* - 4 numeric digits for the AI; 14 numeric digits and up to 16 alphanumeric characters for the data content.
+
+*(b):* If only year and month are available for YYMMDD, DD must be filled with two zeroes.
+
+*(c):* The implied point position is indicated by the fourth digit of this Application Identifier. Example:
+
+3100 Net weight in kg without a decimal point;
+
+3102 New weight in kg with two decimal points.
+____
+
+[options="header", cols="a,a,a,a"]
+|====
+|AI|Data Content|Format (a)|Data Title
+
+|00
+|SSCC (Serial Shipping Container Code)
+|n2+n18
+|SSCC
+
+|01
+|Global Trade Item Number (GTIN)
+|n2+n14
+|GTIN
+
+|02
+|GTIN of Contained Trade Items
+|n2+n14
+|CONTENT
+
+|10
+|Batch or Lot Number
+|n2+an..20
+|BATCH/LOT
+
+|11 (b)
+|Production Date (YYMMDD)
+|n2+n6
+|PROD DATE
+
+|12 (b)
+|Due Date (YYMMDD)
+|n2+n6
+|DUE DATE
+
+|13 (b)
+|Packaging Date (YYMMDD)
+|n2+n6
+|PACK DATE
+
+|15 (b)
+|Best Before Date (YYMMDD)
+|n2+n6
+|BEST BEFORE or SELL BY
+
+|17 (b)
+|Expiration Date (YYMMDD)
+|n2+n6
+|USE BY OR EXPIRY
+
+|20
+|Variant Number
+|n2+n2
+|VARIANT
+
+|21
+|Serial Number
+|n2+an..20
+|SERIAL
+
+|22
+|Secondary Data Fields
+|n2+an..29
+|QTY /DATE /BATCH
+
+|240
+|Additional Item Identification
+|n3+an..30
+|ADDITIONAL ID
+
+|241
+|Customer Part Number
+|n3+an..30
+|CUST. PART NO.
+
+|242
+|Made-to-Order Variation Number
+|n3+n..6
+|MTO VARIANT
+
+|250
+|Secondary Serial Number
+|n3+an..30
+|SECONDARY SERIAL
+
+|251
+|Reference to Source Entity
+|n3+an..30
+|REF. TO SOURCE
+
+|253
+|Global Document Type Identifier (GDTI)
+|n3+n13+n..17
+|DOC. ID
+
+|254
+|GLN Extension Component
+|n3+an..20
+|GLN EXTENSION
+
+|30
+|Count of Items (Variable Measure Trade Item)
+|n2+n..8
+|VAR. COUNT
+
+|310 (c)
+|Net weight, kilograms (Variable Measure Trade Item)
+|n4+n6
+|NET WEIGHT (kg)
+
+|311 (c)
+|Length of first dimension, meters (Variable Measure Trade Item)
+|n4+n6
+|LENGTH (m)
+
+|312 (c)
+|Width, diameter, or second dimension, meters (Variable Measure Trade Item)
+|n4+n6
+|WIDTH (m)
+
+|313 (c)
+|Depth, thickness, height, or third dimension, meters (Variable Measure Trade Item)
+|n4+n6
+|HEIGHT (m)
+
+|314 (c)
+|Area, square meters (Variable Measure Trade Item)
+|n4+n6
+|AREA (m²)
+
+|315 (c)
+|Net volume, liters (Variable Measure Trade Item)
+|n4+n6
+|NET VOLUME (l)
+
+|316 (c)
+|Net volume, cubic meters (Variable Measure Trade Item)
+|n4+n6
+|NET VOLUME (m³)
+
+|320 (c)
+|Net weight, pounds (Variable Measure Trade Item)
+|n4+n6
+|NET WEIGHT (lb)
+
+|321 (c)
+|Length or first dimension, inches (Variable Measure Trade Item)
+|n4+n6
+|LENGTH (i)
+
+|322 (c)
+|Length or first dimension, feet (Variable Measure Trade Item)
+|n4+n6
+|LENGTH (f)
+
+|323 (c)
+|Length or first dimension, yards (Variable Measure Trade Item)
+|n4+n6
+|LENGTH (y)
+
+|324 (c)
+|Width, diameter, or second dimension, inches (Variable Measure Trade Item)
+|n4+n6
+|WIDTH (i)
+
+|325 (c)
+|Width, diameter, or second dimension, feet (Variable Measure Trade Item)
+|n4+n6
+|WIDTH (f)
+
+|326 (c)
+|Width, diameter, or second dimension, yards (Variable Measure Trade Item
+|n4+n6
+|WIDTH (y)
+
+|327 (c)
+|Depth, thickness, height, or third dimension, inches (Variable Measure Trade Item)
+|n4+n6
+|HEIGHT (i)
+
+|328 (c)
+|Depth, thickness, height, or third dimension, feet (Variable Measure Trade Item)
+|n4+n6
+|HEIGHT (f)
+
+|329 (c)
+|Depth, thickness, height, or third dimension, yards (Variable Measure Trade Item)
+|n4+n6
+|HEIGHT (y)
+
+|330 (c)
+|Logistic weight, kilograms
+|n4+n6
+|GROSS WEIGHT (kg)
+
+|331 (c)
+|Length or first dimension, meters
+|n4+n6
+|LENGTH (m), log
+
+|332 (c)
+|Width, diameter, or second dimension, meters
+|n4+n6
+|WIDTH (m), log
+
+|333 (c)
+|Depth, thickness, height, or third dimension, meters
+|n4+n6
+|HEIGHT (m), log
+
+|334 (c)
+|Area, square meters
+|n4+n6
+|AREA (m²), log
+
+|335 (c)
+|Logistic volume, liters
+|n4+n6
+|VOLUME (l), log
+
+|336 (c)
+|Logistic volume, cubic liters
+|n4+n6
+|VOLUME (m³), log
+
+|337 (c)
+|Kilograms per square meter
+|n4+n6
+|KG PER m²
+
+|340 (c)
+|Logistic weight, pounds
+|n4+n6
+|GROSS WEIGHT (lb)
+
+|341 (c)
+|Length or first dimension, inches
+|n4+n6
+|LENGTH (i), log
+
+|342 (c)
+|Length or first dimension, feet
+|n4+n6
+|LENGTH (f), log
+
+|343 (c)
+|Length or first dimension, yards
+|n4+n6
+|LENGTH (y), log
+
+|344 (c)
+|Width, diameter, or second dimension
+|n4+n6
+|WIDTH (i), log
+
+|345 (c)
+|Width, diameter, or second dimension
+|n4+n6
+|WIDTH (f), log
+
+|346 (c)
+|Width, diameter, or second dimension
+|n4+n6
+|WIDTH (y), log
+
+|347 (c)
+|Depth, thickness, height, or third dimension
+|n4+n6
+|HEIGHT (i), log
+
+|348 (c)
+|Depth, thickness, height, or third dimension
+|n4+n6
+|HEIGHT (f), log
+
+|349 (c)
+|Depth, thickness, height, or third dimension
+|n4+n6
+|HEIGHT (y), log
+
+|350 (c)
+|Area, square inches (Variable Measure Trade Item)
+|n4+n6
+|AREA (i²)
+
+|351 (c)
+|Area, square feet (Variable Measure Trade Item)
+|n4+n6
+|AREA (f²)
+
+|352 (c)
+|Area, square yards (Variable Measure Trade Item)
+|n4+n6
+|AREA (y²)
+
+|353 (c)
+|Area, square inches
+|n4+n6
+|AREA (i²), log
+
+|354 (c)
+|Area, square feet
+|n4+n6
+|AREA (f²), log
+
+|355 (c)
+|Area, square yards
+|n4+n6
+|AREA (y²), log
+
+|356 (c)
+|Net weight, troy ounces (Variable Measure Trade Item)
+|n4+n6
+|NET WEIGHT (t)
+
+|357 (c)
+|Net weight (or volume), ounces (Variable Measure Trade Item)
+|n4+n6
+|NET VOLUME (oz)
+
+|360 (c)
+|Net volume, quarts (Variable Measure Trade Item)
+|n4+n6
+|NET VOLUME (q)
+
+|361 (c)
+|Net volume, gallons U.S. (Variable Measure Trade Item)
+|n4+n6
+|NET VOLUME (g)
+
+|362 (c)
+|Logistic volume, quarts
+|n4+n6
+|VOLUME (q), log
+
+|363 (c)
+|Logistic volume, gallons U.S.
+|n4+n6
+|VOLUME (g), log
+
+|364 (c)
+|Net volume, cubic inches (Variable Measure Trade Item)
+|n4+n6
+|VOLUME (i³), log
+
+|365 (c)
+|Net volume, cubic feet (Variable Measure Trade Item)
+|n4+n6
+|VOLUME (f³), log
+
+|366 (c)
+|Net volume, cubic yards (Variable Measure Trade Item)
+|n4+n6
+|VOLUME (y³), log
+
+|367 (c)
+|Logistic volume, cubic inches
+|n4+n6
+|VOLUME (q), log
+
+|368 (c)
+|Logistic volume, cubic feet
+|n4+n6
+|VOLUME (g), log
+
+|369 (c)
+|Logistic volume, cubic yards
+|n4+n6
+|VOLUME (i³), log
+
+|37
+|Count of Trade Items
+|n2+n..8
+|COUNT
+
+|390 (c)
+|Applicable Amount Payable, local currency
+|n4+n..15
+|AMOUNT
+
+|391 (c)
+|Applicable Amount Payable with ISO Currency Code
+|n4+n3+n..15
+|AMOUNT
+
+|392 (c)
+|Applicable Amount Payable, single monetary area (Variable Measure Trade Item)
+|n4+n..15
+|PRICE
+
+|393 (c)
+|Applicable Amount Payable with ISO Currency Code (Variable Measure Trade Item)
+|n4+n3+n..15
+|PRICE
+
+|400
+|Customer's Purchase Order Number
+|n3+an..30
+|ORDER NUMBER
+
+|401
+|Consignment Number
+|n3+an..30
+|CONSIGNMENT
+
+|402
+|Shipment Identification Number
+|n3+n17
+|SHIPMENT NO.
+
+|403
+|Routing Code
+|n3+an..30
+|ROUTE
+
+|410
+|Ship to - Deliver to Global Location Number
+|n3+n13
+|SHIP TO LOC
+
+|411
+|Bill to - Invoice to Global Location Number
+|n3+n13
+|BILL TO
+
+|412
+|Purchased from Global Location Number
+|n3+n13
+|PURCHASE FROM
+
+|413
+|Ship for - Deliver for - Forward to Global Location Number
+|n3+n13
+|SHIP FOR LOC
+
+|414
+|Identification of a Physical Location Global Location Number
+|n3+n13
+|LOC No
+
+|415
+|Global Location Number of the Invoicing Party
+|n3+n13
+|PAY TO
+
+|420
+|Ship to - Deliver to Postal Code Within a Single Postal Authority
+|n3+an..20
+|SHIP TO POST
+
+|421
+|Ship to - Deliver to Postal Code with ISO Country Code
+|n3+n3+an..12
+|SHIP TO POST
+
+|422
+|Country of Origin of a Trade Item
+|n3+n3
+|ORIGIN
+
+|423
+|Country of Initial Processing
+|n3+n3+n..12
+|COUNTRY - INITIAL PROCESS.
+
+|424
+|Country of Processing
+|n3+n3
+|COUNTRY - PROCESS.
+
+|425
+|Country of Disassembly
+|n3+n3
+|COUNTRY - DISASSEMBLY
+
+|426
+|Country Covering full Process Chain
+|n3+n3
+|COUNTRY – FULL PROCESS
+
+|7001
+|NATO Stock Number (NSN)
+|n4+n13
+|NSN
+
+|7002
+|UN/ECE Meat Carcasses and Cuts Classification
+|n4+an..30
+|MEAT CUT
+
+|7003
+|Expiration Date and Time
+|n4+n10
+|EXPIRY TIME
+
+|703s
+|Approval Number of Processor with ISO Country Code
+|n4+n3+an..27
+|PROCESSOR # s
+
+|8001
+|Roll Products (Width, Length, Core Diameter, Direction, Splices)
+|n4+n14
+|DIMENSIONS
+
+|8002
+|Cellular Mobile Telephone Identifier
+|n4+an..20
+|CMT No
+
+|8003
+|Global Returnable Asset Identifier (GRAI)
+|n4+n14+an..1 6
+|GRAI
+
+|8004
+|Global Individual Asset Identifier (GIAI)
+|n4+an..30
+|GIAI
+
+|8005
+|Price Per Unit of Measure
+|n4+n6
+|PRICE PER UNIT
+
+|8006
+|Identification of the Components of a Trade Item
+|n4+n14+n2+n 2
+|GCTIN
+
+|8007
+|International Bank Account Number (IBAN)
+|n4+an..30
+|IBAN
+
+|8008
+|Date and Time of Production
+|n4+n8+n..4
+|PROD TIME
+
+|8018
+|Global Service Relation Number (GSRN)
+|n4+n18
+|GSRN
+
+|8020
+|Payment Slip Reference Number
+|n4+an..25
+|REF No
+
+|8100
+|GS1-128 Coupon Extended Code
+|n4+n6
+|-
+
+|8101
+|GS1-128 Coupon Extended Code
+|n4+n1+n5+n4
+|-
+
+|8102
+|GS1-128 Coupon Extended Code
+|n4+n1+n1
+|-
+
+|8110
+|Coupon Code Identification for Use in North America
+|n4+an..30
+|-
+
+|90
+|Information Mutually Agreed Between Trading Partners
+|n2+an..30
+|INTERNAL
+
+|91 to 99
+|Company Internal Information
+|n2+an..30
+|INTERNAL
+
+|====

@@ -1,0 +1,85 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-save-a-workbook",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Exporting","How Do I"],
+    "guid": "{AD387C75-027C-4411-9E17-7BACFBBC3C2E}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7717075Z"
+}
+|metadata|
+////
+
+= ワークブックの保存 ({ExcelEngineName})
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~save.html[Save] メソッドを呼び出すことによって、 link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbook] オブジェクトを保存できます。ただし、保存する時にワークブックは少なくともひとつの表示されるワークシートを含む必要があります。そうでないと、例外がスローされます。
+
+以下のコード例は Workbook オブジェクトを Excel ファイルとして保存する方法を示します。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source, vb]
+----
+Dim workbook1 As New Workbook()
+Dim worksheet As Worksheet = workbook1.Worksheets.Add("Sheet1")
+' 列ヘッダーをいくつか作成します。
+worksheet.Rows(1).Cells(1).Value = "Morning"
+worksheet.Rows(1).Cells(2).Value = "Afternoon"
+worksheet.Rows(1).Cells(3).Value = "Evening"
+workbook1.Save("filename.xls")
+----
+endif::wpf[]
+
+*C# の場合：*
+[source, csharp]
+----
+Workbook workbook1 = new Workbook();
+Worksheet worksheet = workbook1.Worksheets.Add("Sheet1");
+// 列ヘッダーをいくつか作成します。
+worksheet.Rows[1].Cells[1].Value = "Morning";
+worksheet.Rows[1].Cells[2].Value = "Afternoon";
+worksheet.Rows[1].Cells[3].Value = "Evening";
+ifdef::wpf[]
+workbook1.Save("filename.xls");
+endif::wpf[]
+ifdef::xamarin[]
+workbook1.Save(outputStream);
+endif::xamarin[]
+----
+
+== 関連トピック
+
+link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+
+link:excelengine-creating-a-workbook.html[ワークブックを作成]
+
+link:excelengine-load-an-excel-file.html[Excel ファイルのロード]
+
+link:excelengine-format-a-cell.html[セルをフォーマット]
+
+link:excelengine-copy-a-cells-format.html[セルのフォーマットのコピー]
+
+link:excelengine-reference-cells-and-regions.html[セルと領域を参照]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-merge-cells.html[セルの結合]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-merging-cells.html[セルの結合]
+endif::wpf,xamarin[]
+
+link:excelengine-add-a-formula-to-a-cell.html[数式をセルに追加]
+
+link:excelengine-add-a-comment-to-a-cell.html[コメントをセルに追加]
+
+link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集を無効にする]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-freeze-rows-and-columns.html[行と列をフリーズ]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-freeze-and-split-panes.html[行と列をフリーズ ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-set-excel-document-properties.html[Excel ドキュメント プロパティの設定]

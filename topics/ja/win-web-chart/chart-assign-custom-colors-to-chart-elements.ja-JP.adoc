@@ -1,0 +1,70 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-assign-custom-colors-to-chart-elements",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{2ADD926D-2BF2-41A5-AE40-E6070B487984}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チャート エレメントにカスタム カラーを割り当てる
+
+デフォルトでは、Chart コントロールはグラフ化する要素にランダム カラーを選択します。しかし各棒、バブル、線などに特定の色を指定することができます。これを実行するには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~colormodel.html[ColorModel]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.colormodels.html[ColorModel]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.colormodels.html[ColorModel]"]  オブジェクトを使用します。
+
+[start=1]
+. コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバは完全に記述された名前を常に入力する必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. CustomLinear に  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.colorappearance~modelstyle.html[ColorModel.ModelStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.colorappearance~modelstyle.html[ColorModel.ModelStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.colorappearance~modelstyle.html[ColorModel.ModelStyle]"] 。こうすると、グラフは  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.colorappearance~custompalette.html[CustomPalette]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.colorappearance~custompalette.html[CustomPalette]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.colorappearance~custompalette.html[CustomPalette]"]  の色を順番に使用します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.ColorModel.ModelStyle = ColorModels.CustomLinear
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.ColorModel.ModelStyle = ColorModels.CustomLinear;
+----
+
+[start=3]
+. 特定の色を特定の要素に割り当てるには、CustomPalette にカラー オブジェクトの配列を設定する必要があります。
+
+*Visual Basic の場合：*
+
+----
+Dim ChartColors() As Color
+ChartColors = New Color() {Color.Red, Color.Orange, Color.Yellow, _
+  Color.Green, Color.Blue, Color.Indigo, Color.Violet}
+Me.UltraChart1.ColorModel.CustomPalette = ChartColors
+----
+
+*C# の場合：*
+
+----
+Color[] ChartColors;
+ChartColors = new Color[] {Color.Red, Color.Orange, Color.Yellow, 
+  Color.Green, Color.Blue, Color.Indigo, Color.Violet};
+this.ultraChart1.ColorModel.CustomPalette = ChartColors;
+----
+
+image::images/Chart_Assign_Custom_Colors_to_Chart_Elements_01.png[]

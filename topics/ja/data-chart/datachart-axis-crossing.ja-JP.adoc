@@ -1,0 +1,193 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-axis-crossing",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "9d54f719-d82e-4c12-9501-80b0bfdba634",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5883533Z"
+}
+|metadata|
+////
+
+= 軸交差の構成
+
+link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールで、 link:{DataChartLink}.categoryxaxis.html[CategoryXAxis] オブジェクトの link:{DataChartLink}.axis{ApiProp}crossingaxis.html[CrossingAxis] プロパティと link:{DataChartLink}.axis{ApiProp}crossingvalue.html[CrossingValue] プロパティを使用して、XAxis が YAxis と交差する場所を変更できます。ElementName 属性を使用して CrossingAxis プロパティを link:{DataChartLink}.numericyaxis.html[NumericYAxis] にバインドする必要がありますが、 XAxis を YAxis に交差させたい値に CrossingValue を設定する必要があります。YAxis が XAxis と交差する場所を変更するために、以下を NumericYAxis オブジェクトの link:{DataChartLink}.axis{ApiProp}crossingaxis.html[CrossingAxis] プロパティと link:{DataChartLink}.axis{ApiProp}crossingvalue.html[CrossingValue] プロパティに適用できます。
+
+以下のコード例は、データ チャート コントロールで CategoryXAxis と NumericYAxis の軸交差値を設定する方法を示します。
+
+ifdef::sl,wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart"  >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis" StrokeThickness="5" Stroke="Red" 
+                           CrossingValue="100"
+                           CrossingAxis="{Binding ElementName=yAxis}">
+            <ig:CategoryXAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="InsideBottom"/>
+            </ig:CategoryXAxis.LabelSettings>
+        </ig:CategoryXAxis>
+        <ig:NumericYAxis x:Name="yAxis" StrokeThickness="5" Stroke="Green" 
+                         CrossingValue="20"
+                         CrossingAxis="{Binding ElementName=xAxis}">
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="InsideLeft"/>
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+     </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:CategoryXAxis x:Name="xAxis"
+                  StrokeThickness="5"
+                  Stroke="Red"
+                  CrossingValue="20"
+                  LabelLocation="InsideBottom"
+                  CrossingAxis="{x:Reference yAxis}"
+                  ItemsSource="{StaticResource DataSource}"
+                  Label="Label">
+</ig:CategoryXAxis>
+<ig:NumericYAxis x:Name="yAxis"
+                 StrokeThickness="5"
+                 Stroke="Green"
+                 CrossingValue="100"
+                 LabelLocation="InsideLeft"
+                 CrossingAxis="{x:Reference xAxis}">
+</ig:NumericYAxis>
+----
+
+endif::xamarin[]
+
+ifdef::sl,wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+ifdef::win-forms[]
+----
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.CrossingAxis = yAxis;
+yAxis.CrossingAxis = xAxis;
+xAxis.CrossingValue = 100;
+yAxis.CrossingValue = 20;
+xAxis.LabelLocation = AxisLabelsLocation.InsideBottom;
+yAxis.LabelLocation = AxisLabelsLocation.InsideLeft;
+----
+endif::win-forms[]
+
+ifdef::xamarin[]
+----
+var yAxis = new NumericYAxis()
+{
+    StrokeThickness = 5,
+    Stroke = new SolidColorBrush(Color.Green),
+    CrossingValue = 100,
+    LabelLocation = AxisLabelsLocation.InsideLeft
+};
+var xAxis = new CategoryXAxis()
+{
+    StrokeThickness = 5,
+    Stroke = new SolidColorBrush(Color.Red),
+    ItemsSource = data,
+    Label = "Label",
+    CrossingValue = 20,
+    LabelLocation = AxisLabelsLocation.InsideBottom
+};
+xAxis.CrossingAxis = yAxis;
+yAxis.CrossingAxis = xAxis;
+----
+endif::xamarin[]
+
+ifdef::sl,wpf,win-universal[]
+----
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.CrossingAxis = yAxis;
+yAxis.CrossingAxis = xAxis;
+xAxis.CrossingValue = 100;
+yAxis.CrossingValue = 20;
+xAxis.LabelLocation = AxisLabelsLocation.InsideBottom;
+yAxis.LabelLocation = AxisLabelsLocation.InsideLeft;
+xAxis.LabelSettings.Location = AxisLabelsLocation.InsideBottom;
+yAxis.LabelSettings.Location = AxisLabelsLocation.InsideLeft;
+----
+endif::sl,wpf,win-universal[]
+
+endif::sl,wpf,win-universal,win-forms,xamarin[]
+
+ifdef::sl,wpf,win-universal,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::win-forms[]
+----
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.CrossingAxis = yAxis
+yAxis.CrossingAxis = xAxis
+xAxis.CrossingValue = 100
+yAxis.CrossingValue = 20
+xAxis.LabelLocation = AxisLabelsLocation.InsideBottom
+yAxis.LabelLocation = AxisLabelsLocation.InsideLeft
+----
+endif::win-forms[]
+
+ifdef::sl,wpf,win-universal[]
+----
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.CrossingAxis = yAxis
+yAxis.CrossingAxis = xAxis
+xAxis.CrossingValue = 100
+yAxis.CrossingValue = 20
+xAxis.LabelLocation = AxisLabelsLocation.InsideBottom
+yAxis.LabelLocation = AxisLabelsLocation.InsideLeft
+xAxis.LabelSettings.Location = AxisLabelsLocation.InsideBottom
+yAxis.LabelSettings.Location = AxisLabelsLocation.InsideLeft
+----
+endif::sl,wpf,win-universal[]
+
+endif::sl,wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+NumericXAxis xAxis = new NumericXAxis();
+NumericYAxis yAxis = new NumericYAxis();
+xAxis.setCrossingAxis(yAxis);
+yAxis.setCrossingAxis(xAxis);
+xAxis.setCrossingValue(100.0);
+yAxis.setCrossingValue(20.0);
+xAxis.setLabelLocation(AxisLabelsLocation.INSIDEBOTTOM);
+yAxis.setLabelLocation(AxisLabelsLocation.INSIDELEFT);
+----
+
+endif::android[]
+
+以下の画像は、{DataChartName} コントロールが CategoryXAxis および NumericYAxis の軸交差値でどのように見えるかを示しています。
+
+image::images/xamDataChart_Axis_Crossing_01.png[]
+
+== 関連コンテンツ:
+
+* link:datachart-axis-range.html[軸範囲の構成]
+* link:datachart-axis-label-settings.html[軸ラベル設定の構成]
+* link:datachart-multiple-axes.html[複数軸の使用]

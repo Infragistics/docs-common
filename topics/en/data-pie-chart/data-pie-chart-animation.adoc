@@ -1,0 +1,80 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-selection",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Charting","Data Presentation","How Do I"],
+    "guid": "",
+    "buildFlags": ["SL","WPF","win-phone","WINFORMS","ANDROID","XAMARIN"],
+    "createdOn": "2014-06-05T19:53:12.0788999Z"
+}
+|metadata|
+////
+
+= Animation
+
+This topic provides information about the different animations that can be enabled in the link:{DataPieChartLink}.{DataPieChartName}.html[{DataPieChartName}] control. 
+
+The topic contains the following sections:
+
+* <<Requirements,Requirements>>
+* <<Overview,Animation in {DataPieChartName}>>
+* <<RelatedTopics,Related Content>>
+
+[[Requirements]]
+== Requirements
+
+This article assumes you have already read the link:data-pie-chart-data-binding.html[Data Binding] topic, and uses the code within it as a starting point.
+
+[[Animation]]
+== Animation in {DataPieChartName}
+
+The {DataPieChartName} supports animating its slices into view, as well as when a value changes.
+
+You can set the `IsTransitionInEnabled` property to `true` to have the pie chart animate into view. The type of animation performed can be configured by setting the `TransitionInMode` enumerated property to the type of animation you would like to see. Additionally, you can also set the `TransitionInSpeedType` property to scale with index, value, normal, or randomized. The duration of this animation can be controlled by the `TransitionInDuration` property, which takes a `TimeSpan`.
+
+If you would like to animate data changes, this can also be done by setting the `AnimateSeriesWhenAxisRangeChanges` property to true. The duration of this change can be configured by setting the `TransitionDuration` property as well.
+
+
+[[CodeExample]]
+
+== Code Example
+
+ifdef::wpf[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataPieChartName} ItemsSource="{Binding Data}"              
+                    AnimateSeriesWhenAxisRangeChanges="True"
+                    IsTransitionInEnabled="True"
+                    TransitionDuration="00:00:3"
+                    TransitionInDuration="00:00:3"
+                    TransitionInMode="AccordionFromLeft"
+                    TransitionInSpeedType="Random" />
+----
+
+endif::wpf[]
+
+*In C#:*
+
+[source, csharp]
+----
+{DataPieChartName} dataPieChart = new {DataPieChartName}()
+{
+    ItemsSource = Data,
+    AnimateSeriesWhenAxisRangeChanges = true,
+    IsTransitionInEnabled = true,
+    TransitionDuration = new TimeSpan(0, 0, 3),
+    TransitionInDuration = new TimeSpan(0,0,3),
+    TransitionInMode = CategoryTransitionInMode.AccordionFromLeft,
+    TransitionInSpeedType = TransitionInSpeedType.Random
+};
+----
+
+[[RelatedTopics]]
+== Related Content
+
+* link:data-pie-chart-data-binding.html[Data Binding]
+* link:data-pie-chart-others-category.html[Others Category]

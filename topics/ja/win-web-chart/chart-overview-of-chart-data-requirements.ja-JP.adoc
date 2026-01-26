@@ -1,0 +1,55 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-overview-of-chart-data-requirements",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D1CA0D6B-F127-48FB-BD06-4AF5E95E9C22}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チャート データ要件の概要
+
+Chart コントロールに実際のデータを取り込むとき、注意すべき要件が多くあります。データベースまたは配列から実際のデータを取り込むには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[DataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[DataSource]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[DataSource]"]  プロパティを使用してチャートからのクエリーに対するデータを準備し、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~databind.html[DataBind]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~databind.html[DataBind]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~databind.html[DataBind]"]  メソッドを呼び出します。
+
+== データ要件
+
+チャートに独自のカスタム データを指定するのは簡単ですが、各チャートの種類に対応した適切なデータ量とデータ型を確実に指定するのは容易ではありません。
+
+ランタイムで受け取る各データのチャート タイプおよび要件のリストが含まれるトピックについては、以下のリンクをクリックしてください。データがこれらの最小要件を満たさないと、エラーが発生します。
+
+* link:chart-data-requirements-for-2d-charts.html[平面チャートのデータ要件]
+* link:chart-data-requirements-for-3d-charts.html[立体チャートのデータ要件]
+* link:chart-requirements-for-series-binding.html[Ｓｅｒｉｅｓ バインディングの要件]
+* link:chart-axis-requirements-for-composite-charts.html[合成チャートの軸要件]
+
+要件を簡単に理解するには、デモ データを使用し、デザインタイムにチャートのデータ項目をどのようにラベル付けしているかを見ます。各チャート項目（棒、円グラフの各スライス、点など）は、列または行番号でラベル付けして、各データ値の使用場所と方法を示します。単純なレベルでは、各データセットは最低いくつかのデータ行と列を持っている必要があります（少なくとも 1 つの文字列タイプの列を持っているのが通常ですが、厳密には必要ではありません）。数値列タイプは全部同じである必要はありません（整数、浮動小数点など）。ただし、同じ一般的なデータ範囲内（-10～150.0 など）にある必要があります。供給したデータの行と列が設定と逆になっている場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  プロパティの使用が必要となります。トラブル回避のため、データを Chart コントロールに渡す前に、これらの要件を満たすようにデータの調整を行うことをお勧めします。
+
+数値データのみが予想される多くの場合、単純な 1 次元配列へのデータ バインドを実行できます。複数行、複数列を要求するグラフ（散布図、レーダー チャ－トなど）、または非数値データ（ローソク足チャートで必須の DateTime）は、非常に定型化されたデータソース（DataTable、DataView、スキーマを持つ XML ドキュメントなど）を必要とします。開発者がグラフ化するデータ列を指定する必要がある場合、そのグラフの ChartAppearance の適切なプロパティ（PieChartAppearance の PieChart プロパティなど）への参照が与えられます。これらのプロパティに提供する必要のある任意の列インデックスは、ゼロから始まります（すなわち、データ テーブルの最初の列は順序数 0 で識別されます）。
+
+== 列ラベルと行ラベル
+
+Chart コントロールはデータセットから行ラベルに使用するデータを自動的に選択しますが、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~setrowlabels.html[SetRowLabels]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setrowlabels.html[SetRowLabels]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setrowlabels.html[SetRowLabels]"]  と  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~setcolumnlabels.html[SetColumnLabels]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setcolumnlabels.html[SetColumnLabels]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setcolumnlabels.html[SetColumnLabels]"]  を使用すると、デフォルトの選択を簡単に変更できます。文字列の配列でこれらのメソッドを呼び出し、カスタムのチャート ラベルを設定します。SetRowLabels プロパティの設定についての詳細は、 link:chart-specify-row-labels.html[「行ラベルの指定」]を参照してください。
+
+チャート ラベルに使用する行を手動で設定するには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~rowlabelscolumn.html[RowLabelsColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~rowlabelscolumn.html[RowLabelsColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~rowlabelscolumn.html[RowLabelsColumn]"]  プロパティから（UseRowLabelsColumn のブール フラグと組み合わせて）デフォルトのフィルタ設定を変更します。指定した列が数値列の場合、数値データを文字列に変換してチャート ラベルに使用します。ただし、列内のデータは、明示的に削除しないかぎり、チャート上にプロットされたまま残ります。行（または列）ラベルが指定されていない場合、接頭辞 Row#（または Col#）とデータ値のインデックスを付けて生成します。
+
+== 行と列の削除
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用し、チャートに列を追加および削除できます。このメソッドは整数値とブール値の 2 つのパラメータを取ります。整数値は、アクションが起こる列のインデックスに対して評価し、ブール値を実行するアクションを決定します。True 値を設定すると、列をチャートの生成に使用するデータに含め、データから 1 列のみ受け取るチャートの既存列と置換します。False 値を設定すると、列をチャートから削除します。すべてのデータ割り当てをコントロールの指定するデフォルト値に戻すには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~resetdatafilter.html[ResetDataFilter]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~resetdatafilter.html[ResetDataFilter]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~resetdatafilter.html[ResetDataFilter]"]  メソッドを使用します。
+
+== データベース変更イベント
+
+Chart コントロールは、DataSource に指定した DataTable または DataView オブジェクトからに限って ColumnChangingEvent を取得することもできます。これにより、Chart コントロールが自動的に再描画され、チャートに対する変更が重大であると判断した場合は何らかのフィルタリセットが起こる可能性があります。その他のすべてのデータソース（単純な配列など）は、データを変更するたびに BindDataSource メソッドを呼び出し、データが更新されたことをチャートに直接伝える必要があります。
+
+== エラー メッセージ
+
+チャートにバインドしたデータがチャートの種類の要件を一部でも満たさない場合、チャートを描画しないでエラー メッセージを表示します。たとえば、散布図を選択し、渡したデータに 2 つ以上の数値列がない場合、「散布図エラー:」というメッセージが、通常はチャートが描画される個所に表示されます。行と列をスワップし、散布図に数値データを含む 2 つ以上の行がない場合も、同じメッセージが表示されます。
+
+[NOTE]
+====
+*注：* データベース テーブルの行は、一意のデータ型を 1 つしか持たないということがないため、数値データを指定してデータを検索した場合、任意の文字列または非標準の型は0（ゼロ）に変換されることに注意してください。
+====

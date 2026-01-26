@@ -1,0 +1,167 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Using Scatter Polygon Series
+
+=== Purpose
+
+This topic provides information on how to use the link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] element in the link:{DataChartLink}.{DataChartName}_members.html[{DataChartName}]™ control.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320651776, Scatter Polygon Series >>
+
+** <<_Ref320193474,Overview>>
+** <<_Ref320651783,Preview>>
+** <<_Ref320651786,Data Requirements>>
+** <<_Ref320651790,Example>>
+
+* <<_Ref320185294,Related Content>>
+
+[[_Ref320651776]]
+== Scatter Polygon Series
+
+[[_Ref320193474]]
+
+=== Overview
+
+In the _{DataChartName}_ control, the link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] is a visual element that displays data using polygons. This type of series can render any shape that is desired. The link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] works a lot like the link:{DataChartLink}.ScatterPolylineSeries_members.html[ScatterPolylineSeries] except that data is rendered with polygons instead of polylines.
+
+[[_Ref320651783]]
+
+=== Preview
+
+The following is a preview of the _{DataChartName}_ control with link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] drawing a floor plan for a building.
+
+image::images/DataChart_Using_Scatter_Polygon_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== Data Requirements
+
+Similar to other types of series in the _{DataChartName}_ control, the link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] has the link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] property for the purpose of data binding. This property can be bound to an object that implements the link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable] interface. In addition, each item in this object must have one data column that stores point locations (X and Y values) of a shape using  link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable]<link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable]<pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.point.aspx[Point]"]pick:[win-forms"{GeoMapNamespace}.Point"]>> structure. This data column is then mapped to the link:{DataChartLink}.ShapeSeriesBase~ShapeMemberPath.html[ShapeMemberPath] property. The link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] uses points of this mapped data column to plot polygons in the _{DataChartName}_ control.
+
+[[_Ref320651790]]
+
+=== Example
+
+In the above screenshot the structure of the data looks like this:
+
+*In C#:*
+[source,csharp]
+----
+public class Node
+{
+    // A list of polygons and each polygon has a list of points.
+    public List<List<Point>> Points { get; set; }
+}
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Public Class Node
+    ' A list of polygons and each polygon has a list of points.
+    Private _points As List(Of List(Of Point))
+    public Property List(Of List(Of Point)) Points
+        Get
+            Return _points
+        End Get
+        Set
+            _points = value
+        End Set
+    End Property
+End Class
+----
+
+The following code shows how to bind the link:{DataChartLink}.ScatterPolygonSeries_members.html[ScatterPolygonSeries] to data.
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="dataChart">
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="xAxis"/>
+        <ig:NumericYAxis x:Name="yAxis"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ScatterPolygonSeries ItemsSource="{Binding Path=Nodes}"
+                                 ShapeMemberPath="Points"
+                                 XAxis="{Binding ElementName=xAxis}"
+                                 YAxis="{Binding ElementName=yAxis}"/>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' ScatterPolygonSeries requires numeric X and Y axis
+Dim xAxis = New NumericXAxis()
+Dim yAxis = New NumericYAxis()
+Me.dataChart.Axes.Add(xAxis)
+Me.dataChart.Axes.Add(yAxis)
+
+' create and set data binding to the ScatterPolygonSeries
+Dim polygonSeries = New ScatterPolygonSeries()
+polygonSeries.{ApiDataSource} = Nodes
+polygonSeries.ShapeMemberPath = "Points"
+polygonSeries.XAxis = xAxis
+polygonSeries.YAxis = yAxis
+
+' add the ScatterPolygonSeries to the the {DataChartName}
+Me.dataChart.Series.Add(polygonSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// ScatterPolygonSeries requires numeric X and Y axis
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+this.dataChart.Axes.Add(xAxis);
+this.dataChart.Axes.Add(yAxis);
+
+// create and set data binding to the ScatterPolygonSeries
+var polygonSeries = new ScatterPolygonSeries();
+polygonSeries.{ApiDataSource} = Nodes;
+polygonSeries.ShapeMemberPath = "Points";
+polygonSeries.XAxis = xAxis;
+polygonSeries.YAxis = yAxis;
+
+// add the ScatterPolygonSeries to the the {DataChartName}
+this.dataChart.Series.Add(polygonSeries);
+----
+
+[[_Ref320185294]]
+
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+ifdef::xaml[]
+| link:datachart-creating-chart-in-xaml-code.html[Creating Chart in XAML code] 
+|This topic provides information on how to add the control to an application page.
+endif::xaml[]
+
+| link:datachart-series-requirements.html[Series Requirements]
+|This topic provides information on requirements of Series objects in the {DataChartName} control.
+
+|====

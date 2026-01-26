@@ -1,0 +1,198 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I"],
+    "controlName": ["{DataChartName}"]
+}
+|metadata|
+////
+
+= 最終値レイヤー
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、pick:[wpf="ホバー"]pick:[xamarin="タッチ"] 操作に使用されるコール value レイヤーについての情報を提供します。最終値レイヤーのプロパティについて説明し、実装例を示します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|_{DataChartName}_ コントロールは、コントロールの DataContext プロパティにマップされるデータ オブジェクト モデルを必要とします。ここでは、単純なデータ オブジェクト モデルを提供しますが、自分自身で作成して、代わりにこのサンプル コードと使用することができます。
+
+| link:datachart-category-series-overview.html[カテゴリ シリーズ]
+|このトピックは、_{DataChartName}_ コントロールのカテゴリ シリーズのさまざまなタイプを説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Overview,概要>>
+* <<Preview,プレビュー>>
+* <<Properties,プロパティ>>
+* <<Example,例>>
+* <<Related,関連コンテンツ>>
+
+[[Overview]]
+== 概要
+
+=== 最終値レイヤー概要
+
+link:{DataChartLink}.finalvaluelayer.html[FinalValueLayer] は _{DataChartName}_  コントロールにシリーズの現在 (最終) 値を表すチャートの軸に沿い注釈を表します。
+
+別の構成を持つ複数の最終値レイヤーが必要な場合、特別なシリーズを対象とする注釈を構成できます。これには、TargetSeries プロパティを設定します。このプロパティの詳細は、以下の<<Properties,プロパティ>>を参照してください。
+
+[[Preview]]
+== プレビュー
+
+以下の画像は、link:{DataChartLink}.finalvaluelayer.html[FinalValueLayer] を追加した _{DataChartName}_ コントロールのプレビューです。
+
+pick:[win-forms="image::images/datachart_finalvaluelayer_winforms.png[]"]
+pick:[wpf="image::images/datachart_finalvaluelayer_wpf.png[]"]
+pick:[xamarin="image::images/datachart_finalvaluelayer_xamarin.png[]"]
+
+[[Properties]]
+== プロパティ
+
+=== 最終値レイヤーまとめ
+
+以下の表で、link:{DataChartLink}.finalvaluelayer.html[FinalValueLayer] レイヤーのプロパティを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ型|説明
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}FinalValueSelectionMode.html[FinalValueSelectionMode]
+|`FinalValueSelectionMode`
+|選択モードはデータ内の最終値の識別方法を決定します。
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}TargetSeries.html[TargetSeries]
+|`Series`
+|この注釈が対象にするシリーズを取得または設定します。null 値の場合、この注釈はすべてのシリーズを同時に対象にします。
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}AxisAnnotationBackground.html[AxisAnnotationBackground]
+|`Brush`
+|このプロパティは注釈の背景色を選択するために使用されます。デフォルトはシリーズのブラシを使用します。
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}AxisAnnotationTextColor.html[AxisAnnotationTextColor]
+|`Brush`
+|このプロパティは注釈のテキストの色を選択するために使用されます。
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}AxisAnnotationOutline.html[AxisAnnotationOutline]
+|`Brush`
+|このプロパティは注釈のアウトライン色を選択するために使用されます。
+
+
+|====
+
+[[Example]]
+== 例
+
+以下のコードは上記の例を実装します。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="theChart" Margin="5,0,5,0" >
+   <ig:{DataChartName}.Axes>
+      <ig:CategoryXAxis x:Name="xmCategoryXAxis"
+                        ItemsSource="{StaticResource CategoryData1}"
+                        Label="{}{Category}">
+         <ig:CategoryXAxis.LabelSettings>
+      </ig:CategoryXAxis>
+      <ig:NumericYAxis x:Name="xmNumericYAxis1">
+      </ig:NumericYAxis>
+   </ig:{DataChartName}.Axes>
+   <ig:{DataChartName}.Series>
+      <ig:ColumnSeries x:Name="columnSeries"
+                       ItemsSource="{StaticResource CategoryData1}"
+                       ValueMemberPath="Value" 
+                       XAxis="{Binding ElementName=xmCategoryXAxis}" 
+                       YAxis="{Binding ElementName=xmNumericYAxis1}">
+      </ig:ColumnSeries>
+      <ig:LineSeries x:Name="lineSeries"
+                     ItemsSource="{StaticResource CategoryData2}"
+                     ValueMemberPath="Value" 
+                     XAxis="{Binding ElementName=xmCategoryXAxis}" 
+                     YAxis="{Binding ElementName=xmNumericYAxis1}">
+      </ig:LineSeries>
+      
+      <ig:FinalValueLayer TargetSeries="{Binding ElementName=lineSeries}"/>
+   </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="theChart">
+   <ig:{DataChartName}.Axes>
+      <ig:CategoryXAxis x:Name="xAxis"
+                        ItemsSource="{Binding CategoryData1}"
+                        Label="Category">         
+      </ig:CategoryXAxis>
+      <ig:NumericYAxis x:Name="yAxis">
+      </ig:NumericYAxis>
+   </ig:{DataChartName}.Axes>
+   <ig:{DataChartName}.Series>
+
+      <ig:LineSeries x:Name="lineSeries"
+                     ItemsSource="{Binding CategoryData2}"
+                     ValueMemberPath="Value" 
+                     XAxis="{x:Reference xAxis}" 
+                     YAxis="{x:Reference yAxis}">
+      </ig:LineSeries>
+      
+      <ig:FinalValueLayer TargetSeries="{x:Reference lineSeries}"/>
+   </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xamarin[]
+
+*C# の場合:*
+[source,cs]
+----
+var finalValue = new FinalValueLayer();
+finalValue.TargetSeries = theChart.Series[0];
+theChart.Series.Add(finalValue);
+----
+
+
+[[Related]]
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-commonproperties.html[共通のプロパティ]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作機能が、link:{DataChartLink}.series_members.html[Series] クラスから継承したツールチップの相互作用を強調表示、pick:[wpf,win-universal="ホバリング"]pick:[xamarin="タッチ"]および相互作用するために使用するプロパティおよびメソッドについての情報を提供します。
+
+| link:datachart-crosshairlayer.html[十字線レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ」]操作に使用されるコール十字線 レイヤーについての情報を提供します。十字線のプロパティについて説明し、実装例を示します。
+
+| link:datachart-categoryitemhighlightlayer.html[カテゴリ項目強調表示レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作に使用される項目強調表示線 レイヤーについての情報を提供します。カテゴリ項目強調表示レイヤーのプロパティについて説明し、実装例を示します。
+
+| link:datachart-categorytooltiplayer.html[カテゴリ ツールチップ レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作に使用されるカテゴリ ツールチップ レイヤーについての情報を提供します。カテゴリ ツールチップ レイヤーのプロパティについて説明し、実装例を提供します。
+
+| link:datachart-itemtooltiplayer.html[項目ツールチップ レイヤー]
+|このトピックは、pick:[wpf,win-universal="ホバー"]pick:[xamarin="タッチ"]操作に使用される項目ツールチップ線 レイヤーについての情報を提供します。項目ツールチップ レイヤーのプロパティについて説明し、実装例も提供します。
+
+|====

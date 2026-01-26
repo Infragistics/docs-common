@@ -1,0 +1,251 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-inserting-and-deleting-cells",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Editing","How Do I"],
+    "guid": "6bfce37f-6cb0-4f16-b40b-23c19f254340",
+    "buildFlags": [],
+    "createdOn": "2014-09-09T08:13:03.0432671Z"
+}
+|metadata|
+////
+
+= セル、列、行の挿入と削除 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、ワークシートのセル、列、行を管理する方法を説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:excelengine-creating-a-workbook.html[ワークブックの作成 ({ExcelEngineName})]
+|{ExcelEngineName} を使用し素早く起動して実行するために、ワークブックの作成方法を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref397440445,セルの挿入 / 削除の概要>>
+* <<_Ref397517302,セルの挿入>>
+* <<_Ref397517312,セルの削除>>
+* <<_Ref397611617,列の挿入または削除>>
+* <<_Ref397611637,行の挿入または削除>>
+* <<_Ref397440478,関連コンテンツ>>
+
+[[_Ref397440445]]
+== セルの挿入 / 削除の概要
+
+=== セルの挿入 / 削除の概要
+
+{ExcelEngineName} は、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet_members.html[Worksheet] クラスにあるメソッドの使用による新しいセルの挿入と既存のセルの削除をサポートします。
+
+=== セルの挿入 / 削除の概要表
+
+以下の表では、ワークシートのセルの挿入と削除で使用可能な機能を簡単に説明します。詳細は、表の後に記載されています。
+
+[options="header", cols="a,a,a"]
+|====
+|作業|詳細|メソッド
+
+|<<_Ref397517302,セルの挿入>>
+|1 つ以上のセルを挿入する
+|
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~insertcells.html[InsertCells] 
+
+|<<_Ref397517312,セルの削除>>
+|1 つ以上のセルを削除する
+|
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~deletecells.html[DeleteCells] 
+
+|<<_Ref397611617,列の挿入または削除>>
+|1 つ以上の列を挿入または削除する
+|
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcolumncollection~insert.html[Insert] 
+
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcolumncollection~remove.html[Remove] 
+
+|<<_Ref397611637,行の挿入または削除>>
+|1 つ以上の行を挿入または削除する
+|
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetrowcollection~insert.html[Insert] 
+
+* link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetrowcollection~remove.html[Remove] 
+
+|====
+
+[[_Ref397440383]]
+[[_Ref397517302]]
+== セルの挿入
+
+[[_Hlk368069110]]
+
+=== 概要
+
+{ExcelEngineName} は、挿入処理が発生する場所を指定することにより、1 つ以上の新しいセルの挿入をサポートします。指定されたアドレスにすでに配置されているセルは、右または下に移動されます。`String` または link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetregion_members.html[WorksheetRegion] を使用して、新しいセルのアドレスを指定できます。
+
+以下は、`String` を使用してアドレスを指定する例です。
+
+* 「C5」 - 列 C、行 5 に 1 つのセルを挿入します
+* 「D8:D10」 - 列 D、行 8、9、10 に 3 つのセルを挿入します
+* 「E11:G15」 - 列 E から列 G および行 11 から行 15 にわたるセルのブロックを挿入します
+
+.注:
+[NOTE]
+====
+セルの挿入または削除ができないのは、挿入または削除によってマージされたセル、テーブルまたは配列数式が分割される場所、またはセルのデータがワークシートの右または下に移動される場合です。このようなシナリオのいずれかが検出された場合、以下のメソッドが `InvalidOperationException` をスローします。
+====
+
+=== プロパティ設定
+
+以下の表は、目的の機能と、それを起動するメソッドとの対応表です。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このメソッドを使用:|次の引数を提供:
+
+|セルの挿入
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~insertcells.html[InsertCells]
+|
+* `String` または `WorksheetRegion` 形式のアドレス 
+
+* 既存のセルが移動される方向 (下の場合は `false`、右の場合は `true`) 
+
+|====
+
+[[_Ref397440392]]
+[[_Ref397517312]]
+== セルの削除
+
+=== 概要
+
+{ExcelEngineName} は、削除処理が発生する場所を指定することにより、1 つ以上のセルの削除をサポートします。「空」の場所は、削除されたセルの右側または下からのセルで埋められます。`String` または `WorksheetRegion` を使用して、削除するセルのアドレスを指定できます。
+
+.注:
+
+[NOTE]
+====
+文字列を使用してアドレスを指定する方法については、前述のセル挿入の操作を参照してください。
+====
+
+=== プロパティ設定
+
+以下の表は、目的の機能と、それを起動するメソッドとの対応表です。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このメソッドを使用:|次の引数を提供:
+
+|セルの削除
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~deletecells.html[DeleteCells]
+|
+* `String` または `WorksheetRegion` 形式のアドレス 
+
+* 削除されたセルを置き換えるために既存のセルが移動される方向 (上の場合は `false`、左の場合は `true`) 
+
+|====
+
+[[_Ref397611617]]
+== 列の挿入または削除
+
+=== 概要
+
+{ExcelEngineName} は、ワークシートの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~columns.html[Columns] コレクションの `Insert` メソッドおよび `Remove` メソッドの使用による列の挿入と削除をサポートします。
+
+=== プロパティ設定
+
+以下の表は、目的の機能と、それを起動するメソッドとの対応表です。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このメソッドを使用:|次の引数を提供:
+
+|新しい列の挿入
+|`Insert`
+|
+* 新しい列を挿入するためのロケーション インデックス (0 ベース) 
+
+* 挿入する列の数 (この引数を省略すると、1 列が挿入されます) 
+
+|既存の列の削除
+|`Remove`
+|
+* 既存の列を削除するためのロケーション インデックス (0 ベース) 
+
+* 削除する列の数 (この引数を省略すると、1 列が削除されます) 
+
+|====
+
+[[_Ref397611637]]
+== 行の挿入または削除
+
+=== 概要
+
+{ExcelEngineName} は、ワークシートの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~rows.html[Rows] コレクションの`Insert` メソッドおよび `Remove` メソッドの使用による行の挿入と削除をサポートします。
+
+=== プロパティ設定
+
+以下の表は、目的の機能と、それを起動するメソッドとの対応表です。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|このメソッドを使用:|次の引数を提供:
+
+|新しい行の挿入
+|`Insert`
+|
+* 新しい行を挿入するためのロケーション インデックス (0 ベース) 
+
+* 挿入する行の数 (この引数を省略すると、1 行が挿入されます) 
+
+|既存の行の削除
+|`Remove`
+|
+* 既存の行を削除するためのロケーション インデックス (0 ベース) 
+
+* 削除する行の数 (この引数を省略すると、1 行が削除されます) 
+
+|====
+
+[[_Ref397440478]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-accessing-cells-and-cell-regions-by-name.html[セルとセル領域に名前でアクセス ({ExcelEngineName})]
+|このトピックでは、ワークシートのセルと領域に、名前または名前付き参照でアクセスする方法を説明します。
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+
+|
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-merge-cells.html[セルの結合]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-merging-cells.html[セルの結合]
+endif::wpf,xamarin[]
+|このトピックでは、ワークシートの複数のセルを結合する方法と、結合されたセル領域の書式を設定する方法を説明します。
+
+| link:excelengine-reference-cells-and-regions.html[セルとセル領域を参照 ({ExcelEngineName})]
+|このトピックでは、文字列の参照によってセルと領域にアクセスする方法を説明します。
+
+|====

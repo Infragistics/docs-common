@@ -1,0 +1,244 @@
+﻿////
+
+|metadata|
+{
+    "name": "resources-sample-scatter-data",
+    "controlName": [],
+    "tags": [],
+    "guid": "6edbb775-8d13-4ddd-b84f-226e75e72f00",  
+    "buildFlags": [],
+    "createdOn": "2014-09-24T18:12:17.8731919Z"
+}
+|metadata|
+////
+
+= サンプル散布データ
+
+=== 目的
+
+このトピックでは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールおよびそのlink:datachart-scatter-series-overview.html[散布シリーズ] タイプで使用するデータおよびデータ モデルを提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<RequiredNamespaces,必須の名前空間>>
+* <<DataModel,データ モデル>>
+* <<DataSource,データ ソース>>  
+
+[[RequiredNamespaces]]
+=== 必須の名前空間
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel; 
+using System.ComponentModel;
+using System.Linq;
+namespace Infragistics.Models
+{
+  // TODO add data model
+  // TODO add data source 
+}
+----
+
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports System
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+Imports System.Linq 
+Namespace Infragistics.Models
+   ' TODO add data model
+   ' TODO add data source
+End Namespace
+----
+
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+import java.util.ArrayList;
+import java.util.Random;
+
+// TODO add data model
+// TODO add data source 
+----
+
+endif::android[]
+
+[[DataModel]]
+=== データ モデル
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class ScatterDataPoint  
+{
+        public double X { get; set; }
+        public double Y { get; set; }
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class ScatterDataPoint
+    Public Property X As Double
+    Public Property Y As Double
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class ScatterDataPoint
+{
+    private double _x;
+    public double getX(){
+        return _x;
+    }
+    public double setX(double value) {
+        _x = value;
+        return _x;
+    }
+    private double _y;
+    public double getY(){
+        return _y;
+    }
+    public double setY(double value) {
+        _y = value;
+        return _y;
+    }
+    public ScatterDataPoint(double x, double y){
+        _x = x;
+        _y = y;
+    }
+}
+----
+endif::android[]
+
+[[DataSourcel]]
+=== データ ソース
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class ScatterDataSource : List<ScatterDataPoint>
+{
+    public static Random Rand = new Random();
+    public ScatterDataSource()
+    {
+        int value = 50;
+        for (int i = 0; i < 100; i++)
+        {
+            double change = Rand.NextDouble();
+            if (change > .5)
+            {
+                value += (int)(change * 20);
+            }
+            else
+            {
+                value -= (int)(change * 20);
+            }
+            value %= 100;
+            this.Add(new ScatterDataPoint
+            {
+                X = Rand.Next(i, i + 5),
+                Y = Rand.Next(value - 50, value + 50)
+            });
+        }
+    }
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class ScatterDataSource Inherits List(Of ScatterDataPoint)
+    Public Shared Rand As New Random()
+    Public Sub New()
+        Dim value As Integer = 50
+        For i As Integer = 0 To 99
+            Dim change As Double = Rand.NextDouble()
+            If change > 0.5 Then
+                value += CInt(Math.Truncate(change * 20))
+            Else
+                value -= CInt(Math.Truncate(change * 20))
+            End If
+            value = value Mod 100
+            Me.Add(New ScatterDataPoint() With { _
+                .X = Rand.Next(i, i + 5), _
+                .Y = Rand.Next(value - 50, value + 50) _
+            })
+        Next
+    End Sub
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class ScatterDataSource extends ArrayList<ScatterDataPoint> 
+{
+    public static Random rand = new Random();
+    public ScatterDataSource()
+    {
+        int value = 50;
+        for(int i=0; i<100;i++)
+        {
+            double change = rand.nextDouble();
+            if(change > .5)
+            {
+                value+=(int)(change*20);
+            }
+            else
+            {
+                value -= (int)(change * 20);
+            }
+            value %= 100;
+            //Using Java Random within specified range:  rand.nextInt(upperbound-lowerbound) + lowerbound;
+            double x = (rand.nextInt(i+5-i)+i);
+            double y = (rand.nextInt((value+50)-(value-50))+Math.abs(value-50));
+            this.add(new ScatterDataPoint(x,y));
+        }
+    }
+}
+----
+endif::android[]

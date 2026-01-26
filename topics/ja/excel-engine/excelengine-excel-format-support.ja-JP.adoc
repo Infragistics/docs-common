@@ -1,0 +1,257 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-excel-format-support",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "4b5a3007-ef59-4e64-bed9-4a73261587b4",
+	"buildFlags": [],
+    "createdOn": "2012-03-29T13:26:39.6115977Z"
+}
+|metadata|
+////
+
+= Excel 書式設定のサポート　({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、セル書式に対する {ExcelEngineName} ライブラリのサポートを説明します。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320017019,主要機能>>
+* <<_Ref320017090,機能の概要>>
+* <<_Ref320282102,組み込みのスタイルにアクセス>>
+* <<_Ref320282106,親スタイル>>
+* <<_Ref320282110,書式オプション>>
+* <<_Ref320282114,Excel スタイルを模倣したビヘイビアー>>
+* <<_Ref320282117,解決済みのセル書式を決定>>
+* <<_Ref320017114,関連コンテンツ>>
+
+[[_Ref320017019]]
+== 主要機能
+
+[[_Ref320017090]]
+
+=== 機能の概要
+
+以下の表で、書式サポートの主要機能を簡単に説明します。その他の詳細は、以下の概要表の後に紹介されています。
+
+[options="header", cols="a,a"]
+|====
+|機能|説明
+
+|組み込みのスタイルにアクセス
+|スタイルは、それぞれがワークブックのセル スタイルを表す pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstyle_members.html[WorkbookStyle]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstyle_members.html[WorkbookStyle]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstyle_members.html[WorkbookStyle]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstyle_members.html[WorkbookStyle]"] インスタンスのコレクションである、`Workbook` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~styles.html[Styles]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~styles.html[Styles]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~styles.html[Styles]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~styles.html[Styles]"] プロパティによって、Excel ライブラリでアクセス可能です。
+
+|親スタイル
+|スタイル、行、列およびセルのこの書式は、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"] インターフェイスによって表されます。このインターフェイスには、セル書式がデフォルトのプロパティを解決するスタイルをポイントする Style という名前の新しいプロパティがあります。
+
+|書式オプション
+|`IWorksheetCellFormat` インターフェイスには pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~formatoptions.html[FormatOptions]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~formatoptions.html[FormatOptions]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~formatoptions.html[FormatOptions]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~formatoptions.html[FormatOptions]"] プロパティがあります。このプロパティはフラグ付き列挙値を取得します。
+
+|Excel スタイルを模倣したビヘイビアー
+|模倣されたスタイルに関して多数の Microsoft Excel ビヘイビアーがあります。
+
+|解決済みのセル書式を決定
+|行、列、セルおよびマージされたセルを表すクラスで、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"] メソッドを使用してセルに実際に何が表示されるかを決定できます。
+
+|====
+
+[[_Ref320282102]]
+
+=== 組み込みのスタイルにアクセス
+
+[options="header", cols="a,a"]
+|====
+|スタイル|目的
+
+|スタイル コレクション
+|スタイル コレクションは、Microsoft Excel 2007 の [ホーム] タブの [セルのスタイル] ギャラリーで見つけることができるすべての組み込みのスタイルで事前に生成されます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"]
+|ワークブックには、 _Normal_ スタイルとして知られる特別なタイプのスタイルがあり、新しい `Workbook.Styles.NormalStyle` プロパティによって、または _Normal_ という名前でコレクションにインデックス付けすることでアクセスできます。 
+
+_Normal_ スタイルにはワークブックのすべてのセルのデフォルトのプロパティが含まれています (ただし、行、列またはセルで指定されている場合はその限りではありません)。 _Normal_ スタイルのプロパティを変更すると、ワークブックのデフォルトのセル書式プロパティを変更します。 
+
+ワークブックの既定のフォントを変更したいときには、 _Normal_ スタイルを使用できます。詳細については、 link:excelengine-changing-the-default-font.html[「既定のフォントを変更」] のトピックを参照してください。
+|==== 
+
+==== スタイルをクリア
+以下のメソッドを使用して、スタイル コレクションをクリアする、または事前に定義された状態にリセットすることができます。 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|メソッド|説明 
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~clear.html[Clear]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~clear.html[Clear]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~clear.html[Clear]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~clear.html[Clear]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbookstylecollection~clear.html[Clear]"]
+
+|`Clear` メソッドによって、ワークブックでスタイル コレクションをクリアすると、事前に設定した状態にリセットされる、 _Normal_ スタイルを除き、すべてのユーザー定義の組み込みのスタイルが削除されます。 
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~reset.html[Reset]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~reset.html[Reset]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~reset.html[Reset]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~reset.html[Reset]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbookstylecollection~reset.html[Reset]"]
+
+|`Reset` メソッドは、コレクションを事前に設定された状態に復元します。これは、すべてのユーザー定義のスタイルが削除され、事前に設定された状態のすべての組み込みのスタイルで再生成されます。 
+
+|====
+
+[[_Ref320282106]]
+
+=== 親スタイル
+
+この機能を使用して、`Style` プロパティが  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat_members.html[IWorksheetCellFormat]"]  インターフェイスに追加されています。これは書式の親スタイルを表す、`WorkbookStyle` インターフェイスへの参照です。スタイルの書式では、このプロパティは常に null です。スタイルが親スタイルを持つことができないためです。行、列およびセル書式には、Style プロパティはデフォルトで常に  _Normal_   スタイルを返します。
+
+`Style` プロパティが null に設定される場合、 _Normal_   スタイルに戻します。スタイル コレクションで別のスタイルに設定される場合、そのスタイルはセル書式にすべての未設定のプロパティのデフォルトを保持するようになります。
+
+未設定のプロパティは親スタイルから値を解決します。
+
+[[_Ref320282110]]
+
+=== 書式オプション
+
+`FormatOptions` プロパティは以下の値からフラグ付き列挙値を取得します:
+
+* None
+* ApplyNumberFormatting
+* ApplyAlignmentFormatting
+* ApplyFontFormatting
+* ApplyBorderFormatting
+* ApplyFillFormatting
+* ApplyProtectionFormatting
+* All
+
+None と All に加えて、あらゆるその他の値は、Excel UI の [スタイルを修正] ダイアログのチェックボックスに対応します。プロパティがセルまたはスタイル書式でデフォルトではない値に設定されると、関連付けられた書式オプションのフラグは `FormatOptions` 値に追加されます。フラグ付きの値が `FormatOptions` 値から手動で削除されるとき、削除された値に関連付けられたすべてのプロパティはデフォルトにリセットされます。
+
+スタイル書式を使用するとき、 *[スタイルを修正]*  ダイアログと同じように、`FormatOptions` はスタイルと一緒に含まれる書式プロパティを示します。
+
+セル書式を使用するとき、`FormatOptions` は、セルに設定されるプロパティのグループを示します。したがって、すべてのその他のプロパティは親スタイルから値を解決します。
+
+プロパティ グループは以下のとおりです。
+
+* ApplyNumberFormatting
+** FormatString
+
+* ApplyAlignmentFormatting
+** Alignment
+** Indent
+** Rotation
+** ShrinkToFit
+** VerticalAlignment
+** WrapText
+
+* ApplyFontFormatting
+** Font
+
+* ApplyBorderFormatting
+** BottomBorderColorInfo
+** BottomBorderStyle
+** DiagonalBorderColorInfo
+** DiagonalBorders
+** DiagonalBorderStyle
+** LeftBorderColorInfo
+** LeftBorderStyle
+** RightBorderColorInfo
+** RightBorderStyle
+** TopBorderColorInfo
+** TopBorderStyle
+
+* ApplyFillFormatting
+** Fill
+
+* ApplyProtectionFormatting
+** Locked
+
+[[_Ref320282114]]
+
+=== Excel スタイルを模倣したビヘイビアー
+
+[options="header", cols="a,a"]
+|====
+|動作|説明
+
+|親スタイルがセル書式で設定されるとき、新しい親スタイルに含まれる書式オプションはセル書式から削除されます。すべてのその他のプロパティはそのまま残されます。
+|プロパティがデフォルトではない値に設定されると、関連付けられた書式オプションのフラグは、セル書式がこれらのオプションを提供することを示す、`FormatOptions` 値に追加されます。 
+
+新しい親スタイルがセルで設定されると、親スタイルに含まれる書式オプションがセル書式の書式オプションから削除されます。したがって、セル書式に罫線および塗りつぶしの書式設定が含まれ、フォントおよび罫線書式を含む親スタイルとして _Total_ スタイルが設定された場合、そのセル書式の罫線書式オプションは削除され、セル書式には塗りつぶし書式のみが含まれます。 
+
+書式オプション フラグが書式から削除されると、すべての関連付けたプロパティは未設定値にリセットされます。したがってセル書式の罫線プロパティはデフォルト/未設定値に暗黙的にリセットされます。これは、セル書式が将来 _Total_ スタイルの罫線に対する変更を取得することを意味します。
+
+|セル書式の書式オプションは自動的に追加されますが、自動的に削除されません。
+|プロパティがデフォルトではない値に設定されると、関連付けられた書式オプションのフラグは、セル書式がこれらの値を提供することを示す、`FormatOptions` 値に追加されます。 
+
+そのプロパティがそれ以降デフォルト/未設定値に戻される場合、`FormatOptions` プロパティには関連付けられた書式オプション フラグが含まれます。これは削除できません。 
+
+Microsoft Excel と異なり、{ExcelEngineName} によって、`FormatOptions` プロパティを修正することで書式オプションを手動で削除できます。このように実行することで、削除されたオプションに関連付けられたすべてのプロパティをリセットします。
+
+|書式オプションがセル書式に追加されるとき、親スタイルですべての関連付けられたプロパティへの変更の取得を中止します。
+|各セル書式は、当初は値を含まない内部のスタイル書式を持っています。グループ内の最初のセル書式プロパティが設定されると、関連付けられた書式オプション フラグが `FormatOptions` 値に追加され、親スタイルからのそのグループ内のすべてのプロパティはこの内部のスタイル書式にキャッシュされます。関連付けられた書式オプション フラグがセル書式の書式オプションに追加されたときからの親スタイルのプロパティ グループのスナップショットを保持します。 
+
+書式オプション フラグがセル書式から削除されると、内部スタイル書式のキャッシュにある関連付けられたプロパティもクリアされます。 
+
+セルに書式オプション フラグが含まれ、関連付けられたグループからのプロパティに未設定値がある場合、親スタイルからではなく、内部のスタイル書式キャッシュから解決されます。関連付けられた書式オプション フラグが設定されていないセル書式プロパティのみが親スタイルから解決されます。
+
+|セル書式が新しい親スタイルを割り当てられ、その新しいスタイルには古い親スタイルに含まれていたすべての書式オプション フラグが含まれない時、古い親スタイル上の余分な書式オプションと関連付けられたプロパティはいままでどおりセルに適用されますが、古い親スタイルへの変更の取得を中止します。
+|親スタイルが変更されるとき、新しい親スタイルにない、古い親スタイル上のすべての書式オプションフラグは取得され、セル書式の書式オプションに追加されます。 
+
+書式オプションがセル書式に追加されるとき、親スタイルからのすべてのプロパティは内部のスタイル書式キャッシュにキャッシュされます。したがって、セル書式は、新しい親スタイルで指定されない古い親スタイルからのすべてのプロパティを暗黙的にキャッシュするため、2 つのスタイルはこのように「マージ」されます。
+
+|====
+
+[[_Ref320282117]]
+
+=== 解決済みのセル書式を決定
+
+行、列、セルおよびマージされたセルを表すクラスで、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~getresolvedcellformat.html[GetResolvedCellFormat]"]  メソッドを使用してセルに実際に何が表示されるかを決定できます。
+
+このメソッドは、ベースとなった関連付けられた `CellFormat` に参照を返す `IWorksheetCellFormat` インスタンスを返します。したがって `CellFormat` への以降の変更は、`GetResolved``Cell``Format` の呼び出しから返されるインスタンスに反映されます。
+
+書式値がこの解決された書式で要求されるとき、セル書式に存在する書式オプションに基づいて、書式自体、内部のスタイル書式キャッシュ、または親スタイルの書式のいずれかから値を解決するために関連付けられたセル書式に常に戻ります。
+
+以下はセル書式値が解決される方法を視覚的に表したものです。
+
+image::images/Excel_Format_Support_1.png[]
+
+[[_Ref320017114]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-excel-2007-color-model.html[Excel 2007 カラー モデル]
+|このトピックは、さまざまなセル書式プロパティで色を設定する方法を説明します。
+
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="| "] pick:[win-forms="link:win-breaking-changes-in-2012-volume-1.html[重要な変更点]"] pick:[win-forms-old=" "] pick:[win-forms-old="link:win-breaking-changes-in-2012-volume-1.html[重要な変更点]"] pick:[asp-net="link:known-issues-known-issues-and-breaking-changes.html[重要な変更点]"] pick:[aspnet-old="link:known-issues-known-issues-and-breaking-changes.html[重要な変更点]"] 
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="|このトピックは Excel ライブラリの書式サポートにおける重大な変更点を説明します。 "]
+
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]"]
+pick:[win-forms,win-forms-old,asp-net,aspnet-old="|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。"]
+
+pick:[wpf,xamarin="| link:excelengine-using-the-infragistics-excel-engine.html[{ExcelEngineName} の使用]"]
+pick:[wpf,xamarin="|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。"]
+
+|====
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+=== サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|サンプル|目的
+
+|新しいカラー モデル
+|このサンプルは、セル書式の新しい色モデルを紹介します。RGB 色を指定して、セル書式のすべての色プロパティに濃淡値を指定できます。セルで線状グラデーションと矩形グラデーションを使用できます。
+
+|====
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]

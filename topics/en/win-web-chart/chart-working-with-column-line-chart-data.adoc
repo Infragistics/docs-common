@@ -1,0 +1,61 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-column-line-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{4EBE0B91-7E33-4306-8B59-487966534758}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with Column Line Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the 2D column line chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for column line charts:
+
+* The data set contains one or more numeric columns. Note that it is recommended that the data set contains two or more numeric columns so that each line can have two or more points.
+* The data set contains at least one row.
+
+.Note
+[NOTE]
+====
+If you are using multiple data sources, set the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.ColumnData.SwapRowsAndColumns]"]   pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.ColumnData.SwapRowsAndColumns]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.ColumnData.SwapRowsAndColumns]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.LineData.SwapRowsAndColumns]"]   pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.LineData.SwapRowsAndColumns]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.LineData.SwapRowsAndColumns]"]  properties to True.
+====
+
+== Mapping Data to Column Line Charts
+
+The chart data is rendered using the following rules:
+
+* If there are multiple rows of data, each row constitutes a series of columns.
+* The column line chart is a hybrid chart. You can plot the same or different data sources using a column line chart.
+** To plot the same data as columns and lines, set the UltraChart.Data.DataSource property.
+** To plot separate data sources for column and line data, set both the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.ColumnData.DataSource]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.ColumnData.DataSource]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.ColumnData.DataSource]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.LineData.DataSource]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.LineData.DataSource]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.LineData.DataSource]"]  properties.
+
+== Column Data
+
+* Each row is drawn separately as a group of columns. These groups of columns are called "series". Each series displays series labels below the x-axis. Data values are represented by the height of the column along the y-axis.
+* The x-axis (or horizontal axis) is a SetLabelAxis object, with the points evenly spaced apart for each item (point). The y-axis, or vertical axis, is the numeric axis. Labels on the y-axis can be formatted using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  property and a "numeric format":
+
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+== Line Data
+
+* Each row is drawn as a single line (or area) on the chart, with a number of points in the line equal to the count of numeric columns in the data set.
+* The first numeric column encountered in the data will be used for the value of the first point, the second numeric column will be used for the second point, and so on.
+* The x2-axis (or top horizontal axis), is a "Set Label" axis, with the points evenly spaced apart for each item (point). The y2-axis, or right vertical axis, is the numeric axis. Labels on the y2-axis can be formatted using the FormatString property and a “numeric format”:
+[source]
+----
+UltraChart.Axis.Y2.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----

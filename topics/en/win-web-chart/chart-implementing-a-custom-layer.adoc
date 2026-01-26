@@ -1,0 +1,23 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-implementing-a-custom-layer",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{91EF9F54-30C1-46EF-B09B-23DD0C063A3F}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Implementing a Custom Layer
+
+To implement either a new layer or modify an existing layer, you must implement the ILayer interface. This interface exposes all the required properties and methods to implement a new layer.
+
+All that is required to implement  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  is to inherit from the ready-made base class, Layer, in the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers]"]  namespace. Custom Primitive processing logic is then added in an override of the FillSceneGraph method that will be called by the chart with a Scene Graph that the custom layer can add Primitives.
+
+Plugging the custom layer into Chart requires the developer to provide and register an ILayer implementation with Chart, and associate it with a unique string ID. The string ID is added to the UserLayerIndex property of Chart, and this string ID must then be associated with the custom ILayer implementation as it is added to the Layer hashtable property on Chart at run-time.
+
+In summary, the layer architecture of the rendering pipeline used by Chart empowers developers to extend and enhance existing chart types with application specific functionality. For further information and procedural assistance, developers should consult the link:chart-render-charts-using-the-paint-element.html[Render Charts Using the Paint Element] topic. Samples demonstrating working layers have also been included with the Infragistics product installation, and are invaluable for learning the degree of flexibility available when coding within FillSceneGraph.

@@ -1,0 +1,210 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-binding-to-classes-derived-from-collectionbase",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{B0F20948-96B0-4E0E-BA5B-B9CA25F06A7A}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Binding to Classes Derived from CollectionBase
+
+One of the data sources that you can bind the Chart control to is classes that you derived from the CollectionBase.
+
+=== To bind Chart to a class derived from CollectionBase:
+
+[start=1]
+. First, you will need a class that you will be adding to the CollectionBase. For this example we will be using a class called Widget.
+
+*In Visual Basic:*
+
+----
+Public Class Widget
+    Public Sub New(ByVal name As String, ByVal marketValue As Double, _
+      ByVal magnitude As Long)
+        Me.Name = name
+        Me.MarketValue = marketValue
+        Me.Magnitude = magnitude
+    End Sub
+    Private _name As String
+    Private _marketValue As Double
+    Private _magnitude As Long
+    Public Property Name() As String
+        Get
+            Return Me._name
+        End Get
+        Set(ByVal Value As String)
+            Me._name = Value
+        End Set
+    End Property
+    Public Property MarketValue() As Double
+        Get
+            Return Me._marketValue
+        End Get
+        Set(ByVal Value As Double)
+            Me._marketValue = Value
+        End Set
+    End Property
+    Public Property Magnitude() As Long
+        Get
+            Return Me._magnitude
+        End Get
+        Set(ByVal Value As Long)
+            Me._magnitude = Value
+        End Set
+    End Property
+End Class
+----
+
+*In C#:*
+
+----
+/// <summary>
+/// Widget class.
+/// </summary>
+public class Widget
+{
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="name">Name</param>
+	/// <param name="marketValue">Market value</param>
+	/// <param name="magnitude">Magnitude</param>
+	public Widget(string name, double marketValue, long magnitude)
+	{
+		this.Name=name;
+		this.MarketValue=marketValue;
+		this.Magnitude=magnitude;
+	}
+	private string name;
+	private double marketValue;
+	private long magnitude;
+	/// <summary>
+	/// Public property Name
+	/// </summary>
+	public string Name
+	{
+		get
+		{
+			return this.name;
+		}
+		set
+		{
+			this.name=value;
+		}
+	}
+	/// <summary>
+	/// Public property Market value
+	/// </summary>
+	public double MarketValue
+	{
+		get
+		{
+			return this.marketValue;
+		}
+		set
+		{
+			this.marketValue=value;
+		}
+	}
+	/// <summary>
+	/// Public property Magnitude
+	/// </summary>
+	public long Magnitude
+	{
+		get
+		{
+			return this.magnitude;
+		}
+		set
+		{
+			this.magnitude=value;
+		}
+	}
+}
+----
+
+[start=2]
+. Next you need to create a class that inherits from CollectionBase. For this sample we will be using the following class.
+
+*In Visual Basic:*
+
+----
+Public Class MyCollection
+  Inherits CollectionBase
+	Public Sub Add(ByVal widget As Widget)
+		Me.List.Add(widget)
+	End Sub
+	Default Public ReadOnly Property Item(ByVal index As Integer) As Widget
+		Get
+			Return CType(Me.List(index), Widget)
+		End Get
+	End Property
+End Class
+----
+
+*In C#:*
+
+----
+/// <summary>
+/// Custom collection
+/// </summary>
+public class MyCollection : CollectionBase
+{
+	/// <summary>
+	/// Add a new item to the collection
+	/// </summary>
+	public virtual void Add(Widget widget)
+	{
+		this.List.Add(widget);
+	}
+	/// <summary>
+	/// Gets or sets the element at the specified index.
+	/// </summary>
+	public Widget this[int index]
+	{
+		get
+		{
+			return this.List[index] as Widget;
+		}
+	}
+}
+----
+
+[start=3]
+. Once you have created the above mentioned classes you would then go about instantiating them in the following manner. Finally, bind the chart to the instance of MyCollection that is created.
+
+*In Visual Basic:*
+
+----
+Private Sub Binding_to_Classes_Derived_from_CollectionBase_Load( _
+  ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Dim col As New MyCollection()
+	col.Add(New Widget("Nondescript Widget", 6.3, 4))
+	col.Add(New Widget("Oblique Widget", 4.2, 3))
+	col.Add(New Widget("Diet Widget", 7.9, 2))
+	col.Add(New Widget("Widget of mysterious origin", 9.5, 1))
+	Me.UltraChart1.Data.DataSource = col
+End Sub
+----
+
+*In C#:*
+
+----
+private void Binding_to_Classes_Derived_from_CollectionBase_Load(object sender, 
+  EventArgs e)
+{
+	MyCollection col = new MyCollection();
+	col.Add(new Widget("Nondescript Widget", 6.3, 4));
+	col.Add(new Widget("Oblique Widget", 4.2, 3));
+	col.Add(new Widget("Diet Widget", 7.9, 2));
+	col.Add(new Widget("Widget of mysterious origin", 9.5, 1));
+	this.ultraChart1.Data.DataSource=col;
+}
+----

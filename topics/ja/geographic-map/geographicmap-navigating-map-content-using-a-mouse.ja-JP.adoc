@@ -1,0 +1,159 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= マウスを使用してマップ コンテンツをナビゲート
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、マウスからの入力を使用して、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールでのマップ コンテンツのナビゲートに関する情報を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-navigating-map-content.html[マップ コンテンツをナビゲート]
+|このトピックは、 {GeoMapName} コントロールでのマップ コンテンツのナビゲート、およびコントロールのすべてのサポートされるナビゲーション機能に関する概念を提供します。
+
+|====
+
+=== このトピックの構成
+
+このトピックは以下のセクションからなります。
+
+* <<_Ref320554189,マップ マウス ナビゲーション>>
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320554189]]
+== マップ マウス ナビゲーション
+
+[[_Ref320193474]]
+
+=== 概要
+
+{GeoMapName} コントロールでは、マウスからの入力は、マップ コンテンツをナビゲートするために使用できます。
+
+以下の表で、{GeoMapName} コントロールでのマウス ナビゲーションに影響を及ぼすプロパティを簡単に説明します。
+
+[options="header", cols="a,a,a,a"]
+|====
+|プロパティ|タイプ|解説|デフォルト値
+
+
+| link:{DataChartLinkBase}.seriesviewer~defaultinteraction.html[DefaultInteraction]
+| pick:[wpf="link:{APIPlatform}datavisualization~{DataChartNamespaceBase}.interactionstate.html[InteractionState]"]pick:[win-forms="link:{DataVizChartsLink}.interactionstate.html[InteractionState]"]
+|マップ プロット エリアでのマウス ドラッグによって、マップ コンテンツをズームまたはパンするかを指定します。有効な値： 
+
+* Auto
+
+* DragZoom 
+
+* DragPan 
+
+* None 
+
+|Auto
+| link:{DataChartLinkBase}.seriesviewer~dragmodifier.html[DragModifier]
+| link:http://msdn.microsoft.com/ja-jp/library/system.windows.input.modifierkeys.aspx[ModifierKeys]
+|どのキーボード モディファイヤーがマウスのドラッグでマップ コンテンツのズームを有効にするかを指定します。有効な値： 
+
+* Control 
+
+* Shift 
+
+* Alt 
+
+* None 
+
+|Control (キー)
+
+| link:{DataChartLinkBase}.seriesviewer~panmodifier.html[PanModifier]
+| link:http://msdn.microsoft.com/ja-jp/library/system.windows.input.modifierkeys.aspx[ModifierKeys]
+|どのキーボード モディファイヤーがマウスのドラッグでマップ コンテンツのパンを有効にするかを指定します。有効な値： 
+
+* Control 
+
+* Shift 
+
+* Alt 
+
+* None 
+
+|Shift (キー)
+
+|====
+
+以下の表は、上記のプロパティのデフォルト値が変更されていないことを前提に、{GeoMapName} コントロールでサポートされているマウス ナビゲーション機能を簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|*目的*|*方法*|*解説*
+
+|マップ コンテンツの拡大
+|マウス ホイール アップ
+|マウス ホイールをスクロールアップして、 {GeoMapName} コントロール上でマウス カーソルの位置の方向にマップ コンテンツを拡大します。これは、  link:{GeoMapLink}.{GeoMapName}~windowscale.html[WindowScale]プロパティの値を減少し、  link:{GeoMapLink}.{GeoMapName}~windowpositionhorizontal.html[WindowPositionHorizontal] および link:{GeoMapLink}.{GeoMapName}~windowpositionvertical.html[WindowPositionVertical]  プロパティを調節することに相当します。
+
+|マップ コンテンツの縮小
+|マウス ホイール ダウン
+|マウス ホイールをスクロールダウンして、 {GeoMapName} コントロール上でマウス カーソルの位置から向こうへマップ コンテンツを縮小します。これは、  link:{GeoMapLink}.{GeoMapName}~windowscale.html[WindowScale]プロパティの値を増加し、  link:{GeoMapLink}.{GeoMapName}~windowpositionhorizontal.html[WindowPositionHorizontal] および link:{GeoMapLink}.{GeoMapName}~windowpositionvertical.html[WindowPositionVertical] プロパティを調節することに相当します。
+
+|マップ領域をズーム
+|Ctrl キー + マウス ドラッグ
+|マウスのドラッグ中に Ctrl キーを押して、マウス ボタンを放したときにマップ コンテンツのナビゲーション ウィンドウの新しい位置とサイズを示すマップ領域の四角形を作成します。これは  link:{DataChartLinkBase}.seriesviewer~windowrect.html[WindowRect]  プロパティを希望の寸法の四角形に設定することに相当します。
+
+|マップ コンテンツを左（西）にパン
+|マウス ダウン + 右にマウス ドラッグ
+|マウスを右にドラッグして、 {GeoMapName} コントロールの左端（西）の方向にマップ コンテンツをパンします。これは  link:{GeoMapLink}.{GeoMapName}~windowpositionhorizontal.html[WindowPositionHorizontal] プロパティの値を減らすことと同じことになります。
+
+|マップ コンテンツを右（東）にパン
+|マウス ダウン + 左にマウス ドラッグ
+|マウスを左にドラッグして、 {GeoMapName} コントロールの右端（東）の方向にマップ コンテンツをパンします。これは  link:{GeoMapLink}.{GeoMapName}~windowpositionhorizontal.html[WindowPositionHorizontal] プロパティの値を増すことと同じことになります。
+
+|マップ コンテンツを上（北）にパン
+|マウス ダウン + 下にマウス ドラッグ
+|マウスを下にドラッグして、 {GeoMapName} コントロールの上端（北）の方向にマップ コンテンツをパンします。これは link:{GeoMapLink}.{GeoMapName}~windowpositionvertical.html[WindowPositionVertical]  プロパティの値を減らすことと同じことになります。
+
+|マップ コンテンツを下（南）にパン
+|マウス ダウン + 上にマウス ドラッグ
+|マウスを上にドラッグして、 {GeoMapName} コントロールの下端（南）の方向にマップ コンテンツをパンします。これは link:{GeoMapLink}.{GeoMapName}~windowpositionvertical.html[WindowPositionVertical]  プロパティの値を増すことと同じことになります。
+
+|====
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックについては、以下のトピックも参照してください。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-navigating-map-content.html[マップ コンテンツをナビゲート]
+|このトピックは、 {GeoMapName} コントロールでのマップ コンテンツのナビゲート、およびコントロールのすべてのサポートされるナビゲーション機能に関する概念を提供します。
+
+| link:geographicmap-navigating-map-content-using-keyboard.html[キーボードを使用してマップ コンテンツをナビゲート]
+|このトピックは、キーボードからの入力を使用して、 {GeoMapName} コントロールでのマップ コンテンツのナビゲートに関する情報を提供します。
+
+| link:geographicmap-navigating-map-content-using-code.html[コードを使用してマップ コンテンツをナビゲート]
+|このトピックは、コードを使用して、 {GeoMapName} コントロールのマップ コンテンツをナビゲートする情報を提供します。
+
+|====

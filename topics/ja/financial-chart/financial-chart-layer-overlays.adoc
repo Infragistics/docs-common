@@ -1,0 +1,117 @@
+﻿= 財務オーバーレイ
+
+以下の画像は {FinancialChartName} で財務オーバーレイの使用を表示します。オーバーレイには、BollingerBands および PriceChannel の 2 種類があります。
+
+pick:[wpf="image::images/financialchart_wpf_layers_overlay.png[]"]
+pick:[jquery="image::images/financialchart_jquery_layers_overlay.png[]"]
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|型|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayTypes{HtmlApiExtension}[OverlayTypes]
+|`FinancialOverlayTypeCollection`
+|オーバーレイのタイプのコレクションを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayBrushes{HtmlApiExtension}[OverlayBrushes]
+|`BrushCollection`
+|オーバーレイの色設定に使用するブラシのパレットを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayOutlines{HtmlApiExtension}[OverlayOutlines]
+|`BrushCollection`
+|オーバーレイのアウトラインに使用するブラシのパレットを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayThickness{HtmlApiExtension}[OverlayThickness]
+|`double`
+|オーバーレイの太さを取得または設定します。
+
+|====
+
+以下のコードは link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayTypes{HtmlApiExtension}[OverlayTypes] を設定する方法を紹介します。
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    OverlayTypes="BollingerBands"
+    OverlayBrushes="Red"
+    OverlayOutlines="Green"
+    OverlayThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart as New {FinancialChartName}()
+chart.OverlayTypes = New FinancialOverlayTypeCollection()
+chart.OverlayTypes.Add(Infragistics.Controls.Charts.FinancialOverlayType.BollingerBands)
+
+chart.OverlayBrushes = New Infragistics.BrushCollection()
+Dim brush As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Red;
+chart.OverlayBrushes.Add(brush)
+
+chart.OverlayOutlines = new Infragistics.BrushCollection()
+Dim brush2 As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Green
+chart.OverlayOutlines.Add(brush2)
+
+chart.OverlayThickness = 2
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.OverlayTypes = new FinancialOverlayTypeCollection();
+chart.OverlayTypes.Add(Infragistics.Controls.Charts.FinancialOverlayType.BollingerBands);
+
+chart.OverlayBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Red;
+chart.OverlayBrushes.Add(brush);
+
+chart.OverlayOutlines = new Infragistics.BrushCollection();
+SolidColorBrush brush2 = new SolidColorBrush();
+brush2.Color = Colors.Green;
+chart.OverlayOutlines.Add(brush2);
+
+chart.OverlayThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    overlayTypes: "BollingerBands",
+    overlayBrushes: ["Red"],
+    overlayOutLines: ["Green"],
+    overlayThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "overlayTypes", "BollingerBands");
+$("#financialChart").{FinancialChartName}("option", "overlayBrushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "overlayOutLines", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "overlayThickness", 2);
+----
+endif::jquery[]
+
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+|link:financial-chart-layer-trendline.html[トレンドライン レイヤー]
+|このトピックはチャートのトレンドライン レイヤーを説明します。
+
+|====

@@ -1,0 +1,162 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I","Styling"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= Chart Tooltips
+
+This topic explains, with code examples, how to disable the default tooltips in the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control and how to create custom ones.
+
+== Introduction
+
+In the {FinancialChartName} control, tooltips are displayed as long as the mouse cursor hovers over a series in the {FinancialChartName} control.
+
+== Tooltips Overview
+
+The {FinancialChartName} control provides default tooltips for each series of data. The default tooltips display all the information relevant to the particular item (time, open, high, low, close, and volume) and are styled to match the series' style.
+
+If default tooltips are not sufficient, custom tooltips can be configured as well. Tooltips can be customized in the following aspects:
+
+* Tooltip content
+* Tooltip look-and-feel
+
+
+The tooltip content is customized by providing pick:[wpf="custom content to the link:{FinancialChartLink}.{FinancialChartName}{ApiProp}toolTipStyle{HtmlApiExtension}[ToolTipStyle] property"] pick:[jquery="an ID string of a template element to the link:{FinancialChartLink}.{FinancialChartName}{ApiProp}tooltipTemplate{HtmlApiExtension}[tooltipTemplate] option"]  of the {FinancialChartName} control.
+
+
+== Default Tooltip
+
+The following screenshot demonstrates the default tooltip for the {FinancialChartName}.
+
+pick:[wpf="image::images/financialchart_wpf_default_tooltip.png[]"]
+pick:[jquery="image::images/financialchart_jquery_default_tooltip.png[]"]
+
+== Code Example: Displaying Custom Tooltips
+
+This example demonstrates how to display tooltip information about the open, high, low, and close sales volumes for any data point.
+
+=== Preview
+
+pick:[wpf="image::images/financialchart_wpf_custom_tooltip.png[]"]
+pick:[jquery="image::images/financialchart_jquery_custom_tooltip.png[]"]
+
+Figure 1: The {FinancialChartName} control with custom tooltip.
+
+== Steps
+
+[start=1]
+. Add a custom style for the chart’s tooltip.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<Style x:Key="ToolTipStyle" TargetType="ContentControl">
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ContentControl">
+                <Border BorderBrush="Orange" BorderThickness="2">
+                    <StackPanel Background="#BBFFFFFF" Orientation="Horizontal">
+                        <ContentPresenter Margin="{TemplateBinding Padding}" Content="{Binding}" ContentTemplate="{Binding Series.LegendItemBadgeTemplate}" />
+                        <StackPanel Margin="5">
+                            <TextBlock Foreground="{Binding Series.ActualBrush}" Text="{Binding Series.Title}" />
+                            <TextBlock Text="{Binding Item.Open, StringFormat='Open: {0}'}" />
+                            <TextBlock Text="{Binding Item.High, StringFormat='High: {0}'}" />
+                            <TextBlock Text="{Binding Item.Low, StringFormat='Low: {0}'}" />
+                            <TextBlock Text="{Binding Item.Close, StringFormat='Close: {0}'}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In HTML:*
+[source,html]
+----
+<script id="chartTooltip" type="text/tmpl">
+    <div style="background: white;border-style: solid;border-width: 1px;">
+        <div style="font-weight:bold;">${series.title}</div>            
+        <div style="color:mediumpurple;">Open: ${item.open}</div>
+        <div style="color:red;">High: ${item.high}</div>
+        <div>Low: ${item.low}</div>
+        <div>Close: ${item.close}</div>
+        <div>Volume: ${item.volume}</div>
+    </div>
+</script>
+----
+endif::jquery[]
+
+[start=2]
+. Set the custom tooltip style to the {FinancialChartName} control.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{FinancialChartName} x:Name="chart"
+    ToolTipStyle="{StaticResource ToolTipStyle}">
+</ig:{FinancialChartName}>
+----
+
+endif::wpf[]
+
+ifdef::jquery[]
+
+*In JavaScript:*
+[source,javascript]
+----
+$("#chart").{FinancialChartName}({
+    dataSource: data,
+    tooltipTemplate: "chartTooltip"
+});
+----
+endif::jquery[]
+
+== Disabling Tooltips
+
+To disable the tooltips, you should provide an empty pick:[wpf="ControlTemplate"] pick:[jquery="tooltipTemplate"] so the tooltip will not display.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<Style x:Key="ToolTipStyle" TargetType="ContentControl">
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ContentControl">
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In HTML:*
+[source,html]
+----
+<script id="chartTooltip" type="text/tmpl">
+</script>
+----
+endif::jquery[]
+
+[[RelatedContent]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|link:financial-chart-chart-navigation.html[Chart Navigation]
+|This article explains how navigation works in the {FinancialChartName}.
+
+|====

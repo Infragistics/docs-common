@@ -1,0 +1,94 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","Getting Started","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= 軸スケールの構成
+
+link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールでチャートのデータが Y 軸で対数軸を使用するかどうかを選択できます。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<LogarithmicAxis,対数軸>>
+* <<CodeSnippet, コード スニペット>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[LogarithmicAxis]]
+=== 対数軸
+
+{FinancialChartName} コントロールで、y 軸の対数表示動作を以下のpick:[wpf="プロパティ"]pick:[jquery="オプション"]を使用して変更できます。:
+
+[options="header", cols="a,a,a,a"]
+|====
+|pick:[wpf="プロパティ"]pick:[jquery="オプション"]名
+|値型
+2+|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisIsLogarithmic{HtmlApiExtension}[pick:[wpf="YAxisIsLogarithmic"]pick:[jquery="yAxisIsLogarithmic"]]
+|`bool`
+2+|Y 軸がリニア スケールの代わりに対数目盛を使用するかどうか。デフォルト値は `false` です。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisLogarithmBase{HtmlApiExtension}[pick:[wpf="YAxisLogarithmBase"]pick:[jquery="yAxisLogarithmBase"]]
+|pick:[wpf="`int`"]pick:[jquery="`number`"]
+2+|Y 軸にデータ項目の位置をマップするときに log 関数で使用する基本値。 +
+これは pick:[wpf="YAxisIsLogarithmic"]pick:[jquery="yAxisIsLogarithmic"] が `true` の場合のみ効果があります。
+
+|====
+
+[[CodeSnippet]]
+=== コード スニペット
+
+以下のコード例では、pick:[wpf="YAxisIsLogarithmic"]pick:[jquery="yAxisIsLogarithmic"] および pick:[wpf="YAxisLogarithmBase"]pick:[jquery="yAxisLogarithmBase"] pick:[wpf="プロパティ"]pick:[jquery="オプション"]を設定する方法を示します。
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    yAxisIsLogarithmic: true,
+    yAxisLogarithmBase: 4
+});
+----
+endif::jquery[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} x:Name="chart"  
+    YAxisIsLogarithmic="True"
+    YAxisLogarithmBase="4">
+</ig:{FinancialChartName}>
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.YAxisIsLogarithmic = true;
+chart.YAxisLogarithmBase = 4;
+----
+
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.YAxisIsLogarithmic = True
+chart.YAxisLogarithmBase = 4
+----
+endif::wpf[]
+
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:financial-chart-configuring-axis-labels.html[軸ラベルの構成]
+* link:financial-chart-configuring-axis-modes.html[軸モードの構成]

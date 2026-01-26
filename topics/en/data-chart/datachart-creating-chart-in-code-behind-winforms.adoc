@@ -1,0 +1,257 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-creating-chart-in-code-behind-winforms",
+    "controlName": [],
+    "tags": [],
+    "guid": "e05ce5de-531d-4348-89ec-cd527bb37dfc",
+    "buildFlags": ["WINFORMS"],
+    "createdOn": "2014-09-22T09:12:09.1703504Z"
+}
+|metadata|
+////
+
+= Creating Chart In Code Behind
+
+== Topic Overview
+
+=== Purpose
+
+This topic demonstrates, with code examples, how to create the  _link:{DataChartLink}.{DataChartName}.html[{DataChartName}]_™ control in code-behind.
+
+=== Required Background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-datachart.html[{DataChartName}]
+|This topic provides a general overview of the _{DataChartName}_ control
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|This topic provides information on getting started with the _{DataChartName}_ control.
+
+| link:datachart-series-requirements.html[Series Requirements]
+|This topic provides information on requirements of Series objects in the _{DataChartName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref396139768,Overview>>
+
+* <<_Ref396139778,Preview>>
+* <<_Ref396139787,Application requirements>>
+* <<_Ref397371366,Chart Requirements>>
+* <<_Ref397371380,Creating Data Source>>
+* <<_Ref396139928,Creating the Axis>>
+* <<_Ref396139936,Creating the Series>>
+* <<_Ref397371391,Creating Chart>>
+
+* <<_Ref381022312,Related Content>>
+
+[[_Ref396139768]]
+== Overview
+
+[[_Ref396139778]]
+
+=== Preview
+
+The following is the preview of the result of this topic.
+
+image::images/DataChart_Creating_Chart_In_Code_Behind_1.png[]
+
+[[_Ref396139787]]
+
+=== Application Requirements
+
+1. Install the  _Ultimate UI for Windows Forms 2014 Volume 2_   or later version of the product.
+
+2. Start with new Windows Forms application using {PlatformIDE} or later version.
+
+==== Required Assemblies.
+
+* {ApiPlatform}Win.DataVisualization.Shared.{ApiVersion}
+* {ApiPlatform}Win.DataVisualization.UltraDataChart.{ApiVersion}
+* {ApiPlatform}Portable.Core.{ApiVersion}
+
+==== Required Namespaces.
+
+*In C#:*
+
+[source,csharp]
+----
+using Infragistics.Win.DataVisualization;
+using System.Collections;
+using System.Drawing;
+using System.Windows.Forms;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Imports Infragistics.Win.DataVisualization
+Imports System.Collections
+Imports System.Drawing
+Imports System.Windows.Forms
+----
+
+[[_Ref397371366]]
+
+=== Chart Requirements
+
+The chart control supports various types of data visualizations called Series. These series objects can visualize wide range of data source. Refer to the link:datachart-series-types.html[Series Types] topic for complete list of series supported in the chart control. Each type of series can plot data that meets certain requirements (such as number of data column and their types) as well as what type of axis can be used with it. Refer to the link:datachart-series-requirements.html[Series Requirements] topic for requirements for each of the series.
+
+For demonstration purpose, this topic uses sample data with only one link:{DataChartLink}.areaseries.html[AreaSeries] and two axes: CategoryXAxis and NumericYAxis.
+
+[[_Ref397371380]]
+
+=== Creating Data Source
+
+Copy sample data code from the link:resources-sample-energy-data.html[Sample Energy Data] resource and create an instance of category sample data:
+
+*In C#:*
+
+[source,csharp]
+----
+var data = new EnergyProductionDataSample();
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim data As New EnergyProductionDataSample()
+----
+
+[[_Ref396139928]]
+
+=== Creating Axes
+
+The following code example defines the category X-axis for displaying labels on horizontal axis.
+
+.Note:
+[NOTE]
+====
+The DataSource property is required in order to bind the category axis to  _IEnumerable_   data.
+====
+
+*In C#:*
+
+[source,csharp]
+----
+var xAxis = new CategoryXAxis 
+            {
+                Label = "Label", 
+                DataSource = data 
+            };
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim xAxis = New CategoryXAxis() With { _
+      .Label = "Label", _
+      .DataSource = data _
+}
+----
+
+The following code example defines the numeric Y-axis for displaying value on vertical axis.
+
+*In C#:*
+
+[source,csharp]
+----
+var yAxis = new NumericYAxis();
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim yAxis = New NumericYAxis()
+----
+
+[[_Ref396139936]]
+
+=== Creating Series
+
+Create an instance of a series bounding to the data source and setting data mapping. In addition, the series must have settings for two axes created in the previous section.
+
+*In C#:*
+
+[source,csharp]
+----
+AreaSeries series = new AreaSeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.ValueMemberPath = "Coal";
+series.DataSource = data;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim series = New AreaSeries() 
+series.DataSource = data
+series.ValueMemberPath = "Coal"
+series.XAxis = xAxis
+series.YAxis = yAxis
+----
+
+[[_Ref397371391]]
+
+=== Creating Chart
+
+Create an instance of the chart control with one series and two axes.
+
+*In C#:*
+
+[source,csharp]
+----
+UltraDataChart chart = new UltraDataChart();
+chart. Dock = DockStyle.Fill ;
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim chart As New UltraDataChart() 
+chart.Dock = DockStyle.Fill 
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+
+[[_Ref381022312]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|This topic provides information on getting started with the _{DataChartName}_ control.
+
+| link:datachart-series-requirements.html[Series Requirements]
+|This topic provides information on requirements of Series objects in the _{DataChartName}_ control.
+
+| link:datachart-creating-chart-in-vs-designer-winforms.html[Creating Chart In VS Designer]
+|This topic demonstrates creating WinForms {DataChartName} using the VisualStudio designer interface.
+
+|====

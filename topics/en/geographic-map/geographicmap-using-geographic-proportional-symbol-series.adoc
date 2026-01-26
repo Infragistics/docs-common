@@ -1,0 +1,348 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Using Geographic Proportional Symbol Series
+
+
+
+=== Purpose
+
+This topic provides information on how to use the link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] element in the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[Adding {GeoMapName} to a Page]
+|This topic provides information on how to add the _{GeoMapName}_ control to an application page.
+
+| link:geographicmap-visual-elements-of-geographicmap.html[Visual Elements of {GeoMapName}]
+|This topic provides information about layout of map elements in the _{GeoMapName}_ control.
+
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources about maps and geo-spatial related material as well as information about shape files. Use these resources to learn about and obtain shape files as well as tools for their editing before starting to bind geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-series.html[Using Geographic Series]
+|This topic provides information about supported types of geographic series in the _{GeoMapName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<GeographicProportionalSymbolSeries,Geographic Proportional Symbol Series>>
+
+** <<Overview,Overview>>
+** <<Preview,Preview>>
+** <<DataRequirements,Data Requirements>>
+** <<DataBinding,Data Binding>>
+
+* <<SizeScale,Size Scale>>
+
+** <<SizeScaleOverview,Overview>>
+** <<SizeScaleExample,Example>>
+
+* <<FillScale,Fill Scale>>
+
+** <<FillScaleOverview,Overview>>
+** <<FillScaleExample,Example>>
+
+* <<RelatedContent,Related Content>>
+
+[[GeographicProportionalSymbolSeries]]
+== Geographic Proportional Symbol Series
+
+[[Overview]]
+
+=== Overview
+
+The link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] is a Scatter Series with data-driven symbol sizes. It implements link:{GeoMapLink}.geographicproportionalsymbolseries.html[GeographicProportionalSeries] and has all the basic characteristics of the  _{DataChartName}_ control’s link:{DataChartLink}.bubbleseries_members.html[BubbleSeries].
+
+[[Preview]]
+
+=== Preview
+
+The following screenshot is a preview of the link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] series in the _{GeoMapName}_ control displaying the locations of the most populated cites in the world. The link:{GeoMapLink}.geographicproportionalsymbolseries~radiusscale.html[RadiusScale] of the symbols uses proportional radius scale in order to indicate the significance of these cities based on their population.
+
+image::images/GeographicMap_Using_Geographic_Proportional_Symbol_Series_1.png[]
+
+[[DataRequirements]]
+
+=== Data Requirements
+
+Similar to other types of geographic series in the _{GeoMapName}_ control, the link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] possess an link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] property for data binding. This property can be bound to an object that implements an link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable] interface.
+
+Additionally, each item in the items source must have two numeric data columns for storing geographic location (longitude and latitude) and one numeric column for storing the symbol size. These data columns map to the link:{GeoMapLink}.geographicproportionalsymbolseries~longitudememberpath.html[LongitudeMemberPath], link:{GeoMapLink}.geographicproportionalsymbolseries~latitudememberpath.html[LatitudeMemberPath] and link:{GeoMapLink}.geographicproportionalsymbolseries~radiusmemberpath.html[RadiusMemberPath] properties respectively.
+
+[[DataBinding]]
+
+=== Data Binding
+
+The following table summarizes properties of the link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] used for data binding.
+
+[options="header", cols="a,a,a"]
+|====
+|*Property Name*|*Property Type*|* Description*
+
+| link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}]
+|IEnumerable
+|Gets or sets the source of items
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~longitudememberpath.html[LongitudeMemberPath]
+|String
+|Sets the symbol’s longitude coordinate
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~latitudememberpath.html[LatitudeMemberPath]
+|String
+|Sets the symbol’s latitude coordinate
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~radiusmemberpath.html[RadiusMemberPath]
+|String
+|Sets the symbol’s size
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~fillmemberpath.html[FillMemberPath]
+|String
+|The name of the {ApiDataSource} item’s property containing the numeric value to convert to a _Brush_ using the link:{GeoMapLink}.geographicproportionalsymbolseries~fillscale.html[FillScale]
+
+|====
+
+[[Example]]
+
+=== Example
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="map">    
+ <ig:XamGeographicMap.Series>        
+ <ig:GeographicProportionalSymbolSeries {ApiDataSource}="{StaticResource sampleData}"                              
+ LatitudeMemberPath="LatColumnName"                              
+ LongitudeMemberPath="LongColumnName"
+ RadiusMemberPath="RadiusColumnName"/>    
+ </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+ifdef::wpf[]
+Imports Infragistics.Controls.Charts
+Imports Infragistics.Controls.Maps
+endif::wpf[]
+ifdef::win-forms[]
+Imports Infragistics.Win.Datavisualization
+endif::win-forms[]
+Imports System.ComponentModel
+' create and set data binding to the GeographicProportionalSymbolSeries
+Dim geoSeries = New GeographicProportionalSymbolSeries()
+geoSeries.{ApiDataSource} = sampleData
+geoSeries.LongitudeMemberPath = "LongColumnName"
+geoSeries.LatitudeMemberPath = "LatColumnName"
+geoSeries.RadiusMemberPath = "RadiusColumnName"
+' add the GeographicProportionalSymbolSeries to the the {GeoMapName}
+Me.GeoMap.Series.Add(geoSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+ifdef::wpf[]
+using Infragistics.Controls.Charts;
+using Infragistics.Controls.Maps;
+endif::wpf[]
+ifdef::win-forms[]
+using Infragistics.Win.Datavisualization;
+endif::win-forms[]
+using System.ComponentModel;
+// create and set data binding to the GeographicProportionalSymbolSeries
+var geoSeries = new GeographicProportionalSymbolSeries();
+geoSeries.{ApiDataSource} = sampleData;
+geoSeries.LongitudeMemberPath = "LongColumnName";
+geoSeries.LatitudeMemberPath = "LatColumnName";
+geoSeries.RadiusMemberPath = "RadiusColumnName";
+// add the GeographicProportionalSymbolSeries to the the {GeoMapName}
+this.GeoMap.Series.Add(geoSeries);
+----
+
+[[SizeScale]]
+== Size Scale
+
+[[SizeScaleOverview]]
+
+=== Overview
+
+The link:{DataChartLink}.sizescale_members.html[SizeScale] determines the size of the symbols in the series. If the link:{DataChartLink}.sizescale_members.html[SizeScale] value is not set, each of the symbol’s sizes is equal to the value of the link:{GeoMapLink}.geographicproportionalsymbolseries~radiusmemberpath.html[RadiusMemberPath] column. When setting the link:{DataChartLink}.sizescale_members.html[SizeScale] the smallest symbol equals link:{DataChartLink}.sizescale~minimumvalue.html[MinimumValue] and the largest symbol equals link:{DataChartLink}.sizescale~maximumvalue.html[MaximumValue], with all of the remaining symbols scaled proportionately within this range. The link:{DataChartLink}.sizescale_members.html[SizeScale] can be either linear or logarithmic.
+
+[[SizeScaleExample]]
+
+=== Example
+
+The following screenshot demonstrates how the _{GeoMapName}_ control’s link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] series renders as a result of the following link:{DataChartLink}.sizescale_members.html[SizeScale] settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{DataChartLink}.sizescale~minimumvalue.html[MinimumValue]
+|5
+
+| link:{DataChartLink}.sizescale~maximumvalue.html[MaximumValue]
+|70
+
+|====
+
+image::images/GeographicMap_Using_Geographic_Proportional_Symbol_Series_2.png[]
+
+ifdef::wpf[]
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:SizeScale x:Key="sizeScale"              
+ MinimumValue="5" 
+ MaximumValue="70"              
+ LogarithmBase="10"              
+ IsLogarithmic="/>
+ <ig:GeographicProportionalSymbolSeries 
+       ...              
+ RadiusScale="{StaticResource sizeScale}" />
+----
+endif::wpf[]
+
+[[FillScale]]
+== Fill Scale
+
+[[FillScaleOverview]]
+
+=== Overview
+
+A fill scale defines the color pattern within a single link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries]. The link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] series’ link:{GeoMapLink}.geographicproportionalsymbolseries~fillscale.html[FillScale] property sets the symbols color with each color axis possessing its own collection of Brushes.
+
+The link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] supports two fill scales:
+
+* link:{DataChartLink}.custompalettebrushscale_members.html[CustomPaletteBrushScale] – Uses the symbol marker’s index to select a brush from the Brushes collection
+* link:{DataChartLink}.valuebrushscale_members.html[ValueBrushScale] – Uses a set of values, which can be logarithmic, from one of the numeric columns in the {ApiDataSource} to interpolate a brush. The link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] series determines which values to use in two ways:
+** link:{GeoMapLink}.geographicproportionalsymbolseries~fillmemberpath.html[FillMemberPath] - the property explicitly specifies which column to use
+** link:{DataChartLink}.sizescale~minimumvalue.html[MinimumValue] and link:{DataChartLink}.sizescale~maximumvalue.html[MaximumValue] – user defined values used to determine the range of values
+
+[[FillScaleExample]]
+
+=== Example
+
+The following screenshot demonstrates how the _{GeoMapName}_ control’s link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] series renders as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~fillscale.html[FillScale]
+|CustomPaletteBrushScale
+
+|====
+
+image::images/GeographicMap_Using_Geographic_Proportional_Symbol_Series_3.png[]
+
+ifdef::wpf[]
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:CustomPaletteBrushScale x:Key="CustomPaletteBrushScale" >    
+ <ig:CustomPaletteBrushScale.Brushes>        
+ <SolidColorBrush Color="Red"/>        
+ <SolidColorBrush Color="Green"/>        
+ <SolidColorBrush Color="Blue"/>    
+ </ig:CustomPaletteBrushScale.Brushes/>
+</ig:CustomPaletteBrushScale>
+<ig:GeographicProportionalSymbolSeries 
+   ...
+ FillScale="{StaticResource CustomPaletteBrushScale}" />
+----
+endif::wpf[]
+
+The following screenshot demonstrates how the _{GeoMapName}_ control’s link:{GeoMapLink}.geographicproportionalsymbolseries_members.html[GeographicProportionalSymbolSeries] series renders as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~fillscale.html[FillScale]
+|ValueBrushScale
+
+| link:{GeoMapLink}.geographicproportionalsymbolseries~fillmemberpath.html[FillMemberPath]
+|Population
+
+|====
+
+image::images/GeographicMap_Using_Geographic_Proportional_Symbol_Series_4.png[]
+
+ifdef::wpf[]
+Following is the code that implements this example.
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:ValueBrushScale x:Key="ValueBrushScale"          
+ MinimumValue="1000"           
+ MaximumValue="25000000"          
+ IsLogarithmic="           
+ LogarithmBase="10">    
+ <ig:ValueBrushScale.Brushes>        
+ <SolidColorBrush Color="#FFC6EEFB" />   
+ <SolidColorBrush Color="#FF08C3FE" />                                    
+ <SolidColorBrush Color="#FF08A5FE" />                                    
+ <SolidColorBrush Color="#FF086AFE" />                                    
+ <SolidColorBrush Color="#FF084CFE" />
+ </ig:ValueBrushScale.Brushes>
+</ig:ValueBrushScale>
+<ig:GeographicProportionalSymbolSeries 
+   ...
+ FillScale="{StaticResource ValueBrushScale}"                      
+ FillMemberPath="Population" />
+----
+endif::wpf[]
+
+[[RelatedContent]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[Adding {GeoMapName} to a Page]
+|This topic provides information on how to add the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control to an application page.
+
+| link:geographicmap-using-geographic-symbol-series.html[Using Geographic Symbol Series]
+|This topic provides information on how to use the element in the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control.
+
+|====
+ 

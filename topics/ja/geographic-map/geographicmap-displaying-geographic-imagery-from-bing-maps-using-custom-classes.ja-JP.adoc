@@ -1,0 +1,780 @@
+﻿////
+|metadata|
+{
+    "name": "xamgeographicmap-displaying-geographic-imagery-from-bing-maps-using-custom-classes",
+    "controlName": ["{GeoMapName}"],
+    "tags": ["Getting Started","How Do I"],
+    "guid": "08f4f7a8-ec3b-48ff-bfe8-c1f9973b99bb",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:56.78021Z"
+}
+|metadata|
+////
+
+= カスタム クラスを使用する Bing Maps から地理的画像を表示
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで Bing Maps から地理的画像を表示する方法を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックでは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} のビジュアル要素] 
+
+|このトピックでは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、 {GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref320395369,Bing Maps からの地理的画像>>
+** <<_Ref320193474,概要>>
+** <<_Ref320395376,プレビュー>>
+** <<_Ref320471950,要件>>
+** <<_Ref320471953,手順>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320395369]]
+== Bing Maps からの地理的画像
+
+[[_Ref320193474]]
+
+=== 概要
+
+Bing Maps は、Microsoft によって作られた地理的画像マッピング サービスです。この地理的画像サービスは、 link:http://www.bing.com/maps[http://www.bing.com/maps] に直接アクセスして利用できます。 {GeoMapName} コントロールは、 link:{GeoMapLink}.bingmapsmapimagery_members.html[BingMapsMapImagery] クラスを使用してマップ背景コンテンツで Bing Maps から地理的画像を表示します。ただし、{GeoMapName} コントロールは、デフォルトではマップ背景コンテンツで Open Street Map からの地理的画像を表示します。したがって、Bing Maps から地理的画像を表示するように、コントロールを構成する必要があります。
+
+[[_Ref320395376]]
+
+=== プレビュー
+
+以下の画像は、Bing Maps サービスがサポートする地理的画像のマップ スタイルの {GeoMapName} コントロールのプレビューです。
+
+[cols="a"]
+|====
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_2.png[] 
+
+*道路* のスタイルが付いた Bing Map 画像
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_1.png[] 
+
+*衛星* *とラベル* のスタイルが付いた Bing Map 画像
+
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Bing_Maps_3.png[] 
+
+*衛星* のスタイルが付いた Bing Map 画像
+
+|====
+
+[[_Ref320471950]]
+
+=== 要件
+
+以下の手順を完了するには、以下を満たす必要があります:
+
+[options="header", cols="a,a"]
+|====
+|要件|説明
+
+|取得した Bing Maps API キー
+|Bing Maps から地理的画像を使用するには、 link:http://www.bingmapsportal.com[www.bingmapsportal.com] から Map API キーを登録して入手する必要があります。Bing Maps Connector オブジェクトに、この Map API キーを提供する必要があります。
+
+|追加されたアセンブリ参照
+|Bing Maps Connector では、以下のアセンブリ参照が必要です。 
+
+* System.Runtime.Serialization.dll 
+
+ifdef::sl[] 
+
+* System.ServiceModel.Web.dll 
+
+endif::sl[] 
+
+|実装された Bing Maps Connector
+|Bing Maps Connector は、 link:http://msdn.microsoft.com/ja-jp/library/ff701713.aspx[Bing Maps REST 画像サービス]を設定するカスタム クラスで、Bing Maps サービス用の複雑なアプリケーション構成を行うことなく Http web 要求を介して、画像タイルを提供します。 
+
+|====
+
+以下のコードは、Bing Maps Connector クラスの実装を提供します。 
+
+*Visual Basic の場合:*
+
+[source,vb]
+---- 
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+Imports System.Net ' HttpWebRequest
+Imports System.Runtime.Serialization ' DataContract, DataMember
+Imports System.Runtime.Serialization.Json ' DataContractJsonSerializer
+Imports System.Windows
+Namespace Infragistics.Samples.Services
+      ''' <summary>
+      ''' <para> Represents a connector class that sets up BingMaps REST imagery service </para>
+      ''' <para> and provides imagery tiles via Http web requests.</para>
+      ''' <remarks>Bing Maps REST Services: http://msdn.microsoft.com/en-us/library/ff701713.aspx </remarks>
+      ''' </summary>
+      Public Class BingMapsConnector
+            Inherits DependencyObject
+            Implements INotifyPropertyChanged
+            Public Sub New()
+                  Me.IsInitialized = False
+            End Sub
+            #Region "Events"
+            Public Event ImageryInitialized As EventHandler
+            Public Event PropertyChanged As PropertyChangedEventHandler
+            #End Region
+            #Region "Properties"
+            ''' <summary>
+            ''' Gets or sets an API key required by the Bing Maps imagery service.
+            ''' <remarks>This key must be obtained from the http://www.bingmapsportal.com website. </remarks>
+            ''' </summary>
+            Public Property ApiKey() As String
+                  Get
+                        Return DirectCast(GetValue(ApiKeyProperty), String)
+                  End Get
+                  Set
+                        SetValue(ApiKeyProperty, value)
+                  End Set
+            End Property
+            Public Const ApiKeyPropertyName As String = "ApiKey"
+            Public Shared ReadOnly ApiKeyProperty As DependencyProperty = DependencyProperty.Register(ApiKeyPropertyName, GetType(String), GetType(BingMapsConnector), New PropertyMetadata(String.Empty, Function(o, e) TryCast(o, BingMapsConnector).OnApiKeyChanged(DirectCast(e.OldValue, String), DirectCast(e.NewValue, String))))
+            Private Sub OnApiKeyChanged(oldValue As String, newValue As String)
+                  Me.Validate()
+            End Sub
+            Public Const ImageryStylePropertyName As String = "ImageryStyle"
+            ''' <summary>
+            ''' <para> Gets or sets a map style of the Bing Maps imagery tiles. </para>
+            ''' <para> For example: Aerial, AerialWithLabels, or Road map style. </para>
+            ''' </summary>
+            Public Property ImageryStyle() As BingMapsImageryStyle
+                  Get
+                        Return CType(GetValue(ImageryStyleProperty), BingMapsImageryStyle)
+                  End Get
+                  Set
+                        SetValue(ImageryStyleProperty, value)
+                  End Set
+            End Property
+            Public Shared ReadOnly ImageryStyleProperty As DependencyProperty = DependencyProperty.Register(ImageryStylePropertyName, GetType(BingMapsImageryStyle), GetType(BingMapsConnector), New PropertyMetadata(BingMapsImageryStyle.AerialWithLabels, Function(o, e) TryCast(o, BingMapsConnector).OnImageryStylePropertyChanged(CType(e.OldValue, BingMapsImageryStyle), CType(e.NewValue, BingMapsImageryStyle))))
+            Private Sub OnImageryStylePropertyChanged(oldValue As BingMapsImageryStyle, newValue As BingMapsImageryStyle)
+                  Me.Validate()
+            End Sub
+            Private _tilePath As String
+            ''' <summary>
+            ''' Gets an imagery tile path for the Bing Maps service.  
+            ''' </summary>
+            Public Property TilePath() As String
+                  Get
+                        Return _tilePath
+                  End Get
+                  Private Set
+                        _tilePath = value
+                        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs("TilePath"))
+                  End Set
+            End Property
+            Private _subDomains As ObservableCollection(Of String)
+            ''' <summary>
+            ''' Gets a collection of image URI sub-domains for the Bing Maps service.
+            ''' </summary>
+            Public Property SubDomains() As ObservableCollection(Of String)
+                  Get
+                        Return _subDomains
+                  End Get
+                  Private Set
+                        _subDomains = value
+                        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs("SubDomains"))
+                  End Set
+            End Property
+            ''' <summary>
+            ''' Gets a status whether the Bing Maps service is initialized.
+            ''' </summary>
+            Public Property IsInitialized() As Boolean
+                  Get
+                        Return _IsInitialized
+                  End Get
+                  Private Set
+                        _IsInitialized = Value
+                  End Set
+            End Property
+            Private _IsInitialized As Boolean
+            ''' <summary>
+            ''' Gets or sets whether the Bing Maps service should be auto-initialized upon valid property values.
+            ''' </summary>
+            Public Property IsAutoInitialized() As Boolean
+                  Get
+                        Return CBool(GetValue(IsAutoInitializedProperty))
+                  End Get
+                  Set
+                        SetValue(IsAutoInitializedProperty, value)
+                  End Set
+            End Property
+            Public Const IsAutoInitializedPropertyName As String = "IsAutoInitialized"
+            Public Shared ReadOnly IsAutoInitializedProperty As DependencyProperty = DependencyProperty.Register(IsAutoInitializedPropertyName, GetType(Boolean), GetType(BingMapsConnector), New PropertyMetadata(False, Function(o, e) TryCast(o, BingMapsConnector).OnAutoInitializedChanged(CBool(e.OldValue), CBool(e.NewValue))))
+            Private Sub OnAutoInitializedChanged(oldValue As Boolean, newValue As Boolean)
+                  Me.Validate()
+            End Sub
+            #End Region
+            #Region "Methods"
+            Private Sub Validate()
+                  Me.IsInitialized = False
+                  If Not IsValidApiKey() Then
+                        Return
+                  End If
+                  If Me.IsAutoInitialized Then
+                        Initialize()
+                  End If
+            End Sub
+            Private Function IsValidApiKey() As Boolean
+                  If [String].IsNullOrEmpty(Me.ApiKey) OrElse Me.ApiKey.Length < 20 Then
+                        Return False
+                  End If
+                  Return True
+            End Function
+            Public Sub Initialize()
+                  If Not IsValidApiKey() Then
+                        Me.IsInitialized = False
+                        System.Diagnostics.Debug.WriteLine("Detected Invalid BingMaps API key: " & Me.ApiKey)
+                        Return
+                  End If
+                  Me.IsInitialized = True
+                  ' for more info on setting up web requests to BingMaps REST imagery service
+                  ' refer to: http://msdn.microsoft.com/en-us/library/ff701716.aspx 
+                  Dim bingUrl = "http://dev.virtualearth.net/REST/v1/Imagery/Metadata/"
+                  Dim imagerySet = Me.ImageryStyle
+                  bingUrl += imagerySet
+                  Dim parms = "key=" & Me.ApiKey & "&include=ImageryProviders"
+                  Dim url = bingUrl & "?" & parms
+                  Dim req = HttpWebRequest.Create(url)
+                  req.BeginGetResponse(AddressOf GetResponseCompleted, req)
+            End Sub
+            #End Region
+            #Region "Event Handlers"
+            Private Sub GetResponseCompleted(res As IAsyncResult)
+                  Dim req = DirectCast(res.AsyncState, HttpWebRequest)
+                  Dim response = req.EndGetResponse(res)
+                  ' alternatively, parsing of BingResponse can be performed using LINQ to XML 
+                  ' instead of using JSON deserializer
+                  Dim json = New DataContractJsonSerializer(GetType(BingResponse))
+                  Dim resp = DirectCast(json.ReadObject(response.GetResponseStream()), BingResponse)
+                  If resp.ResourceSets Is Nothing OrElse resp.ResourceSets.Count < 1 OrElse resp.ResourceSets(0).Resources Is Nothing OrElse resp.ResourceSets(0).Resources.Count < 1 Then
+                        Return
+                  End If
+                  Dim imageUrl = resp.ResourceSets(0).Resources(0).ImageUrl
+                  Dim subDomains__1 = resp.ResourceSets(0).Resources(0).ImageUrlSubdomains
+                  If imageUrl Is Nothing OrElse subDomains__1 Is Nothing Then
+                        Return
+                  End If
+                  TilePath = imageUrl
+                  SubDomains = New ObservableCollection(Of String)(subDomains__1)
+                  RaiseEvent ImageryInitialized(Me, New EventArgs())
+            End Sub
+            #End Region
+      End Class
+      ''' <summary>
+      ''' Determines map style for the Bing Maps imagery.
+      ''' </summary>
+      Public Enum BingMapsImageryStyle
+            ''' <summary>
+            ''' Specifies the Aerial map style without road or labels overlay.
+            ''' </summary>
+            Aerial
+            ''' <summary>
+            ''' Specifies the Aerial map style with road and labels overlay.
+            ''' </summary>
+            AerialWithLabels
+            ''' <summary>
+            ''' Specifies the Roads map style without aerial overlay.
+            ''' </summary>
+            Road
+            #Region "Not supported Bing Maps styles by the {GeoMapName} control"
+            '''// <summary>
+            '''// Specifies the Bird’s eye (oblique-angle) map style
+            '''// </summary>
+            'Birdseye,
+            '''// <summary>
+            '''// Specifies the Bird’s eye map style with road and labels overlay.
+            '''// </summary>
+            'BirdseyeWithLabels, 
+            #End Region
+      End Enum
+      <DataContract> _
+      Public Class BingResponse
+            Public Sub New()
+                  ResourceSets = New List(Of BingResourceSet)()
+            End Sub
+            <DataMember(Name := "resourceSets")> _
+            Public Property ResourceSets() As List(Of BingResourceSet)
+                  Get
+                        Return _ResourceSets
+                  End Get
+                  Set
+                        _ResourceSets = Value
+                  End Set
+            End Property
+            Private _ResourceSets As List(Of BingResourceSet)
+      End Class
+      <DataContract> _
+      Public Class BingResourceSet
+            Public Sub New()
+                  Resources = New List(Of ImageryMetadata)()
+            End Sub
+            <DataMember(Name := "resources")> _
+            Public Property Resources() As List(Of ImageryMetadata)
+                  Get
+                        Return _Resources
+                  End Get
+                  Set
+                        _Resources = Value
+                  End Set
+            End Property
+            Private _Resources As List(Of ImageryMetadata)
+      End Class
+      <DataContract([Namespace] := "http://schemas.microsoft.com/search/local/ws/rest/v1")> _
+      Public Class ImageryMetadata
+            Public Sub New()
+                  ImageUrlSubdomains = New List(Of String)()
+            End Sub
+            <DataMember(Name := "imageUrl")> _
+            Public Property ImageUrl() As String
+                  Get
+                        Return _ImageUrl
+                  End Get
+                  Set
+                        _ImageUrl = Value
+                  End Set
+            End Property
+            Private _ImageUrl As String
+            <DataMember(Name := "imageUrlSubdomains")> _
+            Public Property ImageUrlSubdomains() As List(Of String)
+                  Get
+                        Return _ImageUrlSubdomains
+                  End Get
+                  Set
+                        _ImageUrlSubdomains = Value
+                  End Set
+            End Property
+            Private _ImageUrlSubdomains As List(Of String)
+      End Class
+End Namespace
+----
+
+*C# の場合:*
+
+[source,csharp]
+---- 
+using System;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Net;                           // HttpWebRequest
+using System.Runtime.Serialization;         // DataContract, DataMember
+using System.Runtime.Serialization.Json;    // DataContractJsonSerializer
+using System.Windows;
+namespace Infragistics.Samples.Services
+{
+    /// <summary>
+    /// <para> Represents a connector class that sets up BingMaps REST imagery service </para>
+    /// <para> and provides imagery tiles via Http web requests.</para>
+    /// <remarks>Bing Maps REST Services: http://msdn.microsoft.com/en-us/library/ff701713.aspx </remarks>
+    /// </summary>
+    public class BingMapsConnector : DependencyObject, INotifyPropertyChanged
+    {
+        public BingMapsConnector()
+        {
+            this.IsInitialized = false;
+        }
+        #region Events
+        public event EventHandler ImageryInitialized;
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+        #region Properties
+        /// <summary>
+        /// Gets or sets an API key required by the Bing Maps imagery service.
+        /// <remarks>This key must be obtained from the http://www.bingmapsportal.com website. </remarks>
+        /// </summary>
+        public string ApiKey
+        {
+            get { return (string)GetValue(ApiKeyProperty); }
+            set { SetValue(ApiKeyProperty, value); }
+        }
+        public const string ApiKeyPropertyName = "ApiKey";
+        public static readonly DependencyProperty ApiKeyProperty =
+            DependencyProperty.Register(ApiKeyPropertyName, typeof(string), typeof(BingMapsConnector),
+            new PropertyMetadata(string.Empty, (o, e) => (o as BingMapsConnector).OnApiKeyChanged((string)e.OldValue, (string)e.NewValue)));
+        private void OnApiKeyChanged(string oldValue, string newValue)
+        {
+            this.Validate();
+        }
+        public const string ImageryStylePropertyName = "ImageryStyle";
+        /// <summary>
+        /// <para> Gets or sets a map style of the Bing Maps imagery tiles. </para>
+        /// <para> For example: Aerial, AerialWithLabels, or Road map style. </para>
+        /// </summary>
+        public BingMapsImageryStyle ImageryStyle
+        {
+            get { return (BingMapsImageryStyle)GetValue(ImageryStyleProperty); }
+            set { SetValue(ImageryStyleProperty, value); }
+        }
+        public static readonly DependencyProperty ImageryStyleProperty =
+            DependencyProperty.Register(ImageryStylePropertyName, typeof(BingMapsImageryStyle), typeof(BingMapsConnector),
+            new PropertyMetadata(BingMapsImageryStyle.AerialWithLabels, (o, e) =>
+                (o as BingMapsConnector).OnImageryStylePropertyChanged((BingMapsImageryStyle)e.OldValue, (BingMapsImageryStyle)e.NewValue)));
+        private void OnImageryStylePropertyChanged(BingMapsImageryStyle oldValue, BingMapsImageryStyle newValue)
+        {
+            this.Validate();
+        }
+        private string _tilePath;
+        /// <summary>
+        /// Gets an imagery tile path for the Bing Maps service.  
+        /// </summary>
+        public string TilePath
+        {
+            get { return _tilePath; }
+            private set
+            {
+                _tilePath = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("TilePath"));
+                }
+            }
+        }
+        private ObservableCollection<string> _subDomains;
+        /// <summary>
+        /// Gets a collection of image URI sub-domains for the Bing Maps service.
+        /// </summary>
+        public ObservableCollection<string> SubDomains
+        {
+            get
+            {
+                return _subDomains;
+            }
+            private set
+            {
+                _subDomains = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("SubDomains"));
+                }
+            }
+        }
+        /// <summary>
+        /// Gets a status whether the Bing Maps service is initialized.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+        /// <summary>
+        /// Gets or sets whether the Bing Maps service should be auto-initialized upon valid property values.
+        /// </summary>
+        public bool IsAutoInitialized
+        {
+            get { return (bool)GetValue(IsAutoInitializedProperty); }
+            set { SetValue(IsAutoInitializedProperty, value); }
+        }
+        public const string IsAutoInitializedPropertyName = "IsAutoInitialized";
+        public static readonly DependencyProperty IsAutoInitializedProperty =
+            DependencyProperty.Register(IsAutoInitializedPropertyName, typeof(bool), typeof(BingMapsConnector),
+            new PropertyMetadata(false, (o, e) => (o as BingMapsConnector).OnAutoInitializedChanged((bool)e.OldValue, (bool)e.NewValue)));
+        private void OnAutoInitializedChanged(bool oldValue, bool newValue)
+        {
+            this.Validate();
+        }
+        #endregion
+        #region Methods
+        private void Validate()
+        {
+            this.IsInitialized = false;
+            if (!IsValidApiKey())
+            {
+                return;
+            }
+            if (this.IsAutoInitialized)
+            {
+                Initialize();
+            }
+        }
+        private bool IsValidApiKey()
+        {
+            if (String.IsNullOrEmpty(this.ApiKey) || this.ApiKey.Length < 20)
+            {
+                return false;
+            }
+            return true;
+        }
+        public void Initialize()
+        {
+            if (!IsValidApiKey())
+            {
+                this.IsInitialized = false;
+                System.Diagnostics.Debug.WriteLine("Detected Invalid BingMaps API key: " + this.ApiKey);
+                return;
+            }
+            this.IsInitialized = true;
+            // for more info on setting up web requests to BingMaps REST imagery service
+            // refer to: http://msdn.microsoft.com/en-us/library/ff701716.aspx 
+            var bingUrl = "http://dev.virtualearth.net/REST/v1/Imagery/Metadata/";
+            var imagerySet = this.ImageryStyle;
+            bingUrl += imagerySet;
+            var parms = "key=" + this.ApiKey + "&include=ImageryProviders";
+            var url = bingUrl + "?" + parms;
+            var req = HttpWebRequest.Create(url);
+            req.BeginGetResponse(GetResponseCompleted, req);
+        }
+        #endregion
+        #region Event Handlers
+        private void GetResponseCompleted(IAsyncResult res)
+        {
+            var req = (HttpWebRequest)res.AsyncState;
+            var response = req.EndGetResponse(res);
+            // alternatively, parsing of BingResponse can be performed using LINQ to XML 
+            // instead of using JSON deserializer
+            var json = new DataContractJsonSerializer(typeof(BingResponse));
+            var resp = (BingResponse)json.ReadObject(response.GetResponseStream());
+            if (resp.ResourceSets == null ||
+                resp.ResourceSets.Count < 1 ||
+                resp.ResourceSets[0].Resources == null ||
+                resp.ResourceSets[0].Resources.Count < 1)
+            {
+                return;
+            }
+            var imageUrl = resp.ResourceSets[0].Resources[0].ImageUrl;
+            var subDomains = resp.ResourceSets[0].Resources[0].ImageUrlSubdomains;
+            if (imageUrl == null || subDomains == null)
+            {
+                return;
+            }
+            TilePath = imageUrl;
+            SubDomains = new ObservableCollection<string>(subDomains);
+            if (ImageryInitialized != null)
+            {
+                ImageryInitialized(this, new EventArgs());
+            }
+        }
+        #endregion
+    }
+    /// <summary>
+    /// Determines map style for the Bing Maps imagery.
+    /// </summary>
+    public enum BingMapsImageryStyle
+    {
+        /// <summary>
+        /// Specifies the Aerial map style without road or labels overlay.
+        /// </summary>
+        Aerial,
+        /// <summary>
+        /// Specifies the Aerial map style with road and labels overlay.
+        /// </summary>
+        AerialWithLabels,
+        /// <summary>
+        /// Specifies the Roads map style without aerial overlay.
+        /// </summary>
+        Road,
+        #region Not supported Bing Maps styles by the {GeoMapName} control
+        ///// <summary>
+        ///// Specifies the Bird’s eye (oblique-angle) map style
+        ///// </summary>
+        //Birdseye,
+        ///// <summary>
+        ///// Specifies the Bird’s eye map style with road and labels overlay.
+        ///// </summary>
+        //BirdseyeWithLabels, 
+        #endregion
+    }
+    [DataContract]
+    public class BingResponse
+    {
+        public BingResponse()
+        {
+            ResourceSets = new List<BingResourceSet>();
+        }
+        [DataMember(Name = "resourceSets")]
+        public List<BingResourceSet> ResourceSets { get; set; }
+    }
+    [DataContract]
+    public class BingResourceSet
+    {
+        public BingResourceSet()
+        {
+            Resources = new List<ImageryMetadata>();
+        }
+        [DataMember(Name = "resources")]
+        public List<ImageryMetadata> Resources { get; set; }
+    }
+    [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class ImageryMetadata
+    {
+        public ImageryMetadata()
+        {
+            ImageUrlSubdomains = new List<string>();
+        }
+        [DataMember(Name = "imageUrl")]
+        public string ImageUrl { get; set; }
+        [DataMember(Name = "imageUrlSubdomains")]
+        public List<string> ImageUrlSubdomains { get; set; }
+    }
+}
+---- 
+
+以下の表で、Bing Maps Connector クラスの重要なメンバーを簡単に説明します。
+
+[options="header", cols="a,a"]
+|====
+|*メンバー*|*説明*
+
+|`ApiKey`
+|Bing Maps 画像サービスで必要となる API キーを設定するためのプロパティを表します。このキーは、 link:http://www.bingmapsportal.com[http://www.bingmapsportal.com] から入手する必要があります。
+
+|`IsAutoInitialized`
+|Bing Maps 画像サービスが初期化され、地理的画像タイルが要求されることを保証するプロパティを表します。
+
+|`ImageryStyle`
+|Bing Maps 画像タイルのマップ スタイルを設定するためのプロパティを表します。このプロパティは、以下の `BingMapsImageryStyle` 列挙値に設定できます。 
+
+* `Satellite` - 道路またはラベルのオーバーレイなしの衛星地図スタイルを指定します。 
+
+* `Satellite``WithLabels` - 道路およびラベル付きの衛星地図スタイルを指定します。 
+
+* `Road` - 衛星オーバーレイなしの道路地図スタイルを指定します。 
+
+|`ImageryInitialized`
+|Bing Maps サービスからの地理的画像タイルが初期化されており、{GeoMapName} コントロールで描画の準備ができたときに発生するイベントを表します。
+
+|====
+
+[[_Ref320471953]]
+
+=== 手順
+
+以下の手順は、{GeoMapName} コントロールの背景コンテンツで Bing Maps から地理的画像を表示する方法を提供します。
+
+=== BingMapsConnector オブジェクトを追加および設定します。
+
+自分の Bing Maps キーで `BingMapsConnector` オブジェクトを追加し、`ImageryInitialized` イベントのイベント ハンドラーを作成します。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim connector As New BingMapsConnector()
+connector.ApiKey = "BING_MAPS_API_KEY"
+connector.ImageryStyle = BingMapsImageryStyle.Road
+connector.ImageryInitialized += OnImageryInitialized
+connector.IsAutoInitialized = True
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+BingMapsConnector connector = new BingMapsConnector();
+connector.ApiKey = "BING_MAPS_API_KEY";
+connector.ImageryStyle = BingMapsImageryStyle.Road;
+connector.ImageryInitialized += OnImageryInitialized;
+connector.IsAutoInitialized = true;
+----
+
+=== Bing Maps Connector オブジェクトの ImageryInitialized イベント用のイベント ハンドラーを実装します。
+
+Bing Maps サービスからの地理的画像で {GeoMapName} コントロールを更新するためのメソッドを起動するために、`ImageryInitialized` イベントのイベント ハンドラーを実装します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Sub OnImageryInitialized(sender As Object, e As EventArgs)
+      Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, DirectCast(Function() UpdateBingMaps(sender), Action))
+End Sub
+----
+
+endif::wpf[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public void OnImageryInitialized(object sender, EventArgs e)
+{
+Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
+     (Action)(() => UpdateBingMaps(sender)));
+}
+----
+
+endif::wpf[]
+
+=== 地理的画像で {GeoMapName} コントロールを更新するためのメソッドを実装します。
+
+link:{GeoMapLink}.bingmapsmapimagery_members.html[BingMapsMapImagery]クラスを使用して Bing Maps サービスからの地理的画像で {GeoMapName} コントロールを更新するためのメソッドを実装します。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Private Sub UpdateBingMaps(sender As Object)
+      Dim connector = DirectCast(sender, Infragistics.Samples.Services.BingMapsConnector)
+      Me.GeoMap.BackgroundContent = New BingMapsMapImagery() With { 
+            .TilePath = connector.TilePath, .SubDomains = connector.SubDomains }
+End Sub
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+private void UpdateBingMaps(object sender)
+{
+   var connector = (Infragistics.Samples.Services.BingMapsConnector)sender;
+   this.GeoMap.BackgroundContent =
+      new BingMapsMapImagery()
+      {
+         TilePath = connector.TilePath,
+         SubDomains = connector.SubDomains
+      };
+}
+----
+
+=== 結果を確認する
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、{GeoMapName}   は上記の<<_Ref320395376,「プレビュー」>>のセクションで示したように表示されるはずです。
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素] 
+
+|このトピックでは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Open Street Maps から地理的画像を表示]
+|このトピックは、 {GeoMapName} コントロールで Open Street Maps サービスからの地理的画像を表示する方法を提供します。
+
+|====

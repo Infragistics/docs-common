@@ -1,0 +1,93 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-customize-the-display-of-null-values",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{A61BA0B3-8E2A-4BC7-8EC1-B3602532A6D8}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Null 値の表示をカスタマイズ
+
+Chart コントロールを使用してアプリケーションをビルドする間のある時点で、以下の疑問を持ったかもしれません。
+
+* null 値をどのくらい目立たせるべきなのか?
+* 他の値と比較して、null 値をどのくらい明瞭にすべきなのか?
+
+[NOTE]
+====
+*注：* null 値をプロットできるさまざまな方法については、 link:chart-null-values.html[「Null 値」]を参照してください。
+====
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~emptystyle.html[UltraChart.Data.EmptyStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~emptystyle.html[UltraChart.Data.EmptyStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~emptystyle.html[UltraChart.Data.EmptyStyle]"]  プロパティは、チャートのこの面をカスタマイズするために使用できます。これは、以下のために使用するプロパティを提供します。
+
+* null 値の上または周囲の線の描画方法のカスタマイズ：
+
+** EmptyStyle.LineStyle
+
+* null 値を表す場合の領域の描画方法のカスタマイズ：
+
+** EmptyStyle.PE
+
+* null 値がプロットされる位置の点の描画方法：
+
+** EmptyStyle.PointStyle
+** EmptyStyle.PointPE
+
+* 上記の機能のいずれかの有効化または無効化：
+
+** EmptyStyle.EnableLineStyle
+** EmptyStyle.EnablePE
+** EmptyStyle.EnablePoint
+
+[NOTE]
+====
+*注：* .NET の値（System.Int32、System.Double、および System.DateTime など）を使用すると、値のタイプが null 指定できないため、null 値を持つことができません。データセットで null 値を指定したい場合は、System.Data.SqlTypes 名前空間に含まれるタイプなどの null に指定可能なタイプを使用します。
+====
+
+いくつかの視覚的な例を使用してこれが実行されます。
+
+InterpolateSimple 折れ線グラフから始まりましたが、Data.EmptyStyle.EnablePoint プロパティは True に設定されます。
+
+image::images/Chart_Null_Handling_and_Empty_Styles_05.png[]
+
+この結果、チャートのどの値が null かを示すために記号が描画されます。デフォルトでは、この記号は「X」です。記号は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointstyle.html[EmptyStyle.PointStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointstyle.html[EmptyStyle.PointStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointstyle.html[EmptyStyle.PointStyle]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointpe.html[EmptyStyle.PointPE]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointpe.html[EmptyStyle.PointPE]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~pointpe.html[EmptyStyle.PointPE]"]  プロパティを使用してカスタマイズできます。
+
+ヒント：さまざまな記号にアクセスするには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~icon.html[PointStyle.Icon]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~icon.html[PointStyle.Icon]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~icon.html[PointStyle.Icon]"]  プロパティを  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~character.html[Character]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~character.html[Character]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~character.html[Character]"]  に設定し、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~characterfont.html[CharacterFont]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~characterfont.html[CharacterFont]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.pointstyle~characterfont.html[CharacterFont]"]  プロパティを Wingdings フォントに設定してみてください。
+
+カスタマイズをデモンストレーションするには、PointStyle.Icon プロパティを Plus に設定し、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[PointPE.Stroke]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[PointPE.Stroke]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~stroke.html[PointPE.Stroke]"]  プロパティを DarkRed に設定し、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[PointPE.Fill]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[PointPE.Fill]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[PointPE.Fill]"]  プロパティを Red に設定します。
+
+image::images/Chart_Null_Handling_and_Empty_Styles_06.png[]
+
+ここで、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~enablelinestyle.html[EnableLineStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~enablelinestyle.html[EnableLineStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~enablelinestyle.html[EnableLineStyle]"]  プロパティを True に設定します。デフォルトで、LineStyle プロパティは点線を描画します。わかりやすくするために、この画像では  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~linethickness.html[AreaChart.LineThickness]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~linethickness.html[AreaChart.LineThickness]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.areachartappearance~linethickness.html[AreaChart.LineThickness]"]  プロパティを 5 に設定します。
+
+image::images/Chart_Null_Handling_and_Empty_Styles_07.png[]
+
+この結果、null 値の点をまたがって点線が描画されます。
+
+最後に、EnablePE プロパティを True に設定し、不透明度が小さくなるように DimGray から WhiteSmoke への ForwardDiagonal グラデーションと、Red Stroke を使用するように PE プロパティを設定します。これは、null 値の周囲のエリア グラフの描画部分に影響を与えます。
+
+image::images/Chart_Null_Handling_and_Empty_Styles_08.png[]
+
+チャート タイプごとにでデータを表示する方法が異なるため、null 値の処理と空のスタイルはチャート タイプごとに変わります。以下にいくつかの視覚的な例を示します。
+
+[cols="a,a"]
+|====
+|image::images/Chart_Null_Handling_and_Empty_Styles_09.png[]
+|image::images/Chart_Null_Handling_and_Empty_Styles_10.png[]
+
+|image::images/Chart_Null_Handling_and_Empty_Styles_11.png[]
+|image::images/Chart_Null_Handling_and_Empty_Styles_12.png[]
+
+|====
+
+ガントおよびローソク足チャートなどの一部のチャート タイプでは、null 値の処理が有効ではありません。立体チャートでは、補間機能または空のスタイルを使用しないので、null 値の処理は制限されます。
+
+グラフの凡例で空の値を表示する場合は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~showinlegend.html[EmptyStyle.ShowInLegend]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~showinlegend.html[EmptyStyle.ShowInLegend]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~showinlegend.html[EmptyStyle.ShowInLegend]"]  プロパティを True に設定します。また、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~text.html[EmptyStyle.Text]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~text.html[EmptyStyle.Text]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.emptyappearance~text.html[EmptyStyle.Text]"]  プロパティを設定して、この凡例エントリにラベルを付ける方法を指定することができます。
+
+image::images/Chart_Null_Handling_and_Empty_Styles_13.png[]

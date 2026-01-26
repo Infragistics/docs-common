@@ -1,0 +1,59 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-create-a-workbook",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{B75FEC1B-2CB3-416C-8011-0ADC32B64010}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:22:09Z"
+}
+|metadata|
+////
+
+= ワークブックを作成
+
+{ExcelEngineName} アセンブリで機能を活用できるようになるためには、最初に  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  オブジェクトを作成する必要があります。「操作方法」の link:excelengine-read-an-excel-file-into-a-workbook.html[「ワークブックで Excel ファイルを読み取る」]トピックで説明するように、既存の Microsoft® Excel® ファイルを読み取ることによってこの作業を実行することも可能ですし、ブランクのワークブックを作成することも可能です。ファイルに書き出す前にブランクのワークブックを作成する時には、少なくともワークシートをひとつ追加する必要があります。ワークブックとワークシートでさまざまな表示および出力オプションを設定することも可能です。
+
+以下のコードは、ブランクのワークブックを作成、いくつかのプロパティを設定、ワークシートを追加の各方法を示します。
+
+*Visual Basic の場合：*
+[source,vb]
+----
+' 新しいワークブックを作成します。
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+' 垂直スクロール バーのみを表示します。
+workbook.WindowOptions.ScrollBars = Infragistics.Documents.Excel.ScrollBars.Vertical
+' ワークブックのためのワークシートを 2 つ作成します。
+Dim worksheet1 As Infragistics.Documents.Excel.Worksheet = _
+  workbook.Worksheets.Add("Sheet1")
+Dim worksheet2 As Infragistics.Documents.Excel.Worksheet = _
+  workbook.Worksheets.Add("Sheet2")
+' セルのいずれかの値を設定します。
+worksheet2.Rows.Item(0).Cells.Item(0).Value = 14.56
+' Sheet2 で通常の表示サイズを倍にするためにズームインします。
+worksheet2.DisplayOptions.MagnificationInNormalView = 200
+' Sheet2 を選択されたワークシートにします。
+workbook.WindowOptions.SelectedWorksheet = worksheet2
+----
+
+*C# の場合：*
+[source,csharp]
+----
+// 新しいワークブックを作成します。
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+// 垂直スクロール バーのみを表示します。
+workbook.WindowOptions.ScrollBars = Infragistics.Documents.Excel.ScrollBars.Vertical;
+// ワークブックのためのワークシートを 2 つ作成します。
+Infragistics.Documents.Excel.Worksheet worksheet1 = workbook.Worksheets.Add( "Sheet1" );
+Infragistics.Documents.Excel.Worksheet worksheet2 = workbook.Worksheets.Add( "Sheet2" );
+// セルのいずれかの値を設定します。
+worksheet2.Rows[ 0 ].Cells[ 0 ].Value = 14.56;
+// Sheet2 で通常の表示サイズを倍にするためにズームインします。
+worksheet2.DisplayOptions.MagnificationInNormalView = 200;
+// Sheet2 を選択されたワークシートにします。
+workbook.WindowOptions.SelectedWorksheet = worksheet2;
+----
+
+image::images/ExcelEngine_Create_a_Workbook_01.png[]

@@ -1,0 +1,268 @@
+﻿////
+|metadata|
+{
+    "name": "documentengine-segment",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{05E8D6CA-57A6-463A-B352-7D908839D2D3}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= セグメント
+
+Segment エレメントは、このエレメントが作成できるコンテンツのいくつかの完全なセグメント（またはページ）に由来して適切に命名されています。Section エレメントと同じように、Segment エレメントは個々のページごとに異なるヘッダ/フッタを持つことができます（ページ数がヘッダ/フッタの数を超えない限り、詳細は以下の「セグメント ヘッダおよびフッタ」のセクションを参照してください）。しかし、Section エレメントと異なり、Segment のサイズを設定できません。Segment は含んでいる Section エレメントのサイズに依存しています。Segment エレメントと Section エレメントは両方とも個々のページ上でコンテンツを引き伸ばすための  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~addstretcher.html[AddStretcher]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~addstretcher.html[AddStretcher]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~addstretcher.html[AddStretcher]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~addstretcher.html[AddStretcher]"]  メソッドがあります。ただし、Segment エレメントには、全ページですべてのコンテンツを引き伸ばすための  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~stretch.html[Stretch]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~stretch.html[Stretch]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~stretch.html[Stretch]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.segment.isegment~stretch.html[Stretch]"]  プロパティもあります。
+
+Segment エレメントは Section、Band、Group の各エレメントに機能が非常に似ています。これらの 4 つのエレメント間の主な違いは、以下の表を参照してください。
+
+[cols="a,a,a,a,a"]
+|====
+|機能:
+|Segment
+|Section
+|Band
+|Group
+
+|*ヘッダ、フッタ、デバイダ*
+|デバイダはありません。ヘッダおよびフッタの繰り返し可能なコレクション。
+|デバイダはありません。個々のページごとに個別のヘッダおよびフッタを追加できます。
+|Band 全体に対して １ セットのヘッダ、フッタ、およびデバイダ。
+|なし
+
+|*高さと幅*
+|設定できません。
+|設定できます。
+|設定できます。
+|設定できます。
+
+|*コンテンツの引き伸ばし*
+|エレメント全体だけでなく、個々のページそれぞれを引き伸ばすことができます。
+|個々のページそれぞれを引き伸ばすことができます。
+|エレメント全体だけでなく、個々のページそれぞれを引き伸ばすことができます。
+|個々のページそれぞれを引き伸ばすことができます。
+
+|====
+
+== セグメント ヘッダとフッタ
+
+Segment エレメントの最も優れた機能は、ヘッダとフッタを使用する方法です。必要に応じた数だけヘッダとフッタをセグメントに追加できます。ヘッダとフッタのコレクションは、追加する順番に基づいて、特定の順番で使用されます。セグメントの各ページには個別のヘッダとフッタが付きます（複数のヘッダとフッタをセグメントに追加する場合）。たとえば、2 つの Header エレメントをセグメントに追加して、次に 2 つの Footer エレメントを追加する場合、最初のページには最初のヘッダ/フッタを含み、2 番目のページには 2 番目のヘッダ/フッタを含みます。ところが 3 番目のページには最初のヘッダ/フッタが含まれ、4 番目のページには 2 番目のヘッダ/フッタが含まれます。セグメントに含まれるページ数だけこのパターンが続きます。以下の画像はこの概念を示しています。
+
+image::images/DocumentEngine_Segment_01.png[]
+
+'''
+
+以下の例のコードは、2 つの異なる Header および Footer エレメントを使用して Segment エレメントを定義します。ページ区切りが 2 つあるため、3 つの個別のページができます。3 番目のページでは、最初のヘッダ/フッタが使用されます。ページ数が Header および Footer エレメントの数を超えた場合にヘッダ/フッタ コレクションがループして先頭に戻るからです。
+
+[start=1]
+. *セグメントを定義します。*
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+.
+.
+.
+' セグメントをセクションに追加します。
+Dim segment As Infragistics.Documents.Reports.Reports.Report.Segment.ISegment = _  section1.AddSegment()
+segment.Background = New Background(Brushes.WhiteSmoke)
+segment.Stretch = True
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+.
+.
+.
+// セグメントをセクションに追加します。
+Infragistics.Documents.Reports.Reports.Report.Segment.ISegment segment =   section1.AddSegment();
+segment.Background = new Background(Brushes.WhiteSmoke);
+segment.Stretch = true;
+----
+
+[start=2]
+. *2 つのセグメント ヘッダを定義します。*
+
+*Visual Basic の場合：*
+
+----
+' 最初のヘッダをセグメントに追加します。
+Dim segmentHeader1 As Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentHeader = _  segment.AddHeader()
+segmentHeader1.Background = New Background(Brushes.LightBlue)
+segmentHeader1.Height = New FixedHeight(40)
+segmentHeader1.Paddings = New Paddings(10)
+Dim segmentHeaderText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  segmentHeader1.AddText()
+segmentHeaderText.Style = mainStyle1
+segmentHeaderText.AddContent("Header 1, Page #")
+segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal)
+' 2 番目のヘッダをセグメントに追加します。
+Dim segmentHeader2 As Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentHeader = _  segment.AddHeader()
+segmentHeader2.Background = New Background(Brushes.LightGreen)
+segmentHeader2.Height = New FixedHeight(40)
+segmentHeader2.Paddings = New Paddings(10)
+segmentHeaderText = segmentHeader2.AddText()
+segmentHeaderText.Style = mainStyle1
+segmentHeaderText.AddContent("Header 2, Page #")
+segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal)
+----
+
+*C# の場合：*
+
+----
+// 最初のヘッダをセグメントに追加します。
+Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentHeader segmentHeader1 =   segment.AddHeader();
+segmentHeader1.Background = new Background(Brushes.LightBlue);
+segmentHeader1.Height = new FixedHeight(40);
+segmentHeader1.Paddings = new Paddings(10);
+Infragistics.Documents.Reports.Reports.Report.Text.IText segmentHeaderText =   segmentHeader1.AddText();
+segmentHeaderText.Style = mainStyle1;
+segmentHeaderText.AddContent("Header 1, Page #");
+segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal);
+// 2 番目のヘッダをセグメントに追加します。
+Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentHeader segmentHeader2 =   segment.AddHeader();
+segmentHeader2.Background = new Background(Brushes.LightGreen);
+segmentHeader2.Height = new FixedHeight(40);
+segmentHeader2.Paddings = new Paddings(10);
+segmentHeaderText = segmentHeader2.AddText();
+segmentHeaderText.Style = mainStyle1;
+segmentHeaderText.AddContent("Header 2, Page #");
+segmentHeaderText.AddPageNumber(PageNumberFormat.Decimal);
+----
+
+[start=3]
+. *2 つのセグメント フッタを定義します。*
+
+*Visual Basic の場合：*
+
+----
+' 最初のフッタをセグメントに追加します。
+Dim segmentFooter1 As Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentFooter = _  segment.AddFooter()
+segmentFooter1.Background = New Background(Brushes.LightBlue)
+segmentFooter1.Height = New FixedHeight(40)
+segmentFooter1.Paddings = New Paddings(10)
+Dim segmentFooterText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  segmentFooter1.AddText()
+segmentFooterText.Style = mainStyle1
+segmentFooterText.AddContent("Footer 1, Page #")
+segmentFooterText.AddPageNumber(PageNumberFormat.Decimal)
+' 2 番目のフッタをセグメントに追加します。
+Dim segmentFooter2 As Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentFooter = _  segment.AddFooter()
+segmentFooter2.Background = New Background(Brushes.LightGreen)
+segmentFooter2.Height = New FixedHeight(40)
+segmentFooter2.Paddings = New Paddings(10)
+segmentFooterText = segmentFooter2.AddText()
+segmentFooterText.Style = mainStyle1
+segmentFooterText.AddContent("Footer 2, Page #")
+segmentFooterText.AddPageNumber(PageNumberFormat.Decimal)
+----
+
+*C# の場合：*
+
+----
+// 最初のフッタをセグメントに追加します。
+Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentFooter segmentFooter1 =   segment.AddFooter();
+segmentFooter1.Background = new Background(Brushes.LightBlue);
+segmentFooter1.Height = new FixedHeight(40);
+segmentFooter1.Paddings = new Paddings(10);
+Infragistics.Documents.Reports.Reports.Report.Text.IText segmentFooterText =   segmentFooter1.AddText();
+segmentFooterText.Style = mainStyle1;
+segmentFooterText.AddContent("Footer 1, Page #");
+segmentFooterText.AddPageNumber(PageNumberFormat.Decimal);
+// 2 番目のフッタをセグメントに追加します。
+Infragistics.Documents.Reports.Reports.Report.Segment.ISegmentFooter segmentFooter2 =   segment.AddFooter();
+segmentFooter2.Background = new Background(Brushes.LightGreen);
+segmentFooter2.Height = new FixedHeight(40);
+segmentFooter2.Paddings = new Paddings(10);
+segmentFooterText = segmentFooter2.AddText();
+segmentFooterText.Style = mainStyle1;
+segmentFooterText.AddContent("Footer 2, Page #");
+segmentFooterText.AddPageNumber(PageNumberFormat.Decimal);
+----
+
+[start=4]
+. *最初のページにテキストを追加して、次ページとのページ区切りを追加します。*
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+*Visual Basic の場合：*
+
+----
+' テキストをセグメントに追加します。セグメントの最初のページは、
+' 最初のヘッダとフッタを使用します。
+Dim segmentText1 As Infragistics.Documents.Reports.Reports.Report.Text.IText = segment.AddText()
+Dim string1 As String = "Lorem ipsum..."
+segmentText1.AddContent(string1)
+segmentText1.Paddings.All = 5
+' ページ区切りを追加して次ページに移ります。
+segment.AddPageBreak()
+----
+
+*C# の場合：*
+
+----
+// テキストをセグメントに追加します。セグメントの最初のページは、
+// 最初のヘッダとフッタを使用します。
+Infragistics.Documents.Reports.Reports.Report.Text.IText segmentText1 = segment.AddText();
+string string1 = "Lorem ipsum...";
+segmentText1.AddContent(string1);
+segmentText1.Paddings.All = 5;
+// ページ区切りを追加して次ページに移ります。
+segment.AddPageBreak();
+----
+
+[start=5]
+. *テキストを 2 番目のページに追加して、次ページとのページ区切りを追加します。*
+
+*Visual Basic の場合：*
+
+----
+' さらにテキストをセグメントに追加します。セグメントの 2 番目のページは、
+' 2 番目のヘッダとフッタを使用します。
+segmentText1 = segment.AddText()
+segmentText1.AddContent(string2)
+segmentText1.Paddings.All = 5
+' ページ区切りを追加して 3 ページ目に移ります。
+segment.AddPageBreak()
+----
+
+*C# の場合：*
+
+----
+// さらにテキストをセグメントに追加します。セグメントの 2 番目のページは、
+// 2 番目のヘッダとフッタを使用します。
+segmentText1 = segment.AddText();
+segmentText1.AddContent(string2);
+segmentText1.Paddings.All = 5;
+// ページ区切りを追加して 3 ページ目に移ります。
+segment.AddPageBreak();
+----
+
+[start=6]
+. *テキストを 3 ページ目に追加します。*
+
+*Visual Basic の場合：*
+
+----
+' さらにテキストをセグメントに追加します。セグメントの 3 番目のページは、
+' 最初のヘッダとフッタを使用します。
+segmentText1 = segment.AddText()
+segmentText1.AddContent(string1)
+segmentText1.Paddings.All = 5
+----
+
+*C# の場合：*
+
+----
+// さらにテキストをセグメントに追加します。セグメントの 3 番目のページは、
+// 最初のヘッダとフッタを使用します。
+segmentText1 = segment.AddText();
+segmentText1.AddContent(string1);
+segmentText1.Paddings.All = 5;
+----

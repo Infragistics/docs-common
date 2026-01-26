@@ -1,0 +1,155 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-configuring-axis-label-color-settings",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "0884a97b-a144-4684-bbb1-8e854de3faff",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-02T12:08:55.7487559Z"
+}
+|metadata|
+////
+
+= 軸ラベル色設定の構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D]™ コントロールで軸ラベルの背景ブラシおよび前景ブラシを構成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref443325723, 軸ラベル色設定の構成 >>
+* <<_Ref443496392, 関連コンテンツ >>
+
+[[_Ref443325723]]
+== 軸ラベル色設定の構成
+
+=== 概要
+
+link:{SurfaceChartLink}.surfacechartaxis.html[SurfaceChartAxis] の link:{SurfaceChartLink}.surfacechartaxis~labelbackground.html[LabelBackground] および link:{SurfaceChartLink}.surfacechartaxis~labelforeground.html[LabelForeground] プロパティを使用すると、軸ラベルのテキストの背景色および前景色を設定できます。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|軸ラベルの背景ブラシのカスタマイズ
+| link:{SurfaceChartLink}.surfacechartaxis~labelbackground.html[LabelBackground]
+|`ブラシ`
+
+|軸ラベルの前景ブラシのカスタマイズ
+| link:{SurfaceChartLink}.surfacechartaxis~labelforeground.html[LabelForeground]
+|`ブラシ`
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果として、軸ラベルがどのように表示されるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.surfacechartaxis~labelbackground.html[LabelBackground]
+|_LightGray_
+
+| link:{SurfaceChartLink}.surfacechartaxis~labelforeground.html[LabelForeground]
+|_Green_
+
+|====
+
+image::images/Configuring_Axis_Label_Color_Settings_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis LabelBackground="LightGray" LabelForeground="Green" />
+    </ig:XamScatterSurface3D.XAxis>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var linearAxis = new LinearAxis()
+{
+    LabelBackground = new SolidColorBrush(Colors.LightGray),
+    LabelForeground = new SolidColorBrush(Colors.Green)
+};
+SurfaceChart.XAxis = linearAxis;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim linearAxis = New LinearAxis()
+linearAxis.LabelBackground = New SolidColorBrush(Colors.LightGray)
+linearAxis.LabelForeground = New SolidColorBrush(Colors.Green)
+SurfaceChart.XAxis = linearAxis
+----
+
+[[_Ref443496392]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-configuring-axis-label-font-settings.html[軸ラベル フォント設定の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルのフォント設定を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label-format.html[軸ラベル形式の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルの形式を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label-offset.html[軸ラベル オフセットの構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸からのラベル オフセットを構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label-visibility-settings.html[軸ラベル表示状態設定の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルの表示状態および不透明度を構成する方法を説明します。
+
+| link:surfacechart-axis-label-templating.html[軸ラベル テンプレート化]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルのテンプレートを変更する方法を説明します。
+
+|====

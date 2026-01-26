@@ -1,0 +1,180 @@
+﻿= 列の集計
+
+このトピックでは、link:{DataGridLink}.{DataGridName}.html[{DataGridName}] コントロールを使用した列集計の実装プロセスを手順を追って説明します。
+
+== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<ReqBackground, 前提条件>>
+* <<Overview, 概要>>
+* <<PropSettings, プロパティ設定>>
+* <<ColumnSummariesExample, 列集計 - コード例>>
+* <<CustomSummariesExample, カスタム集計 - コード例>>
+* <<Related, 関連コンテンツ>>
+
+[[ReqBackground]]
+== 前提条件
+
+|===
+|トピック|目的
+
+| link:datagrid-getting-started-with-grid.html[{DataGridName} を使用した作業の開始] 
+| このトピックでは、{DataGridName} コントロールをビューに追加し、サンプル データを生成するために必要な基本的な手順を紹介します。
+
+|===
+
+[[Overview]]
+== 概要
+
+エンドユーザーは、xamGrid コントロールに表示されるデータ量が多い場合などでデータ集計のみの表示を必要とすることがあります。エンドユーザーは、特定の列のデータから追加情報を取得することもできます。 そのため、集計が役立ちます。 
+
+[[PropSettings]]
+== プロパティ設定
+
+集計を有効にするには、`SummaryScope` プロパティをに表示されるする集計の位置を決定する `DataSourceSummaryScope` の以下の値のいずれかに設定します。 
+
+* `Root` - 集計はルート レベルでのみ計算されます。
+* `Sections` - 集計はセクション レベルでのみ計算されます。
+* `Both` - ルートとセクション レベルの両方の集計が計算されます。
+* `None` - 集計は計算されません。
+
+グリッドは、`GroupSummaryDisplayMode` プロパティを使用してグループ内の構成可能な 5 つの集計位置をサポートします。 
+
+* `List` - グループ集計はスパン グループ ヘッダーのフラット リストに表示します。 
+* `Cells` - グループ ヘッダーをセルとしてレンダリングし、集計値を列に揃えるセル内にレンダリングします。注: 列に複数の集計が設定されている場合に集計セルを使用すると、1 つの集計のみが表示されます。 
+* `RowTop` - グループ集計はグループの上部に集計行として表示されます。 
+* `RowBottom` - グループ集計はグループの下部に集計行として表示されます。 
+* `None` - グループに集計は表示されません。 
+
+[[ColumnSummariesExample]]
+== 列集計 - コード例
+
+以下の例は {DataGridName} コントロールで行をグループ化する方法を紹介します。この例および次の例は link:samplesalesperson.html[SampleSalesPerson] データ ソースを使用します。 
+
+*XAML の場合:*
+[source, xaml]
+----
+xmlns:ig="clr-namespace:{DataGridNamespace};assembly={ApiPlatform}DataGrid"
+...
+<ig:{DataGridName} x:Name="DataGrid"
+                   GroupHeaderDisplayMode="Combined"
+                   SummaryScope="Both" 
+                   GroupSummaryDisplayMode="RowTop" 
+                   ItemsSource="{Binding}"
+                   AutoGenerateColumns="False">
+    <ig:{DataGridName}.Columns>
+        <ig:NumericColumn HeaderText="Salary" Width="*" PropertyPath="Salary" FormatString="C" />
+        <ig:NumericColumn HeaderText="Sales" PropertyPath="Sales" Width="*" FormatString="C" />
+        <ig:TextColumn HeaderText="Name" PropertyPath="Name" HorizontalAlignment="Center"  Width="*" />
+    </ig:{DataGridName}.Columns>
+    <ig:{DataGridName}.SummaryDescriptions>
+        <ig:ColumnSummaryDescription PropertyPath="Salary" ValueFormat="C" Operand="Average"/>
+        <ig:ColumnSummaryDescription PropertyPath="Sales" ValueFormat="C" Operand="Max" />
+        <ig:ColumnSummaryDescription PropertyPath="Sales" ValueFormat="C" Operand="Min" />
+        <ig:ColumnSummaryDescription PropertyPath="Name" Operand="Count"/>
+    </ig:{DataGridName}.SummaryDescriptions>
+</ig:{DataGridName}>
+----
+
+*C# の場合:*
+[source, csharp]
+----
+
+var salaryAvg = new ColumnSummaryDescription();
+salaryAvg.PropertyPath = "Salary";
+salaryAvg.Operand = SummaryOperand.Average;
+salaryAvg.ValueFormat = "C";
+
+var salesMax = new ColumnSummaryDescription();
+salesMax.PropertyPath = "Sales";
+salesMax.Operand = SummaryOperand.Max;
+salesMax.ValueFormat = "C";
+
+var salesMin = new ColumnSummaryDescription();
+salesMin.PropertyPath = "Sales";
+salesMin.Operand = SummaryOperand.Min;
+salesMin.ValueFormat = "C";
+
+var nameCount = new ColumnSummaryDescription();
+nameCount.PropertyPath = "Name";
+nameCount.Operand = SummaryOperand.Count;
+
+this.DataGrid.SummaryDescriptions.Add(salaryAvg);
+this.DataGrid.SummaryDescriptions.Add(salesMax);
+this.DataGrid.SummaryDescriptions.Add(salesMin);
+this.DataGrid.SummaryDescriptions.Add(nameCount);
+----
+
+以上のコード スニペットは以下のような {DataGridName} になります。
+
+image:images/datagrid-column-summaries.png[]
+
+[[CustomSummariesExample]]
+== カスタム集計 - コード例
+
+Count や Sum などのデフォルトの集計セットを拡張したい場合があります。たとえば、列の特定の値が表示される回数。 
+
+以下のスニペットは、列に表示される 「USA」 値の数の Count を表示する方法を示します。
+
+*C# の場合:*
+[source, csharp]
+----
+
+var countries = new ColumnSummaryDescription();
+countries.PropertyPath = "Countries";
+countries.Operand = SummaryOperand.Custom;
+countries.ProvideCalculator += Countries_ProvideCalculator; 
+this.DataGrid.SummaryDescriptions.Add(salaries);
+
+private void Countries_ProvideCalculator(object sender, ProvideCalculatorEventArgs args)
+{
+    args.Calculator = new CustomDomestic();
+}
+
+class CustomDomestic : SummaryCalculator
+    {
+        public int countries;
+        public override string DisplayName
+        {
+            get
+            {
+                return "USA";
+            }
+        }
+
+        public override void BeginCalculation(IDataSource dataSource, string propertyName)
+        {
+            base.BeginCalculation(dataSource, propertyName);
+            this.countries = 0;
+        }
+
+        public override void Aggregate(object item)
+        {
+            if(item = "USA")
+            {
+                this.countries++;
+            }
+        }
+
+        public override ISummaryResult EndCalculation()
+        {
+            return new DefaultSummaryResult(
+                this.PropertyName, 
+                SummaryOperand.Custom, 
+                this.countries);
+        } 
+    }
+----
+
+[[Related]]
+== 関連コンテンツ
+
+|===
+
+|トピック|目的
+
+|link:datagrid-row-pinning.html[行のピン固定]
+|このトピックではコード例を使用して、{DataGridName} コントロールで行のピン固定を構成する方法を説明します。
+
+|===

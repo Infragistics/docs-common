@@ -1,0 +1,748 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-overview",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Charting","Getting Started"],
+    "guid": "f90d204a-c226-4e44-9593-f9e4b7fdd98c",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0428852Z"
+}
+|metadata|
+////
+
+= {LinearGaugeName} Overview
+
+
+
+=== Purpose
+
+This topic provides conceptual information about the _{LinearGaugeName}_™ control including its main features, minimum requirements, and user functionality.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref357610654, Introduction >>
+
+* <<_Ref357610659, Main Features >>
+
+** <<_Ref361167396,Main features summary>>
+** <<_Ref361167400,Main features summary chart>>
+
+* <<_Ref357610672, Logical areas and Configurable Visual Elements Summary >>
+
+** <<_Logical_areas,Logical areas>>
+** <<_Configurable_visual_elements_1,Configurable visual elements>>
+
+* <<_ConfigurableVisualElementsAndRelatedProperties, Configurable Visual Elements and Related Properties >>
+
+** <<_Ref361168497,Configurable visual elements and related properties summary>>
+
+ifdef::sl,wpf[]
+** <<_TitleSubtitleOverview,Title/subtitle>>
+
+endif::sl,wpf[]
+
+** <<_ScaleOverview,Scale>>
+** <<_NeedleOverview,Needle>>
+** <<_ComparativeRangesOverview,Comparative ranges>>
+** <<_BackgroundOverview,Background>>
+
+ifdef::sl,wpf[]
+** <<_TooltipsOverview,Tooltips>>
+
+endif::sl,wpf[]
+
+* <<_Ref349815332, Default Configuration >>
+
+* <<Animated_Transitions_Heading, Animated Transitions Configuration >>
+
+* <<_Ref361168555, Requirements >>
+
+* <<_RelatedContent, Related Content >>
+ 
+
+[[_Ref357610654]]
+== Introduction
+
+=== {LinearGaugeName} summary
+
+The _{LinearGaugeName}_ control is an {ProductName} control which allows for visualizing data in the form of a linear gauge. It provides a simple and concise view of a primary value compared against a scale and one or more comparative ranges.
+
+image::images/XamLinearGauge_17_1.png[]
+
+The _{LinearGaugeName}_ control provides you with the ability to create attractive data presentations and has multiple application usage scenarios.
+
+[[_Ref357610659]]
+== Main Features
+
+[[_Ref361167396]]
+
+=== Main features summary
+
+The features of _{LinearGaugeName}_ include configurable orientation and direction, configurable visual elements, and more. The control has also a built-in support for animated transitions.
+
+[[_Ref361167400]]
+
+=== Main features summary chart
+
+The following table summarizes the main features of the _{LinearGaugeName}_ control.
+
+[options="header", cols="a,a"]
+|====
+|Feature|Description
+
+|Configurable orientation and direction
+|The _{LinearGaugeName}_ control exposes an API for setting the state of its scale’s orientation and direction, so that the look of the gauge can be largely customized. (For details, see the link:lineargauge-configuring-orientation-and-direction.html[Configuring the Orientation and Direction] topic.)
+
+|Configurable visual elements
+|Each of the <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> of the linear gauge can be configured in several aspects. (For details, see <<_ConfigurableVisualElementsAndRelatedProperties,Configurable Visual Elements of _{LinearGaugeName}_ and Related Properties>>.)
+
+|[[_AnimatedTransitions]] 
+
+Animated transitions
+|The _{LinearGaugeName}_ control provides built-in support for animation by its link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}transitionduration.html[TransitionDuration] property. The animation effect occurs on loading the control as well as when the value of any of its properties is changed. (For details, see <<Animated_Transitions_Heading,Animated Transitions Configuration>>.)
+
+ifdef::sl,wpf[]
+|Support for tooltips
+|The built-in tooltips of the _{LinearGaugeName}_ control show the values used to create the needle, or the values, corresponding to the different ranges respectively. They are initially styled in accordance with the default look of the control, but their look can be customized by templates. By default, tooltips are disabled. (For details, see link:lineargauge-configuring-the-tooltips.html[Configuring Tooltips])
+endif::sl,wpf[]
+
+|====
+
+[[_Ref357610667]]
+[[_Ref361087347]]
+[[_Ref357610672]]
+== Logical areas and Configurable Visual Elements Summary
+
+[[_Logical_areas]]
+
+=== Logical areas
+
+ifdef::sl,wpf[]
+The user-visible area of the _{LinearGaugeName}_ control is logically divided into the following areas: Title area, Reserved area, and Graph area.
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+
+[cols="a,a"]
+|====
+ifdef::sl,wpf[]
+|Horizontal orientation|Vertical orientation
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|image::images/XamLinearGauge_Overview_1.png[]
+|image::images/XamLinearGauge_Overview_2.png[]
+endif::sl,wpf[]
+
+|====
+
+endif::sl,wpf[]
+
+Each of the areas serves different purpose related to some of the <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> of the _{LinearGaugeName}_ control.
+
+ifdef::sl,wpf[]
+* [[_TitleAreaLink]]*Title area* pick:[sl,wpf="(0)"] - The Title area is the area in which the title/subtitle of the linear gauge are displayed. This area cannot overlap the scale (i.e. the <<_ReservedAreaLink,Reserved area>> and the <<_GraphAreaLink,Graph area>>).
+
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+Not set by default, when the linear gauge is oriented horizontally, the Title area configures its width automatically to fit the title and/or subtitle (whichever is longer). In addition to that, you can set the width of the Title area explicitly, a capability which comes handy when you have several _{LinearGaugeName}_ controls placed on top of each other and you want their Title areas to have the same widths for a well-aligned look-and-feel.
+endif::sl,wpf[]
+
+* [[_ReservedAreaLink]]*Reserved area* pick:[sl,wpf="(1)"] – This area spreads:
+
+** Along the scale – the Reserved area begins  pick:[sl,wpf="either"]  at the edge of the control  pick:[sl,wpf="(when no Title area exists) or at the edge of the Title area (as in the pictures above)"]  and ends at the edge of the control.
+** Across the scale
+
+*** In horizontal orientation: the Reserved area begins at the bottom edge of the control and spreads upward as much as the height of the numbering labels is (depending on the size and the other formatting of the font used in the labels)
+*** In vertical orientation: the Reserved area begins at the left edge of the control and spreads to the right as much as the width of the numbering labels is (depending on how large the numbers of the measurements of the scale are and the size and the other formatting of the font used in the labels).
+
+The main purpose of the Reserved area is to provide enough space for the numbering labels of the scale at any orientation – horizontal or vertical (The Reserved area automatically re-sizes when the orientation changes in order to accommodate the specific space requirements for displaying the numbering labels in each of the orientations: in horizontal orientation, the area has to fit the labels’ height and in vertical orientation – their maximum width.) This doesn’t mean that you must necessarily place the numbering labels in the Reserved area: actually, you can position the label row across-the-scale anywhere within the <<_GraphAreaLink,Graph area>>. However, even if you place the label row outside Reserved area, this will have no bearing on the spread and location of the Reserved area itself – it remains where it is, automatically defined through the height/width (depending on the orientation) of the numbering labels.
+
+Another aspect in which the Reserved area is significant is the fact that its inner edge specifies the beginning edge of the <<_GraphAreaLink,Graph area>> in the across-the-scale dimension. This is important, because this edge serves as a reference mark for the extent-related properties that position some <<_Configurable_visual_elements_1,Configurable visual elements>> and <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> across the scale. (Positive values for these properties – the most common case – position the visual elements inside the <<_GraphAreaLink,Graph area>> and negative values – inside the Reserved area.)
+
+*  [[_GraphAreaLink]]*Graph area* pick:[sl,wpf="(2)"]  – The area for displaying the needle, the tick marks, the ranges, and, optionally, the numbering labels of the linear gauge. All extent-related properties for these visual elements (except for labels) are measured against its edges. The Graph area serves not as a placeholder but as a frame of reference for positioning the scale inside the control (More precisely, for positioning the <<_ConfigurableVisualElementsAndRelatedProperties,visual elements>> of the scale).
+
+Spread of the Graph area:
+
+* Along the scale – the Graph area begins  pick:[sl,wpf="either"]  at the edge of the control  pick:[sl,wpf="(when no <<_TitleAreaLink,Title area>> exists)"]   pick:[sl,wpf="or at the edge of the Title area (as in the pictures above)"]  and ends at the edge of the control. Both the starting and ending positions of the scale are measured against the starting edge of the Graph area (the left edge at horizontal orientation or bottom edge at vertical orientation).
+* Across the scale – the Graph area begins at the edge of the <<_ReservedAreaLink,Reserved area>> (this is the bottom edge of the Graph area at horizontal orientation or its left edge at vertical orientation). The edge of the Graph area that borders with the Reserved area serves as reference point for the extent-related properties of some of the visual elements of the scale (for positioning these elements across the scale).
+
+ifdef::sl,wpf[]
+Note that the Title area, on one side, and the Graph and Reserved areas, on the other, can be configured with swapped positions (e.g. the Graph and Reserved areas on the left and the Title area on the right at horizontal orientation): in this case, the Title area starts at the end of the scale so the Graph and Reserved areas begin at the edge of the control and end where the Title area begins. (For details, refer to the link:lineargauge-configuring-the-title-subtitle.html[Configuring the Title/Subtitle] topic.)
+endif::sl,wpf[]
+
+[[_Configurable_visual_elements_1]]
+
+=== Configurable visual elements
+
+The _{LinearGaugeName}_ control features the following visual elements  pick:[sl,wpf="(See the picture below.)"] :
+
+*  *Needle*   pick:[sl,wpf="(3)"]  – This is the primary measure displayed by the control and is visualized as a bar.
+
+*  *Comparative range(s)*   pick:[sl,wpf="(4)"]  – The ranges are visual elements that highlight a specified range of values on a scale. Their purpose is to visually communicate the qualitative state of the performance bar measure, illustrating at the same times the degree to which it resides within that state.
+*  *Tick marks*   pick:[sl,wpf="(5)"]  –The tick marks serve as a visual division of the scale into intervals in order to increase the readability of the linear gauge.
+
+**  *Major tick marks*  – The major tick marks are used as primary delimiters on the scale. The frequency they appear at, their extents and style can be controlled by setting the corresponding properties.
+**  *Minor tick marks*  – The minor tick marks represent helper tick marks, which might be used to additionally improve the readability of the scale and can be customized in a way similar to the major ones.
+
+*  *Scale labels*   pick:[sl,wpf="(6)"]  – The labels indicate the measures on the scale.
+*  *Border*   pick:[sl,wpf="(7)"]  – The line visually delimiting the dimensions of the control.
+*  *Background*   pick:[sl,wpf="(8)"]  – The background on which visual elements is placed is configurable in terms of pattern and color.
+
+ifdef::sl,wpf[]
+*  *Title/subtitle*  (9) – Title of the graph and additional details in the form of a subtitle. Both elements are displayed in the Title Area and their position on the control is adjusted against it.
+
+endif::sl,wpf[]
+
+ifdef::wpf,sl[]
+image::images/XamLinearGauge_Overview_3.png[]
+endif::wpf,sl[]
+
+ifdef::sl,wpf[]
+*  *Tooltips*  – show the values used to create the needle or the values, corresponding to the different ranges respectively.
+
+endif::sl,wpf[]
+
+[[_ConfigurableVisualElementsAndRelatedProperties]]
+== Configurable Visual Elements and Related Properties
+
+[[_Ref361168497]]
+
+=== Configurable visual elements and related properties summary
+
+There are several specific aspects in which each element can be configured.
+
+The following table provides an overview of the configurable aspects of the visual elements of the _{LinearGaugeName}_ control. Further details about the configurable aspects with illustrations and the properties that configure them are available, for each visual element, in the blocks that follow the table:
+
+[options="header", cols="a,a"]
+|====
+|Visual element|Main configurable aspects
+
+ifdef::sl,wpf[]
+|<<_TitleSubtitleOverview,Title/subtitle>>
+|
+* Title area width (horizontal orientation only) 
+
+* Text 
+
+* Starting position of the text 
+
+endif::sl,wpf[]
+
+|<<_ScaleOverview,Scale>>
+|
+* Position 
+
+* Tick marks 
+
+* Labels 
+
+|<<_NeedleOverview,Needle>>
+|
+* Value indicated 
+
+* Width and position 
+
+* Look-and-feel (shape) 
+
+|<<_ComparativeRangesOverview,Comparative ranges>>
+|
+* Number (of ranges in the graph) 
+
+* Length, width, and position 
+
+* Look-and-feel 
+
+|<<_BackgroundOverview,Background>>
+|
+* Size and position 
+
+* Look-and-feel 
+
+ifdef::sl,wpf[]
+|<<_TooltipsOverview,Tooltips>>
+|
+* Display delay 
+
+endif::sl,wpf[]
+
+|====
+
+[[_Hlk361768585]]
+
+ifdef::sl,wpf[]
+
+[[_TitleSubtitleOverview]]
+
+=== Title/subtitle
+
+The following picture illustrates the <<_Logical_areas,>><<_TitleAreaLink,Title-area>>-related extents, listed in the table below.
+
+image::images/XamLinearGauge_Overview_4.png[]
+
+The following table maps the configurable aspects related to the title/subtitle of the linear gauge to the _{LinearGaugeName}_ properties that manage them.
+
+ifdef::sl,wpf[]
+
+[cols="a,a,a"]
+|====
+ifdef::sl,wpf[]
+|Configurable aspects|Property|Default value
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|*Title area breadth*  (horizontal orientation only)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}titleshorizontalratio.html[TitlesHorizontalRatio]
+|Not set
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+| *Title area position*  (relative to the <<_GraphAreaLink,Graph area>>)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}titlesposition.html[TitlesPosition]
+|_TitlesPosition.ScaleStart_
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|Title Text
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}title.html[Title]
+| _null_ 
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|Look-and-feel (configurable through style)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}titlestyle.html[TitleStyle]
+|Not set
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+| Subtitle Text
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}subtitle.html[Subtitle]
+| _null_ 
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+|Look-and-feel (configurable through style)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}subtitlestyle.html[SubtitleStyle]
+|Not set
+endif::sl,wpf[]
+
+|====
+
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+==== Related Topics
+endif::sl,wpf[]
+
+ifdef::sl,wpf[]
+* link:lineargauge-configuring-the-title-subtitle.html[Configuring the Title/Subtitle]
+
+endif::sl,wpf[]
+
+endif::sl,wpf[]
+
+[[_ScaleOverview]]
+
+=== Scale
+
+The following pictures illustrate the scale-related extents, listed in the table below.
+
+[cols="a,a"]
+|====
+|Extent positioning the scale within the Graph area|Extents configuring the position of the labels
+
+|image::images/XamLinearGauge_Overview_5.png[]
+|image::images/XamLinearGauge_Overview_6.png[]
+
+|====
+
+[cols="a,a"]
+|====
+|Extents configuring the major tick marks along the scale|Extents configuring the major tick marks across the scale
+
+|image::images/XamLinearGauge_Overview_7.png[]
+|image::images/XamLinearGauge_Overview_8.png[]
+
+|====
+
+[cols="a"]
+|====
+|Extents configuring the minor tick marks across the scale
+
+|image::images/XamLinearGauge_Overview_9.png[]
+
+|====
+
+The following table maps the configurable aspects related to the scale of the linear gauge to the _{LinearGaugeName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Position 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+| _0.05_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+| _0.95_ 
+
+|Min value 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minimumvalue.html[MinimumValue]
+| _0_ 
+
+|Max value 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}maximumvalue.html[MaximumValue]
+| _100_ 
+
+|Major tick marks
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[Interval]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+| _0.02_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.2_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickbrush.html[TickBrush]
+|Defined in the default theme
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _2.0_ 
+
+|Minor tick marks
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+|_3.0_
+
+| 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+| _0.06_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.2_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|Defined in the default theme
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _1.0_ 
+
+|Labels
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _0_ 
+
+ifdef::sl,wpf[]
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelformat.html[LabelFormat]
+|Not set
+endif::sl,wpf[]
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}fontbrush.html[FontBrush]
+|Defined in the default theme
+
+|====
+
+==== Related Topics
+
+* link:lineargauge-configuring-the-scale.html[Configuring the Scale]
+
+[[_NeedleOverview]]
+
+=== Needle
+
+The following picture illustrates the needle-related extents, listed in the table below.
+
+image::images/XamLinearGauge_Overview_10.png[]
+
+The following table maps the basic configurable aspects related to the needle of the linear gauge to the _{LinearGaugeName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Value indicated 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}value.html[Value]
+|Not set
+
+|Breadth 
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlebreadth.html[NeedleBreadth]
+| _10.0_ 
+
+|Fill color
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlebrush.html[NeedleBrush]
+|Defined in the default theme
+
+|Border color
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needleoutline.html[NeedleOutline]
+|Defined in the default theme
+
+|Border thickness
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlestrokethickness.html[NeedleStrokeThickness]
+| _1.0_ 
+
+|Shape
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needleshape.html[NeedleShape]
+| _Needle_ 
+
+|====
+
+==== Related Topics
+
+* link:lineargauge-configuring-the-needle.html[Configuring the Needle]
+
+[[_ComparativeRangesOverview]]
+
+=== Comparative ranges
+
+The following picture illustrates the comparative-ranges-related extents, listed in the table below.
+
+image::images/XamLinearGauge_Overview_11.png[]
+
+The following table maps the configurable aspects related to the comparative ranges of the linear gauge to the _{LinearGaugeName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+|Number (of ranges in the graph)
+|pick:[xaml=" link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}ranges.html[{LinearGaugeName}.Ranges]"] 
+
+pick:[android=" link:{LinearGaugeLink}.{LinearGaugeName}~addrange.html[{LinearGaugeName}.addRange]"]
+|Not set
+
+|Length, width, and position
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}startvalue.html[{LinearGaugeRange}.StartValue]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}endvalue.html[{LinearGaugeRange}.EndValue]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}innerstartextent.html[{LinearGaugeRange}.InnerStartExtent]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}innerendextent.html[{LinearGaugeRange}.InnerEndExtent]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}outerstartextent.html[{LinearGaugeRange}.OuterStartExtent]
+|Not set
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}outerendextent.html[{LinearGaugeRange}.OuterEndExtent]
+|Not set
+
+|Fill color
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}brush.html[{LinearGaugeRange}.Brush]
+|Defined in the default theme
+
+|Border color
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}outline.html[{LinearGaugeRange}.Outline]
+|Defined in the default theme
+
+|Border thickness
+| link:{LinearGaugeLink}.{LinearGaugeRange}{ApiProp}strokethickness.html[{LinearGaugeRange}.StrokeThickness]
+|_1.0_
+
+ifdef::sl,wpf[]
+|Tooltip
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[{LinearGaugeName}.RangeToolTip]
+|The start and end values of the range separated by a hyphen (-).
+endif::sl,wpf[]
+
+|====
+
+==== Related Topics
+
+* link:lineargauge-configuring-the-ranges.html[Configuring the Ranges ( _{LinearGaugeName}_ )]
+
+[[_BackgroundOverview]]
+
+=== Background
+
+The following picture illustrates the background-related extents, listed in the table below.
+
+image::images/XamLinearGauge_Overview_12.png[]
+
+The following table maps the configurable aspects related to the background of the linear gauge to the _{LinearGaugeName}_ properties that manage them.
+
+[options="header", cols="a,a,a"]
+|====
+|*Configurable aspects*|Property|*Default value*
+
+|Spread and position  (across the scale)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|_0_
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|_1.0_
+
+|Color
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|Defined in the default theme
+
+|Border color
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+|Defined in the default theme
+
+|Border thickness
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+| _2.0_ 
+
+|====
+
+==== Related Topics
+
+* link:lineargauge-configuring-the-background.html[Configuring the Background]
+
+ifdef::sl,wpf[]
+
+[[_TooltipsOverview]]
+
+=== Tooltips
+
+ifdef::sl,wpf[]
+
+The following table maps the configurable aspects of the _{LinearGaugeName}_ control related to tooltips to the properties that manage them.
+
+[options="header", cols="a,a,a,a"]
+|====
+|Configurable aspect|Details|Properties / Events|Default value
+
+|Visibility
+|You can enable/disable tooltips for the _{LinearGaugeName}_ control.
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}showtooltip.html[ShowToolTip]
+|_False_
+
+|Delay
+|The timeout before the tooltip appears upon the visual element at mouse hovering is configurable in milliseconds.
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}showtooltiptimeout.html[ShowToolTipTimeout]
+|_500_
+
+|Value
+|You can provide a custom value for the respective tooltip property. The value can be: 
+
+* Template 
+
+* String 
+
+* UI element 
+
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needletooltip.html[NeedleToolTip]
+
+link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}rangetooltip.html[RangeToolTip]
+|Depends on whether link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}needlename.html[NeedleName] has been initialized (see link:lineargauge-configuring-the-tooltips.html[Configuring a Custom Tooltip for the Needle])
+
+The start and end values of the range separated by a hyphen.
+
+
+|====
+
+==== Related Topics
+
+* link:lineargauge-configuring-the-tooltips.html[Configuring the Tooltips]
+
+endif::sl,wpf[]
+
+endif::sl,wpf[]
+
+[[Animated_Transitions_Heading]]
+== Animated Transitions Configuration
+
+[[Animated_Transitions_Summary]]
+
+=== Animated transitions configuration summary
+
+The _{LinearGaugeName}_ control provides built-in support for animation by its link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}transitionduration.html[TransitionDuration] property. The animation effect occurs on loading the control as well as when the value of any of its properties is changed. By default, animated transitions are disabled. Providing a value in milliseconds for the `TransitionDuration` property of the control determines the timeframe for swiping the control into view by smoothly visualizing all its visual elements through a slide effect (from bottom-left to top-right). Setting the value to  _0_   disables the animated transition.   
+[[_Ref361168550]]
+[[_Ref349815332]]
+== Default Configuration
+
+[[_DefaultConfigurationSummary]]
+
+=== Default configuration summary
+
+By default, the _{LinearGaugeName}_ control is oriented horizontally. It displays with a scale starting at 0 and ending at 100. The major tick marks of the control are located at an interval of 10 and the count of minor tick marks between each pair of major tick marks is 4. The background color is white  pick:[sl,wpf="and there is no title/subtitle displayed"]. The border is 2 pixels thick colored in dark grey. No needle or ranges are displayed. Animated transitions are disabled.
+
+The following picture demonstrates a _{LinearGaugeName}_ displayed with default settings.
+
+image::images/XamLinearGauge_Overview_13_17_1.png[]
+
+[[_Ref361168555]]
+== Requirements
+
+[[_Ref349815334]]
+
+=== Requirements summary
+
+The _{LinearGaugeName}_ is a {PlatformName} control and a part from the  pick:[android="jars"] pick:[wpf,win-universal,win-forms="assembly"] , containing the control itself, it depends on several other  pick:[android="jars"]  pick:[wpf,win-universal,win-forms="assemblies"]. In order for the linear gauge to display a value, the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}value.html[Value] property has to be set.
+ 
+For the full requirements listing, refer to the  pick:[win-forms,wpf,xamarin=" link:lineargauge-adding.html[Adding {LinearGaugeName}]"]  pick:[android=" link:{PlatformName}-adding-linear-gauge.html[Adding {LinearGaugeName}]"]
+
+[[_RelatedContent]]
+== Related Content
+
+[[_Ref361168569]]
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+ifdef::sl,wpf,xamarin[]
+| link:lineargauge-adding.html[Adding _{LinearGaugeName}_ ]
+|This topic explains how to add the _{LinearGaugeName}_ control to an {ProductName} application.
+endif::sl,wpf,xamarin[]
+
+ifdef::android[]
+| link:{PlatformName}-adding-linear-gauge.html[Adding {LinearGaugeName}]
+|This topic explains how to add the _{LinearGaugeName}_ control to an {ProductName} application.
+endif::android[]
+
+| link:lineargauge-configuring.html[Configuring _{LinearGaugeName}_ ]
+|This is a group of topics explaining how to configure the various aspects of the _{LinearGaugeName}_ control including its orientation and direction and visual elements.
+
+| link:lineargauge-api-reference.html[API Reference( _{LinearGaugeName}_ )]
+|This topic provides reference information about the key classes and properties related to the _{LinearGaugeName}_ control.
+
+|====

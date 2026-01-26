@@ -1,0 +1,130 @@
+﻿= Volume Pane
+
+=== Purpose
+This topic demonstrates the Volume Pane of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control.
+
+pick:[wpf="image::images/financialchart_wpf_pane_volume.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_volume.png[]"]
+
+The above screenshot highlights the Volume Pane of the chart and the drop down that is used to adjust the chart type at run time. The supported chart types for this pane are:
+
+* None
+* Column
+* Line
+* Area
+
+By default, this is set to `None` which means the chart will not render the Volume Pane.  You can find more information on properties related to the Volume Pane below:
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Type|Description
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeType{HtmlApiExtension}[VolumeType]
+|`FinancialChartVolumeType`
+|Gets or sets the type of the volume pane.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeBrushes{HtmlApiExtension}[VolumeBrushes]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for coloring the volume pane.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeOutlines{HtmlApiExtension}[VolumeOutlines]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for outlines on the volume pane.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeThickness{HtmlApiExtension}[VolumeThickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the thickness of the volume pane.
+
+|====
+
+You can set the volume type through code as follows:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    VolumeType="Area"
+    VolumeBrushes="Red"
+    VolumeOutlines="Green"
+    VolumeThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.VolumeType = Infragistics.Controls.Charts.FinancialChartVolumeType.Area
+
+chart.VolumeBrushes = New Infragistics.BrushCollection()
+Dim brush As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Red;
+chart.VolumeBrushes.Add(brush)
+
+chart.VolumeOutlines = new Infragistics.BrushCollection()
+Dim brush2 As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Green
+chart.VolumeOutlines.Add(brush2)
+
+chart.VolumeThickness = 2
+----
+
+*In C#:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.VolumeType = Infragistics.Controls.Charts.FinancialChartVolumeType.Area;
+
+chart.VolumeBrushes = new Infragistics.BrushCollection();
+var brush = new SolidColorBrush();
+brush.Color = Colors.Red;
+chart.VolumeBrushes.Add(brush);
+
+chart.VolumeOutlines = new Infragistics.BrushCollection();
+var brush2 = new SolidColorBrush();
+brush2.Color = Colors.Green;
+chart.VolumeOutlines.Add(brush2);
+
+chart.VolumeThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    volumeType: "area",
+    volumeBrushes: ["Red"],
+    volumeOutlines: ["Green"],
+    volumeThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "volumeType", "area");
+$("#financialChart").{FinancialChartName}("option", "volumeBrushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "volumeOutlines", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "volumeThickness", 2);
+----
+endif::jquery[]
+    
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|link:financial-chart-chartpanes.html[Chart Panes]
+|This article is an overview of the different chart panes.
+
+|====

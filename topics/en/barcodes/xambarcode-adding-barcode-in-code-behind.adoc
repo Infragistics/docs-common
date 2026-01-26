@@ -1,0 +1,306 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-adding-barcode-in-code-behind",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "c9440732-d400-48ca-b652-e73ded16274f","buildFlags": [],
+    "createdOn": "2015-09-23T20:39:17.4464668Z"
+}
+|metadata|
+////
+
+= Adding Barcode In Code-Behind
+
+== Before You Begin
+
+This topic is designed to get you up and running as quickly as possible by describing the basic steps required for adding a pick:[wpf,android,win-forms="{Barcode128Name}™"]  pick:[xamarin="{BarcodeQRName}™"] control to your pick:[wpf="page"]  pick:[android,win-forms,xamarin="application"].
+
+== What You Will Accomplish
+
+You will add a basic pick:[wpf,android,win-forms="{Barcode128Name}"]  pick:[xamarin="{BarcodeQRName}"] control to your  pick:[wpf="page"]  pick:[android,win-forms,xamarin="application"].
+
+== Follow these Steps
+[start=1]
+ifdef::wpf,win-forms,android[]
+. Create a {PlatformName} application.
+endif::wpf,win-forms,android[]
+ifdef::xamarin[]
+. Create a Xamarin.Forms application project.
+endif::xamarin[]
+[start=2]
+ifdef::win-forms,android[]
+. Add the following  pick:[wpf,win-forms="references"]  pick:[android="jars"]  to your project:
+endif::win-forms,android[]
+
+ifdef::wpf[]
+
+. Add the following NuGet package references to your project:
+
+** Infragistics.WPF.Barcodes
+
++
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-universal[]
+
+** {ApiPlatform}dll
+** {ApiPlatform}DataVisualization.dll
+** {ApiPlatform}Controls.Barcodes.dll
+** {ApiPlatform}Encoding.dll (only for QR Code)
+
+endif::win-universal[]
+ 
+ifdef::xamarin[]
+
+. link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages].
+
+.Note:
+[NOTE]
+====
+Add support for the CJK encoding to your project. 
+
+For Android project - open Android project properties – select Android Options tab - Additional supported encodings – check CJK encoding.
+
+image::images/xamBarcode_Android_Encodings.png[]
+
+For iOS project - open iOS Project properties – select iOS Build tab - Internationalization – Codesets – check cjk codeset.
+
+image::images/xamBarcode_iOS_Codesets.png[]
+
+====
+
+endif::xamarin[]
+
+ifdef::android[]
+** Infragistics.Barcode jar
+** Infragistics.DV.Shared.jar
+** Infragistics.UI.jar
+
+endif::android[]
+
+ifdef::win-forms[]
+** Infragistics4.Win.DataVisualization.Barcode
+** Infragistics4.Win.DataVisualization.Shared
+** Infragistics4.Win.Portable.Core
+
+endif::win-forms[]
+
+[start=3]
+. Add the following namespaces in the application.
+
+ 
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Imports Infragistics.Controls.Barcodes
+----
+*In C#:*
+[source,csharp]
+----
+using Infragistics.Controls.Barcodes;
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+*In C#:*
+[source,csharp]
+----
+using Infragistics.XamarinForms.Controls.Barcodes;
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Imports Infragistics.Win.DataVisualization
+----
+
+*In C#:*
+[source,csharp]
+----
+using Infragistics.Win.DataVisualization;
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+----
+import com.infragistics.controls.Code128BarcodeView;
+import com.infragistics.controls.QRCodeBarcodeView;
+----
+
+endif::android[]
+
+[start=4]
+. Choose a barcode symbology.  pick:[wpf="To the UserControl_Loaded event handler, add an instance of the chosen xamBarcode symbology naming it Barcode."] 
+
+pick:[android,wpf,win-forms="*Note:* Each barcode symbology is a separate control."]
+
+*{BarcodesName} Symbology Types:*
+
+ifdef::android,wpf,win-forms[]
+* link:xambarcode-configuring-code128.html[Configuring Code 128]
+endif::android,wpf,win-forms[]
+* link:xambarcode-configuring-qr-code.html[Configuring QR Code]
+
+ifdef::wpf,win-forms[]
+* link:xambarcode-xamcode39barcode.html[Code 39]
+* link:xambarcode-xameanupcbarcode.html[Ean/Upc]
+* link:xambarcode-xaminterleaved2of5barcode.html[Interleaved 2 Of 5]
+* link:xambarcode-xamgs1databarbarcode.html[GS1 DataBar]
+* link:xambarcode-xamintelligentmailbarcode.html[Intelligent Mail]
+* link:xambarcode-xamroyalmailbarcode.html[Royal Mail]
+* link:xambarcode-xampdf417barcode.html[PDF 417]
+* link:xambarcode-xammaxicodebarcode.html[Maxi Code]
+endif::wpf,win-forms[]
+
+ifdef::wpf,win-forms[]
+  
+*In Visual Basic:*
+[source,vb]
+----
+Dim Barcode As New {Barcode128Name}()
+----
+
+*In C#:*
+[source,csharp]
+----
+var Barcode = new {Barcode128Name}();
+----
+
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+[source,csharp]
+----
+var Barcode = new {BarcodeQRName}();
+----
+
+endif::xamarin[]
+
+  
+ifdef::android[]
+
+*In Java:*
+
+----
+{Barcode128Name} Barcode = new {Barcode128Name}();
+----
+
+endif::android[]
+
+[start=5]
+. Assign a value to the control’s Data property
+
+ifdef::wpf,win-forms[]
+ 
+*In Visual Basic:*
+[source,vb]
+----
+Barcode.Data = "Code128"
+----
+
+*In C#:*
+[source,csharp]
+----
+Barcode.Data = "Code128";
+----
+
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+[source,csharp]
+----
+Barcode.Data = "QRBarcode";
+----
+
+endif::xamarin[]
+
+ifdef::android[]
+
+*In Java:*
+
+----
+Barcode.setData("Code128");
+----
+
+endif::android[]
+ 
+[start=6]
+. Add the instance of conrol to the main view.
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Me.LayoutRoot.Children.Add(Barcode)
+----
+
+*In C#:*
+[source,csharp]
+----
+this.LayoutRoot.Children.Add(Barcode);
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+
+*In C#:*
+[source,csharp]
+----
+this.LayoutRoot.Children.Add(Barcode);
+----
+
+endif::xamarin[]
+
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+[source,vb]
+----
+this.Controls.Add(Barcode)
+----
+
+*In C#:*
+[source,csharp]
+----
+this.Controls.Add(Barcode);
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+----
+sampleContainer.addView(Barcode);
+----
+
+endif::android[]
+
+
+[start=7]
+. Save and run your application.
+
+ifdef::wpf,win-forms[]
+
+image::images/xamBarcode_Adding_Code128_01.png[]
+
+endif::wpf,win-forms[]

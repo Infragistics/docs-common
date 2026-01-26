@@ -1,0 +1,63 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-add-effects-to-a-chart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{96B5168F-8498-4D21-9993-585433B9FD67}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= エフェクトをチャートに追加pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~effects.html[効果]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.effectsappearance~effects.html[効果]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.effectsappearance~effects.html[効果]"] を使用し、全般的な外観をグラフ画像に適用します。グラフ画像（ピクセル単位）に影響する効果や、カスタムレイヤなどのシーン グラフ内の pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[プリミティブ]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[プリミティブ]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[プリミティブ]"] に影響する効果があります。
+
+image::images\Chart_Add_Effects_to_a_Chart_01.png[]
+
+image::images\Chart_Add_Effects_to_a_Chart_02.png[]
+
+上記の 2 つの画像は同じグラフです。ただし、右側には Effects コレクションに追加された 3 つの以下の Effect があります。 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.gradienteffect.html[GradientEffect]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.gradienteffect.html[GradientEffect]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.gradienteffect.html[GradientEffect]"] 、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.shadoweffect.html[ShadowEffect]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.shadoweffect.html[ShadowEffect]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.shadoweffect.html[ShadowEffect]"] 、および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect.html[TextureEffect]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect.html[TextureEffect]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.textureeffect.html[TextureEffect]"] 。これを行うには、Visual Studio .NET デザイナを使用しますが、生成されたコードは非常にシンプルです。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Dim gradientEffect1 As New GradientEffect()
+Dim shadowEffect1 As New ShadowEffect()
+Dim textureEffect1 As New TextureEffect()
+gradientEffect1.Coloring = GradientColoringStyle.Lighten
+gradientEffect1.Style = GradientStyle.ForwardDiagonal
+shadowEffect1.Angle = 45
+shadowEffect1.Color = System.Drawing.Color.DimGray
+textureEffect1.Texture = TexturePresets.Canvas
+Me.ultraChart1.Effects.Add(gradientEffect1)
+Me.ultraChart1.Effects.Add(shadowEffect1)
+Me.ultraChart1.Effects.Add(textureEffect1)
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+...
+GradientEffect gradientEffect1 = new GradientEffect();
+ShadowEffect shadowEffect1 = new ShadowEffect();
+TextureEffect textureEffect1 = new TextureEffect();
+gradientEffect1.Coloring = GradientColoringStyle.Lighten;
+gradientEffect1.Style = GradientStyle.ForwardDiagonal;
+shadowEffect1.Angle = 45;
+shadowEffect1.Color = System.Drawing.Color.DimGray;
+textureEffect1.Texture = TexturePresets.Canvas;
+this.ultraChart1.Effects.Add(gradientEffect1);
+this.ultraChart1.Effects.Add(shadowEffect1);
+this.ultraChart1.Effects.Add(textureEffect1);
+----
+
+== 関連トピック
+
+link:chart-layers.html[レイヤ] link:chart-layers.html[]

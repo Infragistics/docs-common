@@ -1,0 +1,320 @@
+﻿= {ShapeChartName} のシリーズ ブラシの構成
+
+このトピックではコード例を使用して、link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] コントロールのツールチップを構成する方法を説明します。
+
+=== 前提条件
+|====
+|トピック|目的
+
+|link:shapechart-getting-started-with-shapechart.html[{ShapeChartName} を使用した作業の開始]
+|このトピックでは、データを {ShapeChartName} コントロールにバインドする方法を説明します。
+
+|link:shapechart-chart-types.html[シェープ チャートのタイプ]
+|トピックでは {ShapeChartName} コントロールでプロットできるさまざまなシリーズ タイプ、シリーズの詳細および要件について説明します。
+
+|====
+
+=== このトピックの内容
+
+* <<PropSettings, プロパティの設定>>
+* <<SeriesCode, シリーズ ブラシのコード例>>
+* <<MarkerCode, マーカー ブラシのコード例>>
+* <<Related, 関連コンテンツ>>
+
+[[PropSettings]]
+=== プロパティの設定
+
+{ShapeChartName} コントロールには、チャートのシリーズ ブラシやシリーズのマーカーを設定するためのプロパティが数種類あります。以下はプロパティの詳細です。
+
+[options="header", cols="a,a,a"]
+|====
+
+|プロパティ名|プロパティ タイプ|説明
+
+|link:{DataChartLink}.{ShapeChartDomain}{ApiProp}brushes.html[Brushes]
+|link:{DataVizLinkBase}.brushcollection.html[BrushCollection]
+|主シリーズ塗りつぶしや線のパレットの決定に使用されるブラシ コレクションを取得または設定します。
+
+|link:{DataChartLink}.{ShapeChartDomain}{ApiProp}outlines.html[Outlines]
+|link:{DataVizLinkBase}.brushcollection.html[BrushCollection]
+|チャートのシリーズ アウトラインのパレットの決定に使用されるブラシ コレクションを取得または設定します。
+
+このコレクションは、Polyline を使用する際にプライマリ シリーズの色を決定するか、Polygon `ChartType` 列挙体のストローク色を決定する場合に便利です。
+
+|link:{DataChartLink}.{ShapeChartDomain}{ApiProp}markerbrushes.html[MarkerBrushes]
+|link:{DataVizLinkBase}.brushcollection.html[BrushCollection]
+|チャートのシリーズに表示されるマーカー パレットの決定に使用されるブラシ コレクションを取得または設定します。
+
+Bubble や Point などのマーカー専用 `ChartType` 列挙体は、このブラシ コレクションがシリーズの原色を構成します。
+
+|link:{DataChartLink}.{ShapeChartDomain}{ApiProp}markeroutlines.html[MarkerOutlines]
+|link:{DataVizLinkBase}.brushcollection.html[BrushCollection]
+|チャートの各シリーズに表示されるマーカーのアウター ストロークのパレットの決定に使用されるブラシ コレクションを取得または設定します。
+
+Bubble や Point などのマーカー専用 `ChartType` 列挙体は、このブラシ コレクションがシリーズのアウターストロークを構成します。
+
+|====
+
+[[SeriesCode]]
+=== シリーズ ブラシのコード例
+
+以下は、Polygon `ChartType` で `Brushes` および `Outlines` プロパティを使用したコード例です。以下のコレクションはコード スニペットのデータソースとして使用されます。
+
+*C# の場合:*
+[source, csharp]
+----
+public class PolygonCollection : List<List<DataPoint>>
+{ 
+    public PolygonCollection()
+    {           
+        List<DataPoint> list1 = new List<DataPoint>();
+        List<DataPoint> list2 = new List<DataPoint>();
+        List<DataPoint> list3 = new List<DataPoint>();
+
+        DataPoint point1 = new DataPoint();
+            
+        point1.Points = new List<List<Point>>();
+        point1.Points.Add(CreatePointList(10, 10));
+        point1.Points.Add(CreatePointList(60, 10));
+            
+
+        list1.Add(point1);
+
+        DataPoint point2 = new DataPoint();
+        point2.Points = new List<List<Point>>();
+        point2.Points.Add(CreatePointList(10, 40));
+        point2.Points.Add(CreatePointList(60, 40));
+
+        list2.Add(point2);
+
+        DataPoint point3 = new DataPoint();
+        point3.Points = new List<List<Point>>();
+        point3.Points.Add(CreatePointList(10, 70));
+        point3.Points.Add(CreatePointList(60, 70));
+
+        list3.Add(point3);
+
+        this.Add(list1);
+        this.Add(list2);
+        this.Add(list3);
+    }
+
+    public List<Point> CreatePointList(int bottomLeftX, int bottomLeftY)
+    {
+        List<Point> points = new List<Point>();
+
+        Point p1 = new Point(bottomLeftX, bottomLeftY);
+        Point p2 = new Point(bottomLeftX, bottomLeftY + 20);
+        Point p3 = new Point(bottomLeftX + 30, bottomLeftY + 20);
+        Point p4 = new Point(bottomLeftX + 30, bottomLeftY);
+
+        points.Add(p1);
+        points.Add(p2);
+        points.Add(p3);
+        points.Add(p4);
+
+        return points;
+    }
+}
+
+public class DataPoint
+{
+    public List<List<Point>> Points { get; set; }
+}
+----
+
+*XAML の場合:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} ChartType="Polygon"
+                      ItemsSource="{Binding}"
+                      Brushes="#9FB328 #FF9800 #2E9CA6"
+                      Outlines="#7446B9 #F96232 #DC3F76"
+                      XAxisMinimumValue="0"
+                      XAxisMaximumValue="100"
+                      YAxisMinimumValue="0"
+                      YAxisMaximumValue="100" />
+</Grid>
+----
+
+*C# の場合:*
+[source, csharp]
+----
+var shapeChart = new {ShapeChartName}();
+
+var brushes = new BrushCollection();
+brushes.Add(new SolidColorBrush(Color.FromRgb(159, 179, 40)));
+brushes.Add(new SolidColorBrush(Color.FromRgb(255, 152, 0)));
+brushes.Add(new SolidColorBrush(Color.FromRgb(46, 156, 166)));
+
+var outlines = new BrushCollection();
+outlines.Add(new SolidColorBrush(Color.FromRgb(116, 70, 185)));
+outlines.Add(new SolidColorBrush(Color.FromRgb(249, 98, 50)));
+outlines.Add(new SolidColorBrush(Color.FromRgb(220, 63, 118)));
+
+shapeChart.ItemsSource = new PolygonCollection();
+shapeChart.ChartType = ShapeChartType.Polygon;
+shapeChart.MarkerBrushes = brushes;
+shapeChart.MarkerOutlines = outlines;
+
+shapeChart.XAxisMinimumValue = 0;
+shapeChart.YAxisMinimumValue = 0;
+shapeChart.XAxisMaximumValue = 100;
+shapeChart.YAxisMaximumValue = 100;
+
+layoutRoot.Children.Add(shapeChart);
+----
+
+ifdef::wpf[]
+*VB の場合：*
+[source, vb]
+----
+Dim shapeChart = New {ShapeChartName}()
+
+Dim brushes = New BrushCollection()
+brushes.Add(New SolidColorBrush(Color.FromRgb(159, 179, 40)))
+brushes.Add(New SolidColorBrush(Color.FromRgb(255, 152, 0)))
+brushes.Add(New SolidColorBrush(Color.FromRgb(46, 156, 166)))
+
+Dim outlines = New BrushCollection()
+outlines.Add(New SolidColorBrush(Color.FromRgb(116, 70, 185)))
+outlines.Add(New SolidColorBrush(Color.FromRgb(249, 98, 50)))
+outlines.Add(New SolidColorBrush(Color.FromRgb(220, 63, 118)))
+
+shapeChart.ItemsSource = New PolygonCollection()
+shapeChart.ChartType = ShapeChartType.Polygon
+shapeChart.MarkerBrushes = brushes
+shapeChart.MarkerOutlines = outlines
+
+shapeChart.XAxisMinimumValue = 0
+shapeChart.YAxisMinimumValue = 0
+shapeChart.XAxisMaximumValue = 100
+shapeChart.YAxisMaximumValue = 100
+
+layoutRoot.Children.Add(shapeChart)
+----
+endif::wpf[]
+
+上記コード スニペットは以下のような {ShapeChartName} を生成します。
+
+image::images/shapechart_series_brushes.png[]
+
+
+[[MarkerCode]]
+=== マーカー ブラシのコード例
+
+以下は、Bubble `ChartType` で `MarkerBrushes` および `MarkerOutlines` プロパティを使用したコード例です。以下のコレクションはコード スニペットのデータソースとして使用されます。
+
+*C# の場合:*
+[source, csharp]
+----
+public class BubbleCollection : List<List<DataPoint>>
+{        
+    public BubbleCollection()
+    {          
+        List<DataPoint> list1 = new List<DataPoint>();
+        List<DataPoint> list2 = new List<DataPoint>();
+        List<DataPoint> list3 = new List<DataPoint>();            
+
+        list1.Add(new DataPoint() { X = 20, Y = 20, Radius = 10 });
+        list1.Add(new DataPoint() { X = 20, Y = 30, Radius = 25 });
+        list1.Add(new DataPoint() { X = 20, Y = 40, Radius = 40 });
+
+        list2.Add(new DataPoint() { X = 40, Y = 20, Radius = 10 });
+        list2.Add(new DataPoint() { X = 40, Y = 30, Radius = 25 });
+        list2.Add(new DataPoint() { X = 40, Y = 40, Radius = 40 });
+
+        list3.Add(new DataPoint() { X = 60, Y = 20, Radius = 10 });
+        list3.Add(new DataPoint() { X = 60, Y = 30, Radius = 25 });
+        list3.Add(new DataPoint() { X = 60, Y = 40, Radius = 40 });
+
+        this.Add(list1);
+        this.Add(list2);
+        this.Add(list3);
+    }
+}
+----
+
+*XAML の場合:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} ChartType="Bubble"
+                      ItemsSource="{Binding Data}"
+                      MarkerBrushes="#9FB328 #FF9800 #2E9CA6"
+                      MarkerOutlines="#7446B9 #F96232 #DC3F76" 
+                      XAxisMinimumValue="0"
+                      XAxisMaximumValue="80"
+                      YAxisMinimumValue="0"
+                      YAxisMaximumValue="60" />
+
+</Grid>
+----
+
+*C# の場合:*
+[source, csharp]
+----
+var shapeChart = new {ShapeChartName}();
+
+var markerBrushes = new BrushCollection();
+markerBrushes.Add(new SolidColorBrush(Color.FromRgb(159, 179, 40)));
+markerBrushes.Add(new SolidColorBrush(Color.FromRgb(255, 152, 0)));
+markerBrushes.Add(new SolidColorBrush(Color.FromRgb(46, 156, 166)));
+
+var markerOutlines = new BrushCollection();
+markerBrushes.Add(new SolidColorBrush(Color.FromRgb(116, 70, 185)));
+markerBrushes.Add(new SolidColorBrush(Color.FromRgb(249, 98, 50)));
+markerBrushes.Add(new SolidColorBrush(Color.FromRgb(220, 63, 118)));
+
+shapeChart.ItemsSource = new BubbleCollection ();
+shapeChart.ChartType = ShapeChartType.Bubble;
+shapeChart.MarkerBrushes = markerBrushes;
+shapeChart.MarkerOutlines = markerOutlines;
+
+shapeChart.XAxisMinimumValue = 0;
+shapeChart.YAxisMinimumValue = 0;
+shapeChart.XAxisMaximumValue = 80;
+shapeChart.YAxisMaximumValue = 60;
+
+layoutRoot.Children.Add(shapeChart);
+----
+
+*VB の場合：*
+[source, vb]
+----
+Dim shapeChart = New {ShapeChartName}()
+
+Dim markerBrushes = New BrushCollection()
+markerBrushes.Add(New SolidColorBrush(Color.FromRgb(159, 179, 40)))
+markerBrushes.Add(New SolidColorBrush(Color.FromRgb(255, 152, 0)))
+markerBrushes.Add(New SolidColorBrush(Color.FromRgb(46, 156, 166)))
+
+Dim markerOutlines = New BrushCollection()
+markerBrushes.Add(New SolidColorBrush(Color.FromRgb(116, 70, 185)))
+markerBrushes.Add(New SolidColorBrush(Color.FromRgb(249, 98, 50)))
+markerBrushes.Add(New SolidColorBrush(Color.FromRgb(220, 63, 118)))
+
+shapeChart.ItemsSource = New BubbleCollection()
+shapeChart.ChartType = ShapeChartType.Bubble
+shapeChart.MarkerBrushes = markerBrushes
+shapeChart.MarkerOutlines = markerOutlines
+
+shapeChart.XAxisMinimumValue = 0
+shapeChart.YAxisMinimumValue = 0
+shapeChart.XAxisMaximumValue = 80
+shapeChart.YAxisMaximumValue = 60
+
+layoutRoot.Children.Add(shapeChart)
+----
+
+上記コード スニペットは以下のような {ShapeChartName} を生成します。
+
+image::images/shapechart_marker_brushes.png[]
+
+
+[[Related]]
+=== 関連コンテンツ
+
+* link:shapechart-configuring-chart-types.html[チャート タイプの構成]
+* link:shapechart-using-legend.html[{ShapeChartName} で凡例を使用]

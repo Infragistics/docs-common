@@ -1,0 +1,424 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-retrieving-the-cell-text-as-displayed-in-excel",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "9abeb5d1-32b5-4c5b-a05f-3bcb0506937a","buildFlags": [],
+    "createdOn": "2012-03-29T14:13:56.918347Z"
+}
+|metadata|
+////
+
+= Excel に表示されるセル テキストを取得 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、セルの値、書式文字列、列幅およびワークシートのオプションを前提として、Microsoft Excel® に表示されるテキストを決定する方法を説明します。`WorksheetCell`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  メソッドを使用してセル テキストを決定できます。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref318391872,概要>>
+* <<_Ref318391878,GetText メソッドのオーバーロード>>
+* <<_Ref318391904,コード例の概要>>
+* <<_Ref318391912,コード例: GetText はセルに適用される書式文字列によって異なる>>
+* <<_Ref318391921,コード例: GetText は列幅によって異なる>>
+* <<_Ref318391932,コード例: GetText は ShowFormulasInCell オプションによって異なる>>
+* <<_Ref318391938,関連コンテンツ>>
+
+[[_Ref318391872]]
+== 概要
+
+セルに表示されるテキストは、実際のセル値以外にいくつかの要因によって異なります。以下はこれらの要因の概要です。
+
+==== 書式文字列
+書式文字列は、セルの値がテキストに変換される方法と、書式設定された値でどのリテラル文字が表示されるのかを決定します。
+ifdef::wpf,xamarin[]
+link:excelengine-format-a-cell.html[ここ]で書式コードに関する詳細情報を見つけることができます。
+endif::wpf,xamarin[]
+
+==== 列の幅
+
+セルで使用可能な水平領域の量は、値がユーザーに表示される方法に大きく影響します。 
+
+さまざまな列幅に基づいて表示されるテキストは異なります。 
+
+数字を表示して “General” または “@” を含む書式文字列を使用するとき、セルの幅に合った書式設定を見つけるさまざまな書式があります。 
+
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|書式|説明 
+
+|標準値 
+
+|スペースに制限がない場合と同じように数字が表示されます。 
+
+|10 進数を削除 
+
+|10 進数は、どれが合うかを書式が見つけるまで一度に 1 つ削除されます。 
+
+したがって、12345.6789 の値は合うまで以下の書式に短縮されます: 12345.679、12345.68、12345.7、および 12346。 
+
+最初の有効数字が 1 つだけ残るとこれは停止します。したがって、たとえば 0.0001234567890 のような値は 0.0001 に短縮されます。 
+
+|指数表記、 5 つの 10 進数 
+
+|数字は 1.23457E+09 または 1.23457E-04 などの 0.00000E+00 の形式で表示されます。 
+
+|指数表記、 4 つの 10 進数 
+
+|数字は 1.2346E+09 または 1.23456E-04 などの 0.0000E+00 の形式で表示されます。 
+
+|指数表記、 3 つの 10 進数 
+
+|数字は 1.235E+09 または 1.235E-04 などの 0.000E+00 の形式で表示されます。 
+
+|指数表記、 2 つの 10 進数 
+
+|数字は 1.23E+09 または 1.23E-04 などの 0.00E+00 の形式で表示されます。 
+
+|指数表記、 1 つの 10 進数 
+
+|数字は 1.2E+09 または 1.2E-04 などの 0.0E+00 の形式で表示されます。 
+
+|指数表記、 0 つの 10 進数 
+
+|数字は 1E+09 または 1E-04 などの 0E+00 の形式で表示されます。 
+
+|四捨五入された値 
+
+|最初の有効数字が数の 10 進部分にある場合、値は直近の整数値に丸められます。 
+
+したがって、値 0.0001234567890 の場合、0 に丸められ、セルに表示されるテキストは 0になります。 
+
+|ハッシュ マーク 
+
+|数の凝縮されたバージョンを表示できる場合、ハッシュ (#) がセルの幅一杯繰り返されます。 
+
+|空の文字列 
+
+|ハッシュ マークがセルを埋めることができない場合、空の文字列は表示されるセル テキストとして繰り返されます。 
+
+|==== 
+
+.注: 
+[NOTE] 
+==== 
+数値の書式文字列に *General* または *@* が含まれない場合、以下の段階のサイズ変更しかありません。普通の値、ハッシュ マーク、空の文字列。 
+==== 
+
+テキストがセルで使用される場合、切り取られる、またはセル内にないにかかわらず、セルに表示されるテキストは常にフル値です。 
+
+.注: 
+[NOTE] 
+==== 
+これが該当しない唯一のときは、パディング文字が書式文字列で使用される時です。テキストのために十分な余地がないとき、値はすべてのハッシュ マークとして表示されます。 
+====
+
+==== Worksheet オプション
+|コードで、または Microsoft Excel で以下によって `Worksheet.DisplayOptions` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulasInCells]"] プロパティを設定できます: [ファイル] $$->$$ [オプション] $$->$$ [詳細設定] $$->$$ [次のシートで作業するときの表示設定] $$->$$ [計算結果の代わりに数式をセルに表示する]。 
+
+このオプションがオンのとき、結果の代わりに数式がセルに表示され、書式文字列とセル幅は無視されます。テキスト値は書式文字列が *@* であるかのように表示します。整数でない数値は書式文字列が *0.0* であるかのように表示し、整数の数値は書式文字列が *0* のように表示します。 
+
+さらに、値が合わない場合、すべてのハッシュとして表示しません。完全に表示できないとしても、表示テキストはセル テキストとしてフル テキストを今まで通り返します。
+
+[[_Ref318391878]]
+== GetText メソッドのオーバーロード
+
+=== メソッドのオーバーロード
+
+セル テキストは新しい `WorksheetCell`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  メソッドで公開されます。パラメーターのないオーバーロードは Microsoft Excel UI に表示されるセル テキストを返します。その他のオーバーロードは、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.textformatmode.html[TextFormatMode]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.textformatmode.html[TextFormatMode]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.textformatmode.html[TextFormatMode]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.textformatmode.html[TextFormatMode]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.textformatmode.html[TextFormatMode]"]  列挙値を以下の値と一緒に取得します:
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|説明
+
+| _AsDisplayed_ 
+|これは GetText のパラメーターのないオーバーロードを呼び出すことと同じです。
+
+| _IgnoreCellWidth_ 
+|凝縮するまたは繰り返しのパディング文字を含まずにセル テキストを書式設定します。
+
+|====
+
+[[_Ref318391904]]
+== コード例の概要
+
+=== 概要
+
+以下の表には、このトピックのコード例が示されています。
+
+[options="header", cols="a,a"]
+|====
+|例|説明
+
+|GetText はセルに適用される書式文字列によって異なる
+|セルに適用される、書式文字列によって、`WorksheetCell` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドのテキスト表現を返します。
+
+|GetText は列幅によって異なる
+|列幅によって、`WorksheetCell` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドのテキスト表現を返します。
+
+|GetText は ShowFormulasInCell オプションによって異なる
+|pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] ワークシート オプションによって、`WorksheetCell` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドのテキスト表現を返します。
+
+|====
+
+[[_Ref318391912]]
+== コード例: GetText はセルに適用される書式文字列によって異なる
+
+=== 説明
+
+`WorksheetCell`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドの戻り値は、セルに適用される、書式文字列によって異なります。
+
+以下の例のコードはワークブックを読み込んで Worksheet `DifferentFormats` のインスタンスを作成します。`WorksheetCell`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドを使用して、領域 A1:A8 内のセルの表示テキストにアクセスします。
+
+=== 前提条件
+
+この例の目的のために以下のエンティティが必要です:
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+* C ドライブ、 C:\ に保存されたワークシートを含む Book3.xlsx という名前の Excel ファイル。
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+* `DifferentFormats` に設定されたワークシート名
+
+A1 から A8 のセル内の値 `1234567890`以下のスクリーンショットに示すように、各セルには異なるセル書式設定があります。
+
+image::images/Get_Cell_Text_1.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' Load a Workbook
+Dim workBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\Book3.xlsx""]pick:[xamarin="inputStream"])
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workBook.Worksheets("DifferentFormats")
+Dim sb As New StringBuilder()
+' Loop over cells with different formats sets and show the GetText() method return values
+Dim i As Integer = 0
+While i < 8
+    sb.AppendLine([String].Format("{0} " & vbTab & vbTab & " {1}", worksheet.Rows(i).Cells(1).GetText(), worksheet.Rows(i).Cells(0).GetText()))
+    i += 1
+End While
+ifdef::wpf[]
+MessageBox.Show(sb.ToString())
+endif::wpf[]
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// Load a Workbook
+Infragistics.Documents.Excel.Workbook workBook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\\Book3.xlsx""]pick:[xamarin="inputStream"]);
+Infragistics.Documents.Excel.Worksheet worksheet = workBook.Worksheets["DifferentFormats"];
+StringBuilder sb = new StringBuilder();
+// Loop over cells with different formats sets and show the GetText() method return values
+for (int i = 0; i < 8; i++)
+{
+    sb.AppendLine(String.Format("{0} \t\t {1}", 
+        worksheet.Rows[i].Cells[1].GetText(), 
+        worksheet.Rows[i].Cells[0].GetText()));
+}
+ifdef::wpf[]
+MessageBox.Show(sb.ToString());
+endif::wpf[]
+ifdef::xamarin[]
+System.Diagnostics.Debug.WriteLine(sb.ToString());
+endif::xamarin[]
+----
+
+[[_Ref318391921]]
+== コード例: GetText は列幅によって異なる
+
+=== 説明
+
+列幅によって、`WorksheetCell`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  メソッドの値を返します。
+
+以下の例のコードはワークブックを読み込んで Worksheet `DifferentWidths` のインスタンスを作成します。`WorksheetCell`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]  メソッドを使用して、領域 A1:E2 内のセルの表示テキストにアクセスします。
+
+=== 前提条件
+
+この例の目的のために以下のエンティティが必要です:
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+* C ドライブ、 C:\ に保存されたワークシートを含む Book3.xlsx という名前の Excel ファイル。
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+* `DifferentWidths` に設定されたワークシート名
+* A1 から E1 のセル内の値 `1234567890` およびセル A2 から E2 の値 `0.0001234567890`。列幅は、以下のスクリーンショットに示すように、各列ごとに異なります。
+
+image::images/Get_Cell_Text_2.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' Load a Workbook
+Dim workBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\Book3.xlsx""]pick:[xamarin="inputStream"])
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workBook.Worksheets("DifferentWidths")
+Dim sb As New StringBuilder()
+' Loop over cells with different width sets and show the GetText() method return values
+Dim i As Integer = 0
+While i < 5
+    sb.AppendLine([String].Format("{0} " & vbTab & vbTab & " {1}", worksheet.Rows(1).Cells(i).GetText(), worksheet.Rows(0).Cells(i).GetText()))
+    i += 1
+End While
+ifdef::wpf[]
+MessageBox.Show(sb.ToString())
+endif::wpf[]
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// Load a Workbook
+Infragistics.Documents.Excel.Workbook workBook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\\Book3.xlsx""]pick:[xamarin="inputStream"]);
+Infragistics.Documents.Excel.Worksheet worksheet = workBook.Worksheets["DifferentWidths"];
+StringBuilder sb = new StringBuilder();
+// Loop over cells with different width sets and show the GetText() method return values
+for (int i = 0; i < 5; i++)
+{
+    sb.AppendLine(String.Format("{0} \t\t {1}", 
+        worksheet.Rows[1].Cells[i].GetText(), 
+        worksheet.Rows[0].Cells[i].GetText()));
+}
+ifdef::wpf[]
+MessageBox.Show(sb.ToString());
+endif::wpf[]
+ifdef::xamarin[]
+System.Diagnostics.Debug.WriteLine(sb.ToString());
+endif::xamarin[]
+----
+
+[[_Ref318391932]]
+== コード例: GetText は ShowFormulasInCell プロパティによって異なる
+
+=== 説明
+
+pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] ワークシート オプションによって、`WorksheetCell` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドの値を返します。
+
+以下の例のコードはワークブックを読み込んで Worksheet `Formulas` のインスタンスを作成します。次に、Worksheet プロパティ `DisplayOptions`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"]pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.displayoptions~showformulasincells.html[ShowFormulaInCells]"] は `true` に設定されます。このコードは pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~gettext.html[GetText]"]pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~gettext.html[GetText]"] メソッドを使用して、領域 B1:B5 内のセルの表示テキストにアクセスします。
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Get_Cell_Text_3.png[]
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+
+=== 前提条件
+
+この例の目的のために以下のエンティティが必要です:
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+* C ドライブに保存されたワークシートを含む Book3.xlsx という名前の Excel ファイル。
+endif::win-forms,win-forms-old,asp-net,aspnet-old,wpf[]
+* `Formulas` に設定されたワークシート名
+* セル A1:A5 内のランダムな数字
+* セル B1:B5 内のランダムな数字
+
+.注:
+[NOTE]
+====
+この特定の例では “=A1$$*$$5”、“=COUNT(A1:A5)”、“=SUM(A1:A5)”、“=AVERAGE(A1:A5)” および d “=LOG(A5)” がスクリーンショットで結果を生成するために使用されました。
+====
+
+image::images/Get_Cell_Text_4.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' Load a Workbook
+Dim workBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\Book3.xlsx""]pick:[xamarin="inputStream"])
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workBook.Worksheets("Formulas")
+' Turn On Worksheet options for showing formulas instead of formula results
+worksheet.DisplayOptions.ShowFormulasInCells = True
+Dim sb As New StringBuilder()
+' Loop over cells with different width sets and show the GetText() method return values
+Dim i As Integer = 0
+While i < 5
+    sb.AppendLine(worksheet.Rows(i).Cells(1).GetText())
+    i += 1
+End While
+ifdef::wpf[]
+MessageBox.Show(sb.ToString())
+endif::wpf[]
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// Load a Workbook
+Infragistics.Documents.Excel.Workbook workBook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\\Book3.xlsx""]pick:[xamarin="inputStream"]);
+Infragistics.Documents.Excel.Worksheet worksheet = workBook.Worksheets["Formulas"];
+// Turn On Worksheet options for showing formulas instead of formula results
+worksheet.DisplayOptions.ShowFormulasInCells = true;
+StringBuilder sb = new StringBuilder();
+// Loop over cells with different width sets and show the GetText() method return values
+for (int i = 0; i < 5; i++)
+{
+    sb.AppendLine(worksheet.Rows[i].Cells[1].GetText());
+}
+ifdef::wpf[]
+MessageBox.Show(sb.ToString());
+endif::wpf[]
+ifdef::xamarin[]
+System.Diagnostics.Debug.WriteLine(sb.ToString());
+endif::xamarin[]
+----
+
+[[_Ref318391938]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-applying-styles-to-cells.html[スタイルをセルに適用]
+|Infragistics Excel Engine によってセルの外観と動作をカスタマイズすることができます。
+| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]
+|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+
+ifdef::wpf,xamarin[]
+| link:excelengine-format-a-cell.html[セルの書式設定 ({ExcelEngineName})]
+|このトピックでは、ワークシートのセルの外観と動作をカスタマイズする方法を説明します。
+| link:excelengine-using-the-infragistics-excel-engine.html[{ExcelEngineName} の使用]
+|このセクションには、{ExcelEngineName} で提供される主要な特徴および機能についての情報が含まれています。
+endif::wpf,xamarin[]
+
+|====
+
+=== リソース
+
+以下の資料 (インフラジスティックス のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+[options="header", cols="a,a"]
+|====
+|タイトル|目的
+
+| link:http://office.microsoft.com/ja-jp/excel-help/create-or-delete-a-custom-number-format-HP001216503.aspx[カスタム数値書式を作成または削除]
+|数値書式をカスタマイズするためのガイドラインを提供し、カスタムの数値書式を作成して、カスタムの数値書式を削除します。
+
+|====

@@ -1,0 +1,112 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-2-of-5)",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{F52EB1E7-3F99-4EB4-865F-A2F4AA551D09}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Creating a Drilldown Chart (Part 2 of 5)
+
+This topic is a continuation of link:chart-creating-a-drilldown-chart-part-1-of-5.html[Creating a Drilldown Chart (Part 1 of 5)].
+
+This form consists of one WinChart which will have its DataSource as well as other properties such as, chart type and format labels changed whenever the end user moves from level to level.
+
+The end user can navigate through the levels by using the Link Labels. They will change dynamically as the end user moves from level to level. The Link Labels are displayed in a bread crumb navigation style.
+
+An additional UI feature that is implemented in this application is the use of three Label controls that show the current level as well as the actual entity type. Whenever the end user moves to a level, the Label control for that level is colored differently so that the current data on the chart represents that particular entity.
+
+The Link Labels as well as the standard Labels are placed on the Form by docking one standard Panel control on the top of the Form and docking another separate Panel on the bottom of the Form.
+
+Within the top panel place the three Link Labels.
+
+Within the bottom panel place the three Labels.
+
+Set the AutoSize property of each label to True.
+
+This is done so that when the text string in each label is adjusted, the control is resized accordingly. Each label is then docked against the left hand side. The labels are then always formatted correctly whenever the text strings change.
+
+[start=1]
+. Before you start writing any code, you should place using/Imports directives in your code-behind so you don't need to always type out a member's fully qualified name. In this example the SqlClient namespace is imported because SQL Server specific classes are used to connect to the Database and execute commands to retrieve the data.
+*In Visual Basic:*
+
+----
+Imports System.Data.SqlClient 
+Imports Infragistics.UltraChart.Shared.Events 
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*In C#:*
+
+----
+using System.Data.SqlClient 
+using Infragistics.UltraChart.Shared.Events 
+using Infragistics.UltraChart.Shared.Styles
+----
+
+[start=2]
+. Set the maximum, minimum and current drill levels:
+
+** MAX_DRILL -- 3
+** MIN_DRILL -- 1
+** _currDrill -- 1
+
+*In Visual Basic:*
+
+----
+Private Const MAX_DRILL As Integer = 3
+Private Const MIN_DRILL As Integer = 1 
+Private _currDrill As Integer = 1
+----
+
+*In C#:*
+
+----
+private const int MAX_DRILL = 3; 
+private const int MIN_DRILL = 1; 
+private int _currDrill = 1;
+----
+
+[start=3]
+. Drilling down/up involves incrementing/decrementing the Current Drill level variable.
+*In Visual Basic:*
+
+----
+Private Sub DrillDown() 
+  _currDrill += 1
+  If (_currDrill > MAX_DRILL) 
+    Then _currDrill = MAX_DRILL 
+End Sub
+Private Sub DrillBack() 
+  _currDrill -= 1 
+  If (_currDrill < MIN_DRILL) 
+    Then _currDrill = MIN_DRILL 
+End Sub
+----
+
+*In C#:*
+
+----
+private void DrillDown() 
+{ 
+   _currDrill += 1; 
+   if (_currDrill > MAX_DRILL) 
+       _currDrill = MAX_DRILL; 
+}
+private void DrillBack() 
+{ 
+   _currDrill -= 1; 
+   if (_currDrill < MIN_DRILL) 
+       _currDrill = MIN_DRILL; 
+}
+----
+
+== Related Topic
+
+link:chart-creating-a-drilldown-chart-part-3-of-5.html[Creating a Drilldown Chart (Part 3 of 5)]

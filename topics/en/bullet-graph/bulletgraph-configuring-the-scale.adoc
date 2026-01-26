@@ -1,0 +1,1150 @@
+﻿////
+|metadata|
+{
+    "name": "bulletgraph-configuring-the-scale",
+    "controlName": ["{BulletGraphName}"],
+    "tags": ["Charting","How Do I"],
+    "guid": "3eaac3d7-7fdc-4659-974e-b57c15e8d236",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0018684Z"
+}
+|metadata|
+////
+
+= Configuring Graph Scale
+
+
+
+=== Purpose
+
+This topic explains, with examples, how to customize the scale of the _{BulletGraphName}_™ control. This includes positioning the scale inside the control and configuring the scale tick marks and labels. (For the default settings, see the link:bulletgraph-overview.html[ _{BulletGraphName}_ Overview] topic.)
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:bulletgraph-overview.html[ _{BulletGraphName}_ Overview]
+|This topic provides conceptual information about the _{BulletGraphName}_ control including its main features, minimum requirements, and user functionality.
+
+| link:bulletgraph-adding.html[Adding _{BulletGraphName}_ ]
+|This topic explains how to add the _{BulletGraphName}_ control to a {PlatformName} application.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Introduction, Introduction >>
+
+** <<_Ref361864023,Scale configuration summary>>
+** <<_Ref361864029,Scale configuration summary chart>>
+
+* <<_Ref357787105, Configuring the Scale’s Size and Position >>
+
+** <<_Ref361864053,Overview>>
+** <<_Ref361864060,Property settings>>
+** <<_Ref361864068,Example>>
+
+* <<_Ref362967447, Configuring the Scale’s Range >>
+
+** <<_Ref362957285,Overview>>
+** <<_Ref362957294,Property settings>>
+** <<_Ref362957303,Example>>
+
+* <<_ConfiguringScaleMajorTickMarks, Configuring the Scale’s Major Tick Marks >>
+
+** <<_Ref361864212,Overview>>
+** <<_ConfiguringThePositionAlongTheScale,Configuring the position along the scale, count, and spacing>>
+** <<_Ref362623912,Configuring the position across the scale and the length of the segments>>
+** <<_Ref361864247,Property settings>>
+** <<_Ref361864252,Example>>
+
+* <<_Ref358209462, Configuring the Scale’s Minor Tick Marks >>
+
+** <<_Ref361864270,Overview>>
+** <<_Ref362631410,Configuring the position along the scale, count, and spacing>>
+** <<_Ref362631420,Configuring the position across the scale and the length of the segments>>
+** <<_Ref361864274,Property settings>>
+** <<_Ref361864279,Example>>
+
+* <<_Ref362292715, Configuring the Scale’s Labeling >>
+
+** <<_Ref361864298,Overview>>
+
+ifdef::sl,wpf[]
+** <<_Ref361864305,Event handling>>
+
+endif::sl,wpf[]
+
+** <<_Ref361864310,Property settings>>
+** <<_Ref361864318,Example – horizontal orientation>>
+** <<_Ref361864329,Example – vertical orientation>>
+
+* <<_Ref361864362, Related Content >>
+  
+
+[[_Introduction]]
+== Introduction
+
+[[_Ref361864023]]
+
+=== Scale configuration summary
+
+The scale of the _{BulletGraphName}_ control is a logical entity formed by the tick marks and the numbered labels. The size and position of the tick marks is configured relative to the link:bulletgraph-overview.html#_GraphAreaLink[Graph area] and the position of the numbered labels – relative to the inner edge of the control (the bottom edge at horizontal orientation).
+
+The tick marks of the _{BulletGraphName}_ control identify equal intervals of measure along the graph. Two types of tick marks are supported – major and minor. Both can be positioned along the scale by adjusting the values of the respective extent-related properties which are measured against the Graph area. The tick marks’ exact count, position, look, and frequency of occurrence can be customized by property settings.
+
+As far as the labels are concerned, various aspects of them can be configured such as position, text, format, etc.
+
+[[_Ref361864029]]
+
+=== Scale configuration summary chart
+
+The following table explains briefly the configurable aspects of _{BulletGraphName}_ control’s scale and maps them to properties that configure them.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspects|Property|Default value
+
+| Position 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+| _0.05_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+| _0.95_ 
+| Background
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleBackgroundBrush.html[ScaleBackgroundBrush]
+| Defined in the default theme
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleBackgroundOutline.html[ScaleBackgroundOutline]
+| Defined in the default theme
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleBackgroundThickness.html[ScaleBackgroundThickness]
+| 1.0
+
+|Min value 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minimumvalue.html[MinimumValue]
+| _0_ 
+
+|Max value 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}maximumvalue.html[MaximumValue]
+| _100_ 
+
+|Major tick marks
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+ifdef::wpf,sl,win-forms,android[]
+|Not set
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0_
+endif::xamarin[]
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent]
+ifdef::wpf,sl,win-forms,android[]
+| _0.1_ 
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0.06_
+endif::xamarin[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.2_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickbrush.html[TickBrush]
+|Defined in the default theme
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _2.0_ 
+
+|Minor tick marks
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount]
+|_3.0_
+
+| 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+ifdef::wpf,sl,win-forms,android[]
+| _0.06_ 
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0.1_
+endif::xamarin[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.2_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|Defined in the default theme
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _1.0_ 
+
+|Labels
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+ifdef::wpf,sl,win-forms,android[]
+|Not set
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0_
+endif::xamarin[]
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _0_ 
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _0_ 
+
+ifdef::sl,wpf[]
+| 
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelformat.html[LabelFormat]
+|Not set
+endif::sl,wpf[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+|Defined in the default theme
+
+|====
+
+[[_Ref357787105]]
+== Configuring the Scale’s Size and Position
+
+[[_Ref361864053]]
+
+=== Overview
+
+The scale’s size and position within the _{BulletGraphName}_ control in the along-the scale-dimension is determined relative to the link:bulletgraph-overview.html#_GraphAreaLink[Graph area]. This is done through a pair of properties ( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scalestartextent.html[ScaleStartExtent] and link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scaleendextent.html[ScaleEndExtent]).
+
+image::images/BulletGraph_Configuring_the_Scale_1.png[]
+
+The positioning of the scale in the other (across-the-scale) dimension of the Graph area is not configurable by itself; instead, all elements comprising the scale are configured individually.
+
+
+.Note
+[NOTE]
+====
+The value of the `LabelExtent` property, which controls the positioning of the numbering labels, is measured relative to the height of the control when its orientation is horizontal and to its width otherwise. (For details, see link:bulletgraph-configuring-the-orientation-and-direction.html[Configuring Orientation and Direction].)
+====
+
+[[_Ref361864060]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings. For an illustration of the configurable aspects, see the <<_Ref361864068,Example>>.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+
+|Starting position
+
+| The starting position of the scale relative to the left edge of the link:bulletgraph-overview.html#_GraphAreaLink[Graph area] at horizontal orientation or to the bottom edge at vertical orientation. (When the direction of the scale is inverted, these become, respectively, the right edge at horizontal orientation and top edge at vertical orientation. For details, see link:bulletgraph-configuring-the-orientation-and-direction.html[Configuring the Orientation and Direction].)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+|The desired value as a relative part the width/height of the control (depending on the orientation) presented as a fraction of 1 (e.g. _0.2_ )
+
+|Ending position
+ 
+
+| The ending position of the scale relative to the left edge of the Graph area relative to the left edge of the control in horizontal orientation or to the bottom edge in vertical orientation. 
+
+(When the direction of the scale is inverted, these become, respectively, the right edge at horizontal orientation and top edge at vertical orientation. For details, see link:bulletgraph-configuring-the-orientation-and-direction.html[Configuring the Orientation and Direction].)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+|The desired value as a relative part the width/height of the control width/height (depending on the orientation) presented as a fraction of 1 (e.g. _0._ _8_ )
+
+|====
+
+[[_Ref361864068]]
+
+=== Example
+
+The screenshot below demonstrates how the _{BulletGraphName}_ would look as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+|`ScaleStartExtent`
+| _0.2_ 
+
+|`ScaleEndExtent`
+| _0.9_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_2.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} x:Name="bulletGraph"
+                 ScaleStartExtent="0.2"
+                 ScaleEndExtent="0.9"  />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+bulletGraph.ScaleStartExtent = .2;
+bulletGraph.ScaleEndExtent = .9;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+bulletGraph.ScaleStartExtent = .2
+bulletGraph.ScaleEndExtent = .9
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,java]
+----
+bulletGraph.setScaleStartExtent(.2);
+bulletGraph.setScaleEndExtent(.9);
+----
+
+endif::android[]
+
+[[_Ref362967447]]
+== Configuring the Scale’s Range
+
+[[_Ref362957285]]
+
+=== Overview
+
+The values of the scale are defined by specifying its value range, that is, its minimum and maximum values. This is done with the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minimumvalue.html[MinimumValue] and link:{BulletGraphLink}.{BulletGraphName}{ApiProp}maximumvalue.html[MaximumValue] properties.
+
+Setting the minimum and maximum values implicitly defines all values within the scale; all values are placed in even distribution between the minimum and maximum values. However, only those values are displayed for which there is a numbered label, placed on the scale. (The scale’s values can be displayed only through the numbered labels. The labels display the respective values based on the label’s position on the scale, i.e. the labels’ values are configured through the positioning of the labels along the scale and not set explicitly.) There is no requirement to have labels at the positions of the minimum and maximum values which means that the minimum and maximum values may not be indicated visually on the scale and the scale can look something like this:
+
+image::images/BulletGraph_Configuring_the_Scale_3.png[]
+
+Having the scale's range defined also enables the positioning of the other value-based visual elements on the scale, namely the comparative ranges, comparative marker, and the performance bar. Note that because these elements are value-based, when the scale’s range changes (i.e. when either its minimum or maximum value (or both) changes), these visual elements are re-positioned spatially together with the scale’s values keeping their position on the scale.   
+
+[[_Ref362957294]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings. For an illustration of the configurable aspects, see the <<_Ref362957303,Example>>.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+|The minimum value of the scale
+|The value at which the scale starts.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minimumvalue.html[MinimumValue]
+|The desired value in the measures of the scale
+
+|The maximum value of the scale
+|The value at which the scale ends.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}maximumvalue.html[MaximumValue]
+|The desired value in the measures of the scale
+
+|====
+
+[[_Ref362957303]]
+
+=== Example
+
+The screenshot below demonstrates how the _{BulletGraphName}_ would look as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+|`MinimumValue`
+| _60_ 
+
+|`MaximumValue`
+| _70_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_4.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} 
+          MinimumValue="60"
+          MaximumValue="70" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+[source,cs2]
+----
+bulletGraph.MaximumValue = 70;
+bulletGraph.MinimumValue = 60;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+bulletGraph.MaximumValue = 70
+bulletGraph.MinimumValue = 60
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+bulletGraph.setMaximumValue(70);
+bulletGraph.setMinimumValue(60);
+----
+
+endif::android[]
+
+[[_ConfiguringScaleMajorTickMarks]]
+== Configuring the Scale’s Major Tick Marks
+
+[[_Ref361864212]]
+
+=== Overview
+
+The major tick marks of the _{BulletGraphName}_ control can be customized in terms of position and interval at which they occur. The height, thickness, and color of the line segments that forms the major tick marks are configurable as well.
+
+[[_ConfiguringThePositionAlongTheScale]]
+
+=== Configuring the position along the scale, count, and spacing
+
+The major tick marks are defined in terms of starting and ending points (the positions of the first and the last tick marks relative to the edges of the link:bulletgraph-overview.html#_GraphAreaLink[Graph area] and the interval (the distance from each other) at which they occur. (This is done through the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial], link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal], and link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval] properties.) This way, defining the starting and ending points of the major tick marks essentially defines the position and length of the scale.
+
+image::images/BulletGraph_Configuring_the_Scale_5.png[]
+
+[[_Ref362623912]]
+
+=== Configuring the position across the scale and the length of the segments
+
+In the across-the-scale dimension, the length and position of the line segments that form the major tick marks is configured relative to the edges of the link:bulletgraph-overview.html#_GraphAreaLink[Graph area]. (This is done through the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent] and link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent] properties.)
+
+image::images/BulletGraph_Configuring_the_Scale_6.png[]
+
+[[_Ref361864247]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings. For an illustration of the configurable aspects, see the <<_Ref361864252,Example>>.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+|*Position along the scale, count, and spacing*
+|
+|
+|
+
+|Starting point
+|The distance at which the major tick marks begin relative to the <<_Ref361864060,starting position>> of the scale
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+|The desired distance (in the measures of the scale) from scale start position
+
+|Ending point
+|The distance at which the major tick marks end relative to the <<_Ref361864060,ending position>> of the scale
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+|The desired distance (in the measures of the scale) from the scale end position
+
+|Interval
+|The interval at which to place the major tick marks (Interval is the distance – in the measures of the scale – between two adjacent major tick marks.)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+|The desired value in measures of the scale
+
+|*Position across the scale and length of the segments*
+|
+|
+|
+
+|Starting point
+|The starting point of the line segments that form the major tick marks. 
+
+(The starting point is defined relative to the bottom of the Graph area in horizontal orientation or to the left edge of the Graph area in vertical orientation.) 
+
+Negative values are supported as well, indicating positions beneath/ on the left of the Graph area.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent]
+|The desired value (in the measures of the scale) as a relative part the height/width of the Graph area (depending on the orientation) presented as a fraction of 1 (e.g. _0.2_ )
+
+|Ending point
+|The ending point of the line segments that form major tick marks relative to the bottom of the Graph area in horizontal orientation or to the left border of the Graph area in vertical orientation. 
+
+Negative values are supported as well, indicating positions beneath/ on the left of the Graph area. 
+
+(The difference between the starting and the ending points forms the length of the marks’ line segments.)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent]
+|The desired value as a relative part the height/width of the Graph area (depending on the orientation) presented as a fraction of 1 (e.g. _0._ _8_ )
+
+|*Look-and-feel*
+|
+|
+|
+
+|Thickness
+|The thickness of the major tick marks’ line segments.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+|The desired value in pixels
+
+|Color
+|The color of the major tick marks
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickbrush.html[TickBrush]
+|The desired color
+
+|====
+
+[[_Ref361864252]]
+
+=== Example
+
+The screenshot below demonstrates how the _{BulletGraphName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickbrush.html[TickBrush]
+| _Lime_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.9_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _10_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent]
+| _0.5_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _3_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_7.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} Interval="30"
+                 TickBrush="Lime"
+                 TickEndExtent="0.9"
+                 TicksPostInitial="30"
+                 TicksPreTerminal="10"
+                 TickStartExtent="0.5"
+                 TickStrokeThickness="3" />
+----
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+[source,cs3]
+----
+bulletGraph.Interval = 30;
+bulletGraph.TickBrush = new SolidColorBrush(Color.Lime);
+bulletGraph.TickEndExtent = .9;
+bulletGraph.TicksPostInitial = 30;
+bulletGraph.TicksPreTerminal = 10;
+bulletGraph.TickStartExtent = .5;
+bulletGraph.TickStrokeThickness = 3;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+bulletGraph.Interval = 30
+bulletGraph.TickBrush = New SolidColorBrush(Color.Lime)
+bulletGraph.TickEndExtent = .9
+bulletGraph.TicksPostInitial = 30
+bulletGraph.TicksPreTerminal = 10
+bulletGraph.TickStartExtent = .5
+bulletGraph.TickStrokeThickness = 3
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,Java]
+----
+bulletGraph.setInterval(30);
+bulletGraph.setTickBrush(new SolidColorBrush(Color.parseColor("#BFFF00")));
+bulletGraph.setTickEndExtent(.9);
+bulletGraph.setTicksPostInitial(30);
+bulletGraph.setTicksPreTerminal(10);
+bulletGraph.setTickStartExtent(.5);
+bulletGraph.setTickStrokeThickness(3);
+----
+
+endif::android[]
+
+[[_Ref358209462]]
+== Configuring the Scale’s Minor Tick Marks
+
+[[_Ref361864270]]
+
+=== Overview
+
+The minor tick marks of the _{BulletGraphName}_ control can be explicitly disabled or customized in terms of number (between two major tick marks), positioning, size, and color.
+
+[[_Ref362631410]]
+
+=== Configuring the position along the scale, count, and spacing
+
+The minor tick marks are defined as a count (the number of minor tick marks between two adjacent major tick marks). This is done through the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount] property; setting this property to  _0_  disables (hides) the minor tick marks. When the count is set, the specified number of minor tick marks is placed evenly between every two adjacent major tick marks, from the first one to the last.
+
+[[_Ref362631420]]
+
+=== Configuring the position across the scale and the length of the segments
+
+In the across-the-scale dimension, the minor tick marks length and position is configured relative to the edges of the link:bulletgraph-overview.html#_GraphAreaLink[Graph area].
+
+image::images/BulletGraph_Configuring_the_Scale_8.png[]
+
+[[_Ref361864274]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings. For an illustration of the configurable aspects, see the <<_Ref361864279,Example>>.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+| Number and spacing 
+|The number of minor tick marks between two adjacent major tick marks.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount]
+|The desired number; setting of _0_ hides the minor tick marks
+
+|Starting point
+|The starting point of the line segments that form the minor tick marks. 
+
+(The starting point is defined relative to the bottom of the link:bulletgraph-overview.html#_GraphAreaLink[Graph area] in horizontal orientation or to the left edge of the Graph area in vertical orientation.) 
+
+Negative values are supported as well, indicating positions beneath/ on the left of the Graph area.
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+|The desired value as a relative part the height/width of the control height/width (depending on the orientation) presented as a fraction of 1 (e.g. _0.2_ )
+
+| Ending point 
+|The ending point of the line segments that form minor tick marks relative to the bottom of the Graph area in horizontal orientation or to the left border of the Graph area in vertical orientation. 
+
+Negative values are supported as well, indicating positions beneath/ on the left of the Graph area. 
+
+(The difference between the starting and the ending points forms the length of the marks’ line segments.)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+|The desired value as a relative part the height/width of the control height/width (depending on the orientation) presented as a fraction of 1 (e.g. _0.2_ _5_ )
+
+|Thickness
+|The thickness of the minor tick marks
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+|The desired value in pixels
+
+|Color
+|The color of the minor tick marks
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|The desired color
+
+|====
+
+[[_Ref361864279]]
+
+=== Example
+
+The screenshot below demonstrates how the _{BulletGraphName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickbrush.html[MinorTickBrush]
+| _Purple_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount]
+| _4_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.1_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+| _0.05_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _2_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+| _20_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_9.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} MinorTickBrush="Purple"
+                 MinorTickCount="4"
+                 MinorTickEndExtent="0.1"
+                 MinorTickStartExtent="0.05"
+                 MinorTickStrokeThickness="2"
+                 Interval="20" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+[source,cs4]
+----
+bulletGraph.MinorTickBrush = new SolidColorBrush(Color.Purple);
+bulletGraph.MinorTickCount = 4;
+bulletGraph.MinorTickEndExtent = .1;
+bulletGraph.MinorTickStartExtent = .05;
+bulletGraph.MinorTickStrokeThickness = 2;
+bulletGraph.Interval = 20;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+bulletGraph.MinorTickBrush = New SolidColorBrush(Color.Purple)
+bulletGraph.MinorTickCount = 4
+bulletGraph.MinorTickEndExtent = .1
+bulletGraph.MinorTickStartExtent = .05
+bulletGraph.MinorTickStrokeThickness = 2
+bulletGraph.Interval = 20
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,java]
+----
+bulletGraph.setMinorTickBrush(new SolidColorBrush(Color.parseColor("#9B30FF")));
+bulletGraph.setMinorTickCount(4);
+bulletGraph.setMinorTickEndExtent(.1);
+bulletGraph.setTickStartExtent(.05);
+bulletGraph.setMinorTickStrokeThickness(2);
+bulletGraph.setInterval(20);
+----
+
+endif::android[]
+
+[[_Ref362292715]]
+== Configuring the Scale’s Labeling
+
+[[_Ref361864298]]
+
+=== Overview
+
+By default, the labels indicating the scale’s measures are enabled. The labels are defined in terms of the following factors:
+
+*  *Starting and ending points*  – the positions of the first and the last label relative to the edges of the scale.
+*  *Breadth of the label row*  – relative to the height/width of the control, depending on the orientation (vertical/horizontal). The breadth can be controlled only indirectly by the font settings in the applied style template.
+*  *The interval*  (the distance from each other) at which they occur. This is done through the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial], link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal] and link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval] properties.
+*  *The position of the label row*  in the across-the-scale dimension – the default is at the bottom / on the left of the control (for horizontal or vertical orientation, respectively); the entire row can be shifted vertically at horizontal scale orientation or the horizontally at vertical scale orientation. This is done through the link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent] property.
+
+image::images/BulletGraph_Configuring_the_Scale_10.png[]
+
+The value that each label displays is defined by the value represented by its position on the scale (This requires <<_Ref362967447,configuring the scale’s value range>>.) A string format can be applied to the labels so that their look is additionally customized. By default, a numeric label is displayed for each of the major tick marks and the labels are positioned beneath / on the left of the scale depending on the scale’s orientation (horizontal/vertical, respectively).
+
+If you customize the labels and the major tick marks, you will more likely need to make sure they align to each other; to achieve alignment, set the same value for the tick marks interval ( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval] property) and the label interval (`LabelInterval` property). (By default, they are aligned because the `LabelInterval` property is not set and uses the value set for `Interval`.)
+
+[[_Ref361864305]]
+
+=== Event handling
+
+The labels of _{BulletGraphName}_ can be additionally formatted  pick:[android="and aligned"]  on handling the corresponding event pick:[android="s"] .
+
+The following table maps the desired behavior to its respective event.
+
+[options="header", cols="a,a"]
+|====
+|In order to:|Handle this event:
+
+|Format the labels
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}formatlabel_ev.html[FormatLabel]
+
+|Align the labels
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}alignlabel_ev.html[AlignLabel]
+
+|====
+
+[[_Ref361864310]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings. For an illustration of the configurable aspects, see <<_Ref361864318,Example – horizontal orientation>>.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+
+
+|Position
+|The positioning of the label row relative to bottom/left edge of the control (depending on the orientation – vertical/horizontal).
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+|The desired value presented as a relative part the height/width of the control (depending on the orientation – vertical/horizontal) presented as a fraction of 1 (e.g. _0._ _8_ ).
+
+|Starting point
+|Position (in the measures of the scale) of the first label along the scale
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+|The value (in the measures of the scale) at which the first label of the scale is to be displayed
+
+|Ending point
+|Position (in the measures of the scale) of the last label along the scale
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+|The value (in the measures of the scale) at which the last label of the scale is to be displayed
+
+|Interval
+|The interval at which to place the labels (Interval is the distance between two adjacent labels in the measures of the scale.)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+|The desired value in the measure of the scale
+
+ifdef::sl,wpf[]
+|String format
+|The string format of the labels (e.g. numeric, time, composite, etc.)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelformat.html[LabelFormat]
+|The desired link:http://msdn.microsoft.com/en-us/library/26etazsy.aspx[string format] (e.g. _{0:c}_ for displaying currency values)
+endif::sl,wpf[]
+
+|Font color
+|Font color of the labels
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+|The desired color
+
+|====
+
+[[_Ref361864318]]
+
+=== Example – horizontal orientation
+
+The screenshot below demonstrates how the _{BulletGraphName}_ looks as a result of the following settings with the default horizontal scale orientation:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+| _0.5_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+| _Green_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_11.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} LabelExtent="0.5"
+                 LabelInterval="30"
+                 LabelsPostInitial="20"
+                 LabelsPreTerminal="20"
+                 FontBrush="Green" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+[source,cs5]
+----
+bulletGraph.LabelExtent = .5;
+bulletGraph.LabelInterval = 30;
+bulletGraph.LabelsPostInitial = 20;
+bulletGraph.LabelsPreTerminal = 20;
+bulletGraph.FontBrush = new SolidColorBrush(Color.Green);
+----
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+bulletGraph.LabelExtent = .5
+bulletGraph.LabelInterval = 30
+bulletGraph.LabelsPostInitial = 20
+bulletGraph.LabelsPreTerminal = 20
+bulletGraph.FontBrush = New SolidColorBrush(Color.Green)
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+bulletGraph.setLabelExtent(20);
+bulletGraph.setLabelInterval(30);
+bulletGraph.setLabelsPostInitial(20);
+bulletGraph.setLabelsPreTerminal(20);
+bulletGraph.setFontBrush(new SolidColorBrush(Color.GREEN));
+----
+
+endif::android[]
+
+[[_Ref361864329]]
+
+=== Example – vertical orientation
+
+The screenshot below demonstrates how the _{BulletGraphName}_ looks as a result of the following property settings (same as in <<_Ref361864318,>><<_Ref361864318,Example – horizontal orientation>>) and vertical orientation:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}orientation.html[Orientation]
+| _Vertical_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+| _0.5_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+| _Green_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_12.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} Orientation="Vertical"
+                 LabelExtent="0.5"
+                 LabelInterval="30"
+                 LabelsPostInitial="20"
+                 LabelsPreTerminal="20"
+                 FontBrush="Green" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+
+[source,cs6]
+----
+bulletGraph.Orientation = LinearScaleOrientation.Vertical;
+bulletGraph.LabelExtent = .8;
+bulletGraph.LabelInterval = 30;
+bulletGraph.LabelsPostInitial = 20;
+bulletGraph.LabelsPreTerminal = 20;
+bulletGraph.FontBrush = new SolidColorBrush(Color.Green);
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*In VB:*
+
+[source,vb]
+----
+bulletGraph.Orientation = LinearScaleOrientation.Vertical
+bulletGraph.LabelExtent = .8
+bulletGraph.LabelInterval = 30
+bulletGraph.LabelsPostInitial = 20
+bulletGraph.LabelsPreTerminal = 20
+bulletGraph.FontBrush = New SolidColorBrush(Color.Green)
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,java]
+----
+bulletGraph.setOrientation(LinearScaleOrientation.VERTICAL);
+bulletGraph.setLabelExtent(.5);
+bulletGraph.setLabelInterval(30);
+bulletGraph.setLabelsPostInitial(20);
+bulletGraph.setLabelsPreTerminal(20);
+bulletGraph.setFontBrush(new SolidColorBrush(Color.GREEN));
+----
+
+endif::android[]
+
+[[_Ref361864362]]
+== Related Content
+
+[[_Ref361864379]]
+
+=== Topics
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:bulletgraph-configuring-the-orientation-and-direction.html[Configuring Orientation and Direction ( _{BulletGraphName}_ )]
+|This topic explains how to configure the _{BulletGraphName}_ control with vertical scale and/or inverted scale direction.
+
+ifdef::sl,wpf[]
+| link:bulletgraph-configuring-the-title-subtitle.html[Configuring the Title/Subtitle ( _{BulletGraphName}_ )]
+|This topic explains, with code examples, how to configure the title and subtitle of the _{BulletGraphName}_ control. This includes the title area width the start position of the text and the title/subtitle text itself.
+endif::sl,wpf[]
+
+| link:bulletgraph-configuring-the-performance-bar.html[Configuring the Performance Bar ( _{BulletGraphName}_ )]
+|This topic explains, with examples, how to configure the performance bar of the _{BulletGraphName}_ control. This includes the value indicated by the bar, its width, position, and formatting.
+
+| link:bulletgraph-configuring-the-comparative-marker.html[Configuring the Comparative Marker ( _{BulletGraphName}_ )]
+|This topic explains, with code examples, how to configure the comparative measure marker of the _{BulletGraphName}_ control. This includes the marker’s value, width, and formatting.
+
+| link:bulletgraph-configuring-comparative-ranges.html[Configuring Comparative Ranges ( _{BulletGraphName}_ )]
+|This topic explains, with code examples, how to configure ranges in the _{BulletGraphName}_ control. This includes the number of ranges and their positions, lengths, widths, and formatting.
+
+| link:bulletgraph-configuring-the-background.html[Configuring the Background ( _{BulletGraphName}_ )]
+|This topic explains, with code examples, how to configure a background for the bullet graph. This includes setting the background’s size, position, color, and border.
+
+ifdef::wpf,sl[]
+| link:bulletgraph-configuring-the-tooltips.html[Configuring the Tooltips ( _{BulletGraphName}_ )]
+|This topic explains, with code examples, how to enable the tooltips in the _{BulletGraphName}_ control and configure the delay with which they are displayed.
+endif::wpf,sl[]
+
+|====
+ 
+[[_Ref362293151]]
+
+=== Resources
+
+The following material (available outside the Infragistics family of content) provides additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Title|Purpose
+
+| link:http://msdn.microsoft.com/en-us/library/26etazsy.aspx[Formatting Types]
+|An MSDN overview article on formatting types with sub-articles on the specific string formats.
+
+|====

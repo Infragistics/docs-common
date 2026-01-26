@@ -1,0 +1,194 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-chart-crosshair",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Styling"],
+    "guid": "a21637d5-bc6b-4061-894f-2cd1f1755938",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.6593812Z"
+}
+|metadata|
+////
+
+= Chart Crosshair
+
+This topic explains, with code examples, how to enable and customize the crosshair in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+== Introduction
+
+In the {DataChartName} control, the crosshair is a set of two perpendicular (vertical and horizontal) lines used to locate with precision a particular point on the chart. The crosshair is helpful when identifying the relationship between some points on the graph that are aligned on or near the same axis values. The lines of the crosshair intersect at the position that corresponds to the horizontal (x-axis) or vertical (y-axis) location of the  pick:[sl,wpf,win-universal,win-forms="mouse cursor"]   pick:[win-universal="or"]   pick:[win-universal,win-phone,xamarin="tap finger"] .
+
+image::images/xamDataChart_RT_Chart_Crosshair_01.png[]
+
+Figure 1: The {DataChartName} control with a custom style for crosshair lines
+
+== Enabling the Crosshair
+
+ifdef::wpf,win-universal,win-forms[]
+The {DataChartName} crosshair is hidden by default, To make it visible, set the  pick:[wpf,win-universal=" link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairvisibility.html[CrosshairVisibility]"]  pick:[win-forms=" link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairvisibility.html[CrosshairVisibility]"]  property of the {DataChartName} control; this will make the crosshair appear when the user must  pick:[sl,wpf,win-universal,win-forms="hovers the mouse cursor over"]   pick:[win-universal="or  pick:[win-phone,win-universal="tap and hold a finger on"] "]  the chart plot area.
+endif::wpf,win-universal,win-forms[]
+
+The following code snippet demonstrates how to enable crosshairs in the {DataChartName} control.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName} x:Name="Chart" CrosshairVisibility="Visible" />
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+var chart = new {DataChartName}();
+chart.CrosshairVisibility = Visibility.Visible;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+var chart = new {DataChartName}();
+chart.CrosshairVisibility = Visibility.Visible;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+var chart = new {DataChartName}();
+chart.CrosshairVisibility = Visibility.Visible;
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Dim chart As New {DataChartName}()
+chart.CrosshairVisibility = Visibility.Visible
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Dim chart As New {DataChartName}()
+chart.CrosshairVisibility = Visibility.Visible
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+CrosshairLayer c = new CrosshairLayer();
+c.setTargetSeries(series);
+c.setIsHorizontalLineVisible(true);
+c.setIsVerticalLineVisible(true);
+----
+
+endif::android[]
+
+ifdef::wpf,win-universal[]
+== Customizing the Crosshair
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+Crosshairs can be customized in the following aspects:
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+* line style
+* line color
+* line thickness
+
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+These aspects are managed through the set of properties explained in Table 1.
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+Table 1: Crosshair Customization Properties.
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+
+[options="header", cols="a,a,a,a"]
+|====
+|Property Name|Property Type|Description|Default Value
+
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairlinestyle.html[CrosshairLineStyle]
+|Style
+|Style of the crosshair’s lines. Set to a resource style of Line target type.
+|Line with gray stroke and 1.5 pixels thickness
+
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairlinestyle.html[CrosshairLineStyle].Stroke
+|Brush
+|Color of the crosshair’s lines.
+|Gray
+
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}crosshairlinestyle.html[CrosshairLineStyle].StrokeThickness
+|double
+|Thickness of the crosshair’s lines, in pixels.
+|1.5
+
+|====
+
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+The following code snippet demonstrates how to enable and configure a crosshair that has regular straight red lines, 5 pixels thick:
+endif::wpf,win-universal[]
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName} x:Name="DataChart"
+                 CrosshairVisibility="Visible" >
+            <ig:{DataChartName}.CrosshairLineStyle>
+                <Style TargetType="Line">
+                    <Setter Property="Stroke" Value="Gray" />
+                    <Setter Property="StrokeThickness" Value="1.5" />
+                </Style>
+            </ig:{DataChartName}.CrosshairLineStyle> 
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+[[RelatedContent]]
+== Related Content
+
+* link:datachart-chart-navigation.html[Chart Navigation]
+
+ifdef::wpf,win-universal[]
+* link:datachart-chart-tooltips.html[Chart Tooltips]
+
+endif::wpf,win-universal[]
+
+* link:datachart-series-types.html[Series Types]
+* link:datachart-series-requirements.html[Series Requirements]

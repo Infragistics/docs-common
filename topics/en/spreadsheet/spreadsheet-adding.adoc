@@ -1,0 +1,241 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-adding",
+    "tags": ["Data Binding","Getting Started","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "cc044117-64a3-4ad2-8797-26bd0f853f52",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0663892Z"
+}
+|metadata|
+////
+
+= Adding {SpreadsheetName} to Your Page
+
+
+
+=== Purpose
+
+This topic provides detailed instructions to help you get up and running as soon as possible with the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}].
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|====
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the Infragistics Excel Engine. 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the {SpreadsheetName} control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref393792318, Adding {SpreadsheetName}   to Your Page >>
+* <<_Ref393792325, Related Content >>
+
+[[_Ref393792318]]
+== Adding {SpreadsheetName} to Your Page
+
+=== Introduction
+
+The procedure explains step by step the operations necessary for adding the {SpreadsheetName} to your page.
+
+=== Overview
+
+Following is a conceptual overview of the process:
+
+*1. Add assembly references*
+
+*2. Add namespaces*
+
+*3. Create {SpreadsheetName}*
+
+*4. Create content (alternative)*
+
+*5. Load content (alternative)*
+
+*6. Bind/set workbook to the {SpreadsheetName}*
+
+=== Steps
+
+The following steps demonstrate how to add the {SpreadsheetName} to your page.
+
+ifdef::wpf[]
+
+=== 1. Add required NuGet package
+
+Add the following NuGet package reference in your project:
+
+* Infragistics.WPF.Spreadsheet
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+=== 1. Add assembly references
+
+Add the following assembly references in your project:
+
+* {ApiPlatform}{ApiVersion}dll
+* {ApiPlatform}Undo{ApiVersion}.dll
+* {ApiPlatform}Documents.Core{ApiVersion}.dll
+* {ApiPlatform}Documents.Excel{ApiVersion}.dll
+* {ApiPlatform}Win.{SpreadsheetName}{ApiVersion}
+
+endif::win-forms[]
+
+=== 2. Add namespaces
+
+Add the following namespaces:
+
+pick:[xaml="*In XAML:*"]
+
+ifdef::xaml[]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::xaml[]
+
+*In C#:*
+
+ifdef::xaml[]
+----
+using Infragistics.Controls.Editors; 
+using Infragistics.Documents.Excel;
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+---- 
+using Infragistics.Documents.Excel;
+using Infragistics.Win;
+using Infragistics.Win.UltraWinSpreadsheet;
+----
+endif::win-forms[]
+
+*In Visual Basic:*
+
+ifdef::xaml[]
+----
+Imports Infragistics.Controls.Editors 
+Imports Infragistics.Documents.Excel
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+---- 
+Imports Infragistics.Documents.Excel
+Imports Infragistics.Win
+Imports Infragistics.Win.UltraWinSpreadsheet
+----
+endif::win-forms[]
+
+=== 3. Create {SpreadsheetName}
+
+Create and put the {SpreadsheetName} on your page:
+
+pick:[xaml="*In XAML:*"]
+
+ifdef::xaml[]
+----
+<ig:XamSpreadsheet x:Name="xamSpreadsheet1">
+</ig:XamSpreadsheet>
+----
+endif::xaml[]
+
+*In C#:*
+
+[source,xaml]
+----
+{SpreadsheetName} spreadsheet1 = new {SpreadsheetName}();
+----
+
+*In VB:*
+
+[source,xaml]
+----
+Dim spreadsheet1 As New {SpreadsheetName}()
+----
+
+=== 4. Create content (alternative)
+
+Create a workbook, naming it "wb1" and add content in it as described in the  pick:[xaml=" link:excelengine-creating-a-workbook.html[Creating a Workbook (Infragistics Excel Engine)]"]  pick:[win-forms=" link:excelengine-create-a-workbook.html[Creating a Workbook (Infragistics Excel Engine)]"]  topic.
+
+.Note
+[NOTE]
+====
+This step is an alternative to step 5.
+====
+
+=== 5. Load content (alternative)
+
+Load a workbook from a stream or file as described in the  pick:[xaml=" link:excelengine-load-an-excel-file.html[Loading an Excel File (Infragistics Excel Engine)]"]  pick:[win-forms=" link:excelengine-read-an-excel-file-into-a-workbook.html[Read an Excel File (Infragistics Excel Engine)]"]  topic and name the workbook "wb1".
+
+.Note
+[NOTE]
+====
+This step is an alternative to step 4.
+====
+
+=== 6. Bind/set workbook to the {SpreadsheetName}
+
+Set the {SpreadsheetName}’s   link:{SpreadsheetLink}.{SpreadsheetName}~workbook.html[Workbook] property to the workbook create in the step 4 or 5.
+
+*In C#:*
+
+[source,csharp]
+----
+this.{SpreadsheetName}1.Workbook = wb1;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SpreadsheetName}1.Workbook = wb1
+----
+
+[[_Ref393792325]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-configuring.html[Configuring {SpreadsheetName}]
+|This is a set of topics describing how to configure the control.
+
+| link:spreadsheet-working.html[Working with {SpreadsheetName}]
+|This is a set of topics describing how to work with the control from developer perspective.
+
+|====

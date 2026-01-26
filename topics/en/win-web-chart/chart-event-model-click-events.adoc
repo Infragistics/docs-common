@@ -1,0 +1,75 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-event-model-click-events",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D61B44B4-E42B-4AA4-A87B-58F4123AB9A5}",  
+    "buildFlags": [],
+    "createdOn": "2008-05-12T10:52:53Z"
+}
+|metadata|
+////
+
+= Click Events
+
+When using the Chart component, there are different click events exposed for your use. These events allow your end user to interact with the Chart component through mouse clicks. For example, based on the data value your end users click on, you could perform certain logic.
+
+The click events available are:
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~chartdataclicked_ev.html[ChartDataClicked]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdataclicked_ev.html[ChartDataClicked]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdataclicked_ev.html[ChartDataClicked]"] -- This event is fired when your end user clicks on a chart data point. This event accepts two parameters, sender and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"] .
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~chartdatadoubleclicked_ev.html[ChartDataDoubleClicked]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdatadoubleclicked_ev.html[ChartDataDoubleClicked]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~chartdatadoubleclicked_ev.html[ChartDataDoubleClicked]"] -- This event is fired when your end user double clicks on a chart data point. This event accepts two parameters, sender and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs]"] .
+
+At design time, you can find server-side events in the Events section of the property window.
+
+The following code demonstrates how to handle the ChartDataClicked event.
+
+*In Visual Basic:*
+
+----
+'Add Handler
+AddHandler Me.UltraChart1.ChartDataClicked, AddressOf Me.UltraChart1_ChartDataClicked 
+' ChartDataClicked Event Code
+Protected Sub UltraChart1_ChartDataClicked(sender As Object, e As ChartDataEventArgs)
+  ' The text label associated with the DataColumn that was clicked
+  DimColumnLabel As String = e.ColumnLabel
+  ' The text label associated with the DataRow that was clicked
+  Dim RowLabel As String = e.RowLabel
+  ' The data value that was clicked
+  Dim DataValue As Double = e.DataValue
+  ' Index of the DataRow that was clicked
+  Dim DataRow As Integer = e.DataRow
+  ' If the DataValue is less than 4, change the chart type and chart color
+  If DataValue < 4 Then
+     Me.UltraChart1.BackColor = System.Drawing.Color.Red
+     Me.UltraChart1.ChartType = ChartType.ColumnChart3D
+  End If
+----
+
+*In C#:*
+
+----
+// Assign handler
+this.UltraChart1.ChartDataClicked += 
+new ChartDataClickedEventHandler(this.UltraChart1_ChartDataClicked);
+// ChartDataClick Event Code
+protected void UltraChart1_ChartDataClicked(object sender, 
+                                      ChartDataEventArgs e)
+{
+   // The text label associated with the DataColumn that was clicked
+   string ColumnLabel = e.ColumnLabel;
+   // The text label associated with the DataRow that was clicked
+   string RowLabel = e.RowLabel;
+   // The data value that was clicked
+   double DataValue = e.DataValue;
+   // Index of the DataRow that was clicked
+   int DataRow = e.DataRow;
+   // If the DataValue is less than 4, change the chart type and chart color
+   if (DataValue < 4)
+   {
+      this.UltraChart1.BackColor = System.Drawing.Color.Red;
+      this.UltraChart1.ChartType = ChartType.ColumnChart3D; 
+    } 
+}
+----

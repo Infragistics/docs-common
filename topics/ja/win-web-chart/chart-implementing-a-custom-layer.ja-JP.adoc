@@ -1,0 +1,23 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-implementing-a-custom-layer",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{91EF9F54-30C1-46EF-B09B-23DD0C063A3F}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= カスタム レイヤを実装
+
+新しいレイヤを実装する、または既存のレイヤを修正するには、ILayer インタフェースを実装する必要があります。このインタフェースは、新しいレイヤを実装するためのすべての必要なプロパティおよびメソッドを公開します。
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  を実装する際に必要なのは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers]"]  名前空間内の既存の基本クラス Layer から継承することだけです。カスタム プリミティブ処理ロジックが FillSceneGraph メソッドのオーバーライドに追加されます。このメソッドは、カスタム レイヤがプリミティブを追加できるシーン グラフを持つチャートによって呼び出されます。
+
+カスタム レイヤを Chart にプラグインするには、開発者は ILayer 実装を Chart に提供して登録し、一意の String ID と関連付ける必要があります。String ID が Chart の UserLayerIndex プロパティに追加されます。この String ID はランタイムに Chart 上の Layer ハッシュテーブル プロパティに追加されると、カスタム ILayer 実装と関連付ける必要があります。
+
+要約すれば、Chart で使用する描画処理過程のレイヤ アーキテクチャによって、開発者は既存のチャート タイプをアプリケーション独自の機能で拡張強化できるようになります。詳細および手順については、 link:chart-render-charts-using-the-paint-element.html[「描画要素による描画」]のトピックを参照してください。レイヤの仕組みを示すサンプルも Infragistics 製品の に含まれており、FillSceneGraph 内でコーディングするときに使用可能な柔軟性の程度を学ぶ上で非常に役に立ちます。

@@ -1,0 +1,266 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-creating-chart-in-code-behind-winforms",
+    "controlName": [],
+    "tags": [],
+    "guid": "e05ce5de-531d-4348-89ec-cd527bb37dfc",  
+    "buildFlags": ["WINFORMS"],
+    "createdOn": "2014-09-22T09:12:09.1703504Z"
+}
+|metadata|
+////
+
+= コード ビハインドでチャートを作成
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、コード例を使用してコードビハインドで _link:{DataChartLink}.{DataChartName}.html[{DataChartName}]_ コントロールを作成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-datachart.html[{DataChartName}]
+|このトピックでは、 _{DataChartName}_ コントロールの概要を説明します。
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|このトピックでは、 _{DataChartName}_ コントロールを使用して作業を開始する方法に関する情報を提供します。
+
+| link:datachart-series-requirements.html[シリーズ要件]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref396139768,概要>>
+
+* <<_Ref396139778,プレビュー>>
+* <<_Ref396139787,アプリケーションの要件>>
+* <<_Ref397371366,チャート要件>>
+* <<_Ref397371380,データ ソースの作成>>
+* <<_Ref396139928,軸の作成>>
+* <<_Ref396139936,シリーズの作成>>
+* <<_Ref397371391,チャートの作成>>
+
+* <<_Ref381022312,関連コンテンツ>>
+
+[[_Ref396139768]]
+== 概要
+
+[[_Ref396139778]]
+
+=== プレビュー
+
+以下はこのトピックの最終結果のプレビューです。
+
+image::images/DataChart_Creating_Chart_In_Code_Behind_1.png[]
+
+[[_Ref396139787]]
+
+=== アプリケーションの要件
+
+1. _Ultimate UI for Windows Forms 2014 Volume 2_   またはそれ以降のバージョンをインストールします。
+
+2.Visual Studio 2010 またはそれ以降のバージョンを使用して、新しい Windows Forms アプリケーションを開始します。
+
+==== 必要なアセンブリ
+
+* {ApiPlatform}Win.DataVisualization.Shared.{ApiVersion}
+* {ApiPlatform}Win.DataVisualization.UltraDataChart.{ApiVersion}
+* {ApiPlatform}Portable.Core.{ApiVersion}
+
+==== 必須の名前空間
+
+*C# の場合:*
+
+[source,csharp]
+----
+using Infragistics.Win.DataVisualization;
+using System.Collections;
+using System.Drawing;
+using System.Windows.Forms;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports Infragistics.Win.DataVisualization
+Imports System.Collections
+Imports System.Drawing
+Imports System.Windows.Forms
+----
+
+[[_Ref397371366]]
+
+=== チャート要件
+
+チャート コントロールは シリーズと呼ばれ、さまざまなデータ視覚化をサポートします。このシリーズ オブジェクトは広範なデータ ソースを可視化できます。チャート コントロールにサポートされるシリーズの一覧は、 link:datachart-series-types.html[シリーズ タイプ] トピックを参照してください。各シリーズ タイプは一定の要件を満たす (データ列の数およびタイプなど) データおよびデータをサポートされる軸によって、そのデータがプロットできます。各シリーズの要件については、 link:datachart-series-requirements.html[シリーズ要件]トピックを参照してください。
+
+サンプルのためこのトピックは 1 つだけの link:{DataChartLink}.areaseries.html[AreaSeries] および 2 つの軸: CategoryXAxis および NumericYAxis とサンプルのデータを使用します。
+
+[[_Ref397371380]]
+
+=== データ ソースの作成
+
+link:resources-sample-energy-data.html[サンプル エネルギー データ] リソースのサンプル データ コードをコピーしてカテゴリ サンプル データのインスタンスを作成します:
+
+*C# の場合:*
+
+[source,csharp]
+----
+var data = new EnergyProductionDataSample();
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim data As New EnergyProductionDataSample()
+----
+
+[[_Ref396139928]]
+
+=== 軸の作成
+
+次のコード例では、横軸でラベルを表示するためのカテゴリの X 軸を紹介します。
+
+.注:
+[NOTE]
+====
+_IEnumerable_   データにカテゴリ軸をバインドするために DataSource プロパティが必要です.
+====
+
+*C# の場合:*
+
+[source,csharp]
+----
+var xAxis = new CategoryXAxis 
+            {
+                Label = "Label", 
+                DataSource = data 
+            };
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim xAxis = New CategoryXAxis() With { _
+      .Label = "Label", _
+      .DataSource = data _
+}
+----
+
+次のコード例では、縦軸で値を表示するための数値の Y 軸を紹介します。
+
+*C# の場合:*
+
+[source,csharp]
+----
+var yAxis = new NumericYAxis();
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim yAxis = New NumericYAxis()
+----
+
+[[_Ref396139936]]
+
+=== シリーズの作成
+
+サンプル データ ソースへのバインディングおよびデータ マッピングが設定されるシリーズのインスタンスを作成します。また、シリーズに以前のセクションで作成した 2 つの軸の設定が必要です。
+
+*C# の場合:*
+
+[source,csharp]
+----
+AreaSeries series = new AreaSeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.ValueMemberPath = "Coal";
+series.DataSource = data;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim series = New AreaSeries() 
+series.DataSource = data
+series.ValueMemberPath = "Coal"
+series.XAxis = xAxis
+series.YAxis = yAxis
+----
+
+[[_Ref397371391]]
+
+=== チャートの作成
+
+1 つのシリーズおよび 2 つの軸を持つチャート コントロールのインスタンスを作成します。
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+UltraDataChart chart = new UltraDataChart();
+chart.Dock = DockStyle.Fill;
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim chart As New UltraDataChart() 
+chart.Dock = DockStyle.Fill 
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+
+endif::win-forms[]
+
+[[_Ref381022312]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|このトピックでは、 _{DataChartName}_ コントロールを使用して作業を開始する方法に関する情報を提供します。
+
+| link:datachart-series-requirements.html[シリーズ要件]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+| link:datachart-creating-chart-in-vs-designer-winforms.html[VS デザイナーでチャートを作成]
+|このトピックは、Visual Studio デザイナー インターフェイスを使用した WinForms {DataChartName}™ コントロールの作成について説明します。
+
+|====

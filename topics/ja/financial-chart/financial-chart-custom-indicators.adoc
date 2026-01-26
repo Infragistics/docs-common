@@ -1,0 +1,142 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","Data Presentation","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= カスタム インジケーター
+
+link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールでは、link:financial-chart-pane-indicator.html[インジケーター ペイン]に表示するカスタム財務指標を定義できます。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<ConfigureCustomIndicators,カスタム インジケーターの構成>> 
+* <<CodeSnippet, コード スニペット>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[ConfigureCustomIndicators]]
+=== カスタム インジケーターの構成
+
+{FinancialChartName} でカスタム財務指標を有効にするには、link:{FinancialChartLink}.{FinancialChartName}{ApiProp}customindicatornames{HtmlApiExtension}[pick:[wpf="CustomIndicatorNames"]pick:[jquery="customIndicatorNames"]] プロパティに名前を追加し、pick:[wpf="link:{FinancialChartLink}.{FinancialChartName}{ApiProp}applycustomindicators_ev.html[ApplyCustomIndicators]"]pick:[jquery="link:{FinancialChartLink}.{FinancialChartName}#events:applycustomindicators[applyCustomIndicators]"] イベントで計算を実行します。
+
+[[CodeSnippet]]
+=== コード スニペット
+
+ifdef::wpf[]
+以下のコード例は、2 つのカスタム インジケーターを設定して計算する方法を紹介します。単純移動平均 (SMA) およびランダム値を表示するインジケーターを使用します。
+endif::wpf[]
+
+ifdef::jquery[]
+以下のコード例はランダム値を表示するカスタム インジケーターを表示する方法を紹介します。
+endif::jquery[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    customIndicatorNames: ["Open Price"],
+    applyCustomIndicators: function (e, ui) {
+        var ds = ui.indicatorInfo.getDataSource();
+        for (var i = 0; i < ds.indicatorColumn.length; i++) {
+            ds.indicatorColumn[i] = ds.openColumn[i];
+        }
+    }
+});
+----
+endif::jquery[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamFinancialChart x:Name="chart"
+    ItemsSource="{Binding}"
+    ApplyCustomIndicators="ApplyCustomIndicators" />
+----
+
+*C# の場合:*
+[source,csharp]
+----
+public MainWindow()
+{
+    InitializeComponent();
+    this.DataContext = new ViewModel();
+    
+    var names = new ObservableCollection<string>();
+    names.Add("SMA 100");
+    names.Add("Random");
+    chart.CustomIndicatorNames = names;
+}
+
+private void ApplyCustomIndicators(object sender, FinancialChartCustomIndicatorArgs e)
+{
+    var SMAValues = e.IndicatorInfo.SupportingCalculations.SMA.Strategy.Invoke(e.IndicatorInfo.DataSource.CloseColumn, 100);
+    int length = e.IndicatorInfo.DataSource.IndicatorColumn.Count;
+    switch (e.Index)
+    {
+        case 0:
+            for (int i = 0; i < length; i++)
+                e.IndicatorInfo.DataSource.IndicatorColumn[i] = SMAValues.ToList()[i];
+            break;
+        case 1:
+            Random rand = new Random();
+            for (int i = 0; i < length; i++)
+                e.IndicatorInfo.DataSource.IndicatorColumn[i] = rand.Next();
+            break;
+    }
+}
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Sub New()
+    MyBase.New()
+    InitializeComponent()
+    Me.DataContext = New ViewModel
+
+    Dim names = New ObservableCollection(Of String)
+    names.Add("SMA 100")
+    names.Add("Random")
+    chart.CustomIndicatorNames = names
+End Sub
+
+Private Sub ApplyCustomIndicators(ByVal sender As Object, ByVal e As FinancialChartCustomIndicatorArgs)
+    Dim SMAValues = e.IndicatorInfo.SupportingCalculations.SMA.Strategy.Invoke(e.IndicatorInfo.DataSource.CloseColumn, 100)
+    Dim length As Integer = e.IndicatorInfo.DataSource.IndicatorColumn.Count
+    Select Case (e.Index)
+        Case 0
+            Dim i As Integer = 0
+            Do While (i < length)
+                e.IndicatorInfo.DataSource.IndicatorColumn(i) = SMAValues.ToList(i)
+                i = (i + 1)
+            Loop
+            
+        Case 1
+            Dim rand As Random = New Random
+            Dim i As Integer = 0
+            Do While (i < length)
+                e.IndicatorInfo.DataSource.IndicatorColumn(i) = rand.Next()
+                i = (i + 1)
+            Loop
+            
+    End Select
+    
+End Sub
+----
+endif::wpf[]
+
+pick:[wpf="image::images/financialchart_wpf_custom_indicators.png[]"]
+pick:[jquery="image::images/financialchart_jquery_custom_indicators.png[]"]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:financial-chart-pane-indicator.html[インジケーター ペイン]

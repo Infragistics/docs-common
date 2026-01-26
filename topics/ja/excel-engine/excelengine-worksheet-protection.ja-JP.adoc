@@ -1,0 +1,137 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-worksheet-protection",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Editing","How Do I","Tips and Tricks"],
+    "guid": "89158eba-1444-4bfd-b4bf-563c4658c234",
+    "buildFlags": [],
+    "createdOn": "2014-12-02T09:16:27.0376588Z"
+}
+|metadata|
+////
+
+= ワークシートの保護 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、ワークシートの保護を設定、削除、構成する方法を説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:excelengine-creating-a-workbook.html[ワークブックの作成 ({ExcelEngineName})]
+|{ExcelEngineName} を使用し素早く起動して実行するために、このトピックではワークブックを作成する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref404784892, ワークシートの保護 >>
+* <<_Ref404784902, 関連コンテンツ >>
+
+[[_Ref404784892]]
+== ワークシートの保護
+
+=== 概要
+
+ワークシートの保護機能により、以下のユーザー操作を保護できます pick:[wpf="（パスワード付きまたはパスワードなし）"]。
+
+* 列の挿入、削除、書式設定
+* 行の挿入、削除、書式設定
+* ハイパーリンクの挿入
+* オブジェクトの編集 (この設定は、形状、コメント、チャートの編集や、コントロールの作成または編集を許可または制限します)
+* シナリオの編集 (この設定は、既存のシナリオを許可または制限します)
+* データのフィルタリング (この設定は、自動フィルタリングの使用を許可または制限します)
+* セルの書式設定 (この設定は、セルの書式設定の変更をユーザーに許可または制限します)
+* データの並べ替え
+* ピボット表 (この設定は、ピボット表の変更をユーザーに許可または制限します)
+* セル編集（この設定は、保護されたモードのときに編集できるセル範囲を指定することにより、セル値の編集をユーザーに許可または制限します)
+* セル選択 (この設定は、すべてのセルに対する選択、ロック解除されたセルのみの選択、または選択なしをユーザーに許可または制限します)
+
+.注:
+[NOTE]
+====
+Infragistics Excel Engine のオブジェクト モデルから保護が強制されることはありません。これらの保護設定を履行し、対応する操作の実行をユーザーに許可または制限することは、このオブジェクト モデルを表示する UI の責任です。
+====
+
+=== 構成チャート
+
+以下の表は、ワークシートの保護機能の要素を簡単に説明し、それらを操作するプロパティとメソッドにマップします。
+
+[options="header", cols="a,a,a"]
+|====
+|作業|詳細|プロパティ
+
+|ワークシートの保護を設定する
+|
+ifdef::wpf[]
+`Protect` メソッドのオーバーロードを使用して、ワークシートをパスワード (`string` または `SecureString` を使用して指定) により保護、またはパスワードなしで保護することができます。このメソッドのその他の引数は、前述で説明した各保護設定の指定に使用されます。
+endif::wpf[]
+ifdef::xamarin[]
+ワークシートを保護するには、`Protect` メソッドを使用できます。このメソッドの引数は、前述で説明した各保護設定の指定に使用されます。
+endif::xamarin[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~protect.html[Protect]
+
+|ワークシートの保護を解除する
+|
+ifdef::wpf[]
+`Unprotect` メソッドのオーバーロードを使用して、パスワード付きまたはパスワードなしで設定したワークシートの保護を解除できます。 
+
+`Unprotect` メソッドに対して指定されたパスワードが、ワークシートに設定されたパスワードと一致しない場合、例外がスローされます。 
+
+.注: 
+[NOTE] 
+==== 
+パスワード保護されたワークシートであっても、パスワード引数なしで `Unprotect` オーバーロード メソッドを使用して保護を解除できます。 
+====
+endif::wpf[]
+ifdef::xamarin[]
+`Unprotect` メソッドを使用して、パスワード付きまたはパスワードなしで設定したワークシートの保護を解除できます。
+endif::xamarin[]
+| link:{ExcelEngineApiLink}infragistics.documents.excel.sheet~unprotect.html[Unprotect]
+
+|ワークシートの保護の有無をチェックする
+|Tこの読み取り専用プロパティは、ワークシートに `Protect` メソッドpick:[wpf="のオーバーロード"]を使用して設定された保護がある場合、True を返します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.sheet~isprotected.html[IsProtected]
+
+|ワークシートがパスワード保護されているかどうかをチェックする
+|この読み取り専用プロパティは、ワークシートがパスワード保護されている場合に True を返します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.sheet~hasprotectionpassword.html[HasProtectionPassword]
+
+|ワークシートの保護を取得する
+|この読み取り専用プロパティは、各保護設定を個別に取得するためにプロパティを含む link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetprotection.html[WorksheetProtection] 型のオブジェクトを返します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~protection.html[Protection]
+
+|====
+
+[[_Ref404784902]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-password-support.html[パスワード サポート ({ExcelEngineName})]
+|このトピックは、パスワードで暗号化されたファイルを操作する方法について説明します。
+
+| link:excelengine-workbook-protection.html[ワークブックの保護 ({ExcelEngineName})]
+|このトピックでは、ワークブックの保護を設定、削除、構成する方法を説明します。
+
+|====

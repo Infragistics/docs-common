@@ -1,0 +1,90 @@
+= Column Pinning
+
+This topic will walk you through the process of implementing column pinning on the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+
+== In this topic
+
+This topic contains the following sections:
+
+* <<ReqBackground,Required Background>>
+* <<Overview,Overview>>
+* <<ColumnPinningProperties,Column Pinning Properties>>
+
+[[ReqBackground]]
+== Required Background
+
+The following topics are prerequisites to understanding this topic:
+
+|===
+|Topic|Purpose
+
+|link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+|This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data.
+
+|link:datagrid-working-with-columns.html[Working with Columns]
+|This topic provides code examples on working with columns in the {DataGridName} control.
+
+|===
+
+[[Overview]]
+== Overview
+
+The {DataGridName} control supports the ability to pin columns, allows the end users to lock a column in a particular column order.
+
+A column or multiple columns can be pinned to the left-hand or right-hand side of the Data Grid. In addition, you can change the pin state of the columns via the `PinColumn` function.
+
+[[ColumnPinningProperties]]
+== Column Pinning Properties
+
+The Column Pinning API in the Data Grid can be enabled by setting either a column's 'Pinned' property, aka 'PinnedPositions' or when setting the `PinColumn` function of the grid. 
+
+The `Pinned` property has three options:
+
+- Left - enabling `Left` will position pinned columns to the left-hand side of the grid
+- Right - enabling `Right` will position pinned columns to the right side of the grid. 
+- None - enabling `None` will unpin a column and reposition its default placement within the grid.
+
+Unpinned columns that are adjacent to pinned columns will still maintain horizontal scrolling. 
+
+The 'PinColumn' function contains two required parameters. The first parameter needed is the column to be pinned, and the second is with the `PinnedPositions` enumeration setting. 
+
+*In XAML:*
+[source, xaml]
+----
+xmlns:ig="clr-namespace:{DataGridNamespace};assembly={ApiPlatform}DataGrid"
+...
+<ig:{DataGridName} ItemsSource="{Binding}">
+        <ig:TextColumn HeaderText="DataName" PropertyPath="Name" HorizontalAlignment="Center" Pinned="Left" />
+</ig:{DataGridName}>
+----
+endif::xamarin[]
+
+*In C#:*
+[source, csharp]
+----
+ContactsDataSource data = new ContactsDataSource();
+{DataGridName} grid = new {DataGridName}() { ItemsSource = data };
+
+//Pin via PinColumn function
+this.grid.PinColumn(this.grid.Columns[0], PinnedPositions.Left);
+//Pin via Pinned property
+this.DataGrid.Columns[0].Pinned = PinnedPositions.Left;
+----
+
+The above code-snippet will result in a {DataGridName} that looks like the following:
+
+image:images/datagrid-column-pinning.png[]
+
+[[RelatedContent]]
+== Related Content
+
+The following table lists topics that are related to this topic:
+
+|===
+|Topic|Purpose
+
+|Row Grouping
+
+|This topic provides code examples on grouping rows in the {DataGridName} control.
+
+|===

@@ -1,0 +1,150 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-configuring-axis-label-visibility-settings",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "d11f5c62-ffa4-4b97-ba2f-954fb41ae730",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-02T12:14:42.115006Z"
+}
+|metadata|
+////
+
+= 軸ラベル表示状態設定の構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[xamScatterSurface3D] コントロールで軸ラベルの表示状態および不透明度を構成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref443326864, 軸ラベル表示状態設定の構成 >>
+* <<_Ref443506873, 関連コンテンツ >>
+
+[[_Ref443326864]]
+== 軸ラベル表示状態設定の構成
+
+=== 概要
+
+link:{SurfaceChartLink}.surfacechartaxis.html[SurfaceChartAxis] link:{SurfaceChartLink}.surfacechartaxis~labelopacity.html[LabelOpacity] および link:{SurfaceChartLink}.surfacechartaxis~labelvisibility.html[LabelVisibility] プロパティを使用して、ラベルテキストの不透明度とラベル表示を構成します。
+
+デフォルトでは、軸ラベルが表示されます。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|軸ラベル テキストの不透明度を構成
+| link:{SurfaceChartLink}.surfacechartaxis~labelopacity.html[LabelOpacity]
+|`double`
+
+|軸ラベルの表示を構成
+| link:{SurfaceChartLink}.surfacechartaxis~labelvisibility.html[LabelVisibility]
+|`Visibility`
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果として、軸ラベルがどのように表示されるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.surfacechartaxis~labelopacity.html[LabelOpacity]
+| _0.5_ 
+
+|====
+
+image::images/Configuring_Axis_Label_Visibility_Settings_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" >
+    <ig:XamScatterSurface3D.XAxis>
+        <ig:LinearAxis LabelOpacity="0.5" />
+    </ig:XamScatterSurface3D.XAxis>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var linearAxis = new LinearAxis();
+linearAxis.LabelOpacity = 0.5;
+SurfaceChart.XAxis = linearAxis;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim linearAxis = New LinearAxis()
+linearAxis.LabelOpacity = 0.5
+SurfaceChart.XAxis = linearAxis
+----
+
+[[_Ref443506873]]
+== 関連コンテンツ
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-configuring-axis-label-color-settings.html[軸ラベル色設定の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルの背景ブラシおよび前景ブラシを構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label-font-settings.html[軸ラベル フォント設定の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルのフォント設定を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label-format.html[軸ラベル形式の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルの形式を構成する方法を説明します。
+
+| link:surfacechart-configuring-axis-label-offset.html[軸ラベル オフセットの構成]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸からのラベル オフセットを構成する方法を説明します。
+
+| link:surfacechart-axis-label-templating.html[軸ラベル テンプレート化]
+|このトピックは、 _xamScatterSurface3D_ コントロールで軸ラベルのテンプレートを変更する方法を説明します。
+
+|====

@@ -1,0 +1,86 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-about-infragistics-excel-engine",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Application Blocks","Calculations","Getting Started","How Do I"],
+    "guid": "{2E8B808D-72DE-406A-A41D-64334D3653DB}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7457023Z"
+}
+|metadata|
+////
+
+= {ExcelEngineName} について
+
+{ExcelEngineName} によって、 link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbooks]、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheets]、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[Cells]、 link:{ExcelEngineApiLink}infragistics.documents.excel.formula.html[Formulas] などの人気の Microsoft® Excel® スプレッドシートオブジェクトを使用してスプレッドシートデータで作業をすることができます。{ExcelEngineName} によって Excel スプレッドシートでアプリケーションのデータを表すことだけでなく、Excel からアプリケーションにデータを転送することも簡単になります。
+
+== サポートされるバージョンの Microsoft Excel
+
+以下は Excel のサポートされるバージョンのリストです。
+
+* Microsoft Excel 97
+* Microsoft Excel 2000
+* Microsoft Excel 2002
+* Microsoft Excel 2003
+* Microsoft Excel 2007
+* Microsoft Excel 2010
+* Microsoft Excel 2013
+* Microsoft Excel 2016
+* Microsoft Excel 2019
+
+[NOTE] 
+==== 
+*注:* Excel Engine は Excel Binary Workbook（.xlsb）の両フォーマットを現時点ではサポートしません。 
+====
+
+== 機能
+
+以下は {ExcelEngineName} の主要な機能のリストです:
+
+* *Excel に依存しない* - {ExcelEngineName} は Microsoft Excel に依存せずに完全に実行するクラス ライブラリであるため、インストールする必要はありません。
+* *Workbook オブジェクト モデル* - これは Workbook、Worksheet、Cell、Formula など、ユーザーが使用可能なすべての Excel オブジェクトを表します。
+
+== {ExcelEngineName} オブジェクト モデル
+
+image::images/Excel_Diagram.png[]
+
+== Workbook
+
+Infragistics の Excel アセンブリ内で最も重要なオブジェクトは link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbook] オブジェクトです。Workbook インスタンスがなければ、Microsoft® Excel® ファイルを絶対に作成できません。ワークブックはワークシートの集合で、各ワークシートはセルにデータのグリッドを保持します。さらに、Workbook オブジェクトにはグローバル設定とカスタムビュー、名前を指定した参照およびスタイルのコレクションが含まれます。ワークブックのグローバル設定は、ドキュメントの制作者やワークブックを Excel で開いた時にワークブックの子 MDI を最小化するかどうかなど、ワークブック全体に影響を与えるオプションです。これらのオプションには、Workbook オブジェクトで直接定義されたプリミティブなプロパティ、Workbook オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~documentproperties.html[DocumentProperties] プロパティと link:{ExcelEngineApiLink}infragistics.documents.excel.workbook~windowoptions.html[WindowOptions] プロパティが含まれています。Workbook オブジェクトから公開されたほとんどのプリミティブ プロパティは、さまざまな数式計算オプションを制御します。
+
+== Worksheet
+
+ワークシートはワークブックを埋めます。ワークブックが一度に表示できるのは少なくともひとつのワークシートでなければなりません。ワークシートにはワークブック内の実際のデータが含まれます。各ワークシートはセルのグリッドを保持し、各セルはデータの形式を保持することができるからです。ワークシート上のコレクションと複雑なプロパティは別として、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] オブジェクトにはデフォルトの行と列のサイズ、画像背景（ワークシートにタイルされる）およびその名前を変更するためのプロパティが含まれます。
+
+== WorksheetRow
+
+Worksheet オブジェクトによって公開される最も重要なオブジェクトのひとつはワークシートの各行を表す link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetrow.html[WorksheetRow] オブジェクトです。WorksheetRow インスタンスによって、ワークシートの対応する行を操作できます。さらに、行の各セルは WorksheetRow オブジェクトによって所有されるコレクションに含まれる WorksheetCell インスタンスによって表されます。WorksheetCell オブジェクトにアクセスするためには、親の WorksheetRow オブジェクトを通過する必要があります。各セルおよびデフォルトのセルフォーマットに加えて、行の高さ、表示できるかどうか、アウトライン レベルも、WorksheetRow インスタンスでカスタマイズすることができます。
+
+== WorksheetColumn
+
+WorksheetRow オブジェクトと異なり、ワークシートの列がその下にセルを「含む」としても、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcolumn.html[WorksheetColumn] オブジェクトはセルのコレクションを含みません。これはセルが属する WorksheetRow インスタンスからセルにアクセスできるからです。WorksheetColumn オブジェクトからセルをアクセス可能にすることも冗長です。WorksheetColumn インスタンスによって、列のデフォルトのセルフォーマット、幅、表示できるかどうか、アウトラインレベルをカスタマイズできます。
+
+== WorksheetCell
+
+ワークシートはセルのグリッドです。各セルは link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] インスタンスによって表されます。WorksheetCell オブジェクトを使用して、セルの値とフォーマットを設定できます。セルの値は、ワークブックを Excel で開いたときにセルに表示されるものです。その他のセルの値を計算するために、セルの値は数式によって使用することも可能です。
+
+== DocumentProperties
+
+Workbook オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.documentproperties.html[DocumentProperties] オブジェクトはオペレーティングシステムのファイル ブラウザーでワークブックの XLS ファイルを右クリックして、プロパティを表示することによって表示できるプロパティです。これらには作成者、タイトル、件名などのワークブックのコンテンツを説明し整理しやすくするさまざまなタグが含まれています。この情報は、特定のバージョンの Excel で編集することも可能です。
+
+== WorkbookWindowOptions
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.workbookwindowoptions.html[WorkbookWindowOptions] クラスは特定のワークシート固有ではないさまざまな表示オプションを制御します。代わりに、表示オプションはスクロールバーの表示/非表示や子ウィンドウの境界などのワークシート間を切り替える時に変わらない視覚要素を制御します。
+
+子ウィンドウを制御するオプションには、MDI の親にとっての子ウィンドウの境界と、開いたときにウィンドウを最小化するかどうかが含まれます。数式バーまたはステータスバーを表示するかどうか、またはワークブックの子ウィンドウを最大化するかどうかなど、特定のウィンドウオプションは、WorkbookWindowOptions では制御できません。これらのプロパティはシステム全体にわたるもので、レジストリに Excel によって保存されるからです。ただし、これらのオプションは WorkbookWindowOptions に似た、CustomView オブジェクトの WindowOptions プロパティによって制御できます。その他のオプションに加えて、WorkbookWindowOptions クラスはワークブック内の選択されたワークシートを示すプロパティを持ちます。
+
+== 関連トピック
+
+link:excelengine-list-of-supported-built-in-functions.html[サポートされる定義済み関数のリスト]
+
+link:excelengine-glossary-of-infragistics-excel-engine-terms.html[{ExcelEngineName} 用語の用語集]
+
+link:excelengine-creating-a-workbook.html[ワークブックを作成]
+
+link:excelengine-using-the-infragistics-excel-engine.html[{ExcelEngineName} の使用]

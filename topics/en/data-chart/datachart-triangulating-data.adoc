@@ -1,0 +1,459 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Triangulating Data
+
+
+
+=== Purpose
+
+This topic provides information on how triangulation of data points works as well as how it can improve the performance of rendering data in the link:{DataChartLink}.{DataChartName}_members.html[{DataChartName}]™ control when using link:datachart-scatter-area-series.html[Scatter Area Series] or link:datachart-scatter-contour-series.html[Scatter Contour Series].
+
+=== In this topic
+
+This topic contains the following sections
+
+* <<_Ref335170748, Understanding Triangulation >>
+** <<_Ref320185129,Introduction>>
+** <<_Ref335170769,Triangulation Source>>
+** <<_Ref335170772,Triangulation Files>>
+** <<_Ref335170776,Triangulation Methods>>
+** <<_Ref335170779,Pre-Triangulation Process>>
+
+* <<_Ref335170156, Creating Triangulation from Shape Files >>
+** <<_Ref335170799,Overview>>
+** <<_Ref335170804,Example>>
+
+* <<_Ref335170185, Saving Triangulation to an ITF file >>
+** <<_Ref335170830,Overview>>
+** <<_Ref335170832,Example>>
+
+* <<_Ref335170196, Loading Triangulation from an ITF file >>
+** <<_Ref335170868,Overview>>
+** <<_Ref335170871,Example>>
+
+* <<_Ref320185294, Related Content >>
+
+[[_Ref335170748]]
+== Understanding Triangulation
+
+[[_Ref320185129]]
+
+=== Introduction
+
+Triangulation is a process of triangulating data points with the same values based on their X and Y locations. Consider the following simplified scenario of triangulating data:
+
+The following is a screenshot of (-130, 30), (-130, 50), (-100, 50), (-100, 30), (-70, 40) locations plotted using the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries].
+
+image::images/DataChart_Triangulating_Data_1.png[]
+
+For the above five points, there are three triangles and their triangle vertex indices are as follows: (0, 1, 2), (0, 2, 3), (2, 3, 4).
+
+The following image shows these triangles and their vertex indices.
+
+image::images/DataChart_Triangulating_Data_2.png[]
+
+[[_Ref335170769]]
+
+=== Triangulation Source
+
+In the _{DataChartName}_ control, the link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class represents the data source for creating, loading, and saving triangulation. A complete data structure for link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] consist of two properties that are listed in the following table:
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+|link:{DataVizChartsLink}.triangulationsource~points.html[Points]
+|ObservableCollection<link:{DataVizChartsLink}.triangulationsourcepointrecord_members.html[TriangulationSourcePointRecord]>
+|Gets or sets a collection of link:{DataVizChartsLink}.triangulationsourcepointrecord_members.html[TriangulationSourcePointRecord] objects that store points combined with numeric values from which triangulation is created.
+
+|link:{DataVizChartsLink}.triangulationsource~triangles.html[Triangles]
+|ObservableCollection<Triangle>
+|Gets or sets a collection of Triangle objects that store three indices with each one corresponding to a point in the link:{DataVizChartsLink}.triangulationsource~points.html[Points] collection.
+
+|====
+
+The link:{DataVizChartsLink}.triangulationsourcepointrecord_members.html[TriangulationSourcePointRecord] class represents one of the triangle points in triangulation. The following table lists key properties of the  link:{DataVizChartsLink}.triangulationsourcepointrecord_members.html[TriangulationSourcePointRecord] class.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+|link:{DataVizChartsLink}.triangulationsourcepointrecord~point.html[Point]
+|Point
+|Gets or sets a point that represents a two dimensional (2-D) location of one of triangle points.
+
+|Value
+|float
+|Gets or sets a value associated with a one of triangle points.
+
+|====
+
+The Triangle class represents a record with three integer values or triangle vertex indices. Each integer is an index which corresponds to a point in the link:{DataVizChartsLink}.triangulationsource~points.html[Points] collection. The following table lists key properties of the Triangle class.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| V1
+|integer
+|Gets or sets an index of the first vertex of a triangle.
+
+| V2
+|integer
+|Gets or sets an index of the second vertex of a triangle.
+
+| V3
+|integer
+|Gets or sets an index of the third vertex of a triangle.
+
+|====
+
+[[_Ref335170772]]
+
+=== Triangulation Files
+
+Triangulation data can also be stored in triangulation files that use the Intermediate Triangular Irregular Network Format (or ITF for short). For more information on this file format and its specifications, please visit this link:http://vterrain.org/Implementation/Formats/ITF.html[website].
+
+[[_Ref335170776]]
+
+=== Triangulation Methods
+
+The link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class provides methods for creating triangulation, saving and loading triangulation data to and from ITF files.
+
+The following table lists key methods in the  link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class for working with triangulation data
+
+[options="header", cols="a,a"]
+|====
+|Method Name|Description
+
+|link:{DataVizChartsLink}.triangulationsource~create.html[Create]
+|A method for creating triangulation of data.
+
+|link:{DataVizChartsLink}.triangulationsource~saveitf.html[SaveItf]
+|A method for saving triangulation of data to binary ITF file.
+
+|link:{DataVizChartsLink}.triangulationsource~loaditf.html[LoadItf]
+|A method for loading triangulation of data from binary ITF file.
+
+|====
+
+.Note:
+[NOTE]
+====
+A detailed explanation of each of these methods along with some code examples follow at end of this topic.
+====
+
+[[_Ref335170779]]
+
+=== Pre-Triangulation Process
+
+In the _{DataChartName}_ control, the following types of series that can use pre-triangulated data or perform triangulation of data at runtime if no triangulation source is specified:
+
+[options="header", cols="a,a"]
+|====
+|Type of Geographic Series|Description
+
+| link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries]
+|This series draws a colored surface based on a triangulation of point data (X and Y locations) with numeric values assigned to each point. Refer to the link:datachart-scatter-area-series.html[Scatter Area Series] topic for more information about this series.
+
+| link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries]
+|This series draws colored contour lines based on a triangulation of point data (X and Y locations) with numeric values assigned to each point. Refer to the link:datachart-scatter-contour-series.html[Scatter Contour Series] topic for more information about this series.
+
+|====
+
+These types of series provide built-in data triangulation that is automatically performed on items in the {ApiDataSource} if no triangulation is set to the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] property. However, computing triangulation can be a very time-consuming process, so the runtime performance will be better when specifying a  link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] for this property, especially when a large number of data items are present. Therefore, you should avoid this computation at run-time by “pre-triangulating” the data and providing the triangulation.
+
+The following table list the main steps of pre-triangulation process:
+
+
+[options="header", cols="a,a"]
+|====
+|Triangulation Process |Description
+
+| <<_Ref335170156, Creating Triangulation from Shape Files >>
+| Creates triangulation data as a  link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] object from shape files using the link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] class.
+
+| <<_Ref335170185, Saving Triangulation to an ITF file >>
+| Saves triangulation data to an ITF file that can be deployed with your application.
+
+| <<_Ref335170196, Loading Triangulation from an ITF file >>
+| Loads triangulation data from an ITF file stores it as a link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] object.
+
+
+|====
+
+  
+After creating a link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] and completing the pre-triangulation process you can bind it to the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] or link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] through the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] property.  Below is an example of what that might look like:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:ScatterAreaSeries ItemsSource="{Binding Path=Source.Points}"
+                      TrianglesSource="{Binding Path=Source.Triangles}"
+                      .../>
+----
+endif::xaml[]
+
+*In C#:*
+[source,csharp]
+----
+public TriangulationSource Source { get; set; }
+
+// After TriangulationSource is created pass it to the series.
+var scatterAreaSeries = new ScatterAreaSeries();
+scatterAreaSeries.ItemsSource = Source.Points;
+scatterAreaSeries.TrianglesSource = Source.Triangles;
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Private Dim _source As TriangulationSource
+Public Property TriangulationSource Source
+    Get
+        Return _source
+    End Get
+    Set
+        _source = value
+    End Set
+End Property
+
+' After TriangulationSource is created pass it to the series.
+Dim scatterAreaSeries As New ScatterAreaSeries()
+scatterAreaSeries.ItemsSource = Source.Points
+scatterAreaSeries.TrianglesSource = Source.Triangles
+----
+
+[[_Ref335170156]]
+== Creating Triangulation from Shape Files
+
+[[_Ref335170799]]
+
+=== Overview
+
+The link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class provides the link:{DataVizChartsLink}.triangulationsource~create.html[Create] method for creating triangulation of data. This static method creates a TriangulationSource using delegates to get the link:{DataVizChartsLink}.triangulationsource~points.html[Points] and Triangles to create a triangulation.
+
+[[_Ref335170804]]
+
+=== Example
+
+The following code demonstrates how to create triangulation from shape files by implementing a handler for link:{DataVizMapsLink}.shapefileconverter~importcompleted_ev.html[ImportCompleted] event of the link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] class and passing delegates to get Points and link:{DataVizMapsLink}.shapefilerecord~fields.html[Fields] collections to the link:{DataVizChartsLink}.triangulationsource~create.html[Create] method of the link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class.
+
+.Note:
+[NOTE]
+====
+This code example uses a shape file that contains precipitation data from link:http://water.weather.gov/precip/download.php[NOAA website] and it assumes that you already know how to add shape files to your project and use it with the link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter]. Also, stores values associated with data points in “Globvalue” data column of the database (DBF) file, but the name of the data column containing values might be different in your shape file, in which case you will need to update the key passed in the link:{DataVizMapsLink}.shapefilerecord~fields.html[Fields] collections of the link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter].
+====
+
+*In C#:*
+
+[source,csharp]
+----
+ifdef::wpf[]
+using Infragistics.Controls.Charts;
+using Infragistics.Controls.Maps;
+endif::wpf[]
+ifdef::win-forms[]
+using Infragistics.Win.DataVisualization;
+endif::win-forms[]
+using System.ComponentModel;
+
+var converter = new ShapefileConverter();
+converter.ImportCompleted += OnShapeFileConverterImportCompleted;
+converter.ShapefileSource= new Uri("nws_precip_1day_observed_20110419.shp", System.UriKind.Relative);
+converter.DatabaseSource = new Uri("nws_precip_1day_observed_20110419.dbf", System.UriKind.Relative);
+
+void OnShapeFileConverterImportCompleted(object sender, AsyncCompletedEventArgs e)
+{
+    TriangulationSource triangulationSource = TriangulationSource.Create(converter.Count, 
+        (i) => converter[i].Points[0][0], 
+        (i) => Convert.ToSingle(converter[i].Fields["Globvalue"]));
+}
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+ifdef::wpf[]
+Imports Infragistics.Controls.Charts
+Imports Infragistics.Controls.Maps
+endif::wpf[]
+ifdef::win-forms[]
+Imports Infragistics.Win.DataVisualization
+endif::win-forms[]
+Imports System.ComponentModel
+
+Private WithEvents converter As New ShapefileConverter()
+
+converter.ShapefileSource = New Uri("nws_precip_1day_observed_20110419.shp", System.UriKind.RelativeOrAbsolute)
+converter.DatabaseSource = New Uri("nws_precip_1day_observed_20110419.dbf", System.UriKind.RelativeOrAbsolute)
+
+Private Sub OnShapeFileConverterImportCompleted(sender As Object, e As AsyncCompletedEventArgs) Handles converter.ImportCompleted
+      Dim triangulationSource As TriangulationSource = TriangulationSource.Create(converter.Count, 
+                    Function(i) converter(i).Points(0)(0), 
+                    Function(i) Convert.ToSingle(converter(i).Fields("Globvalue")))
+End Sub
+----
+
+[[_Ref335170185]]
+== Saving Triangulation to an ITF file
+
+[[_Ref335170830]]
+
+=== Overview
+
+The link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class provides the link:{DataVizChartsLink}.triangulationsource~saveitf.html[SaveItf] method for saving triangulation of data. This static method saves a triangulation to binary ITF file that you can deploy with your application and use later for loading triangulation data.
+
+[[_Ref335170832]]
+
+=== Example
+
+The following code demonstrates how to save triangulation data to an ITF file by providing an link:http://msdn.microsoft.com/en-us/library/system.io.isolatedstorage.isolatedstoragefilestream.aspx[IsolatedStorageFileStream] to the link:{DataVizChartsLink}.triangulationsource~saveitf.html[SaveItf] method of the link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class.
+
+.Note:
+[NOTE]
+====
+This code example assumes an approved request for allocating appropriate space for size of the ITF file in isolated storage.
+====
+
+*In C#:*
+
+[source,csharp]
+----
+using (IsolatedStorageFile iso = IsolatedStorageProvider.GetIsolatedStorageFile())
+{
+    string filePath = "TriangulatedFile.itf";
+    using (var stream = new IsolatedStorageFileStream(filePath, FileMode.Create, iso))
+    {
+        triangulationSource.SaveItf(stream);
+        stream.Close();
+    }
+}
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Using iso As IsolatedStorageFile = IsolatedStorageProvider.GetIsolatedStorageFile()
+      Dim filePath As String = "TriangulatedFile.itf"
+      Using stream = New IsolatedStorageFileStream(filePath, FileMode.Create, iso)
+            triangulationSource.SaveItf(stream)
+            stream.Close()
+      End Using
+End Using
+----
+
+[[_Ref335170196]]
+== Loading Triangulation from an ITF file
+
+[[_Ref335170868]]
+
+=== Overview
+
+Similar to saving triangulation method, the link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class also provides the link:{DataVizChartsLink}.triangulationsource~loaditf.html[LoadItf] method for loading triangulation of data. This static method loads a triangulation data from binary ITF file.
+
+[[_Ref335170871]]
+
+=== Example
+
+The following code demonstrates how to load triangulation from an ITF file by providing an link:http://msdn.microsoft.com/en-us/library/system.io.isolatedstorage.isolatedstoragefilestream.aspx[IsolatedStorageFileStream] of an ITF file and passing it to the  link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] class’  link:{DataVizChartsLink}.triangulationsource~loaditf.html[LoadItf] method.
+
+.Note:
+[NOTE]
+====
+This code example assumes the ITF file already exists and is accessible in isolated storage.
+====
+
+*In C#:*
+
+[source,csharp]
+----
+TriangulationSource triangulationSource;
+using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForAssembly();
+{
+    string filePath = "TriangulatedFile.itf";
+    if (iso.FileExists(filePath))
+    {
+        using (var stream = new IsolatedStorageFileStream(filePath, FileMode.Open, iso))
+        {
+            triangulationSource = TriangulationSource.LoadItf(stream);
+            stream.Close();
+        }
+    }    
+}
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim triangulationSource As TriangulationSource
+Using iso As IsolatedStorageFile = IsolatedStorageFile.GetUserStoreForAssembly()
+      Dim filePath As String = "TriangulatedFile.itf"  
+      If iso.FileExists(filePath) Then
+            Using stream = New IsolatedStorageFileStream(filePath, FileMode.Open, iso)
+                  triangulationSource = TriangulationSource.LoadItf(stream)
+                  stream.Close()
+            End Using
+      End If
+End Using
+----
+
+
+Using the link:{DataVizMapsLink}.itfconverter_members.html[ItfConverter] method is an alternative for loading triangulation data from an ITF file as demonstrated in the following code:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:ItfConverter x:Key="itfConverter"
+                 Source="TriangulatedFile.itf" >
+</ig:ItfConverter>
+----
+endif::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var itfConverter = new ItfConverter();
+itfConverter.Source = new Uri("TriangulatedFile.itf", UriKind.RelativeOrAbsolute);
+TriangulationSource triangulationSource = itfConverter.TriangulationSource;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim itfConverter = New ItfConverter()
+itfConverter.Source = New Uri("TriangulatedFile.itf", UriKind.RelativeOrAbsolute)
+Dim triangulationSource As TriangulationSource = itfConverter.TriangulationSource
+----
+
+[[_Ref320185294]]
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+| *Topic* | *Purpose* 
+
+| link:datachart-scatter-area-series.html[Using Scatter Area Series]
+|This topic provides information on how to use the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] element in the _{DataChartName}_ control.
+
+| link:datachart-scatter-contour-series.html[Using Scatter Contour Series]
+|This topic provides information on how to use the link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] element in the _{DataChartName}_ control.
+
+|====

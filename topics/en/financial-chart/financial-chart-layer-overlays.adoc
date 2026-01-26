@@ -1,0 +1,117 @@
+﻿= Financial Overlays
+
+The below image demonstrates using the Financial Overlays with the {FinancialChartName}. There are two types of overlays the BollingerBands and PriceChannel.
+
+pick:[wpf="image::images/financialchart_wpf_layers_overlay.png[]"]
+pick:[jquery="image::images/financialchart_jquery_layers_overlay.png[]"]
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Type|Description
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayTypes{HtmlApiExtension}[OverlayTypes]
+|`FinancialOverlayTypeCollection`
+|Gets or Sets the collection of types for the overlays.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayBrushes{HtmlApiExtension}[OverlayBrushes]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for coloring the overlay.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayOutlines{HtmlApiExtension}[OverlayOutlines]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for outlines on the overlay.
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayThickness{HtmlApiExtension}[OverlayThickness]
+|`double`
+|Gets or sets the thickness of the overlay.
+
+|====
+
+The following demonstrates how to set the link:{FinancialChartLink}.{FinancialChartName}{ApiProp}overlayTypes{HtmlApiExtension}[OverlayTypes] through code:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    OverlayTypes="BollingerBands"
+    OverlayBrushes="Red"
+    OverlayOutlines="Green"
+    OverlayThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart as New {FinancialChartName}()
+chart.OverlayTypes = New FinancialOverlayTypeCollection()
+chart.OverlayTypes.Add(Infragistics.Controls.Charts.FinancialOverlayType.BollingerBands)
+
+chart.OverlayBrushes = New Infragistics.BrushCollection()
+Dim brush As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Red;
+chart.OverlayBrushes.Add(brush)
+
+chart.OverlayOutLines = new Infragistics.BrushCollection()
+Dim brush2 As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Green
+chart.OverlayOutLines.Add(brush2)
+
+chart.OverlayThickness = 2
+----
+
+*In C#:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.OverlayTypes = new FinancialOverlayTypeCollection();
+chart.OverlayTypes.Add(Infragistics.Controls.Charts.FinancialOverlayType.BollingerBands);
+
+chart.OverlayBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Red;
+chart.OverlayBrushes.Add(brush);
+
+chart.OverlayOutLines = new Infragistics.BrushCollection();
+SolidColorBrush brush2 = new SolidColorBrush();
+brush2.Color = Colors.Green;
+chart.OverlayOutLines.Add(brush2);
+
+chart.OverlayThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    overlayTypes: "BollingerBands",
+    overlayBrushes: ["Red"],
+    overlayOutLines: ["Green"],
+    overlayThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "overlayTypes", "BollingerBands");
+$("#financialChart").{FinancialChartName}("option", "overlayBrushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "overlayOutLines", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "overlayThickness", 2);
+----
+endif::jquery[]
+
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|link:financial-chart-layer-trendline.html[Trendline Layer]
+|This article explains the trendline layer of the chart.
+
+|====

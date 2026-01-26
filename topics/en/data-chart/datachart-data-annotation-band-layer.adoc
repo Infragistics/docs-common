@@ -1,0 +1,221 @@
+﻿= Chart Data Annotation Band Layer (Beta)
+
+In {ProductName}, the link:{DataChartLink}.DataAnnotationBandLayer.html[DataAnnotationBandLayer] is a free-form parallelogram with 1-6 axis annotation. It provides many configuration properties and commonly used with the financial series of the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] component.
+
+In {ProductName}, the link:{DataChartLink}.DataAnnotationBandLayer.html[DataAnnotationBandLayer] renders multiple skewed rectangles between 2 points in plot area of the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] component. This data annotation layer can be used to annotate range of growth and decline in stock prices. Similarly to all series, the DataAnnotationBandLayer also supports data binding via the {ApiDataSource} property that can be set to a collection of data items which should have at least 4 numeric data columns representing x/y coordinates of starting point and ending point of the lines. The starting points should be mapped using link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartValueXMemberPath.html[StartValueXMemberPath] and link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartValueYMemberPath.html[StartValueYMemberPath] properties and the ending points should be mapped using link:{DataChartLink}.dataannotationpointlayer{ApiProp}EndValueXMemberPath.html[EndValueXMemberPath] and link:{DataChartLink}.dataannotationpointlayer{ApiProp}EndValueYMemberPath.html[EndValueYMemberPath] properties.
+
+.Note:
+[NOTE]
+====
+This feature is designed to support cartesian axes and does not currently support radius or angle axes.
+====
+
+For example, you can use DataAnnotationBandLayer to annotate range of growth in stock prices.
+
+image::images/DataAnnotationBandLayer.png[]
+ 
+== Rendering Band Annotations
+
+The following code snippet demonstrates how to render link:{DataChartLink}.DataAnnotationBandLayer.html[DataAnnotationBandLayer] as shown in the picture above. Also, this example shows how to render custom overlay text in plot that is explained more in detailed in the [Chart Overlay Text] topic.
+
+ifdef::wpf[]
+
+*In XAML*:
+
+[source, xaml]
+----
+<ig:DataAnnotationBandLayer/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+var xAxisBottom = new CategoryXAxis
+{
+    Label = "Index",
+    DataSource = data,
+    TickLength = 0,
+    LabelLocation = AxisLabelsLocation.OutsideBottom,
+    LabelFontSize = 12,
+    LabelMargin = new Padding(0, 15, 0, 5),
+    LabelExtent = 120,
+    LabelAngle = 90,
+    LabelTextColor = Color.Transparent,
+};
+chart.Axes.Add(xAxisBottom);
+
+chart.Series.Add(CreateStockRapidGrowth(xAxisBottom));
+
+public static Series CreateStockRapidGrowth(Axis targetAxis)
+{
+    var annoLayer = new DataAnnotationBandLayer();
+    annoLayer.StartValueXMemberPath = "StartX";
+    annoLayer.StartValueYMemberPath = "StartY";
+    annoLayer.EndValueXMemberPath = "EndX";
+    annoLayer.EndValueYMemberPath = "EndY";
+    annoLayer.AnnotationBreadthMemberPath = "Value";
+    annoLayer.TargetAxis = targetAxis;
+    annoLayer.DataSource = new List<Annotation>
+    {
+        new Annotation() {
+            StartLabel = "Growth Start",
+            EndLabel = "Growth Stop",
+            StartX = 48, StartY = 110,
+            EndX = 105, EndY = 335,
+            Value = 170,
+            Label = "Rapid Growth" },
+    };
+    
+    // setting optional annotation properties
+    annoLayer.Brush = Brushes.Purple;
+    annoLayer.Outline = Brushes.Purple;
+    annoLayer.StartLabelXMemberPath = "StartLabel";
+    annoLayer.StartLabelXDisplayMode = DataAnnotationDisplayMode.DataLabel;
+    annoLayer.EndLabelXMemberPath = "EndLabel";
+    annoLayer.EndLabelXDisplayMode = DataAnnotationDisplayMode.DataLabel;
+    annoLayer.CenterLabelXDisplayMode = DataAnnotationDisplayMode.Hidden;
+
+    // setting optional overlay text properties
+    annoLayer.OverlayTextColor = Brushes.Purple;
+    annoLayer.OverlayTextVerticalMargin = 20;
+    annoLayer.OverlayTextHorizontalMargin = -50;
+    annoLayer.OverlayTextLocation = OverlayTextLocation.InsideTopCenter;
+    annoLayer.OverlayTextMemberPath = "Label";
+    return annoLayer;
+}
+
+----
+
+endif::wpf,win-forms[]
+
+
+== Styling Band Annotations
+
+The following code example shows how you can customize the link:{DataChartLink}.DataAnnotationBandLayer.html[DataAnnotationBandLayer] by setting styling properties such as background, border color, and border thickness of axis annotations as styling properties of the Overlay Text.
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+chart.Series.Add(StylingDataAnnotationBandLayer(xAxisBottom)); 
+
+public Series StylingDataAnnotationBandLayer(Axis targetAxis)
+{
+    var annoLayer = new DataAnnotationBandLayer();
+    // NOTE see setup properties in the first examples
+
+    // styling the starting point of annotation 
+    annoLayer.StartLabelDisplayMode = DataAnnotationDisplayMode.AxisValue;
+    annoLayer.StartLabelTextColor = Brushes.White;
+    annoLayer.StartLabelBackground = Brushes.Orange;
+    annoLayer.StartLabelBorderColor = Brushes.Black;
+    annoLayer.StartLabelBorderThickness = 1;
+    annoLayer.StartLabelBorderRadius = 4;
+    annoLayer.StartLabelPadding = new Thickness(4);
+    
+    // styling the ending point of annotation 
+    annoLayer.EndLabelDisplayMode = DataAnnotationDisplayMode.AxisValue;
+    annoLayer.EndLabelTextColor = Brushes.White;
+    annoLayer.EndLabelBackground = Brushes.Red;
+    annoLayer.EndLabelBorderColor = Brushes.Black;
+    annoLayer.EndLabelBorderThickness = 1;
+    annoLayer.EndLabelBorderRadius = 4;
+    annoLayer.EndLabelPadding = new Thickness(4);
+
+    // styling optional label at center of annotations 
+    annoLayer.CenterLabelDisplayMode = DataAnnotationDisplayMode.AxisValue;
+    annoLayer.CenterTextColor = Brushes.White;
+    annoLayer.CenterBackground = Brushes.Green;
+    annoLayer.CenterBorderColor = Brushes.Black;
+    annoLayer.CenterBorderThickness = 1;
+    annoLayer.CenterBorderRadius = 4;
+    annoLayer.CenterPadding = new Thickness(4);
+
+    // styling optional overlay text 
+    annoLayer.OverlayTextColor = Brushes.White;
+    annoLayer.OverlayTextBackground = Brushes.Green;
+    annoLayer.OverlayTextBorderColor = Brushes.Black;
+    annoLayer.OverlayTextBorderThickness = 1;
+    annoLayer.OverlayTextBorderRadius = 4;
+    annoLayer.OverlayTextHorizontalMargin = 5;
+    annoLayer.OverlayTextHorizontalPadding = 2;
+    annoLayer.OverlayTextVerticalMargin = 5;
+    annoLayer.OverlayTextVerticalPadding = 2;
+    return annoLayer;
+}
+
+
+----
+
+endif::wpf,win-forms[]
+
+
+== API References
+
+The following table provides most important properties for the link:{DataChartLink}.DataAnnotationBandLayer.html[DataAnnotationBandLayer] and their descriptions.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.dataannotationaxislayer{ApiProp}targetaxis.html[TargetAxis]
+|`Axis`
+|This property specifies which axis should have an enabled annotation layer.
+
+| link:{DataChartLink}.series{ApiProp}{ApiDataSource}.html[{ApiDataSource}]
+|`IEnumerable`
+|This property binds data to the annotation layer to provide the precise shape.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartValueXMemberPath.html[StartValueXMemberPath]
+|`string`
+|This property is a mapping to the name of the data column with x-positions for the start of the annotation.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartValueYMemberPath.html[StartValueYMemberPath]
+|`string`
+|This property is a mapping to the name of data column with y-positions for the start of the annotation.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}EndValueXMemberPath.html[EndValueXMemberPath]
+|`string`
+|This property is a mapping to the data column with x-positions for the end of the annotation.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}EndValueYMemberPath.html[EndValueYMemberPath]
+|`string`
+|This property is a mapping to the data column with y-positions for end of the annotation.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartLabelXMemberPath.html[StartLabelXMemberPath]
+|`string`
+|This property is a mapping to the data column representing the overlay label for the starting position of the xAxis along the axis.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartLabelYMemberPath.html[StartLabelYMemberPath]
+|`string`
+|This property is a mapping to the data column representing the overlay label for the starting position of the yAxis along the axis.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}EndLabelXMemberPath.html[EndLabelXMemberPath]
+|`string`
+|This property is a mapping to the data column representing the overlay label for the ending position of the xAxis along the axis.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}EndLabelYMemberPath.html[EndLabelYMemberPath]
+|`string`
+|This property is a mapping to the data column representing the overlay label for the ending position of the yAxis along the axis.
+
+| link:{DataChartLink}.dataannotationpointlayer{ApiProp}StartLabelXDisplayMode.html[StartLabelXDisplayMode StartLabelYDisplayMode EndLabelXDisplayMode EndLabelYDisplayMode CenterLabelXDisplayMode]
+|`DataAnnotationDisplayMode`
+|Configurable, manages the displayed text for the start, end or center label along the xAxis or yAxis. eg. 'DataLabel', the label represents the value mapped via LabelMemberPath or 'AxisValue', the data value is shown from that given point along the series.
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextMemberPath.html[OverlayTextMemberPath]
+|`string`
+|This property is a mapping to the name of the data column representing the overlay text that will be displayed as overlay text aside the annotation.
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextLocation.html[OverlayTextLocation]
+|`string`
+|This property manages where the overlay text is positioned.
+
+|====
+

@@ -1,0 +1,368 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-adding-a-sparkline-to-a-page",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","Getting Started"],
+    "guid": "aad36aba-a922-4b92-a918-9484040722e1",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.294358Z"
+}
+|metadata|
+////
+
+= {SparklineName} をページに追加
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、コード例を示して、 link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ コントロールをページに追加する方法を説明します。グリッド セル内に  _{SparklineName}_   を表示するには、「スパークライン列」のトピックを参照してください。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められる素材をリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} の構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320004748,コード例: スパークラインをページへ追加>>
+
+** <<Description,説明>>
+** <<_Ref317075471,プレビュー>>
+** <<_Ref317075581,前提条件>>
+** <<_Ref317075479,概要>>
+** <<_Ref317075486,手順>>
+
+* <<_Ref317075104,関連コンテンツ>>
+
+== スパークラインをページへ追加 - 概念的概要
+
+=== 概要
+
+_{SparklineName}_   は、グリッド セルやテキスト付きのインラインなど、非常に小さなスペースに挿入するという概念で設計されていますが、スタンドアロン コントロールとして Web ページなどに表示する機能を備えています。
+
+スパークラインのデフォルト設定では、Line タイプの色はグレーで、ラインの太さが 1 ピクセルのラインが表示されます。ラインの色や太さはカスタマイズ可能です。
+
+幅と高さの指定は任意ですが、それらを指定しない限り、スパークラインは常駐するコンテナーのスペース全体を占めます。コンテナーまたはブラウザー ウィンドウのサイズを変更すると、そのコンテナーでホストされているスパークラインのサイズが自動的に変更されます。
+
+=== 要件
+
+以下の表は、 _{SparklineName}_   コントロールを追加する場合の要件をまとめています。
+
+[cols="a,a"]
+|====
+ifdef::xamarin[]
+|アセンブリ参照
+|詳細については、link:xamarin-project-with-infragistics-controls#NuGetPackages.html[NuGet パッケージで参照を追加]を参照してください。
+endif::xamarin[]
+
+|名前空間
+|*XAML の場合:* 
+
+[source,xaml]
+ifdef::sl,wpf[]
+---- 
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+endif::sl,wpf[]
+
+ifdef::xamarin[]
+---- 
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly=Infragistics.XF.Sparkline"
+---- 
+endif::xamarin[]
+
+|データ
+|数値を含む一次元データ。 
+
+.注:
+[NOTE] 
+==== 
+Win/Loss 型のスパークラインの場合、最も大きな値と最も小さな値の 2 つの値だけがチャートに使用されます。データ セットの他の値は無視されますが、データ ポイントの数は考慮されます。つまり、データが 5 つの正の値と 2 つの負の値で構成されている場合、WinLoss はゼロの上に 5 つのバー (すべて同じサイズで最高値に一致する) およびゼロの下に 2 つの負のバー (すべて同じサイズで最低値に一致する) を表示します。 
+====
+
+|====
+
+=== 概要
+
+以下はプロセスの概念的概要です。
+
+1. *データ モデルの参照*
+
+2. *{SparklineName} コントロールを追加*
+
+== スパークラインをページへ追加 - 概念的概要
+
+=== 説明
+
+次の手順は、スパークラインの Line タイプを使用して、スパークラインをページに追加する方法を示しています。
+
+この場合、データ ポイントの数値および最初のラベルと最後のラベルを表示する文字列フィールドを入力したクラス データ モデルを作成する必要があります。.
+
+[[_Ref317075471]]
+
+=== プレビュー
+
+以下は最終結果のプレビューです。
+
+image::images/Adding_Sparkline_to_your_page_1.png[]
+
+[[_Ref317075581]]
+
+=== 前提条件
+
+手順を完了するには、以下が必要です:
+
+* {PlatformName} プロジェクト
+
+[[_Ref317075479]]
+
+=== 概要
+
+以下はプロセスの概念的概要です。
+
+1. *データ モデルの定義*
+2. *データの作成*
+3. *データ モデルの参照*
+4. *{SparklineName} コントロールを追加*
+5. *結果の検証*
+
+[[_Ref317075486]]
+
+=== 手順
+
+以下のステップでは、スパークラインをページに追加する方法を示します。
+
+[start=1]
+. データ モデルを定義します。
+
+クラスの定義を作成して スパークラインのデータ モデルを示します。スパークラインをレンダリングするために  _{SparklineName}_   は少なくとも 2 つの数値フィールドを必要とします.
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class TestDataItem
+    {
+        private string _label;
+        public string Label
+        {
+            get { return _label; }
+            set { _label = value; }
+        }
+        private double?_value;
+        public double?Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+    }
+----
+
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class TestDataItem
+      Private _label As String
+      Public Property Label() As String
+            Get
+                  Return _label
+            End Get
+            Set
+                  _label = value
+            End Set
+      End Property
+      Private _value As System.Nullable(Of Double)
+      Public Property Value() As System.Nullable(Of Double)
+            Get
+                  Return _value
+            End Get
+            Set
+                  _value = value
+            End Set
+      End Property
+End Class
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[start=2]
+. データを提供します。
+
+次のコードは数値と文字列値を含むレコードのリストを作成します。表は数値フィールドを使用してデータをプロットし、文字列は水平方向 (X) の軸で最初と最後のラベルを表示するために使用できます。数値はラベルとして表示することもできます。
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class TestData : ObservableCollection<TestDataItem>
+    {
+        public TestData()
+        {
+            Add(new TestDataItem { Label = "Label1", Value = 3 });
+            Add(new TestDataItem { Label = "Label2", Value = 1 });
+            Add(new TestDataItem { Label = "Label3", Value = 4 });
+            Add(new TestDataItem { Label = "Label4", Value = 2 });
+            Add(new TestDataItem { Label = "Label5", Value = 7 });
+            Add(new TestDataItem { Label = "Label6", Value = -3 });
+            Add(new TestDataItem { Label = "Label7", Value = 4 });
+            Add(new TestDataItem { Label = "Label8", Value = 1 });
+            Add(new TestDataItem { Label = "Label9", Value = 3 });
+        }
+    }
+----
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class TestData
+   Inherits ObservableCollection(Of TestDataItem)
+      Public Sub New()
+      Add(New TestDataItem() With {.Label = "Label1", .Value = 3})
+      Add(New TestDataItem() With {.Label = "Label2", .Value = 1})
+      Add(New TestDataItem() With {.Label = "Label3", .Value = 4})
+      Add(New TestDataItem() With {.Label = "Label4", .Value = 2})
+      Add(New TestDataItem() With {.Label = "Label5", .Value = 7})
+      Add(New TestDataItem() With {.Label = "Label6", .Value = -3})
+      Add(New TestDataItem() With {.Label = "Label7", .Value = 4})
+      Add(New TestDataItem() With {.Label = "Label8", .Value = 1})
+      Add(New TestDataItem() With {.Label = "Label9", .Value = 3})
+   End Sub
+End Class
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[start=3]
+. データ モデルの参照
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+名前空間を追加します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:local="clr-namespace:SparklineDemo"
+----
+
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+アプリケーションをこのポイントでビルド (コンパイル) してデータ モデルを参照します。
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+次のコードは名前空間を追加し、ローカル クラスを参照しています。リソースでキー (`x:Key`) を指定すると  _{SparklineName}_   を静的リソースとして基になるデータにバインドします。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<UserControl.Resources>
+    <local:TestData x:Key="testdata"/>        
+</UserControl.Resources>
+----
+
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+
+[start=4]
+. {SparklineName} コントロールを追加します。
+
+以下のコードは、表示に必要となる最小限のコードとプロパティ設定で  _{SparklineName}_   コントロールを追加することを示します。
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{SparklineName}
+    ItemsSource="{Binding Source={StaticResource testdata}}"
+    Name="{SparklineName}1"
+    ValueMemberPath="Value"/>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.ItemsSource = new TestData();
+this.{SparklineName}1.DisplayType = Infragistics.Controls.Charts.SparklineDisplayType.Line;
+this.{SparklineName}1.ValueMemberPath = "Value";
+----
+
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+
+ifdef::sl,wpf,win-phone,win-universal[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.ItemsSource = new TestData()
+Me.{SparklineName}1.DisplayType = Infragistics.Controls.Charts.SparklineDisplayType.Line
+Me.{SparklineName}1.ValueMemberPath = "Value"
+----
+endif::sl,wpf,win-phone,win-universal[] 
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.DataSource = new TestData();
+this.{SparklineName}1.DisplayType = Infragistics.Win.DataVisualization.SparklineDisplayType.Line;
+this.{SparklineName}1.ValueMemberPath = "Value";
+----
+
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.DataSource = new TestData()
+Me.{SparklineName}1.DisplayType = Infragistics.Win.DataVisualization.SparklineDisplayType.Line
+Me.{SparklineName}1.ValueMemberPath = "Value"
+----
+endif::win-forms[] 
+
+[start=5]
+. 結果を検証します。
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、スパークラインは上記の<<_Ref317075471,プレビュー>> セクションで示したように表示されるはずです。
+
+[[_Ref317075104]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+ifdef::sl,wpf[]
+| pick:[sl,wpf=" link:xamgrid-sparkline-column.html[スパークライン列]"] 
+|このトピックでは、 _xamGrid_™ コントロールのスパークライン列タイプを紹介し、その使用方法を説明します。 
+endif::sl,wpf[]
+
+|====

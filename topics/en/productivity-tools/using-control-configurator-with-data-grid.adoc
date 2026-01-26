@@ -1,0 +1,428 @@
+﻿= Using the Control Configurator with {DataGridName}
+
+This topic explains how to use the Control Configurators to configure the {DataGridName} control. All general features and information on how to update the Control Configurators, are covered in the link:getting-started-with-control-configurators.html[Getting Started with Control Configurators] topic.
+
+=== Overview
+
+This topic contains the following sections:
+ 
+* <<Introduction,Introduction>> 
+* <<Videos, Videos>>
+* <<Updates,Updates>>
+* <<XDGOverview,{DataGridName} Overview>>
+* <<XDGLayoutModes,{DataGridName} Layout Modes>>
+* <<ConfigUI,Control Configurator UI>>
+* <<ConfigRibbons,Control Configurator Ribbons>>
+* <<ConfigLimits,Control Configurator Limitations>>
+
+[[Introduction]]
+== Introduction
+
+The {DataGridName} Control Configurator is a visual tool that enables the developer to configure an Infragistics WPF {DataGridName} control with a real-time preview of the control as it is being configured.
+
+Real-time sample data is created after data binding the DataSource property; the sample data inflates the {DataGridName} on the configurator layout surface using the types in your project.
+
+The primary use case for the {DataGridName} Control Configurator is to very quickly configure a new {DataGridName} or reconfigure a newly created {DataGridName}. The configuring of {DataGridName}s that have been heavily hand edited in the Visual Studio XAML Editor is not a supported scenario.  Please see the Control Configurator Limitations sections for a full explanation.
+
+image:images\WPF_ConfiguringDataGrid_1.png[]
+
+=== Requirements
+
+The WPF {DataGridName} Control Configurator requires the latest version of one of these products be installed:
+
+* Infragistics Ultimate 2017 Vol 2 or later – including any services releases
+* Ultimate UI for WPF 2017 Vol 2 or later – including any services releases
+
+=== Obsolete {DataGridName} Field XAML
+
+The below code is using obsolete XAML syntax for defining fields for the {DataGridName}.  This syntax is not supported in the WPF {DataGridName} Control Configurator.
+
+*In XAML:*
+[source, xaml]
+----
+<ig:Field Name="SubTotal">
+    <ig:Field.Settings>
+        <ig:FieldSettings EditorType="{x:Type igEdit:XamCurrencyEditor}">
+            <ig:FieldSettings.EditorStyle>
+                <Style TargetType="{x:Type igEdit:XamCurrencyEditor}">
+                    <Setter Property="ValueType" Value="{x:Type system:Decimal}"/>
+                    <Setter Property="NullText" Value="No Salary"/>
+                    <Setter Property="Mask" Value="{}{currency:7.2}"/>
+                </Style>
+            </ig:FieldSettings.EditorStyle>
+        </ig:FieldSettings>
+    </ig:Field.Settings>
+</ig:Field>
+----
+
+=== Current {DataGridName} Field XAML
+
+The following single line of XAML replaces the above XAML.  This greatly shortened syntax has been available since version 14.2.  The WPF {DataGridName} Control Configurator supports this syntax for Field declaration in XAML.
+
+*In XAML:*
+[source, xaml]
+----
+<ig:CurrencyField Name="SubTotal" Mask="{}{currency:7.2}" NullText="No Salary"/>
+----
+
+.Note:
+[NOTE]
+====
+The Field control is supported by the Control Configurator, just not the nested styling.  See the below Control Configurator Limitations section for a full explanation.
+====
+
+=== Data Model Used in this Topic's Images
+
+The sample project used in this help topic can be downloaded from this link:https://github.com/Infragistics/tools-samples/tree/master/ControlConfigurators/WpfControlConfiguratorApp[Infragistics GitHub Repository]. 
+
+The below code snippet shows the Order class with an OrderDetails collection property.  The OrderDetails collection property can be used to create a nested Field Layout if desired. In the above image you can see the Order Layout with a nested OrderDetails layout.  The Features Layout is a child layout of the OrderDetails.
+
+*In C#:*
+[source, csharp]
+----
+public class Order
+{
+    public String AccountingCode { get; set; }
+    public IList<OrderDetail> OrderDetails { get; set; }
+
+    public Order()
+    {
+        this.OrderDetails = new List<OrderDetail>();
+    }
+}
+----
+
+[[Videos]]
+== Videos
+
+Get the most from the {DataGridName} Configurator by viewing these link:https://www.youtube.com/playlist?list=PLZ4rRHIJepBu9ge71Sn7dcL6vSdsh4T0z[videos].
+
+[[Updates]]
+== Updates
+
+Control Configurators are updated via the Microsoft Visual Studio Marketplace. Please ensure you have enabled auto updates to get new updates as they are published.
+
+image:images\ConfiguratorAutoUpdateScreenShot.png[alt="Ensure automatic updates are enabled"]
+
+[[XDGOverview]]
+== {DataGridName} Overview
+
+The WPF {DataGridName} has a rich object model, feature set, and capabilities. Understanding the {DataGridName} object model is essential to using the {DataGridName} and the {DataGridName} Control Configurator.
+
+image:images\WPF_ConfiguringDataGrid_2.png[]
+
+The {DataGridName} object model uses object inheritance to resolve lower-level object property values. In the above image, orange or green objects are the objects that inherit from higher-level objects. Unset or unchanged lower-level values will inherit their value from higher-level objects.  Many properties have a default value of null.  At run-time, the property resolution logic will resolve the property value to non-null value.
+
+The {DataGridName} object model enables developers to set settings at a high-level and then, when required, change a lower-level property value to achieve the required result.
+
+For example:
+
+A developer may set the RecordSelectorNumberType property on the {DataGridName} FieldLayoutSettings (high-level) and then set a different value for the RecordSelectorNumberType on a FieldLayout using that FieldLayout’s RecordSelectorNumberType property.
+
+The same principle applies to FieldSettings which can be set on the {DataGridName}, FieldLayout, or Field objects.
+
+
+.Note:
+[NOTE]
+====
+When using the Control Configurator and setting values on lower-level objects, and then setting those same values on higher-level objects, the higher-level object values will be not be resolved or used on that lower-level object because the lower-level object values have been set.
+====
+
+[[XDGLayoutModes]]
+== {DataGridName} Layout Modes
+
+The {DataGridName} supports both simple and complex arrangements of cells within a record. The arrangements can be either specified manually (i.e., explicitly) or generated automatically. The Auto Arrange feature is enabled by setting the FieldLayoutSettings AutoArrangeCells property to either LeftToRight or TopToBottom. Setting this property to Never disables the Auto Arrange feature.
+
+See this Infragistics Help Topic, link:xamdata-arranging-cells-within-the-record.html[Arranging Cells within the Record] for detailed information.
+
+To enable or disable Auto Arrange in the Control Configurator, select the FieldLayout and then click the Auto Arrange toggle button in the Ribbon to enable or disable this feature.  Auto Arrange On is the default value.
+
+image:images\WPF_ConfiguringDataGrid_3.png[]
+
+When Auto Arrange is Off, developers arrange the cells in rows and columns by first selecting the desired field, then in the Property Grid, scroll down to the Layout category and set the desired values.
+
+image:images\WPF_ConfiguringDataGrid_4.png[]
+
+As field Layout values are set, the {DataGridName} UI will update to reflect the changes.
+
+The below image pictures a layout achieved by setting row, column, row span, and column span properties.
+
+image:images\WPF_ConfiguringDataGrid_5.png[]
+
+
+.Note:
+[NOTE]
+====
+When Auto Arrange is On, the Property Grid Layout category is not visible since these values have no effect.
+====
+
+[[ConfigUI]]
+== Control Configurator UI
+
+image:images\WPF_ConfiguringDataGrid_6.png[]
+
+The following list explains functional areas of the Control Configurator UI:
+
+. Contextual Ribbon Tabs (1) – these are displayed based on the lowest-level selected object in the left column of the Control Configurator.  In the above image, the Customer.FirstName field is selected and the Field contextual tab is active.  To access the Field Field Settings contextual tab, click it.
+
+. {DataGridName} Objects (2) – displays a hierarchical tree view of the {DataGridName} objects. Selecting one of these will change the displayed ribbon tabs, and will display the object’s properties in the Property Grid (6). Child objects of the top-level layout can also be deleted using this area.  For example, the Features Layout can be deleted by clicking the minus icon to the right.
+
+. Fields (3) – this panel is divided into two sections, Current fields (3A) and Available fields (3B). The Fields section is populated when a Field Layout has been selected in the {DataGridName} Objects (2).
+
+    * The Current section (3A) section displays a hierarchical tree view of the selected Field Layout’s FieldItems that have been added to the UI.  The FieldItem’s collection contains both Fields and FieldGroups. FieldItems can be deleted by clicking the minus icon.  FieldItems can also be reordered by dragging them within the Fields Current section (3A). Selecting one of these will change the displayed ribbon tabs, and will display the object's properties in the Property Grid (6).
+    
+    * The Available section (3B) lists fields that have not been added to the UI. When the plus icon is clicked, the field is added to the selected FieldLayout and UI.
+    
+. Field or Field Group (4) – when selected will change the displayed ribbon tabs, and will display the object’s properties in the Property Grid (6). A minus icon allows the developer to delete this FieldItem.  Additionally, for all Fields, a field type icon is displayed to the left of the field text.
+    
+    * Nested model object syntax (Customer.FirstName) is used when the selected Field on the FieldLayout object is a class property.  In our example, the Order class has a Customer class property. 
+    
+    * Fields that have properties that are nested, use a different binding syntax as pictured below.  The BindingType is set to UseAlternateBinding (in lieu of UseNameBinding). The AlternateBinding property is set to the Customer.FirstName. + 
+    image:images\WPF_ConfiguringDataGrid_7.png[]
+    
+    * Unbound Fields have a BindingType of Unbound.
+    
+    * Notice below that a FieldGroup contains three child Fields. FieldGroups can also contain child FieldGroups.  When all child FieldItems from a FieldGroup have been deleted or moved out of the FieldGroup, the FieldGroup can then be deleted. +
+    image:images\WPF_ConfiguringDataGrid_8.png[]
+    
+. Help – each ribbon tab has one or more links to help topics for items in the ribbon and property grid.
+    
+    * In addition, when hovering over an item in the {DataGridName} Objects (2), a help icon will appear.  When clicked, your browser will be opened to the Infragistics Help Topic for that object. +
+    image:images\WPF_ConfiguringDataGrid_26.png[]
+
+. Property Grid (6) – displays the properties for the lowest level selected object; in our example the Customer.FirstName Field object is the lowest level selected object.
+
+    * When objects are selected the title for the Property Grid changes to reflect the selected object.
+    
+    * Properties are grouped in categories to assist in learning the APIs.
+
+. Field Editor Specific Property Category (7) – when a FieldItem is selected, the first Property Grid Category (7) lists properties that are not found on the Field editor. The Field and Template editors do not have any specific properties, hence the Field category is their first one displayed.
+
+. Field Category (8) – The Field Category and all Categories below the Field category are common to all field editors.
+
+=== Fields Section Buttons and Expander Features
+
+image:images\WPF_ConfiguringDataGrid_9.png[]
+
+. Clicking the Maximize button (1) causes the Fields Current Section (2) to consume the entire left column, providing maximum room for working with FieldItems.  To revert to the normal state, click the Restore button that is located where the Maximize button was (1).
+
+. Clicking the Remove All button (2) removes all FieldItems from the selected FieldLayout and UI.
+
+. The Add Options… (3) Expander control displays thee buttons when clicked:
+    
+    * Add Unbound – when clicked adds an Unbound field to the Current section.
+	* Add Field Group – when clicked adds a FieldGroup to the Current section. 
+	* Add All – when clicked adds all Available Fields to the Current section. 
+
+=== Where Added Fields Appear
+
+When fields are added using the available buttons in section (3B), fields are added to section 3A based on the following conditions:
+
+* When a FieldLayout is the selected object (meaning no fields are currently selected) the field(s) will be added at the end of the list in 3A.
+* When a FieldGroup is the selected object the field(s) will be added at the end of that FieldGroup’s children.
+* When a FieldItem is the selected object and it is within a FieldGroup, the field(s) will be added after selected FieldItem.
+* When a FieldItem is the selected object and is not within a FieldGroup, the field(s) will be added after selected FieldItem.
+
+Taking advantage of this feature will save the developer time by not requiring them to move newly added fields.
+
+=== Moving Items
+
+When dragging FieldItems within the Current section (3A) a drag adorner indicates where the FieldItem will be placed.  To add a FieldItem to a FieldGroup, the developer can drop the FieldItem on top of the FieldGroup or drop it within the FieldGroup.
+
+.Note:
+[NOTE]
+====
+When not using Auto Arrange field layout, after dragging a FieldItem, the developer will need to use the Property Grid and set that FieldItem’s row, column, row span, and column span properties as required to obtain the desired layout.
+====
+
+[[ConfigRibbons]]
+== Control Configurator Ribbons
+
+The {DataGridName} Control Configurator uses a familiar Ribbon based interface to help surface common actions and options to the end-user.  The ribbon tabs are contextual to the objects selected in the {DataGridName} Objects pane and the Fields pane.  Depending on which object you select, you will be presented with different ribbon tabs.
+
+When you select the {DataGridName} or FieldLayouts objects from the {DataGridName} Objects pane, you will be presented with the Field Layout Settings, Field Settings, and View Settings tabs.  These ribbon tabs will surface common features that you can turn on and off at the {DataGridName} level.
+
+image:images\WPF_ConfiguringDataGrid_10.png[]
+
+When you select a Field Layout that has been added to the {DataGridName} Objects pane, you will be presented with the Field Layout, Field Layout Settings, and Field Settings tabs. These ribbon tabs will surface common features that you can turn on and off at the selected Field Layout level.  Any settings at this level will override any previous settings made on the {DataGridName} or FieldLayouts object level.
+
+image:images\WPF_ConfiguringDataGrid_11.png[]
+
+When you select a Field that has been added to a Field Layout in the Fields pane, you will be presented with the Field and Field Settings tabs.  These ribbon tabs will surface common features that you can turn on and off at the selected Field level.  Any settings at this level will override any previous settings made on the parent Field Layout object level.
+
+image:images\WPF_ConfiguringDataGrid_12.png[]
+
+The Data Grid tab will be available at all times.  When you click on the Data Grid tab, you will be taken to the {DataGridName} level in the {DataGridName} Objects pane regardless of which object you have currently selected in the {DataGridName} Objects or Fields panes.
+
+=== Ribbon Tools
+
+The ribbon tabs contain many tools that allow you to turn on/off various features of the {DataGridName} control you are configuring.  It is important to understand how these tools function so that you are properly setting the desired properties for the features of the {DataGridName} control.
+
+The ribbon tools located on the Data Grid tab, and primary function tabs such as a Field Layout and Field, will surface many features that set properties on the {DataGridName}. These may be located across the various API objects such as FieldLayoutSettings and FieldSettings. For example, the Filtering group on the Data Grid primary tab sets properties across both FieldLayoutSettings and FieldSettings.  The ribbon tools have helpful tooltips to provide more information about the name of the property you are setting and where that property can be found within the {DataGridName} API.
+
+image:images\WPF_ConfiguringDataGrid_13.png[]
+
+
+=== Buttons
+
+Buttons are the simplest tool in the ribbon tabs.  When you click on a button tool, it will perform an action.  These actions will be explained in the provided tooltips.
+
+image:images\WPF_ConfiguringDataGrid_14.png[]
+
+=== Nullable Checkbox
+
+A lot of properties on the various {DataGridName} API objects are Nullable Booleans which will be represented by a three-state checkbox in the ribbon tabs.  The following are the visual representations of each state.
+
+|====
+|Null|True|False
+
+|image:images\WPF_ConfiguringDataGrid_15.png[]
+|image:images\WPF_ConfiguringDataGrid_16.png[]
+|image:images\WPF_ConfiguringDataGrid_17.png[]
+
+|====
+
+
+=== Single-Select
+
+Single Select tools will drop down a menu with multiple options to choose from.  When you make a selection from the available options, the selection will be made and the tool will close.
+
+image:images\WPF_ConfiguringDataGrid_18.png[]
+
+=== Multi-Select
+
+Multi-select tools are very similar to single-select tools in that they show multiple options to choose from. Unlike single-select tools, the Multi-select tools will remain open to allow you to set multiple values. You can then click anywhere else in the Control Configurator to close the Multi-select menu.  In some cases, you are presented with an All or None option in which case any previously selected options will be unselected, and the menu tool will close.
+
+image:images\WPF_ConfiguringDataGrid_19.png[]
+
+=== Advanced Options
+
+A handy feature of the ribbon tab group is the ability to launch a dialog that provides extended functionality related to a particular group.  This is useful for situations in which the ribbon tab group only exposes a small number of common features, but has the capability for much more advanced configuration that may not be appropriate for, or be able to fit within, the ribbon tab group.
+
+This dialog launching feature is noted by a small icon in the bottom right corner of a ribbon tab group.
+
+image:images\WPF_ConfiguringDataGrid_20.png[]
+
+=== Filtering
+
+While the filtering ribbon tab group provides the most common filtering features, you can dive into more advanced filtering features by launching the Advanced Filtering dialog by clicking on the filtering group’s dialog launcher.
+
+image:images\WPF_ConfiguringDataGrid_21.png[]
+
+When the dialog launches you will need to be familiar with the Feature Set (1), the Filter Resources (2), the filtering options available on the FieldLayoutSettings (3), and the filtering options available in the FieldSetting (4).
+
+image:images\WPF_ConfiguringDataGrid_22.png[]
+
+When trying to change any values located within the Feature Set (1), it is important to note that you must click the Apply button in order for your changes to take effect.  Any changes you make in the FieldLayoutSettings (3) or FieldSettings (4) will be set immediately. Closing the dialog via the “X” button on the Window, or by clicking the Close button will not cancel any setting you have made.
+
+=== Performance
+
+The performance tab group contains a single Scrolling Mode setting; you can dive into more advanced performance features by launching the Advanced Performance dialog by clicking on the Performance group’s dialog launcher.
+
+image:images\WPF_ConfiguringDataGrid_23.png[]
+
+When the dialog launches you will need to be familiar with the Feature Set (1), the Performance Resources (2), the tabs for the Properties and Suppressed Events (3), the performance options available on the {DataGridName} (4), the performance options available on the FieldLayoutSettings (5), and the performance settings available on the FieldSettings (6).
+
+image:images\WPF_ConfiguringDataGrid_24.png[]
+
+=== Suppressed Events
+
+Performance can be improved by suppressing routed events that will not be handled. This improves performance due to the overhead incurred with routed events in element hierarchies. Select an event to suppress it from being raised.
+
+image:images\WPF_ConfiguringDataGrid_25.png[]
+
+When trying to change any values located within the Feature Set (1), it is important to note that you must click the Apply button in order for your changes to take effect.  Any changes you make in the Performance dialog (3, 4, 5, 6) will be set immediately. Closing the dialog via the “X” button on the Window, or by clicking the Close button will not cancel any setting you have made.
+
+[[ConfigLimits]]
+== Control Configurator Limitations
+
+The {DataGridName} Control Configurator provides an outstanding design-time experience for new {DataGridName}s or {DataGridName}s that have very little hand editing XAML.
+
+The {DataGridName} in the Control Configurator is a live running {DataGridName}. The Control Configurator can’t run any user code or attempt to parse and handle any user types or styles in XAML.
+
+The default design-time experience will take the developer a very long way in their configuring of a {DataGridName}.
+
+Based on the above explanation, the following properties for the below parent field objects are not supported by the {DataGridName} Control Configurator and any of these set in user XAML will be lost when the configuration saves the XAML.
+
+|====
+|Type|Property Name
+
+|link:{DataGridLink}.ComboBoxField.html[ComboBoxField]
+|link:{DataGridLink}.ComboBoxField{ApiProp}ComboBoxStyle.html[ComboBoxStyle], +
+ link:{DataGridLink}.ComboBoxField{ApiProp}DropDownButtonStyle.html[DropDownButtonStyle], +
+ link:{DataGridLink}.ComboBoxField{ApiProp}PostDropDownAreaTemplate.html[PostDropDownAreaTemplate], +
+ link:{DataGridLink}.ComboBoxField{ApiProp}PreDropDownAreaTemplate.html[PreDropDownAreaTemplate]
+
+|link:{DataGridLink}.DateTimeField.html[DateTimeField]
+|link:{DataGridLink}.DateTimeField{ApiProp}DropDownButtonStyle.html[DropDownButtonStyle] 
+
+|link:{DataGridLink}.Field.html[Field]
+|link:{DataGridLink}.Field{ApiProp}CalculationSettings.html[CalculationSettings], +
+ link:{DataGridLink}.Field{ApiProp}CellBindings.html[CellBindings], +
+ link:{DataGridLink}.Field{ApiProp}CellValuePresenterStyle.html[CellValuePresenterStyle], +
+ link:{DataGridLink}.Field{ApiProp}DataType.html[DataType], +
+ link:{DataGridLink}.Field{ApiProp}EditAsType.html[EditAsType], +
+ link:{DataGridLink}.Field{ApiProp}EditorStyle.html[EditorStyle], +
+ link:{DataGridLink}.Field{ApiProp}EditorType.html[EditorType], +
+ link:{DataGridLink}.Field{ApiProp}FormatProvider.html[FormatProvider], +
+ link:{DataGridLink}.Field{ApiProp}IsSelected.html[IsSelected], +
+ link:{DataGridLink}.Field{ApiProp}ValueConstraint.html[ValueConstraint], +
+ link:{DataGridLink}.Field{ApiProp}ValueToTextConverter.html[ValueToTextConverter]
+
+|link:{DataGridLink}.FieldGroup.html[FieldGroup]
+|link:{DataGridLink}.FieldGroup{ApiProp}LabelPresenterStyle.html[LabelPresenterStyle], +
+ link:{DataGridLink}.FieldItem{ApiProp}ToolTip.html[ToolTip]
+
+|link:{DataGridLink}.FieldLayout.html[FieldLayout]
+|link:{DataGridLink}.FieldLayout{ApiProp}CalculationReferenceId.html[CalculationReferenceId], +
+ link:{DataGridLink}.FieldLayout{ApiProp}CrossFieldRecordFilters.html[CrossFieldRecordFilters], +
+ link:{DataGridLink}.FieldLayout{ApiProp}RecordFilters.html[RecordFilters], +
+ link:{DataGridLink}.FieldLayout{ApiProp}SummaryDefinitions.html[SummaryDefinitions], +
+ link:{DataGridLink}.FieldLayout{ApiProp}ToolTip.html[ToolTip]
+
+|link:{DataGridLink}.FieldLayoutSettings.html[FieldLayoutSettings]
+|link:{DataGridLink}.FieldLayoutSettings{ApiProp}DataRecordCellAreaStyle.html[DataRecordCellAreaStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DataRecordPresenterStyle.html[DataRecordPresenterStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DataRecordPresenterStyleSelector.html[DataRecordPresenterStyleSelector], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DefaultColumnDefinition.html[DefaultColumnDefinition], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DefaultRowDefinition.html[DefaultRowDefinition], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}FieldGroupLabelPresenterStyle.html[FieldGroupLabelPresenterStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}HeaderLabelAreaStyle.html[HeaderLabelAreaStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}HeaderPrefixAreaStyle.html[HeaderPrefixAreaStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}HeaderPresenterStyle.html[HeaderPresenterStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}MaxFieldsToAutoGenerate.html[MaxFieldsToAutoGenerate], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordListControlStyle.html[RecordListControlStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordSelectorNumberStyle.html[RecordSelectorNumberStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordSelectorNumberStyleSelector.html[RecordSelectorNumberStyleSelector], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordSelectorStyle.html[RecordSelectorStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}SpecialRecordOrder.html[SpecialRecordOrder]
+ 
+|link:{DataGridLink}.FieldSettings.html[FieldSettings]
+|link:{DataGridLink}.FieldSettings{ApiProp}CellPresenterStyle.html[CellPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}CellValuePresenterStyle.html[CellValuePresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}CellValuePresenterStyleSelector.html[CellValuePresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditAsType.html[EditAsType], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditorStyle.html[EditorStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditorStyleSelector.html[EditorStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditorType.html[EditorType], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandableFieldRecordPresenterStyle.html[ExpandableFieldRecordPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandableFieldRecordPresenterStyleSelector.html[ExpandableFieldRecordPresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandedCellStyle.html[ExpandedCellStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandedCellStyleSelector.html[ExpandedCellStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterCellEditorStyle.html[FilterCellEditorStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterCellValuePresenterStyle.html[FilterCellValuePresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterComparer.html[FilterComparer], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterEvaluator.html[FilterEvaluator], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByComparer.html[GroupByComparer], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByEvaluator.html[GroupByEvaluator], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByRecordPresenterStyle.html[GroupByRecordPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByRecordPresenterStyleSelector.html[GroupByRecordPresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}LabelPresenterStyle.html[LabelPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}LabelPresenterStyleSelector.html[LabelPresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}SortComparer.html[SortComparer]
+
+|link:{DataGridLink}.GridViewSettings.html[ViewSettings]
+|link:https://msdn.microsoft.com/en-us/library/system.windows.frameworkcontentelement.focusvisualstyle(v=vs.110).aspx[FocusVisualStyle], +
+ link:https://msdn.microsoft.com/en-us/library/system.windows.frameworkcontentelement.tooltip(v=vs.110).aspx[ToolTip]
+
+|====

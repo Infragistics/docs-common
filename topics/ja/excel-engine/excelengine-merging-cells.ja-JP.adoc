@@ -1,0 +1,95 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-merging-cells",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Editing","Formatting","How Do I"],
+    "guid": "{37B86801-E298-4166-AADC-6B12691C2EC0}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7677067Z"
+}
+|metadata|
+////
+
+= セルの結合 ({ExcelEngineName})
+
+セルの値またはフォーマットの設定以外に、2 つ以上のセルをひとつのセルとして表示するためにセルをマージすることができます。セルをマージする場合、矩形の領域内にセルがなければなりません。セルを結合する場合、領域内の各セルは同じ値とセル フォーマットを持たなければなりません。結合されたセルは、同じ link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetmergedcellsregion.html[WorksheetMergedCellsRegion] オブジェクトにも関連付けられ、AssociatedMergedCellsRegion プロパティからアクセスできます。WorksheetMergedCellsRegion オブジェクトもセルと同じ値とセル フォーマットを持ちます。領域または領域内の任意のセルの値（またはセルフォーマット）を設定すると、すべてのセルおよび領域の値を変更します。セルの結合を解除すると、これまでに結合されたセルはすべて、結合が解除される前の共有セル フォーマットに戻ります。ただし、領域の左上のセルのみが共有値を保持します。
+
+結合されたセル領域を作成するには、セルの範囲を link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~mergedcellsregions.html[MergedCellsRegions] コレクションに追加する必要があります。MergedCellsRegions コレクションは、4 つの整数パラメーターを取得する link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetmergedcellsregioncollection~add.html[Add] メソッドを公開します。4 つのパラメーターは、開始する行と列（左上隅のセル）のインデックス、および終了する行と列（右下隅のセル）のインデックスを決定します。
+
+以下の例は、セルの結合方法を示します。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Imports Infragistics.Documents.Excel
+...
+Dim workbook1 As New Workbook()
+Dim worksheet As Worksheet = workbook1.Worksheets.Add("Sheet1")
+' 列ヘッダーを追加します
+worksheet.Rows(1).Cells(1).Value = "Morning"
+worksheet.Rows(1).Cells(2).Value = "Afternoon"
+worksheet.Rows(1).Cells(3).Value = "Evening"
+' ヘッダーが列ヘッダーとなる列 1 から列 3 までのマージされた領域を作成します。
+Dim mergedRegion1 As WorksheetMergedCellsRegion = worksheet.MergedCellsRegions.Add(0, 1, 0, 3)
+' マージされた領域の値を設定します。
+mergedRegion1.Value = "Day 1"
+' マージされた領域の中央のセルの配置を設定します。
+' セルとセルのマージされた領域がセル フォーマットを共有したために、これはマージされた 
+' 領域のフォーマットを最終的に設定することになります。
+worksheet.Rows(0).Cells(2).CellFormat.Alignment = HorizontalCellAlignment.Center
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+using Infragistics.Documents.Excel;
+...
+Workbook workbook1 = new Workbook();
+Worksheet worksheet = workbook1.Worksheets.Add("Sheet1");
+// 列ヘッダーをいくつか作成します。
+worksheet.Rows[1].Cells[1].Value = "Morning";
+worksheet.Rows[1].Cells[2].Value = "Afternoon";
+worksheet.Rows[1].Cells[3].Value = "Evening";
+// ヘッダーが列ヘッダーとなる列 1 から列 3 までのマージされた領域を作成します。
+WorksheetMergedCellsRegion mergedRegion1 =  worksheet.MergedCellsRegions.Add(0, 1, 0, 3);
+// マージされた領域の値を設定します。
+mergedRegion1.Value = "Day 1";
+// マージされた領域の中央のセルの配置を設定します。
+// セルとセルのマージされた領域がセル フォーマットを共有したために、これはマージされた 
+// 領域のフォーマットを最終的に設定することになります。
+worksheet.Rows[0].Cells[2].CellFormat.Alignment = HorizontalCellAlignment.Center;
+----
+
+== 関連トピック
+
+link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+
+link:excelengine-creating-a-workbook.html[ワークブックを作成]
+
+link:excelengine-load-an-excel-file.html[Excel ファイルのロード]
+
+link:excelengine-save-a-workbook.html[ワークブックの保存]
+
+link:excelengine-format-a-cell.html[セルをフォーマット]
+
+link:excelengine-copy-a-cells-format.html[セルのフォーマットのコピー]
+
+link:excelengine-reference-cells-and-regions.html[セルと領域を参照]
+
+link:excelengine-add-a-formula-to-a-cell.html[数式をセルに追加]
+
+link:excelengine-add-a-comment-to-a-cell.html[コメントをセルに追加]
+
+link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集を無効にする]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-freeze-rows-and-columns.html[行と列をフリーズ]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-freeze-and-split-panes.html[行と列をフリーズ ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-set-excel-document-properties.html[Excel ドキュメント プロパティの設定]

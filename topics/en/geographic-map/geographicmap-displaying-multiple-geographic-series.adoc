@@ -1,0 +1,360 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Displaying Multiple Geographic Series
+
+== Purpose
+
+This topic provides information on how to display multiple geographic series in the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control.
+
+== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[Adding {GeoMapName} to a Page]
+|This topic provides information on how to add the _{GeoMapName}_ control to an application page.
+
+| link:geographicmap-visual-elements-of-geographicmap.html[Visual Elements of {GeoMapName}]
+|This topic provides information about layout of map elements in the _{GeoMapName}_ control.
+
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources with information about maps, shape files, and geo-spatial related material. Use these resources to learn about and obtain geo-spatial shape files as well as tools for their editing.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-series.html[Using Geographic Series]
+|This topic provides information about supported types of geographic series in the _{GeoMapName}_ control.
+
+|====
+
+== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320193474,Introduction>>
+* <<_Ref320651783,Preview>>
+* <<_Ref321213942,Overview>>
+* <<_Ref321213944,Steps>>
+* <<_Ref320185294,Related Content>>
+ 
+[[_Ref320193474]]
+
+== Introduction
+
+The _{GeoMapName}_ control’s link:{DataChartLinkBase}.seriesviewer~series.html[Series] property is used to support rendering an unlimited number of geographic series. This property is a collection of geographic series objects and any type of geographic series can be added to it. For example, link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] can be added for plotting geographic locations such as cities and the link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] for plotting connections (for example, roads) between these geographic locations.
+
+[[_Ref320651783]]
+
+== Preview
+
+The following is a preview of the _{GeoMapName}_ control with multiple geographic series.
+
+image::images/GeographicMap_Displaying_Multiple_Geographic_Series_1.png[]
+
+
+[[_Ref321213942]]
+
+== Overview
+
+This topic takes you step-by-step towards displaying multiple geographic series in the _{GeoMapName}_ control. All geographic series are added to the link:{DataChartLinkBase}.seriesviewer~series.html[Series] property, plot following geo-spatial data loaded from shape files using the link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] class.
+
+* link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] – displays countries of the world
+* link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] – displays locations of major cities
+* link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] – displays roads between major cities
+
+You can use geographic series in this or other combinations to plot desired data. Also, you might want to hide geographic imagery from the map background content if your shape files provided sufficient geographic context for your application. For more information on this, refer to the link:geographicmap-hiding-geographic-imagery-in-map-background-content.html[Hiding Geographic Imagery in Map Background Content] topic.
+
+The following is a conceptual overview of the process:
+
+[start=1]
+. *Add ShapefileConverter objects as resources.* 
+[start=2]
+. *Add Geographic Map control.* 
+[start=3]
+. *Add GeographicShapeSeries object.* 
+[start=4]
+. *Add GeographicPolylineSeries object.* 
+[start=5]
+. *Add GeographicSymbolSeries object.* 
+[start=6]
+. *Verify the results.* 
+
+[[_Ref321213944]]
+
+== Steps
+
+The following steps demonstrate how to display multiple geographic series in the _{GeoMapName}_ control.
+
+=== Add ShapefileConverter objects as resources.
+
+In resources section of your page, add a link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] for each shapefile that you want to display in the _{GeoMapName}_ control.
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:ShapefileConverter x:Key="countriesShapeSource"
+                        ShapefileSource="ShapeFiles/world_countries.shp"
+                        DatabaseSource="ShapeFiles/world_countries.dbf" >
+</ig:ShapefileConverter>
+<ig:ShapefileConverter x:Key="roadsShapeSource"
+                        ShapefileSource="ShapeFiles/north_america_primary_roads.shp"
+                        DatabaseSource="ShapeFiles/north_america_primary_roads.dbf" >
+</ig:ShapefileConverter>
+<ig:ShapefileConverter x:Key="citiesLocationSource"
+                        ShapefileSource="ShapeFiles/world_cities.shp"
+                        DatabaseSource="ShapeFiles/world_cities.dbf" >
+</ig:ShapefileConverter>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim countriesShapeSource = New ShapefileConverter()
+countriesShapeSource.ShapefileSource = "ShapeFiles/world_countries.shp"
+countriesShapeSource.DatabaseSource = "ShapeFiles/world_countries.dbf"
+Dim roadsShapeSource = New ShapefileConverter()
+roadsShapeSource.ShapefileSource = "ShapeFiles/north_america_primary_roads.shp"
+roadsShapeSource.DatabaseSource = "ShapeFiles/north_america_primary_roads.dbf"
+Dim citiesLocationSource = New ShapefileConverter()
+citiesLocationSource.ShapefileSource = "ShapeFiles/world_cities.shp"
+citiesLocationSource.DatabaseSource = "ShapeFiles/world_cities.dbf"
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var countriesShapeSource = new ShapefileConverter();
+countriesShapeSource.ShapefileSource="ShapeFiles/world_countries.shp";
+countriesShapeSource.DatabaseSource="ShapeFiles/world_countries.dbf";
+var roadsShapeSource = new ShapefileConverter();
+roadsShapeSource.ShapefileSource="ShapeFiles/north_america_primary_roads.shp";
+roadsShapeSource.DatabaseSource="ShapeFiles/north_america_primary_roads.dbf";
+var citiesLocationSource = new ShapefileConverter();
+citiesLocationSource.ShapefileSource="ShapeFiles/world_cities.shp";
+citiesLocationSource.DatabaseSource="ShapeFiles/world_cities.dbf";
+----
+
+=== Add Geographic Map control.
+
+Add the _{GeoMapName}_ control with the pick:[wpf="link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent]"]pick:[win-forms="BackgroundContent"] set to null.
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap" BackgroundContent="{x:Null}" >
+    <ig:XamGeographicMap.Series>
+       <!-- TODO: add GeographicShapeSeries here -->
+       <!-- TODO: add GeographicPolylineSeries here -->
+       <!-- TODO: add GeographicSymbolSeries here -->
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim GeoMap = New {GeoMapName}()
+ifdef::wpf[]
+GeoMap.BackgroundContent = Nothing
+endif::wpf[]
+ifdef::win-forms[]
+GeoMap.ResetBackgroundContent()
+GeoMap.Refresh()
+endif::win-forms[]
+‘ TODO: add GeographicShapeSeries here 
+‘ TODO: add GeographicPolylineSeries here 
+‘ TODO: add GeographicSymbolSeries here 
+ifdef::wpf[]
+Me.Children.Add(GeoMap)
+endif::wpf[]
+ifdef::win-forms[]
+Me.Controls.Add(GeoMap)
+endif::win-forms[]
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var GeoMap = new {GeoMapName}();
+ifdef::wpf[]
+GeoMap.BackgroundContent = null;
+endif::wpf[]
+ifdef::win-forms[]
+GeoMap.ResetBackgroundContent()
+GeoMap.Refresh()
+endif::win-forms[]
+// TODO: add GeographicShapeSeries here 
+// TODO: add GeographicPolylineSeries here 
+// TODO: add GeographicSymbolSeries here 
+ifdef::wpf[]
+this.Children.Add(GeoMap);
+endif::wpf[]
+ifdef::win-forms[]
+this.Controls.Add(GeoMap);
+endif::win-forms[]
+----
+
+=== Add GeographicShapeSeries object.
+
+In the _{GeoMapName}_ control’s Series collection, add link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] object for displaying shapes of countries of the world.
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:GeographicShapeSeries {ApiDataSource}="{StaticResource countriesShapeSource}"
+                          ShapeMemberPath="Points">
+</ig:GeographicShapeSeries>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim geoShapeSeries = New GeographicShapeSeries()
+geoShapeSeries.{ApiDataSource} = countriesShapeSource
+geoShapeSeries.ShapeMemberPath = "Points"
+Me.GeoMap.Series.Add(geoShapeSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var geoShapeSeries = new GeographicShapeSeries();
+geoShapeSeries.{ApiDataSource} = countriesShapeSource
+geoShapeSeries.ShapeMemberPath = "Points";
+this.GeoMap.Series.Add(geoShapeSeries);
+----
+
+=== Add GeographicPolylineSeries object.
+
+In the _{GeoMapName}_ control’s Series collection, add link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] object for displaying roads between major cities.
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:GeographicPolylineSeries {ApiDataSource}="{StaticResource roadsShapeSource}"
+                             ShapeMemberPath="Points">
+</ig:GeographicPolylineSeries>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim geoPolylineSeries = New GeographicPolylineSeries()
+geoPolylineSeries.{ApiDataSource} = roadsShapeSource
+geoPolylineSeries.ShapeMemberPath = "Points"
+Me.GeoMap.Series.Add(geoPolylineSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var geoPolylineSeries = new GeographicPolylineSeries();
+geoPolylineSeries.{ApiDataSource} = roadsShapeSource;
+geoPolylineSeries.ShapeMemberPath = "Points";
+this.GeoMap.Series.Add(geoPolylineSeries);
+----
+
+=== Add GeographicSymbolSeries object.
+
+In the _{GeoMapName}_ control’s Series collection, add link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] object for displaying locations of major cities.
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:GeographicSymbolSeries {ApiDataSource}="{StaticResource citiesLocationSource}"
+                           LongitudeMemberPath="Points[0][0].X"
+                           LatitudeMemberPath="Points[0][0].Y">
+</ig:GeographicSymbolSeries>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim geoSymbolSeries = New GeographicSymbolSeries()
+geoSymbolSeries.{ApiDataSource} = citiesLocationSource
+geoSymbolSeries.LongitudeMemberPath = "Points[0][0].X"
+geoSymbolSeries.LatitudeMemberPath = "Points[0][0].Y"
+Me.GeoMap.Series.Add(geoSymbolSeries)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var geoSymbolSeries = new GeographicSymbolSeries();
+geoSymbolSeries.{ApiDataSource} = citiesLocationSource;
+geoSymbolSeries.LongitudeMemberPath = "Points[0][0].X";
+geoSymbolSeries.LatitudeMemberPath = "Points[0][0].Y";
+this.GeoMap.Series.Add(geoSymbolSeries);
+----
+
+=== Verify the results.
+
+Build and run your project to verify the result. If you have implemented the steps correctly, the displayed _{GeoMapName}_ should look like the one in the <<_Ref320651783,Preview>> section above.
+
+[[_Ref320185294]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[Adding {GeoMapName} to a Page] 
+
+|This topic provides information on how to add the _{GeoMapName}_ control to an application page.
+
+| link:geographicmap-visual-elements-of-geographicmap.html[Visual Elements of {GeoMapName}]
+|This topic provides information about layout of map elements in the _{GeoMapName}_ control.
+
+| link:geographicmap-shape-files-reference.html[Shape Files Reference]
+|This topic provides resources with information about maps, shape files, and geo-spatial related material. Use these resources to learn about and obtain geo-spatial shape files as well as tools for their editing.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-using-geographic-series.html[Using Geographic Series]
+|This topic provides information about supported types of geographic series in the _{GeoMapName}_ control.
+
+| link:geographicmap-hiding-geographic-imagery-in-map-background-content.html[Hiding Geographic Imagery in Map Background Content]
+|This topic provides information on how to hide geographic imagery in the background content of the _{GeoMapName}_ control.
+
+|====

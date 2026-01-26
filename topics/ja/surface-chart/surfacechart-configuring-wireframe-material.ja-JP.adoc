@@ -1,0 +1,249 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-configuring-wireframe-material",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "a0766524-eace-4575-a719-f16dce5bae91",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-03-03T13:27:04.3169889Z"
+}
+|metadata|
+////
+
+= ワイヤーフレーム素材の構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] コントロールのシリーズ ワイヤーフレームの素材を構成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+以下の表は、このトピックを理解するための前提条件として必要な外部トピックの一覧です。
+
+
+==== 素材の定義 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|記事|目的 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.material(v=vs.110).aspx[Material クラス] 
+
+|この記事は、WPF で抽象 Material クラスを使用する方法について説明します。 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.diffusematerial(v=vs.110).aspx[DiffuseMaterial クラス] 
+
+|この記事は、WPF で DiffuseMaterial クラスを定義および使用する方法について説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref443904582, ワイヤーフレーム素材の構成 >>
+* <<_Ref443904586, ワイヤーフレームの太さの構成 >>
+* <<_Ref443904591, 関連コンテンツ >>
+
+[[_Ref443904582]]
+== ワイヤーフレーム素材の構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamscattersurface3d~wireframematerial.html[WireframeMaterial] プロパティを使用して _xamScatterSurface3D_ コントロール シリーズ ワイヤーフレームの素材を構成します。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|シリーズ ワイヤー素材の構成
+| link:{SurfaceChartLink}.xamscattersurface3d~wireframematerial.html[WireframeMaterial]
+|`Material`
+
+|====
+
+=== 例
+
+以下の設定は、以下のコードの結果として _xamScatterSurface3D_ コントロール シリーズの外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamscattersurface3d~wireframematerial.html[WireframeMaterial]
+| `<DiffuseMaterial Brush="Red"/>`
+
+|====
+
+image::images/Configuring_Wireframe_Material_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ WireframeThickness="0.004">
+    <ig:XamScatterSurface3D.SeriesMaterial>
+        <DiffuseMaterial Brush="WhiteSmoke" />
+    </ig:XamScatterSurface3D.SeriesMaterial>
+    <ig:XamScatterSurface3D.WireframeMaterial>
+        <DiffuseMaterial Brush="Red" />
+    </ig:XamScatterSurface3D.WireframeMaterial>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var diffuseMaterial = new DiffuseMaterial();
+diffuseMaterial.Brush = new SolidColorBrush(Colors.Red);
+SurfaceChart.WireframeThickness = 0.004;
+SurfaceChart.WireframeMaterial = diffuseMaterial;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim diffuseMaterial = New DiffuseMaterial()
+diffuseMaterial.Brush = New SolidColorBrush(Colors.Red)
+SurfaceChart.WireframeThickness = 0.004
+SurfaceChart.WireframeMaterial = diffuseMaterial
+----
+
+[[_Ref443904586]]
+== ワイヤーフレームの太さの構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamscattersurface3d~wireframethickness.html[WireframeThickness] プロパティを使用して _xamScatterSurface3D_ コントロール シリーズ ワイヤーフレームの太さを構成します。
+
+デフォルトで、`WireframeThickness` プロパティの初期値は 0.002 ミリ秒です。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|シリーズ ワイヤーフレームの構成
+| link:{SurfaceChartLink}.xamscattersurface3d~wireframethickness.html[WireframeThickness]
+|`double`
+
+|====
+
+=== 例
+
+以下の設定は、以下のコードの結果として _xamScatterSurface3D_ コントロール シリーズの外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamscattersurface3d~wireframethickness.html[WireframeThickness]
+| _0.008_ 
+
+|====
+
+image::images/Configuring_Wireframe_Material_2.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ WireframeThickness="0.008">
+    <ig:XamScatterSurface3D.SeriesMaterial>
+        <DiffuseMaterial Brush="WhiteSmoke" />
+    </ig:XamScatterSurface3D.SeriesMaterial>
+    <ig:XamScatterSurface3D.WireframeMaterial>
+        <DiffuseMaterial Brush="Red" />
+    </ig:XamScatterSurface3D.WireframeMaterial>
+</ig:XamScatterSurface3D>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+var diffuseMaterial = new DiffuseMaterial();
+diffuseMaterial.Brush = new SolidColorBrush(Colors.Red);
+SurfaceChart.WireframeThickness = 0.008;
+SurfaceChart.WireframeMaterial = diffuseMaterial;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+Dim diffuseMaterial = New DiffuseMaterial()
+diffuseMaterial.Brush = New SolidColorBrush(Colors.Red)
+SurfaceChart.WireframeThickness = 0.008
+SurfaceChart.WireframeMaterial = diffuseMaterial
+----
+
+[[_Ref443904591]]
+== 関連コンテンツ
+
+本トピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-configuring-series-colors.html[シリーズ色の構成]
+|このトピックは、 _xamScatterSurface3D_ コントロール シリーズにカスタム色パレットを適用する方法および色補間を構成する方法について説明します。
+
+| link:surfacechart-light-settings.html[シリーズ光源の構成 _xamScatterSurface3D_ ]
+|このトピックでは、 _xamScatterSurface3D_ コントロールで光源設定を構成する方法について説明します。
+
+| link:surfacechart-configuring-series-material.html[シリーズ素材の構成]
+|このトピックでは、 _xamScatterSurface3D_ コントロールのシリーズの素材を構成する方法を説明します。
+
+| link:surfacechart-series-mouse-events.html[シリーズのマウス イベント]
+|本トピックは、 _xamScatterSurface3D_ コントロールのシリーズ マウス イベントの概要です。
+
+|====

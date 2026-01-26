@@ -1,0 +1,74 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-export-to-pdf",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{838774E8-E8C2-46B1-BFD0-27F5F59A3EE4}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= PDF にエクスポート
+
+このトピックは PDF ファイルまたは XPS ファイルでチャートをエクスポートする方法を示します。
+
+[NOTE]
+====
+*注:* このトピックは、チャートを作成済みであることを前提としています。チャートの作成方法については、 link:chart-getting-started-with-chart.html[「チャートで開始」]を参照してください。
+====
+
+以下の手順を完了した後でアプリケーションを保存および実行すると、チャートは以下の画像のようになります。
+
+image::images/Chart_Export_to_PDF.png[]
+
+*チャートを PDF にエクスポートするには、次の手順に従ってください。*
+
+[start=1]
+. [コンポーネント] タブから、UltraButton をフォームにドラッグします。
+[start=2]
+. ボタンの Click イベント ハンドラで、以下の例のコードを追加します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Data.DataSource = GetStackColumnData()
+Me.UltraChart1.Data.DataBind()
+Dim r As New Infragistics.Documents.Report.Report()
+Dim g As Graphics = r.AddSection().AddCanvas().CreateGraphics()
+UltraChart1.RenderPdfFriendlyGraphics(g)
+' 現在のユーザーのマイ ドキュメント フォルダ
+' へのパスを含む文字列を定義します。
+Dim myDocuments As String = _
+     System.Environment.GetFolderPath( _
+       System.Environment.SpecialFolder.MyDocuments)
+' TestReport.pdf の名前で、現在のユーザーの 
+' マイ ドキュメント フォルダにレポートをパブリッシュします。
+r.Publish(myDocuments + "\Report.pdf", FileFormat.PDF)
+System.Diagnostics.Process.Start((myDocuments + "\Report.pdf"))
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Data.DataSource = GetStackColumnData();
+this.ultraChart1.Data.DataBind();
+// 新しいレポートを作成します。
+Infragistics.Documents.Report.Report r = 
+  new Infragistics.Documents.Report.Report();
+Graphics g = r.AddSection().AddCanvas().CreateGraphics();
+ultraChart1.RenderPdfFriendlyGraphics(g);
+// 現在のユーザーのマイ ドキュメント フォルダ
+// へのパスを含む文字列を定義します。
+string myDocuments =
+  System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+// TestReport.pdf の名前で、現在のユーザーの 
+// マイ ドキュメント フォルダにレポートをパブリッシュします。
+r.Publish(myDocuments + "\\Report.pdf", FileFormat.PDF);
+----
+
+[start=3]
+. アプリケーションを保存して実行します。

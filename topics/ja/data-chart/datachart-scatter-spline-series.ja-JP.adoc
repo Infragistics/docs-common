@@ -1,0 +1,276 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-scatter-spline-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"],
+    "guid": "",
+    "buildFlags": [],
+    "createdOn": "2017-04-05T19:39:00.5613429Z"
+}
+|metadata|
+////
+
+= 散布図 - スプライン シリーズ
+
+このトピックは、コード例を示して、link:{DataChartLink}.ScatterSplineSeries.html[ScatterPointSeries] を link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールで使用する方法を説明します。いくつかの重要な概念的情報も提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Introduction,概要>>
+* <<Series Preview,シリーズ プレビュー>>
+* <<Appearance,シリーズの外観>>
+* <<DataBinding,データ バインディング>>
+* <<DashArray, ダッシュ配列>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[Introduction]]
+== 概要
+
+`ScatterSplineSeries` は、データをプロットにデカルト座標 (x, y) システムを使用するlink:datachart-scatter-series-overview.html[散布シリーズ]のファミリに属します。シリーズはスプラインに接続したポイントのコレクションとしてデータとして表示し、それぞれが座標系システムで位置を決定する 1 組の数値 X/Y 値を持ちます。
+
+散布シリーズでは、データの不均等な散らばりやデータの塊に注意が向けられます。収集されたデータの予測結果との偏差を強調表示することができます。科学データや統計データをプロットするためによく使用されます。`ScatterSplineSeries` はデータを X-Axis および Y-Axis で時系列に管理およびプロットします (バインドする前はデータが時系列でない場合も)。以下のセクションは、`ScatterSplineSeries` とその機能を使用する方法で重要なコンセプトやタスクベースの情報を示します。
+ 
+
+[[SeriesPreview]]
+== シリーズ プレビュー   
+
+image::images/xamDataChart_Scatter_Series_04.png[]
+
+図 1: `ScatterSplineSeries` 実装例
+
+[[SeriesAppearance]]
+== シリーズの外観
+
+`ScatterLineSeries` は外観のカスタマイズに使用できる以下のプロパティがあります。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{DataChartLink}.Series{ApiProp}Thickness.html[Thickness]
+|`double`
+|このプロパティは、スプラインの太さを指定します。
+  
+| link:{DataChartLink}.Series{ApiProp}Brush.html[Brush]
+|`Brush`
+|このプロパティは、スプラインのブラシ色を指定します。 
+
+| link:{DataChartLink}.MarkerSeries{ApiProp}MarkerType.html[MarkerType]
+| link:{DataChartLink}.MarkerType.html[MarkerType] 
+|このプロパティは、データ ポイント位置のマーカーの図形を指定します。デフォルトは None - マーカーなしです。
+  
+| link:{DataChartLink}.MarkerSeries{ApiProp}MarkerOutline.html[MarkerOutline]
+|`Brush`
+|このプロパティは、マーカーのアウトラインの色を指定します。
+  
+| link:{DataChartLink}.MarkerSeries{ApiProp}MarkerBrush.html[MarkerBrush]
+|`Brush`
+|このプロパティは、マーカーの塗りつぶしの色を指定します。
+|====
+
+
+[[DataBinding]]
+== データ バインディング  
+
+`ScatterSplineSeries` は link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] プロパティを使用し、IEnumerable インターフェイス (List、Collection、Queue、Stack など) を実装するデータ オブジェクトへバインドします。ただし、このオブジェクトの各データ項目には、2 つの数値データ列 (デカルト座標系でバブルを配置する X および Y 値用) が必要です。データ列は link:{DataChartLink}.ScatterBase{ApiProp}XMemberPath.html[XMemberPath] および link:{DataChartLink}.ScatterBase{ApiProp}YMemberPath.html[YMemberPath] プロパティを使用してマップされます。
+
+上記の基準を満たすオブジェクトに link:resources-sample-bubble-data.html[BubbleDataSource] があり、ダウンロードしてプロジェクトで使用できます。 
+
+==== コード例
+このコード スニペットは、サンプル バブル データを `ScatterSplineSeries` にバインドする方法を説明します。
+
+ifdef::wpf,win-universal[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} >
+    <ig:{DataChartName}.Resources>
+        <local:BubbleDataSource x:Key="data"/> 
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="XAxis" />
+        <ig:NumericYAxis x:Name="YAxis" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series> 
+        <ig:ScatterSplineSeries ItemsSource="{StaticResource data}"
+                          XAxis="{Binding ElementName=XAxis}"
+                          YAxis="{Binding ElementName=YAxis}"
+                          XMemberPath="X" 
+                          YMemberPath="Y" >
+        </ig:ScatterSplineSeries> 
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf,win-universal[]
+ 
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:BubbleDataSource x:Key="data" />
+		</ResourceDictionary>
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="XAxis" />
+        <ig:NumericYAxis x:Name="YAxis" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ScatterSplineSeries ItemsSource="{StaticResource data}"
+                          XAxis="{x:Reference XAxis}"
+                          YAxis="{x:Reference YAxis}"
+                          XMemberPath="X" 
+                          YMemberPath="Y" > 
+        </ig:ScatterSplineSeries> 
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-universal,xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+var data = new BubbleDataSource();
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+
+var series = new ScatterSplineSeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.XMemberPath = "X";
+series.YMemberPath = "Y"; 
+series.ItemsSource = data; 
+DataChart.Axes.Add(xAxis);
+DataChart.Axes.Add(yAxis);
+DataChart.Series.Add(series);
+----
+endif::wpf,win-universal,xamarin[]
+ 
+ifdef::win-forms[]
+*C# の場合:*
+[source,csharp]
+----
+var data = new BubbleDataSource();
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+
+var series = new ScatterSplineSeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.XMemberPath = "X";
+series.YMemberPath = "Y"; 
+series.DataSource = data; 
+DataChart.Axes.Add(xAxis);
+DataChart.Axes.Add(yAxis);
+DataChart.Series.Add(series);
+----
+endif::win-forms[]
+ 
+ifdef::wpf,win-universal[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim data As New BubbleDataSource()
+Dim xAxis As New NumericXAxis() 
+Dim yAxis As New NumericYAxis() 
+
+Dim series As New ScatterSplineSeries()
+series.ItemsSource = data
+series.XMemberPath = "X"
+series.YMemberPath = "Y" 
+series.XAxis = xAxis
+series.YAxis = yAxis
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim data As New BubbleDataSource()
+Dim xAxis As New NumericXAxis()  
+Dim yAxis As New NumericYAxis()  
+
+Dim series As New ScatterSplineSeries()
+series.DataSource = data
+series.XMemberPath = "X"
+series.YMemberPath = "Y" 
+series.XAxis = xAxis
+series.YAxis = yAxis
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::win-forms[]
+
+ifdef::android[]
+*Java の場合:*
+[source,java]
+----
+BubbleDataSource data = new BubbleDataSource();
+NumericYAxis yAxis = new NumericYAxis();
+NumericXAxis xAxis = new NumericXAxis();
+
+ScatterSplineSeries series = new ScatterSplineSeries();
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+series.setXMemberPath("X");
+series.setYMemberPath("Y"); 
+series.setDataSource(data);
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+endif::android[]
+
+[[DashArray]]
+== ダッシュ配列
+
+link:{DataChartLink}.ScatterSplineSeries.html[ScatterSplineSeries] は、ダッシュ配列を介して破線を適用する機能をサポートしています。これを行うには、シリーズの `DashArray` プロパティを新しい `DoubleCollection` に設定し、表示したいダッシュの長さを表す `double[]` を指定します。以下のコード例はその方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合:*
+[source, xaml]
+----
+<ig:ScatterSplineSeries DashArray="5, 5" />
+----
+
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+var series = new ScatterSplineSeries();
+series.DashArray = new DoubleCollection(new double[] { 5, 5 });
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim series = New ScatterSplineSeries()
+series.DashArray = New DoubleCollection(New Double() {5, 5})
+----
+
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+** link:datachart-axes.html[チャート軸] 
+** link:datachart-series-requirements.html[シリーズ要件]
+** link:datachart-scatter-series-overview.html[散布シリーズ]

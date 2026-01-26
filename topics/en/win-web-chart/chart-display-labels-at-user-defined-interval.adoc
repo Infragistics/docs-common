@@ -1,0 +1,152 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-display-labels-at-user-defined-interval",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{948158C9-7E48-47E3-AFB7-34AAF45767AA}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Display Labels at a User-Defined Interval
+
+Sometimes you may require greater control over the collective appearance of labels than can be provided by  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance.html[AxisLabelAppearance]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance.html[AxisLabelAppearance]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance.html[AxisLabelAppearance]"] . This topic provides an example of how you can use custom keywords to affect the concerted appearance of labels. The example places a label once every fourth position along the X-Axis.
+
+On a candle chart you can set an interval for date labels with the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~skipn.html[SkipN]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~skipn.html[SkipN]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.candlechartappearance~skipn.html[SkipN]"]  property, but this capability isn't uniformly exposed across all chart types by design. The AxisLabelAppearance object applies to each label individually. Instead, the custom keyword rendering feature can be used to simulate this or similar behaviors in Chart applications when the application object implementing IRenderLabel maintains a counter of how many times it has been called, and has a mechanism for resetting itself on each rendering pass. The step-by-step example outlined below describes such an implementation.
+
+[start=1]
+. First, it is necessary to implement an IRenderLabel object that is executed by Chart when it renders labels on each axis. This happens by Chart calling a well-known method on this object named ToString that the developer provides when their application object implements the IRenderLabel interface.
+
+In VB.NET the interface could be implemented in the following manner:
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Resources
+...
+Public Class EveryFourthLabel
+    Implements IRenderLabel
+    Dim count As Integer
+    Dim itemsPerPass As Integer
+    Public Sub New( ByVal columnCount As Integer)
+        itemsPerPass = columnCount
+        count = 0
+    End Sub
+    Public Overloads Function ToString( ByVal context As Hashtable) _
+      As String Implements IRenderLabel.ToString
+        ' Most times, render nothing.
+        Dim result As String = String.Empty
+        Dim itemLabel As String = String.Empty
+        ' Context contains built-in keywords like ITEM_LABEL
+        ' (for SetLabel-style axes) and DATA_VALUE 
+        ' (for numeric axes).
+        itemLabel = CStr( context("ITEM_LABEL"));
+        ' After a complete pass through the labels,
+        ' reset for next pass.
+        If ( itemsPerPass = count ) Then
+            count = 0
+        End If
+        ' Every 4th item, render the item's label.
+        If ( ( count Mod 4 ) = 0 ) Then
+            result = itemLabel
+        End If
+        ' Count the number of times IRenderLabel 
+        ' has been called.
+        count = count + 1
+        ToString = result
+    End Function
+End Class
+----
+
+In C# the implementation would look as follows:
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Resources;
+...
+public class EveryFourthLabel : IRenderLabel
+{
+    private int count;
+    private int itemsPerPass;
+    public EveryFourthLabel( int columnCount)
+    {
+        itemsPerPass = columnCount;
+        count = 0;
+    }
+    public string ToString( Hashtable context)
+    {
+        // Most times, render nothing.
+        string result = String.Empty;
+        string itemLabel = String.Empty;
+        // Context contains built-in keywords like ITEM_LABEL
+        // (for SetLabel-style axes) and DATA_VALUE 
+        // (for numeric axes).
+        itemLabel = context["ITEM_LABEL"] as string;
+        // After a complete pass through the labels,
+        // reset for next pass.
+        if ( itemsPerPass == count )
+        {
+            count = 0;
+        }
+        // Every 4th item, render the item's label.
+        if ( count % 4 == 0 )
+        {
+            result = itemLabel;
+        }
+        // Count the number of times IRenderLabel has
+        // been called.
+        ++count;
+        return result;
+    }
+}
+----
+
+[start=2]
+. The next step necessary is to register this IRenderLabel-implementing object and the custom keyword it implements with Chart. This is done through the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~labelhash.html[LabelHash]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[LabelHash]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[LabelHash]"]  property, which is a hashtable associating custom keywords with their corresponding  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  implementation.
+
+The registration of custom IRenderLabel implementations is typically handled within the Page_Load or Form_Load event handler that contains the Chart element.
+
+In VB.NET it can be handled with the following code:
+
+*In Visual Basic:*
+
+----
+Private Sub DisplayLabelsataUserDefinedInterval_Load( _
+  ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Dim labelRenderers As Hashtable = New Hashtable()
+	labelRenderers.Add("EVERY_FOURTH_X", New EveryFourthLabel(16))
+	If (Me.UltraChart1.LabelHash Is Nothing) Then
+		Me.UltraChart1.LabelHash = labelRenderers
+	End If
+	Me.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom
+	Me.UltraChart1.Axis.X.Labels.ItemFormatString = "<EVERY_FOURTH_X>"
+End Sub
+----
+
+In C# the necessary code looks as follows
+
+*In C#:*
+
+----
+private void DisplayLabelsataUserDefinedInterval_Load(object sender, EventArgs e)
+{
+	Hashtable labelRenderers = new Hashtable();
+	labelRenderers.Add( "EVERY_FOURTH_X", new EveryFourthLabel(16));
+	if ( this.ultraChart1.LabelHash == null )
+	{
+		this.ultraChart1.LabelHash = labelRenderers;
+	}
+	this.ultraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom;
+	this.ultraChart1.Axis.X.Labels.ItemFormatString = "<EVERY_FOURTH_X>";
+}
+----
+
+Observe that the EveryFourthLabel constructor takes a column count. This should correspond to the number of item labels normally rendered along the x-axis, and is used within the definition of ToString() in EveryFourthLabel to identify when to reset the counter. This technique can be applied to multiple axes, provided that a separate keyword and instance of an IRenderLabel-implementing object (with it's own counter) is created and used.

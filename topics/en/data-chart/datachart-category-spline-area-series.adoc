@@ -1,0 +1,253 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-category-spline-area-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "fae853c7-5f37-451e-9c17-3b955b3d759c",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.4212841Z"
+}
+|metadata|
+////
+
+= Spline Area Series
+
+This topic explains, with code examples, how to use the link:{DataChartLink}.splineAreaSeries.html[SplineAreaSeries] in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+== Overview
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<SeriesPreview,Series Preview>>
+* <<SeriesRecommendations,Series Recommendations>>
+* <<DataRequirements,Data Requirements>>
+* <<DataRenderingRules,Data Rendering Rules>>
+* <<DataBindingExample,Data Binding Example>>
+* <<RelatedContent,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+Spline Area Series belongs to a group of link:datachart-category-series-overview.html[Category Series] and it is rendered using a collection of points connected by smooth curves of spline with the area below the spline filled in. Values are represented on the y-axis (NumericYAxis) and categories are displayed on the x-axis (CategoryXAxis or CategoryDateTimeXAxis). Spline Area Series emphasizes the amount of change over a period of time or compares multiple items as well as the relationship of parts to a whole by displaying the total of the plotted values. The link:{DataChartLink}.splineAreaSeries.html[SplineAreaSeries] is identical to the link:{DataChartLink}.AreaSeries.html[AreaSeries] in all aspects except that line connecting data points has spline interpolation and smoothing for improved presentation of data. For more conceptual information, comprehension with other types of series, and supported types of axes, refer to the link:datachart-category-series-overview.html[Category Series] and link:datachart-axes.html[Chart Axes] topics.
+
+[[SeriesPreview]]
+== Series Preview
+
+Figures 1 and 2 demonstrate how the link:{DataChartLink}.splineAreaSeries.html[SplineAreaSeries] and link:{DataChartLink}.AreaSeries.html[AreaSeries] look when plotted in the {DataChartName} control.
+
+image::images/Using_the_xamDataChart_Area_Series__02.png[]
+
+Figure 1: Sample implementation of the link:{DataChartLink}.splineAreaSeries.html[SplineAreaSeries] type.
+
+image::images/Using_the_xamDataChart_Area_Series__01.png[]
+
+Figure 2: Sample implementation of the link:{DataChartLink}.AreaSeries.html[AreaSeries] type.
+
+[[SeriesRecommendations]]
+== Series Recommendations
+
+Although the {DataChartName} control supports plotting unlimited number of various types of series, it is recommended to use the Spline Area Series with similar types of series. Refer to the link:datachart-multiple-series.html[Multiple Series] topic for information on what types of series are recommended with the Spline Area Series and how to plot multiple types of series.
+
+[[DataRequirements]]
+== Data Requirements
+
+While the {DataChartName} control allows you to easily bind it to your own data model, make sure you supply the appropriate amount and type of data that the series requires. If the data does not meet the minimum requirements based on the type of series that you are using, an error will be generated. Refer to the link:datachart-series-requirements.html[Series Requirements] and link:datachart-category-series-overview.html[Category Series] topics for more information on data series requirements.
+
+The following is a list of data requirements for the `SplineAreaSeries` type:
+
+
+* The data item must contain at least one numeric property.  
+* The data item may contain an optional string or date time property for labels.
+* The data source should contain two or more data items in order to render a line between them.
+
+[[DataRenderingRules]]
+== Data Rendering Rules
+
+The `SplineAreaSeries` renders data using the following rules:
+
+* Each row in the data column specified as the  link:{DataChartLink}.AnchoredCategorySeries{ApiProp}ValueMemberPath.html[ValueMemberPath] property of the data mapping is plotted as a point of a single spline (or area) on the chart, with the number of points in the spline equal to the count of rows in the data model.
+* The data points delineating the top of the area region connect adjacent rows within the value column.
+* The string or date time column that is mapped to the `Label` property on the x-axis is used as the category labels. If the data mapping for `Label` is not specified, default labels are used.
+* Category labels are drawn on the x-axis. Data values are drawn on the y-axis.
+* When rendering, multiple series of the `SplineAreaSeries` type is rendered in layers with each successive series rendered in front of the previous one in the Series collection of the {DataChartName} control.
+* The `SplineAreaSeries`type supports plotting their data values above or below specific reference value using the ReferenceValue property of the y-axis. For more information on this feature refer to the Axis Reference Value topic.
+
+[[DataBindingExample]]
+== Data Binding Example
+
+The code snippet below shows how to bind the link:{DataChartLink}.splineAreaSeries.html[SplineAreaSeries] object to sample of category data (which is available for download from link:resources-sample-energy-data.html[Sample Energy Data] resource). Refer to the data requirements section of this topic for information about data requirements for the SplineAreaSeries.
+ 
+
+ifdef::sl,wpf,win-universal[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+        <local:EnergyDataSource x:Key="data" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericYAxis x:Name="YAxis"  />
+        <ig:CategoryXAxis x:Name="XAxis" ItemsSource="{StaticResource data}" 
+                          Label="{}{Country}" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Coal" Title="Coal" 
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}">
+        </ig:SplineAreaSeries>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Hydro" Title="Hydro" 
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}"
+        </ig:SplineAreaSeries>           
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Nuclear" Title="Nuclear" 
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}">
+        </ig:SplineAreaSeries>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Gas" Title="Gas" 
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}">
+        </ig:SplineAreaSeries>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Oil"  Title="Oil" 
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}">
+        </ig:SplineAreaSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:EnergyDataSource x:Key="data" />
+		</ResourceDictionary>
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericYAxis x:Name="YAxis"  />
+        <ig:CategoryXAxis x:Name="XAxis" ItemsSource="{StaticResource data}" 
+                          Label="Country" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Coal" Title="Coal" 
+                       XAxis="{x:Reference XAxis}" 
+                       YAxis="{x:Reference YAxis}">
+        </ig:SplineAreaSeries>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Hydro" Title="Hydro" 
+                       XAxis="{x:Reference XAxis}" 
+                       YAxis="{x:Reference YAxis}">
+        </ig:SplineAreaSeries>           
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Nuclear" Title="Nuclear" 
+                       XAxis="{x:Reference XAxis}" 
+                       YAxis="{x:Reference YAxis}">
+        </ig:SplineAreaSeries>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Gas" Title="Gas" 
+                       XAxis="{x:Reference XAxis}" 
+                       YAxis="{x:Reference YAxis}">
+        </ig:SplineAreaSeries>
+        <ig:SplineAreaSeries ItemsSource="{StaticResource data}" ValueMemberPath="Oil" Title="Oil" 
+                       XAxis="{x:Reference XAxis}" 
+                       YAxis="{x:Reference YAxis}">
+        </ig:SplineAreaSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+ 
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*In C#:*
+[source,csharp]
+----
+var data = new EnergyDataSource(); 
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.{ApiDataSource} = data;
+xAxis.Label = "{Country}";
+
+var series = new SplineAreaSeries();
+series.{ApiDataSource} = data;
+series.ValueMemberPath = "Coal";
+series.Title = "Coal";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+  
+ifdef::wpf,win-universal,win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New EnergyDataSource()
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.{ApiDataSource} = data;
+xAxis.Label = "{Country}"
+
+Dim series As New SplineAreaSeries()
+series.{ApiDataSource} = data
+series.ValueMemberPath = "Coal"
+series.Title = "Coal"
+series.XAxis = xAxis
+series.YAxis = yAxis
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+*In Java:*
+[source,java]
+----
+EnergyDataSource data = new EnergyDataSource();
+NumericYAxis yAxis = new NumericYAxis();
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.setDataSource(data);
+xAxis.setLabel("Country");
+
+SplineAreaSeries series = new SplineAreaSeries();
+series.setDataSource(data);
+series.setValueMemberPath("Coal");
+series.setTitle("Coal");
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+DataChartView chart = new DataChartView(rootView.getContext());
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+endif::android[]
+
+[[RelatedContent]]
+== Related Content
+
+link:datachart-axes.html[Axes]
+
+link:datachart-category-series-overview.html[Category Series]
+
+link:datachart-category-area-series.html[Area Series]
+
+link:datachart-series-requirements.html[Series Requirements]
+
+ifdef::wpf,win-universal,win-forms,android[]
+link:datachart-category-stacked-spline-series.html[Stacked Spline Series]
+endif::wpf,win-universal,win-forms,android[]
+
+ifdef::wpf,win-universal,win-forms,android[]
+link:datachart-category-stacked-100-spline-series.html[Stacked 100-Spline Series]
+endif::wpf,win-universal,win-forms,android[]

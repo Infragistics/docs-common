@@ -1,0 +1,341 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-accessing-cells-and-cell-regions",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["How Do I"],
+    "guid": "be962b2d-b255-40ac-ac0d-a8e1a92c9700",
+    "buildFlags": [],
+    "createdOn": "2012-03-28T07:50:51.7068768Z"
+}
+|metadata|
+////
+
+= セルとセル領域に名前でアクセス
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、コード例を示し、Microsoft® Excel® ワークブックのワークシート内の link:excelengine-glossary-of-infragistics-excel-engine-terms.html[セル]と link:excelengine-glossary-of-infragistics-excel-engine-terms.html[領域]に名前または名前付き参照でアクセスする方法を説明します。参照文字列でセルと領域にアクセスする方法の詳細は、link:excelengine-reference-cells-and-regions.html[「セルとセル領域を参照」]を参照してください。 
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Accessing_Cells_And_Regions_by_Name_Conceptual_Overview,セルと領域に名前でアクセス - 概念的概要>>
+* <<_Accessing_Cells_and_Regions_by_Name_Code_Examples,セルと領域に名前でアクセス - コード例>>
+* <<_Code_Example_Getting_a_Cell_and_Region_by_Name,コード例: セルと領域を名前で取得>>
+* <<_Code_Example_Getting_an_Array_of_Regions_by_Name,コード例: 領域の配列を名前で取得>>
+* <<_Code_Example_Getting_a_Reference_Cell_Region_and_Array_of_Regions_from_a_Named_Reference,コード例: 参照されたセル、領域および領域の配列を名前付き参照から取得>>
+* <<_Related_Content,関連コンテンツ>>
+
+[[_Accessing_Cells_And_Regions_by_Name_Conceptual_Overview]]
+== セルと領域に名前でアクセス - 概念的概要
+
+=== はじめに
+
+Microsoft Excel で、個々のセルだけでなく、セル領域は、それらに割り当てられた名前を付けることができます。名前が割り当てられて表計算の [名前] ボックスに表示されます。セルまたは領域の名前を使用して、セル参照の代わりにそのセルまたは領域を参照できます。セルおよび領域の名前は、Excel で、またはプログラムによってコードで定義できます。
+
+{ProductName} は、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet_members.html[Worksheet] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~getcell.html[GetCell] メソッドと link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~getregion.html[GetRegion] メソッドによって、名前でのセルおよび領域の参照をサポートします。そのセルまたは領域を参照する  _NamedReference_   インスタンスを使用してセルまたは領域を参照します。
+
+=== 要件
+
+個々のセルまたはセルの領域にアクセスするために、MS Excel で、またはプログラムによってコードで名前を指定する必要があります。
+
+=== Excel でセルと領域の名前を指定
+
+Excel スプレッドシートでセルまたは領域の名前を定義するには、セルまたは領域を選択し、 *[名前] ボックス をクリックして、 希望の名前を入力し、Enter を押します* 。
+
+=== コードでセルと領域の名前を指定
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+コードでのセルと領域の命名
+コードで定義されたセルまたは領域名は、"名前付き参照" と呼ばれることがあります。 
+コードでセルまたは領域の名前を指定するには、以下の構文を使用します。実際のコードでは、変数 (cell_Name、range_Name、sheet_name、cell_reference、range_cell_reference、instance_for_cell_NamedReference、および instance_for_range_NamedReference) を具体的な名前で置き換えます。 
+' セルの名前を定義します
+Dim instance_for_cell_NamedReference As NamedReference = wrkBook.NamedReferences.Add("cell_Name", "=sheet_name!cell reference ", sheet_name)
+ ' 領域の名前を定義します
+Dim instance_for_range_NamedReference As NamedReference = wrkBook.NamedReferences.Add("range_Name ", "= sheet_name!range cell reference ", sheet_name)
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// セルの名前を定義します
+NamedReference instance_for_cell_NamedReference = wrkBook.NamedReferences.Add("cell_Name", "=sheet_name!cell reference", sheet_name);
+// 領域の名前を定義します
+NamedReference instance_for_range_NamedReference = wrkBook.NamedReferences.Add("range_Name", "=sheet_name!range cell reference", sheet_name);
+----
+
+=== セルと領域を名前で参照
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+セルと領域の名前による参照
+コードでセルと領域を名前で参照するには、以下の構文を使用します。実際のコードでは、変数 (cell_Name、range_Name) を特定の名前で置き換えます。
+' 名前でセルにアクセスします
+sampleSheet.GetCell("cell_Name")
+' 名前で領域にアクセスします
+sampleSheet.GetRegion("range_Name")
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// 名前でセルにアクセスします
+sampleSheet.GetCell("cell_Name")
+// 名前で領域にアクセスします
+sampleSheet.GetRegion("range_Name")
+----
+
+[[_Accessing_Cells_and_Regions_by_Name_Code_Examples]]
+== セルと領域に名前でアクセス - コード例
+
+=== コード例の概要
+
+以下の表には、このトピックのコード例が示されています。
+
+[options="header", cols="a,a"]
+|====
+|例|説明
+
+|セルと領域を名前で取得
+|`Worksheet` オブジェクトのメソッドである `GetCell` と `GetRegion` によって、セルまたは領域にアクセスするために名前付き参照を指定することができます。
+
+| link:excelengine-glossary-of-infragistics-excel-engine-terms.html##_array-of-regions[領域の配列]を名前で取得
+|`Worksheet` オブジェクトのメソッドである link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~getregions.html[GetRegions] では、領域の配列にアクセスするために名前付き参照を指定することができます。
+
+|参照されたセル、領域および領域の配列を名前付き参照から取得
+|セルまたは領域を参照する link:{ExcelEngineApiLink}infragistics.documents.excel.namedreference_members.html[NamedReference] インスタンスを使用してセルまたは領域への参照を取得できます。
+
+|====
+
+[[_Code_Example_Getting_a_Cell_and_Region_by_Name]]
+== コード例: セルと領域を名前で取得
+
+=== 説明
+
+`Worksheet` オブジェクトのメソッドである `GetCell` と `GetRegion` によって、セルまたは領域にアクセスするために名前付き参照を指定することができます。
+
+=== 前提条件
+
+ifdef::wpf[]
+* C ドライブに保存されたワークシートを含む Book1.xls という名前の Excel ファイル。
+endif::wpf[]
+* ワークシートの範囲 A1:A10 と B1:B10 内のランダムな数字。
+* セル B3 のために追加された参照名 - `refNameB3`。これは、セル B3 を右クリックすることで実行できます。コンテキスト メニューから [名前の定義] を選択します。これによって、参照名を指定できる [新しい名前] ウィンドウがポップアップされます。
+* 領域 C1:C10 に追加される参照名 - `refNameRegionC1C10`。これは、範囲 C1:C10 を選択することで実行できます。コンテキスト メニューから [名前の定義] オプションを選択すると、範囲参照名を指定できる [新しい名前] ウィンドウがポップアップされます。
+
+=== コード
+
+以下のコードはワークブックを読み込んでワークシートのインスタンスを作成します。ワークシートのセル B3 は、セルの名前付き参照を渡すことによって、`GetCell` メソッドを使用してアクセスされます。コメントがセル B3 に追加されます。
+
+同様に、領域 C1:C10 は、領域の名前付き参照を渡すことによって、`GetRegion` メソッドを使用してアクセスされます。数式が領域 C1:C10 に適用されます。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' ブックをロードします
+Dim workBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\Book1.xls""]pick:[xamarin="inputStream"])
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = workBook.Worksheets(0)
+' コメントを作成します
+Dim testComment As New Infragistics.Documents.Excel.WorksheetCellComment()
+Dim formatted As New Infragistics.Documents.Excel.FormattedString("This cell has a reference name.")
+testComment.Text = formatted
+' セルに参照名でアクセスします
+sampleSheet.GetCell("refNameB3").Comment = testComment
+' 領域に参照名でアクセスします
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1")
+' 適用された変更でワークブックを保存します
+workBook.Save(pick:[wpf=""C:\Book2.xls""]pick:[xamarin="outputStream"])
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// ブックをロード
+Infragistics.Documents.Excel.Workbook workBook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\\Book1.xls""]pick:[xamarin="inputStream"]);
+Infragistics.Documents.Excel.Worksheet sampleSheet = workBook.Worksheets[0];
+// コメントを作成します
+Infragistics.Documents.Excel.WorksheetCellComment testComment = new Infragistics.Documents.Excel.WorksheetCellComment();
+Infragistics.Documents.Excel.FormattedString formatted = new Infragistics.Documents.Excel.FormattedString("This cell has a reference name.");
+testComment.Text = formatted;
+// セルに参照名でアクセスします
+sampleSheet.GetCell("refNameB3").Comment = testComment;
+// 領域に参照名でアクセスします
+sampleSheet.GetRegion("refNameRegionC1C10").ApplyFormula("=A1*B1");
+// 適用された変更でワークブックを保存します
+workBook.Save(pick:[wpf=""C:\\Book2.xls""]pick:[xamarin="outputStream"]);
+----
+
+[[_Code_Example_Getting_an_Array_of_Regions_by_Name]]
+== コード例: 領域の配列を名前で取得
+
+=== 説明
+
+`Worksheet` オブジェクトのメソッドである `GetRegions` では、領域の配列にアクセスするために名前付き参照を指定することができます。
+
+=== 前提条件
+
+ifdef::wpf[]
+* C ドライブに保存されたワークシートを含む Book1.xls という名前の Excel ファイル。
+endif::wpf[]
+* ワークシートの領域 A3:C7、E4:G6 および I2:L5 内のランダムな数字。
+* 複数の領域 A1:C5、E2:G4 および I7:G8 に追加された参照名 - `MultipleRegions`。参照の名前は、Excel で参照を選択し、[数式] $$->$$ [名前の管理] に移動することによって実行されます。[名前の管理] ウィンドウが表示します。[新規作成…] ボタンをクリックすると、[新しい名前] ウィンドウが表示します。このウィンドウで選択された範囲の名前を指定できます。
+
+
+[NOTE]
+====
+*注:* 領域の最初のセルを選択し、次にその他のセルまたは領域を選択する間に CTRL キーを押すことによって複数の領域が選択されます。
+
+最後の選択は、以下のスクリーンショットのようになります。
+====
+
+image::images/ExcelEngine_Accessing_Cells_and_Regions_by_their_Reference_Name_1.png[]
+
+=== コード
+
+以下のコードはワークブックを読み込んでワークシートのインスタンスを作成します。領域 E4:G6 は、領域の配列を返す、`GetRegions` メソッドを使用して、この配列の 2 番目の要素を指定することでアクセスされます。数式は E4:G6 領域に適用されます。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' ブックをロードします
+Dim workBook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\Book1.xls""]pick:[xamarin="inputStream"])
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = workBook.Worksheets(0)
+' 参照名と、領域の配列内のインデックスで領域にアクセスし、その領域に数式を適用します
+sampleSheet.GetRegions("MultipleRegions")(1).ApplyFormula("=$A$1*A3")
+workBook.Save(pick:[wpf=""C:\Book2.xls""]pick:[xamarin="outputStream"])
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// ブックをロード
+Infragistics.Documents.Excel.Workbook workBook = Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\\Book1.xls""]pick:[xamarin="inputStream"]);
+Infragistics.Documents.Excel.Worksheet sampleSheet = workBook.Worksheets[0];
+// 参照名と、領域の配列内のインデックスで領域にアクセスし、その領域に数式を適用します
+sampleSheet.GetRegions("MultipleRegions")[1].ApplyFormula("=$A$1*A3");
+workBook.Save(pick:[wpf=""C:\\Book2.xls""]pick:[xamarin="outputStream"]);
+----
+
+[[Code_Example_Getting_a_Reference_Cell_Region_and_Array_of_Regions_from_a_Named_Reference]]
+== コード例: 参照されたセル、領域および領域の配列を名前付き参照から取得
+
+=== 説明
+
+セルまたは領域を参照する `NamedReference` インスタンスを使用してセルまたは領域への参照を取得できます。
+
+ifdef::wpf[]
+=== 前提条件
+
+C ドライブに保存されたワークシートを含む Book1.xls という名前の Excel ファイル。
+endif::wpf[]
+
+=== コード
+
+以下のコードは、セル、領域および領域の配列に対して `NamedReference` を定義し、セル、領域および領域の配列に `NamedReference` インスタンスからアクセスします。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' ブックをロードします
+Dim workBook As Infragistics.Documents.Excel.Workbook =
+  Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\Book1.xls""]pick:[xamarin="inputStream"])
+Dim sampleSheet As Infragistics.Documents.Excel.Worksheet = workBook.Worksheets(0)
+' セルの名前付き参照を定義します
+Dim namedRefCell As Infragistics.Documents.Excel.NamedReference = workBook.NamedReferences.Add("NamedReferenceCell", "=Sheet1!$B$5", sampleSheet)
+MessageBox.Show(namedRefCell.ReferencedCell.ToString())
+' 領域の名前付き参照を定義します
+Dim namedRefRegion As Infragistics.Documents.Excel.NamedReference = workBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$A$5:$A$10", sampleSheet)
+MessageBox.Show(namedRefRegion.ReferencedRegion.ToString())
+' 複数の領域の名前付き参照を定義します
+Dim namedMultiRef As Infragistics.Documents.Excel.NamedReference = workBook.NamedReferences.Add("NamedMultiRegion", "=Sheet1!$A$1:$B$5,Sheet1!$D$5:$G$10", sampleSheet)
+MessageBox.Show(namedMultiRef.ReferencedRegions(1).ToString())
+----
+endif::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// ブックをロード
+Infragistics.Documents.Excel.Workbook workBook =
+  Infragistics.Documents.Excel.Workbook.Load(pick:[wpf=""C:\\Book1.xls""]pick:[xamarin="inputStream"])
+Infragistics.Documents.Excel.Worksheet sampleSheet = workBook.Worksheets[0];
+// セルの名前付き参照を定義します
+Infragistics.Documents.Excel.NamedReference namedRefCell = workBook.NamedReferences.Add("NamedReferenceCell", "=Sheet1!$B$5", sampleSheet);
+ifdef::wpf[]
+MessageBox.Show(namedRefCell.ReferencedCell.ToString());
+endif::wpf[]
+ifdef::xamarin[]
+System.Diagnostics.Debug.WriteLine(namedRefCell.ReferencedCell.ToString());
+endif::xamarin[]
+// 領域の名前付き参照を定義します
+Infragistics.Documents.Excel.NamedReference namedRefRegion = workBook.NamedReferences.Add("NamedRefRegion", "=Sheet1!$A$5:$A$10", sampleSheet);
+ifdef::wpf[]
+MessageBox.Show(namedRefRegion.ReferencedRegion.ToString());
+endif::wpf[]
+ifdef::xamarin[]
+System.Diagnostics.Debug.WriteLine(namedRefRegion.ReferencedRegion.ToString());
+endif::xamarin[]
+// 複数の領域の名前付き参照を定義します
+Infragistics.Documents.Excel.NamedReference namedMultiRef = workBook.NamedReferences.Add("NamedMultiRegion",
+"=Sheet1!$A$1:$B$5,Sheet1!$D$5:$G$10", sampleSheet);
+ifdef::wpf[]
+MessageBox.Show(namedMultiRef.ReferencedRegions[1].ToString());
+endif::wpf[]
+ifdef::xamarin[]
+System.Diagnostics.Debug.WriteLine(namedMultiRef.ReferencedRegions[1].ToString());
+endif::xamarin[]
+----
+
+[[_Related_Content]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-reference-cells-and-regions.html[セルと領域を参照]
+|文字列参照によってセルと領域にアクセスする方法を示します。
+
+| link:excelengine-add-a-formula-to-a-cell.html[数式をセルに追加]
+|{ExcelEngineName} によってワークシートでセルまたはセルのグループに Microsoft® Excel® の数式を追加することが可能となります。
+
+| link:excelengine-add-a-comment-to-a-cell.html[コメントをセルに追加]
+|コメントによって、pick:[wpf="エンドユーザーがマウスをセル上にホバーすると"]セルのヒントまたはメモを表示することができます。コメントはテキストを含むツールチップのような吹き出しとして表示します。
+
+| link:excelengine-using-the-infragistics-excel-engine.html[{ExcelEngineName} の使用]
+|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。
+
+|====
+
+=== リソース
+
+以下の資料 (インフラジスティックスのコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+[options="header", cols="a,a"]
+|====
+|タイトル|目的
+
+| link:http://office.microsoft.com/ja-jp/excel-help/define-and-use-names-in-formulas-HA010342417.aspx?CTT=1[名前を定義して数式で使用します]
+|名前を使用することで、数式の理解と保守がはるかに容易になります。セル範囲、関数、定数、表の名前を定義できます。ブック内で名前を使用する習慣を取り入れると、これらの名前を容易に更新、監査、および管理できます。
+
+|====

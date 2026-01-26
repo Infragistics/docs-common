@@ -1,0 +1,78 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-customize-the-appearance-of-a-charts-background",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{AB30A3EB-CC77-4E87-A456-4DB5EED23692}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チャートの背景の外観をカスタマイズ
+
+x 軸と y 軸の両方を持つチャートで、これらの軸が交わるところに隣接する四角い領域は「チャート グリッド」として知られています。2006 Volume 3 リリースから開始しましたが、合成チャートと非合成チャートの両方で、この領域の外観をカスタマイズするために、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  オブジェクトが提供されます。以下のプロパティを使用できます。
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea~gridpe.html[Axis.PE]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea~gridpe.html[Axis.PE]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartarea~gridpe.html[Axis.PE]"]  -- 非合成チャート
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartgridappearance~pe.html[ChartArea.GridPE]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartgridappearance~pe.html[ChartArea.GridPE]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.chartgridappearance~pe.html[ChartArea.GridPE]"]  -- 合成チャート
+
+以下は、非合成チャート（左）と合成チャート（右）のサンプルのスクリーンショットで、背景の PaintElment がカスタマイズされています。
+
+image::images/Chart_Customize_the_Appearance_of_the_Charts_Background_01.png[]
+
+image::images/Chart_Customize_the_Appearance_of_the_Charts_Background_02.png[]
+
+以下のサンプル コードは、これらの PaintElment を操作する方法を示しています。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+...
+' 非合成チャート用
+Me.ultraChart1.Axis.PE.ElementType = PaintElementType.Texture
+Me.ultraChart1.Axis.PE.Fill = Color.CornflowerBlue
+Me.ultraChart1.Axis.PE.FillOpacity = 100
+Me.ultraChart1.Axis.PE.Stroke = System.Drawing.Color.Navy
+Me.ultraChart1.Axis.PE.StrokeWidth = 2
+Me.ultraChart1.Axis.PE.Texture = TexturePresets.Canvas
+' 合成チャート用
+Me.ultraChart1.CompositeChart.ChartAreas(0).GridPE.ElementType = PaintElementType.Gradient
+Me.ultraChart1.CompositeChart.ChartAreas(0).GridPE.Fill = Color.LightSlateGray
+Me.ultraChart1.CompositeChart.ChartAreas(0).GridPE.FillGradientStyle = GradientStyle.VerticalBump
+Me.ultraChart1.CompositeChart.ChartAreas(0).GridPE.FillStopColor = Color.White
+Me.ultraChart1.CompositeChart.ChartAreas(1).GridPE.ElementType = PaintElementType.Hatch
+Me.ultraChart1.CompositeChart.ChartAreas(1).GridPE.Fill = Color.PaleGreen
+Me.ultraChart1.CompositeChart.ChartAreas(1).GridPE.FillStopColor = Color.DarkSeaGreen
+Me.ultraChart1.CompositeChart.ChartAreas(1).GridPE.Hatch = FillHatchStyle.Weave
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+...
+// 非合成チャート用
+this.ultraChart1.Axis.PE.ElementType = PaintElementType.Texture;
+this.ultraChart1.Axis.PE.Fill = Color.CornflowerBlue;
+this.ultraChart1.Axis.PE.FillOpacity = 100;
+this.ultraChart1.Axis.PE.Stroke = System.Drawing.Color.Navy;
+this.ultraChart1.Axis.PE.StrokeWidth = 2;
+this.ultraChart1.Axis.PE.Texture = TexturePresets.Canvas;
+// 合成チャート用
+this.ultraChart1.CompositeChart.ChartAreas[0].GridPE.ElementType = PaintElementType.Gradient;
+this.ultraChart1.CompositeChart.ChartAreas[0].GridPE.Fill = Color.LightSlateGray;
+this.ultraChart1.CompositeChart.ChartAreas[0].GridPE.FillGradientStyle = GradientStyle.VerticalBump;
+this.ultraChart1.CompositeChart.ChartAreas[0].GridPE.FillStopColor = Color.White;
+this.ultraChart1.CompositeChart.ChartAreas[1].GridPE.ElementType = PaintElementType.Hatch;
+this.ultraChart1.CompositeChart.ChartAreas[1].GridPE.Fill = Color.PaleGreen;
+this.ultraChart1.CompositeChart.ChartAreas[1].GridPE.FillStopColor = Color.DarkSeaGreen;
+this.ultraChart1.CompositeChart.ChartAreas[1].GridPE.Hatch = FillHatchStyle.Weave;
+----
+
+== 関連トピック
+
+link:chart-layers.html[レイヤ] link:chart-axis-requirements-for-composite-charts.html[]

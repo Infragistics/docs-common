@@ -1,0 +1,37 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-read-an-excel-file-into-a-workbook",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{ED15E95B-5340-498C-9E01-7CFC7D725967}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:23:22Z"
+}
+|metadata|
+////
+
+= Read an Excel File into a Workbook
+
+In addition to writing out Microsoft® Excel® files, the Infragistics.Documents.Excel assembly can also read them. You can create a  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  object from an existing Excel file, make some changes, and save a new file containing the modified workbook. When an Excel file is read with the static  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  method, a Workbook object is created and its entire object model is populated with all supported information from the file. Cell values, formats, and images, as well as workbook and worksheet options are all accessible and modifiable from the parsed Workbook.
+
+The following code demonstrates how to read in an existing workbook, make a change, and write the workbook to a new file:
+
+*In Visual Basic:*
+
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = _
+  Infragistics.Documents.Excel.Workbook.Load("C:\ExistingWorkbook.xls")
+workbook.Worksheets.Item(0).Rows.Item(0).Cells.Item(0).Value = 19
+workbook.Save("C:\ModifiedWorkbook.xls")
+----
+
+*In C#:*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = 
+  Infragistics.Documents.Excel.Workbook.Load( "C:\\ExistingWorkbook.xls" );
+workbook.Worksheets[0].Rows[0].Cells[0].Value = 19;
+workbook.Save( "C:\\ModifiedWorkbook.xls" );
+----

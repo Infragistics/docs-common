@@ -1,0 +1,125 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-preserving-table-formatting-when-loading-excel-files",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "d8e7f912-66ab-4404-b63f-881b112110e4","buildFlags": [],
+    "createdOn": "2012-03-30T18:41:56.0821963Z"
+}
+|metadata|
+////
+
+= Excel ファイルを読み込む時にテーブルの書式設定を保持 pick:[wpf,xamarin="({ExcelEngineName})"]
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、Microsoft Excel ファイルを読み込むときにテーブルの書式設定を保持できる方法を説明します。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref318816533, 概要>>
+
+* <<_Ref319500277, コード例: Excel のテーブルを読み込む時に書式設定を保持>>
+
+* <<_Ref318816561, 関連コンテンツ>>
+
+[[_Ref318816533]]
+== 概要
+
+各テーブルには、テーブルの多くの異なる領域内のセルにデフォルトの書式設定を提供する関連付けられたスタイルがあります。このスタイルは、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablestyle_members.html[WorksheetTableStyle]"] クラスによって表され、`WorksheetTable`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~style.html[Style]"] pick:[wpf,xamarin="link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~style.html[Style]"] プロパティからテーブルで公開されます。`WorksheetTableStyles` の保持はサポートされているため、Excel ファイルを読み込む時は、テーブルの書式設定が保持されます。
+
+[[_Ref318816540]]
+[[_Ref319500277]]
+== コード例: Excel のテーブルを読み込む時に書式設定を保持
+
+=== 説明
+
+コード スニペットは Microsoft Excel の表示の書式設定を保持する方法を示します。その中のテーブルと一緒に Microsoft Excel ファイルを読み込み、別名で保存します。このためファイルを比較してその書式設定が保持されることを保証します。
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Preserving_Table_Formatting_when_Loading_Excel_files_1.png[]
+
+=== 前提条件
+
+ifdef::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+* C ドライブに保存されたワークシートを含む Book4.xlsx という名前の Microsoft Excel ファイル。
+endif::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+ifdef::xamarin[]
+* Microsoft Excel ファイルへの入力ストリーム。
+endif::xamarin[]
+* 範囲 C3:F6 内のランダムな数字と範囲 C2:F2 および B2:B6 内のランダムな数字。B2:F6 の選択範囲はテーブル スタイル (中間) 3 でテーブルとして書式設定されます。範囲を選択し、[ホーム] $$->$$ [テーブルとして書式設定] $$->$$ [テーブル スタイル (中間) 3] の順に選択することで実行されます。
+* 範囲 C8:F12 内のランダムな数字と範囲 C8:F8 および B8:B12 内のランダムな数字。B8:F12 の選択範囲はカスタム スタイルでテーブルとして書式設定されます。[ホーム] $$->$$ [テーブルとして書式設定] $$->$$ [新しいテーブル スタイル…] の順に選択することでカスタム スタイルを作成できます。
+* 領域 B14:F18 内の空のテーブル。B14:F18 を選択し、[挿入] $$->$$ [テーブル] を選択することで作成されます。Microsoft Excel はデフォルト スタイルとして _テーブル スタイル (中間) 2_ を選択します。
+
+=== コード
+
+以下のコード サンプルは Microsoft Excel ファイルを読み込んで別名で保存し直します。
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' Load a Workbook with tables in it
+Dim workbook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\Book4.xlsx""]pick:[xamarin="inputStream"])
+' Save the workbook under different name in order to compare with original source that table formats are preserved
+workbook.Save(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\Book4-TableFormatPreserved.xlsx""]pick:[xamarin="outputStream"])
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// Load a Workbook with tables in it
+Infragistics.Documents.Excel.Workbook workbook = Infragistics.Documents.Excel.Workbook.Load(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\\Book4.xlsx""]pick:[xamarin="inputStream"]);
+// Save the workbook under different name in order to compare with original source that table formats are preserved
+workbook.Save(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf=""C:\\Book4-TableFormatPreserved.xlsx""]pick:[xamarin="outputStream"]);
+----
+
+[[_Ref318816561]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-support-named-tables-in-an-excel-spreadsheet.html[ワークシートの名前付きテーブルのサポート ({ExcelEngineName})]
+|このトピックでは、名前付きテーブルの作成とアクセスについて説明します。
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-applying-styles-to-cells.html[スタイルをセルに適用]
+|Infragistics Excel Engine によってセルの外観と動作をカスタマイズすることができます。
+
+| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]
+|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルおよび機能の理解を深めるための情報を提供します。
+endif::wpf,xamarin[]
+
+|====
+
+=== リソース
+
+以下の資料 (インフラジスティックス のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+[options="header", cols="a,a"]
+|====
+|タイトル|目的
+
+| link:http://office.microsoft.com/ja-jp/excel-help/create-or-delete-an-excel-table-in-a-worksheet-HA010013764.aspx?CTT=1[ワークシートで Excel テーブルの作成または削除]
+|テーブルを作成/削除、およびテーブルをデータの範囲に変換することに関する詳細を提供します。
+
+|====

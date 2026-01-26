@@ -1,0 +1,247 @@
+﻿////
+
+|metadata|
+{
+    "name": "surfacechart-cube",
+    "controlName": ["{SurfaceChartName}"],
+    "tags": [],
+    "guid": "c7e8ca38-bdae-47b5-9c99-429edc28a89e",  
+    "buildFlags": ["wpf"],
+    "createdOn": "2016-02-29T13:51:46.8150285Z"
+}
+|metadata|
+////
+
+= キューブ設定
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 link:{SurfaceChartLink}.xamscattersurface3d_members.html[xamScatterSurface3D] コントロールの縁の太さとキューブの素材を構成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-getting-started-with-surfacechart.html[xamScatterSurface3D をページに追加]
+|このトピックでは、 _xamScatterSurface3D_ コントロールを短時間で起動、実行するために役立つ詳細な操作方法を紹介します。
+
+| link:surfacechart-features-overview.html[機能の概要]
+|このトピックでは、このコントロールでサポートする機能を開発者の観点から説明します。
+
+| link:surfacechart-visual-elements.html[視覚要素]
+|このトピックでは、コントロールの視覚要素についての概要を紹介します。
+
+|====
+
+以下の表は、このトピックを理解するための前提条件として必要な外部トピックの一覧です。
+
+
+==== 素材の定義 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|記事|目的 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.material(v=vs.110).aspx[Material クラス] 
+
+|この記事は、WPF で抽象 Material クラスを使用する方法について説明します。 
+
+| link:https://msdn.microsoft.com/ja-jp/library/system.windows.media.media3d.diffusematerial(v=vs.110).aspx[DiffuseMaterial クラス] 
+
+|この記事は、WPF で DiffuseMaterial クラスを定義および使用する方法について説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref443682190, キューブ素材の構成 >>
+* <<_Ref443682183, キューブの縁の太さを構成 >>
+* <<_Ref443682201, 関連コンテンツ >>
+
+[[_Ref443682190]]
+== キューブ素材の構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamchart3d~cubematerial.html[CubeMaterial] プロパティを使用して _xamScatterSurface3D_ コントロール背景キューブを構成します。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|背景キューブ素材の構成
+| link:{SurfaceChartLink}.xamchart3d~cubematerial.html[CubeMaterial]
+|`Material`
+
+|====
+
+=== 例
+
+以下の設定は、以下のコードの結果として _xamScatterSurface3D_ コントロール キューブの外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamchart3d~cubematerial.html[CubeMaterial]
+|
+
+[source,xaml]
+---- 
+<DiffuseMaterial>
+  <DiffuseMaterial.Brush>
+	<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" Opacity="0.8">
+		<GradientStop Color="#FFF2F2F2" Offset="1"/>
+		<GradientStop Color="#FFA4BA29" Offset="0"/>
+	</LinearGradientBrush>
+  </DiffuseMaterial.Brush>
+</DiffuseMaterial> 
+---- 
+
+|====
+
+image::images/3D_Surface_Chart_Cube_1.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z">
+    <ig:XamScatterSurface3D.CubeMaterial>
+        <DiffuseMaterial>
+            <DiffuseMaterial.Brush>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" Opacity="0.8">
+                    <GradientStop Color="#FFF2F2F2" Offset="1"/>
+                    <GradientStop Color="#FFA4BA29" Offset="0"/>
+                </LinearGradientBrush>
+            </DiffuseMaterial.Brush>
+        </DiffuseMaterial>
+    </ig:XamScatterSurface3D.CubeMaterial>
+</ig:XamScatterSurface3D>
+----
+
+[[_Ref443682183]]
+== キューブの縁の太さを構成
+
+=== 概要
+
+link:{SurfaceChartLink}.xamscattersurface3d_members.html[XamScatterSurface3D] link:{SurfaceChartLink}.xamchart3d~rimthickness.html[RimThickness] プロパティを使用して _xamScatterSurface3D_ コントロールのキューブの縁の太さを構成します。
+
+プロパティ値は、キューブ全体のサイズに相対する 0 ~ 1 の値です。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|キューブの縁の太さを構成
+| link:{SurfaceChartLink}.xamchart3d~rimthickness.html[RimThickness]
+|`double`
+
+|====
+
+=== 例
+
+以下の設定は、以下のコードの結果として _xamScatterSurface3D_ コントロール キューブの外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{SurfaceChartLink}.xamchart3d~rimthickness.html[RimThickness]
+| _0.1_ 
+
+|====
+
+image::images/3D_Surface_Chart_Cube_2.png[]
+
+以下のコードはこの例を実装します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamScatterSurface3D Name="SurfaceChart" 
+ ItemsSource="{Binding Path=DataCollection}" 
+ XMemberPath="X" YMemberPath="Y" ZMemberPath="Z" 
+ RimThickness="0.1"/>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+…
+SurfaceChart.RimThickness = 0.1;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+…
+SurfaceChart.RimThickness = 0.1
+----
+
+[[_Ref443682201]]
+== 関連コンテンツ
+
+本トピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:surfacechart-aspect-perspective.html[次元と視点]
+|このトピックでは、 _xamScatterSurface3D_ コントロールの次元および視点を構成する方法を説明します。
+
+| link:surfacechart-axis.html[軸設定]
+|このグループ トピックでは、 _xamScatterSurface3D_ コントロールの軸設定を構成する方法を説明します。
+
+| link:surfacechart-crosshairs.html[十字線の設定]
+|このトピックでは、 _xamScatterSurface3D_ コントロールで十字線を構成する方法を説明します。
+
+| link:surfacechart-data-point-marker.html[データ ポイント マーカー]
+|このグループ トピックでは、 _xamScatterSurface3D_ コントロールのデータ ポイント マーカーを構成する方法を説明します。
+
+| link:surfacechart-floor.html[フロアの設定]
+|このトピックでは、 _xamScatterSurface3D_ コントロールのフロア設定を構成する方法について説明します。
+
+| link:surfacechart-performance.html[パフォーマンス]
+|大きなデータ ポイントのセットを描画する際に _xamScatterSurface3D_ コントロールのパフォーマンスを最適化する方法について説明します。
+
+| link:surfacechart-rotation.html[回転]
+|このトピックでは、 _XamScatterSurface3D_ コントロールを構成する方法を説明します。
+
+| link:surfacechart-series.html[シリーズ設定]
+|このグループ トピックでは、 _xamScatterSurface3D_ コントロールのシリーズ設定を構成する方法を説明します。
+
+| link:surfacechart-tooltip.html[ツールチップ]
+|このトピックは、xamScatterSurface3D コントロールでデフォルトのツールチップを表示/非表示、およびカスタム ツールチップを適用する方法について説明します。
+
+| link:surfacechart-zooming.html[ズーム]
+|このトピックでは、 _xamScatterSurface3D_ コントロールのスケーリングを実行する方法について説明します。
+
+|====

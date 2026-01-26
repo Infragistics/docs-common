@@ -1,0 +1,371 @@
+﻿////
+|metadata|
+{
+    "name": "xamdoughnutchart-adding",
+    "controlName": ["{DoughnutChart}"],
+    "tags": ["Charting","Data Binding","Getting Started","How Do I"],
+    "guid": "94d1edec-e7b1-4f61-b91e-d1827f82cccd",
+    "buildFlags": ["SL","WPF","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:12.0218764Z"
+}
+|metadata|
+////
+
+= {DoughnutChartName} の追加
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 _{DoughnutChartName}_   コントロールを {PlatformName} アプリケーションに追加する方法をコード例を用いて説明します。
+
+=== 前提条件
+
+このトピックを理解するためには、以下のトピックを理解しておく必要があります:
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:xamdoughnutchart-overview.html[{DoughnutChartName} 概要]
+|このトピックは、 _{DoughnutChartName}_ コントロールおよびその主要機能の概要を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref001,概要>>
+* <<_Ref002,プレビュー>>
+* <<_Ref003,前提条件>>
+* <<_Ref004,概要>>
+* <<_Ref005,手順>>
+* <<_Ref006,関連コンテンツ>>
+
+[[_Ref001]]
+== 概要
+
+以下のコードは、_{DoughnutChartName}_ を {PlatformName} アプリケーションに追加する方法を示します。
+
+[[_Ref002]]
+
+== プレビュー
+
+以下のスクリーンショットは結果のプレビューです。
+
+ifdef::wpf[]
+image::images/XamDoughnutChart_Adding_1.png[]
+endif::wpf[]
+
+ifdef::xamarin,win-forms[]
+image::images/XamDoughnutChart_Adding_Xamarin.png[]
+endif::xamarin,win-forms[]
+
+[[_Ref003]]
+== 前提条件
+
+ifdef::win-forms[]
+手順を実行するには、次のアセンブリを参照する {PlatformName} アプリケーションが必要です。
+endif::win-forms[]
+  
+ifdef::wpf[]
+
+手順を実行するには、次の NuGet パッケージを参照する {PlatformName} アプリケーションが必要です。
+
+* Infragistics.WPF.Charts
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+* {ApiPlatform}{DoughnutChartAssembly}{ApiVersion}.dll
+* {ApiPlatform}{DataVizAssembly}{ApiVersion}.dll
+* {ApiPlatform}Portable.Core{ApiVersion}.dll
+endif::win-forms[]
+
+ifdef::xamarin[]
+「link:xamarin-project-with-infragistics-controls.html#NuGetPackages[NuGet パッケージで参照を追加]」トピックの手順に従ってアセンブリ参照を追加します。
+endif::xamarin[]
+
+ifdef::xaml[]
+* Infragistics xml 名前空間が宣言されている空白のpick:[wpf="ページ"]pick:[xamarin=" ContentPage"]:
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+endif::wpf[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly=Infragistics.XF.Charts"
+---- 
+endif::xamarin[]
+endif::xaml[]
+
+
+[[_Ref004]]
+== 概要
+
+以下はプロセスの概要です。
+
+*1. サンプル データの追加*
+
+*2. {DoughnutChartName} コントロールの追加*
+
+*3.シリーズの追加*
+
+[[_Ref005]]
+== 手順
+
+以下の手順は、_{DoughnutChartName}_ コントロールをアプリケーションに追加する方法について説明します。
+
+=== 1.サンプル データを追加します。
+
+*1.サンプル データ モデル クラスを定義します。*
+
+ページのコードビハインドでは、以下のクラス定義を追加します。
+
+ifdef::xaml[]
+
+*C# の場合:*
+[source,csharp]
+----
+public class Category
+{
+    public string Label { get; set; }
+    public double AveragePrice { get; set; }
+}
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+public class Category
+{
+    public string Label { get; set; }
+    public double AveragePrice { get; set; }
+}
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class Category
+      Public Property Label As String
+      Public Property AveragePrice As Double
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class Category
+      Public Property Label As String
+      Public Property AveragePrice As Double
+End Class
+----
+
+endif::win-forms[]
+
+このクラスのインスタンスのリストを作成して、描画された RingSeries 用の pick:[xaml="`ItemsSource`"] pick:[win-forms="`DataSource`"] として提供します。
+
+*2.サンプル データ リストを作成pick:[wpf="して、ページの `DataContext` として設定します。"]pick:[xamarin="して、ContentPage の `BindingContext` として設定します。"]pick:[win-forms="します。"]*
+
+ページのコンストラクターで以下のコードを追加します。
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.DataContext = new List<Category>()
+{
+    new Category () {Label="Footwear", AveragePrice=52.34},
+    new Category () {Label="Clothing", AveragePrice=32.2},
+    new Category () {Label="Accessories", AveragePrice=15.12},
+    new Category () {Label="Equipment", AveragePrice=39.65}
+};
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+List<Category> categoryList = new List<Category>()
+{
+    new Category () {Label="Footwear", AveragePrice=52.34},
+    new Category () {Label="Clothing", AveragePrice=32.2},
+    new Category () {Label="Accessories", AveragePrice=15.12},
+    new Category () {Label="Equipment", AveragePrice=39.65}
+};
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.DataContext = New List(Of Category)() From { _
+      New Category() With {      .Label = "Footwear", .AveragePrice = 52.34      }, _
+      New Category() With {      .Label = "Clothing", .AveragePrice = 32.2 }, _
+      New Category() With {      .Label = "Accessories", .AveragePrice = 15.12 }, _
+      New Category() With {      .Label = "Equipment",      .AveragePrice = 39.65      } _
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim categoryList = New List(Of Category)() From { _
+      New Category() With {      .Label = "Footwear", .AveragePrice = 52.34      }, _
+      New Category() With {      .Label = "Clothing", .AveragePrice = 32.2 }, _
+      New Category() With {      .Label = "Accessories", .AveragePrice = 15.12 }, _
+      New Category() With {      .Label = "Equipment",      .AveragePrice = 39.65      } _
+}
+----
+
+endif::win-forms[]
+
+=== 2.{DoughnutChartName} コントロールの追加
+
+{DoughnutChartName} 宣言をページpick:[wpf="のルート グリッド要素"]に追加します。
+
+pick:[xaml="*XAML の場合:*"]
+
+ifdef::xaml[]
+[source,xaml]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+
+pick:[win-forms="*C# の場合:*"]
+
+----
+UltraDoughnutChart dc = new UltraDoughnutChart {};
+----
+
+pick:[win-forms="*VB の場合:*"]
+
+----
+Dim dc As New UltraDoughnutChart()
+----
+endif::win-forms[]
+
+=== 3.シリーズを追加します。
+
+*1.シリーズを追加します。*
+
+データを  _{DoughnutChartName}_   に表示するには、1 つ以上のシリーズをその link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}series.html[Series] コレクションに追加する必要があります。このプロシージャは 1 つの link:{DoughnutChartLink}.ringseries_members.html[RingSeries] を使用します。
+
+*2.必要なプロパティをシリーズに設定します。*
+
+シリーズを正しく構成するには、 pick:[android,xaml=" link:{DoughnutChartLink}.ringseriesbase{ApiProp}itemssource.html[ItemsSource]"]  pick:[win-forms=" link:{DoughnutChartLink}.ringseriesbase{ApiProp}datasource.html[DataSource]"] 、 link:{DoughnutChartLink}.ringseriesbase{ApiProp}valuememberpath.html[ValueMemberPath] およびオプションで link:{DoughnutChartLink}.ringseriesbase{ApiProp}labelmemberpath.html[LabelMemberPath] および link:{DoughnutChartLink}.ringseriesbase{ApiProp}labelsposition.html[LabelsPosition] のプロパティを以下の手順に従って設定する必要があります。
+
+A. pick:[xaml="`ItemsSource`"]pick:[win-forms="`DataSource`"] を設定します。
+
+pick:[xaml="`ItemsSource`"]pick:[win-forms="`DataSource`"] は、シリーズのデータの出所となる `IEnumerable` プロパティです。 pick:[wpf="この例では、このプロパティを直接 `DataContext` にバインドします。"]pick:[xamarin="この例では、このプロパティを直接 `BindingContext` にバインドします。"]
+
+[start=2]
+B. `ValueMemberPath` を設定します。
+
+`ValueMemberPath` をそれぞれのスライスのサイズを計算するために使用されるプロパティ名に設定します。このサンプルの場合、プロパティを`「AveragePrice」` に設定します。
+
+[start=3]
+C. `LabelMemberPath` を設定します。
+
+チャートの各スライス用ラベルを取得するために使用されるデータ オブジェクトにおいて、`LabelMemberPath` をプロパティ名に設定しなければなりません。このサンプルの場合、プロパティを`「Label」` に設定します。
+
+[start=4]
+D. `LabelsPosition`  _(オプション)_   を設定します。
+
+`LabelsPosition` は、このスライスに相対的な位置のラベルを指定します。このサンプルの場合、`BestFit` に設定します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+[source,xaml]
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:{DoughnutChartName}.Series>
+        <ig:RingSeries ItemsSource="{Binding}" LabelMemberPath="Label" ValueMemberPath="AveragePrice" LabelsPosition="BestFit"/>
+    </ig:{DoughnutChartName}.Series>
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+pick:[win-forms="*C# の場合:*"]
+
+----
+RingSeries ringSeries = new RingSeries 
+{ 
+    DataSource = list, 
+    LabelMemberPath = "Label",
+    ValueMemberPath = "AveragePrice"
+};
+----
+
+pick:[win-forms="*VB の場合:*"]
+
+----
+Dim ringSeries As New RingSeries 
+{ 
+    .DataSource = list, _
+    .LabelMemberPath = "Label", _
+    .ValueMemberPath = "AveragePrice" _
+}
+----
+endif::win-forms[]
+
+[[_Ref006]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:xamdoughnutchart-configuring-selection-and-explosion.html[選択と展開の構成 ({DoughnutChartName})]
+|このトピックでは、 _{DoughnutChartName}_ のスライスの選択および展開を構成する方法を説明します。
+
+|====

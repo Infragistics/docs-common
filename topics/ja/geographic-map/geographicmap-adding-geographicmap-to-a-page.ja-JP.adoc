@@ -1,0 +1,232 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= {GeoMapName} をページに追加
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、link:{GeoMapLink}.{GeoMapName}.html[{GeoMapName}]™ コントロールをアプリケーション ページに追加する方法を示します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap.html[{GeoMapName}]
+|このトピックでは、{GeoMapName} コントロールの主な機能の概要を提供します。
+
+|====
+
+=== このトピックの構成
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320185118,{GeoMapName} をページに追加>>
+
+** <<_Ref320185129,概要>>
+** <<_Ref320186496,プレビュー>>
+** <<_Ref320185134,要件>>
+** <<_Ref320186499,概要>>
+** <<_Ref320186502,手順>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320185118]]
+== {GeoMapName} をページに追加
+
+[[_Ref320185129]]
+
+=== 概要
+
+{GeoMapName} コントロールは、シェープ ファイルから地理的データ、そして地理的画像マップのビュー モデルから地理的位置を表示するように設計されています。ただし、このトピックは、表示に必要となる最小限のコードとプロパティ設定で {GeoMapName} コントロールを追加することに焦点を当てます。デフォルトで、{GeoMapName} コントロールは、Open Street Map サービスから地理的画像タイルで表示されます。
+
+[[_Ref320186496]]
+
+=== プレビュー
+
+以下は、Open Street Map サービスからの地理的画像タイルがある {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Adding_GeographicMap_to_Page_1.png[]
+
+[[_Ref320185134]]
+
+=== 要件
+
+以下の表で、{GeoMapName} コントロールを追加するための要件を簡単に説明します。
+
+[options="header", cols="a,a"]
+|====
+| *要件* | *説明* 
+
+|前提条件
+|このトピックの手順のセクションを完了するには、{PlatformName} プロジェクトが必要です。
+
+|データ
+|{GeoMapName} コントロールは、レンダリングのためにデータを必要としません。背景コンテンツで Open Street Map から地理的画像タイルを表示するからです。ただし、{GeoMapName} コントロールは、シェープ ファイルから地理的データ、そしてビュー モデルから地理的位置を表示することもできます。これを達成する方法とデータ要件についての詳細は、以下のトピックを参照してください。 
+
+* link:geographicmap-using-geographic-imagery.html[地理的画像を使用] 
+
+* link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング] 
+
+* link:geographicmap-binding-geographic-data-models.html[地理的データ モデルをバインディング] 
+
+|====
+
+[[_Ref320186499]]
+
+=== 概要
+
+以下はプロセスの概念的概要です。
+
+[start=1]
+. *プロジェクトでインフラジスティックス アセンブリを参照* 
+[start=2]
+. *アプリケーション ページに名前空間宣言を追加*
+[start=3]
+. *{GeoMapName} コントロールをページに追加*
+[start=4]
+. *結果を確認*
+
+[[_Ref320186502]]
+
+=== 手順
+
+以下では、{GeoMapName} コントロールをページに追加することを手順ごとに説明します。
+
+ifdef::wpf[]
+
+=== インフラジスティックス NuGet パッケージを参照します。
+
+以下の Infragistics NuGet パッケージをアプリケーションに追加します。
+
+** Infragistics.WPF.GeographicMap
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+=== プロジェクトで Infragistics アセンブリを参照します。
+
+[start=1]
+. プロジェクトを右クリックして、[参照の追加] メニュー項目を選択します。
+[start=2]
+. [参照の追加] ダイアログで、以下のインフラジスティックス アセンブリをブラウズして追加します。
+ 
+* {ApiPlatform}{GeoMapAssembly}{ApiVersion}.dll
+* {ApiPlatform}{GeoMapAssemblyBase}{ApiVersion}.dll
+* {ApiPlatform}{DataVizAssembly}{ApiVersion}.dll
+* {ApiPlatform}Portable.Core{ApiVersion}.dll
+
+endif::win-forms[]
+
+
+=== アプリケーション ページに名前空間宣言を追加します。
+
+アプリケーション ページで、以下の名前空間宣言を追加します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports {GeoMapNamespace}
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+using {GeoMapNamespace};
+----
+
+=== {GeoMapName} コントロールをページに追加します。
+
+以下のコードは、表示に必要となる最小限のコードとプロパティ設定で {GeoMapName} コントロールを追加することを示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<Grid x:Name="LayoutRoot">
+    <ig:XamGeographicMap x:Name="GeoMap" />
+</Grid>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim geoMap As New {GeoMapName}()
+ifdef::wpf[]
+Me.LayoutRoot.Children.Add(geoMap)
+endif::wpf[]
+ifdef::win-forms[]
+Me.Controls.Add(geoMap)
+endif::win-forms[]
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+var geoMap = new {GeoMapName}();
+ifdef::wpf[]
+this.LayoutRoot.Children.Add(geoMap);
+endif::wpf[]
+ifdef::win-forms[]
+this.Controls.Add(geoMap)
+endif::win-forms[]
+----
+
+=== 結果を確認します。
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、{GeoMapName}   は上記の<<_Ref320186496,プレビュー>> セクションで示したように表示されるはずです。
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、 {GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、 {GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-binding-geographic-data-models.html[地理的データ モデルをバインディング]
+|このトピックは、 {GeoMapName} コントロールに地理的データがあるビュー モデルをバインドする方法を提供します。
+
+| link:geographicmap-navigating-map-content.html[マップ コンテンツをナビゲート]
+|このトピックは、 {GeoMapName} コントロールのマップ コンテンツをナビゲートする方法を提供します。
+
+| link:geographicmap-api-overview.html[API の概要]
+|このトピックは、{GeoMapName} コントロールおよびそのコンポーネントのキー クラスとプロパティの API 概要を提供します。
+
+|====

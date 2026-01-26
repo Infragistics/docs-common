@@ -1,0 +1,131 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-recurrence",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-30T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= 定期的なアクティビティ ({SchedulerName})
+
+== 目的
+
+このトピックはアクティビティの繰り返し動作について説明します。
+
+== 前提条件
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-overview.html[概要 ({SchedulerName})]
+|このトピックでは、{SchedulerName} コントロール シリーズの概要を説明します。
+
+|link:scheduler-binding-schedulelistdatasource.html[ScheduleListDataSource へのバインド ({SchedulerName})]
+|このトピックでは、コントロールを ScheduleListDataSource を使用してデータ ソースへバインドする方法を説明します。
+
+|link:scheduler-appointment.html[予定 ({SchedulerName})]
+|このトピックは Appointment アクティビティ型を説明します。
+
+|=======
+
+== このトピックの構成
+
+* <<Ref00001, 概要>>
+* <<Ref00002, 主なプロパティ>>
+* <<Ref00003, コード例>>
+* <<Ref00004, 関連トピック>>
+
+[[Ref00001]]
+== 概要
+
+アクティビティの定期的な予定は特定の定期的なパターンでアクティビティを繰り返す場合に使用します。
+
+以下は、定期的なアクティビティを作成する方法です。
+
+. アクティビティを作成してその件名、開始、および終了時間を設定します (*定期的なルート アクティビティ*となります)。
+. link:{SchedulerCoreLink}.daterecurrence.html[DateRecurrence] インスタンスを作成して以下を構成します。
+.. link:{SchedulerCoreLink}.daterecurrence~frequency.html[Frequency] (日ごと、週ごと、月ごとなど)
+.. 繰り返す `Count` または `Until` (相互に排他的)
+. link:{SchedulerCoreLink}.daterecurrence~toicalendarstring.html[ToICalendarString] メソッドを使用して繰り返しの link:https://icalendar.org[iCalendar] 文字列形式を取得します。
++
+.注:
+[NOTE]
+====
+`iCalendar` 形式で定期的な予定の条件を作成するにはlink: https://www.textmagic.com/free-tools/rrule-generator[このウェブサイト]を使用することもできます。
+====
+. `iCalendar` 繰り返しの文字列形式をアクティビティの link:{SchedulerCoreLink}.activitybase~recurrence.html[Recurrence] プロパティに設定します。
+. このアクティビティを link:{SchedulerXFLink}.schedulelistdatasource.html[ScheduleListDataSource] の link:{SchedulerXFLink}.schedulelistdatasource~appointmentitemssource.html[AppointmentItemsSource] コレクション プロパティに追加します。
+
+上記の手順によって `DateRecurrence` オブジェクトで指定した定期的なパターンに従って多数のアクティビティを作成します。
+
+.注:
+[NOTE]
+====
+コントロールで作成した定期的なアクティビティはデータソースで使用できません。link:{SchedulerXFLink}.scheduledatasource~getappointmentsinrange.html[GetAppointmentsInRange] メソッドを使用してのみ取得できます。データソースはルート アクティビティのみ含みます。
+====
+
+[[Ref00002]]
+== 主なプロパティ
+
+以下の表は、アクティビティの主な繰り返し動作に関連するプロパティとその使用目的を示します。
+
+[options="header", cols="a,a"]
+|=======
+|プロパティ|用途
+
+|link:{SchedulerCoreLink}.activitybase~recurrence.html[Recurrence]
+|この文字列プロパティは、定期的なルート アクティビティの定期的なパターンの取得および設定に使用されます。
+
+|link:{SchedulerCoreLink}.activitybase~isrecurrenceRoot.html[IsRecurrenceRoot]
+|この読み取り専用ブール プロパティは、アクティビティが定期的なルート アクティビティかどうかを決定します。
+
+|link:{SchedulerCoreLink}.activitybase~recurrenceroot.html[RecurrenceRoot]
+|この読み取り専用 link:{SchedulerCoreLink}.activitybase.html[ActivityBase] タイプ プロパティは、ルートの定期的なアクティビティを取得するために使用されます。アクティビティが繰り返しと関連付けされていない場合は `null`。
+
+|link:{SchedulerCoreLink}.activitybase~recurrenceid.html[RecurrenceId]
+|この読み取り専用文字列プロパティは、ルートの定期的なアクティビティの ID を取得するために使用されます。アクティビティが繰り返しと関連付けされていない場合は `null`。
+
+|=======
+
+[[Ref00003]]
+== コード例
+
+以下のコードは、週ごとの定期的なアイテムのルールと 20 回の繰り返す定期的な予定を作成する例です。
+
+*C# の場合:*
+[source,csharp]
+----
+DateTime today = DateTime.Now.Date;
+
+Appointment appointment1 = new Appointment();
+appointment1.Subject = "Basketball";
+appointment1.Location = "Basketball court";
+appointment1.Start = new DateTime(today.Year, today.Month, today.Day, 19, 30, 0);
+appointment1.End = new DateTime(today.Year, today.Month, today.Day, 20, 30, 0);
+
+DateRecurrence dr = new DateRecurrence();
+dr.Frequency = DateRecurrenceFrequency.Weekly;
+dr.Count = 20;
+
+appointment1.Recurrence = dr.ToICalendarString();
+----
+
+[[Ref00004]]
+== 関連トピック
+
+[options="header", cols="a,a"]
+|=======
+|トピック|用途
+
+|link:scheduler-appointment.html[予定 ({SchedulerName})]
+|このトピックは Appointment アクティビティ型を説明します。
+
+|link:scheduler-resources.html[リソース ({SchedulerName})]
+|このトピックは、{SchedulerName} コントロールのリソース概念について説明します。
+
+|=======

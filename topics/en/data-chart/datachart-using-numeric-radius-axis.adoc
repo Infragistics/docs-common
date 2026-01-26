@@ -1,0 +1,321 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-using-numeric-radius-axis",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting"],
+    "guid": "e8841c1a-ff2e-4ffd-b0cc-9e5afcbbaa72",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.6063608Z"
+}
+|metadata|
+////
+
+= Using Numeric Radius Axis
+
+This topic demonstrates, with code examples, how to use Numeric Radius Axis in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<AxisCrossingProperties,Axis Crossing Properties>>
+* <<AxisRangeProperties,Axis Range Properties>>
+* <<AxisExtentScales,Axis Extent Scales>>
+* <<RelatedContent,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+The link:{DataChartLink}.numericradiusaxis.html[NumericRadiusAxis] shape of the {DataChartName}™ control is a shape of a straight line starting from center of chart and pointing outwards to the boundary of chart plot area. The major gridlines of this axis look like circles with increasing radius values. (Figure 1)
+
+image::images/xamDataChart_Using_Numeric_Radius_Axis_01.png[]
+
+Figure 1: Sample implementation of the `NumericRadiusAxis` shape
+
+This type of axis can be used only with link:datachart-polar-series-overview.html[Polar Series] (in combination with link:{DataChartLink}.numericangleaxis.html[NumericAngleAxis]) or with link:datachart-radial-series-overview.html[Radial Series] (in combination with link:{DataChartLink}.categoryangleaxis.html[CategoryAngleAxis]). For more information on what axis types are required by a specific series, refer to the link:datachart-series-requirements.html[Series Requirements] topic.
+
+[[AxisCrossingProperties]]
+== Axis Crossing Properties
+
+The `NumericRadiusAxis` has the following axis crossing properties:
+
+link:{DataChartLink}.axis{ApiProp}crossingvalue.html[CrossingValue] – the direction to which the `NumericRadiusAxis` is pointed. The valid range is from 0 to 360. By the default, this value is set to zero which corresponds to the 3 o’clock position on the CategoryAngleAxis or NumericAngleAxis. The value of the `CrossingValue` property indicates the number of degrees with which to shift the `NumericRadiusAxis` clockwise from the 3 o’clock position. For example, a value of 90 set on `CrossingValue` property orients the `NumericRadiusAxis` at the 6 o’clock position and a value of 270 – at the 12 o’clock position.
+
+link:{DataChartLink}.axis{ApiProp}crossingaxis.html[CrossingAxis] – the axis in the `{DataChartName}` control’s 
+ifdef::wpf,win-universal,win-forms,xamarin[]
+link:{DataChartLink}.{DataChartName}{ApiProp}Axes.html[Axes]
+endif::wpf,win-universal,win-forms,xamarin[]
+ifdef::android[]
+link:{DataChartLink}.{DataChartName}~addaxis.html[Axes]  
+endif::android[]
+collection that crosses the `NumericRadiusAxis`. This property must be bound to a NumericAngleAxis (when using link:datachart-polar-series-overview.html[Polar Series]) or `CategoryAngleAxis` (when using link:datachart-radial-series-overview.html[Radial Series]), and vice-versa, if there is more than one `NumericRadiusAxis` and one `NumericAngleAxis` or `CategoryAngleAxis` in the `Axes` collection of the {DataChartName} control.
+
+Table 1: Axis Types that can be bound to the `CrossingAxis` property
+
+[options="header", cols="a,a,a"]
+|====
+|Series Type|Axis Type|CrossingAxis Type
+
+| link:datachart-polar-series-overview.html[Polar Series] 
+| 
+link:{DataChartLink}.NumericRadiusAxis.html[NumericRadiusAxis]
+
+link:{DataChartLink}.NumericAngleAxis.html[NumericAngleAxis]
+| 
+link:{DataChartLink}.NumericAngleAxis.html[NumericAngleAxis]  
+
+link:{DataChartLink}.NumericRadiusAxis.html[NumericRadiusAxis]
+
+| link:datachart-radial-series-overview.html[Radial Series]
+| 
+link:{DataChartLink}.NumericRadiusAxis.html[NumericRadiusAxis]
+
+link:{DataChartLink}.CategoryAngleAxis.html[CategoryAngleAxis]
+| 
+link:{DataChartLink}.CategoryAngleAxis.html[CategoryAngleAxis]  
+
+link:{DataChartLink}.NumericRadiusAxis.html[NumericRadiusAxis]
+
+|====
+
+
+The following code snippets show how to use the `CrossingAxis` and `CrossingValue` properties with `NumericRadiusAxis` in the `{DataChartName}` control. It sets the intersection of `NumericRadiusAxis` with `NumericAngleAxis` at angle of zero degrees from the beginning of `NumericAngleAxis`. The result is shown in Figure 2 below.
+
+ifdef::wpf[]
+*In XAML:* 
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis"  
+                              CrossingAxis="{Binding ElementName=AngleAxis}"
+                              CrossingValue="0" >
+        </ig:NumericRadiusAxis>
+        <ig:NumericAngleAxis x:Name="AngleAxis"
+                             CrossingAxis="{Binding ElementName=RadiusAxis}"
+                             CrossingValue="150" >
+        </ig:NumericAngleAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+*In XAML:* 
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis"  
+                              CrossingAxis="{x:Reference AngleAxis}"
+                              CrossingValue="0" >
+        </ig:NumericRadiusAxis>
+        <ig:NumericAngleAxis x:Name="AngleAxis"
+                             CrossingAxis="{x:Reference RadiusAxis}"
+                             CrossingValue="150" >
+        </ig:NumericAngleAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim DataChart As New {DataChartName}()
+Dim AngleAxis As New NumericAngleAxis()
+Dim RadiusAxis As New NumericRadiusAxis()
+RadiusAxis.CrossingAxis = AngleAxis
+RadiusAxis.CrossingValue = 0
+AngleAxis.CrossingAxis = RadiusAxis
+AngleAxis.CrossingValue = 150
+DataChart.Axes.Add(AngleAxis)
+DataChart.Axes.Add(RadiusAxis)
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*In C#:*
+[source,csharp]
+----
+var DataChart = new {DataChartName}();
+var AngleAxis = new NumericAngleAxis();
+var RadiusAxis = new NumericRadiusAxis();
+RadiusAxis.CrossingAxis = AngleAxis;
+RadiusAxis.CrossingValue = 0;
+AngleAxis.CrossingAxis = RadiusAxis;
+AngleAxis.CrossingValue = 150;
+DataChart.Axes.Add(AngleAxis);
+DataChart.Axes.Add(RadiusAxis);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::android[]
+*In Java:*
+[source,js]
+----
+DataChartView dataChart = new DataChartView(root.getContext());
+NumericAngleAxis AngleAxis = new NumericAngleAxis();
+NumericRadiusAxis RadiusAxis = new NumericRadiusAxis();
+RadiusAxis.setCrossingAxis(AngleAxis);
+RadiusAxis.setCrossingValue(0.0);
+AngleAxis.setCrossingAxis(RadiusAxis);
+AngleAxis.setCrossingValue(150);
+dataChart.addAxis(RadiusAxis);
+dataChart.addAxis(AngleAxis);
+----
+endif::android[]
+
+image::images/xamDataChart_Using_Numeric_Radius_Axis_02.png[]
+
+Figure 2: The {DataChartName} control with `NumericRadiusAxis` crossing at the 3 o’clock position of `NumericAngleAxis`
+
+[[AxisRangeProperties]]
+== Axis Range Properties
+
+The `NumericRadiusAxis` has the following range properties:
+
+link:{DataChartLink}.numericaxisbase{ApiProp}minimumvalue.html[MinimumValue] – the position at which the axis begins
+
+link:{DataChartLink}.numericaxisbase{ApiProp}maximumvalue.html[MaximumValue] – the position at which the axis ends
+
+link:{DataChartLink}.numericaxisbase{ApiProp}interval.html[Interval] – the interval between the consecutive major gridlines or radius rings of the `NumericRadiusAxis`
+
+By default, the `{DataChartName}` control uses auto range, which means that the `MinimumValue` property will be set to the data point with the smallest radius data column and the `MaximumValue` property will be set to the data points with the largest radius data column. However, manually setting a value range on `NumericRadiusAxis` will hide all data points with radius data column outside this range. For example, if a collection of data points, with a radius data column varying from 0 to 200 bound to a series and a value range of 50 (`MinimumValue`) and 100 (`MaximumValue`), is set on `NumericRadiusAxis`, then the chart will only show data points with radius data column between 50 and 100.
+
+The following code snippets show how to use range values with `NumericRadiusAxis` in the `{DataChartName}` control. It sets the radius axis range between 0 and 150 and the intervals of the major gridlines to 50. The result is shown in Figure 3 below.
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis"  
+                              MinimumValue="0"
+                              MaximumValue="150"
+                              Interval="50">
+        </ig:NumericRadiusAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::xaml[]
+
+ifdef::wpf,win-universal,win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim DataChart As New {DataChartName}()
+Dim RadiusAxis As New NumericRadiusAxis()
+RadiusAxis.MinimumValue = 0
+RadiusAxis.MaximumValue = 150
+RadiusAxis.Interval = 50
+DataChart.Axes.Add(RadiusAxis)
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*In C#:*
+[source,csharp]
+----
+var DataChart = new {DataChartName}();
+var RadiusAxis = new NumericRadiusAxis();
+RadiusAxis.MinimumValue = 0;
+RadiusAxis.MaximumValue = 150;
+RadiusAxis.Interval = 50;
+DataChart.Axes.Add(RadiusAxis);
+---- 
+endif::wpf,win-universal,win-forms,xamarin[]
+ 
+ifdef::android[]
+*In Java:*
+[source,js]
+----
+DataChartView dataChart = new DataChartView(root.getContext());
+NumericRadiusAxis RadiusAxis = new NumericRadiusAxis();
+RadiusAxis.setMinimumValue(0);
+RadiusAxis.setMaximumValue(150);
+RadiusAxis.setInterval(50);
+dataChart.addAxis(RadiusAxis);
+----
+endif::android[]
+
+image::images/xamDataChart_Using_Numeric_Radius_Axis_03.png[]
+
+Figure 3: `NumericRadiusAxis` with range value between 0 and 150 and interval of 50
+
+[[AxisExtentScales]]
+== Axis Extent Scales
+
+The `NumericRadiusAxis` has two unique properties for configuring the axis scale:
+
+link:{DataChartLink}.numericradiusaxis{ApiProp}radiusextentscale.html[RadiusExtentScale] – the percentage of the outer radius extent to use as the maximum radius or how far the maximum radius extents from the center of the chart. The valid range is from 0.0 to 1.0.
+
+link:{DataChartLink}.numericradiusaxis{ApiProp}innerradiusextentscale.html[InnerRadiusExtentScale] – the percentage of the inner radius extent to use as the minimum radius or how big blank space should be at the center of the chart. For example, a value of zero set on the `InnerRadiusExtentScale` property will result in no blank space in the center of chart. The valid range is from 0.0 to 1.0.
+
+The value for the `RadiusExtentScale` property should always be higher than the value for `InnerRadiusExtentScale` property in order for the chart to render correctly and display radius lines and axis labels.
+
+The following code snippets show how to use radius extent scales with the `NumericRadiusAxis` in the `{DataChartName}` control. It increases the inner radius extent to 20% of the chart radius and decreases the outer radius extent to 80% of the chart radius implements. This renders a blank space in the center of the chart and makes space for the labels outside the numerical angle axis. The result is shown in Figure 4 below.
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis"  
+                              RadiusExtentScale="0.8"
+                              InnerRadiusExtentScale="0.2" >
+        </ig:NumericRadiusAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::xaml[]
+
+ifdef::wpf,win-universal,win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim DataChart As New {DataChartName}()
+Dim RadiusAxis As New NumericRadiusAxis()
+RadiusAxis.RadiusExtentScale = 0.8
+RadiusAxis.InnerRadiusExtentScale = 0.2
+DataChart.Axes.Add(RadiusAxis)
+----
+endif::wpf,win-universal,win-forms[]
+ 
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*In C#:*
+[source,csharp]
+----
+var DataChart = new {DataChartName}();
+var RadiusAxis = new NumericRadiusAxis();
+RadiusAxis.RadiusExtentScale = 0.8;
+RadiusAxis.InnerRadiusExtentScale = 0.2;
+DataChart.Axes.Add(RadiusAxis);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+  
+ifdef::android[]
+*In Java:*
+[source,js]
+----
+DataChartView dataChart = new DataChartView(root.getContext());
+NumericRadiusAxis RadiusAxis = new NumericRadiusAxis();
+RadiusAxis.setRadiusExtentScale(0.8);
+RadiusAxis.setInnerRadiusExtentScale(0.2);
+dataChart.addAxis(RadiusAxis);
+----
+endif::android[]
+
+image::images/xamDataChart_Using_Numeric_Radius_Axis_04.png[]
+
+Figure 4: The `NumericRadiusAxis` with radius scale extenting between 20% and 80% of chart radius
+
+[[RelatedContent]]
+== Related Content
+
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-polar-series-overview.html[Polar Series]
+* link:datachart-radial-series-overview.html[Radial Series]

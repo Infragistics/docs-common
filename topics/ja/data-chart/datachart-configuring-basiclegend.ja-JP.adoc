@@ -1,0 +1,292 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-configuring-basiclegend",
+    "controlName": [],
+    "tags": [],
+    "guid": "0c3ffb62-af90-4722-91c1-c94067110757",  
+    "buildFlags": [],
+    "createdOn": "2015-09-22T18:26:08.6567627Z"
+}
+|metadata|
+////
+
+= 基本凡例の構成
+
+このトピックでは、 link:{LegendLink}.{LegendName}.html[{LegendName}] コントロールの構成に関する情報を提供し、また link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールで link:datachart-series.html[チャート シリーズ]を使用する方法についても説明します。
+
+[[Overview]]
+== 概要
+
+トピックは以下のとおりです。
+
+* <<Introduction,概要>>
+ifdef::android,wpf,win-universal[]
+* <<Properties,プロパティ>>
+endif::android,wpf,win-universal[]
+* <<Requirements,要件>>
+* <<CodeExample,コード例>>
+
+ifdef::wpf,win-universal,win-forms,android[]
+* <<RelatedContent,関連コンテンツ>>
+
+endif::wpf,win-universal,win-forms,android[]
+
+[[Introduction]]
+== 概要
+
+基本凡例コントロールは、チャート プロット領域に表される視覚表現のシリーズのタイトルを識別します。凡例のビジュアルは、シリーズの色を表す凡例バッジを持つ凡例項目のリストおよびシリーズのタイトルに一致する凡例テキストで構成されています。pick:[wpf,win-universal="また、凡例には凡例項目上に表示する凡例タイトルがあります。"]
+
+ifdef::android,wpf,win-universal[]
+[[Properties]]
+== プロパティ
+
+基本凡例コントロールは他のシリーズチャート凡例と共通のプロパティを共有します。これらの共通プロパティの一覧は、 link:datachart-legends.html[チャート凡例] トピックを参照してください。pick:[wpf,win-universal,android="以下の表は、基本凡例に特有の機能を示しています。"]
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+ifdef::wpf,win-universal[]
+| link:{DataChartLink}.{LegendName}{ApiProp}Orientation.html[Legend.Orientation]
+|`Orientation`
+|凡例での凡例項目の垂直/水平方向を決定します。
+endif::wpf,win-universal[]
+
+ifdef::android[]
+| link:{DataChartLink}.{LegendBaseName}{ApiProp}TextSize.html[{LegendName}.TextSize]
+|`double`
+|凡例のテキスト サイズを決定します。
+endif::android[]
+
+ifdef::android[]
+| link:{DataChartLink}.{LegendBaseName}{ApiProp}TextColor.html[{LegendName}.TextColor]
+|`int`
+|凡例のテキストの色を決定します。
+endif::android[]
+
+ifdef::wpf,win-universal[]
+|link:{DataChartLink}.series{ApiProp}LegendItemTemplate.html[Series.LegendItemTemplate]
+|`DataTemplate`
+|指定したチャート シリーズの凡例項目のためのテンプレートを決定します。
+endif::wpf,win-universal[]
+
+|====
+
+endif::android,wpf,win-universal[]
+
+[[Requirements]]
+== 要件
+
+凡例コントロールは   link:datachart-series.html[チャート シリーズ]  の各タイプをサポートし、チャート プロット領域に各シリーズの凡例項目を表示します。
+
+[[CodeExample]]
+== コード例
+
+以下のコード スニペットは、2 つの link:{DataChartLink}.bubbleseries.html[BubbleSeries] オブジェクト間で凡例を共有する方法を図 1 で示します。
+
+image::images/xamDataChart_Legends_02.png[]
+
+図 1: ２つのバブル シリーズを持つ基本凡例
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+[source,xaml]
+----
+...
+<ig:{DataChartName} >
+    <ig:{DataChartName}.Series>
+        <ig:BubbleSeries Title="Bubble Series I"
+                         Legend="{Binding ElementName=Legend1}">
+        </ig:BubbleSeries>
+        <ig:BubbleSeries Title="Bubble Series II"
+                         Legend="{Binding ElementName=Legend1}" >
+        </ig:BubbleSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+<ig:Legend x:Name="Legend1" Content="Legend" />
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+[source,xaml]
+----
+...
+<ig:{DataChartName} >
+    <ig:{DataChartName}.Series>
+        <ig:BubbleSeries Title="Bubble Series I"
+                         Legend="{x:Reference Legend1}" >
+        </ig:BubbleSeries>
+        <ig:BubbleSeries Title="Bubble Series II"
+                         Legend="{x:Reference Legend1}" >
+        </ig:BubbleSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+<ig:Legend x:Name="Legend1"  /> 
+----
+
+endif::xamarin[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+[source,csharp]
+----
+using {DataChartNamespace};
+...
+var legend = new Legend();
+
+var series1 = new BubbleSeries();
+series1.Title = "Bubble Series I";
+series1.Legend = legend;
+
+var series2 = new BubbleSeries();
+series2.Title = "Bubble Series II";
+series2.Legend = legend;
+
+var DataChart = new {DataChartName}();
+...
+dataChart.Series.Add(series1);
+dataChart.Series.Add(series2);
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-universal[]
+
+*C# の場合:*
+[source,csharp]
+----
+using {DataChartNamespace};
+using Infragistics; 
+...
+var legend = new Legend();
+legend.Content = "Legend" 
+var series1 = new BubbleSeries();
+series1.Title = "Bubble Series I";
+series1.Legend = legend;
+var series2 = new BubbleSeries();
+series2.Title = "Bubble Series II";
+series2.Legend = legend;
+var DataChart = new {DataChartName}();
+...
+dataChart.Series.Add(series1);
+dataChart.Series.Add(series2);
+----
+
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+using Infragistics.Win.DataVisualization;
+var legend = new UltraLegend;
+var series1 = new BubbleSeries();
+series1.Title = "Bubble Series I";
+series1.Legend = legend;
+var series2 = new BubbleSeries();
+series2.Title = "Bubble Series II";
+series2.Legend = legend;
+var DataChart = new {DataChartName}();
+...
+dataChart.Series.Add(series1);
+dataChart.Series.Add(series2);
+----
+
+endif::win-forms[]
+
+ifdef::wpf,win-universal[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Imports {DataChartNamespace}
+Imports Infragistics
+...
+Dim legend As New Legend()  
+legend.Content = "Legend" 
+Dim series1 As New BubbleSeries()
+series1.Title = "Bubble Series I"
+series1.Legend = legend
+Dim series2 As New BubbleSeries()
+series2.Title = "Bubble Series II"
+series2.Legend = legend
+Dim dataChart As New {DataChartName}()
+...
+dataChart.Series.Add(series1)
+dataChart.Series.Add(series2)
+----
+
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+---- 
+Dim itemLegend As New ItemLegend
+Dim series As New BubbleSeries()
+series.LabelMemberPath = "Label"
+series.Legend = itemLegend
+Dim dataChart As New {DataChartName}()
+dataChart.Series.Add(series)
+---- 
+endif::win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+import com.infragistics.controls.LegendView;
+...
+DataChartView chart = new DataChartView(rootView.getContext());
+chart.setId(1111); //ビューを識別するための任意の integer
+LegendView legend = new LegendView(rootView.getContext());
+RelativeLayout.LayoutParams legendParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+legend.setContentDescription("Legend");
+legendParams.addRule(RelativeLayout.ALIGN_TOP, chart.getId());
+legendParams.addRule(RelativeLayout.ALIGN_RIGHT, chart.getId());
+legend.setLayoutParams(legendParams);
+BubbleSeries series1 = new BubbleSeries();
+series1.setTitle("Bubble Series I");
+series1.setLegend(legend);
+BubbleSeries series2 = new BubbleSeries();
+series2.setTitle("Bubble Series II");
+series2.setLegend(legend);
+chart.addSeries(series1);
+chart.addSeries(series2);
+----
+
+endif::android[]
+
+[[RelatedContent]]
+
+== 関連コンテンツ
+
+ifdef::wpf,win-universal,xamarin,win-forms,android[]
+* link:datachart-configuring-itemlegend.html[項目凡例の構成]
+endif::wpf,win-universal,xamarin,win-forms,android[]
+
+ifdef::wpf,win-universal,xamarin,win-forms[]
+* link:datachart-configuring-scalelegend.html[スケール凡例の構成]
+endif::wpf,win-universal,xamarin,win-forms[]
+
+ifdef::wpf,win-universal,xamarin[]
+* link:datachart-common-legend.html[共通凡例の追加]
+endif::wpf,win-universal,xamarin[]
+
+ifdef::wpf,win-universal,xamarin[]
+* link:datachart-multiple-legends.html[複数凡例の追加]
+endif::wpf,win-universal,xamarin[]
+
+ifdef::wpf,win-universal[]
+* link:datachart-docking-legends.html[凡例のドッキング]
+endif::wpf,win-universal[]

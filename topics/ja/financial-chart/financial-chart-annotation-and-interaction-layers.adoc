@@ -1,0 +1,165 @@
+﻿////
+|metadata|
+{
+    "tags": ["API","Charting","How Do I"],
+    "controlName": ["FinancialChart"]
+}
+|metadata|
+////
+
+= 注釈とインタラクション レイヤー
+
+=== 目的
+
+このトピックは、利用可能なさまざまなタイプの操作レイヤーなど、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}™] コントロールで使用できる注釈や操作について概念的な情報を提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションから構成されています。
+
+* <<Overview,概要>>
+* <<TypesofLayers,レイヤーのタイプ>>
+
+** <<CrosshairLayer,十字線レイヤー>>
+** <<CategoryTooltipLayer,カテゴリ ツールチップ レイヤー>>
+** <<ItemTooltipLayer,項目ツールチップ レイヤー>>
+** <<FinalValueLayer,最終値レイヤー>>
+** <<CalloutLayer,コールアウト レイヤー>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[Overview]]
+== 概要
+
+=== ホバー 操作の概要
+
+操作は、シリーズ コレクションに追加されるシリーズであるホバー操作レイヤーを介して実装されます。これらのレイヤーはカーソルの位置に依存します。操作レイヤーを _{FinancialChartName}_  コントロールに追加すると、十字線および/またはヒントのデフォルト ビヘイビアが無効になります (追加されるレイヤーのタイプ)。
+
+デフォルトのビヘイビアは、操作レイヤーのカーソルを動かすときの組み込みビヘイビアと視覚的な機能が似ているため無効になります。ただしこのビヘイビアを上書きし、操作レイヤーの機能に加えてデフォルトの十字線機能を実行できるようになります。また、一度に 1 つのツールチップ レイヤーで 1 つのシリーズのみが対象になります。1 つのシリーズで複数のヒントレイヤーをターゲットにすると、ヒントを使用する操作レイヤーが正しく動作しなくなります。
+ifdef::wpf[]
+これは、シリーズのツールチップが `UIElements` であり、ビジュアル ツリーに一度にアタッチできるのが一か所のみであるためです。
+endif::wpf[]
+シリーズに対してツールチップを複数の場所で使用することはできません。
+
+以下の画像は複数のレイヤーが有効にされた _{FinancialChartName}_ コントロールを表示します。
+
+pick:[jquery="image::images/financialchart_jquery_overlays.png[]"]
+pick:[wpf="image::images/financialchart_wpf_overlays.png[]"]
+
+[[TypesofLayers]]
+== レイヤーのタイプ
+
+=== はじめに
+
+現在、 _{FinancialChartName}_ コントロールで利用可能なホバー操作レイヤーは 3 種類で、注釈レイヤーは 2 種類あります。これら各操作レイヤーが異なるホバーおよびツールチップの操作を個別に、または組み合わせて提供し、強力な操作を実現します。
+
+=== レイヤーのタイプ
+
+以下の表は、_{FinancialChartName}_ コントロールで利用可能な各レイヤー タイプの概要です。
+
+[options="header", cols="a,a,a"]
+|====
+|レイヤー タイプ|説明|pick:[wpf="プロパティ"]pick:[jquery="オプション"]
+
+|[[CrosshairLayer]]
+
+レイヤー タイプ
+|十字線レイヤーは、カーソルに従って、各ターゲット シリーズの実際の値と一致する十字線を提供します。
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CrosshairsDisplayMode.html[CrosshairsDisplayMode]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CrosshairsSnapToData.html[CrosshairsSnapToData]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CrosshairsAnnotationEnabled.html[CrosshairsAnnotationEnabled]
+
+ifdef::wpf[]
+* 注: CrosshairsDisplayMode プロパティを列挙型 (Default、None、Horizontal、Vertical または Both) link:{DataChartLink}.CrosshairsDisplayMode.html[CrosshairsDisplayMode] に設定してください。
+endif::wpf[]
+ifdef::jquery[]
+注: crosshairsDisplayMode オプションを default、 none、 horizontal、 vertical または両方に設定します。
+endif::jquery[]
+
+
+|[[CategoryToolTipLayer]]
+
+カテゴリ ツールチップ レイヤー
+|カテゴリ ツールチップ レイヤーは、カテゴリ軸を使用するシリーズ用にグループ化されたツールチップを表示します。
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}ToolTipType.html[ToolTipType]
+ifdef::wpf[]
+注: ToolTipType プロパティを link:{DataChartLink}.ToolTipType.html[ToolTipType].Category 列挙体に設定してください。
+endif::wpf[]
+ifdef::jquery[]
+注: toolTipType オプションを category に設定します。
+endif::jquery[]
+
+|[[DataToolTipLayer]]
+
+データ ツールチップ レイヤー
+
+|データ ツールチップ レイヤーは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  のデフォルトのツールチップ レイヤーであり、link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] を含むグループ化されたツールチップまたは個別のツールチップを表示します。
+
+|* データ ツールチップ レイヤーは、link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] としてほぼすべての構成オプションが含まれているため、詳細に構成できます。そのため、こちらにすべてのプロパティをリストしても意味はありません。このツール チップ レイヤーの詳細については、link:financial-chart-data-tooltip.html[こちら]をご覧ください。
+
+|[[ItemToolTipLayer]] 
+
+項目ツールチップ レイヤー
+|アイテム ツールチップ レイヤーは、すべてのターゲット シリーズにツールチップを表します。
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}ToolTipType.html[ToolTipType]
+
+ifdef::wpf[]
+注: ToolTipType プロパティを link:{DataChartLink}.ToolTipType.html[ToolTipType].Item 列挙体に設定してください。
+endif::wpf[]
+ifdef::jquery[]
+注: toolTipType オプションを item に設定します。
+endif::jquery[]
+
+|[[FinalValueLayer]]
+
+最終値レイヤー
+|最終値レイヤーは、シリーズに表示された最終値の軸に沿った注釈をサポートします。
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}FinalValueAnnotationsVisible.html[FinalValueAnnotationsVisible]
+
+|[[CalloutLayer]]
+
+コールアウト レイヤー
+|コールアウト レイヤーは、X/Y 位置にコールアウト注釈を表示します。マスク オーバー操作をする場合、ラベルと追加のコンテンツが表示されます。
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsVisible.html[CalloutsVisible]
+
+ifdef::wpf[]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsItemsSource.html[CalloutsItemsSource]
+endif::wpf[]
+
+ifdef::jquery[]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsDataSource.html[CalloutsDataSource]
+endif::jquery[]
+
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsContentMemberPath.html[CalloutsContentMemberPath]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsLabelMemberPath.html[CalloutsLabelMemberPath]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsXMemberPath.html[CalloutsXMemberPath]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsYMemberPath.html[CalloutsYMemberPath]
+
+|値レイヤー
+
+|値レイヤーは、最小値、最大値、平均値などのデータのさまざまな焦点に、計算されたポイントに破線を描画することによって注釈を付けます。
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}ValueLines.html[ValueLines]
+
+|====
+
+[[RelatedContent]]
+
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせて参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:financial-chart-overview.html[概要]
+|このトピックは、ファイナンシャル チャート コントロールの概要を提供します。
+
+|====

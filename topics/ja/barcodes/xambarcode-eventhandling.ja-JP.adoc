@@ -1,0 +1,159 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-eventhandling",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "c71c9ae7-9d07-49bc-a4c8-e4280cac9614",
+    "buildFlags": ["XAML"],
+    "createdOn": "2015-09-23T20:39:35.3113901Z"
+}
+|metadata|
+////
+
+= イベントの処理
+
+== 始める前に
+
+{BarcodesName} コントロールは以下のイベントがあります:
+====
+* link:{BarcodesLink}.{BarcodesRoot}~datachanged_ev.html[DataChanged]
+ifdef::wpf,win-forms[]
+* link:{BarcodesLink}.{BarcodesRoot}~errormessagedisplaying_ev.html[ErrorMessageDisplaying]
+endif::wpf,win-forms[]
+====
+ifdef::wpf,win-forms[]
+ErrorMessageDisplayingEventArgs オブジェクトの ErrorMessage プロパティによって、ユーザーはエラー メッセージを取得したり設定したりできます。
+endif::wpf,win-forms[]
+DataChangedEventArgs オブジェクトの NewData プロパティによって、ユーザーは変更されたばかりの {BarcodesName} コントロールの Data プロパティの値を取得することができます。
+
+== 達成すること
+
+ユーザーは DataChanged pick:[wpf,win-forms="および ErrorMessageDisplaying "]イベントを処理します。
+
+== 次の手順を実行します
+
+[start=1]
+. {BarcodesName} コントロールをpick:[wpf="ページ"]pick:[win-forms="フォーム"]pick:[xamarin="アプリケーション"]に追加します。これに関する詳細は、 pick:[xaml=" link:xambarcode-adding-xambarcode-using-xaml.html[「XAML コードを使用して Barcode を追加」 または ]"]link:xambarcode-adding-barcode-in-code-behind.html[「コードビハインドを使用して Barcode を追加」]を参照してください。
+[start=2]
+. イベントの処理:
+
+ifdef::wpf,win-forms[]
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamMaxiCodeBarcode
+        x:Name="Barcode"
+        DataChanged="Barcode_DataChanged"
+        ErrorMessageDisplaying="Barcode_ErrorMessageDisplaying" />
+----
+endif::xaml[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Import Infragistics.Controls.Barcodes
+
+Private Sub Barcode_DataChanged (ByVal sender As System.Object,
+    ByVal e As DataChangedEventArgs)
+        Dim errorMessage = e.ErrorMessage
+End Sub
+
+Private Sub Barcode_ErrorMessageDisplaying (ByVal sender As System.Object, ByVal e As ErrorMessageDisplayingEventArgs)
+    Dim newData = e.NewData
+End Sub
+---- 
+
+*C# の場合:*
+[source,csharp]
+----
+using Infragistics.Controls.Barcodes;
+
+private void Barcode_ErrorMessageDisplaying(object sender,
+  ErrorMessageDisplayingEventsArgs e) {
+    string errorMessage = e.ErrorMessage;
+}
+
+private void Barcode_DataChanged(object, DataChangedEventArgs e) {
+    string newData = e.NewData;
+}
+----
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamQRCodeBarcode x:Name="Barcode" DataChanged="Barcode_DataChanged"/>
+----
+*C# の場合:*
+[source,csharp]
+----
+using Infragistics.XamarinForms.Controls.Barcodes;
+using Infragistics.Controls.Barcodes.Implementation;
+
+private void Barcode_DataChanged(object sender, DataChangedEventArgs e) 
+{
+    string newData = e.NewData;
+}
+----
+
+endif::xamarin[]
+
+[start=3]
+. アプリケーションを保存して実行します。
+
+== デフォルトのエラー メッセージ
+
+ifdef::wpf,win-forms[]
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamPdf417Barcode
+	x:Name="Barcode"
+	Data="xamBarcode"
+	EncodingMode="Numeric" />
+----
+endif::xaml[]
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim Barcode As New {BarcodePDF417Name}()
+Barcode.Data = "xamBarcode"
+Barcode.EncodingMode = CompactionMode.Numeric
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var Barcode = new {BarcodePDF417Name}();
+Barcode.Data = "xamBarcode";
+Barcode.EncodingMode = CompactionMode.Numeric;
+----
+endif::wpf,win-forms[]
+ifdef::xamarin[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamQRCodeBarcode x:Name="Barcode" Data="xamBarcode" EncodingMode="Numeric" />
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var barcode = new XamQRCodeBarcode
+{
+    Data = "xamBarcode",
+    EncodingMode = EncodingMode.Numeric,
+};
+----
+endif::xamarin[]
+
+image::images/barcode_dataError.png[]

@@ -1,0 +1,338 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-creating-chart-in-xaml-code",
+    "controlName": [],
+    "tags": [],
+    "guid": "0bf844e0-0b36-491d-b434-951a18aa3e1c",  
+    "buildFlags": ["XAML"],
+    "createdOn": "2015-01-27T23:06:59.6613626Z"
+}
+|metadata|
+////
+
+= XAML コードでチャートを作成
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、XAML コードで  _link:{DataChartLink}.{DataChartName}.html[{DataChartName}]_   コントロールを作成する詳細な方法を紹介します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-datachart.html[{DataChartName}]
+|このトピックでは、 _{DataChartName}_ コントロールの概要を説明します。
+
+ifdef::xamarin[]
+| link:xamarin-project-with-infragistics-controls.html[Infragistics コントロールでプロジェクトを作成]
+|このトピックでは、Ultimate UI for Xamarin コントロールと使用するアプリケーション プロジェクトを作成する方法を説明します。
+endif::xamarin[]
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|このトピックでは、{DataChartName} コントロールを使用して作業を開始する方法に関する情報を提供します。
+
+| link:datachart-series-requirements.html[シリーズ要件]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref397371182,概要>>
+** <<_Ref397371188,プレビュー>>
+ifdef::wpf,win-forms,sl,win-universal,android[]
+** <<_Ref396219292,アプリケーションの要件>>
+endif::wpf,win-forms,sl,win-universal,android[]
+** <<_Ref397371278,チャート要件>>
+** <<_Ref396236025,アプリケーションの作成>>
+ifdef::wpf,sl,win-universal[]
+** <<_Ref396236029,データ ソースの作成>>
+endif::wpf,sl,win-universal[]
+** <<_Ref396236037,チャートの作成>>
+ifdef::xamarin[]
+** <<_Ref396236029,データ ソースの作成>>
+endif::xamarin[]
+** <<_Ref396236032,軸の作成>>
+** <<_Ref396236034,シリーズの作成>>
+
+* <<_Ref388439099,関連コンテンツ>>
+
+[[_Ref397371182]]
+== 概要
+
+[[_Ref397371188]]
+
+=== プレビュー
+
+以下は XAML コードでチャート コントロールを作成する結果のプレビューです。
+
+image::images/DataChart_Creating_Chart_In_Code_Behind_1.png[]
+
+ifdef::wpf,win-forms,sl,win-universal,android[]
+[[_Ref396219292]]
+
+=== アプリケーションの要件
+
+以下の表では、 _{DataChartName}_   の作成の要件を簡単に説明します。
+
+[options="header", cols="a,a"]
+|====
+|要件|説明
+
+|Infragistics 製品をインストール
+|チャート コントロールは Infragistics 製品に含まれます。
+
+|====
+
+endif::wpf,win-forms,sl,win-universal,android[]
+
+[[_Ref397371278]]
+
+=== チャート要件
+
+チャート コントロールは シリーズと呼ばれ、さまざまなデータ視覚化をサポートします。このシリーズ オブジェクトは広範なデータ ソースを可視化できます。チャート コントロールにサポートされるシリーズの一覧は、 link:datachart-series-types.html[シリーズ タイプ] トピックを参照してください。各シリーズ タイプは一定の要件を満たす (データ列の数およびタイプなど) データおよびデータをサポートされる軸によって、そのデータがプロットできます。各シリーズの要件については、 link:datachart-series-requirements.html[シリーズ要件]トピックを参照してください。
+
+このトピックは link:{DataChartLink}.areaseries.html[AreaSeries]、2 つの軸 (CategoryXAxis および NumericYAxis)、 link:resources-sample-energy-data.html[サンプル エネルギー データ]を使用します。
+
+[[_Ref396236025]]
+
+=== アプリケーションの作成
+
+[start=1]
+. {PlatformIDE} またはそれ以降のバージョンで {PlatformName} アプリケーション プロジェクトを作成し、名前を *SampleApp* に設定します。
+
+[start=2]
+. 以下の名前空間宣言を XAML ファイルに追加します:
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+xmlns:local="clr-namespace:SampleApp"
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly=Infragistics.XF.Charts"
+xmlns:local="clr-namespace:SampleApp;assembly=SampleApp"
+----
+
+endif::xamarin[]
+
+ifdef::win-universal[]
+
+*XAML の場合:*
+
+----
+xmlns:ig="using:Infragistics.Controls.Charts"xmlns:local="using:SampleApp"
+----
+
+endif::win-universal[]
+
+[[_Ref396236025]]
+
+=== アセンブリ参照の追加
+
+ifdef::win-forms,sl,win-universal[]
+. 以下の Infragistics アセンブリを *SampleApp* プロジェクトに追加します。
+
+endif::win-forms,sl,win-universal[]
+
+ifdef::win-universal[]
+** {ApiPlatform}Controls.Charts.XamDataChart{ApiVersion}.dll
+
+** {ApiPlatform}DataVisualization{ApiVersion}.dll
+
+** {ApiPlatform}dll
+
+endif::win-universal[]
+
+ifdef::wpf[]
+
+. 以下の NuGet パッケージを *SampleApp* プロジェクトに追加します。
+
+** Infragistics.WPF.Charts
+
++
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::xamarin[]
+link:xamarin-project-with-infragistics-controls.html#NuGetPackages[「NuGet パッケージで参照を追加」]を参照してください。
+
+endif::xamarin[]
+
+ifdef::wpf,sl,win-universal[]
+[[_Ref396236029]]
+
+=== データ ソースの作成
+
+[start=1]
+. サンプル データ コードを link:resources-sample-energy-data.html[サンプル エネルギー データ] リソースからコピーして *SampleApp* プロジェクトに追加します。
+
+[start=2]
+. カテゴリ サンプル データのインスタンスを作成します。
+
+*XAML の場合:*
+
+----
+<Grid>
+    <Grid.Resources>
+        <local:EnergyDataSource x:Key="data"/>
+    </Grid.Resources>
+</Grid>
+----
+endif::wpf,sl,win-universal[]
+
+[[_Ref396236037]]
+
+=== チャートの作成
+
+1 つのシリーズおよび 2 つの軸の設定を持つチャート コントロールのインスタンスを作成します。
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="Chart" >
+    <ig:{DataChartName}.Axes>
+        <!-- 軸をここに追加する -->
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <!-- シリーズをここに追加する  -->
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName} >
+----
+
+ifdef::xamarin[]
+[[_Ref396236029]]
+
+=== データ ソースの作成
+
+[start=1]
+. サンプル データ コードを link:resources-sample-energy-data.html[サンプル エネルギー データ] リソースからコピーして *SampleApp* プロジェクトに追加します。
+
+[start=2]
+. カテゴリ サンプル データのインスタンスを作成します。
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Resources>
+    <ResourceDictionary>
+        <local:EnergyDataSource x:Key="data"/>
+    </ResourceDictionary>
+</ig:XamDataChart.Resources>
+----
+endif::xamarin[]
+
+[[_Ref396236032]]
+
+=== 軸の作成
+
+ラベルを表示するためのカテゴリ X 軸を作成し、値を表示するための数値 Y 軸を作成します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName}.Axes>
+    <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{StaticResource data}" Label="{}{Country}" />
+    <ig:NumericYAxis  x:Name="yAxis" />
+</ig:{DataChartName}.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{StaticResource data}" Label="Country" />
+    <ig:NumericYAxis  x:Name="yAxis" />
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+[[_Ref396236034]]
+
+=== シリーズの作成
+
+サンプル データ ソースへのバインディングおよびデータ マッピングが設定されるシリーズのインスタンスを作成します。また、シリーズに前のセクションで作成した 2 つの軸の設定が必要です。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName}.Series>
+    <ig:AreaSeries ItemsSource="{StaticResource data}" 
+                  ValueMemberPath="Coal" 
+                  XAxis="{Binding ElementName=xAxis}" 
+                  YAxis="{Binding ElementName=yAxis}">
+    </ig:AreaSeries>
+</ig:{DataChartName}.Series>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Series>
+    <ig:AreaSeries ItemsSource="{StaticResource data}" 
+                  ValueMemberPath="Coal" 
+                  XAxis="{x:Reference xAxis}" 
+                  YAxis="{x:Reference yAxis}">
+    </ig:AreaSeries>
+</ig:XamDataChart.Series>
+----
+
+endif::xamarin[]
+
+[[_Ref388439099]]
+== 関連コンテンツ
+
+[[_Ref386478106]]
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-datachart.html[*{DataChartName}* ]
+|このトピックでは、 _{DataChartName}_ コントロールの概要を説明します。
+
+| link:datachart-getting-started-with-datachart.html[データ チャートを使用した作業の開始]
+|このトピックでは、{DataChartName} コントロールを使用して作業を開始する方法に関する情報を提供します。
+
+| link:datachart-series-requirements.html[*シリーズ要件* ]
+|このトピックでは、{DataChartName} コントロールで利用可能な散布シリーズに関する情報を提供します。
+
+|====

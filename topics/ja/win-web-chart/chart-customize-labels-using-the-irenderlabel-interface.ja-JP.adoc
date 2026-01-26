@@ -1,0 +1,129 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-customize-labels-using-the-irenderlabel-interface",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{E5957F14-3CED-428A-B384-EA6EBD48006A}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= IRenderLabel インタフェースを使用してラベルをカスタマイズ
+
+開発者は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel.html[IRenderLabel]"]  を実装し、チャート ラベルの書式文字列より優れた機能を発揮できます。
+
+IRenderLabel は、メンバが  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel~tostring.html[ToString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel~tostring.html[ToString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.irenderlabel~tostring.html[ToString]"]  だけの簡単なインタフェースです。このメソッドでは、単一の引数「context」を使用できます。これは、出力される現在のラベルに関連する値を含むハッシュテーブルです。例：
+
+[cols="a,a"]
+|====
+|*コード*
+|*戻り値*
+
+|---- 
+context["ITEM_LABEL"]
+----
+|COL #0
+
+|---- 
+context["DATA_VALUE"]
+----
+|123.44
+
+|====
+
+ToString の戻り値は、指定したコンテキスト内でグラフ上に出力される文字列値です。ToString メソッドが常に「Hello World」を返す場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformatstring.html[UltraChart.Axis.X.Labels.ItemFormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformatstring.html[UltraChart.Axis.X.Labels.ItemFormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearance~itemformatstring.html[UltraChart.Axis.X.Labels.ItemFormatString]"]  プロパティが IRenderLabel 実装の使用に設定されると、「Hello World」は X 軸上に繰り返し表示されます。
+
+以下は、IRenderLabel クラスのコード例です。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Resources
+...
+Public Class MyLabelRenderer
+	Implements IRenderLabel
+	Public OverLoads Function ToString(ByVal context As Hashtable) _
+	  As String Implements IRenderLabel.ToString
+		Select Case CDbl(Context("DATA_VALUE"))
+			Case Is > 1000
+				Return CStr(context("DATA_VALUE")) & " [Very High]"
+			Case Is > 100
+				Return CStr(context("DATA_VALUE")) & " [High]"
+			Case Is > 10
+				Return CStr(context("DATA_VALUE")) & " [Medium]"
+			Case Is >= 0
+				Return CStr(context("DATA_VALUE")) & " [Low]"
+			Case Else
+				Return CStr(context("DATA_VALUE")) & " [Negative]"
+		End Select
+	End Function
+End Class
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Resources;
+...
+public class MyLabelRenderer : IRenderLabel
+{
+	public string ToString(Hashtable context)
+	{
+		double dataValue = (double)context["DATA_VALUE"];
+		if (dataValue > 75)
+			return dataValue.ToString() + " [Very High]";
+		else if (dataValue > 50)
+			return dataValue.ToString() + " [High]";
+		else if (dataValue > 25)
+			return dataValue.ToString() + " [Medium]";
+		else if (dataValue >= 0)
+			return dataValue.ToString() + " [Low]";
+		else		
+			return dataValue.ToString() + " [Negative]";
+	}
+}
+----
+
+=== チャート上のラベルを IRenderLabel 実装に関連付けるには、以下の手順に従います。
+
+[start=1]
+. 適切な FormatString プロパティを、「<」と「>」文字で囲まれた一意の文字列値に設定します。
+[start=2]
+. 「<」と「>」文字なしの一意の文字列値を含むエントリ、および IRenderLabel 実装のインスタンスを持つハッシュテーブルを作成します。
+[start=3]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~labelhash.html[UltraChart.LabelHash]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[UltraChart.LabelHash]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~labelhash.html[UltraChart.LabelHash]"]  プロパティ値を IRenderLabel 実装を含むハッシュテーブルに設定します。
+
+*Visual Basic の場合：*
+
+----
+Private Sub Customize_Labels_Using_the_IRenderLabel_Interface_Load( _
+  ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Me.UltraChart1.Axis.Y.Labels.ItemFormatString = "<MY_VALUE>"
+	Me.UltraChart1.Axis.X.Labels.ItemFormatString = "<MY_VALUE>"
+	Dim MyLabelHashTable As New Hashtable()
+	MyLabelHashTable.Add("MY_VALUE", New MyLabelRenderer())
+	Me.UltraChart1.LabelHash = MyLabelHashTable
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void Customize_Labels_Using_the_IRenderLabel_Interface_Load(object sender, 
+  EventArgs e)
+{
+	this.ultraChart1.Axis.Y.Labels.ItemFormatString = "<MY_VALUE>";
+	this.ultraChart1.Axis.X.Labels.ItemFormatString = "<MY_VALUE>";
+	Hashtable MyLabelHashTable = new Hashtable();
+	MyLabelHashTable.Add("MY_VALUE", new MyLabelRenderer());
+	this.ultraChart1.LabelHash = MyLabelHashTable;
+	this.ultraChart1.DataSource = GetColumnData();
+}
+----
+
+image::images\Chart_Customize_Labels_Using_the_IRenderLabel_Interface_01.png[]

@@ -1,0 +1,160 @@
+﻿= {FinancialChartName} を使用した作業の開始
+
+=== 目的
+
+このトピックではコード例を使用して、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールを {PlatformName} アプリケーションに追加する方法を説明します。 
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Adding,{FinancialChartName} を {PlatformName} アプリケーションへ追加>>
+
+** <<Introduction,概要>>
+** <<Preview,プレビュー>>
+pick:[wpf="** <<Prerequisites,要件>>"]
+** <<Overview,概要>>
+** <<Steps,手順>>
+
+* <<RelatedContent,関連コンテンツ>>
+
+[[Adding]]
+== {FinancialChartName} を {PlatformName} アプリケーションへ追加
+
+[[Introduction]]
+=== 概要
+
+以下の手順は、{FinancialChartName} を {PlatformName} アプリケーションに追加する方法を示します。
+
+[[Preview]]
+=== プレビュー
+
+以下は {FinancialChartName} の画像です。
+
+pick:[wpf="image::images/financialchart_wpf_multidata.png[]"]
+pick:[jquery="image::images/financialchart_jquery_multidata.png[]"]
+
+ifdef::wpf[]
+[[Prerequisites]]
+== 要件
+
+以下は、{FinancialChartName} コントロールを追加するための一般要件です。
+
+以下の NuGet パッケージ参照をアプリケーションに追加します。
+
+** Infragistics.WPF.FinancialChart
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----  
+
+*C# の場合:* 
+[source,csharp]
+----
+using {FinancialChartNamespace};  
+----  
+
+*VB の場合:* 
+[source,vb]
+----
+Imports {FinancialChartNamespace}
+---- 
+endif::wpf[]
+  
+[[Overview]]
+=== 概要
+
+以下はプロセスの概要です。
+
+*1. {FinancialChartName} コントロールを {PlatformName} アプリケーションへ追加*
+
+*2. 結果の確認*
+
+[[Steps]]
+=== 手順
+
+以下では {FinancialChartName} コントロールをページに追加するために必要な手順を示します。
+
+=== 1. {FinancialChartName} コントロールをページに追加します。
+
+以下のコードは、表示に必要な最小限のコードとプロパティ設定で {FinancialChartName} コントロールを追加します。
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<Grid x:Name="LayoutRoot">
+ <ig:{FinancialChartName} ItemsSource="{Binding DataCollection}" />
+</Grid>
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim financialChart As New {FinancialChartName}()
+financialChart.ItemsSource = data
+Me.LayoutRoot.Children.Add(financialChart)  
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var financialChart = new {FinancialChartName}();
+financialChart.ItemsSource = data;
+this.LayoutRoot.Children.Add(financialChart);  
+----
+endif::wpf[]
+
+ifdef::jquery[]
+{FinancialChartName} にアタッチする要素を追加します。
+
+
+*HTML の場合:*
+[souce,html]
+----
+<body>
+    <div id="financialChart"></div>
+</body>
+----
+
+{FinancialChartName} を要素にアタッチします。
+
+
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ dataSource: data });
+----
+endif::jquery[]
+
+=== 2. 結果を確認します。
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、{FinancialChartName} は上記のプレビュー セクションで示したように表示されます。
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:financial-chart-binding-to-data.html[データ バインディング]
+|このトピックはコントロールにデータをバインドする方法を説明します。
+
+| link:financial-chart-overview.html[概要]
+|このトピックは、ファイナンシャル チャート コントロールの概要を提供します。
+
+|====

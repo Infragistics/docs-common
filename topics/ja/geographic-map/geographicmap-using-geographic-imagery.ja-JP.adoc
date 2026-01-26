@@ -1,0 +1,241 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理的画像を使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320488750,地理的画像>>
+
+** <<_Ref320488759,概要>>
+** <<_Ref320700551,地理的画像のタイプ>>
+
+* <<_Ref320489029,マップ背景コンテンツ>>
+
+** <<_Ref320489035,説明>>
+** <<_Ref320700543,コード>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320488750]]
+== 地理的画像
+
+[[_Ref320488759]]
+
+=== 概要
+
+地理的画像は、上空から見た世界の詳細な表現です。これは、マルチスケール画像タイル構造で、衛星地図または道路地図で構成できます。 {GeoMapName} コントロールは、リッチでインタラクティブな世界地図および地理的データの画像コンテキストをエンドユーザーに提供するために地理的画像を表示できます。
+
+[[_Ref320700551]]
+
+=== 地理的画像のタイプ
+
+{GeoMapName} コントロールは、pick:[wpf="3"]pick:[win-forms="2"] つのサポートされているマッピング サービス、またはアプリケーションに簡単に実装できる他のマッピング サービスから地理的画像タイルを表示できます。
+
+以下の表で、 {GeoMapName} コントロール用のサポートされておりカスタムの地理的画像ソースを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|*地理的画像*| *プレビュー* |*説明*
+
+|Open Street Maps
+|image::images/GeographicMap_Using_Geographic_Imagery_1.png[]
+|1 色のテーマで道路地図スタイルだけを表示するためのオプションで、Open Street Maps サービスから地理的画像を提供します。この地理的画像を使用する詳細については、 link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[「Open Street Maps から地理的画像を表示」]のトピックを参照してください。
+
+|Azure Maps
+|image::images/GeographicMap_Displaying_Geographic_Imagery_from_Azure_Maps_1.png[]
+|以下のマップ スタイルを表示するための構成可能なオプションで、Azure Maps サービスから地理的画像を提供します。
+
+* Satellite
+
+* Dark Grey
+
+* Terra
+
+* Road Map スタイルなど
+
+この地理的画像を使用する詳細については、「link:geographicmap-displaying-geographic-imagery-from-azure-maps.html[Azure Maps から地理的画像を表示]」のトピックを参照してください。
+
+|Bing Maps
+|image::images/GeographicMap_Using_Geographic_Imagery_3.png[]
+|以下のマップ スタイルを表示するための構成可能なオプションで、Bing Maps サービスから地理的画像を提供します。 
+
+* Satellite
+
+* Terra
+
+* Dark Grey
+
+* Road、Traffic、Weather オーバーレイ
+
+この地理的画像を使用する詳細については、 link:geographicmap-displaying-geographic-imagery-from-bing-maps.html[「Bing Maps から地理的画像を表示」]のトピックを参照してください。
+
+ifdef::wpf[]
+|Map Quest
+|image::images/GeographicMap_Using_Geographic_Imagery_4.png[]
+|以下のマップ スタイルを表示するための構成可能なオプションで、Map Quest サービスから地理的画像を提供します。 
+
+* 衛星地図スタイル 
+
+* 道路地図スタイル 
+
+この地理的画像を使用する詳細については、 link:geographicmap-creating-custom-geographic-imagery-from-map-quest.html[「Map Quest からカスタムの地理的画像を作成」]のトピックを参照してください。
+endif::wpf[]
+
+|====
+
+[[_Ref320489029]]
+== マップ背景コンテンツ
+
+[[_Ref320489035]]
+
+=== 説明
+
+{GeoMapName} コントロールの pick:[wpf="link:{GeoMapLink}.{GeoMapName}~backgroundcontent.html[BackgroundContent]  プロパティは地理的画像ソースのサポートされているすべてのタイプを表示するために"]pick:[win-forms="link:{GeoMapLink}.{GeoMapName}~setimagery.html[SetImagery]  メソッドは地理的画像ソースのサポートされているすべてのタイプの BackgroundContent を設定するために"]使用されます。各地理的画像ソースについては、対応する地理的画像タイルを描画するために使用される画像クラスがあります。
+
+以下の表は、{GeoMapName} コントロールによって提供される画像クラスを簡単に説明します。
+
+[options="header", cols="a,a"]
+|====
+|画像クラス|説明
+
+| link:{GeoMapLink}.geographicmapimagery_members.html[GeographicMapImagery]
+|サポートされている地理的画像タイルのすべてのタイプを表示するすべての画像クラスの基本コントロールを表します。pick:[wpf="このクラスは、Map Quest マッピング サービスなどの他の地理的画像ソースから地理的画像タイルのサポートを実装する目的のために拡張できます。この機能の詳細については、 link:geographicmap-creating-custom-geographic-imagery-from-map-quest.html[「Map Quest からカスタムの地理的画像を作成」]のトピックを参照してください。"]
+
+| link:{GeoMapLink}.openstreetmapimagery_members.html[OpenStreetMapImagery]
+|Open Street Maps サービスから地理的画像タイルを表示するためのマルチスケール画像コントロールを表します。
+
+| link:{GeoMapLink}.azuremapsmapimagery_members.html[AzureMapsMapImagery]
+|Azure Maps サービスから地理的画像タイルを表示するためのマルチスケール画像コントロールを表します。
+
+| link:{GeoMapLink}.bingmapsmapimagery_members.html[BingMapsMapImagery]
+|Bing Maps サービスから地理的画像タイルを表示するためのマルチスケール画像コントロールを表します。
+
+|====
+
+デフォルトでは、 pick:[wpf="link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent] プロパティ"]pick:[win-forms="BackGroundContent"]は、 link:{GeoMapLink}.openstreetmapimagery_members.html[OpenStreetMapImagery] オブジェクトに設定され、{GeoMapName} コントロールは Open Street Maps サービスからの地理的画像タイルを表示します。地理的画像タイルの異なるタイプを表示するには、 {GeoMapName} コントロールを再構成する必要があります。
+
+以下は、地理的画像タイルの異なるタイプを表示する方法についての情報を提供するトピックのリストです。
+
+* link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Open Street Maps から地理的画像を表示]
+* link:geographicmap-displaying-geographic-imagery-from-azure-maps.html[Azure Maps から地理的画像を表示]
+* link:geographicmap-displaying-geographic-imagery-from-bing-maps.html[Bing Maps から地理的画像を表示]
+ifdef::wpf[]
+* link:geographicmap-creating-custom-geographic-imagery-from-map-quest.html[Map Quest からカスタムの地理的画像を作成]
+endif::wpf[]
+
+ifdef::wpf[]
+さらに、 link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent] プロパティは、このクラスを継承するオブジェクトに設定できます。ただし、 link:{GeoMapLink}.geographicmapimagery_members.html[GeographicMapImagery] クラスを継承するオブジェクトだけが、マップ背景コンテンツのパンおよびズームができます。
+endif::wpf[]
+
+{GeoMapName} コントロールでは、マップ背景コンテンツは常にすべての地理的シリーズの背後に描画されます。つまり、地理的画像タイルは常に最初に描画され、{GeoMapName} コントロールの link:{DataChartLinkBase}.seriesviewer~series.html[Series] プロパティの地理的シリーズは、地理的画像タイルの上に描画されます。 {GeoMapName} コントロールの同じプロット エリアに複数の地理的シリーズを表示するときに、これは特に重要です。地理的画像タイルがマップ表示で素早く埋もれてしまうからです。この詳細は、以下のトピックを参照してください。
+
+* link:geographicmap-hiding-geographic-imagery-in-map-background-content.html[マップ背景コンテンツで地理的画像を非表示]
+* link:geographicmap-displaying-multiple-geographic-series.html[複数の地理的シリーズを表示]
+
+[[_Ref320700543]]
+
+=== コード
+
+このコード例は、Open Street Maps からの地理的画像タイルを提供する link:{GeoMapLink}.openstreetmapimagery_members.html[OpenStreetMapImagery] オブジェクトに  {GeoMapName} コントロールの pick:[wpf=" link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent]"]pick:[win-forms"BackgroundContent"] を明示的に設定します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.BackgroundContent>
+        <ig:OpenStreetMapImagery />
+    </ig:XamGeographicMap.BackgroundContent>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim geoMap As New {GeoMapName}()
+ifdef::wpf[]
+Me.geoMap.BackgroundContent = New OpenStreetMapImagery()
+endif::wpf[]
+ifdef::win-forms[]
+Me.geoMap.SetImagery(New OpenStreetMapImagery())
+endif::win-forms[]
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+var geoMap = new {GeoMapName}();
+ifdef::wpf[]
+this.GeoMap.BackgroundContent = new OpenStreetMapImagery();
+endif::wpf[]
+ifdef::win-forms[]
+this.GeoMapSetImagery(new OpenStreetMapImagery());
+endif::win-forms[]
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールで地理的画像をバインドする方法を提供します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-azure-maps.html[Azure Maps から地理的画像を表示]
+|このトピックは、 {GeoMapName} コントロールで Azure Maps サービスからの地理的画像を表示する方法を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-bing-maps.html[Bing Maps から地理的画像を表示]
+|このトピックは、 {GeoMapName} コントロールで Bing Maps サービスからの地理的画像を表示する方法を提供します。
+
+| link:geographicmap-displaying-geographic-imagery-from-open-street-maps.html[Open Street Maps から地理的画像を表示]
+|このトピックは、 {GeoMapName} コントロールで Open Street Maps サービスからの地理的画像を表示する方法を提供します。
+ifdef::wpf[]
+| link:geographicmap-creating-custom-geographic-imagery-from-map-quest.html[Map Quest からカスタムの地理的画像を作成]
+|このトピックは、 {GeoMapName} コントロールで Map Quest サービスからカスタム地理的画像を作成および表示する方法を提供します。
+endif::wpf[]
+| link:geographicmap-displaying-multiple-geographic-series.html[複数の地理的シリーズを表示]
+|このトピックは、 {GeoMapName} コントロールで複数の地理的シリーズを使用する方法を提供します。
+
+|====

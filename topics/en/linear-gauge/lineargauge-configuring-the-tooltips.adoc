@@ -1,0 +1,429 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-configuring-the-tooltips",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Templating","Tips and Tricks"],
+    "guid": "35c43ccb-e854-4dc1-9f2b-74296bd12a37",
+    "buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:53:12.0628933Z"
+}
+|metadata|
+////
+
+= Configuring the Tooltips ({LinearGaugeName})
+
+
+
+=== Purpose
+
+This topic explains, with code examples, how to enable the tooltips in the _{LinearGaugeName}_™ control and configure the delay with which they are displayed.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:lineargauge-overview.html[ _{LinearGaugeName}_ Overview]
+|This topic provides conceptual information about the _{LinearGaugeName}_ control including its main features, minimum requirements, and user functionality.
+
+| link:lineargauge-adding.html[Adding _{LinearGaugeName}_ ]
+|This topic explains how to add the _{LinearGaugeName}_ control to a {PlatformName} application.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref363159199, Introduction >>
+
+** <<_Ref363158368,Tooltips configuration summary>>
+** <<_Ref363158374,Tooltips configuration summary chart>>
+
+* <<_Ref363158380, Enabling/Disabling Tooltips >>
+
+** <<_Ref349921543,Overview>>
+** <<_Ref349921549,Property settings>>
+** <<_Ref363158399,Code Example>>
+
+* <<_Ref363158410, Configuring the Tooltip Delay >>
+
+** <<_Ref361908053,Overview>>
+** <<_Ref361908057,Property settings>>
+** <<_Ref363158443,Code Example>>
+
+* <<_Ref363158489, Configuring a Custom Tooltip for the Needle >>
+
+** <<_Ref361907990,Overview>>
+** <<_Ref361907998,Property settings>>
+** <<_Ref363158549,Example>>
+
+* <<_Ref363158616, Configuring a Custom Tooltip for the Ranges >>
+
+** <<_Ref361908016,Overview>>
+** <<_Ref361908023,Property settings>>
+** <<_Ref363158549,Example>>
+
+* <<_Ref361908080, Related Content >>
+  
+
+[[_Ref363159199]]
+== Introduction
+
+[[_Ref363158368]]
+
+=== Tooltips configuration summary
+
+The _{LinearGaugeName}_ control supports tooltips. They are pre-configured to show the values indicated by the needle, and comparative ranges. The tooltip for each of these visual elements is configured individually by a property setting.
+
+Tooltips are configurable in terms of visibility (can be enabled/disabled), delay (the timeout with which the tooltip appears is configurable), and value. Because the value of the tooltips can be set to a template, string, or a UI element, you have a wide array of possibilities to present the information relevant for the specific use case in the most appropriate manner.
+
+By default, tooltips are disabled.
+
+[[_Ref363158374]]
+
+=== Tooltips configuration summary chart
+
+The following table maps the configurable aspects of the _{LinearGaugeName}_ control related to tooltips to the properties that manage them.
+
+[options="header", cols="a,a,a,a"]
+|====
+|Configurable aspect|Details|Properties / Events|Default value
+
+|Visibility
+|You can enable/disable tooltips for the _{LinearGaugeName}_ control.
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltip.html[ShowToolTip]
+| _False_ 
+
+|Delay
+|The timeout before the tooltip appears upon the visual element at mouse hovering is configurable in milliseconds.
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltiptimeout.html[ShowToolTipTimeout]
+| _500_ 
+
+|Value
+|You can provide a custom value for the respective tooltip property. The value can be: 
+
+* Template 
+
+* String 
+
+* UI element 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~needletooltip.html[NeedleToolTip], 
+
+link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[RangeToolTip]
+|The value indicated by the needle
+
+The start and end values of the range separated by a hyphen.
+
+|====
+
+.Note:
+[NOTE]
+====
+In order to bind to different values of the respective visual element when you change the default tooltip, you must use the `{``Item.Property``}` or `{Item}` syntax.
+====
+
+[[_Ref363158380]]
+== Enabling/Disabling Tooltips
+
+[[_Ref349921543]]
+
+=== Overview
+
+You can show or hide (default setting) the tooltips on a _{LinearGaugeName}_ .
+
+[[_Ref349921549]]
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Enable tooltips
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltip.html[ShowToolTip]
+|`True`
+
+|Disable tooltips
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltip.html[ShowToolTip]
+|`False`
+
+|====
+
+[[_Ref363158399]]
+
+=== Code Example
+
+The following code example enables the tooltips:
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           ...
+                           ShowToolTip="True"
+                           />
+----
+
+endif::xaml[]
+
+[[_Configuring_the_Tooltip]]
+[[_Ref363158410]]
+[[_Ref361908049]]
+== Configuring the Tooltip Delay
+
+[[_Ref361908053]]
+
+=== Overview
+
+It is possible to specify a delay by which a tooltip is displayed after the respective visual element has been hovered. The default value is 500 milliseconds.
+
+[[_Ref361908057]]
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Configure the initial delay before the tooltip is displayed
+| link:{LinearGaugeLink}.{LinearGaugeName}~showtooltiptimeout.html[ShowToolTipTimeout]
+|The desired value in milliseconds
+
+|====
+
+[[_Ref363158443]]
+
+=== Code Example
+
+The following code example sets the tooltip delay to 2000 milliseconds:
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           ...
+                           ShowToolTip="True"
+                           ShowToolTipTimeout="2000"
+                           />
+----
+
+endif::xaml[]
+
+[[_Configuring_a_Custom_1]]
+[[_Ref361907985]]
+[[_Ref363158489]]
+== Configuring a Custom Tooltip for the Needle
+
+[[_Ref361907990]]
+
+=== Overview
+
+The tooltip for the needle displays the value set for the needle using the default system font and styled by default in accordance with the look of the control. To specify custom settings, set the tooltip value to a string, UI element, or data template.
+
+[[_Ref361907998]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Set a custom tooltip for the comparative marker
+| link:{LinearGaugeLink}.{LinearGaugeName}~needletooltip.html[NeedleToolTip]
+|The desired string, `UIElement`, or `DataTemplate`.
+
+|====
+
+[[_Ref361908002]]
+
+=== Example
+
+The code below illustrates displaying the value presented in the tooltip of the needle in square brackets as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~needletooltip.html[NeedleToolTip]
+| _"[{Item}]"_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Tooltips_1.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           Height="70"
+                           Width="300"
+                           ShowToolTip="True"
+                           Value="76"
+                           NeedleToolTip="[{Item}]"/>
+----
+
+endif::xaml[]
+
+[[_Configuring_a_Custom_2]]
+[[_Ref361908011]]
+[[_Ref363158616]]
+== Configuring a Custom Tooltip for the Comparative Ranges
+
+[[_Ref361908016]]
+
+=== Overview
+
+By default, the tooltips for the comparative ranges display the starting and ending values of the range, separated by a hyphen (i.e. 0 - 34), no matter where exactly over the range the mouse is being hovered. To change these pre-configured settings, you can set a custom format for the tooltip, assign a UI element to it or apply a data template.
+
+[[_Ref361908023]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Set a custom tooltip for the comparative range(s)
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[RangeToolTip]
+|The desired string, `UIElement`, or `DataTemplate`.
+
+|====
+
+[[_Ref361908028]]
+
+=== Example
+
+The screenshot below demonstrates displaying the value presented in the tooltip of the comparative range in square brackets as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{LinearGaugeLink}.{LinearGaugeName}~rangetooltip.html[RangeToolTip]
+|
+ifdef::xaml[] 
+
+*In XAML:*
+
+[source,xaml]
+---- 
+<StackPanel Orientation="Horizontal" Background="White">
+    <TextBlock>
+        <Run Text="["/>
+        <Run Text="{Binding Item.StartValue}"/>
+        <Run Text="]"/>
+        <Run Text=" - "/>
+        <Run Text="["/>
+        <Run Text="{Binding Item.EndValue}"/>
+        <Run Text="]"/>
+    </TextBlock>
+</StackPanel>
+---- 
+
+endif::xaml[] 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Tooltips_2.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+ <ig:{LinearGaugeName} x:Name="linearGauge"
+                           Height="70"
+                           Width="300"
+                           ShowToolTip="True">
+            <ig:{LinearGaugeName}.RangeToolTip>
+                <StackPanel Orientation="Horizontal" Background="White">
+                    <TextBlock>
+                        <Run Text="["/>
+                        <Run Text="{Binding Item.StartValue}"/>
+                        <Run Text="]"/>
+                        <Run Text=" - "/>
+                        <Run Text="["/>
+                        <Run Text="{Binding Item.EndValue}"/>
+                        <Run Text="]"/>
+                    </TextBlock>
+                </StackPanel>
+            </ig:{LinearGaugeName}.RangeToolTip>
+            <ig:{LinearGaugeName}.Ranges>
+                <ig:{LinearGaugeRange} Brush="Cyan"
+                                        EndValue="89"
+                                        Outline="Blue"
+                                        StartValue="0"/>
+            </ig:{LinearGaugeName}.Ranges>
+        </ig:{LinearGaugeName}>
+----
+
+endif::xaml[]
+
+[[_Ref361908080]]
+== Related Content
+
+[[_Ref361908085]]
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|
+ifdef::sl,wpf,win-universal[] 
+
+link:lineargauge-configuring-the-title-subtitle.html[Configuring the Title/Subtitle ( _{LinearGaugeName}_ )] 
+
+endif::sl,wpf,win-universal[] 
+
+|
+ifdef::sl,wpf,win-universal[] 
+
+This topic explains, with code examples, how to configure the title and subtitle of the _{LinearGaugeName}_ control. This includes the title area width the start position of the text and the title/subtitle text itself. 
+
+endif::sl,wpf,win-universal[]
+
+| link:lineargauge-configuring-the-scale.html[Configuring the Scale ( _{LinearGaugeName}_ )]
+|This topic explains, with examples, how to configure the scale of the _{LinearGaugeName}_ control. This includes positioning the scale inside the control and configuring the scale tick marks and labels.
+
+| link:lineargauge-configuring-the-needle.html[Configuring the Needle ( _{LinearGaugeName}_ )]
+|This topic explains, with code examples, how to configure the needle of the _{LinearGaugeName}_ control. This includes the needle’s value, width, and formatting.
+
+| link:lineargauge-configuring-the-ranges.html[Configuring the Ranges ( _{LinearGaugeName}_ )]
+|This topic explains, with code examples, how to configure ranges in the _{LinearGaugeName}_ control. This includes the number of ranges and their positions, lengths, widths, and formatting.
+
+| link:lineargauge-configuring-the-background.html[Configuring the Background ( _{LinearGaugeName}_ )]
+|This topic explains, with code examples, how to configure a background for the linear gauge. This includes setting the background’s size, position, color, and border.
+
+|====

@@ -1,0 +1,43 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-bookmarks",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{925EE8B7-A15A-4712-90E7-48C67FCAD856}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ブックマーク
+
+Bookmarks は、Adobe® Acrobat® Reader の機能で、印刷したメディアでは何の意味もありません。ところが Acrobat Reader でレポートを表示する時にレポートを読む人には極めて役に立ちます。Report エレメントはブックマークを生成する支援のために  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.textheading.html[TextHeading]"]  列挙体を使用します。Text エレメントは  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.text.itext~heading.html[Heading]"]  プロパティを公開し、これによって TextHeading 列挙体に基づいて見出しを選択することができます。これらの見出しは、階層として Report エレメントによって認識されます。Report エレメントは、Heading プロパティを設定したレポート内のすべての Text エレメントを収集し、それらに基づいてブックマークのリストを作成します。H1 見出しは最上位のブックマークで、H2 見出しは対応する H1 見出しに含まれます。このロジックは H9 まで見出しの階層全体に適用されます。このロジックは非常に似ているので、詳細は link:documentengine-table-of-contents.html[「目次」]を参照してください。
+
+image::images/DocumentEngine_Bookmarks_01.png[]
+
+'''
+
+以下のコードを「目次」トピックのコードに追加すると、上記のスクリーンショットに似た見出しに一致するブックマークが作成されます。
+
+*Visual Basic の場合：*
+
+----
+' 'report' がメインの Report エレメントであることを前提とします。
+' AddLevel のパラメータとして True を渡すと、
+' ブックマークの 2 番目のレベルが存在する場合には、2 番目のレベルを表示します。
+report.Bookmarks.AddLevel(True)
+report.Bookmarks.AddLevel()
+----
+
+*C# の場合：*
+
+----
+// 'report' がメインの Report エレメントであることを前提とします。
+// AddLevel のパラメータとして True を渡すと、
+// ブックマークの 2 番目のレベルが存在する場合には、2 番目のレベルを表示します。
+report.Bookmarks.AddLevel(true);
+report.Bookmarks.AddLevel();
+----

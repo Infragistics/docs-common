@@ -1,0 +1,86 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-apply-an-override-to-a-chart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{404645E7-B0CE-4D95-973D-218C73C34D23}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Apply an Override to a Chart
+
+Overrides can be used to apply rules to chart elements based on their row and column numbers overriding existing rules such as the color model and visual effects.
+
+To apply an override to a chart, simply create an instance of an  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override.html[UltraChart.Resources.Appearance.Override]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override.html[UltraChart.Resources.Appearance.Override]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override.html[UltraChart.Resources.Appearance.Override]"]  object, set its properties, and add it to the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~override.html[UltraChart.Override]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.overridecollection.html[UltraChart.Override]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.overridecollection.html[UltraChart.Override]"]  collection.
+
+Overrides are affected by the following properties:
+
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~row.html[Override.Row]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~row.html[Override.Row]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~row.html[Override.Row]"] : The data row index to match this override to. To match all rows, set this property to -2.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~column.html[Override.Column]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~column.html[Override.Column]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~column.html[Override.Column]"] : The data column index to match this override to. To match all columns, set this property to -2.
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~enabled.html[Override.Enabled]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~enabled.html[Override.Enabled]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~enabled.html[Override.Enabled]"] : Determines whether or not the override is active. Toggling this property between True and False is a simple way to turn the Override "on" and "off".
+*  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~pe.html[Override.PE]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~pe.html[Override.PE]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.override~pe.html[Override.PE]"] : The PaintElement to apply to primitives matching this Override's row and column. All Primitives in the SceneGraph, such as  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Boxes]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Boxes]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Boxes]"] ,  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.ellipse.html[Ellipses]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.ellipse.html[Ellipses]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.ellipse.html[Ellipses]"] , and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.polyline.html[Polylines]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.polyline.html[Polylines]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.polyline.html[Polylines]"] , will have this  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  applied to them if they match the Override's row and column property settings.
+
+Below is an image of Overrides in action and the sample code used to apply these overrides to a chart.
+
+image::Images\Chart_Apply_an_Override_to_a_Chart_01.png[Shows a 2D Column Chart with overrides applied to a couple of the columns.]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Dim override1 As New Override()
+override1.Column = -2 ' match all data columns
+override1.Row = 0 ' row #0 only
+override1.PE = _
+  New PaintElement(Color.Blue, Color.Silver, 255, 150, _ 
+  GradientStyle.ForwardDiagonal, PaintElementType.Gradient)
+Me.ultraChart1.Override.Add(override1)
+Dim override2 As New Override()
+override2.Column = 1 ' column #1 only
+override2.Row = -2 ' match all data rows
+override2.PE = New PaintElement(Color.Orange)
+Me.ultraChart1.Override.Add(override2)
+Dim override3 As New Override()
+override3.Column = 1 ' column #1 only
+override3.Row = 0 ' row #0 only
+override3.PE = New PaintElement(Color.HotPink)
+Me.ultraChart1.Override.Add(override3)
+' override3, the last override added to the collection,
+' takes precedent over all previous overrides.
+Me.ultraChart1.InvalidateLayers()
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+...
+Override override1 = new Override();
+override1.Column = -2; // match all data columns
+override1.Row    =  0; // row #0 only;
+override1.PE = 
+  new PaintElement(Color.Blue, Color.Silver, 255, 150, 
+  GradientStyle.ForwardDiagonal, PaintElementType.Gradient);
+this.ultraChart1.Override.Add(override1);
+Override override2 = new Override();
+override2.Column =  1; // column #1 only
+override2.Row    = -2; // match all data rows
+override2.PE = new PaintElement(Color.Orange);
+this.ultraChart1.Override.Add(override2);
+Override override3 = new Override();
+override3.Column =  1; // column #1 only
+override3.Row    =  0; // row #0 only
+override3.PE = new PaintElement(Color.HotPink);
+this.ultraChart1.Override.Add(override3);
+// override3, the last override added to the collection,
+// takes precedent over all previous overrides.
+this.ultraChart1.InvalidateLayers();
+----

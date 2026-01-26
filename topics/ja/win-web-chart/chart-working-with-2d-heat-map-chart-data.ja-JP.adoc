@@ -1,0 +1,84 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-2d-heat-map-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{F885A32D-2465-416C-9383-82793C76214E}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= 平面ヒート マップ グラフ データでの作業
+
+このトピックでは、平面ヒート マップ グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、平面ヒート マップ グラフのデータ要件のリストです。
+
+* データ セットには少なくとも 2 つの数値列を含みます（最大 255 列をサポートします）。
+* データ セットには少なくとも 2 つの行が含まれます。
+* 低品質のヒート マップ タイルを定義するには、最小の 2x2 データ セットで十分です。この場合、各データ値はタイルの四隅それぞれのタイルの高度を表します。
+* 平面ヒート マップ グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が異なる水平座標を表し、各列が異なる垂直座標を表す書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを平面ヒート マップ グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* ヒート マップ グラフ上に、緯度、経度、および高度に関するデータがプロットされます。データは面としてプロットされ、高度は物理次元および色で表します。
+* 各行がひとつの緯度を表します。各列がひとつの経度を表します。各セル内の数値データ値は、各緯度と経度（行と列）の交差の高度を表します。
+* ヒート マップ グラフでは、高度は数値目盛で、緯度と経度は SetLabelAxis オブジェクトとして表示されます。そのため、緯度と経度の各値はデータ ソース内の行または列の数に従って均等に配置されます。
+* データ内で現れる最初の文字列の列は行ラベルに使用されます。
+* 開発者は、UltraChart.Data. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用して、任意の列をチャートに追加または削除できます。
+* 行ラベルに使用する代替の列を選択して、プライマリ/セカンダリ ラベルを切り替えることができます。
+
+描画された平面ヒート マップ グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|Location|MorningTemp|AfternoonTemp|EveningTemp|NightTemp
+
+|City
+|53
+|85
+|78
+|52
+
+|Shore
+|45
+|88
+|77
+|42
+
+|Inland
+|35
+|54
+|43
+|22
+
+|Desert
+|85
+|115
+|100
+|66
+
+|Arctic
+|-25
+|-18
+|0
+|-45
+
+|====
+
+image::images/Chart_Data_Requirements_Overview_05.png[]

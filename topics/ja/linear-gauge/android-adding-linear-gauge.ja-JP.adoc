@@ -1,0 +1,172 @@
+﻿////
+|metadata|
+{
+    "name": "android-adding-linear-gauge",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": [],
+    "guid": "feb10bdf-4cc6-45ce-b33c-aa7bb722be11",
+    "buildFlags": ["ANDROID"],
+    "createdOn": "2015-07-01T15:23:08.8447303Z"
+}
+|metadata|
+////
+
+= {LinearGaugeName} の追加
+
+== トピックの概要
+
+=== 目的
+
+このトピックではコード例を使用して、{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Adding,{LinearGaugeName} コントロールを {PlatformName} アプリケーションへ追加>>
+
+** <<Introduction,概要>>
+** <<Preview,プレビュー>>
+** <<Prerequisites,前提条件>>
+** <<Overview,概要>>
+** <<Steps,手順>>
+
+* <<RelatedContent,関連コンテンツ>>
+
+[[Adding]]
+== {LinearGaugeName} コントロールを {PlatformName} アプリケーションへ追加
+
+[[Introduction]]
+
+=== 概要
+
+以下の手順は、{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を示します。
+
+[[Preview]]
+
+=== プレビュー
+
+以下は {LinearGaugeName} の画像です。
+
+image::images/XamLinearGauge_Adding_1.png[]
+
+[[Prerequisites]]
+
+=== 前提条件
+
+この手順を実行するには、以下が必要です。
+
+* ページがある {PlatformName} プロジェクト
+* プロジェクトに追加する必須の Jars (<<_Ref361648047,要件>>を参照)
+
+[[Overview]]
+
+=== 概要
+
+以下はプロセスの概要です。
+
+*1.{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加*
+
+*2.結果の確認*
+
+[[_Ref361648047]]
+
+=== 要件
+
+以下は、{LinearGaugeName} コントロールを追加するための一般要件です。
+
+[options="header", cols="a,a"]
+|====
+|要件|説明
+
+|Jar 参照
+|
+* Infragistics.Gauges.jar 
+
+* Infragistics.UI.jar 
+
+* Infragistics.DV.Shared.jar 
+
+|名前空間の参照
+|import com.infragistics.controls.LinearGaugeView; 
+
+import com.infragistics.controls.LinearGraphRange;
+
+|====
+
+[[Steps]]
+
+=== 手順
+
+以下では {LinearGaugeName} コントロールをページに追加するために必要な手順を示します。
+
+=== 1.{LinearGaugeName} コントロールをページに追加します。
+
+[start=1]
+. 新しいプロジェクトを開始し、ダイアログで "blank activity with fragment" オプションを選択します。
+[start=2]
+. "MainActivityFragment" ファイルを開き、"onCreateView" メソッドに以下のコード スニペットを入力します。
+[start=3]
+. *Java の場合:*
+
+[source,js]
+----
+LinearGaugeView linearGauge = new LinearGaugeView(rootView.getContext());
+int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
+RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+linearGauge.setMaximumValue(55);
+linearGauge.setMinimumValue(5);
+linearGauge.setValue(43);
+LinearGraphRange range1 = new LinearGraphRange();
+range1.setStartValue(0);
+range1.setEndValue(15);
+range1.setBrush(new SolidColorBrush(Color.RED));
+LinearGraphRange range2 = new LinearGraphRange();
+range2.setStartValue(15);
+range2.setEndValue(30);
+range2.setBrush(new SolidColorBrush(Color.YELLOW));
+LinearGraphRange range3 = new LinearGraphRange();
+range3.setStartValue(30);
+range3.setEndValue(55);
+range3.setBrush(new SolidColorBrush(Color.GREEN));
+linearGauge.addRange(range1);
+linearGauge.addRange(range2);
+linearGauge.addRange(range3);
+----
+
+=== 2.結果を確認します。
+
+エミュレーターまたは接続デバイスでプロジェクトをビルドして実行します。正しくビルドされるとこのページの上にあるスクリーンショットのようになります。
+
+[[RelatedContent]]
+
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:radialgauge-configuring-the-backing.html[背景の構成 ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールのバッキング機能の概念的な概要を提供します。バッキング領域のプロパティについて説明し、実装例を提供します。
+
+| link:radialgauge-configuring-labels.html[ラベルの構成 ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールを使用したラベルの概念的な概要を提供します。ラベルのプロパティの説明およびラベルの構成方法を例で示します。
+
+| link:radialgauge-configuring-needles.html[針の構成 ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールを使用した針の概念的な概要を提供します。針のプロパティの説明および針の構成方法を例で示します。
+
+| link:radialgauge-configuring-ranges.html[範囲の構成 ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールの範囲の概念的な概要を提供します。範囲のプロパティについて説明し、範囲をラジアル ゲージに追加する方法の例も示します。
+
+| link:radialgauge-configuring-the-scale.html[スケールの構成 ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールのスケールの概念的な概要を提供します。スケールのプロパティの説明およびスケールの実装方法を例で示します。
+
+| link:radialgauge-configuring-tick-marks.html[目盛の構成 ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールを使用した目盛の概念的な概要を提供します。目盛プロパティの説明および目盛の実装方法を例で示します。
+
+|====

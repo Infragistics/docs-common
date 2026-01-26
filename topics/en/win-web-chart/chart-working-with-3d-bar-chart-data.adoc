@@ -1,0 +1,89 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-3d-bar-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{9D25C214-9BC5-4D96-975C-26EE27577FF3}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with 3D Bar Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the 3D bar chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for 3D bar charts:
+
+* The data set contains one or more numeric columns.
+* If you are binding the 3D bar chart to a series object, see link:chart-requirements-for-series-binding.html[Requirements for Series Binding] for information on the series binding requirements.
+
+.Note
+[NOTE]
+====
+If the data available is in a format where each column represents one line, and each row contains points for each line, then you should swap the rows and columns. For information on how to do this, see link:chart-swap-rows-and-columns.html[Swap Rows and Columns].
+====
+
+== Mapping Data to 3D Bar Charts
+
+The chart data is rendered using the following rules:
+
+* Each row is drawn separately as a group of bars. These groups of bars are called a "series". Each series displays series labels next to the y-axis. Data values are represented by the width of the bar along the x-axis. Series appear at depth along the z-axis. Series can be separated by an interval of  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.barchartappearance~seriesspacing.html[SeriesSpacing]"]  bar widths.
+* Every numeric column is displayed in the chart. The first numeric column encountered in the data will be used for the value of the first point, the second column for the second point, and so on. Note that a numeric column is any column that contains only values that can be interpreted as numbers.
+* The first string column encountered in the data will be used for row labels.
+* You can select an alternate column to be used for row labels, and toggle between the primary and secondary labels.
+* The y-axis (or vertical axis) is a SetLabelAxis object, with the points evenly spaced apart by a series (group) and item (bar). The x-axis, or horizontal axis, is the numeric axis. Labels on the x-axis can be formatted using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  property and a “numeric format”:
+
+[source]
+----
+UltraChart.Axis.X.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+* You can include or exclude any column from the chart using the UltraChart.Data. pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  method.
+
+
+
+See below for an example data set, along with the rendered 3D bar chart.
+
+                               
+
+[options="header", cols="a,a,a,a"]
+|====
+|Week#|ActiveX|Java|NET
+
+|Week 1
+|25
+|85
+|65
+
+|Week 2
+|15
+|200
+|95
+
+|Week 3
+|100
+|45
+|110
+
+|Week 4
+|120
+|75
+|99
+
+|Week 5
+|60
+|113
+|50
+
+|====
+
+
+
+image::Images/Chart_Bar_Chart_02.png[Shows a 3D Bar Chart that is based on the data listed above.]

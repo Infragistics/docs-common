@@ -1,0 +1,242 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-adding",
+    "tags": ["Data Binding","Getting Started","How Do I"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "cc044117-64a3-4ad2-8797-26bd0f853f52",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0663892Z"
+}
+|metadata|
+////
+
+= {SpreadsheetName} をページに追加
+
+
+
+=== 目的
+
+このトピックでは、link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] をすばやく使いこなすために役立つ方法を詳しく紹介します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel エンジン
+|====
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|このセクションでは、Infragistics Excel エンジンのオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、{SpreadsheetName} コントロールの機能を開発者の観点から詳しく説明します。
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、{SpreadsheetName} コントロールの視覚要素についての概要を紹介します。
+
+
+|====
+
+=== トピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref393792318, {SpreadsheetName} をページに追加 >>
+* <<_Ref393792325, 関連コンテンツ >>
+
+[[_Ref393792318]]をページに追加
+== {SpreadsheetName} をページに追加
+
+=== 概要
+
+概要
+この手順では、{SpreadsheetName} をページに追加する操作をステップごとに説明しています。
+
+=== 概要
+
+以下は手順の概要です。
+
+*1. アセンブリ参照の追加*
+
+*2. 名前空間の追加*
+
+*3. {SpreadsheetName} の作成*
+
+*4. コンテンツの作成 (オプション)*
+
+*5. コンテンツの読み込み (オプション)*
+
+*6. ワークブックを {SpreadsheetName} にバインドまたは設定*
+
+=== 手順
+
+以下は、{SpreadsheetName} をページに追加する手順を示します。
+
+ifdef::wpf[]
+
+=== 1. 必要な NuGet パッケージの追加
+
+以下の NuGet パッケージ参照をプロジェクトに追加します。
+
+* Infragistics.WPF.Spreadsheet
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+=== 1. アセンブリ参照の追加
+
+以下のアセンブリ参照をプロジェクトに追加します。
+
+* {ApiPlatform}{ApiVersion}dll
+* {ApiPlatform}Undo{ApiVersion}.dll
+* {ApiPlatform}Documents.Core{ApiVersion}.dll
+* {ApiPlatform}Documents.Excel{ApiVersion}.dll
+* {ApiPlatform}Win.{SpreadsheetName}{ApiVersion}
+
+endif::win-forms[]
+
+=== 2. 名前空間の追加
+
+以下の名前空間を追加します。
+
+pick:[xaml="*In XAML:*"]
+
+ifdef::xaml[]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::xaml[]
+
+*C#:*
+
+ifdef::xaml[]
+----
+using Infragistics.Controls.Editors; 
+using Infragistics.Documents.Excel;
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+---- 
+using Infragistics.Documents.Excel;
+using Infragistics.Win;
+using Infragistics.Win.UltraWinSpreadsheet;
+----
+endif::win-forms[]
+
+*Visual Basic:*
+
+ifdef::xaml[]
+----
+Imports Infragistics.Controls.Editors 
+Imports Infragistics.Documents.Excel
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+---- 
+Imports Infragistics.Documents.Excel
+Imports Infragistics.Win
+Imports Infragistics.Win.UltraWinSpreadsheet
+----
+endif::win-forms[]
+
+=== 3. {SpreadsheetName} の作成
+
+{SpreadsheetName} を作成してページに追加します。
+
+pick:[xaml="*In XAML:*"]
+
+ifdef::xaml[]
+----
+<ig:XamSpreadsheet x:Name="xamSpreadsheet1">
+</ig:XamSpreadsheet>
+----
+endif::xaml[]
+
+*C#:*
+
+[source,xaml]
+----
+{SpreadsheetName} spreadsheet1 = new {SpreadsheetName}();
+----
+
+*VB:*
+
+[source,xaml]
+----
+Dim spreadsheet1 As New {SpreadsheetName}()
+----
+
+=== 4. コンテンツの作成 (オプション)
+
+"wb1" という名前のワークブックを作成し、pick:[xaml=" link:excelengine-creating-a-workbook.html[Creating a Workbook (Infragistics Excel Engine)]"]  pick:[win-forms=" link:excelengine-create-a-workbook.html[(Infragistics Excel エンジン)ワークブックの作成]"] トピックの説明に従ってコンテンツを追加します。
+
+.Note
+[NOTE]
+====
+この手順は 5 の代替手順です。
+====
+
+=== 5. コンテンツの読み込み (代替手順)
+
+pick:[xaml=" link:excelengine-load-an-excel-file.html[Loading an Excel File (Infragistics Excel Engine)]"]  pick:[win-forms=" link:excelengine-read-an-excel-file-into-a-workbook.html[Read an Excel File (Infragistics Excel Engine)]"]  の説明に従ってストリームまたはファイルからワークブックを読み込み、"wb1" という名前を付けます。
+
+.Note
+[NOTE]
+====
+この手順は 4 の代替手順です。
+====
+
+=== 6. ワークブックを {SpreadsheetName} にバインドまたは設定
+
+{SpreadsheetName} の link:{SpreadsheetLink}.{SpreadsheetName}~workbook.html[Workbook] プロパティを手順 4 または 5 で作成したワークブックに設定します。
+
+*C#:*
+
+[source,csharp]
+----
+this.{SpreadsheetName}1.Workbook = wb1;
+----
+
+*Visual Basic:*
+
+[source,vb]
+----
+Me.{SpreadsheetName}1.Workbook = wb1
+----
+
+[[_Ref393792325]]
+== 関連コンテンツ
+
+
+
+このトピックに関連する追加情報については、以下のトピックを参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-configuring.html[Configuring {SpreadsheetName}]
+|この一連のトピックでは、コントロールを構成する方法を説明します。
+
+| link:spreadsheet-working.html[Working with {SpreadsheetName}]
+|コントロールを操作する方法を、開発者の観点から説明する一連のトピックです。
+
+|====

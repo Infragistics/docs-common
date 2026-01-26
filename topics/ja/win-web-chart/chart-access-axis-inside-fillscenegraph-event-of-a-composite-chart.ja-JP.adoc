@@ -1,0 +1,193 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-access-axis-inside-fillscenegraph-event-of-a-composite-chart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{6BA69347-846A-44A1-9BD5-A4CC1B8842CE}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 合成チャートの FillSceneGraph イベント内の軸にアクセス
+
+値を軸にマップするのは、FillSceneGraph イベントを使用している時に一般的なシナリオです。この詳細なガイドは、合成チャートから既存の軸にアクセスする方法を示します。
+
+この例は柱状グラフとデータの配列を使用します。
+
+*合成チャートのために FillSceneGraph イベント内の軸を取得します。*
+
+[start=1]
+. コードの記述を開始する前にコードビハインドに使用/インポートのディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常にタイプする必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Data
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core;
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Data;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~fillscenegraph_ev.html[FillSceneGraph]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~fillscenegraph_ev.html[FillSceneGraph]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~fillscenegraph_ev.html[FillSceneGraph]"]  イベントを作成します。
+
+*Visual Basic の場合：*
+
+----
+Private Sub UltraChart1_FillSceneGraph(ByVal sender As System.Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.FillSceneGraphEventArgs) _
+  Handles UltraChart1.FillSceneGraph
+----
+
+*C# の場合：*
+
+----
+private void ultraChart1_FillSceneGraph(object sender, 
+  Infragistics.UltraChart.Shared.Events.FillSceneGraphEventArgs e)
+----
+
+[start=3]
+. 合成チャートはデフォルト軸を使用しないため、e.Grid は空になります。合成チャートでは X 軸と Y 軸にアクセスするためにチャート レイヤの Grid 表が使用されます。
+
+*Visual Basic の場合：*
+
+----
+Dim x As IAdvanceAxis = _
+  CType(ultraChart1.CompositeChart.ChartLayers(0).ChartLayer.Grid("X"), _
+  IAdvanceAxis)
+Dim y As IAdvanceAxis = _
+  CType(ultraChart1.CompositeChart.ChartLayers(0).ChartLayer.Grid("Y"), _
+  IAdvanceAxis)
+----
+
+*C# の場合：*
+
+----
+IAdvanceAxis x = 
+  (IAdvanceAxis)ultraChart1.CompositeChart.ChartLayers[0].ChartLayer.Grid["X"];
+IAdvanceAxis y = 
+  (IAdvanceAxis)ultraChart1.CompositeChart.ChartLayers[0].ChartLayer.Grid["Y"];
+----
+
+[start=4]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Box]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Box]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.box.html[Box]"]  Primitive を作成して以下の値を設定します:
+
+** Color -- Blue
+** Width -- 50
+** Height -- 50
+
+*Visual Basic の場合：*
+
+----
+Dim box As New Box(New Rectangle(CInt(x.Map(1)), CInt(y.Map(6)), 50, 50))
+box.PE.Fill = Color.Blue
+----
+
+*C# の場合：*
+
+----
+Box box = new Box(new Rectangle((int)x.Map(1), (int)y.Map(6), 50, 50));
+box.PE.Fill = Color.Blue;
+----
+
+[start=5]
+. Box Primitive を SceneGraph に追加します。
+
+*Visual Basic の場合：*
+
+----
+e.SceneGraph.Add(box)
+----
+
+*C# の場合：*
+
+----
+e.SceneGraph.Add(box);
+----
+
+[start=6]
+. ロード イベントで、チャートをデータの配列にバインドします。
+
+*Visual Basic の場合：*
+
+----
+ultraChart1.ChartType = ChartType.Composite
+Dim area1 As New ChartArea()
+ultraChart1.CompositeChart.ChartAreas.Add(area1)
+Dim x As New AxisItem(ultraChart1, AxisNumber.X_Axis)
+Dim y As New AxisItem(ultraChart1, AxisNumber.Y_Axis)
+x.DataType = AxisDataType.String
+area1.Axes.Add(x)
+area1.Axes.Add(y)
+Dim layer As New ChartLayerAppearance()
+layer.ChartType = ChartType.ColumnChart
+layer.ChartArea = area1
+layer.AxisX = x
+layer.AxisY = y
+ultraChart1.CompositeChart.ChartLayers.Add(layer)
+Dim series As New NumericSeries()
+series.Points.Add(New NumericDataPoint(0, "", False))
+series.Points.Add(New NumericDataPoint(1, "", False))
+series.Points.Add(New NumericDataPoint(2, "", False))
+series.Points.Add(New NumericDataPoint(3, "", False))
+series.Points.Add(New NumericDataPoint(4, "", False))
+series.Points.Add(New NumericDataPoint(5, "", False))
+series.Points.Add(New NumericDataPoint(6, "", False))
+layer.Series.Add(series)
+ultraChart1.CompositeChart.Series.Add(series)
+----
+
+*C# の場合：*
+
+----
+ultraChart1.ChartType = ChartType.Composite;
+ChartArea area1 = new ChartArea();
+ultraChart1.CompositeChart.ChartAreas.Add(area1);
+AxisItem x = new AxisItem(ultraChart1, AxisNumber.X_Axis);
+AxisItem y = new AxisItem(ultraChart1, AxisNumber.Y_Axis);
+x.DataType = AxisDataType.String;
+area1.Axes.Add(x);
+area1.Axes.Add(y);
+ChartLayerAppearance layer = new ChartLayerAppearance();
+layer.ChartType = ChartType.ColumnChart;
+layer.ChartArea = area1;
+layer.AxisX = x;
+layer.AxisY = y;
+ultraChart1.CompositeChart.ChartLayers.Add(layer);
+NumericSeries series = new NumericSeries();
+series.Points.Add(new NumericDataPoint(0, "", false));
+series.Points.Add(new NumericDataPoint(1, "", false));
+series.Points.Add(new NumericDataPoint(2, "", false));
+series.Points.Add(new NumericDataPoint(3, "", false));
+series.Points.Add(new NumericDataPoint(4, "", false));
+series.Points.Add(new NumericDataPoint(5, "", false));
+series.Points.Add(new NumericDataPoint(6, "", false));
+layer.Series.Add(series);
+ultraChart1.CompositeChart.Series.Add(series);
+----
+
+[start=7]
+. アプリケーションを保存して実行します。以下のチャートのように表示されるはずです。
+
+image::images/Access_Axes_Inside_FillSceneGraph_Event_Composite_01.png[]
+
+== 関連トピック
+
+link:chart-access-axis-inside-fillscenegraph-event-of-a-non-composite-chart.html[非合成チャートの FillSceneGraph イベント内の軸にアクセス]

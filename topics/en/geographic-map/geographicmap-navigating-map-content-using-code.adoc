@@ -1,0 +1,345 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Navigating Map Content Using Code
+
+
+
+=== Purpose
+
+This topic provides information about navigating the map content in the link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ control using code.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap-visual-elements-of-geographicmap.html[Visual Elements of {GeoMapName}] 
+
+|This topic provides information about layout of map elements in the _{GeoMapName}_ control.
+
+| link:geographicmap-navigating-map-content.html[Navigating Map Content]
+|This topic provides conceptual information about navigating map content in the _{GeoMapName}_ control as well as all supported navigation features of the control.
+
+|====
+
+=== In This Topic
+
+This topic contains the following sections:
+
+* <<_Ref320554189,Map Navigation>>
+
+** <<_Ref320573436,Overview>>
+** <<_Ref320787194,Window navigation system>>
+** <<_Ref320787228,World navigation system>>
+
+* <<_Ref320573442,Map Navigation Features>>
+* <<_Ref320185294,Related Content>>
+
+[[_Ref320554189]]
+== Map Navigation
+
+[[_Ref320573436]]
+
+=== Overview
+
+In the _{GeoMapName}_ control, there are two navigation techniques for navigating the map content using code. The first technique allows map navigation using window navigation system and the second one using world navigation system.
+
+* Window Navigation System
+* World Navigation System
+
+The _{GeoMapName}_ control provides methods for converting values between both navigation systems. These methods are explained in the <<_Ref320573406,Examples>> section of this topic.
+
+[[_Ref320787194]]
+
+=== Window navigation system
+
+The window navigation system consists of properties for setting position and size of link:{DataChartLinkBase}.seriesviewer~windowrect.html[WindowRect] – a map view in window coordinates. In this navigation system values can be set between 0 and 1 for properties of the map window view.
+
+The following image is a preview of _{GeoMapName}_ control with highlighted position and size of the link:{DataChartLinkBase}.seriesviewer~windowrect.html[WindowRect] when zoomed to some region of the map content (for example, Africa and Europe continents).
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Code_1.png[]
+
+The following table summarizes properties for setting position and size of map window in the _{GeoMapName}_ control.
+
+[options="header", cols="20a,20a,70a"]
+|====
+|Property|Type|Description
+
+| link:{DataChartLinkBase}.seriesviewer~windowrect.html[WindowRect]
+| {ApiRectClass}
+|Specifies position and size of the map window - currently viewable area of the map content in window coordinates and the anchor point is located in the top left corner of the window rect.
+
+| link:{DataChartLinkBase}.seriesviewer~windowpositionhorizontal.html[WindowPositionHorizontal]
+|double
+|Specifies horizontal position of the map window’s anchor point from the left edge of the _{GeoMapName}_ control. It is equivalent to value stored in the Left of the link:{DataChartLinkBase}.seriesviewer~windowrect.html[WindowRect] property.
+
+| link:{DataChartLinkBase}.seriesviewer~windowpositionvertical.html[WindowPositionVertical]
+|double
+|Specifies vertical position of the map window’s anchor point from the top edge of the _{GeoMapName}_ control. It is equivalent to value stored in the Top of the link:{DataChartLinkBase}.seriesviewer~windowrect.html[WindowRect] property.
+
+|====
+
+[[_Ref320787228]]
+
+=== World navigation system
+
+The world navigation system consists of properties for setting position and size of the link:{GeoMapLink}.{GeoMapName}~worldrect.html[WorldRect] – a map view in geographic coordinates. In this navigation system values can be set between -180 and 180 for longitude properties of the link:{GeoMapLink}.{GeoMapName}~worldrect.html[WorldRect] and values between -85 and 85 for latitude properties of the link:{GeoMapLink}.{GeoMapName}~worldrect.html[WorldRect] view.
+
+The following image is a preview of _{GeoMapName}_ control with highlighted position and size of the link:{GeoMapLink}.{GeoMapName}~worldrect.html[WorldRect] when zoomed to some region of the map content (for example, Africa and Europe continents).
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Code_2.png[]
+
+The following table summarizes properties for setting position and size of map window in the _{GeoMapName}_ control.
+
+[options="header", cols="20a,20a,70a"]
+|====
+|Property|Type|Description
+
+| link:{GeoMapLink}.{GeoMapName}~worldrect.html[WorldRect]
+| {ApiRectClass}
+|Specifies position and size of the map navigation bounds – an area of the map content in world geographic coordinates within map navigation is allowed.
+
+|====
+
+[[_Ref320573442]]
+== Map Navigation Features
+
+[[_Ref320573406]]
+=== Examples
+
+==== Zoom in the map content, to the center of map by factor of 0.1
+
+*In C#:* 
+
+[source,csharp]
+---- 
+var widthScale = (0.1 * this.GeoMap.WindowRect.Width); 
+var heightScale = (0.1 * this.GeoMap.WindowRect.Height); 
+var x = this.GeoMap.WindowRect.X + (widthScale / 2); 
+var y = this.GeoMap.WindowRect.Y + (heightScale / 2);
+var w = this.GeoMap.WindowRect.Width - widthScale; 
+var h = this.GeoMap.WindowRect.Height - heightScale; 
+this.GeoMap.WindowRect = new {ApiRectClass}(x, y, w, h);
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Dim widthScale = (0.1 * Me.GeoMap.WindowRect.Width) 
+Dim heightScale = (0.1 * Me.GeoMap.WindowRect.Height) 
+Dim x = Me.GeoMap.WindowRect.X + (widthScale / 2) 
+Dim y = Me.GeoMap.WindowRect.Y + (heightScale / 2) 
+Dim w = Me.GeoMap.WindowRect.Width - widthScale 
+Dim h = Me.GeoMap.WindowRect.Height - heightScale 
+Me.GeoMap.WindowRect = New {ApiRectClass}(x, y, w, h) 
+---- 
+==== Zoom out the map content by factor of 0.1
+
+*In C#:* 
+
+[source,csharp]
+---- 
+var widthScale = (0.1 * this.GeoMap.WindowRect.Width); 
+var heightScale = (0.1 * this.GeoMap.WindowRect.Height); 
+var x = this.GeoMap.WindowRect.X - (widthScale / 2); 
+var y = this.GeoMap.WindowRect.Y - (heightScale / 2); 
+var w = this.GeoMap.WindowRect.Width + widthScale;
+var h = this.GeoMap.WindowRect.Height + heightScale; 
+this.GeoMap.WindowRect = new {ApiRectClass}(x, y, w, h);
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Dim widthScale = (0.1 * Me.GeoMap.WindowRect.Width) 
+Dim heightScale = (0.1 * Me.GeoMap.WindowRect.Height) 
+Dim x = Me.GeoMap.WindowRect.X - (widthScale / 2) 
+Dim y = Me.GeoMap.WindowRect.Y - (heightScale / 2) 
+Dim w = Me.GeoMap.WindowRect.Width + widthScale 
+Dim h = Me.GeoMap.WindowRect.Height + heightScale 
+Me.GeoMap.WindowRect = New {ApiRectClass}(x, y, w, h) 
+---- 
+
+==== Zoom to an area of the map content using map window coordinates 
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WindowRect = new {ApiRectClass}(0.2, 0.3, 0.6, 0.4); 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WindowRect = New {ApiRectClass}(0.2, 0.3, 0.6, 0.4) 
+---- 
+
+==== Zoom to geographic region of the map content using world geographic coordinates
+
+*In C#:* 
+
+[source,csharp]
+---- 
+var geoRegion = new {ApiRectClass}(-30, -40, 120, 80);
+this.GeoMap.WindowRect = this.GeoMap.GetZoomFromGeographic(geoRegion); 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Dim geoRegion = New {ApiRectClass}(-30, -40, 120, 80) 
+Me.GeoMap.WindowRect = Me.GeoMap.GetZoomFromGeographic(geoRegion)
+---- 
+
+==== Fit the map content to viewable area using map window coordinates
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WindowRect = {ApiRectClass}(0.0, 0.0, 1.0, 1.0); 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WindowRect = New {ApiRectClass}(0.0, 0.0, 1.0, 1.0) 
+---- 
+
+==== Fit map content to maximum viewable area using world geographic coordinates
+
+*In C#:* 
+
+[source,csharp]
+---- 
+var geoRegion = new {ApiRectClass}(-180, -75, 360, 150); 
+this.GeoMap.WindowRect = this.GeoMap.GetZoomFromGeographic(geoRegion); 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Dim geoRegion = New {ApiRectClass}(-180, -75, 360, 150) 
+Me.GeoMap.WindowRect = Me.GeoMap.GetZoomFromGeographic(geoRegion)
+---- 
+
+==== Bind and limit navigation of the map content to geographic region
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WorldRect = new {ApiRectClass}(-30, -40, 120, 80); 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WorldRect = New {ApiRectClass}(-30, -40, 120, 80) 
+---- 
+
+==== Pan the map content in left (west direction) by factor of 0.05
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WindowPositionHorizontal = this.GeoMap.WindowRect.X - 0.05; 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WindowPositionHorizontal = Me.GeoMap.WindowRect.X - 0.05 
+---- 
+
+==== Pan the map content in right (east direction) by factor of 0.05
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WindowPositionHorizontal = this.GeoMap.WindowRect.X + 0.05; 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WindowPositionHorizontal = Me.GeoMap.WindowRect.X + 0.05 
+---- 
+
+==== Pan the map content in up (north direction) by factor of 0.05
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WindowPositionVertical = this.GeoMap.WindowRect.Y - 0.05; 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WindowPositionVertical = Me.GeoMap.WindowRect.Y - 0.05 
+---- 
+
+==== Pan the map content in down (south direction) by factor of 0.05
+
+*In C#:* 
+
+[source,csharp]
+---- 
+this.GeoMap.WindowPositionVertical = this.GeoMap.WindowRect.Y + 0.05; 
+---- 
+
+*In Visual Basic:*
+
+[source,vb]
+---- 
+Me.GeoMap.WindowPositionVertical = Me.GeoMap.WindowRect.Y + 0.05
+---- 
+
+
+[[_Ref320185294]]
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+| *Topic* | *Purpose* 
+
+| link:geographicmap-visual-elements-of-geographicmap.html[Visual Elements of {GeoMapName}] 
+
+|This topic provides information about layout of map elements in the _{GeoMapName}_ control.
+
+| link:geographicmap-navigating-map-content.html[Navigating Map Content]
+|This topic provides conceptual information about navigating map content in the _{GeoMapName}_ control as well as all supported navigation features of the control.
+
+| link:geographicmap-navigating-map-content-using-keyboard.html[Navigating Map Content Using Keyboard]
+|This topic provides information about navigating the map content in the _{GeoMapName}_ control using inputs from a keyboard.
+
+| link:geographicmap-navigating-map-content-using-a-mouse.html[Navigating Map Content Using a Mouse]
+|This topic provides information about navigating the map content in the _{GeoMapName}_ control using inputs from a mouse.
+|====

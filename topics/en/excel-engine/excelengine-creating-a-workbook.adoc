@@ -1,0 +1,213 @@
+﻿////
+|metadata|
+{
+    "name": "igexcelengine-creating-a-workbook",
+    "controlName": ["IG Excel Engine"],
+    "tags": ["Exporting","How Do I"],
+    "guid": "{969A9A83-5421-4C3F-AAB3-01D3E81815AC}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7557043Z"
+}
+|metadata|
+////
+
+= Creating a Workbook ({ExcelEngineName})
+
+== Before You Begin
+
+The {ExcelEngineName} enables you to save data to and load data from Microsoft® Excel®. You can create workbooks and worksheets, input data, and export the data to Excel using the library's various classes. The {ExcelEngineName} makes it easy to export the data in your application as an Excel spreadsheet as well as import data from Excel into your application.
+
+== What You Will Accomplish
+
+You will create a simple workbook and save it as an Excel pick:[wpf="file"]pick:[xamarin="output stream"].
+
+== Follow These Steps
+
+[start=1]
+ifdef::wpf[]
+. Create a Microsoft Windows® Presentation Foundation project.
+
+endif::wpf[]
+
+ifdef::xamarin[]
+. Create a Xamarin.Forms application project.
+
+endif::xamarin[]
+
+ifdef::win-forms,win-universal[]
+. Create a {PlatformName} application project.
+
+endif::win-forms,win-universal[]
+
+[start=2]
+ifdef::xamarin[]
+. link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages].
+
+endif::xamarin[]
+
+ifdef::win-forms,win-universal[]
+. In the Solution Explorer, add a reference to following assembly:
++
+* {ApiPlatform}Documents.Excel.{DllVersion}dll 
+* {ApiPlatform}Documents.Core.{DllVersion}dll 
+
+endif::win-forms,win-universal[]
+
+ifdef::wpf[]
+
+. Add a reference to the following NuGet package:
+
+* Infragistics.WPF.Excel
+
++
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+[start=3]
+. Add a `Button` control and...
++
+--
+.. set the `pick:[wpf="Content"]pick:[xamarin="Text"]` property to "Create a Workbook".
+.. attach an event handler to the `Button` control's `pick:[wpf="Click"]pick:[xamarin="Clicked"]` event.
+--
+*In XAML:*
++
+[source,xaml]
+----
+<Button pick:[wpf="Content"]pick:[xamarin="Text"]="Create a Workbook" pick:[wpf="Click"]pick:[xamarin="Clicked"]="Button_Click" />
+----
+
+[start=4]
+. Open the code-behind and add the following namespaces:
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In Visual Basic:*
++
+[source,vb]
+----
+Imports Infragistics.Documents.Excel
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In C#:*
++
+[source,csharp]
+----
+using Infragistics.Documents.Excel;
+----
+
+[start=5]
+. Add an event handler for the `Button` control's `pick:[wpf="Click"]pick:[xamarin="Clicked"]` event if a method stub has not been created for you.
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In Visual Basic:*
++
+[source,vb]
+----
+Sub Button_Click(sender As Object, e As pick:[wpf="Routed"]EventArgs) 
+    'TODO: Instantiate a Workbook object 
+    'TODO: Add a worksheet to the workbook
+    'TODO: Add text to the first cell
+    'TODO: Save the workbook.
+End Sub
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In C#:*
++
+[source,csharp]
+----
+void Button_Click(object sender, pick:[wpf="Routed"]EventArgs e)
+{
+    //TODO: Instantiate a Workbook object.
+    //TODO: Add a worksheet to the workbook
+    //TODO: Add text to the first cell
+    //TODO: Save the workbook.
+}
+----
+
+[start=6]
+. Instantiate a link:{ExcelEngineApiLink}infragistics.documents.excel.workbook.html[Workbook] object.
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In Visual Basic:*
++
+[source,vb]
+----
+Dim workbook1 As New Workbook()
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In C#:*
++
+[source,csharp]
+----
+Workbook workbook1 = new Workbook();
+----
+
+[start=7]
+. Add a link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] object to the workbook.
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In Visual Basic:*
++
+[source,vb]
+----
+Dim worksheet1 As Worksheet = workbook1.Worksheets.Add("Sheet 1")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In C#:*
++
+[source,csharp]
+----
+Worksheet worksheet1 = workbook1.Worksheets.Add("Sheet 1");
+----
+
+[start=8]
+. Set the first link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] object's link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~value.html[Value] property to 42.
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In Visual Basic:*
++
+[source,vb]
+----
+worksheet1.Rows(0).Cells(0).Value = 42
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In C#:*
++
+[source,csharp]
+----
+worksheet1.Rows[0].Cells[0].Value = 42;
+----
+
+[start=9]
+. Save the workbook.
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In Visual Basic:*
++
+[source,vb]
+----
+workbook1.Save(pick:[wpf=""Workbook1.xls""]pick:[xamarin="outputStream"])
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
++
+*In C#:*
++
+[source,csharp]
+----
+workbook1.Save(pick:[wpf=""Workbook1.xls""]pick:[xamarin="outputStream"]);
+----
+
+[start=10]
+. Run the project and click the button.
+
+== Related Topics
+
+link:excelengine-about-infragistics-excel-engine.html[About {ExcelEngineName}]
+
+link:excelengine-using-the-infragistics-excel-engine.html[Using the {ExcelEngineName}]

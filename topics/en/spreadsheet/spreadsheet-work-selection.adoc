@@ -1,0 +1,200 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-selection",
+    "tags": ["How Do I","Selection"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "96ccf6ca-bc5e-42b1-a79e-6680f4fe6ff6",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0974134Z"
+}
+|metadata|
+////
+
+= Working with Selection ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains the selection feature from developer perspective.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|====
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_ . 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+| link:spreadsheet-uiu-selection.html[Selection Interactions ({SpreadsheetName})] 
+
+|This topic explains what actions can be performed by the user when selecting worksheet cells. 
+
+| link:spreadsheet-conf-selection.html[Configuring Selection ({SpreadsheetName})] 
+
+|This topic explains how to configure the selection feature. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref390085459, Selection Tasks Summary >>
+* <<_Ref390076629, Obtain Current Selection >>
+* <<_Ref390076637, Alter Selection Programmatically >>
+* <<_Ref390076643, Selection Changed Notification >>
+* <<_Ref390085478, Related Content >>
+
+[[_Ref390085459]]
+== Selection Tasks Summary
+
+=== Selection tasks summary chart
+
+The following table explains briefly the tasks available when working with selection and maps them to the members which are connected with them. Further details are available after the table.
+
+[options="header", cols="a,a,a"]
+|====
+|Task|Details|Property/Event
+
+|<<_Ref390076629,Obtain Current Selection>>
+|Obtain the current selection’s cell ranges
+| link:{SpreadsheetLink}.spreadsheetselection~cellranges.html[CellRanges]
+
+|<<_Ref390076637,Alter Selection Programmatically>>
+|Alter selection using a number of methods
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}activeselection.html[ActiveSelection]
+
+|<<_Ref390076643,Selection Changed Notification>>
+|Get notified when current selection changes
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}selectionchanged_ev.html[SelectionChanged]
+
+|====
+
+[[_Ref390076629]]
+== Obtain Current Selection
+
+[[_Hlk368069110]]
+
+=== Overview
+
+You can obtain the sheet’s current selection using the `CellRanges` property. It will return a read-only collection of cell ranges that are selected.
+
+=== Property settings
+
+The following table maps the desired behaviors to the property settings that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Access cell ranges
+| link:{SpreadsheetLink}.spreadsheetselection~cellranges.html[CellRanges]
+|Read collection’s items
+
+|====
+
+=== Example
+
+The following code snippet demonstrates how to add one more selection range (starting from row 4, column 7 and ending with row 6, column 27) to the current selection. The code snippet assumes you have a reference to an {SpreadsheetName} instance named "{SpreadsheetName}1".
+
+*In C#:*
+
+[source,csharp]
+----
+this.{SpreadsheetName}1.ActiveSelection.AddCellRange(
+  new SpreadsheetCellRange(4, 7, 6, 27)
+);
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SpreadsheetName}1.ActiveSelection.AddCellRange(_
+  New SpreadsheetCellRange(4, 7, 6, 27))
+----
+
+[[_Ref390076637]]
+== Alter Selection Programmatically
+
+=== Overview
+
+You can alter the sheet selection programmatically using the `ActiveSelection` property. This property of type link:{SpreadsheetLink}.spreadsheetselection_members.html[SpreadsheetSelection] exposes a number of methods for adding, replacing and clearing cell ranges.
+
+=== Property settings
+
+The following table maps the desired behaviors to the property settings that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And:
+
+|Alter spreadsheet selection
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}activeselection.html[ActiveSelection]
+|Use the selection altering methods
+
+|====
+
+[[_Ref390076643]]
+== Selection Changed Notification
+
+=== Overview
+
+In order for you to be notified when a selection change occurs you can hook on the `SelectionChanged` event.
+
+=== Property settings
+
+The following table maps the desired behaviors to the events that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event:|And:
+
+|Be notified when a selection change occurs
+|`SelectionChanged`
+|Attach an event handler to it
+
+|====
+
+[[_Ref390085478]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-undo-redo.html[Working with Undo and Redo ({SpreadsheetName})]
+|This topic explains how to configure and perform undo and redo operations with the control.
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+|====

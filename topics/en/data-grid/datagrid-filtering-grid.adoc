@@ -1,0 +1,236 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-filtering-grid",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "d004c57d-f71e-4a42-8704-9870f1346fd9","buildFlags": [],
+    "createdOn": "2016-02-05T19:09:06.463303Z"
+}
+|metadata|
+////
+
+= Filtering {DataGridName}
+
+This topic will describe the filtering behaviors that can be implemented with the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+
+== In this topic
+
+This topic contains the following sections
+
+* <<Background,Required Background>>
+* <<_Ref442263673,Overview of Filtering behavior>>
+* <<_Ref442263687,Filtering Requirements>>
+* <<_Ref442263693,Filtering Records of Single Column>>
+* <<_Ref442263699,Filtering Records of Multiple Columns>>
+* <<RelatedContent,Related Content>>
+
+
+[[Background]]   
+== Required Background 
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+| This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data. 
+
+| link:SampleSalesPerson.html[Sample Sales Person] 
+| This resource topic provides implementation of sample data that you can use a data source for the {DataGridName} control. 
+
+|====
+
+[[_Ref442263673]]
+== Overview of Filtering behavior
+
+The {DataGridName} control allows you to apply record filtering to reduce the displayed records to a user based on a certain criteria. Record filtering of the {DataGridName} control utilizes the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] class to construct custom filter expressions, which may be used singly or in multiples by chaining expressions together.
+
+Filtering can be implemented on Local and Remote data sources; for more information, refer to the following topics:
+
+* link:datagrid-binding-remote-data-source.html[Binding Remote Data Source]
+* link:datagrid-binding-local-data-source.html[Binding Local Data Source]
+
+The following steps demonstrate how to implement filtering:
+
+[start=1]
+. Create an instance of the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] class.
+[start=2]
+. Assign the pick:[android="key"]pick:[xaml="`PropertyPath`"] of the link:{DataGridLink}.Column_members.html[Column] to be filtered to the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance, by passing the key in to the link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] {ApiMember}, exposed from the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] object.
+[start=3]
+. Assign a filter condition to the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance, by accessing one of the condition extension methods exposed from the link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] {ApiMember}, passing in the desired value to filter by.
+[start=4]
+. Add the entire link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] expression to link:{DataGridLinkBase}.FilterExpressionCollection.html[FilterExpressionCollection] collection of the {DataGridName} control.
+
+[[_Ref442263687]]
+== Filtering Requirements
+
+The {DataGridName} control accepts filter expressions which are constructed via the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] class; whose basic expression can be broken down into two fundamental components including: a target field to be filtered; this is passed into the link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] as the pick:[android="key"]pick:[xaml="`PropertyPath`"] of the filtered link:{DataGridLink}.Column_members.html[Column] and a filter operator method, which is associated with a conditional value.
+
+The link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] class supports a wide variety of filter conditions, including the basic logical operations of and, or, not, contains, greaterThan, etc, (please reference the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] API for a full list of these operations) which are applied via their extension methods; these methods are appended to the filter expression immediately following the link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] API member. These operator extension methods accept a single parameter, which consists of the value to be filtered by.
+
+[[_Ref442263693]]
+== Filtering Records of Single Column
+
+The following example demonstrates how to implement a basic filtering expression with the {DataGridName} control. In this scenario, records of the _Territory_ link:{DataGridLink}.Column_members.html[Column] will be filtered, so that only those records including the country of “Bulgaria” are displayed.
+
+This example uses the SampleGridApp from the link:datagrid-getting-started-with-grid.html[Getting Started with {DataGridName}] topic.
+
+[start=1]
+. Create a reference to the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] interface as demonstrated in the following code snippet.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+FilterFactory Filter = FilterFactory.getInstance();
+----
+endif::android[]
+
+ifdef::xamarin[]
+*In C#:*
+[source, csharp]
+----
+var Filter = Infragistics.Core.Controls.DataSource.FilterFactory.Instance;
+----
+endif::xamarin[]
+
+
+[start=2]
+. Assign the target field and a filter expression to the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance and then pass the entire expression into the pick:[android="`add()`"]pick:[xaml="`Add()`"] method of link:{DataGridLink}.{DataGridName}{ApiPropGet}FilterExpressions.html[pick:[android="set"]FilterExpressions].
+
+The target field is set by accessing the link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] {ApiMember} of the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance and is passed in as the pick:[android="`key`"]pick:[xaml="`PropertyPath`"] of the link:{DataGridLink}.Column_members.html[Column] that you want to filter.
+
+The filter expression methods are accessed from the `Property()` method and the value to be filtered-by is passed in as its parameter.
+
+In this case, you are using the link:{DataGridLinkBase}.FilterExpression{ApiProp}IsEqualTo.html[isEqualTo] expression method so that the filtered content only contains those records with the Territory of “Bulgaria”.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+DataGrid.getFilterExpressions().add(Filter.property("Territory").isEqualTo("Bulgaria"));
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.FilterExpressions.Add(Filter.Property("Territory").IsEqualTo("Bulgaria"));
+----
+endif::xaml[]
+
+[start=3]
+. Save and run the SampleGridApp to verify the result.
+
+The {DataGridName} control will filter its records, so that only those records with the Territory of Bulgaria are displayed, as demonstrated in the following screenshot.
+
+image::images/Filtering_with_DataGridView_1.png[]
+
+[[_Ref442263699]]
+== Filtering Records of Multiple Columns
+
+The {DataGridName} control supports the implementation of multiple filter expressions and conditions applied to the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance; this is possible by chaining expressions together, thus allowing for complex filter conditions that filter multiple link:{DataGridLink}.Column_members.html[Column]s and values, simultaneously.
+
+The use of multiple filter expressions is demonstrated in the following example. In this scenario, all employees whose assigned Territory includes “Bulgaria” or “Japan” and whose sales are within the range and including the values of ‘10000’ and ‘20000’ will be displayed in the filtered records.
+
+[start=1]
+. Modify the data source of the {DataGridName} control such that it has at least 1000 data items. This will ensure that you have a sufficient number of results from your data set once the complex filter condition is applied.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+{DataGridName} DataGrid = new {DataGridName}(this);
+DataGrid.setDataSource(SampleSalesPerson.GenerateSalesData(1000));
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+var DataGrid = new {DataGridName}();
+DataGrid.ItemsSource = SampleSalesPerson.GenerateSalesData(1000);
+----
+endif::xaml[]
+
+[start=3]
+. Create a reference to the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] interface as demonstrated in the following code snippet.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+FilterFactory Filter = FilterFactory.getInstance();
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+var Filter = Infragistics.Core.Controls.DataSource.FilterFactory.Instance;
+----
+endif::xaml[]
+
+[start=4]
+. Access the {DataGridName} control's link:{DataGridLink}.{DataGridName}{ApiPropGet}FilterExpressions.html[pick:[android="set"]FilterExpressions] {ApiMember} and use its corresponding link:{DataGridLinkBase}.FilterFactory{ApiProp}Add.html[Add] method to pass in your chained filter expression as its parameter.
+
+Within the link:{DataGridLinkBase}.FilterFactory{ApiProp}Add.html[Add] method, pass in the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance and use its link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] method to target the Territory link:{DataGridLink}.Column_members.html[Column], by passing the “Territory” key in as its parameter, then access the link:{DataGridLinkBase}.FilterExpression{ApiProp}IsEqualTo.html[isEqualTo] extension method and pass in the string value of “Bulgaria”.
+
+Append an OR condition to the first expression, by accessing the link:{DataGridLinkBase}.FilterFactory{ApiProp}Or.html[Or] method from the previous expression and as its parameter, pass in the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance, this time targeting the Territory link:{DataGridLink}.Column_members.html[Column]; access the link:{DataGridLinkBase}.FilterExpression{ApiProp}IsEqualTo.html[isEqualTo] extension method and pass in the string value of “Japan”.
+
+Append the link:{DataGridLinkBase}.FilterFactory{ApiProp}Add.html[Add] method to the previous expression and pass in the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance, access its link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] method and target the Sales link:{DataGridLink}.Column_members.html[Column], by passing the “Sales” key as the link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] methods parameter; access the link:{DataGridLinkBase}.FilterExpression{ApiProp}IsGreaterThanOrEqualTo.html[IsGreaterThanOrEqualTo] extension method and pass in the value of {DataGridName} as its parameter.
+
+Lastly, append an link:{DataGridLinkBase}.FilterFactory{ApiProp}Add.html[Add] method to the previous expression, passing in the link:{DataGridLinkBase}.FilterFactory.html[FilterFactory] instance, access it link:{DataGridLinkBase}.FilterFactory{ApiProp}Property.html[Property] method and target the Sales link:{DataGridLink}.Column_members.html[Column] once more, by passing the “Sales” key in as the parameter value and then access the link:{DataGridLinkBase}.FilterExpression{ApiProp}IsLessThanOrEqualTo.html[IsLessThanOrEqualTo] extension method and pass in the value of '20000' for its parameter.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+DataGrid.getFilterExpressions().add(Filter.property("Territory").isEqualTo("Bulgaria")
+    .or(Filter.property("Territory").isEqualTo("Japan"))
+    .and(Filter.property("Sales").isGreaterThanOrEqualTo(10000)
+    .and(Filter.property("Sales").isLessThanOrEqualTo(20000))));
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.FilterExpressions.Add(Filter.Property("Territory").IsEqualTo("Bulgaria")
+    .Or(Filter.Property("Territory").IsEqualTo("Japan"))
+    .And(Filter.Property("Sales").IsGreaterThanOrEqualTo(10000))
+    .And(Filter.Property("Sales").IsLessThanOrEqualTo(20000)));
+----
+endif::xaml[]
+
+[start=5]
+. Save and run the SampleGridApp to verify the result. The {DataGridName} control will filter its records so that only those which include Japan and Bulgaria in their Territory link:{DataGridLink}.Column_members.html[Column] and whose Sales values are within the range of 10000 and 20000 will be displayed within its UI as illustrated in the following screenshot.
+
+image::images/Filtering_with_DataGridView_2.png[]
+
+
+[[RelatedContent]]   
+=== Related Content
+
+The following table lists topics that are related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+ 
+| link:datagrid-supported-column-types.html[Supported Column Types]
+|This topic provides information on supported column types in the {DataGridName} control.
+  
+| link:datagrid-working-with-columns.html[Working with Columns]
+|This topic provides code examples on working with columns in the {DataGridName} control.
+
+| link:datagrid-sorting.html[Sorting]
+|This topic provides information and code examples on sorting behaviors in the {DataGridName} control.
+|====

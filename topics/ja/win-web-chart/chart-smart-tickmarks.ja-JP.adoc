@@ -1,0 +1,55 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-smart-tickmarks",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{BD7C2082-98DA-4697-98F0-F22A7581C722}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= スマート目盛り
+
+Chart はスマート目盛の機能を備えています。スマート目盛を有効にすることにより、グラフはデータと使用可能なスペースに基づいて、軸の可能な最良の範囲と間隔を自動的に決定できます。
+
+[NOTE]
+====
+*注：* スマート目盛は、平面チャートのみに実装されます。
+====
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[Axis.Y.TickmarkStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[Axis.Y.TickmarkStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[Axis.Y.TickmarkStyle]"]  を Percentage に設定し、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[Axis.Y.RangeType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[Axis.Y.RangeType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[Axis.Y.RangeType]"]  を Automatic に設定した一般的な柱状グラフを以下に示します。
+
+image::images/Chart_Smart_Tickmarks_01.png[]
+
+このグラフの表示には、以下の 2 つの問題があります。
+
+* Y 軸の最小値と最大値がデータの最小値と最大値と同等です。この結果、値が 10.96 のため、行 2 と列 0 が表示されません。データの範囲も直観的にわかりません。10.96～302.46 は、人間の目で理解できる数字の範囲ではありません。
+* 間隔が軸の 10% おきに設定されているため、データの間隔が 29.15 となっています。同様に、この数字は直観的に理解できるものではなく、閲覧者には意味がありません。
+
+これらの問題は、Axis.X.TickmarkStyle を Smart に設定して、簡単に解決できます。この設定により、グラフの Smart Labels アルゴリズムが有効になり、以下の機能が提供されます。
+
+* Smart Range:軸の最小値と最大値が実際のデータ範囲の近くに可能な最良の「概数」を設定します。
+* Smart Intervals:目盛が「概数」によって分割されて表示されます。また、軸に沿った使用可能なスペースを考慮して、グラフの軸ラベルが重複しないように目盛の間隔を決定します。
+
+以下のグラフはスマート目盛を使用して生成されました。
+
+image::images/Chart_Smart_Tickmarks_02.png[]
+
+これらの 2 つのグラフは、スマート目盛が軸ラベルの重複をどのように回避するかを示しています。
+
+image::images/Chart_Smart_Tickmarks_03.png[]
+
+image::images/Chart_Smart_Tickmarks_04.png[]
+
+== 関連トピック
+
+* link:chart-apply-chart-text-labels.html[チャート テキスト ラベルの適用]
+* link:chart-display-data-on-a-time-scale-axis.html[時間のスケール軸でデータを表示]
+* link:chart-display-labels-at-intervals-on-a-time-scale-axis.html[時間のスケール軸で間隔でラベルを表示]
+* link:chart-scale-chart-axes.html[チャート軸のスケール]
+* link:chart-set-minimum-and-maximum-data-values.html[最小データ値と最大データ値の設定]
+* link:chart-plot-log-zero-values.html[ログ ゼロ値をプロット]

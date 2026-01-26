@@ -1,0 +1,263 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= ArcGIS Online Servers からの地理的画像の表示
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの背景コンテンツで ArcGIS Online Servers から地理的画像を表示する方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加] 
+
+|このトピックでは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールの視覚要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用] 
+
+|このトピックは、{GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<DisplayingGeographicImageryfromArcGISOnlineServers,ArcGISOnline Servers からの地理的画像の表示>>
+
+** <<Overview,概要>>
+** <<Preview,プレビュー>>
+
+* <<PublicMaps,公開マップ>>
+
+** <<Overview1,概要>>
+** <<Example1,例>>
+
+* <<PrivateMaps,非公開マップ>>
+
+** <<Overview2,概要>>
+** <<Credentials,資格情報>>
+** <<Example2,例>>
+
+* <<RelatedContent,関連コンテンツ>>
+
+[[DisplayingGeographicImageryfromArcGISOnlineServers]]
+== ArcGIS Online Servers からの地理的画像の表示
+
+[[Overview]]
+
+=== 概要
+
+ArcGIS Online は、マップを公開または非公開で作成および共有できる Esri 製品です。Esri およびその他の ArcGIS ユーザーが作成したその他のマップにもアクセスできます。
+
+以下の場所、Esri マップおよびデータ グループで利用可能な公開マップのリストを表示できます。
+
+{GeoMapName}    コントロールは、 link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] クラスを使用してマップ背景コンテンツで ArcGIS Online から地理的画像を表示します。
+
+公開マップは、 link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] クラスの link:{GeoMapLink}.arcgisonlinemapimagery~mapserveruri.html[MapServerUri] プロパティをマップの指定 URL に設定することで表示できます。
+
+非公開マップには、 link:{GeoMapLink}.arcgisonlinemapimagery~mapserveruri.html[MapServerUri] を設定するだけではなく多くの構成が含まれます。マップの所有者により提供された、または所有者により提供されたユーザー名とパスワードの組み合わせで生成されたアクセス トークンを使用します。
+
+[[Preview]]
+
+=== プレビュー
+
+以下のスクリーンショットは、ArcGIS Online サーバー上のマップ コンテンツからの地理的画像タイルがある {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Displaying_Geographic_Imagery_from_ArcGISOnline_Servers_1_1.png[]
+
+[[PublicMaps]]
+== 公開マップ
+
+[[Overview1]]
+
+=== 概要
+
+マップの所有者は、マップを公開してアクセスできるようにしたりそのマップの URI を提供します。
+
+ArcGIS 公開マップから地理的画像を使用するには、最初にマップの公開 URI を取得しなければなりません。このマップ URI を link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] オブジェクトの link:{GeoMapLink}.arcgisonlinemapimagery~mapserveruri.html[MapServerUri] プロパティに設定する必要があります。
+
+[[Example1]]
+
+=== 例
+
+以下のスクリーンショットは、 link:{GeoMapLink}.xamgeographicmap~backgroundcontent.html[BackgroundContent] プロパティを link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] に設定した {GeoMapName} コントロールの描画を説明しています。
+
+link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] オブジェクトの link:{GeoMapLink}.arcgisonlinemapimagery~mapserveruri.html[MapServerUri] プロパティは以下の値に設定されます。
+
+[options="header", cols="a,a"]
+|====
+|*プロパティ*|*値*
+
+| link:{GeoMapLink}.arcgisonlinemapimagery~mapserveruri.html[MapServerUri]
+|http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer
+
+|====
+
+image::images/GeographicMap_Displaying_Geographic_Imagery_from_ArcGISOnline_Servers_1_1.png[]
+
+ifdef::xaml[]
+*XAML の場合:* 
+
+[source,xaml]
+---- 
+<ig:XamGeographicMap x:Name="GeoMap"  
+                     Background="Transparent"  
+                     PlotAreaBackground="Transparent">    
+    <ig:XamGeographicMap.BackgroundContent>  
+       <ig:ArcGISOnlineMapImagery 
+           MapServerUri="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />  
+    </ig:XamGeographicMap.BackgroundContent> 
+</ig:XamGeographicMap> 
+----
+endif::xaml[]
+
+*C# の場合:* 
+
+[source,csharp]
+---- 
+var publicMap = new ArcGISOnlineMapImagery(); 
+publicMap.MapServerUri ="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"; 
+this.GeoMap.BackgroundContent = publicMap; 
+---- 
+
+*Visual Basic の場合:* 
+
+[source,vb]
+---- 
+Dim publicMap As var = New ArcGISOnlineMapImagery
+publicMap.MapServerUri ="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
+Me.GeoMap.BackgroundContent = publicMap 
+---- 
+
+[[PrivateMaps]]
+== 非公開マップ
+
+[[Overview2]]
+
+=== 概要
+
+マップの所有者は、マップを非公開に設定し、アクセスと特定のユーザーに制限できます。このマップは、マップの所有者により提供された、またはユーザー名とパスワードの組み合わせから生成されるアクセス トークンでアクセスできます。
+
+[[Credentials]]
+
+=== 資格情報
+
+以下の表は、ArcGIS Online サーバー上の非公開マップ コンテンツにアクセスするために使用される link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] オブジェクトの視覚情報プロパティをまとめたものです。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{GeoMapLink}.arcgisonlinemapimagery~username.html[UserName]
+|String
+|このプロパティはトークンを生成するために必要であり、ユーザー名を指定します。
+
+| link:{GeoMapLink}.arcgisonlinemapimagery~password.html[Password]
+|String
+|このプロパティはトークンを生成するために必要であり、パスワードを指定します。
+
+| link:{GeoMapLink}.arcgisonlinemapimagery~usertoken.html[UserToken]
+|String
+|このプロパティは、事前に生成されたトークンを指定します (ユーザー名とパスワードの組み合わせで事前に生成されたもの、または非公開マップの所有者により提供されたもの)。
+
+| link:{GeoMapLink}.arcgisonlinemapimagery~refereruri.html[ReferURI]
+|String
+|このオプションのプロパティは、`WebRequest` に含まれる `Referer` を指定します。WPF の場合、デフォルト値が設定されます。
+
+|====
+
+[[Example2]]
+
+=== 例
+
+以下のコード例は、非公開マップに必要な link:{GeoMapLink}.arcgisonlinemapimagery_members.html[ArcGISOnlineMapImagery] オブジェクトのプロパティの設定方法を示します。
+
+注:
+
+[NOTE]
+====
+link:{GeoMapLink}.arcgisonlinemapimagery~username.html[UserName]、 link:{GeoMapLink}.arcgisonlinemapimagery~password.html[Password]、 link:{GeoMapLink}.arcgisonlinemapimagery~mapserveruri.html[MapServerUri] および link:{GeoMapLink}.arcgisonlinemapimagery~refereruri.html[ReferURI] プロパティに設定されている文字列を独自の資格情報およびマップ情報に置き換えます。
+====
+
+ifdef::xaml[]
+*XAML の場合:* 
+
+[source,xaml]
+---- 
+<ig:ArcGISOnlineMapImagery    
+   TokenGenerationEndPoint="https://www.arcgis.com/sharing/"
+   IsMapPublic="False"
+   UserName="USERNAME"
+   Password="PASSWORD"
+   DefaultTokenTimeout="65"
+   MapServerUri="MAP_SERVER_URI"
+   RefererUri="REFERER_URI" > 
+</ig:ArcGISOnlineMapImagery> 
+---- 
+endif::xaml[]
+
+*C# の場合:* 
+
+[source,csharp]
+---- 
+var privMap = new ArcGISOnlineMapImagery(); 
+privMap.TokenGenerationEndPoint = "https://www.arcgis.com/sharing/"; 
+privMap.IsMapPublic = false; 
+privMap.UserName = "USERNAME"; 
+privMap.Password = "PASSWORD"; 
+privMap.DefaultTokenTimeout = 65; 
+privMap.MapServerUri = "MAP_SERVER_URI"; 
+privMap.RefererURI = "REFERER_URI"; 
+---- 
+
+*Visual Basic の場合:* 
+
+[source,vb]
+---- 
+Dim privMap As var = New ArcGISOnlineMapImagery
+privMap.TokenGenerationEndPoint = "https://www.arcgis.com/sharing/"
+privMap.IsMapPublic = false
+privMap.UserName = "USERNAME"
+privMap.Password = "PASSWORD"
+privMap.DefaultTokenTimeout = 65
+privMap.MapServerUri = "MAP_SERVER_URI"
+privMap.ReferURI = "REFERER_URI" 
+---- 
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、アプリケーション ページに {GeoMapName} コントロールを追加する方法について説明します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロール内のマップ要素のレイアウトに関する情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、 {GeoMapName} コントロールの背景コンテンツにおける地理的画像の描画の概要を提供します。
+
+|====

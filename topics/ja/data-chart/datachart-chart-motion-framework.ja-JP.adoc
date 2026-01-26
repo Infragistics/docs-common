@@ -1,0 +1,1564 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-chart-motion-framework",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Data Presentation","How Do I"],
+    "guid": "ba73c345-40d4-4442-b07a-3230d0787114",  
+    "buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:39:00.6703857Z"
+}
+|metadata|
+////
+
+= チャートのモーション フレームワーク
+
+このトピックは、コード例を示して、Motion Framework を link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで使用してチャートをアニメーション化する方法を説明します。一般的な実装とカスタムの実装の両方の手順が提供されます。
+
+トピックは以下のとおりです。
+
+* <<Introduction,概要>>
+* <<Limitations,制限>>
+* <<UsingMotionFramework,Motion Framework の使用>>
+
+** <<GeneralImplementation,一般的な実装>>
+** <<CustomImplementation,カスタムの実装>>
+
+* <<RelatedContent,関連コンテンツ>>
+
+[[Introduction]]
+== 概要
+
+Motion Framework によって、{DataChartName} コントロールで常にデータの変更をアニメーション化することができ、アニメーションによって、データについて「ストーリーを語る」ようなユーザー エクスペリエンスを創出します。
+
+image::images/xamDataChart_Chart_Motion_Framework_01.png[]
+
+図 1: Motion Framework で {DataChartName} コントロールが 6 つのデータソースをアニメーション化する様子
+
+Motion Framework は、Series オブジェクトの link:{DataChartLink}.series{ApiProp}transitionduration.html[TransitionDuration] および link:{DataChartLink}.series{ApiProp}transitioneasingfunction.html[TransitionEasingFunction] プロパティによって管理されます。これらのプロパティは、Data Chart のすべてのタイプのシリーズで使用できます。
+
+表 1: Motion Framework のプロパティ
+
+[options="header", cols="a,a,a"]
+|====
+|Series プロパティ名|プロパティ タイプ|説明
+
+| link:{DataChartLink}.series{ApiProp}transitionduration.html[TransitionDuration]
+|TimeSpan
+|シリーズの変形の間の期間を決定します。このプロパティの背後にある考えは、ひとつの値から別の値にデータ ポイントを円滑に移行することです。
+
+| link:{DataChartLink}.series{ApiProp}transitioneasingfunction.html[TransitionEasingFunction]
+|EasingFunctionBase
+|現在のシリーズを変形するために使用される Easing 関数を決定します。デフォルトで、Motion Framework はリニア easing 関数を使用しますが、System.Windows.Media.Animation 名前空間で使用可能なその他の easing 関数を提供することによって変更できます。
+
+|====
+
+[[Limitations]]
+== 制限
+
+Motion Framework は、{DataChartName} コントロールにおいて次の制限があります。データ変更の結果としての軸の範囲が変化した場合、アニメーションは開始されません。
+
+[[UsingMotionFramework]]
+== Motion Framework の使用
+
+[[GeneralImplementation]]
+== 一般的な実装
+
+一般的な Motion Framework の実装では、{DataChartName} のデータ バインド アニメーションを完全に制御できます。ただし、この実装では {DataChartName} コントロールで個別に各シリーズを構成し、データを更新する方法を提供することが求められます。{DataChartName} で Motion Framework を使用する方法
+
+[start=1]
+. TransitionDuration プロパティを設定します。TransitionDuration プロパティは、前の値から次の値へシリーズのポイントがシフトする時間を制御します。アニメーションを使用するシリーズで、なめらかにシリーズが遷移する期間にこのプロパティを設定します。0.5 秒がほとんどの場合に適切な選択です。
+[start=2]
+. TransitionEasingFunction プロパティを希望の easing 関数またはシリーズの変形に使用されるリニア easing 関数に設定します。
+
+以下のコードは、ScatterLineSeries で TransitionDuration TransitionEasingFunction プロパティを設定する方法を示します。このロジック例は、{DataChartName} でサポートされる他のタイプにも適用できます。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:ScatterLineSeries TransitionDuration="0:0:0.5">
+                  <ig:ScatterLineSeries.TransitionEasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                  </ig:ScatterLineSeries.TransitionEasingFunction>
+            </ig:ScatterLineSeries >
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows.Media.Animation
+Imports {DataChartNamespace}
+' ...
+Dim series As New ScatterLineSeries()
+series.TransitionDuration = TimeSpan.FromSeconds(0.5)
+series.TransitionEasingFunction = New CubicEase() With { .EasingMode = EasingMode.EaseOut }
+Me.DataChart.Series.Add(series)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows.Media.Animation
+Imports {DataChartNamespace}
+' ...
+Dim series As New ScatterLineSeries()
+series.TransitionDuration = TimeSpan.FromSeconds(0.5)
+series.TransitionEasingFunction = New CubicEase() With { .EasingMode = EasingMode.EaseOut }
+Me.DataChart.Series.Add(series)
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows.Media.Animation
+Imports {DataChartNamespace}
+' ...
+Dim series As New ScatterLineSeries()
+series.TransitionDuration = TimeSpan.FromSeconds(0.5)
+series.TransitionEasingFunction = New CubicEase() With { .EasingMode = EasingMode.EaseOut }
+Me.DataChart.Series.Add(series)
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System.Windows.Media.Animation;
+using {DataChartNamespace};
+// ...
+ScatterLineSeries series = new ScatterLineSeries();
+series.TransitionDuration = TimeSpan.FromSeconds(0.5);
+series.TransitionEasingFunction = new CubicEase {EasingMode = EasingMode.EaseOut};
+this.DataChart.Series.Add(series);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System.Windows.Media.Animation;
+using {DataChartNamespace};
+// ...
+ScatterLineSeries series = new ScatterLineSeries();
+series.TransitionDuration = TimeSpan.FromSeconds(0.5);
+series.TransitionEasingFunction = new CubicEase {EasingMode = EasingMode.EaseOut};
+this.DataChart.Series.Add(series);
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System.Windows.Media.Animation;
+using {DataChartNamespace};
+// ...
+ScatterLineSeries series = new ScatterLineSeries();
+series.TransitionDuration = TimeSpan.FromSeconds(0.5);
+series.TransitionEasingFunction = new CubicEase {EasingMode = EasingMode.EaseOut};
+this.DataChart.Series.Add(series);
+----
+
+endif::xamarin[]
+
+[start=3]
+. 変更時にデータがチャートに通知することを確認します。たとえば、チャートにバインドされた項目が INotifyPropertyChanged インターフェイスを実装する場合、それらのプロパティのひとつを変更すると、チャートに通知し、変更がアニメーション化されます。コレクションは、the INotifyCollectionChanged インターフェイスを実装する場合、コレクションの追加、削除、変更もアニメーション化されます。
+
+.注:
+[NOTE]
+====
+「 link:datachart-chart-performance.html[チャート パフォーマンス]」トピックでは、データ実装が {DataChartName} コントロールのパフォーマンスに与える影響について説明します。
+====
+
+以下のコードは、項目が追加、削除、置き換えされる時、およびそれらの値が変更される時にデータ チャートに通知するデータの例を示します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+''' <summary>
+''' データ ポイントの監視可能なコレクションを表します
+''' </summary>
+Public Class ObservableDataSource
+    Inherits ObservableCollection(Of ObservableDataPoint)
+End Class
+''' <summary>
+''' 監視可能なデータ ポイントを表します
+''' </summary>
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value 
+            OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+''' <summary>
+''' データ ポイントの監視可能なコレクションを表します
+''' </summary>
+Public Class ObservableDataSource
+    Inherits ObservableCollection(Of ObservableDataPoint)
+End Class
+''' <summary>
+''' 監視可能なデータ ポイントを表します
+''' </summary>
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value 
+            OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+''' <summary>
+''' データ ポイントの監視可能なコレクションを表します
+''' </summary>
+Public Class ObservableDataSource
+    Inherits ObservableCollection(Of ObservableDataPoint)
+End Class
+''' <summary>
+''' 監視可能なデータ ポイントを表します
+''' </summary>
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value 
+            OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+/// <summary>
+///データ ポイントの監視可能なコレクションを表します
+/// </summary>
+public class ObservableDataSource : ObservableCollection<ObservableDataPoint>
+{ }
+/// <summary>
+/// 監視可能なデータ ポイントを表します
+/// </summary>
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+/// <summary>
+///データ ポイントの監視可能なコレクションを表します
+/// </summary>
+public class ObservableDataSource : ObservableCollection<ObservableDataPoint>
+{ }
+/// <summary>
+/// 監視可能なデータ ポイントを表します
+/// </summary>
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+/// <summary>
+///データ ポイントの監視可能なコレクションを表します
+/// </summary>
+public class ObservableDataSource : ObservableCollection<ObservableDataPoint>
+{ }
+/// <summary>
+/// 監視可能なデータ ポイントを表します
+/// </summary>
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::xamarin[]
+
+データを更新する頻度は、TransitionDuration 期間のみであるのが理想です。データをより頻繁に更新する場合は、チャートのアニメーションは円滑になりますが、更新された値を表示するためにリフレッシュできなくなります。必要な補間を実行するための時間が十分にないため、それらの値を解釈できなくなります。
+
+以下のコードは、{DataChartName} でアニメーション化されたデータで更新をトリガーするためにタイマーを使用する方法を示します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows.Threading
+Imports {DataChartNamespace}
+' ...
+Protected ObservableDataSource As New ObservableDataSource()
+' ...
+Private Sub Initialize()
+    ' ...
+    Me.Chart.Series(0).YMemberPath = "X"
+    Me.Chart.Series(0).XMemberPath = "Y"
+    Me.Chart.Series(0).ItemsSource = Me.DataSource
+    ' ...
+    Dim dataUpdateTimer As New DispatcherTimer()
+    dataUpdateTimer.Interval = TimeSpan.FromSeconds(0.5)
+    AddHandler dataUpdateTimer.Tick, AddressOf OnDataUpdateTimerTick
+    dataUpdateTimer.Start()
+End Sub
+Private Sub OnDataUpdateTimerTick(sender As Object, e As EventArgs)
+    Dim newDataPoint As New ObservableDataPoint()
+    ' 最初の項目を削除します
+    Me.DataSource.RemoveAt(0)
+    ' 最後に新しい項目を追加します
+    Me.DataSource.Add(newDataPoint)
+End Sub
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows.Threading
+Imports {DataChartNamespace}
+' ...
+Protected ObservableDataSource As New ObservableDataSource()
+' ...
+Private Sub Initialize()
+    ' ...
+    Me.Chart.Series(0).YMemberPath = "X"
+    Me.Chart.Series(0).XMemberPath = "Y"
+    Me.Chart.Series(0).ItemsSource = Me.DataSource
+    ' ...
+    Dim dataUpdateTimer As New DispatcherTimer()
+    dataUpdateTimer.Interval = TimeSpan.FromSeconds(0.5)
+    AddHandler dataUpdateTimer.Tick, AddressOf OnDataUpdateTimerTick
+    dataUpdateTimer.Start()
+End Sub
+Private Sub OnDataUpdateTimerTick(sender As Object, e As EventArgs)
+    Dim newDataPoint As New ObservableDataPoint()
+    ' 最初の項目を削除します
+    Me.DataSource.RemoveAt(0)
+    ' 最後に新しい項目を追加します
+    Me.DataSource.Add(newDataPoint)
+End Sub
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows.Threading
+Imports {DataChartNamespace}
+' ...
+Protected ObservableDataSource As New ObservableDataSource()
+' ...
+Private Sub Initialize()
+    ' ...
+    Me.Chart.Series(0).YMemberPath = "X"
+    Me.Chart.Series(0).XMemberPath = "Y"
+    Me.Chart.Series(0).ItemsSource = Me.DataSource
+    ' ...
+    Dim dataUpdateTimer As New DispatcherTimer()
+    dataUpdateTimer.Interval = TimeSpan.FromSeconds(0.5)
+    AddHandler dataUpdateTimer.Tick, AddressOf OnDataUpdateTimerTick
+    dataUpdateTimer.Start()
+End Sub
+Private Sub OnDataUpdateTimerTick(sender As Object, e As EventArgs)
+    Dim newDataPoint As New ObservableDataPoint()
+    ' 最初の項目を削除します
+    Me.DataSource.RemoveAt(0)
+    ' 最後に新しい項目を追加します
+    Me.DataSource.Add(newDataPoint)
+End Sub
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System.Windows.Threading;
+using {DataChartNamespace};
+// ...
+protected ObservableDataSource DataSource = new ObservableDataSource();
+// ...
+private void Initialize()
+{
+     // ...
+     this.Chart.Series[0].YMemberPath = "X";
+     this.Chart.Series[0].XMemberPath = "Y";
+     this.Chart.Series[0].ItemsSource = this.DataSource;
+     // ...
+     DispatcherTimer dataUpdateTimer = new DispatcherTimer();
+     dataUpdateTimer.Interval = TimeSpan.FromSeconds(0.5);
+     dataUpdateTimer.Tick += OnDataUpdateTimerTick;
+     dataUpdateTimer.Start();
+}
+private void OnDataUpdateTimerTick(object sender, EventArgs e)
+{
+     ObservableDataPoint newDataPoint = new ObservableDataPoint();
+     this.DataSource.RemoveAt(0);        // 最初の項目を削除します
+     this.DataSource.Add(newDataPoint);  // 最後に新しい項目を追加します
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System.Windows.Threading;
+using {DataChartNamespace};
+// ...
+protected ObservableDataSource DataSource = new ObservableDataSource();
+// ...
+private void Initialize()
+{
+     // ...
+     this.Chart.Series[0].YMemberPath = "X";
+     this.Chart.Series[0].XMemberPath = "Y";
+     this.Chart.Series[0].ItemsSource = this.DataSource;
+     // ...
+     DispatcherTimer dataUpdateTimer = new DispatcherTimer();
+     dataUpdateTimer.Interval = TimeSpan.FromSeconds(0.5);
+     dataUpdateTimer.Tick += OnDataUpdateTimerTick;
+     dataUpdateTimer.Start();
+}
+private void OnDataUpdateTimerTick(object sender, EventArgs e)
+{
+     ObservableDataPoint newDataPoint = new ObservableDataPoint();
+     this.DataSource.RemoveAt(0);        // 最初の項目を削除します
+     this.DataSource.Add(newDataPoint);  // 最後に新しい項目を追加します
+}
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System.Windows.Threading;
+using {DataChartNamespace};
+// ...
+protected ObservableDataSource DataSource = new ObservableDataSource();
+// ...
+private void Initialize()
+{
+     // ...
+     this.Chart.Series[0].YMemberPath = "X";
+     this.Chart.Series[0].XMemberPath = "Y";
+     this.Chart.Series[0].ItemsSource = this.DataSource;
+     // ...
+     DispatcherTimer dataUpdateTimer = new DispatcherTimer();
+     dataUpdateTimer.Interval = TimeSpan.FromSeconds(0.5);
+     dataUpdateTimer.Tick += OnDataUpdateTimerTick;
+     dataUpdateTimer.Start();
+}
+private void OnDataUpdateTimerTick(object sender, EventArgs e)
+{
+     ObservableDataPoint newDataPoint = new ObservableDataPoint();
+     this.DataSource.RemoveAt(0);        // 最初の項目を削除します
+     this.DataSource.Add(newDataPoint);  // 最後に新しい項目を追加します
+}
+----
+
+endif::xamarin[]
+
+[[CustomImplementation]]
+== カスタムの実装
+
+{DataChartName} を使用した他の方法として、以下の機能のあるカスタム MotionFrameworkManager オブジェクトを介した方法があります。
+
+* Motion Framework のよりシンプルな構成と操作
+* 複数のデータ ソースに対するデータ更新の処理と同期
+* データ アニメーションを開始/停止し、Motion Framework の現在の状態を表示するコントロールによるインタラクティブなエクスペリエンス
+* データ変更の再生
+
+link:resources-motionframeworkmanager.html[Motion Framework マネージャー] オブジェクトをダウンロードして使用できます。以下のセクションは、Motion Framework のマネージャーを使用する方法を説明します。
+
+=== プレビュー
+
+最終結果は、上記の図 1 に示されます。
+
+=== 方法
+
+[start=1]
+. ToggleButton コントロールと Slider コントロールをルート レイアウトに追加します。
+
+このボタンは、Motion Framework を使用してデータにおける変更のアニメーション再生を制御します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<Grid x:Name="LayoutRoot" >
+      <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid Grid.Row="0"  >
+      <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <ToggleButton x:Name="MotionPlayToggleButton" Grid.Column="0" >
+      </ToggleButton>
+      <Slider x:Name="MotionSlider" Grid.Column="1" Value="{Binding CurrentElementShown}" >
+      </Slider>
+      </Grid>
+      < !--TODO: xamDataChart コントロールを追加します -->
+</Grid>
+----
+
+endif::wpf,win-universal[]
+
+[start=2]
+. 水平軸および垂直軸を含む {DataChartName} コントロールを追加します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<Grid x:Name="LayoutRoot" >
+        <!-- ...-->
+        <ig:{DataChartName} x:Name="DataChart" 
+                         HorizontalZoomable="True" 
+                         HorizontalZoombarVisibility="Visible" 
+                         VerticalZoomable="True" 
+                         VerticalZoombarVisibility="Visible">
+            <ig:{DataChartName}.Axes>
+                <ig:NumericXAxis x:Name="axisX" >
+                </ig:NumericXAxis>
+                <ig:NumericYAxis x:Name="axisY" >
+                </ig:NumericYAxis>
+            </ig:{DataChartName}.Axes>
+        </ig:{DataChartName}>
+</Grid>
+----
+
+endif::wpf,win-universal[]
+
+[start=3]
+. MotionFrameworkManager オブジェクトをプロジェクトに追加します。
+[start=4]
+. MotionFrameworkManager メンバーと DataSources メンバーを宣言します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System
+Imports System.Windows.Media.Animation
+Imports System.Collections.Generic
+Imports {DataChartNamespace}
+Imports Infragistics.Samples.Common.Framework
+' ...
+Protected MotionFrameworkManger As MotionFrameworkManger
+Protected DataSources As Dictionary(Of Integer, IList)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System
+Imports System.Windows.Media.Animation
+Imports System.Collections.Generic
+Imports {DataChartNamespace}
+Imports Infragistics.Samples.Common.Framework
+' ...
+Protected MotionFrameworkManger As MotionFrameworkManger
+Protected DataSources As Dictionary(Of Integer, IList)
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports System
+Imports System.Windows.Media.Animation
+Imports System.Collections.Generic
+Imports {DataChartNamespace}
+Imports Infragistics.Samples.Common.Framework
+' ...
+Protected MotionFrameworkManger As MotionFrameworkManger
+Protected DataSources As Dictionary(Of Integer, IList)
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System;
+using System.Windows.Media.Animation;
+using System.Collections.Generic;
+using {DataChartNamespace};
+using Infragistics.Samples.Common.Framework;
+// ...
+protected MotionFrameworkManger MotionFrameworkManger;
+protected Dictionary<int, IList> DataSources;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System;
+using System.Windows.Media.Animation;
+using System.Collections.Generic;
+using {DataChartNamespace};
+using Infragistics.Samples.Common.Framework;
+// ...
+protected MotionFrameworkManger MotionFrameworkManger;
+protected Dictionary<int, IList> DataSources;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System;
+using System.Windows.Media.Animation;
+using System.Collections.Generic;
+using {DataChartNamespace};
+using Infragistics.Samples.Common.Framework;
+// ...
+protected MotionFrameworkManger MotionFrameworkManger;
+protected Dictionary<int, IList> DataSources;
+----
+
+endif::xamarin[]
+
+[start=5]
+. コード ビハインドで MotionFrameworkManager オブジェクトのインスタンスを作成します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger = New MotionFrameworkManger()
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger = New MotionFrameworkManger()
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger = New MotionFrameworkManger()
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger = new MotionFrameworkManger();
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger = new MotionFrameworkManger();
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger = new MotionFrameworkManger();
+----
+
+endif::xamarin[]
+
+[start=6]
+. MotionFrameworkManager オブジェクトを構成します。
+
+TransitionFunction プロパティを ExponentialEase アニメーション関数に設定します。
+** TransitionDuration プロパティを 1 秒に設定します。
+** DataUpdateInterval プロパティを 1 秒に設定します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.TransitionFunction = New ExponentialEase() With { .EasingMode = EasingMode.EaseInOut }
+Me.MotionFrameworkManger.TransitionDuration = TimeSpan.FromMilliseconds(1000)
+Me.MotionFrameworkManger.DataUpdateInterval = TimeSpan.FromMilliseconds(1000)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.TransitionFunction = New ExponentialEase() With { .EasingMode = EasingMode.EaseInOut }
+Me.MotionFrameworkManger.TransitionDuration = TimeSpan.FromMilliseconds(1000)
+Me.MotionFrameworkManger.DataUpdateInterval = TimeSpan.FromMilliseconds(1000)
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.TransitionFunction = New ExponentialEase() With { .EasingMode = EasingMode.EaseInOut }
+Me.MotionFrameworkManger.TransitionDuration = TimeSpan.FromMilliseconds(1000)
+Me.MotionFrameworkManger.DataUpdateInterval = TimeSpan.FromMilliseconds(1000)
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.TransitionFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut };
+this.MotionFrameworkManger.TransitionDuration = TimeSpan.FromMilliseconds(1000);
+this.MotionFrameworkManger.DataUpdateInterval = TimeSpan.FromMilliseconds(1000);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.TransitionFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut };
+this.MotionFrameworkManger.TransitionDuration = TimeSpan.FromMilliseconds(1000);
+this.MotionFrameworkManger.DataUpdateInterval = TimeSpan.FromMilliseconds(1000);
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.TransitionFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut };
+this.MotionFrameworkManger.TransitionDuration = TimeSpan.FromMilliseconds(1000);
+this.MotionFrameworkManger.DataUpdateInterval = TimeSpan.FromMilliseconds(1000);
+----
+
+endif::xamarin[]
+
+[start=7]
+. アニメーション化される固有のデータ ソースをバインドするか、DataSourceGenerator を使用して、ランダム データを生成します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.DataSources = DataSourceGenerator.GetDataSources(8, 160)
+' データ ソースを設定します
+Me.MotionFrameworkManger.DataSources = Me.DataSources
+' チャートで使用されるバインドされたオブジェクトのプロパティを設定します
+Me.MotionFrameworkManger.SeriesRadiusMemberPath = MotionDataPoint.PropertyNameValueR
+Me.MotionFrameworkManger.SeriesXMemberPath = MotionDataPoint.PropertyNameValueX
+Me.MotionFrameworkManger.SeriesYMemberPath = MotionDataPoint.PropertyNameValueY
+Me.MotionFrameworkManger.SeriesTimeMemberPath = MotionDataPoint.PropertyNameValueDateTime
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.DataSources = DataSourceGenerator.GetDataSources(8, 160)
+' データ ソースを設定します
+Me.MotionFrameworkManger.DataSources = Me.DataSources
+' チャートで使用されるバインドされたオブジェクトのプロパティを設定します
+Me.MotionFrameworkManger.SeriesRadiusMemberPath = MotionDataPoint.PropertyNameValueR
+Me.MotionFrameworkManger.SeriesXMemberPath = MotionDataPoint.PropertyNameValueX
+Me.MotionFrameworkManger.SeriesYMemberPath = MotionDataPoint.PropertyNameValueY
+Me.MotionFrameworkManger.SeriesTimeMemberPath = MotionDataPoint.PropertyNameValueDateTime
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.DataSources = DataSourceGenerator.GetDataSources(8, 160)
+' データ ソースを設定します
+Me.MotionFrameworkManger.DataSources = Me.DataSources
+' チャートで使用されるバインドされたオブジェクトのプロパティを設定します
+Me.MotionFrameworkManger.SeriesRadiusMemberPath = MotionDataPoint.PropertyNameValueR
+Me.MotionFrameworkManger.SeriesXMemberPath = MotionDataPoint.PropertyNameValueX
+Me.MotionFrameworkManger.SeriesYMemberPath = MotionDataPoint.PropertyNameValueY
+Me.MotionFrameworkManger.SeriesTimeMemberPath = MotionDataPoint.PropertyNameValueDateTime
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.DataSources = DataSourceGenerator.GetDataSources(8, 160);
+// データ ソースを設定します
+this.MotionFrameworkManger.DataSources = this.DataSources;
+// チャートで使用されるバインドされたオブジェクトのプロパティを設定します
+this.MotionFrameworkManger.SeriesRadiusMemberPath = MotionDataPoint.PropertyNameValueR;
+this.MotionFrameworkManger.SeriesXMemberPath = MotionDataPoint.PropertyNameValueX;
+this.MotionFrameworkManger.SeriesYMemberPath = MotionDataPoint.PropertyNameValueY;
+this.MotionFrameworkManger.SeriesTimeMemberPath = MotionDataPoint.PropertyNameValueDateTime;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.DataSources = DataSourceGenerator.GetDataSources(8, 160);
+// データ ソースを設定します
+this.MotionFrameworkManger.DataSources = this.DataSources;
+// チャートで使用されるバインドされたオブジェクトのプロパティを設定します
+this.MotionFrameworkManger.SeriesRadiusMemberPath = MotionDataPoint.PropertyNameValueR;
+this.MotionFrameworkManger.SeriesXMemberPath = MotionDataPoint.PropertyNameValueX;
+this.MotionFrameworkManger.SeriesYMemberPath = MotionDataPoint.PropertyNameValueY;
+this.MotionFrameworkManger.SeriesTimeMemberPath = MotionDataPoint.PropertyNameValueDateTime;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.DataSources = DataSourceGenerator.GetDataSources(8, 160);
+// データ ソースを設定します
+this.MotionFrameworkManger.DataSources = this.DataSources;
+// チャートで使用されるバインドされたオブジェクトのプロパティを設定します
+this.MotionFrameworkManger.SeriesRadiusMemberPath = MotionDataPoint.PropertyNameValueR;
+this.MotionFrameworkManger.SeriesXMemberPath = MotionDataPoint.PropertyNameValueX;
+this.MotionFrameworkManger.SeriesYMemberPath = MotionDataPoint.PropertyNameValueY;
+this.MotionFrameworkManger.SeriesTimeMemberPath = MotionDataPoint.PropertyNameValueDateTime;
+----
+
+endif::xamarin[]
+
+[start=8]
+. {DataChartName} をバインドし、Motion Framework のマネージャーに軸をマッピングします。。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.Chart = Me.DataChart
+Me.MotionFrameworkManger.XAxisName = "axisX"
+Me.MotionFrameworkManger.YAxisName = "axisY"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.Chart = Me.DataChart
+Me.MotionFrameworkManger.XAxisName = "axisX"
+Me.MotionFrameworkManger.YAxisName = "axisY"
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.Chart = Me.DataChart
+Me.MotionFrameworkManger.XAxisName = "axisX"
+Me.MotionFrameworkManger.YAxisName = "axisY"
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.Chart = this.DataChart;
+this.MotionFrameworkManger.XAxisName = "axisX";
+this.MotionFrameworkManger.YAxisName = "axisY";
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.Chart = this.DataChart;
+this.MotionFrameworkManger.XAxisName = "axisX";
+this.MotionFrameworkManger.YAxisName = "axisY";
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.Chart = this.DataChart;
+this.MotionFrameworkManger.XAxisName = "axisX";
+this.MotionFrameworkManger.YAxisName = "axisY";
+----
+
+endif::xamarin[]
+
+[start=9]
+. 最初の手順で作成した Slider コントロールを MotionFrameworkManager の DateTimeSlider プロパティにバインドします。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.DateTimeSlider = Me.MotionSlider
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.DateTimeSlider = Me.MotionSlider
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.DateTimeSlider = Me.MotionSlider
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.DateTimeSlider = this.MotionSlider;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.DateTimeSlider = this.MotionSlider;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.DateTimeSlider = this.MotionSlider;
+----
+
+endif::xamarin[]
+
+[start=10]
+. 現在の DataContext を MotionFrameworkManager オブジェクトに設定します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.DataContext = Me.MotionFrameworkManger
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.DataContext = Me.MotionFrameworkManger
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.DataContext = Me.MotionFrameworkManger
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.DataContext = this.MotionFrameworkManger;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.DataContext = this.MotionFrameworkManger;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.DataContext = this.MotionFrameworkManger;
+----
+
+endif::xamarin[]
+
+[start=11]
+. MotionFrameworkManager オブジェクトを初期化します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.Initialize()
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.Initialize()
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Me.MotionFrameworkManger.Initialize()
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.Initialize();
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.Initialize();
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+this.MotionFrameworkManger.Initialize();
+----
+
+endif::xamarin[]
+
+[start=12]
+. Motion Framework の再生アニメーションを切り替えるボタンの Click イベントのイベント ハンドラーを追加します。
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows
+' ...
+AddHandler MotionPlayToggleButton.Click, AddressOf OnMotionPlayButtonClick
+' ...
+Private Sub OnMotionPlayButtonClick(sender As Object, e As RoutedEventArgs)
+    If Not Me.MotionFrameworkManger.IsPlaying Then
+        Me.MotionFrameworkManger.Play()
+        Me.MotionPlayToggleButton.IsChecked = True
+    Else
+        Me.MotionFrameworkManger.Pause()
+        Me.MotionPlayToggleButton.IsChecked = False
+    End If
+End Sub
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows
+' ...
+AddHandler MotionPlayToggleButton.Click, AddressOf OnMotionPlayButtonClick
+' ...
+Private Sub OnMotionPlayButtonClick(sender As Object, e As RoutedEventArgs)
+    If Not Me.MotionFrameworkManger.IsPlaying Then
+        Me.MotionFrameworkManger.Play()
+        Me.MotionPlayToggleButton.IsChecked = True
+    Else
+        Me.MotionFrameworkManger.Pause()
+        Me.MotionPlayToggleButton.IsChecked = False
+    End If
+End Sub
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Windows
+' ...
+AddHandler MotionPlayToggleButton.Click, AddressOf OnMotionPlayButtonClick
+' ...
+Private Sub OnMotionPlayButtonClick(sender As Object, e As RoutedEventArgs)
+    If Not Me.MotionFrameworkManger.IsPlaying Then
+        Me.MotionFrameworkManger.Play()
+        Me.MotionPlayToggleButton.IsChecked = True
+    Else
+        Me.MotionFrameworkManger.Pause()
+        Me.MotionPlayToggleButton.IsChecked = False
+    End If
+End Sub
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System.Windows;
+// ...
+this.MotionPlayToggleButton.Click += OnMotionPlayButtonClick;
+// ...
+private void OnMotionPlayButtonClick(object sender, RoutedEventArgs e)
+{
+    if (!this.MotionFrameworkManger.IsPlaying)
+    {
+        this.MotionFrameworkManger.Play();
+        this.MotionPlayToggleButton.IsChecked = true;
+    }
+    else
+    {
+        this.MotionFrameworkManger.Pause();
+        this.MotionPlayToggleButton.IsChecked = false;
+    }
+}           
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System.Windows;
+// ...
+this.MotionPlayToggleButton.Click += OnMotionPlayButtonClick;
+// ...
+private void OnMotionPlayButtonClick(object sender, RoutedEventArgs e)
+{
+    if (!this.MotionFrameworkManger.IsPlaying)
+    {
+        this.MotionFrameworkManger.Play();
+        this.MotionPlayToggleButton.IsChecked = true;
+    }
+    else
+    {
+        this.MotionFrameworkManger.Pause();
+        this.MotionPlayToggleButton.IsChecked = false;
+    }
+}           
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System.Windows;
+// ...
+this.MotionPlayToggleButton.Click += OnMotionPlayButtonClick;
+// ...
+private void OnMotionPlayButtonClick(object sender, RoutedEventArgs e)
+{
+    if (!this.MotionFrameworkManger.IsPlaying)
+    {
+        this.MotionFrameworkManger.Play();
+        this.MotionPlayToggleButton.IsChecked = true;
+    }
+    else
+    {
+        this.MotionFrameworkManger.Pause();
+        this.MotionPlayToggleButton.IsChecked = false;
+    }
+}           
+----
+
+endif::xamarin[]
+
+[start=13]
+. プロジェクトを保存します。
+[start=14]
+. (オプション) 結果を確認します。コードを正しく実装した場合には、アニメーションされたチャートは上記の図 1 に示すように表示されるはずです。
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:datachart-chart-performance.html[チャートのパフォーマンス]
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-series-types.html[シリーズ タイプ]

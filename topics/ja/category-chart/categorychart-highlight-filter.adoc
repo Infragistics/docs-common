@@ -1,0 +1,108 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-chart-markers",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= チャート強調表示フィルター
+
+このトピックは、コード例を示して、データ強調表示機能を link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] コントロールで使用する方法を説明します。
+
+== {CategoryChartName} での強調表示フィルターの使用
+
+link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] の強調表示フィルター機能により、列シリーズおよびエリア シリーズ タイプの場合は不透明度を下げて全体セットが表示され、線シリーズ タイプの場合は破線が表示されることで、データのサブセットが強調表示されます。
+
+link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] の強調表示フィルターを有効にするには、チャートに  link:{CategoryChartLink}.{DomainChartName}{ApiProp}InitialHighlightFilter.html[InitialHighlightFilter] を提供する必要があります。通常、これを行うには、チャートの link:{CategoryChartLink}.{DomainChartName}{ApiProp}InitialGroups.html[InitialGroups] プロパティにも値を指定する必要があります。これにより、データ内のメンバー パスを取得してデータをグループ化し、以下で説明する式に基づいてフィルターできるようになります。
+
+link:{CategoryChartLink}.{DomainChartName}{ApiProp}InitialHighlightFilter.html[InitialHighlightFilter] プロパティは、フィルター演算子が省略された OData フィルター構文に似た構文を使用します。たとえば、「Country not equals USA」 というフィルターを適用しようとしている場合、プロパティを設定するときは 「Country ne 'USA'」 になります。
+
+以下は、次のデータ ソースを使用して UK の月ごとの販売数をフィルターで除外する簡単な例です。
+
+*C# の場合:*
+[source, cs]
+----
+    public class SalesItem
+    {
+        public double Value { get; set; }
+        public string Month { get; set; }
+        public string Country { get; set; }
+        
+    }
+
+    public class SalesItemData : List<SalesItem>    
+    {
+        Random r = new Random();
+        public SalesItemData()
+        {
+            this.Add(new SalesItem() { Month = "January", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "January", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "January", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "February", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "February", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "February", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "March", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "March", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "March", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "April", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "April", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "April", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "May", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "May", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "May", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "June", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "June", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "June", Country = "UK", Value = r.Next(500, 1000) });
+        }
+    }
+----
+
+ifdef::wpf[]
+
+*XAML の場合:*
+[source, xaml]
+----
+<ig:{CategoryChartName} Name="chart"        
+                     ItemsSource="{Binding}"          
+                     InitialGroups="Month"                             
+                     ChartType="Column"          
+                     InitialHighlightFilter="Country ne 'UK'"                           
+                     HighlightedValuesDisplayMode="Overlay"
+                     YAxisMinimumValue="0"/>
+----
+
+endif::wpf[]
+
+
+ifdef::wpf,win-forms[]
+
+*C# の場合:*
+[source, csharp]
+----
+{CategoryChartName} chart = new {CategoryChartName}()
+{
+    ItemsSource = new SalesItemData(),
+    InitialGroups = "Month",
+    ChartType = CategoryChartType.Column,
+    InitialHighlightFilter = "Country ne 'UK'",
+    HighlightedValuesDisplayMode = SeriesHighlightedValuesDisplayMode.Overlay,
+    YAxisMinimumValue = 0
+};
+----
+
+endif::wpf,win-forms[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+** link:categorychart-annotation-and-overlays.html[チャートの注釈とオーバーレイ]
+** link:categorychart-data-tooltip.html[チャートのデータ ツールチップ]

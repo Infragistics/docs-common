@@ -1,0 +1,127 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-modify-the-default-bubble-size",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{0A5CE3FC-C0E3-4B03-A66F-A7B637455223}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Modify the Default Bubble Size
+
+You may sometimes require bubbles in a bubble chart to have smaller or larger radii than the chart renders them with originally. A common solution to this problem is to multiply (or divide), by a constant factor, the data values in the data column bound to a bubble chart's  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.bubblechartappearance~columnz.html[ColumnZ]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.bubblechartappearance~columnz.html[ColumnZ]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.bubblechartappearance~columnz.html[ColumnZ]"] , which are the data values used to determine the radius. However, if you attempt to use this approach, you may obtain results that are not satisfactory. This is due to a feature of our bubble charts, designed to prevent "overly large" or "microscopically small" bubbles.
+
+A bubble chart includes proportionality logic that keeps bubbles proportional in size to each other, reflective of the data values in a bubble chart's Column Z. Applying a constant factor, or divisor, across all data values in a column does not alter the values' proportional relationship to each other.
+
+The following table shows an example of the situation:
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|Bubble ID|Original Value ( _n_ )|Divided by 2 ( _n_ /2) to make smaller bubbles|Ratio to Bubbles Before| Ratio to Bubbles After
+
+|#1
+|4
+|2
+|1/2 of #2 
+
+1/4 of #3
+|1/2 of #2 
+
+1/4 of #3
+
+|#2
+|8
+|4
+|2X of #1 
+
+1/2 of #3
+|2X of #1 
+
+1/2 of #3
+
+|#3
+|16
+|8
+|4X of #1 
+
+2X of #2
+|4X of #1 
+
+2X of #2
+
+|====
+
+You will see that in Table 1, the ratio of each bubble to the others remains the same as it was before the data values in Column Z were halved. Consequently, the ratio of the bubbles' radii to each other remains unchanged.
+
+Working around this functionality requires that the data used in Column Z be adjusted by a non-constant factor, as shown in Table 2. Developers applying this approach are cautioned that while controlling bubble size conveys greater visual control over a bubble chart's presentation, it also distorts the informational content inherent in the bubbles' radii. You may find sacrificing accuracy for aesthetic considerations an acceptable compromise in the context of your application, but you should be aware that you are reducing the accuracy of the chart.
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|Bubble ID|Original Value ( _n_ )|Divided by (100- _n_ ) to make smaller bubbles|Ratio to Bubbles Before| Ratio to Bubbles After
+
+|#1
+|1
+|1/99^th^
+|1/50^th^ of #2 
+
+1/99^th^ of #3
+|1/99^th^ of #2 
+
+1/9801^th^ of #3
+
+|#2
+|50
+|1
+|50X of #1 
+
+~1/2 of #3
+|99X of #1 
+
+1/99^th^ of #3
+
+|#3
+|99
+|99
+|99X of #1 
+
+~2X of #2
+|9801X of #1 
+
+99X of #2
+
+|====
+
+This second transformation alters the ratio between bubbles and therefore exhibits an effect on the radii of bubbles rendered by a bubble chart.
+
+A general-purpose formula used for making these smaller bubbles would be:
+
+[source]
+----
+( DataZ × scalingFactor ) ÷ ( | DataZmax - DataZmin | ) - DataZ
+----
+
+The variables in this formula are as follows:
+
+* *Data~Z~* - Current data value in the data column identified by the ColumnZ property of BubbleChartAppearance object for the current bubble.
+* *Data~Zmax~* - Maximum data value in the data column identified by the ColumnZ property of the BubbleChartAppearance object.
+* *Data~Zmin~* - Minimum data value in the data column identified by the ColumnZ property of the BubbleChartAppearance object.
+* *scalingFactor* - A factor the developer multiplies against all data values in the data column identified by ColumnZ before binding the chart data to Chart.
+
+In code, you would implement this formula as:
+
+----
+Data_Znew = (Data_Z * scalingFactor) / (Abs(Data_Zmax - Data_Zmin) -  Data_Z)
+----
+
+As illustrated here, scalingFactor would be 1.0, but it can be increased to moderate the intensity of its effect and meet the visual needs of the presentation.
+
+== Related Topics
+
+link:chart-bubble-chart-2d.html[2D Bubble Chart]
+
+link:chart-bubble-chart-3d.html[3D Bubble Chart]

@@ -1,0 +1,1154 @@
+﻿////
+|metadata|
+{
+    "name": "bulletgraph-configuring-the-scale",
+    "controlName": ["{BulletGraphName}"],
+    "tags": ["Charting","How Do I"],
+    "guid": "3eaac3d7-7fdc-4659-974e-b57c15e8d236",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0018684Z"
+}
+|metadata|
+////
+
+= チャート スケールの構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは例を使用して、 _{BulletGraphName}_   コントロールのスケールをカスタマイズする方法を説明します。説明には、コントロール内のスケールの配置、スケールの目盛およびラベルの構成が含まれます。(デフォルト設定については、 link:bulletgraph-overview.html[ _{BulletGraphName}_  概要]のトピックを参照してください。)
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:bulletgraph-overview.html[{BulletGraphName} 概要]
+|このトピックでは、主要機能、最小要件、ユーザー機能など、 _{BulletGraphName}_ コントロールに関する概念的な情報を提供します。
+
+| link:bulletgraph-adding.html[{BulletGraphName} の追加]
+|このトピックでは、{BulletGraphName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Introduction, 概要 >>
+
+** <<_Ref361864023,スケール構成の概要>>
+** <<_Ref361864029,スケール構成の概要表>>
+
+* <<_Ref357787105, スケールサイズと位置の構成 >>
+
+** <<_Ref361864053,概要>>
+** <<_Ref361864060,プロパティ設定>>
+** <<_Ref361864068,例>>
+
+* <<_Ref362967447, スケールの範囲の構成 >>
+
+** <<_Ref362957285,概要>>
+** <<_Ref362957294,プロパティ設定>>
+** <<_Ref362957303,例>>
+
+* <<_ConfiguringScaleMajorTickMarks, スケールの主目盛の構成 >>
+
+** <<_Ref361864212,概要>>
+** <<_ConfiguringThePositionAlongTheScale,スケールに沿った位置、数、およびスペースの構成>>
+** <<_Ref362623912,スケール全域での位置およびセグメントの長さの構成>>
+** <<_Ref361864247,プロパティ設定>>
+** <<_Ref361864252,例>>
+
+* <<_Ref358209462, スケールの副目盛の構成 >>
+
+** <<_Ref361864270,概要>>
+** <<_Ref362631410,スケールに沿った位置、数、およびスペースの構成>>
+** <<_Ref362631420,スケール全域での位置およびセグメントの長さの構成>>
+** <<_Ref361864274,プロパティ設定>>
+** <<_Ref361864279,例>>
+
+* <<_Ref362292715, スケールのラベリングの構成 >>
+
+** <<_Ref361864298,概要>>
+
+ifdef::xamarin,android[]
+** <<_Ref361864305,イベント処理>>
+
+endif::xamarin,android[]
+
+** <<_Ref361864310,プロパティ設定>>
+** <<_Ref361864318,例 - 水平方向>>
+** <<_Ref361864329,例 - 垂直方向>>
+
+* <<_Ref361864362, 関連コンテンツ >>
+
+** <<_Ref361864379,トピック>>
+
+** <<_Ref362293151,リソース>>
+
+[[_Introduction]]
+== 概要
+
+[[_Ref361864023]]
+
+=== スケール構成の概要
+
+_{BulletGraphName}_ コントロールのスケールは、目盛と番号ラベルで形成された論理エンティティです。目盛のサイズおよび位置は link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]に対して構成され、番号ラベルの位置はコントロールの内側の端 (水平方向で下端) に対して構成されます。
+
+{BulletGraphName} コントロールの目盛は、チャートに沿ってメジャーに等間隔で表示されます。目盛は、主目盛および副目盛の 2 種類がサポートされています。どちらの目盛も、グラフ領域に対して測定される範囲関連の各プロパティの値を調整することにより、スケールに沿って配置できます。目盛の正確な数、位置、外観、および表示の頻度はプロパティ設定によりカスタマイズできます。
+
+ラベルについては、位置、テキスト、書式などのさまざまな要素が構成できます。
+
+[[_Ref361864029]]
+
+=== スケール構成の概要表
+
+以下の表は、 _{BulletGraphName}_   コントロールのスケールで構成できる要素を簡単に説明し、構成に使用するプロパティへのマッピングです。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な点|プロパティ|デフォルト値
+
+|位置
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+| _0.05_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+| _0.95_ 
+
+| 背景
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleBackgroundBrush.html[ScaleBackgroundBrush]
+| デフォルトのテーマで定義済み
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleBackgroundOutline.html[ScaleBackgroundOutline]
+| デフォルトのテーマで定義済み
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}ScaleBackgroundThickness.html[ScaleBackgroundThickness]
+| 1.0
+
+
+|最小値
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minimumvalue.html[MinimumValue]
+| _0_ 
+
+|最大値
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}maximumvalue.html[MaximumValue]
+| _100_ 
+
+|主目盛
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+ifdef::wpf,sl,win-forms,android[]
+|設定なし
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0_
+endif::xamarin[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _0_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _0_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent]
+ifdef::wpf,sl,win-forms,android[]
+| _0.1_ 
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0.06_
+endif::xamarin[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.2_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickbrush.html[TickBrush]
+|デフォルトのテーマで定義済み
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _2.0_ 
+
+|副目盛
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount]
+|_3.0_
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+ifdef::wpf,sl,win-forms,android[]
+| _0.06_ 
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0.1_
+endif::xamarin[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.2_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|デフォルトのテーマで定義済み
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _1.0_ 
+
+|ラベル
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+| _0_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+ifdef::wpf,sl,win-forms,android[]
+|設定なし
+endif::wpf,sl,win-forms,android[]
+
+ifdef::xamarin[]
+|_0_
+endif::xamarin[]
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _0_ 
+
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _0_ 
+
+ifdef::sl,wpf[]
+|
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelformat.html[LabelFormat]
+|設定なし
+endif::sl,wpf[]
+
+|色
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+|デフォルトのテーマで定義済み
+
+|====
+
+[[_Ref357787105]]
+== スケールサイズと位置の構成
+
+[[_Ref361864053]]
+
+=== 概要
+
+スケールに沿ったディメンションの  _{BulletGraphName}_   コントロール内でのスケールのサイズおよび位置は、 link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]に対して決定されます。これは一組のプロパティ ( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scalestartextent.html[ScaleStartExtent] および link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scaleendextent.html[ScaleEndExtent]) により実行されます。
+
+image::images/BulletGraph_Configuring_the_Scale_1.png[]
+
+グラフ領域の他方 (スケール全域) のディメンションでのスケールの配置自体を構成できませんが、スケールを構成するすべての要素で個別に構成されます。
+
+.注:
+[NOTE]
+====
+番号ラベルの配置を制御する `LabelExtent` プロパティの値は、コントロールの方向が水平の場合はコントロールの高さに対して測定され、それ以外の場合はコントロールの幅に対して測定されます。(詳細は、 link:bulletgraph-configuring-the-orientation-and-direction.html[向きと方向の構成]を参照してください。)
+====
+
+[[_Ref361864060]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864068,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|開始位置
+
+|水平方向で link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]の左端からのスケールの開始位置、または垂直方向でグラフ領域の下端からのスケールの開始位置。 
+
+(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。詳細は、 link:bulletgraph-configuring-the-orientation-and-direction.html[向きと方向の構成]を参照してください。)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.2)_
+
+|終了位置
+
+|水平方向でコントロールの左端に対するグラフ領域の左端からのスケール の終了位置、または垂直方向ではグラフ領域の下端からのスケールの終了位置。 
+
+(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。詳細は、link:bulletgraph-configuring-the-orientation-and-direction.html[向きと方向の構成]を参照してください。)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.8_ )
+
+|====
+
+[[_Ref361864068]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、 _{BulletGraphName}_   の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+|`ScaleStartExtent`
+| _0.2_ 
+
+|`ScaleEndExtent`
+| _0.9_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_2.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} x:Name="bulletGraph"
+                 ScaleStartExtent="0.2"
+                 ScaleEndExtent="0.9"  />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+bulletGraph.ScaleStartExtent = .2;
+bulletGraph.ScaleEndExtent = .9;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*VB の場合:*
+
+[source,vb]
+----
+bulletGraph.ScaleStartExtent = .2
+bulletGraph.ScaleEndExtent = .9
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,java]
+----
+bulletGraph.setScaleStartExtent(.2);
+bulletGraph.setScaleEndExtent(.9);
+----
+
+endif::android[]
+
+[[_Ref362967447]]
+== スケールの範囲の構成
+
+[[_Ref362957285]]
+
+=== 概要
+
+スケールの値は、その値の範囲 (つまり最小値と最大値) を指定することで定義します。 link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minimumvalue.html[MinimumValue] および link:{BulletGraphLink}.{BulletGraphName}{ApiProp}maximumvalue.html[MaximumValue] プロパティで指定します。
+
+最小値と最大値を設定するとスケール内のすべての値が定義され、すべての値は最小値と最大値の間に均等に分布されます。ただし、表示されるにはスケールに配置された番号ラベルがある値のみです。(スケールの値は番号ラベルによってのみ表示できます。ラベルは、スケール上のラベルの位置に基づき各値を表示します。つまり、ラベルの値はスケールに沿ったラベルの配置よって構成され、明示的には設定されません。)最小値および最大値の位置にラベルは必要ではありません。これは、最小値および最大値がスケール上に表示されず、スケールが以下のように表示される可能性があることを意味します。
+
+image::images/BulletGraph_Configuring_the_Scale_3.png[]
+
+スケールの範囲を定義すると、比較範囲、比較マーカーおよびパフォーマンス バーなどの他の値ベースの視覚要素もスケール上に配置できます。前述の要素は値ベースであるため、スケールの範囲が変化 (最小値または最大値の変化、あるいはその両方の変化) すると、これらの視覚要素は、スケール上の位置が保持されたスケール値に応じて再配置されます。 
+
+[[_Ref362957294]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref362957303,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|スケールの最小値
+|スケールが開始する値。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minimumvalue.html[MinimumValue]
+|スケールのメジャーにおける任意の値
+
+|スケールの最大値
+|スケールが終了する値。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}maximumvalue.html[MaximumValue]
+|スケールのメジャーにおける任意の値
+
+|====
+
+[[_Ref362957303]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、 _{BulletGraphName}_   の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+|`MinimumValue`
+| _60_ 
+
+|`MaximumValue`
+| _70_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_4.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} 
+          MinimumValue="60"
+          MaximumValue="70" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+[source,cs2]
+----
+bulletGraph.MaximumValue = 70;
+bulletGraph.MinimumValue = 60;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*VB の場合:*
+
+[source,vb]
+----
+bulletGraph.MaximumValue = 70
+bulletGraph.MinimumValue = 60
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+bulletGraph.setMaximumValue(70);
+bulletGraph.setMinimumValue(60);
+----
+
+endif::android[]
+
+[[_ConfiguringScaleMajorTickMarks]]
+== スケールの主目盛の構成
+
+[[_Ref361864212]]
+
+=== 概要
+
+{BulletGraphName} コントロールの主目盛は、位置および表示する間隔に関してカスタマイズできます。主目盛を形成する線分の高さ、幅、および色も構成が可能です。
+
+[[_ConfiguringThePositionAlongTheScale]]
+
+=== スケールに沿った位置、数、およびスペースの構成
+
+主目盛は、開始点および終了点 ( link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]の端からの最初と最後の目盛位置)、および表示する間隔 (各目盛間の距離) で定義します。( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]、 link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]、および link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval] プロパティで定義されます。)この方法で主目盛の開始点および終了点を定義すると、基本的にスケールの位置および長さを定義することになります。
+
+image::images/BulletGraph_Configuring_the_Scale_5.png[]
+
+[[_Ref362623912]]
+
+=== スケール全域での位置およびセグメントの長さの構成
+
+スケール全域のディメンションでは、主目盛を形成する線分の長さと位置は link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]の端に対して構成されます。( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent] および link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent] プロパティによって構成されます。)
+
+image::images/BulletGraph_Configuring_the_Scale_6.png[]
+
+[[_Ref361864247]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864252,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|開始点
+|スケールの<<_Ref361864060,開始位置>>に対して主目盛が始まる距離
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+|スケールの開始位置からスケールのメジャーの任意の距離
+
+|終了点
+|スケールの<<_Ref361864060,終了位置>>に対して主目盛が終了する距離
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+|スケールの終了位置からスケールのメジャーの任意の距離
+
+|間隔
+|主目盛を配置する間隔 (間隔は、スケールのメジャーにおける隣接する 2 つの主目盛間の距離です。)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+|スケールのメジャーにおける任意の値
+
+|開始点
+|主目盛を形成する線分の開始点。 
+
+(開始点は、水平方向でグラフ領域の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。) 
+
+負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent]
+|方向に応じたグラフ領域の高さと幅の相対部分として、スケールのメジャーの望ましい値。小数で指定 (例: _0.2)_
+
+|終了点
+|水平方向でグラフ領域の下部から主目盛を形成する線分の終了点、または垂直方向でグラフ領域の左の境界線からの主目盛の線分の終了点。 
+
+負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。 
+
+(開始点と終了点間の差が目盛の線分の長さになります。)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent]
+|方向に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: _0.8_ )
+
+|幅
+|主目盛の線分の幅
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+|任意の値 (ピクセル)
+
+|色
+|主目盛の色
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickbrush.html[TickBrush]
+|任意の色
+
+|====
+
+[[_Ref361864252]]
+
+=== 例
+
+以下のスクリーンショットは、下記設定の結果、 _{BulletGraphName}_  の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+| _30._ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickbrush.html[TickBrush]
+| _Lime_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.9_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _10_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstartextent.html[TickStartExtent]
+| _0.5_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _3_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_7.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} Interval="30"
+                 TickBrush="Lime"
+                 TickEndExtent="0.9"
+                 TicksPostInitial="30"
+                 TicksPreTerminal="10"
+                 TickStartExtent="0.5"
+                 TickStrokeThickness="3" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+[source,cs3]
+----
+bulletGraph.Interval = 30;
+bulletGraph.TickBrush = new SolidColorBrush(Color.Lime);
+bulletGraph.TickEndExtent = .9;
+bulletGraph.TicksPostInitial = 30;
+bulletGraph.TicksPreTerminal = 10;
+bulletGraph.TickStartExtent = .5;
+bulletGraph.TickStrokeThickness = 3;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*VB の場合:*
+
+[source,vb]
+----
+bulletGraph.Interval = 30
+bulletGraph.TickBrush = New SolidColorBrush(Color.Lime)
+bulletGraph.TickEndExtent = .9
+bulletGraph.TicksPostInitial = 30
+bulletGraph.TicksPreTerminal = 10
+bulletGraph.TickStartExtent = .5
+bulletGraph.TickStrokeThickness = 3
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,Java]
+----
+bulletGraph.setInterval(30);
+bulletGraph.setTickBrush(new SolidColorBrush(Color.parseColor("#BFFF00")));
+bulletGraph.setTickEndExtent(.9);
+bulletGraph.setTicksPostInitial(30);
+bulletGraph.setTicksPreTerminal(10);
+bulletGraph.setTickStartExtent(.5);
+bulletGraph.setTickStrokeThickness(3);
+----
+
+endif::android[]
+
+[[_Ref358209462]]
+== スケールの副目盛の構成
+
+[[_Ref361864270]]
+
+=== 概要
+
+{BulletGraphName} コントロールの副目盛は、明示的に無効にできます。あるいは、2 つの主目盛間の番号、位置、サイズ、および色をカスタマイズできます。
+
+[[_Ref362631410]]
+
+=== スケールに沿った位置、数、およびスペースの構成
+
+副目盛は、数 (隣接する 2 つの主目盛間の副目盛の数) として定義されます。(数は link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount] プロパティにより定義されます。このプロパティを  _0_  に設定すると、副目盛が無効 (非表示) になります。)数が設定されると、指定された数の副目盛はスケール全体で、各隣接した 2 つの主目盛間に均等に配置されます。
+
+[[_Ref362631420]]
+
+=== スケール全域での位置およびセグメントの長さの構成
+
+スケール全域のディメンションでは、副目盛の長さと位置は link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]の端に対して構成されます。
+
+image::images/BulletGraph_Configuring_the_Scale_8.png[]
+
+[[_Ref361864274]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864279,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|番号とスペース
+|隣接する 2 つの主目盛間の副目盛の数
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount]
+|任意の数。 _0_ を設定すると副目盛を非表示。
+
+|開始点
+|副目盛を形成する線分の開始点。 
+
+(開始点は、水平方向で link:bulletgraph-overview.html#_GraphAreaLink[グラフ領域]の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。) 
+
+負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.2)_
+
+|終了点
+|水平方向ではグラフ領域の下部から副目盛を形成する線分の終了点、または垂直方向でグラフ領域の左の境界線からの副目盛の線分の終了点。 
+
+負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。 
+
+(開始点と終了点間の差が目盛の線分の長さになります。)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.25)_ 
+
+|幅
+|副目盛の線分の幅
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+|任意の値 (ピクセル)
+
+|色
+|副目盛の色
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|任意の色
+
+|====
+
+[[_Ref361864279]]
+
+=== 例
+
+以下のスクリーンショットは、下記設定の結果、 _{BulletGraphName}_  の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickbrush.html[MinorTickBrush]
+| _Purple_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickcount.html[MinorTickCount]
+| _4._ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.1_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+| _0.05_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _2_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval]
+| _20_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_9.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} MinorTickBrush="Purple"
+                 MinorTickCount="4"
+                 MinorTickEndExtent="0.1"
+                 MinorTickStartExtent="0.05"
+                 MinorTickStrokeThickness="2"
+                 Interval="20" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+[source,cs4]
+----
+bulletGraph.MinorTickBrush = new SolidColorBrush(Color.Purple);
+bulletGraph.MinorTickCount = 4;
+bulletGraph.MinorTickEndExtent = .1;
+bulletGraph.MinorTickStartExtent = .05;
+bulletGraph.MinorTickStrokeThickness = 2;
+bulletGraph.Interval = 20;
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*VB の場合:*
+
+[source,vb]
+----
+bulletGraph.MinorTickBrush = New SolidColorBrush(Color.Purple)
+bulletGraph.MinorTickCount = 4
+bulletGraph.MinorTickEndExtent = .1
+bulletGraph.MinorTickStartExtent = .05
+bulletGraph.MinorTickStrokeThickness = 2
+bulletGraph.Interval = 20
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,java]
+----
+bulletGraph.setMinorTickBrush(new SolidColorBrush(Color.parseColor("#9B30FF")));
+bulletGraph.setMinorTickCount(4);
+bulletGraph.setMinorTickEndExtent(.1);
+bulletGraph.setTickStartExtent(.05);
+bulletGraph.setMinorTickStrokeThickness(2);
+bulletGraph.setInterval(20);
+----
+
+endif::android[]
+
+[[_Ref362292715]]
+== スケールのラベリングの構成
+
+[[_Ref361864298]]
+
+=== 概要
+
+デフォルトで、スケールのメジャーを示すラベルは有効になっています。ラベルは以下の要因で定義します。
+
+*  *開始点および終了点*  - スケールの両端での最初と最後のラベルの位置
+*  *ラベル行の幅*  - 方向 (垂直 / 水平) に応じたコントロールの高さと幅に対する幅。この幅は、適用されたスタイル テンプレートのフォント設定のみで間接的に制御できます。
+*  *発生する間隔*  (相互距離)。( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]、 link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]、および link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval] プロパティにより定義されます。)
+*  *スケール全域のディメンションでのラベル行の位置*  - デフォルトで、水平に対してコントロールの下部、垂直に対して左側に設定されています。水平のスケール方向で全行は垂直に移動し、垂直のスケール方向で水平に移動することができます。 link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent] プロパティにより定義されます。
+
+image::images/BulletGraph_Configuring_the_Scale_10.png[]
+
+各ラベルが表示する値は、スケール上の位置によって表される値で定義されます。(このためには<<_Ref362967447,スケールの値の範囲の構成>>が必要です。)文字列の書式はラベルに適用できるため、外観を追加でカスタマイズできます。デフォルトで、数値ラベルは各主目盛に対して表示され、ラベルはスケールの方向 (水平 / 垂直) に応じてスケールの下位 / 左側に配置されます。
+
+ラベルと主目盛をカスタマイズすると、相互の位置関係を確認する必要があります。位置を合わせるには、目盛の間隔 ( link:{BulletGraphLink}.{BulletGraphName}{ApiProp}interval.html[Interval] プロパティ) とラベルの間隔 (`LabelInterval` プロパティ) を同じ値に設定します。(デフォルトで、`LabelInterval` プロパティは設定されていませんが、`Interval` に設定された値を使用するため、正しく位置合わせされます。)
+
+ifdef::xamarin,android[]
+
+[[_Ref361864305]]
+
+=== イベント処理
+
+{BulletGraphName} のラベルは、対応するイベントを処理する場合に追加で書式設定 pick:[android="し、位置を調整"] できます。
+
+以下の表では、任意の動作と各イベントのマップを示します。
+
+[options="header", cols="a,a"]
+|====
+|目的:|このイベントの処理:
+
+|ラベルのフォーマット
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}formatlabel_ev.html[FormatLabel]
+
+ifdef::android[]
+|ラベルの位置合わせ
+|pick:[sl=" link:{BulletGraphLink}.{BulletGraphName}{ApiProp}alignlabel_ev.html[AlignLabel]"]
+endif::android[]
+
+|====
+
+endif::xamarin,android[]
+
+[[_Ref361864310]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864318,例 - 水平方向>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|位置
+|垂直 / 水平方向に応じた、コントロールの下部 / 左端に対するラベル行の配置。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+|垂直 / 水平方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.8_ )。
+
+|開始点
+|スケールに沿った最初のラベルのスケールのメジャーにおける位置
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+|スケールの最初のラベルを表示するスケールのメジャーにおける値
+
+|終了点
+|スケールに沿った最後のラベルのスケールのメジャーにおける位置
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+|スケールの最後のラベルを表示するスケールのメジャーにおける値
+
+|間隔
+|ラベルを配置する間隔 (間隔は、スケールのメジャーにおける隣接する 2 つのラベルの距離です。)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+|スケールのメジャーにおける任意の値
+
+ifdef::sl,wpf[]
+|文字列の書式
+|ラベルの文字列の書式 (数値、時間、複合など)
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelformat.html[LabelFormat]
+|任意の link:http://msdn.microsoft.com/ja-jp/library/26etazsy.aspx[文字列形式] (通貨の値を表示する _{0:c}_ など)
+endif::sl,wpf[]
+
+|フォント色
+|ラベルのフォント色
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+|任意の色
+
+|====
+
+[[_Ref361864318]]
+
+=== 例 - 水平方向
+
+以下のスクリーンショットは、以下の設定の結果、デフォルトの水平方向で {BulletGraphName} の外観がどのようになるか示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+| _0.5_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+| _Green_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_11.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} LabelExtent="0.5"
+                 LabelInterval="30"
+                 LabelsPostInitial="20"
+                 LabelsPreTerminal="20"
+                 FontBrush="Green" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+[source,cs5]
+----
+bulletGraph.LabelExtent = .5;
+bulletGraph.LabelInterval = 30;
+bulletGraph.LabelsPostInitial = 20;
+bulletGraph.LabelsPreTerminal = 20;
+bulletGraph.FontBrush = new SolidColorBrush(Color.Green);
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*VB の場合:*
+
+[source,vb]
+----
+bulletGraph.LabelExtent = .5
+bulletGraph.LabelInterval = 30
+bulletGraph.LabelsPostInitial = 20
+bulletGraph.LabelsPreTerminal = 20
+bulletGraph.FontBrush = New SolidColorBrush(Color.Green)
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+bulletGraph.setLabelExtent(20);
+bulletGraph.setLabelInterval(30);
+bulletGraph.setLabelsPostInitial(20);
+bulletGraph.setLabelsPreTerminal(20);
+bulletGraph.setFontBrush(new SolidColorBrush(Color.GREEN));
+----
+
+endif::android[]
+
+[[_Ref361864329]]
+
+=== 例 - 垂直方向
+
+以下のスクリーンショットは、以下のプロパティ設定の結果、(<<_Ref361864318,例 - 水平方向>>の場合と同様に) 垂直方向で {BulletGraphName} の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}orientation.html[Orientation]
+| _Vertical_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelextent.html[LabelExtent]
+| _0.5_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelinterval.html[LabelInterval]
+| _30_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _20_ 
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}fontbrush.html[FontBrush]
+| _Green_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Scale_12.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{BulletGraphName} Orientation="Vertical"
+                 LabelExtent="0.5"
+                 LabelInterval="30"
+                 LabelsPostInitial="20"
+                 LabelsPreTerminal="20"
+                 FontBrush="Green" />
+----
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+[source,cs6]
+----
+bulletGraph.Orientation = LinearScaleOrientation.Vertical;
+bulletGraph.LabelExtent = .8;
+bulletGraph.LabelInterval = 30;
+bulletGraph.LabelsPostInitial = 20;
+bulletGraph.LabelsPreTerminal = 20;
+bulletGraph.FontBrush = new SolidColorBrush(Color.Green);
+----
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,sl,win-forms[]
+
+*VB の場合:*
+
+[source,vb]
+----
+bulletGraph.Orientation = LinearScaleOrientation.Vertical
+bulletGraph.LabelExtent = .8
+bulletGraph.LabelInterval = 30
+bulletGraph.LabelsPostInitial = 20
+bulletGraph.LabelsPreTerminal = 20
+bulletGraph.FontBrush = New SolidColorBrush(Color.Green)
+----
+
+endif::wpf,sl,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,java]
+----
+bulletGraph.setOrientation(LinearScaleOrientation.VERTICAL);
+bulletGraph.setLabelExtent(.5);
+bulletGraph.setLabelInterval(30);
+bulletGraph.setLabelsPostInitial(20);
+bulletGraph.setLabelsPreTerminal(20);
+bulletGraph.setFontBrush(new SolidColorBrush(Color.GREEN));
+----
+
+endif::android[]
+
+[[_Ref361864362]]
+== 関連コンテンツ
+
+[[_Ref361864379]]
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:bulletgraph-configuring-the-orientation-and-direction.html[向きと方向の構成 ({BulletGraphName})]
+|このトピックは、垂直スケールと反転したスケール方向の両方またはいずれか一方により _{BulletGraphName}_ コントロールを構成する方法を説明します。
+
+ifdef::sl,wpf[]
+| link:bulletgraph-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成 ({BulletGraphName})]
+|このトピックでは、コード例を使用して、{BulletGraphName} コントロールのタイトルおよびサブタイトルを構成する方法を説明します。説明には、タイトル領域の幅、テキストの開始位置、およびタイトル / サブタイトルのテキストが含まれます。
+endif::sl,wpf[]
+
+| link:bulletgraph-configuring-the-performance-bar.html[パフォーマンス バーの構成 ({BulletGraphName})]
+|このトピックでは例を使用して、 _{BulletGraphName}_ コントロールのパフォーマンス バーを構成する方法を説明します。説明には、バーが示す値、幅、位置、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-the-comparative-marker.html[比較マーカーの構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールの比較目盛マーカーを構成する方法を説明します。説明には、マーカーの値、幅、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-comparative-ranges.html[比較範囲の構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールの範囲を構成する方法を説明します。説明には、範囲の数、位置、長さ、幅、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-the-background.html[背景の構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、ブレット グラフの背景を構成する方法を説明します。説明には、背景のサイズ、位置、色、および境界線の設定が含まれます。
+
+ifdef::wpf,sl[]
+| link:bulletgraph-configuring-the-tooltips.html[ツールチップの構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法を説明します。
+endif::wpf,sl[]
+
+|====
+
+[[_Ref362293151]]
+
+=== リソース
+
+以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+[options="header", cols="a,a"]
+|====
+|タイトル|目的
+
+| link:http://msdn.microsoft.com/ja-jp/library/26etazsy.aspx[書式設定のタイプ]
+|書式設定タイプに関する MSDN の概要記事には、特定の文字列の書式に関する補助記事もあります。
+
+|====

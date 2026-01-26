@@ -1,0 +1,217 @@
+﻿= Using OrdinalTimeXAxis
+
+This topic demonstrates, with code examples, how to use the link:{DataChartLink}.ordinaltimexaxis.html[OrdinalTimeXAxis] in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] control. The benefit of using this axis is to dynamically change `DateTime` label formats as you zoom in or out of your data.
+
+=== In this topic
+
+This topic is organized as follows:
+
+* <<Overview, Overview>>
+* <<AxisLabelFormats, Axis Label Formats>>
+* <<Related, Related Content>>
+
+[[Overview]]
+=== Overview
+
+The `OrdinalTimeXAxis` may be used with the following series:
+
+* link:datachart-category-series-overview.html[Category Series]
+
+* link:datachart-financial-indicators-overview.html[Financial Indicators]
+
+* link:datachart-series-financial-price-series-overview.html[Financial Series]
+
+The main difference between the `OrdinalTimeXAxis` and the link:{DataChartLink}.timexaxis.html[TimeXAxis] is that in the ordinal axis, the dates displayed are assumed to be equidistant. The `TimeXAxis` currently sorts and aligns them according to a chronological timescale.
+
+Below is a code example on how to add the `OrdinalTimeXAxis` to the chart:
+
+ifdef::wpf[]
+**In XAML:**
+[source, xaml]
+----
+<ig:{DataChartName} x:Name="chart">
+    <ig:{DataChartName}.Axes>
+        <ig:OrdinalTimeXAxis x:Name="xAxis" ItemsSource="{Binding Data}" DateTimeMemberPath="Date">
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+**In C#:**
+[source, csharp]
+----
+var dataChart = new {DataChartName}();
+
+var ordinalAxis = new OrdinalTimeXAxis();
+ordinalAxis.ItemsSource = data;
+ordinalAxis.DateTimeMemberPath = "Date";
+            
+dataChart.Axes.Add(ordinalAxis);        
+----
+
+**In Visual Basic:**
+[source, vb]
+----
+Dim dataChart As {DataChartName} = New {DataChartName}()
+
+Dim ordinalAxis As OrdinalTimeXAxis = New OrdinalTimeXAxis()
+ordinalAxis.ItemsSource = data
+ordinalAxis.DateTimeMemberPath = "Date"
+
+dataChart.Axes.Add(ordinalAxis)
+----
+endif::wpf,win-forms[]
+
+Below is a screenshot demonstrating the usage of the OrdinalTimeXAxis with a `FinancialPriceSeries`:
+
+image:images/ordinal_time_axis.png[]
+
+[[AxisLabelFormats]]
+=== Axis Label Formats
+
+The link:{DataChartLink}.ordinaltimexaxis.html[OrdinalTimeXAxis] has the link:{DataChartLink}.ordinaltimexaxis{ApiProp}labelformats.html[LabelFormats] property which is a collection of type link:{DataChartLink}.timeaxislabelformat.html[TimeAxisLabelFormat]. Each link:{DataChartLink}.timeaxislabelformat.html[TimeAxisLabelFormat] added to the collection is responsible for assigning a unique link:{DataChartLink}.timeaxislabelformat{ApiProp}format.html[Format] and link:{DataChartLink}.timeaxislabelformat{ApiProp}range.html[Range].  This can be especially useful for drilling data from years to milliseconds and adjusting the labels depending on the range of time shown by the chart.
+
+[options="header", cols="a,a,a"]
+|====
+|Name
+|Type
+|Description
+
+|link:{DataChartLink}.timeaxislabelformat{ApiProp}format.html[TimeAxisLabelFormat.Format]
+|`string`
+|Specifies what format to use for the visible range.
+
+|link:{DataChartLink}.timeaxislabelformat{ApiProp}range.html[TimeAxisLabelFormat.Range]
+|`TimeSpan`
+|Specifies the visible range at which the axis label formats will switch to a different format.  For example, if you have two link:{DataChartLink}.timeaxislabelformat.html[TimeAxisLabelFormat] with a range set to 10 days and another set to 5 hours, as soon as the visible range in the axis becomes less than 10 days it will switch to 5 hour format.
+|====
+
+The following lists a typical set of label formats for the given amount of time in view:
+
+1. 1825 days or more (eg. 5 years) will result in a format of "yyyy".
+2. 365 days or more (eg. 1 year) will result in a format of "MMM yy".
+3. 1 day or more will result in a format of "MMM-dd-yy".
+4. 5 hours or more will result in a format of "hh:mm".
+5. Below 5 hours will result in a format of "hh:mm:ss".
+
+ifdef::wpf[]
+
+*In XAML:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+       <ig:OrdinalTimeXAxis x:Name="xAxis" ItemsSource="{StaticResource data}" DateTimeMemberPath="Date" >
+            <ig:OrdinalTimeXAxis.LabelFormats>
+                    <ig:TimeAxisLabelFormat     
+                        Format="hh:mm:ss" 
+                        Range="0.00:00:00"/>
+                    <ig:TimeAxisLabelFormat
+                        Format="hh:mm"
+                        Range="0.05:00:00"/>
+                    <ig:TimeAxisLabelFormat
+                        Format="MMM-dd-yy"
+                        Range="1.00:00:00" />
+                    <ig:TimeAxisLabelFormat
+                        Format="MMM yy"
+                        Range="365.0:00:00" />
+                    <ig:TimeAxisLabelFormat
+                        Format="yyyy"
+                        Range="1825.0:00:00" />
+            </ig:OrdinalTimeXAxis.LabelFormats>
+        </ig:OrdinalTimeXAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#:*
+[source,csharp]
+----
+var DataChart = new {DataChartName}();
+var ordinalTimeXAxis = new OrdinalTimeXAxis();
+DataChart.Axes.Add(ordinalTimeXAxis);
+
+var axisFormat = ordinalTimeXAxis.LabelFormats;
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "hh:mm:ss", 
+    Range = new TimeSpan(0, 0, 0, 0, 0)  
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "hh:mm", 
+    Range = new TimeSpan(0, 5, 0, 0, 0) 
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "MMM-dd-yy", 
+    Range = new TimeSpan(1, 0, 0, 0, 0) 
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "MMM yy", 
+    Range = new TimeSpan(365, 0, 0, 0, 0) 
+});
+
+axisFormat.Add(new TimeAxisLabelFormat 
+{ 
+    Format = "yyyy",
+    Range = new TimeSpan(1825, 0, 0, 0, 0) 
+});
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim DataChart = New {DataChartName}()
+Dim ordinalTimeXAxis = New OrdinalTimeXAxis()
+DataChart.Axes.Add(timeXAxis)
+
+Dim axisFormat = ordinalTimeXAxis.LabelFormats
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "hh:mm:ss", _
+	.Range = New TimeSpan(0, 0, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "hh:mm", _
+	.Range = New TimeSpan(0, 5, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "MMM-dd-yy", _
+	.Range = New TimeSpan(1, 0, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "MMM yy", _
+	.Range = New TimeSpan(365, 0, 0, 0, 0) _
+})
+
+axisFormat.Add(New TimeAxisLabelFormat() With { _
+	.Format = "yyyy", _
+	.Range = New TimeSpan(1825, 0, 0, 0, 0) _
+})
+
+----
+
+endif::wpf,win-forms[]
+
+Below is a screenshot demonstrating the usage of the OrdinalTimeXAxis with a `FinancialPriceSeries` with label formatting:
+
+image:images/ordinal_time_axis_formatting.png[]
+
+[[Related]]
+=== Related Content
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-using-time-x-axis.html[Using Time X-Axis]
+* link:datachart-multiple-axes.html[Using Multiple Axes]

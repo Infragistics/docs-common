@@ -1,0 +1,81 @@
+﻿////
+|metadata|
+{
+    "name": "chart-working-with-2d-pie-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{27A300A9-A568-4938-AF50-7154744E04A4}",
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= 平面円グラフ データでの作業
+
+このトピックでは、平面円グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、平面円グラフのデータ要件のリストです。
+
+* データ セットには、ひとつの数値列が含まれます。数値列は、数値として解釈できる値のみを含む任意の DataColumn です。
+* データ セットには、ひとつの数値行が含まれます。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  プロパティを 0 に設定することによって、チャートのウェッジに使用したい列を指定する必要があります（以下のコードを参照してください）。データを自動的に検索するには、このプロパティを -1 に設定します。この場合、見つかった最初の数値列はそのウェッジの値に使用されます。
+
+UltraChart.PieChart.ColumnIndex = 0
+* 平面円グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用できるデータが、行がひとつで列が多数ある書式の場合、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを平面円グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* チャートに表示されるのはひとつの数値列のみです。
+* 各行はチャートのウェッジを表します。正しい列にあるこの行の値（ColumnIndex プロパティに一致する列）はチャートの対応するウェッジに割り当てられます。
+* データ内で現れる最初の文字列の列は行ラベルに使用されます。
+* ColumnIndex プロパティを使用して指定された列は、チャート内の値に使用される唯一の列です。ColumnIndex プロパティが設定されていない場合は、最初のフィルタリングされた列（または行）を使用します。
+* オプションとして、ラベル列をデータ ソース内に含め、ウェッジを名前または説明と関連付けることができます。これらのラベルは、グラフの凡例、または各ウェッジの横に表示するラベルに表示できます。
+[source]
+----
+UltraChart.PieChart.Labels.ItemFormatString = "<ITEM_LABEL>: <DATA_VALUE:#> (<PERCENT_VALUE:#>%)"
+----
+* 列内のデータ値の合計を使用して各行に適用可能なパーセンテージを計算するため、データ値はパーセンテージである必要はありません。このため、負のデータ値は（絶対値を取って）ゼロまたは正の数として処理されます。
+* 開発者は、UltraChart.Data. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用して、任意の列をチャートに追加または削除できます。
+
+描画された平面円グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a"]
+|====
+|製品|販売ユニット
+
+|Java
+|225
+
+|ActiveX
+|653
+
+|$$.NET$$1
+|335
+
+|その他
+|132
+
+|ネイティブ
+|56
+
+|$$.NET$$2
+|62
+
+|Apple
+|42
+
+|====
+
+image::images/Chart_Pie_Chart_02.png[]

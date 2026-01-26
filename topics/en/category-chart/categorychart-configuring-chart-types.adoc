@@ -1,0 +1,148 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-chart-types",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= Configuring Chart Types
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<settingcharttype,Setting Chart Type>> 
+* <<lookandfeel,Look and Feel>>
+* <<RelatedContent,Related Content>>
+
+[[settingcharttype]]
+== Setting Chart Type
+
+As described in the link:categorychart-chart-types.html[Chart Types] topic the chart can render different types of chart with a simple change of a property.
+
+To assign chart type during initialization:
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+                        ItemsSource="{Binding EnergySampleData}"
+                        ChartType="Spline"
+</ig:{CategoryChartName}>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+
+ifdef::win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.ChartType = CategoryChartType.Spline;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.ChartType = CategoryChartType.Spline
+----
+endif::win-forms[]
+[[lookandfeel]]
+== Look and Feel
+
+To further customize the look of the chart, there are a number of properties available that allow this.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+|pick:[wpf,xamarin="link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}Brushes.html[Brushes]"]pick:[win-forms="link:{CategoryChartLink}.{CategoryChartName}{ApiProp}Brushes.html[Brushes]"] 
+|link:{DataVizLinkBase}.BrushCollection.html[BrushCollection]
+|Gets or sets the palette of brushes to use for coloring the chart series.
+
+|link:{CategoryChartLink}.{CategoryChartName}{ApiProp}NegativeBrushes.html[NegativeBrushes] 
+|link:{DataVizLinkBase}.BrushCollection.html[BrushCollection]
+|Gets or sets the palette used for coloring negative items of Waterfall chart type.
+
+|pick:[wpf,xamarin="link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}Outlines.html[Outlines]"]pick:[win-forms="link:{CategoryChartLink}.{CategoryChartName}{ApiProp}Outlines.html[Outlines]"]
+|link:{DataVizLinkBase}.BrushCollection.html[BrushCollection]
+|Gets or sets the palette of brushes to use for outlines on the chart series.
+
+|link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}Resolution.html[Resolution]
+|`double`
+|Gets or sets the rendering resolution for series in this chart. Where n = Resolution, for every n horizontal pixels, combine all items into a single datapoint.  When Resolution = 0, all datapoints will be rendered as graphical objects.  Charts with a higher resolution will have faster performance.
+
+|link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}Thickness.html[Thickness]
+|`double`
+|Gets or sets the thickness of the chart series. Depending on the ChartType, this can be the main brush used, or just the outline. For example, when using a ChartType of "Line," the Thickness property will affect the thickness of the lines drawn, whereas when using a ChartType of "Column," the Thickness property will affect the outer border thickness of the columns.
+
+|====
+
+The following example exercises some of the properties mentioned above using the Line, Area, and Waterfall chart types.
+To see more configuration options, follow the links at the bottom of this topic.
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding EnergySampleData}"
+                        ChartType="Area"
+                        Brushes="Blue Green" 
+                        NegativeBrushes="Red Yellow" 
+                        Outlines="Black"
+                        Thickness="3">
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+ifdef::win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(19, 23, 132, 0));
+this.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(36, 132, 19, 0));
+
+this.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(132, 46, 19, 0));
+this.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(187, 221, 17, 0));
+
+this.ultraCategoryChart1.Outlines.Add(System.Drawing.Color.FromArgb(0, 0, 0, 0));
+
+this.ultraCategoryChart1.Thickness = 3;
+----
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(19, 23, 132, 0))
+Me.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(36, 132, 19, 0))
+
+Me.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(132, 46, 19, 0))
+Me.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(187, 221, 17, 0))
+
+Me.ultraCategoryChart1.Outlines.Add(System.Drawing.Color.FromArgb(0, 0, 0, 0))
+
+Me.ultraCategoryChart1.Thickness = 3
+----
+endif::win-forms[] 
+image::images/categorychart_configuring_chart_types_line.png[]
+image::images/categorychart_configuring_chart_types_area.png[]
+image::images/categorychart_configuring_chart_types_waterfall.png[]
+
+
+[[RelatedContent]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:categorychart-walkthrough.html[Adding Category Chart]
+|This article will get you up and running with the Category Chart control.
+
+| link:categorychart-chart-types.html[Chart Types]
+|This article describes the available chart types.

@@ -1,0 +1,293 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-addingimagetoworksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["How Do I"],
+    "guid": "5bece3c8-c5e3-4b86-bd4c-05e5e4d81f93",
+    "buildFlags": [],
+    "createdOn": "2014-05-29T13:16:37.2749133Z"
+}
+|metadata|
+////
+
+= 画像をワークシートに追加 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、事前定義された形状を {ExcelEngineName} を使用して、画像をワークシートに追加する方法を説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、 {ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+| link:excelengine-creating-a-workbook.html[ワークブックの作成 ({ExcelEngineName})]
+|{ExcelEngineName} を使用し素早く起動して実行するために、このトピックではワークブックを作成する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref389575564, 画像をワークシートに追加 >>
+* <<_Ref389575572, 関連コンテンツ >>
+
+[[_Ref389575564]]
+== 画像をワークシートに追加
+
+=== 概要
+
+この手順では、ワークシートに画像を追加する方法を示します。画像は link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetimage_members.html[WorksheetImage] クラスによって表され、ワークシートの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~shapes.html[Shapes] コレクションに追加されます。
+
+=== プレビュー
+
+以下のスクリーンショットは、すべての任意のステップを含む最終結果のプレビューです。
+
+image::images/ExcelEngine_04.png[]
+
+=== 前提条件
+
+この手順を実行するには、以下が必要です。
+
+*少なくとも 1 つのワークシートを持つ初期化されたワークブック。*
+
+=== 概要
+
+以下はプロセスの概要です。
+
+[start=1]
+. *ストリームから画像を作成する* 
+[start=2]
+. *画像から WorksheetImage を作成する* 
+[start=3]
+. *twips で WorksheetImage の位置を構成する (オルタナティブ)* 
+[start=4]
+. *WorksheetImage のセルの位置を構成する (オルタナティブ)* 
+[start=5]
+. *WorksheetImage のセル内の位置を構成する (オルタナティブおよびオプション)* 
+[start=6]
+. *WorksheetImage のプロパティを構成する (オプション)* 
+[start=7]
+. *WorksheetImage をワークシートの Shapes コレクションに追加する* 
+
+=== 手順
+
+以下のステップでは、画像をワークシートに追加する方法を示します。
+
+=== 1.ストリームから画像を作成する
+
+`Image` オブジェクトを作成します。ストリームまたはファイル名を提供することにより、`Image` クラスの静的メソッドを使用して、これを実行できます。
+
+*C# の場合:*
+[source,csharp]
+----
+string imgResource = "Assembly.Folder.File.png";
+using (Stream stream = this.GetType().Assembly.GetManifestResourceStream(imgResource))
+{
+    System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+}
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim imgResource As String = "Assembly.Folder.File.png"
+Using stream As Stream = Me.[GetType]().Assembly.GetManifestResourceStream(imgResource)
+    Dim img As System.Drawing.Image = System.Drawing.Image.FromStream(stream)
+End Using
+----
+
+=== 2.画像から WorksheetImage を作成する
+
+前述の手順から `Image` インスタンスを提供することにより、`WorksheetImage` オブジェクトを作成します。
+
+*C# の場合:*
+[source,csharp]
+----
+WorksheetImage wsi = new WorksheetImage(img);
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim wsi As WorksheetImage  = new WorksheetImage(img)
+----
+
+=== 3.twips で WorksheetImage の位置を構成する (オルタナティブ)
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetimage~setboundsintwips.html[SetBoundsInTwips] メソッドを使用して、画像の境界線を twips で指定する必要があります。
+
+*C# の場合:*
+[source,csharp]
+----
+Graphics gfx = Graphics.FromImage(img);
+wsi.SetBoundsInTwips(
+this.xamSpreadsheet1.Workbook.Worksheets[0],
+new Rect(
+ PixelsToTwips(50, gfx), // 左 = 50
+ PixelsToTwips(50, gfx), // 上 = 50
+ PixelsToTwips(img.Width, gfx),
+ PixelsToTwips(img.Height, gfx)));
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim gfx As Graphics = Graphics.FromImage(img)
+' left = 50
+' top = 50
+wsi.SetBoundsInTwips(xamSpreadsheet1.Workbook.Worksheets(0), _
+                    New Rect(PixelsToTwips(50, gfx), _
+                    PixelsToTwips(50, gfx), _
+                    PixelsToTwips(img.Width, gfx), _
+                    PixelsToTwips(img.Height, gfx)))
+----
+
+*C# の場合:*
+[source,csharp]
+----
+public double PixelsToTwips(int pixels, Graphics gfx)
+{
+    // ピクセルをポイントに変換します
+    double p = pixels * 72 / gfx.DpiX;
+    // ポイントを twips に変換します
+    return p * 20;
+}
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Function PixelsToTwips(pixels As Integer, gfx As Graphics) As Double
+' convert pixels to points
+Dim p As Double = pixels * 72 / gfx.DpiX
+' convert points to twips
+Return p * 20
+End Function
+----
+
+.注:
+
+[NOTE]
+====
+手順 4 と 5 のオルタナティブとして、この手順を使用します。
+====
+
+=== 4.WorksheetImage のセルの位置を構成する (オルタナティブ)
+
+link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~topleftcornercell.html[TopLeftCornerCell] プロパティと link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~bottomrightcornercell.html[BottomRightCornerCell] プロパティを使用して、画像を使用するセルを指定する必要があります。
+
+*C# の場合:*
+[source,csharp]
+----
+wsi.TopLeftCornerCell = this.xamSpreadsheet1.Workbook.Worksheets[0].Rows[3].Cells[2];
+wsi.BottomRightCornerCell = this.xamSpreadsheet1.Workbook.Worksheets[0].Rows[5].Cells[5];
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+wsi.TopLeftCornerCell = xamSpreadsheet1.Workbook.Worksheets(0).Rows(3).Cells(2)
+wsi.BottomRightCornerCell = xamSpreadsheet1.Workbook.Worksheets(0).Rows(5).Cells(5)
+----
+
+.注:
+[NOTE]
+====
+手順 3 のオルタナティブとして、このステップを使用します。
+====
+
+=== 5.WorksheetImage のセル内の位置を構成する (オルタナティブおよびオプション)
+
+また、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~topleftcornerposition.html[TopLeftCornerPosition] プロパティと link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshape~bottomrightcornerposition.html[BottomRightCornerPosition] プロパティを使用して、左上と右下のコーナーの正確な位置を指定できます。これらの位置はパーセンテージ値で指定されるため、いずれかのコーナーをセルの中央に置きたい場合は、両方のプロパティに `Point(50, 50)` を使用します。
+
+以下のコードはこの例を実装します。
+
+*C# の場合:*
+[source,csharp]
+----
+wsi.TopLeftCornerPosition = new System.Windows.Point(50, 50);
+wsi.BottomRightCornerPosition = new System.Windows.Point(50, 50);
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+wsi.TopLeftCornerPosition = new System.Windows.Point(50, 50)
+wsi.BottomRightCornerPosition = new System.Windows.Point(50, 50)
+----
+
+.注:
+[NOTE]
+====
+手順 3 のオルタナティブとして、このオプション手順を使用します。
+====
+
+=== 6.WorksheetImage のプロパティを構成する (オプション)
+
+画像の背景が透明である場合、ワークシートのグリッド線が表示されないように、画像の背景色を設定できます。
+
+また、任意のアウトラインを `WorksheetImage` インスタンスに設定 (または既定のアウトラインを削除) できます
+
+以下のコードは、`WorksheetImage` に白い背景を追加し、デフォルトのアウトラインを削除する方法を示します。
+
+*C# の場合:*
+[source,csharp]
+----
+wsi.Fill = new ShapeFillSolid(Colors.White);
+wsi.Outline = null;
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+wsi.Fill = new ShapeFillSolid(Colors.White)
+wsi.Outline = Nothing
+----
+
+=== 7.WorksheetImage をワークシートの Shapes コレクションに追加する
+
+`WorksheetImage` インスタンスを `Shapes` コレクションに追加します。
+
+以下のコードはこの例を実装します。
+
+*C# の場合:*
+[source,csharp]
+----
+this.xamSpreadsheet1.Workbook.Worksheets[0].Shapes.Add(wsi);
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+xamSpreadsheet1.Workbook.Worksheets(0).Shapes.Add(wsi)
+----
+
+[[_Ref389575572]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-addinghyperlinktoworksheet.html[ハイパーリンクをワークシートに追加 ({ExcelEngineName})]
+|このトピックでは、{ExcelEngineName} を使用してワークシートにハイパーリンクを追加する方法について、手順を追って説明します。
+
+| link:excelengine-adding-a-shape-to-an-excel-worksheet.html[図形をワークシートに追加 ({ExcelEngineName})]
+|このトピックでは、事前定義された図形をワークシートに追加する方法を説明します。
+
+|====

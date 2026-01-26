@@ -1,0 +1,71 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-save-and-load-files-in-excel-template-format",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "76f5d318-3afb-488c-9377-de1ba029d4ab",  
+    "buildFlags": [],
+    "createdOn": "2010-06-04T13:50:26.0935262Z"
+}
+|metadata|
+////
+
+= Save and Load Files in Excel Template Format
+
+The Infragistics Excel library enables you to define template files in three file formats. The three template formats are the Excel Template format (with extension XLTX), the Excel Macro-Enabled Template format (with extension XLTM), and the Excel 97-2003 Template format (with extension XLT). You can save and load files in these formats.
+
+The  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]  enumeration has the values Excel2007Template, Excel2007MacroEnabledTemplate, and Excel97To2003Template that correspond to the XLTX, XLTM, and XLT formats. The  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  property can be used to get the current format of the file. When loading a file if the extension is unknown, the contents of the file will be parsed to dynamically determine the correct format.
+
+The following code illustrates saving an Excel file in the Excel2007Template format using the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]  method.
+
+*In Visual Basic:*
+
+----
+' Create a workbook and set its format to Excel2007Template 
+Dim newWorkBook As Infragistics.Documents.Excel.Workbook = New Workbook(WorkbookFormat.Excel2007Template)
+' Add a worksheet to the workbook 
+Dim worksheet1 As Infragistics.Documents.Excel.Worksheet = newWorkBook.Worksheets.Add("Sheet1")
+' Format a cell in the worksheet 
+worksheet1.Rows(1).Cells(1).CellFormat.FillPatternBackgroundColor = Color.Red 
+' Save the workbook 
+newWorkBook.Save("C:\ExcelBookTemplate.xltx")
+----
+
+*In C#:*
+
+----
+// Create a workbook and set its format to Excel2007Template
+Infragistics.Documents.Excel.Workbook newWorkBook = new Workbook(WorkbookFormat.Excel2007Template);
+// Add a worksheet to the workbook
+Infragistics.Documents.Excel.Worksheet worksheet1 = newWorkBook.Worksheets.Add("Sheet1");
+// Format a cell in the worksheet
+worksheet1.Rows[1].Cells[1].CellFormat.FillPatternBackgroundColor = Color.Red;
+// Save the workbook
+newWorkBook.Save("C:\\ExcelBookTemplate.xltx");
+----
+
+The following code shows you how to modify the format of an Existing Excel file using the  pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  method.
+
+*In Visual Basic:*
+
+----
+' Load an Existing Excel file 
+Dim workbook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:\Book1.xlsx")
+' Change the format to Excel2007Template 
+workbook.SetCurrentFormat(WorkbookFormat.Excel2007Template) 
+' Save the file in the modified format 
+workbook.Save("C:\ModifiedBook1.xltx")
+----
+
+*In C#:*
+
+----
+// Load an Existing Excel file
+Infragistics.Documents.Excel.Workbook workbook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xlsx");
+// Change the format to Excel2007Template
+workbook.SetCurrentFormat(WorkbookFormat.Excel2007Template);
+// Save the file in the modified format
+workbook.Save("C:\\ModifiedBook1.xltx");
+----

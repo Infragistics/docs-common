@@ -1,0 +1,96 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","Getting Started","How Do I"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= 軸モードの構成
+
+link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールでチャートのデータが X 軸および Y 軸で表される方法を選択できます。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<AxisModes,軸モード>> 
+* <<CodeSnippet, コード スニペット>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[AxisModes]]
+=== 軸モード
+
+{FinancialChartName} コントロールで、軸のモードを変更するために以下のプロパティを使用できます。
+
+[options="header", cols="a,a,a,a"]
+|====
+|プロパティ名
+|プロパティ型 
+2+|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}xAxisMode{HtmlApiExtension}[pick:[wpf="XAxisMode"]pick:[jquery="xAxisMode"]]
+|pick:[wpf="`FinancialChartXAxisMode`"]pick:[jquery="`enumeration`"]
+2+|X 軸の `Time` および `Ordinal` モードの間に選択できます。Time モードはデータのギャップを X 軸にスペースを用いて描画します。つまり、週末または休日に株取引がないことを示します。Ordinal モードはデータがない日付領域を縮小します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}yAxisMode{HtmlApiExtension}[pick:[wpf="YAxisMode"] pick:[jquery="yAxisMode"]]
+|pick:[wpf="`FinancialChartYAxisMode`"] pick:[jquery="`enumeration`"]
+2+|Y 軸の `Numeric` および `PercentChange` モードの間に選択できます。Numeric モードはデータの値を描画します。PercentChange モードは最初のデータ ポイントに相対するパーセンテージ変更としてデータを表示します。
+
+|====
+
+[[CodeSnippet]]
+=== コード スニペット
+
+以下のコード例は、pick:[wpf="XAxisMode"]pick:[jquery="xAxisMode"] および pick:[wpf="YAxisMode"]pick:[jquery="yAxisMode"] を変更する方法を紹介します。
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$(".selector").{FinancialChartName}({
+    dataSource: data,
+    xAxisMode: "ordinal",
+    yAxisMode: "percentChange"
+});
+----
+endif::jquery[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} x:Name="chart1"  
+    XAxisMode="Ordinal"
+    YAxisMode="PercentChange">
+</ig:{FinancialChartName}>
+----
+
+endif::wpf[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.XAxisMode = FinancialChartXAxisMode.Ordinal;
+chart.YAxisMode = FinancialChartYAxisMode.PercentChange;
+----
+
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.XAxisMode = FinancialChartXAxisMode.Ordinal
+chart.YAxisMode = FinancialChartYAxisMode.PercentChange
+----
+endif::wpf[]
+
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:financial-chart-configuring-axis-labels.html[軸ラベルの構成]

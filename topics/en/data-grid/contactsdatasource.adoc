@@ -1,0 +1,56 @@
+﻿= Contacts Data Source
+
+This resource file provides sample data for the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+
+*In C#:*
+[source, csharp]
+----
+namespace Infragistics.Data
+{
+    public class ContactsDataSource : List<ContactInfo>
+    {
+        public ContactsDataSource()
+        {
+            var list = ContactInfo.GeneratePersonData();
+            this.AddRange(list);
+        }
+    }
+
+    public class ContactInfo
+    {
+        public int Index { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public static List<ContactInfo> GeneratePersonData()
+        {
+            string[] firstNames = {
+                "Kyle", "Gina", "Irene", "Chris", "Katie", "Michael", "Oscar", "Ralph",
+                "Torrey", "William", "Bill", "Daniel", "Frank", "Pam", "Brenda",
+                "Danielle", "Fiona", "Howard", "Jack", "Larry", "Nelly", "Holly",
+                "Jennifer", "Liz", "Pete", "Steve", "Vince", "Valerie", "Zeke"
+            };
+
+            string[] lastNames = {
+                "Adams", "Crowley", "Ellis", "Gable", "Irvine", "Keefe", "Mendoza", "Owens", "Rooney",
+                "Waddell", "Thomas", "Betts", "Doran", "Fitzgerald", "Holmes", "Jefferson", "Landry",
+                "Newberry", "Perez", "Spencer", "Vargas", "Grimes", "Edwards", "Stark", "Cruise",
+                "Fitz", "Chief", "Blanc", "Perry", "Stone", "Williams", "Lane", "Jobs"
+            };            
+            
+            var items = new List<ContactInfo>();
+
+            for (int i = 0; i < firstNames.Length; i++)
+            {                                          
+                var item = new ContactInfo();
+                item.FirstName = firstNames[i];
+                item.LastName = lastNames[i];
+                item.Index = i;
+
+                items.Add(item);
+            }
+            return items;
+        }
+    }
+}
+----

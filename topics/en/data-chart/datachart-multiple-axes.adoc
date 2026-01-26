@@ -1,0 +1,286 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-multiple-axes",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "3d8ad001-62b8-4b41-a4c6-a40bb1eb3f13",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5843519Z"
+}
+|metadata|
+////
+
+= Using Multiple Axes
+
+The link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control use link:{DataChartLink}.axis.html[Axis] objects to define axis visuals . You can add multiple axes in the same chart plot area. For each added axis in the chart control, you can specify the location in relationship to chart plot area. For more information on this, please refer to the link:datachart-axis-label-settings.html[Configuring Axis Label Settings] topic. In addition to support of multiple axes, you can share axes between Series defined in the chart control.
+
+In the following code example shows how to add two link:{DataChartLink}.numericyaxis.html[NumericYAxis] objects on the left and right side of the chart plot area and hwo to share link:{DataChartLink}.categoryxaxis.html[CategoryXAxis] between link:{DataChartLink}.lineseries.html[LineSeries] and link:{DataChartLink}.financialpriceseries.html[FinancialPriceSeries] series.
+
+ifdef::xaml,win-forms[]
+ifdef::xaml[]
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+[source, xaml]
+----
+<ig:{DataChartName} x:Name="DataChart"  >
+    <!-- ========================================================================== -->
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding}"Label="{}{Date:MMM dd}">
+            <ig:CategoryXAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideTop" />
+            </ig:CategoryXAxis.LabelSettings>
+        </ig:CategoryXAxis>
+        <ig:NumericYAxis x:Name="yAxis1">
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideLeft" />
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+        <ig:NumericYAxis x:Name="yAxis2" >
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideRight" />
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+    </ig:{DataChartName}.Axes>
+    <!-- ========================================================================== -->
+    <ig:{DataChartName}.Series>
+        <ig:LineSeries XAxis="{Binding ElementName=xAxis}"
+                      YAxis="{Binding ElementName=yAxis2}">
+        </ig:LineSeries>
+        <ig:FinancialPriceSeries XAxis="{Binding ElementName=xAxis}"
+                               YAxis="{Binding ElementName=yAxis1}">
+        </ig:FinancialPriceSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+*In XAML:*
+[source, xaml]
+----
+<ig:{DataChartName} x:Name="DataChart"
+                 BindingContext="{StaticResource DataSource}"
+                 IsHorizontalZoomEnabled="True"
+                 IsVerticalZoomEnabled="True">
+    <!-- ========================================================================== -->
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis"
+                          LabelLocation="OutsideTop"
+                          ItemsSource="{Binding}"
+                          Label="Date" />
+        <ig:NumericYAxis x:Name="yAxis1"
+                         LabelLocation="OutsideLeft" />
+        <ig:NumericYAxis x:Name="yAxis2"
+                         LabelLocation="OutsideRight" />
+    </ig:{DataChartName}.Axes>
+    <!-- ========================================================================== -->
+    <ig:{DataChartName}.Series>
+        <ig:LineSeries XAxis="{x:Reference xAxis}"
+                       YAxis="{x:Reference yAxis2}"
+                       ItemsSource="{Binding}"
+                       ValueMemberPath="Volume" />
+        <ig:FinancialPriceSeries XAxis="{x:Reference xAxis}"
+                                 YAxis="{x:Reference yAxis1}"
+                                 ItemsSource="{Binding}"
+                                 OpenMemberPath="Open"
+                                 CloseMemberPath="Close"
+                                 HighMemberPath="High"
+                                 LowMemberPath="Low" />
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+*In C#:*
+[source, csharp]
+----
+var DataChart = new {DataChartName}();
+
+var xAxis = new CategoryXAxis()
+{
+    ItemsSource = data,
+    Label = "Date"
+};
+var yAxis1 = new NumericYAxis()
+{
+    LabelLocation = AxisLabelsLocation.OutsideLeft
+};
+var yAxis2 = new NumericYAxis()
+{
+    LabelLocation = AxisLabelsLocation.OutsideRight
+};
+var series1 = new LineSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis2,
+    ItemsSource = data,
+    ValueMemberPath="Volume"
+};
+var series2 = new FinancialPriceSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis1,
+    ItemsSource = data,
+    CloseMemberPath = "Close",
+    OpenMemberPath = "Open",
+    HighMemberPath = "High",
+    LowMemberPath = "Low"
+};
+
+DataChart.Axes.Add(yAxis1);
+DataChart.Axes.Add(yAxis2);
+DataChart.Axes.Add(xAxis);
+DataChart.Series.Add(series1);
+DataChart.Series.Add(series2);
+----
+
+*In Visual Basic:*
+[source, vb]
+----
+Dim xAxis As New CategoryXAxis() 
+xAxis.DataSource = data
+xAxis.ItemsSource = data
+xAxis.Label = "{Date}"
+xAxis.Label = "Date"
+
+Dim yAxis1 As New NumericYAxis()
+yAxis1.LabelLocation = AxisLabelsLocation.OutsideLeft
+yAxis1.LabelSettings.Location = AxisLabelsLocation.OutsideLeft
+
+Dim yAxis2 = new NumericYAxis()
+yAxis2.LabelLocation = AxisLabelsLocation.OutsideRight
+yAxis2.LabelSettings.Location = AxisLabelsLocation.OutsideRight
+
+Dim series1 As New LineSeries()
+series1.XAxis = xAxis
+series1.YAxis = yAxis2
+
+Dim series2 As New FinancialPriceSeries()
+series2.XAxis = xAxis
+series2.YAxis = yAxis1
+
+DataChart.Axes.Add(yAxis1)
+DataChart.Axes.Add(yAxis2)
+DataChart.Axes.Add(xAxis)
+DataChart.Series.Add(series1)
+DataChart.Series.Add(series2)
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+*In C#:*
+[source, csharp]
+----
+var DataChart = new {DataChartName}();
+
+var xAxis = new CategoryXAxis()
+{
+    DataSource = data,
+    Label = "Date"
+};
+var yAxis1 = new NumericYAxis()
+{
+    LabelLocation = AxisLabelsLocation.OutsideLeft
+};
+var yAxis2 = new NumericYAxis()
+{
+    LabelLocation = AxisLabelsLocation.OutsideRight
+};
+var series1 = new LineSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis2,
+    DataSource = data,
+    ValueMemberPath="Volume"
+};
+var series2 = new FinancialPriceSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis1,
+    DataSource = data,
+    CloseMemberPath = "Close",
+    OpenMemberPath = "Open",
+    HighMemberPath = "High",
+    LowMemberPath = "Low"
+};
+
+DataChart.Axes.Add(yAxis1);
+DataChart.Axes.Add(yAxis2);
+DataChart.Axes.Add(xAxis);
+DataChart.Series.Add(series1);
+DataChart.Series.Add(series2);
+----
+
+*In Visual Basic:*
+[source, vb]
+----
+Dim xAxis As New CategoryXAxis() 
+xAxis.DataSource = data
+xAxis.ItemsSource = data
+xAxis.Label = "{Date}"
+xAxis.Label = "Date"
+
+Dim yAxis1 As New NumericYAxis()
+yAxis1.LabelLocation = AxisLabelsLocation.OutsideLeft
+yAxis1.LabelSettings.Location = AxisLabelsLocation.OutsideLeft
+
+Dim yAxis2 = new NumericYAxis()
+yAxis2.LabelLocation = AxisLabelsLocation.OutsideRight
+yAxis2.LabelSettings.Location = AxisLabelsLocation.OutsideRight
+
+Dim series1 As New LineSeries()
+series1.XAxis = xAxis
+series1.YAxis = yAxis2
+
+Dim series2 As New FinancialPriceSeries()
+series2.XAxis = xAxis
+series2.YAxis = yAxis1
+
+DataChart.Axes.Add(yAxis1)
+DataChart.Axes.Add(yAxis2)
+DataChart.Axes.Add(xAxis)
+DataChart.Series.Add(series1)
+DataChart.Series.Add(series2)
+----
+endif::win-forms[]
+endif::xaml,win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+DataChartView chart = new DataChartView(rootView.getContext());
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.setDataSource(data);
+xAxis.setLabel("Date");
+NumericYAxis yAxis1 = new NumericYAxis();
+yAxis1.setLabelLocation(AxisLabelsLocation.OUTSIDELEFT);
+NumericYAxis yAxis2 = new NumericYAxis();
+yAxis2.setLabelLocation(AxisLabelsLocation.OUTSIDERIGHT);
+LineSeries series1 = new LineSeries();
+series1.setXAxis(xAxis);
+series1.setYAxis(yAxis2);
+FinancialPriceSeries series2 = new FinancialPriceSeries();
+series2.setXAxis(xAxis);
+series2.setYAxis(yAxis1);
+chart.addAxis(yAxis1);
+chart.addAxis(yAxis2);
+chart.addAxis(xAxis);
+chart.addSeries(series1);
+chart.addSeries(series2);
+----
+
+endif::android[]
+
+The following image shows how the chart control will look with two NumericYAxis axes and one CategoryXAxis shared between two series.
+
+image::images/xamWebDataChart_Axes_Multiple_Axes_01.png[]
+
+== Related Content:
+
+* link:datachart-axis-orientation.html[Configuring Axis Orientation]
+* link:datachart-axis-range.html[Configuring Axis Range]

@@ -1,0 +1,74 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-axis-range",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= Axis Range
+
+In the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] control, the range on numeric axes is the difference in numeric values from the beginning of the axis to the end or from the smallest to largest values in the data. The range minimum is the lowest value of the axis. The range maximum is the highest value of the axis.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<overview,Overview>>
+* <<codesnippet,Code Snippet>>
+* <<RelatedContent,Related Content>>
+
+[[overview]]
+== Overview
+
+By default, the {CategoryChartName} control will calculate the minimum and maximum values for the y-axis range based on the lowest and highest data points in order to maximize the chart plot area. The automatic calculation of an axis' minimum and maximum values may not be appropriate for your set of data points. For example, if your data has a minimum value of -150, you may want to set the minimum value of the axis using y-axis’s link:{CategoryChartLink}.{CategoryChartName}{ApiProp}YAxisMinimumValue.html[YAxisMinimumValue] property to -200 so that there will be a space value of 50 between the axis minimum and the lowest value of data points. The same can be applied to the axis maximum value and the highest value of data points using y-axis’s link:{CategoryChartLink}.{CategoryChartName}{ApiProp}YAxisMaximumValue.html[YAxisMaximumValue] property.
+
+[[codesnippet]]
+== Code Snippet
+The following sample code demonstrates how to change the axis range on the y-axis.
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding EnergySampleData}"
+                        YAxisMinimumValue="-200"
+                        YAxisMaximumValue="1000"
+</ig:{CategoryChartName}>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[] 
+ifdef::win-forms[]
+*In C#:*
+[source,csharp]
+----
+this.ultraCategoryChart1.YAxisMinimumValue = -200;
+this.ultraCategoryChart1.YAxisMaximumValue = 1000;
+----
+
+*In Visual Basic:*
+[source,csharp]
+----
+Me.ultraCategoryChart1.YAxisMinimumValue = -200
+Me.ultraCategoryChart1.YAxisMaximumValue = 1000
+----
+endif::win-forms[] 
+image::images/categorychart_axis_range.png[]
+
+[[RelatedContent]]
+
+== Related Content
+
+[options="header", cols="a,a"]
+
+|====
+
+|Topic|Purpose
+
+| link:categorychart-walkthrough.html[Adding Category Chart]
+|This article will get you up and running with the Category Chart control.
+
+| link:categorychart-chart-types.html[Chart Types]
+|This article describes the available chart types.

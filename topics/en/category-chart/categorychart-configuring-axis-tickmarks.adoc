@@ -1,0 +1,110 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-axis-tickmarks",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= Axis Tickmarks
+
+Tick marks display points on the axes. They represent a certain numeric point on a scale or the value of the underlying data item in a category axis.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<propertysettings,Property Settings>>
+* <<codesnippet,Code Snippet>>
+* <<RelatedContent,Related Content>>
+
+[[propertysettings]]
+== Property Settings
+
+In the {CategoryChartName} control, you can change the length, thickness, and color of the x-axis and y-axis tickmarks using the following properties:
+
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}XAxisTickLength.html[XAxisTickLength], link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}YAxisTickLength.html[YAxisTickLength]
+|`double`
+|Determines the length of the tickmark along the x-axis or y-axis.
+
+ifdef::wpf[]
+| link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}XAxisTickStroke.html[xAxisTickStroke], link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}YAxisTickStroke.html[YAxisTickStroke]
+|`Brush`
+|Determines the color of the tickmark along the x-axis or y-axis
+endif::wpf[]
+
+ifdef::xamarin[]
+| link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}XAxisTickStroke.html[XAxisTickStroke], link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}YAxisTickStroke.html[YAxisTickStroke]
+|link:{DataVizLinkBase}.Brush.html[Brush]
+|Determines the color of the tickmark along the x-axis or y-axis
+endif::xamarin[]
+
+| link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}XAxisTickStrokeThickness.html[XAxisTickStrokeThickness], link:{CategoryChartLink}.{CategoryChartXY}{ApiProp}YAxisTickStrokeThickness.html[YAxisTickStrokeThickness]  
+|`double`
+|Determines the thickness of of the tickmark along the x-axis or y-axis 
+
+|==== 
+
+[[codesnippet]]
+== Code Snippet
+
+The following code snippet demonstrates how to set the color, length and thickness of the tickmark on the x-axis.
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding EnergySampleData}"                     
+                     ChartType="Column"
+                     XAxisTickLength = "7"
+                     XAxisTickStrokeThickness = "2"
+                     XAxisTickStroke = "Red"
+/>
+----
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+ifdef::win-forms[]
+*In C#:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.ChartType = CategoryChartType.Column;
+this.ultraCategoryChart1.XAxisTickLength = 7;
+this.ultraCategoryChart1.XAxisTickStrokeThickness = 2;
+this.ultraCategoryChart1.XAxisTickStroke = System.Drawing.Color.FromArgb(173, 37, 10, 0);
+----
+
+*In Visual Basic:*
+
+[source,csharp]
+----
+Me.ultraCategoryChart1.ChartType = CategoryChartType.Column
+Me.ultraCategoryChart1.XAxisTickLength = 7
+Me.ultraCategoryChart1.XAxisTickStrokeThickness = 2
+Me.ultraCategoryChart1.XAxisTickStroke = System.Drawing.Color.FromArgb(173, 37, 10, 0)
+----
+endif::win-forms[] 
+image::images/categorychart_configuring_axis_tickmarks_01.png[]
+
+
+
+[[RelatedContent]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:categorychart-walkthrough.html[Adding Category Chart]
+|This article will get you up and running with the Category Chart control.
+
+| link:categorychart-chart-types.html[Chart Types]
+|This article describes the available chart types.

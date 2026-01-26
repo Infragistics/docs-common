@@ -1,0 +1,96 @@
+﻿////
+|metadata|
+{
+    "name": "chart-scrolling-and-scaling-charts",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{50E61566-FC7A-4E34-B2C5-B5E6B7299A8D}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チャートのスクロールとスケール
+
+数字 (データ) のセットには、グラフの作成によって表示可能なさまざまな属性があります。属性の 1 つにデータ範囲があります。その他の属性にデータの最小値とデータの最大値があります。数字 (データ) のセットのグラフを作成する場合、これらの属性が重要な役割を果たします。通常、グラフは以下の手順を使用して作成されます。
+
+* 範囲がわかるように、データの最小値と最大値を確認します。
+* 下端 (データの最小値) から上端 (データの最大値) に到達する軸を描画します。
+* この線に一定の間隔で目盛を描画します。
+* 軸の下端 (データの最小値) から相対的位置によって、線に数字を描画します。
+
+この単純な処理を別の軸に繰り返して、グラフを描画します。データ項目の数またはデータ範囲が大きすぎる場合、グラフ化する項目の一部が表示されないことがあります。例：
+
+* データ範囲が 2000 で、
+* グラフの高さが約 200 ピクセルの場合があります。
+
+上記の例では、10 以下のデータ項目は 1 ピクセルまたはそれ以下しか占めず、グラフには表示されません。このようなシナリオの場合、Chart にはスクロールと拡大/縮小が装備されます。拡大/縮小を使用して、通常は表示されない小さいデータ点を実際に拡大し、確認することができます。スクロールを使用して、軸全体をスクロールし、あるセクションから別のセクションに注意を移すことができます。
+
+ifdef::win-forms[]
+.注：
+[NOTE]
+====
+エンド ユーザによってスケールまたはスクロールされるチャートの軸を決定するには、 link:chart-determine-which-axis-is-being-scrolled-or-scaled.html[「スクロールまたはスケールする軸を決定する」]を参照してください。
+====
+endif::win-forms[]
+
+.注：
+[NOTE]
+====
+レーダー グラフのスクロールとスケーリングはサポートされません。
+====
+
+image::images/Chart_Scrollbars_01.png[]
+
+スクロールと拡大/縮小によって、アプリケーション開発者とエンド ユーザーはグラフ化された データ ウィンドウを制御できます。上図では、データ範囲が両方の軸で 0～100 ありながら、データ ウィンドウが 28～88 の 60 単位しかありません。また、この図は軸の Scroll と Scale プロパティがデータ ウィンドウにどのように影響するかを示しています。
+
+グラフには、Windows と Web フォーム アプリケーションのクライアント側のスクロールバー機能が用意されています。
+
+ifdef::win-forms-old,win-forms[]
+image::images/Chart_Scrollbars_02.png[]
+endif::win-forms-old,win-forms[]
+
+ifdef::aspnet-old,asp-net[]
+image::images/Chart_Scrollbars_03.png[]
+endif::aspnet-old,asp-net[]
+
+ifdef::aspnet-old,asp-net[]
+スクロールバーを有効にするには、UltraChart.EnableScrollbar プロパティを True に設定します。
+endif::aspnet-old,asp-net[]
+
+ifdef::win-forms-old,win-forms[]
+スクロールバーを有効にするには、構成する軸の  link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~visible.html[ScrollScale.Visible] プロパティを True  に設定します。
+endif::win-forms-old,win-forms[]
+
+スクロールバーが有効の場合、ユーザー操作 (スクロールバーボタンをクリック) により、または以下のプロパティを設定して、グラフをスクロールします。
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scale.html[ScrollScale.Scale]"]: スクロール ウィンドウで一度に表示可能なグラフ領域の部分を決定する 0 と 1 の間の値。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~scroll.html[ScrollScale.Scroll]"]:  トラックでスクロールバーの距離を決定する 0 と 1 の間の値で、ここで、0 はスクロール ウィンドウの最下部または左端の点、1 は最上部および右端の点を示します。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scrollscaleappearance~width.html[ScrollScale.Width]"]:  垂直スクロールバーの幅または水平スクロールバーの高さを決定します。
+
+グラフのスクロールバーには、デフォルトの白黒のスクロールバーの他に以下の外観が用意されています。
+
+image::images/Chart_Scrollbars_05.png[]
+
+image::images/Chart_Scrollbars_06.png[]
+
+これを実行するために、スキンが使用されます。スクロールバーのスキンは、グラフのスクロールバーを作成するために分割された完全なイメージです。スクロールバーのスキンの例については、次のフォルダにあるイメージ ファイルを使用してください
+
+ifdef::win-forms[]
+* {InstallPathVista}\\{PlatformName}\Samples\Legacy\Chart\Data\images\scrollbar_images
+
+endif::win-forms[]
+
+ifdef::asp-net[]
+* {InstallPathVista}\\{PlatformName}\Samples\ASP.NET\WebFeatureBrowser\WebCharts\ChartImages
+
+endif::asp-net[]
+
+[cols="a,a"]
+|====
+|image::images/Chart_Scrollbars_07.png[]
+|image::images/Chart_Scrollbars_08.png[]
+
+|====
+
+開発者は独自のカスタム スクロールバー スキンを作成することができます。モデルとして、上記のフォルダにある画像を使用してください。

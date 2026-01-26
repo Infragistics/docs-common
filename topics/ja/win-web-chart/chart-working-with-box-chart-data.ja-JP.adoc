@@ -1,0 +1,81 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-box-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{E0944A93-852F-40AB-A52B-6C3C0ECD03AD}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 箱ひげ図データでの作業
+
+このトピックでは、箱ひげ図でデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、箱ひげ図のデータ要件のリストです。
+
+* チャートの DataSource プロパティを使用する場合には、データ セットには 5 つの数値列が Minimum、Q1、Q2、Q3、Maximum の順に含まれていなければなりません。Q1、Q2、Q3 は、第 1、第 2、第 3 四分位数を表します。ただし、箱ひげ図の描き方は数通りあります。Q2の代わりにデータの中間値、または中央値が使われることもあります。
+* データ ソースとして  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.series.seriescollection.html[Series]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriescollection.html[Series]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.series.seriescollection.html[Series]"]  コレクションを使用する場合、ひとつの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.boxsetseries.html[BoxSetSeries]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.boxsetseries.html[BoxSetSeries]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.boxsetseries.html[BoxSetSeries]"]  とひとつ以上の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.boxset.html[BoxSets]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.boxset.html[BoxSets]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.boxset.html[BoxSets]"]  が必要です。使用する Series コレクションに 2 つ以上の BoxSetSeries がある場合は、最初の BoxSetSeries が使用されます。
+* 箱ひげ図を Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを箱ひげ図にマップ
+
+箱ひげ図のサンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|行ラベル|Column1|Column2|Column3|Column4|Column5
+
+|ROW #0
+|10
+|20
+|25
+|30
+|50
+
+|ROW #1
+|15
+|25
+|30
+|35
+|55
+
+|ROW #2
+|20
+|30
+|35
+|40
+|60
+
+|ROW #3
+|30
+|50
+|55
+|60
+|70
+
+|ROW #4
+|50
+|70
+|75
+|80
+|90
+
+|====
+
+数値がどのような方法で生成または提供されるかにかかわらず、以下で示したように各数値は各ボックスの別の部分を形成します。
+
+image::./images/chart_box_chart_2.png[]

@@ -1,0 +1,40 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-adding-primitives-to-a-chart-layer",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{3CB1559C-3D3D-4E35-B733-3C0CDE970480}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= プリミティブをグラフ レイヤに追加する
+
+Chart は、レイヤ インフラストラクチャを介してアクセス可能な高機能の描画エンジンを提供します。このトピックは、ユーザー独自のカスタム レイヤを Chart のチャート フレームワークにシームレスに統合するために必要な概念的バックグラウンドを提供します。
+
+Chart で表示されるすべてのグラフ要素は、軸からテキスト ラベル、棒からバブル、およびグリッド線から目盛マークにいたるまで、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[UltraChart.Core.Primitives]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[UltraChart.Core.Primitives]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives_namespace.html[UltraChart.Core.Primitives]"]  名前空間で定義されたプリミティブの種類の特化したサブクラスです。これらのグラフ オブジェクトはグラフィカル ツールキットで使用されている多くのプロパティや動作を共有します（例、位置、塗りつぶしの色、アウトライン（ストローク）、不透明度（透明度）、およびヒット検出など）。
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitives]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitives]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.primitives.primitive.html[Primitives]"]  がシーン グラフに追加されます。シーン グラフとは、これらのグラフ オブジェクトが描画されるまで格納して管理する内部コレクション オブジェクトです。シーン グラフの内容は、これらのプリミティブすべてを使って単一のシーンを構成し、レンダラがラスタライズしたときエンド ユーザーにグラフとして表示される最下位の視覚的オブジェクトを記述しています。
+
+image::images\Chart_Primitives_and_the_Scene_Graph_01.png[]
+
+上記の例は、プリミティブをカスタマイズして、シーン グラフを別のシーン グラフの上に組み合わせる方法を示しています。シーン グラフに追加されたプリミティブはまず、背景に表示されます。後続の処理でこれらのプリミティブに任意のプリミティブが重ねられます。
+
+以下は、レイヤの処理過程の略図を示しています。この処理過程では、各レイヤがグラフ要素の新しいプリミティブを追加していくにつれて、より複雑なグラフが生成されていきます。この「Divide-and-Conquer」モデルでは、数多くの単純なレイヤを組み合わせて高度なグラフを構成できます。
+
+image::images\Chart_Primitives_and_the_Scene_Graph_02.png[]
+
+図の最終段階では（手順 6）、カスタム レイヤを挿入し、赤い選択矢印などのアプリケーション独自の機能を簡単に追加できることがよくわかります。開発者は 1 組のインタフェースを介してプリミティブにアクセスできます。それぞれのインタフェースは以下の特定の操作に適しています。
+
+* 高レベル - Chart コントロールは、グラフ要素に関連するプリミティブを取得するために開発者が使用するアプリケーション コードに対して、Primitives インタフェース プロパティを提供します。これらのプリミティブは色変更、リサイズ、検証、操作することができます。また、シーン グラフを無効にして再描画できます。このインタフェースの制限は、元のグラフ データに対応する Primitive オブジェクトしか取得できないことです。たとえば、棒グラフの棒を変更できますが、データの特定部分に直接結びついていない軸の目盛マークは変更できません。
+* 低レベル - レイヤレベル内から、開発者は描画処理時に Chart で呼び出される独自のカスタム レイヤ実装を登録できます。この処理過程内で操作することにより、開発者には、グラフ領域の任意の位置に新しいプリミティブを作成して追加する完全な制御が備わります。
+
+== 関連トピック
+
+link:chart-render-charts-using-the-paint-element.html[描画要素を使用してチャートを描画]
+
+link:chart-add-effects-to-a-chart.html[チャートに効果を追加]

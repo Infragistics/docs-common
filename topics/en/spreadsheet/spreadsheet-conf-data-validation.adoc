@@ -1,0 +1,454 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-conf-data-validation",
+    "tags": ["How Do I","Validation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "79f5cde2-9179-47fb-b933-45b967b819b3",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0724172Z"
+}
+|metadata|
+////
+
+= Configuring Data Validation ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to configure and set the build-in data validation rules.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+|==== 
+
+|Topic|Purpose 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-uiu-data-validation.html[Data Validation Interactions ({SpreadsheetName})] 
+
+|This topic explains what actions can be performed by the user in relation with the data validation feature. 
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref420509263, Introduction >>
+* <<_Ref420509498, Common Data Validation Rules Parameters >>
+* <<_Ref420509588, Built-in Data Validation Rules >>
+* <<_Ref421010761, Related Content >>
+
+[[_Ref420509263]]
+== Introduction
+
+=== Summary
+
+The {SpreadsheetName} data validation feature is based on rules (set on worksheet’s cells) which perform validations on different constraints and allow or deny user input. Each worksheet cell can have only one validation rule set using the cell's link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheetcell~datavalidationrule.html[DataValidationRule] property.
+
+.Note
+[NOTE]
+====
+You can apply a given rule to one or more cells using the link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.worksheet~datavalidationrules.html[DataValidationRules] collection of the Worksheet.
+====
+
+[[_Ref420509498]]
+== Common Data Validation Rules Parameters
+
+=== Details
+
+All data validation rules extends from the base link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule_members.html[DataValidationRule] abstract class and therefor have common configuration parameters which are listed in the table below:
+
+[options="header", cols="a,a,a"]
+|====
+|Parameter|Details|Property
+
+|Input message description
+|This property sets the input message description.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~inputmessagedescription.html[InputMessageDescription]
+
+|Input message title
+|This property sets the optional input message title.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~inputmessagetitle.html[InputMessageTitle]
+
+|Input message visibility
+|By default the input message will be shown once you set the `InputMessageDescription` property, but you can hide it by setting this property to false. 
+
+.Note 
+
+[NOTE] 
+
+==== 
+
+You can set the position of the input message associated with the active cell using the link:{SpreadsheetLink}.{SpreadsheetName}~validationinputmessageposition.html[ValidationInputMessagePosition] property. 
+
+====
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~showinputmessage.html[ShowInputMessage]
+
+|Error message description
+|This property sets optional error message description. If you don't specify a value, the default description will state: "The value you entered is not valid. A user has restricted values that can be entered into this cell."
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~errormessagedescription.html[ErrorMessageDescription]
+
+|Error message title
+|This property sets the optional error message title. If you don't specify a value, the application title will be used.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~errormessagetitle.html[ErrorMessageTitle]
+
+|Error message visibility
+|By default the error message will be shown, but you can hide it by setting this property to false.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~showerrormessageforinvalidvalue.html[ShowErrorMessageForInvalidValue]
+
+|Error message type
+|You can specify three types of error messages by setting this property to one of the values of the link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationerrorstyle.html[DataValidationErrorStyle] enumeration. 
+
+.Note 
+
+[NOTE] 
+
+==== 
+
+For more information regarding the differences between the error messages types please see the link:spreadsheet-uiu-data-validation.html[Data Validation Interactions] topic. 
+
+====
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.datavalidationrule~errorstyle.html[ErrorStyle]
+
+|====
+
+[[_Ref420509588]]
+== Built-in Data Validation Rules
+
+=== Summary
+
+There are several predefined data validation rules supported by the control which you can use to achieve different data validation by just instantiating the appropriate rule, configure its parameters and set it to the worksheet cell's `DataValidationRule` property.
+
+=== Details
+
+The following table explains briefly the built-in data validation rules, their purpose and their capabilities. Further details are available after the table.
+
+[options="header", cols="a,a,a"]
+|====
+|Validation against|Details|Rule Type
+
+|<<_Ref420585054,No Validation>>
+|This rule does not perform any validation but can be used to provide input message once the cell is activated.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.anyvaluedatavalidationrule_members.html[AnyValueDataValidationRule]
+
+|<<_Ref420585055,Single Constraint Value or Formula>>
+|This rule performs a validation on the user input against a single constraint value. For example the input value must be: 
+
+* greater than the number 5 
+
+* less than or equal to the double 7.35 
+
+* equal to a time span of 2 days 
+
+* not equal to the date of April 15, 2015 
+
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule_members.html[OneConstraintDataValidationRule]
+
+|<<_Ref420585065,Two Constraint Values or Formulas>>
+|This rule performs a validation on the user input against two constraint values. For example the input value must be: 
+
+* with a text length between 10 and 15 characters 
+
+* not between the dates of June 16, 2015 and July 10, 2015 
+
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationrule_members.html[TwoConstraintDataValidationRule]
+
+|<<_Ref420585079,List of Accepted Values>>
+|This rule performs a validation on the user input against a list of accepted values. For example the input value must be one of the numbers: 1, 2, 4, 8, 16, 32, 64 and 128.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.listdatavalidationrule_members.html[ListDataValidationRule]
+
+|<<_Ref420586281,Custom Formula>>
+|This rule performs a validation on the user input against a formula.
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.customdatavalidationrule_members.html[CustomDataValidationRule]
+
+|====
+
+[[_Ref420585054]]
+== No Validation
+
+[[_Hlk368069110]]
+
+=== Overview
+
+This rule does not perform any validation but can be used to provide input message once the cell is activated.
+
+=== Property settings
+
+The following table maps the desired configuration to the property that manages it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Set input message title
+|`InputMessageTitle`
+|A value of type string
+
+|Set input message description
+|`InputMessageDescription`
+|A value of type string
+
+|====
+
+[[_Hlk337817761]]
+
+=== Example
+
+The following code snippet demonstrates how to create an `AnyValueDataValidationRule`, configure its input message and set the rule on a cell in a {SpreadsheetName} named "{SpreadsheetName}1":
+
+*In C#:*
+
+[source,csharp]
+----
+AnyValueDataValidationRule rule = new AnyValueDataValidationRule();
+rule.InputMessageTitle = "Experience";
+rule.InputMessageDescription = "Please list the frameworks your have experience with in this box";
+this.{SpreadsheetName}1.Workbook.Worksheet[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim rule As New AnyValueDataValidationRule()
+rule.InputMessageTitle = "Experience"
+rule.InputMessageDescription = "Please list the frameworks your have experience with in this box"
+Me.{SpreadsheetName}1.Workbook.Worksheet(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+[[_Ref420585055]]
+== Single Constraint Value or Formula
+
+=== Overview
+
+This rule performs a validation on the user input against a single constraint value. For example the input value must be:
+
+* greater than the number 5
+* less than or equal to the double 7.35
+* equal to a time span of 2 days
+* not equal to the date of April 15, 2015
+
+=== Property settings
+
+The following table maps the desired configuration to the property/method that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property/method:|And set it to:
+
+|Set the validation operator (equal, less than…)
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule~validationoperator.html[ValidationOperator]
+|A value of type link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationoperator.html[OneConstraintDataValidationOperator]
+
+|Set the validation constraint
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule~setconstraint.html[SetConstraint]
+|Using the overloads of this method you can set the constraint of type `double`, `DataTime` or `TimeSpan`.
+
+|====
+
+=== Example
+
+The following code snippet demonstrates how to create a `OneConstrantDataValidationRule`, configure the validation rule to allow values which are greater than 5 and set the rule on a cell in a {SpreadsheetName} named "{SpreadsheetName}1":
+
+*In C#:*
+
+----
+OneConstraintDataValidationRule rule = new OneConstraintDataValidationRule();
+rule.ValidationOperator = OneConstraintDataValidationOperator.GreaterThan;
+rule.SetConstraint(5);
+this.{SpreadsheetName}1.Workbook.Worksheets[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+
+*In Visual Basic:*
+
+----
+Dim rule As New OneConstraintDataValidationRule()
+rule.ValidationOperator = OneConstraintDataValidationOperator.GreaterThan
+rule.SetConstraint(5)
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+[[_Ref420585065]]
+== Two Constraint Values or Formulas
+
+=== Overview
+
+This rule performs a validation on the user input against two constraint values. For example the input value must be:
+
+* with a text length between 10 and 15 characters
+* not between the dates of June 16, 2015 and July 10, 2015
+
+=== Property settings
+
+The following table maps the desired configuration to the property/method that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property/method:|And set it to:
+
+|Set the validation operator (between, not between)
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.oneconstraintdatavalidationrule~validationoperator.html[ValidationOperator]
+|A value of type link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationoperator.html[TwoConstraintDataValidationOperator]
+
+|Set the lower validation constraint
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationrule~setlowerconstraint.html[SetLowerConstraint]
+|Using the overloads of this method you can set the lower constraint of type `double`, `DataTime` or `TimeSpan`.
+
+|Set the upper validation constraint
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.twoconstraintdatavalidationrule~setupperconstraint.html[SetUpperConstraint]
+|Using the overloads of this method you can set the upper constraint of type `double`, `DataTime` or `TimeSpan`.
+
+|====
+
+=== Example
+
+The following code snippet demonstrates how to create a `TwoConstrantDataValidationRule`, configure the validation rule to allow values which text length is between 10 and 15 characters and set the rule on a cell in a {SpreadsheetName} named "{SpreadsheetName}1":
+
+*In C#:*
+
+----
+TwoConstraintDataValidationRule rule = new TwoConstraintDataValidationRule();
+rule.ValidationOperator = TwoConstraintDataValidationOperator.Between;
+rule.ValidationCriteria = DataValidationCriteria.TextLength;
+rule.SetLowerConstraint(10);
+rule.SetUpperConstraint(15);
+this.{SpreadsheetName}1.Workbook.Worksheets[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+
+*In Visual Basic:*
+
+
+----
+Dim rule As New TwoConstraintDataValidationRule()
+rule.ValidationOperator = TwoConstraintDataValidationOperator.Between
+rule.ValidationCriteria = DataValidationCriteria.TextLength
+rule.SetLowerConstraint(10)
+rule.SetUpperConstraint(15)
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+[[_Ref420585079]]
+== List of Accepted Values
+
+=== Overview
+
+This rule performs a validation on the user input against a list of accepted values. For example the input value must be one of the numbers: 1, 2, 4, 8, 16, 32, 64 and 128.
+
+=== Property settings
+
+The following table maps the desired configuration to the method settings that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this method:|And provide:
+
+|Set the list of accepted values
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.listdatavalidationrule~setvalues.html[SetValues]
+|An array of accepted object or the accepted objects are arguments
+
+|====
+
+=== Example
+
+The following code snippet demonstrates how to create a `ListDataValidationRule`, configure the validation rule to accept the following values: 1, 2, 4, 8, 16, 32, 64 and 128 and set the rule on a cell in a {SpreadsheetName} named "{SpreadsheetName}1":
+
+*In Visual Basic:*
+
+----
+Dim rule As New ListDataValidationRule()
+rule.SetValues(New Object() {1, 2, 4, 8, 16, 32, 64, 128})
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(20).Cells(3).DataValidationRule = rule
+----
+
+*In C#:*
+
+
+----
+ListDataValidationRule rule = new ListDataValidationRule();
+rule.SetValues(new object[] {1, 2, 4, 8, 16, 32, 64, 128});
+this.{SpreadsheetName}1.Workbook.Worksheets[0].Rows[20].Cells[3].DataValidationRule = rule;
+----
+
+[[_Ref420586281]]
+== Custom Formula
+
+=== Overview
+
+This rule allows you to set a formula which returns a Boolean result based on which the new cell value is accepted or denied. To accept the new value the formula should evaluate to: True, "True" (case-insensitive), null or a non-zero numeric. To deny the new value the formula should evaluate to: False, 0, any `ErrorValue` (such as #VALUE!) or any string other than "True" (case-insensitive).
+
+When a relative address is used in the formula, you can set base reference address as second argument. If such is not provided the top-left will be used.
+
+=== Property settings
+
+The following table maps the desired configuration to the method that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this method:|And provide arguments:
+
+|Set the formula
+| link:{ApiPlatform}documents.excel{ApiVersion}{ApiProp}infragistics.documents.excel.customdatavalidationrule~setformula.html[SetFormula]
+|
+* The formula 
+
+* Base address used for reference when relative references were used in the formula 
+
+|====
+
+=== Example
+
+The following code snippet demonstrates how to create a `CustomDataValidationRule`, configure the validation formula rule to accept values when a specific cell in the worksheet (in this case A2) has a value bigger then 2 and set the rule on a cell in a {SpreadsheetName} named "{SpreadsheetName}1":
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim rule As New CustomDataValidationRule()
+rule.SetFormula("=IF(A2>2,TRUE,FALSE)", Nothing)
+Me.{SpreadsheetName}1.Workbook.Worksheets(0).Rows(3).Cells(3).DataValidationRule = rule
+----
+
+*In C#:*
+
+----
+CustomDataValidationRule rule = new CustomDataValidationRule();
+rule.SetFormula("=IF(A2>2,TRUE,FALSE)", null);
+this.{SpreadsheetName}1.Workbook.Worksheet s [0].Rows[3].Cells[3].DataValidationRule = rule;
+----
+
+
+[[_Ref421010761]]
+== Related Content
+
+=== Topic
+
+The following topic provides additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-data-validation.html[Working with Data Validation ({SpreadsheetName})]
+|This topic explains how to handle the data validation event and how to show circles around the cells with invalid data.
+
+|====
+ 

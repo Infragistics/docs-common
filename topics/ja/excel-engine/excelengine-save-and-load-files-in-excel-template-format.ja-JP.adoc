@@ -1,0 +1,71 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-save-and-load-files-in-excel-template-format",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "76f5d318-3afb-488c-9377-de1ba029d4ab",  
+    "buildFlags": [],
+    "createdOn": "2010-06-04T13:50:26.0935262Z"
+}
+|metadata|
+////
+
+= Excel テンプレート フォーマットでファイルを保存およびロード
+
+インフラジスティックス Excel ライブラリは、テンプレート ファイルを定義できる 3 つのファイル形式があります。テンプレートの形式には、Excel テンプレート フォーマット（拡張子は XLTX）、Excel マクロに対応したテンプレート フォーマット（拡張子は XLTM）、および Excel 97-2003 テンプレート フォーマット（拡張子は XLT）があり、これらの形式で保存および読み込みが可能です。
+
+pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]   pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookformat.html[WorkbookFormat]"]  列挙体は、XLTX、XLTM、および XLT に対応する値 Excel2007Template、Excel2007MacroEnabledTemplate、および Excel97To2003Template を含みます。 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  プロパティは、ファイルの現在の形式を取得するために使用できます。拡張子が不明なファイルを読み込む場合、ファイル コンテンツは適切な形式を動的に決定するために解析されます。
+
+以下のコードは、Excel ファイルを  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]   pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~save.html[Save]"]  メソッドを使用して Excel2007Template 形式で保存します。
+
+*Visual Basic の場合：*
+
+----
+' ワークブックを作成して形式を Excel2007Template に設定します 
+Dim newWorkBook As Infragistics.Documents.Excel.Workbook = New Workbook(WorkbookFormat.Excel2007Template)
+' ワークブックにワークシートを追加します
+Dim worksheet1 As Infragistics.Documents.Excel.Worksheet = newWorkBook.Worksheets.Add("Sheet1")
+' ワークシートのセルを書式化します
+worksheet1.Rows(1).Cells(1).CellFormat.FillPatternBackgroundColor = Color.Red 
+' ワークブックを保存します
+newWorkBook.Save("C:\ExcelBookTemplate.xltx")
+----
+
+*C# の場合：*
+
+----
+// ワークブックを作成して形式を Excel2007Template に設定します
+Infragistics.Documents.Excel.Workbook newWorkBook = new Workbook(WorkbookFormat.Excel2007Template);
+// ワークブックにワークシートを追加します
+Infragistics.Documents.Excel.Worksheet worksheet1 = newWorkBook.Worksheets.Add("Sheet1");
+// ワークシートのセルを書式化します
+worksheet1.Rows[1].Cells[1].CellFormat.FillPatternBackgroundColor = Color.Red;
+// ワークブックを保存します
+newWorkBook.Save("C:\\ExcelBookTemplate.xltx");
+----
+
+以下のコードは、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]   pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  メソッドを使用して既存の Excel ファイルの形式を変更します。
+
+*Visual Basic の場合：*
+
+----
+' 既存の Excel ファイルを読み込みます 
+Dim workbook As Infragistics.Documents.Excel.Workbook = Infragistics.Documents.Excel.Workbook.Load("C:\Book1.xlsx")
+' 形式を Excel2007Template へ変更します
+workbook.SetCurrentFormat(WorkbookFormat.Excel2007Template) 
+'  ファイルを変更した形式で保存します
+workbook.Save("C:\ModifiedBook1.xltx")
+----
+
+*C# の場合：*
+
+----
+// 既存の Excel ファイルを読み込みます
+Infragistics.Documents.Excel.Workbook workbook = Infragistics.Documents.Excel.Workbook.Load("C:\\Book1.xlsx");
+// 形式を Excel2007Template へ変更します
+workbook.SetCurrentFormat(WorkbookFormat.Excel2007Template);
+// ファイルを変更した形式で保存します
+workbook.Save("C:\\ModifiedBook1.xltx");
+----

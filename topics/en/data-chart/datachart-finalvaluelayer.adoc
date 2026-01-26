@@ -1,0 +1,198 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I"],
+    "controlName": ["{DataChartName}"]
+}
+|metadata|
+////
+
+= Final Value Layer
+
+== Topic Overview
+
+=== Purpose
+
+This topic provides information about the final value layer used for pick:[wpf,win-forms="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the final value layer and provides an example of its implementation.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|The _{DataChartName}_ control requires a data object model to be mapped to control's DataContext property. This article will provide a simple data object model but you can create your own and use it with this sample code instead.
+
+| link:datachart-category-series-overview.html[Category Series]
+|This topic explains various types of Category Series in the _{DataChartName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview,Overview>>
+* <<Preview,Preview>>
+* <<Properties,Properties>>
+* <<Example,Example>>
+* <<Related,Related Content>>
+
+[[Overview]]
+== Overview
+
+=== Final Value Layer Overview
+
+The link:{DataChartLink}.finalvaluelayer.html[FinalValueLayer] displays annotations along the chart's axes that represent the final value of a series on the _{DataChartName}_ control.
+
+You can configure the annotations to target a specific series if you want to have multiple final value layers present with different configurations. This can be done be setting the TargetSeries property. For more information on this property, see the <<Properties,Properties>> section below.
+
+[[Preview]]
+== Preview
+
+The following image is a preview of the _{DataChartName}_ control with the link:{DataChartLink}.finalvaluelayer.html[FinalValueLayer] added.
+
+pick:[win-forms="image::images/datachart_finalvaluelayer_winforms.png[]"]
+pick:[wpf="image::images/datachart_finalvaluelayer_wpf.png[]"]
+pick:[xamarin="image::images/datachart_finalvaluelayer_xamarin.png[]"]
+
+[[Properties]]
+== Properties
+
+=== Final Value Layer Summary
+
+The following table summarizes the properties of the link:{DataChartLink}.finalvaluelayer.html[FinalValueLayer] layer.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}FinalValueSelectionMode.html[FinalValueSelectionMode]
+|`FinalValueSelectionMode`
+|The selection mode determines how the final value is identified in your data.
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}TargetSeries.html[TargetSeries]
+|`Series`
+|Gets or sets the series to target this annotation to. If null, this annotation targets all series simultaneously.
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}AxisAnnotationBackground.html[AxisAnnotationBackground]
+|`Brush`
+|This property is used to choose the brush for the annotation's background color. The default is to use the series brush.
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}AxisAnnotationTextColor.html[AxisAnnotationTextColor]
+|`Brush`
+|This property is used to choose the brush for the annotation's text's color.
+
+| link:{DataChartLink}.finalvaluelayer{ApiProp}AxisAnnotationOutline.html[AxisAnnotationOutline]
+|`Brush`
+|This property is used to choose the brush for the annotation's outline color.
+
+
+|====
+
+[[Example]]
+== Example
+
+Following is the code used in the screenshot above.
+
+ifdef::wpf[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="theChart" Margin="5,0,5,0" >
+   <ig:{DataChartName}.Axes>
+      <ig:CategoryXAxis x:Name="xmCategoryXAxis"
+                        ItemsSource="{StaticResource CategoryData1}"
+                        Label="{}{Category}">
+         <ig:CategoryXAxis.LabelSettings>
+      </ig:CategoryXAxis>
+      <ig:NumericYAxis x:Name="xmNumericYAxis1">
+      </ig:NumericYAxis>
+   </ig:{DataChartName}.Axes>
+   <ig:{DataChartName}.Series>
+      <ig:ColumnSeries x:Name="columnSeries"
+                       ItemsSource="{StaticResource CategoryData1}"
+                       ValueMemberPath="Value" 
+                       XAxis="{Binding ElementName=xmCategoryXAxis}" 
+                       YAxis="{Binding ElementName=xmNumericYAxis1}">
+      </ig:ColumnSeries>
+      <ig:LineSeries x:Name="lineSeries"
+                     ItemsSource="{StaticResource CategoryData2}"
+                     ValueMemberPath="Value" 
+                     XAxis="{Binding ElementName=xmCategoryXAxis}" 
+                     YAxis="{Binding ElementName=xmNumericYAxis1}">
+      </ig:LineSeries>
+      
+      <ig:FinalValueLayer TargetSeries="{Binding ElementName=lineSeries}"/>
+   </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="theChart">
+   <ig:{DataChartName}.Axes>
+      <ig:CategoryXAxis x:Name="xAxis"
+                        ItemsSource="{Binding CategoryData1}"
+                        Label="Category">         
+      </ig:CategoryXAxis>
+      <ig:NumericYAxis x:Name="yAxis">
+      </ig:NumericYAxis>
+   </ig:{DataChartName}.Axes>
+   <ig:{DataChartName}.Series>
+   
+      <ig:LineSeries x:Name="lineSeries"
+                     ItemsSource="{Binding CategoryData2}"
+                     ValueMemberPath="Value" 
+                     XAxis="{x:Reference xAxis}" 
+                     YAxis="{x:Reference yAxis}">
+      </ig:LineSeries>
+      
+      <ig:FinalValueLayer TargetSeries="{x:Reference lineSeries}"/>
+   </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xamarin[]
+
+*In C#:*
+[source,cs]
+----
+var finalValue = new FinalValueLayer();
+finalValue.TargetSeries = theChart.Series[0];
+theChart.Series.Add(finalValue);
+----
+
+
+[[Related]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-commonproperties.html[Common Properties]
+|This topic provides information about the properties and methods that the pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interaction feature uses for highlighting, pick:[wpf,win-universal="hovering"]pick:[xamarin="touch"] and interacting with the tooltip interactions inherited from the link:{DataChartLink}.series_members.html[Series] class.
+
+| link:datachart-crosshairlayer.html[Crosshair Layer]
+|This topic provides information about the crosshair layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the crosshair layer and provides an implementation example.
+
+| link:datachart-categoryitemhighlightlayer.html[Category Item Highlight Layer]
+|This topic provides information about the category item highlight layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category item highlight layer and provides an example of its implementation.
+
+| link:datachart-categorytooltiplayer.html[Category Tooltip Layer]
+|This topic provides information about the category tooltip layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category tooltip layer and provides an example of its implementation.
+
+| link:datachart-itemtooltiplayer.html[Item Tooltip Layer]
+|This topic provides information about the item tooltip layer which is used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the item tooltip layer and also provides an example of its implementation.
+
+|====

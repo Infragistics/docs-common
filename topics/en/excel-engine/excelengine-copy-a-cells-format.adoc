@@ -1,0 +1,82 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-copy-a-cells-format",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Formatting","Getting Started","How Do I"],
+    "guid": "{71975533-A319-42D9-9687-04A1F99C0465}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7537039Z"
+}
+|metadata|
+////
+
+= Copying a Cell's Format ({ExcelEngineName})
+
+Cells can have different formatting, including background color, format string, and font style. If you need a cell to have the same format as a previously formatted cell, instead of individually setting each option exposed by the link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] object's link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~cellformat.html[CellFormat] property, you can call the CellFormat object's link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat~setformatting.html[SetFormatting] method and pass it a CellFormat object to copy. This will copy every format setting from the first cell to the second cell. You can also do this for a row, merged cell region, or column.
+
+The following code shows you how to copy the format of the 2nd column to the 4th column.
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Imports Infragistics.Documents.Excel
+...
+'Format 2nd column
+worksheet1.Columns(1).CellFormat.Fill = _
+    CellFill.CreateSolidFill(pick:[wpf="System.Windows.Media.Colors."]pick:[xamarin="Infragistics.Core.Graphics.Colors."]Green)
+worksheet1.Columns(1).CellFormat.Font.Bold = ExcelDefaultableBoolean.True
+'Copy format of 2nd column to 4th column
+worksheet1.Columns(3).CellFormat.SetFormatting(worksheet1.Columns(1).CellFormat)
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*In C#:*
+[source,csharp]
+----
+using Infragistics.Documents.Excel;
+...
+//Format 2nd column
+worksheet1.Columns[1].CellFormat.Fill =
+    CellFill.CreateSolidFill(pick:[wpf="System.Windows.Media.Colors."]pick:[xamarin="Infragistics.Core.Graphics.Colors."]Green);
+worksheet1.Columns[1].CellFormat.Font.Bold = ExcelDefaultableBoolean.True;
+//Copy format of 2nd column to 4th column
+worksheet1.Columns[3].CellFormat.SetFormatting(worksheet1.Columns[1].CellFormat);
+----
+
+== Related Topics
+
+link:excelengine-about-infragistics-excel-engine.html[About {ExcelEngineName}]
+
+link:excelengine-creating-a-workbook.html[Creating a Workbook ({ExcelEngineName})]
+
+link:excelengine-load-an-excel-file.html[Loading an Excel File ({ExcelEngineName})]
+
+link:excelengine-save-a-workbook.html[Saving a Workbook ({ExcelEngineName})]
+
+link:excelengine-copy-a-cells-format.html[Copying a Cell's Format ({ExcelEngineName})]
+
+link:excelengine-reference-cells-and-regions.html[Referencing Cells and Regions ({ExcelEngineName})]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-merge-cells.html[Merging Cells ({ExcelEngineName})]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-merging-cells.html[Merging Cells ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-add-a-formula-to-a-cell.html[Adding a Formula to a Cell ({ExcelEngineName})]
+
+link:excelengine-add-a-comment-to-a-cell.html[Adding a Comment to a Cell ({ExcelEngineName})]
+
+link:excelengine-disable-editing-of-a-worksheet.html[Disabling Editing of a Worksheet ({ExcelEngineName})]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-freeze-rows-and-columns.html[Freezing and Splitting Panes ({ExcelEngineName})]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-freeze-and-split-panes.html[Freezing and Splitting Panes ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-set-excel-document-properties.html[Setting Workbook Properties ({ExcelEngineName})]

@@ -1,0 +1,397 @@
+﻿= Binding to Live Data
+
+=== Purpose
+This topic demonstrates how to bind data to the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control. At the end of each section, a complete code sample is provided.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Introduction,Introduction>> 
+* <<SupportedChartTypes,Supported Chart Types>>
+
+pick:[wpf="* <<Requirements,Requirements>>"]
+* <<PreviewData,Preview Binding to Data>>
+* <<OverviewData,Overview Binding to Data>>
+* <<StepsData,Steps - Binding to Data>>
+* <<RelatedTopics,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+The procedure below demonstrates how to bind the {FinancialChartName} control to live data.
+ifdef::wpf[]
+The {FinancialChartName} allows you to bind to any object that implements the IEnumerable interface. Nested collections that implement ICollection and IEnumerable are also supported.
+endif::wpf[]
+ifdef::jquery[]
+The {FinancialChartName} allows you to bind to JavaScript arrays. Nested collections are also supported. 
+endif::jquery[]
+
+[[SupportedChartTypes]]
+== Supported Chart Types
+
+The link:{FinancialChartLink}.{FinancialChartName}{ApiProp}chartType{HtmlApiExtension}[ChartType] property enables you to choose which series type you wish to display. 
+
+Supported series types:
+
+* Bar
+* Candle
+* Column
+* Line
+
+ifdef::wpf[]
+[[Requirements]]
+== Requirements
+
+Following are the general requirements for adding the {FinancialChartName} control.
+
+Add the following NuGet package reference to your application:
+
+** Infragistics.WPF.FinancialChart
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----  
+
+*In C#:* 
+[source,csharp]
+----
+using {FinancialChartNamespace};  
+----  
+
+*In VB:* 
+[source,vb]
+----
+Imports {FinancialChartNamespace}
+---- 
+endif::wpf[]
+
+[[PreviewData]]
+
+== Preview Binding to Data
+
+The {FinancialChartName} control as implemented by the binding to data sample code:
+
+pick:[wpf="image::images/financialchart_wpf_livedata.png[]"]
+pick:[jquery="image::images/financialchart_jquery_livedata.png[]"]
+
+[[OverviewData]]
+
+== Overview Binding to Data
+
+1.	Defining a Data Model
+2.	Adding an Instance of the {FinancialChartName} control
+3.	(Optional) Verifying the result
+
+[[StepsData]]
+
+== Steps – Binding to Data
+
+*Define Data*
+
+ifdef::wpf[]
+Create a class to model the data:
+
+When the ItemsSource implements INotifyCollectionChanged, the chart will respond to the CollectionChanged events.
+
+Also as long as the objects in the ItemsSource implement INotifyPropertyChanged, the chart will respond to the PropertyChanged events.
+
+*In C#:*
+[source, csharp]
+----
+public class Price : ObservableModel
+{
+    private DateTime _time;
+    private double _open;
+    private double _high;
+    private double _low;
+    private double _close;
+    private double _volume;
+
+    public DateTime Time
+    {
+        get { return _time; }
+        set
+        {
+            if (_time != value)
+            {
+                _time = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    public double Open
+    {
+        get { return _open; }
+        set
+        {
+            if (_open != value)
+            {
+                _open = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    public double High
+    {
+        get { return _high; }
+        set
+        {
+            if (_high != value)
+            {
+                _high = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    public double Low
+    {
+        get { return _low; }
+        set
+        {
+            if (_low != value)
+            {
+                _low = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    public double Close
+    {
+        get { return _close; }
+        set
+        {
+            if (_close != value)
+            {
+                _close = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    public double Volume
+    {
+        get { return _volume; }
+        set
+        {
+            if (_volume != value)
+            {
+                _volume = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    
+    public string Label { get { return this.Time.ToShortDateString(); } }
+}
+
+public class ObservableModel : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+    public void OnPropertyChanged([CallerMemberName] String propertyName = "")
+    {
+        if (PropertyChanged != null)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}
+----
+
+
+*In Visual Basic:*
+[source, vb]
+----
+Public Class Price
+    Inherits ObservableModel
+    
+    Private _time As DateTime
+    Private _open As Double
+    Private _high As Double
+    Private _low As Double
+    Private _close As Double
+    Private _volume As Double
+    
+    Public Property Time As DateTime
+        Get
+            Return Me._time
+        End Get
+        Set
+            If (Me._time <> value) Then
+                Me._time = value
+                OnPropertyChanged
+            End If
+        End Set
+    End Property
+    
+    Public Property Open As Double
+        Get
+            Return Me._open
+        End Get
+        Set
+            If (Me._open <> value) Then
+                Me._open = value
+                OnPropertyChanged
+            End If
+        End Set
+    End Property
+    
+    Public Property High As Double
+        Get
+            Return Me._high
+        End Get
+        Set
+            If (Me._high <> value) Then
+                Me._high = value
+                OnPropertyChanged
+            End If
+        End Set
+    End Property
+    
+    Public Property Low As Double
+        Get
+            Return Me._low
+        End Get
+        Set
+            If (Me._low <> value) Then
+                Me._low = value
+                OnPropertyChanged
+            End If
+        End Set
+    End Property
+    
+    Public Property Close As Double
+        Get
+            Return Me._close
+        End Get
+        Set
+            If (Me._close <> value) Then
+                Me._close = value
+                OnPropertyChanged
+            End If
+        End Set
+    End Property
+    
+    Public Property Volume As Double
+        Get
+            Return Me._volume
+        End Get
+        Set
+            If (Me._volume <> value) Then
+                Me._volume = value
+                OnPropertyChanged
+            End If
+        End Set
+    End Property
+    
+    Public ReadOnly Property Label As String
+        Get
+            Return Me.Time.ToShortDateString
+        End Get
+    End Property
+End Class
+
+Public Class ObservableModel
+    Implements INotifyPropertyChanged
+    
+    Public Event PropertyChanged As PropertyChangedEventHandler
+    
+    Public Sub OnPropertyChanged(Optional ByVal propertyName As String = "")
+        If (Not (PropertyChanged) Is Nothing) Then
+            PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+        End If
+        
+    End Sub
+End Class
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,js]
+----
+function getData() {
+    var data = PriceData.AMZN();
+	return data;
+}
+----
+endif::jquery[]
+
+*Add an instance of the {FinancialChartName} Control*
+
+Add an instance of the {FinancialChartName} and bind it to the data:
+
+ifdef::wpf[]
+*In XAML*:
+[source, xaml]
+----
+<Window.DataContext>
+    <local:Data />
+</Window.DataContext>
+<Grid>
+    <ig:{FinancialChartName} ItemsSource="{Binding}" />
+</Grid>
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In HTML*
+[source,html]
+----
+<div id="chart" style="width:800px;height:600px"></div>
+----
+*In JavaScript*
+[source,js]
+----
+$(function () {
+    var data = getData();		
+    $("#chart").igFinancialChart({ 
+    	dataSource: data
+    });
+});
+----
+endif::jquery[]
+
+Finally you will want to update your data source with the new data you pull from your service.
+
+ifdef::jquery[]
+After you update your data source you will then notify the chart by invoking one of the following functions: 
+
+* link:{FinancialChartLink}.{FinancialChartName}#methods:notifyClearItems{HtmlApiExtension}[notifyClearItems]
+* link:{FinancialChartLink}.{FinancialChartName}#methods:notifyInsertItem{HtmlApiExtension}[notifyInsertItem]
+* link:{FinancialChartLink}.{FinancialChartName}#methods:notifyRemoveItem{HtmlApiExtension}[notifyRemoveItem]
+* link:{FinancialChartLink}.{FinancialChartName}#methods:notifySetItem{HtmlApiExtension}[notifySetItem]
+
+endif::jquery[]
+
+*(Optional) Verify the Result*
+
+Run your application to verify the result. If you have successfully bound the {FinancialChartName} control to the data collection, the resulting chart will look like the one shown above.
+
+[[RelatedTopics]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:financial-chart-binding-to-data.html[Binding to Data]
+|This topic provides an overview of binding data to the Financial Chart control.
+
+| link:financial-chart-binding-to-single-data.html[Binding to Single set of Data]
+|This article explains how to bind a single set data to the Financial Chart control.
+
+|link:financial-chart-binding-to-multiple-data.html[Binding to Multiple sets of Data]
+|This article explains how to bind multiple sets data to the Financial Chart control.
+
+|====

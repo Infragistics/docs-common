@@ -1,0 +1,232 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-selection-formatting",
+    "tags": ["How Do I","Selection"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "92e777aa-b9fc-4d1a-898e-0473439605b6",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0994181Z"
+}
+|metadata|
+////
+
+= Setting or Obtaining Active Selection's Formatting ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to set or obtain active selection’s formatting.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+|pick:[xaml=" link:excelengine-about-infragistics-excel-engine.html[About Infragistics Excel Engine]"] pick:[win-forms=" link:excelengine-understanding-the-infragistics-excel-engine.html[Understanding Infragistics Excel Engine]"] 
+
+|In this section you will find information that will help you to better understand the object model and the functionalities of the _Infragistics Excel Engine_ . 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-visual-elements.html[Visual Elements Overview ({SpreadsheetName})] 
+
+|This topic provides an overview of the visual elements of the {SpreadsheetName} control. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref402962863, Introduction >>
+* <<_Ref402962871, Code Example: Binding a ToggleButton to the Formatting Object’s Bold Property >>
+* <<_Ref402962882, Related Content >>
+
+[[_Ref402962863]]
+== Introduction
+
+=== Feature summary
+
+The {SpreadsheetName} control provides a special property named link:{SpreadsheetLink}.{SpreadsheetName}~activeselectioncellrangeformat.html[ActiveSelectionCellRangeFormat] of type link:{SpreadsheetLink}.spreadsheetcellrangeformat_members.html[SpreadsheetCellRangeFormat] which can be used to set or obtain different formatting aspects of the active selection, like font properties, alignments, indentation and more.
+
+You can bind some of the properties of this object to different UI elements (like toggle buttons or text boxes) and they will reflect or manipulate the formatting of the active selection’s content.
+
+.Note
+[NOTE]
+====
+All changes made to the formatting object will also affect all selected worksheets by the user.
+====
+
+ifdef::win-forms[]
+[[_Ref402962871]]
+== Code Example: Setting the Formatting Object's Bold Property at runtime.
+
+=== Description
+
+The following example demonstrates setting the formatting object’s Bold property of the control's active selection text’s bold state.
+
+=== Code
+
+Set Bold property:
+
+*In C#:*
+
+[source,csharp]
+----
+ultraSpreadsheet1.ActiveSelectionCellRangeFormat.Font.Bold = ExcelDefaultableBoolean.True;
+----
+
+*In VB#:*
+
+[source,vb]
+----
+ultraSpreadsheet1.ActiveSelectionCellRangeFormat.Font.Bold = ExcelDefaultableBoolean.True
+----
+endif::win-forms[]
+
+ifdef::xaml[]
+
+[[_Ref402962871]]
+== Code Example: Binding a ToggleButton to the Formatting Object’s Bold Property
+
+=== Description
+
+The following example demonstrates how to bind a `ToggleButton` to the formatting object’s Bold property and control the active selection text’s bold state using the toggle button.
+
+=== Code
+
+Define converter code:
+
+*In C#:*
+
+----
+namespace IGSpreadsheet.Converters
+{
+    public class ExcelBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter,
+          System.Globalization.CultureInfo culture)
+        {
+            if (value is ExcelDefaultableBoolean)
+            {
+                switch ((ExcelDefaultableBoolean)value)
+                {
+                    case ExcelDefaultableBoolean.True: return true;
+                    case ExcelDefaultableBoolean.False: return false;
+                }
+            }
+            return null;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter,
+          System.Globalization.CultureInfo culture)
+        {
+            if (value is bool)
+            {
+                if (targetType == typeof (ExcelDefaultableBoolean))
+                {
+                    return (bool)value ? ExcelDefaultableBoolean.True : ExcelDefaultableBoolean.False;
+                }
+            }
+            return null;
+        }
+    }
+}
+----
+
+*In Visual Basic:*
+
+----
+Namespace IGSpreadsheet.Converters
+        Public Class ExcelBoolConverter
+                Implements IValueConverter
+                Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As System.Globalization.CultureInfo) As Object
+                        If TypeOf value Is ExcelDefaultableBoolean Then
+                                Select Case DirectCast(value, ExcelDefaultableBoolean)
+                                        Case ExcelDefaultableBoolean.[True]
+                                                Return True
+                                        Case ExcelDefaultableBoolean.[False]
+                                                Return False
+                                End Select
+                        End If
+                        Return Nothing
+                End Function
+                Public Function ConvertBack(value As Object, targetType As Type, parameter As Object, culture As System.Globalization.CultureInfo) As Object
+                        If TypeOf value Is Boolean Then
+                                If targetType = GetType(ExcelDefaultableBoolean) Then
+                                        Return If(CBool(value), ExcelDefaultableBoolean.[True], ExcelDefaultableBoolean.[False])
+                                End If
+                        End If
+                        Return Nothing
+                End Function
+        End Class
+End Namespace
+----
+
+Bind a toggle button optionset to the formatting object’s bold property using the converter:
+
+*In XAML:*
+
+----
+<Page
+  …
+ xmlns:conv="clr-namspace:IGSpreadsheet.Converters"
+  …>
+<Page.Resources>
+  <ResourceDictionary>
+    <conv:ExcelBoolConverter x:Key="ExBoolConv" />
+  </ResourceDictionary>
+</Page.Resources>
+…
+<ToggleButton Content="Bold"
+  IsChecked="{Binding ElementName=xamSpreadsheet1, Path=ActiveSelectionCellRangeFormat.Font.Bold,
+    Converter={StaticResource ExBoolConv}}" />
+…
+</Page>
+----
+
+Note:
+
+.Note
+[NOTE]
+====
+Most of the properties of the formatting object are complex and will need converters when binding to them. You can look at the {SpreadsheetName}’s "Content Editing" sample, which demonstrates how to bind to most of the formatting object’s properties.
+====
+endif::xaml[]
+
+[[_Ref402962882]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+| link:spreadsheet-work-selection.html[Working with Selection ({SpreadsheetName})]
+|This topic explains the selection feature from developer perspective.
+
+|====
+ 

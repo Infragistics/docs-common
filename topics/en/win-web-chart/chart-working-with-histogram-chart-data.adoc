@@ -1,0 +1,290 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-histogram-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{8976B0AA-65F7-450B-9051-7D5C3FB3849A}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with Histogram Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the histogram chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+Histogram charts supports all the data source options as column charts, such as DataSet, DataTable, Multi-Dimensional numeric arrays, and Numeric series.
+
+== Mapping Data to a Histogram Chart
+
+A histogram chart consists of two main classes:
+
+* HistogramLayer -- This class takes the data and transforms it into a histogram table.
+* HistogramAppearance -- This class displays the histogram table in the form of a histogram chart.
+
+The chart data is rendered using the following rules:
+
+* Columns can represent one of the following:
+
+** The number of times a certain value occurs
+** The number of values that fall within a certain range.
+
+* The column is determined by the Axis property, which can be set to either String, which displays one value or Numeric which displays a range of data.
+
+The following example shows how to create a histogram chart. The chart is created with an array of data as the data source and the data bin is set to 5. The distribution curve is displayed by default.
+
+When you save and run your application after completing the following steps, your chart should look similar to the chart below.
+
+image::Images/Chart_About_Histogram_Chart_02.png[Shows a 2D Histogram Chart based on the code listed below.]
+
+*To create a histogram chart at design time:*
+
+[start=1]
+. From the toolbox, drag the UltraChart control to your form.
+[start=2]
+. In the Properties window, select the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart.html[ChartType]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart_namespace.html[ChartType]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.charttype.html[ChartType]"]  property. Then, from the drop-down list, select Histogram Chart.
+[start=3]
+. Expand the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~axis.html[Axis]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~axis.html[Axis]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~axis.html[Axis]"]  property, then expand the X Axis property and set the following properties:
+
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[TickmarkStyle]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[TickmarkStyle]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[TickmarkStyle]"]  -- DataInterval
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkinterval.html[TickmarkInterval]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkinterval.html[TickmarkInterval]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkinterval.html[TickmarkInterval]"]  -- 5
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemin.html[RangeMin]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemin.html[RangeMin]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemin.html[RangeMin]"]  -- 0
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemax.html[RangeMax]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemax.html[RangeMax]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemax.html[RangeMax]"]  -- 20
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[RangeType]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[RangeType]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[RangeType]"]  -- Custom
+
+[start=4]
+. Within the X Axis property, expand the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase.html[Labels]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase.html[Labels]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~labels.html[Labels]"]  property and set the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[Orientation]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[Orientation]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[Orientation]"]  property to Horizontal.
+[start=5]
+. Expand the HistogramChart property, then expand the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance.html[ColumnAppearance]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance.html[ColumnAppearance]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramchartappearance~columnappearance.html[ColumnAppearance]"]  property and set the following properties:
+
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~stringaxis.html[StringAxis]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~stringaxis.html[StringAxis]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~stringaxis.html[StringAxis]"]  -- False
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~showinlegend.html[ShowInLegend]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~showinlegend.html[ShowInLegend]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~showinlegend.html[ShowInLegend]"]  -- True.
+
+[start=6]
+. Expand the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance.html[Legend]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance.html[Legend]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance.html[Legend]"]  property and set the following properties:
+
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~visible.html[Visible]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~visible.html[Visible]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~visible.html[Visible]"]  -- True
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~backgroundcolor.html[BackgroundColor]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~backgroundcolor.html[BackgroundColor]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~backgroundcolor.html[BackgroundColor]"]  -- Transparent
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~bordercolor.html[BorderColor]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~bordercolor.html[BorderColor]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~bordercolor.html[BorderColor]"]  -- Black
+**  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~margins.html[Margins]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~margins.html[Margins]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~margins.html[Margins]"]  -- (5,5,5,150)
+
+[start=7]
+. In the load event, bind your chart to an array of data
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Data.DataSource = 
+  New Integer() {1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16}
+Me.UltraChart1.Data.DataBind()
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Data.DataSource = 
+    new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16 };
+this.ultraChart1.Data.DataBind();
+----
+
+[start=8]
+. Save and run your application.
+
+*To create a histogram chart at run time:*
+
+[start=1]
+. Before you start writing any code, you should place using/Imports directives in your code-behind so you don't need to always type out a member's fully qualified name.
+
+*In Visual Basic:*
+
+ifdef::win-forms[]
+----
+Imports Infragistics.Win.UltraWinChartImports Infragistics.WebUI.UltraWebChartImports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+endif::win-forms[]
+
+ifdef::asp-net[]
+----
+Imports Infragistics.Win.UltraWinChartImports Infragistics.WebUI.UltraWebChartImports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+endif::asp-net[]
+
+ifdef::aspnet-old[]
+----
+Imports Infragistics.Win.UltraWinChartImports Infragistics.WebUI.UltraWebChartImports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+endif::aspnet-old[]
+
+*In C#:*
+
+ifdef::win-forms[]
+----
+using Infragistics.Win.UltraWinChart;using Infragistics.WebUI.UltraWebChart;using Infragistics.WebUI.UltraWebChart
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+endif::win-forms[]
+
+ifdef::asp-net[]
+----
+using Infragistics.Win.UltraWinChart;using Infragistics.WebUI.UltraWebChart;using Infragistics.WebUI.UltraWebChart
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+endif::asp-net[]
+
+ifdef::aspnet-old[]
+----
+using Infragistics.Win.UltraWinChart;using Infragistics.WebUI.UltraWebChart;using Infragistics.WebUI.UltraWebChart
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+endif::aspnet-old[]
+
+[start=2]
+. Create an instance of a chart and set the type to HistogramChart.
+
+*In Visual Basic:*
+
+----
+Dim ultraChart1 As New UltraChart
+Me.UltraChart1.ChartType = ChartType.HistogramChart
+----
+
+*In C#:*
+
+----
+UltraChart ultraChart1 = new UltraChart();
+this.ultraChart1.ChartType = ChartType.HistogramChart;
+----
+
+[start=3]
+. In ColumnAppearance property set the following properties:
+
+** StringAxis -- False
+** ShowInLegend -- True.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.HistogramChart.ColumnAppearance.StringAxis = False
+Me.UltraChart1.HistogramChart.ColumnAppearance.ShowInLegend = True
+----
+
+*In C#:*
+
+----
+this.ultraChart1.HistogramChart.ColumnAppearance.StringAxis = false;
+this.ultraChart1.HistogramChart.ColumnAppearance.ShowInLegend = true;
+----
+
+[start=4]
+. Set the following properties for the X Axis property:
+
+** TickmarkStyle -- DataInterval
+** TickmarkInterval -- 5
+** RangeMin -- 0
+** RangeMax -- 20
+** RangeType -- Custom
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Axis.X.TickmarkStyle = AxisTickStyle.DataInterval
+Me.UltraChart1.Axis.X.TickmarkInterval = 5
+Me.UltraChart1.Axis.X.RangeMin = 0
+Me.UltraChart1.Axis.X.RangeMax = 20
+Me.UltraChart1.Axis.X.RangeType = AxisRangeType.Custom
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Axis.X.TickmarkStyle = AxisTickStyle.DataInterval;
+this.ultraChart1.Axis.X.TickmarkInterval = 5;
+this.ultraChart1.Axis.X.RangeMin = 0;
+this.ultraChart1.Axis.X.RangeMax = 20;
+this.ultraChart1.Axis.X.RangeType = AxisRangeType.Custom;
+----
+
+[start=5]
+. In the Labels property of the X Axis property, set the Orientation to Horizontal.
+
+*In Visual Basic:*
+
+----
+Me.ultraChart1.Axis.X.Labels.Orientation = TextOrientation.Horizontal
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Axis.X.Labels.Orientation = TextOrientation.Horizontal;
+----
+
+[start=6]
+. Set the following properties on the Legend property:
+
+** Visible -- True
+** BackgroudColor -- Transparent
+** BorderColor -- Black
+** Margins -- (5,5,5,150)
+
+*In Visual Basic:*
+
+----
+Me.ultraChart1.Legend.Visible = True
+Me.ultraChart1.Legend.BackgroundColor = System.Drawing.Color.Transparent
+Me.ultraChart1.Legend.BorderColor = System.Drawing.Color.Black
+Me.ultraChart1.Legend.Margins.Bottom = 150
+Me.ultraChart1.Legend.Margins.Left = 5
+Me.ultraChart1.Legend.Margins.Right = 5
+Me.ultraChart1.Legend.Margins.Top = 5
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Legend.Visible = true;
+this.ultraChart1.Legend.BackgroundColor = System.Drawing.Color.Transparent;
+this.ultraChart1.Legend.BorderColor = System.Drawing.Color.Black;
+this.ultraChart1.Legend.Margins.Bottom = 150;
+this.ultraChart1.Legend.Margins.Left = 5;
+this.ultraChart1.Legend.Margins.Right = 5;
+this.ultraChart1.Legend.Margins.Top = 5;
+----
+
+[start=7]
+. Bind your chart to an array of data.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Data.DataSource = 
+  New Integer() {1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16}
+Me.UltraChart1.Data.DataBind()
+----
+
+*In C#:*
+
+----
+this.ultraChart1.Data.DataSource = 
+    new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16 };
+this.ultraChart1.Data.DataBind();
+----
+
+[start=8]
+. Save and run your application.

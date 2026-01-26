@@ -1,0 +1,112 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-2-of-5)",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{F52EB1E7-3F99-4EB4-865F-A2F4AA551D09}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ドリルダウン チャートの作成（2/5）
+
+このトピックは、 link:chart-creating-a-drilldown-chart-part-1-of-5.html[ドリルダウン チャートの作成（1/5）]の続きです。
+
+このフォームは、DataSource だけでなくエンド ユーザーがレベルからレベルに移動する時に必ず変更されるチャート タイプとフォーマット ラベルなどのその他のプロパティを持つひとつの WinChart で構成されます。
+
+エンド ユーザーは Link Label を使用することによってレベルをナビゲートできます。エンド ユーザーがレベルからレベルに移動すると動的に変更します。Link Label はブレッドクラム ナビゲーション スタイルで表示されます。
+
+このアプリケーションで実装される追加の UI 機能は、実際のエンティティ タイプだけでなく現在のレベルを示す 3 つの Label コントロールの使用です。エンド ユーザーがあるレベルに移動するときは常にそのレベルの Label コントロールは異なる色になります。これによってチャートの現在のデータはその特定のエンティティを表します。
+
+Form の上側にあるひとつの標準的な Panel コントロールをドッキングして Form の下側にあるもうひとつの別個の Panel をドッキングすることによって、標準的な Label だけでなく Link Label が Form 上に配置されます。
+
+一番上のパネル内に 3 つの Link Label を配置します。
+
+一番下のパネル内に 3 つの Link Label を配置します。
+
+各ラベルの AutoSize プロパティを True に設定します。
+
+これが実行されて各ラベルのテキスト文字列が調整されると、コントロールのサイズがそれに応じて自動的に変更されるようになります。各ラベルは左手に向かってドッキングされます。テキスト文字列が変わるとラベルは常に正しくフォーマットされます。
+
+[start=1]
+. コードの記述を開始する前にコードビハインドに使用/インポートのディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常にタイプする必要がなくなります。この例では、SqlClient 名前空間がインポートされます。データベースに接続しデータを取得するコマンドを実行するために SQL Server 固有のクラスが使用されるからです。
+*Visual Basic の場合：*
+
+----
+Imports System.Data.SqlClient 
+Imports Infragistics.UltraChart.Shared.Events 
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*C# の場合：*
+
+----
+using System.Data.SqlClient 
+using Infragistics.UltraChart.Shared.Events 
+using Infragistics.UltraChart.Shared.Styles
+----
+
+[start=2]
+. 最大、最小、および現在のドリル レベルを設定します。
+
+** MAX_DRILL -- 3
+** MIN_DRILL -- 1
+** _currDrill -- 1
+
+*Visual Basic の場合：*
+
+----
+Private Const MAX_DRILL As Integer = 3
+Private Const MIN_DRILL As Integer = 1 
+Private _currDrill As Integer = 1
+----
+
+*C# の場合：*
+
+----
+private const int MAX_DRILL = 3; 
+private const int MIN_DRILL = 1; 
+private int _currDrill = 1;
+----
+
+[start=3]
+. ドリルダウン/ドリルアップするには、現在のドリル レベルの変数を増分/減分します。
+*Visual Basic の場合：*
+
+----
+Private Sub DrillDown() 
+  _currDrill += 1
+  If (_currDrill > MAX_DRILL) 
+    Then _currDrill = MAX_DRILL 
+End Sub
+Private Sub DrillBack() 
+  _currDrill -= 1 
+  If (_currDrill < MIN_DRILL) 
+    Then _currDrill = MIN_DRILL 
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void DrillDown() 
+{ 
+   _currDrill += 1; 
+   if (_currDrill > MAX_DRILL) 
+       _currDrill = MAX_DRILL; 
+}
+private void DrillBack() 
+{ 
+   _currDrill -= 1; 
+   if (_currDrill < MIN_DRILL) 
+       _currDrill = MIN_DRILL; 
+}
+----
+
+== 関連トピック
+
+link:chart-creating-a-drilldown-chart-part-3-of-5.html[ドリルダウン チャートの作成（3/5） ]

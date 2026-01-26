@@ -1,0 +1,292 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-histogram-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{8976B0AA-65F7-450B-9051-7D5C3FB3849A}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ヒストグラム チャート データでの作業
+
+このトピックでは、ヒストグラム チャートでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+ヒストグラム チャートは、DataSet, DataTable, Multi-Dimensional 数値配列、および数値シリーズなどのすべてのデータ ソース オプションをサポートします。
+
+== データをヒストグラム チャートにマップ
+
+ヒストグラム チャートは以下の 2 つの主要なクラスから構成されます。
+
+* HistogramLayer -- このクラスはデータを取得して、ヒストグラム テーブルに変換します。
+* HistogramAppearance -- このクラスはヒストグラム チャートの形式でヒストグラム テーブルを表示します。
+
+チャート データは以下の規則を使用して描画されます。
+
+* 列は以下のいずれかを表すことができます。
+
+** 特定の値が発生する回数
+** 特定の範囲内に入れられる値の数
+
+* 列は Axis プロパティによって決定されますが、このプロパティはひとつの値を表示する String、またはデータの範囲を表示する Numeric のいずれかに設定できます。
+
+以下の例は、ヒストグラム チャートの作成方法を示します。チャートはデータ ソースとしてデータの配列で作成され、データ bin が 5 に設定されます。デフォルトで分布曲線が表示されます。
+
+以下の手順を完了した後でアプリケーションを保存および実行すると、チャートは以下のチャートのようになります。
+
+image::images/Chart_About_Histogram_Chart_02.png[]
+
+*ヒストグラム チャートをデザインタイムに作成するには、次の手順に従ってください。*
+
+[start=1]
+. ツールボックスから、UltraChart コントロールをフォームにドラッグします。
+[start=2]
+. [プロパティ] ウィンドウで、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart.html[ChartType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart_namespace.html[ChartType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.charttype.html[ChartType]"]  プロパティを選択します。次にドロップダウン リストから、[ヒストグラム チャート] を選択します。
+[start=3]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~axis.html[Axis]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~axis.html[Axis]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~axis.html[Axis]"]  プロパティを展開し、次に X Axis プロパティを展開し、以下のプロパティを設定します:
+
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[TickmarkStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[TickmarkStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkstyle.html[TickmarkStyle]"]  -- DataInterval
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkinterval.html[TickmarkInterval]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkinterval.html[TickmarkInterval]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~tickmarkinterval.html[TickmarkInterval]"]  -- 5
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemin.html[RangeMin]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemin.html[RangeMin]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemin.html[RangeMin]"]  -- 0
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemax.html[RangeMax]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemax.html[RangeMax]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangemax.html[RangeMax]"]  -- 20
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[RangeType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[RangeType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~rangetype.html[RangeType]"]  -- Custom
+
+[start=4]
+. X Axis プロパティ内で、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase.html[Labels]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase.html[Labels]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisappearance~labels.html[Labels]"]  プロパティを展開して、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[Orientation]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[Orientation]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axislabelappearancebase~orientation.html[Orientation]"]  プロパティを Horizontal に設定します。
+[start=5]
+. HistogramChart プロパティを展開して、次に  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance.html[ColumnAppearance]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance.html[ColumnAppearance]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramchartappearance~columnappearance.html[ColumnAppearance]"]  プロパティを展開し、以下のプロパティを設定します:
+
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~stringaxis.html[StringAxis]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~stringaxis.html[StringAxis]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~stringaxis.html[StringAxis]"]  -- False
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~showinlegend.html[ShowInLegend]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~showinlegend.html[ShowInLegend]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.histogramcolumnappearance~showinlegend.html[ShowInLegend]"]  -- True
+
+[start=6]
+. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance.html[Legend]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance.html[Legend]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance.html[Legend]"]  プロパティを展開して、以下のプロパティを設定します。
+
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~visible.html[Visible]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~visible.html[Visible]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~visible.html[Visible]"]  -- True
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~backgroundcolor.html[BackgroundColor]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~backgroundcolor.html[BackgroundColor]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~backgroundcolor.html[BackgroundColor]"]  -- Transparent
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~bordercolor.html[BorderColor]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~bordercolor.html[BorderColor]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~bordercolor.html[BorderColor]"]  -- Black
+**  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~margins.html[Margins]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~margins.html[Margins]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.legendappearance~margins.html[Margins]"]  -- (5,5,5,150)
+
+[start=7]
+. ロード イベントで、チャートをデータの配列にバインドします。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Data.DataSource = 
+  New Integer() {1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16}
+Me.UltraChart1.Data.DataBind()
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Data.DataSource = 
+    new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16 };
+this.ultraChart1.Data.DataBind();
+----
+
+[start=8]
+. アプリケーションを保存して実行します。
+
+*ヒストグラム チャートをランタイムに作成するには、次の手順に従ってください。*
+
+[start=1]
+. コードの記述を開始する前にコードビハインドに使用/インポートのディレクティブを配置します。そうすれば、メンバーは完全に記述された名前を常にタイプする必要がなくなります。
+
+*Visual Basic の場合：*
+
+ifdef::win-forms[]
+----
+Imports Infragistics.Win.UltraWinChartImports Infragistics.WebUI.UltraWebChartImports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+endif::win-forms[]
+
+ifdef::asp-net[]
+----
+Imports Infragistics.Win.UltraWinChartImports Infragistics.WebUI.UltraWebChartImports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+endif::asp-net[]
+
+ifdef::aspnet-old[]
+----
+Imports Infragistics.Win.UltraWinChartImports Infragistics.WebUI.UltraWebChartImports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Shared.Styles
+----
+endif::aspnet-old[]
+
+*C# の場合：*
+
+ifdef::win-forms[]
+----
+using Infragistics.Win.UltraWinChart;using Infragistics.WebUI.UltraWebChart;using Infragistics.WebUI.UltraWebChart
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+endif::win-forms[]
+
+ifdef::asp-net[]
+----
+using Infragistics.Win.UltraWinChart;using Infragistics.WebUI.UltraWebChart;using Infragistics.WebUI.UltraWebChart
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+endif::asp-net[]
+
+ifdef::aspnet-old[]
+----
+using Infragistics.Win.UltraWinChart;using Infragistics.WebUI.UltraWebChart;using Infragistics.WebUI.UltraWebChart
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Shared.Styles;
+----
+endif::aspnet-old[]
+
+[start=2]
+. チャートのインスタンスを作成し、タイプを HistogramChart に設定します。
+
+*Visual Basic の場合：*
+
+----
+Dim ultraChart1 As New UltraChart
+Me.UltraChart1.ChartType = ChartType.HistogramChart
+----
+
+*C# の場合：*
+
+----
+UltraChart ultraChart1 = new UltraChart();
+this.ultraChart1.ChartType = ChartType.HistogramChart;
+----
+
+[start=3]
+. ColumnAppearance プロパティで、以下のプロパティを設定します:
+
+** StringAxis -- False
+** ShowInLegend -- True
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.HistogramChart.ColumnAppearance.StringAxis = False
+Me.UltraChart1.HistogramChart.ColumnAppearance.ShowInLegend = True
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.HistogramChart.ColumnAppearance.StringAxis = false;
+this.ultraChart1.HistogramChart.ColumnAppearance.ShowInLegend = true;
+----
+
+[start=4]
+. X Axis プロパティに以下のプロパティを設定します:
+
+** TickmarkStyle -- DataInterval
+** TickmarkInterval -- 5
+** RangeMin -- 0
+** RangeMax -- 20
+** RangeType -- Custom
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Axis.X.TickmarkStyle = AxisTickStyle.DataInterval
+Me.UltraChart1.Axis.X.TickmarkInterval = 5
+Me.UltraChart1.Axis.X.RangeMin = 0
+Me.UltraChart1.Axis.X.RangeMax = 20
+Me.UltraChart1.Axis.X.RangeType = AxisRangeType.Custom
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Axis.X.TickmarkStyle = AxisTickStyle.DataInterval;
+this.ultraChart1.Axis.X.TickmarkInterval = 5;
+this.ultraChart1.Axis.X.RangeMin = 0;
+this.ultraChart1.Axis.X.RangeMax = 20;
+this.ultraChart1.Axis.X.RangeType = AxisRangeType.Custom;
+----
+
+[start=5]
+. X Axis プロパティの Labels プロパティで、Orientation を Horizontal に設定します。
+
+*Visual Basic の場合：*
+
+----
+Me.ultraChart1.Axis.X.Labels.Orientation = TextOrientation.Horizontal
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Axis.X.Labels.Orientation = TextOrientation.Horizontal;
+----
+
+[start=6]
+. Legend プロパティで以下のプロパティを設定します:
+
+** Visible -- True
+** BackgroudColor -- Transparent
+** BorderColor -- Black
+** Margins -- (5,5,5,150)
+
+*Visual Basic の場合：*
+
+----
+Me.ultraChart1.Legend.Visible = True
+Me.ultraChart1.Legend.BackgroundColor = System.Drawing.Color.Transparent
+Me.ultraChart1.Legend.BorderColor = System.Drawing.Color.Black
+Me.ultraChart1.Legend.Margins.Bottom = 150
+Me.ultraChart1.Legend.Margins.Left = 5
+Me.ultraChart1.Legend.Margins.Right = 5
+Me.ultraChart1.Legend.Margins.Top = 5
+Me.ultraChart1.Legend.Visible = True
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Legend.Visible = true;
+this.ultraChart1.Legend.BackgroundColor = System.Drawing.Color.Transparent;
+this.ultraChart1.Legend.BorderColor = System.Drawing.Color.Black;
+this.ultraChart1.Legend.Margins.Bottom = 150;
+this.ultraChart1.Legend.Margins.Left = 5;
+this.ultraChart1.Legend.Margins.Right = 5;
+this.ultraChart1.Legend.Margins.Top = 5;
+this.ultraChart1.Legend.Visible = true;
+----
+
+[start=7]
+. チャートをデータの配列にバインドします。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Data.DataSource = 
+  New Integer() {1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16}
+Me.UltraChart1.Data.DataBind()
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Data.DataSource = 
+    new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 15, 16 };
+this.ultraChart1.Data.DataBind();
+----
+
+[start=8]
+. アプリケーションを保存して実行します。

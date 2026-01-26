@@ -1,0 +1,200 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-resizing-rows-and-columns",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{4B4798BF-9A1F-4B7E-8D35-2CAB966ECDC1}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:26:59Z"
+}
+|metadata|
+////
+
+= 行と列のサイズを変更
+
+== 始める前に
+
+ワークシートでは、セル内に大量のテキストがある場合や、セルに表示したい大きな画像がある場合があります。デフォルトのセル サイズがセルのコンテンツを収めることができない場合、行、列、またはワークシート全体にあるすべてのセルの高さと幅を簡単に増やすことができます。
+
+ただし、場合によっては、すべてのコンテンツが表示できるように行の高さが自動的に増やされます。たとえば、セルでテキストを回転または折り返す場合で、セルを含む行の高さがデフォルト値の場合には、すべてのコンテンツを表示するために行の高さが自動的に増やされます。列の幅の管理は自動的に行うことができないので、セルのコンテンツにかかわらず、常に一定です。
+
+個々の行と列のサイズを変更することに加えて、ワークシートの  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultrowheight.html[DefaultRowHeight]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultrowheight.html[DefaultRowHeight]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultrowheight.html[DefaultRowHeight]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultrowheight.html[DefaultRowHeight]"]  プロパティと  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultcolumnwidth.html[DefaultColumnWidth]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultcolumnwidth.html[DefaultColumnWidth]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultcolumnwidth.html[DefaultColumnWidth]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheet~defaultcolumnwidth.html[DefaultColumnWidth]"]  プロパティを設定することによって、すべての行と列のサイズを変更できます。
+
+== 達成すること
+
+この詳細なガイドは、行のサイズを自動的に変更するためのいくつかの方法を説明します。さらに、セルにコンテンツを完全に収めることができるように、行と列のサイズを手動で変更する方法も学習します。
+
+== 次の手順を実行します
+
+[start=1]
+. *ワークシートを使用してワークブックを作成します。*
+
+.. 新しい Visual Basic または C# プロジェクトを作成します。 
+.. Button をフォームに追加します。
+.. Button をダブルクリックして、その Click イベントのコード ビハインドを開きます。
+.. ひとつのワークシートを使用してワークブックを作成します。
+
+*Visual Basic の場合：*
+
+----
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
+  workbook.Worksheets.Add("Sheet1")
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
+----
+
+[start=2]
+. *行の高さを自動的に変更します。*
+
+.. その行の高さがデフォルトのセルでテキストを回転します。行はセルのコンテンツを収めるために自動的にサイズを変更します。
+
+*Visual Basic の場合：*
+
+----
+worksheet.Rows.Item(0).Cells.Item(0).Value = "Rotated Text"
+worksheet.Rows.Item(0).Cells.Item(0).CellFormat.Rotation = 70
+----
+
+*C# の場合：*
+
+----
+worksheet.Rows[ 0 ].Cells[ 0 ].Value = "Rotated Text";
+worksheet.Rows[ 0 ].Cells[ 0 ].CellFormat.Rotation = 70;
+----
+
+image::images/ExcelEngine_Resizing_Rows_and_Columns_01.png[]
+
+[start=2]
+.. その行の高さがデフォルトのセルでテキストを折り返します。行はセルのコンテンツを収めるために自動的にサイズを変更します。
+
+*Visual Basic の場合：*
+
+----
+worksheet.Rows.Item(1).Cells.Item(1).Value = _
+  "This text will be wrapped in the cell so all text is visible"
+worksheet.Rows.Item(1).Cells.Item(1).CellFormat.WrapText = _
+  Infragistics.Documents.Excel.ExcelDefaultableBoolean.True
+----
+
+*C# の場合：*
+
+----
+worksheet.Rows[ 1 ].Cells[ 1 ].Value =
+  "This text will be wrapped in the cell so all text is visible";
+worksheet.Rows[ 1 ].Cells[ 1 ].CellFormat.WrapText =
+  Infragistics.Documents.Excel.ExcelDefaultableBoolean.True;
+----
+
+image::images/ExcelEngine_Resizing_Rows_and_Columns_02.png[]
+
+[start=3]
+. *テキストがセルの外側に出ないように列のサイズを変更します。*
+
+.. テキストがセルの境界線の外側に出ないようにセルに十分なテキストを配置します。
+
+*Visual Basic の場合：*
+
+----
+worksheet.Rows.Item(2).Cells.Item(2).Value = _
+  "This text will not be wrapped"
+----
+
+*C# の場合：*
+
+----
+worksheet.Rows[ 2 ].Cells[ 2 ].Value = "This text will not be wrapped";
+----
+
+image::images/ExcelEngine_Resizing_Rows_and_Columns_03.png[]
+
+[start=2]
+.. すべてのテキストが表示されていますが、セル D3 に値が設定されている場合長いテキストは切り取られます。セルの幅を増やすためには、ワークシートの Columns コレクションからアクセス可能な WorksheetColumn の幅を増やします。
+
+*Visual Basic の場合：*
+
+----
+worksheet.Columns.Item(2).Width = 6100
+----
+
+*C# の場合：*
+
+----
+worksheet.Columns[ 2 ].Width = 6100;
+----
+
+image::images/ExcelEngine_Resizing_Rows_and_Columns_04.png[]
+
+[start=4]
+. *セルに画像を配置して、画像が歪まないようにセルのサイズを変更します。*
+
+.. 画像を作成して、セル全体に収まるようにします。
+
+*Visual Basic の場合：*
+
+----
+Dim image As Image = image.FromFile("C:\\NA_Win_Forms.gif")
+Dim imageShape As New Infragistics.Documents.Excel.WorksheetImage(image)
+imageShape.TopLeftCornerCell = worksheet.Rows.Item(3).Cells.Item(3)
+imageShape.BottomRightCornerCell = worksheet.Rows.Item(3).Cells.Item(3)
+imageShape.BottomRightCornerPosition = New PointF(100, 100)
+worksheet.Shapes.Add(imageShape)
+----
+
+*C# の場合：*
+
+----
+Image image = Image.FromFile( "C:\\NA_Win_Forms.gif" );
+Infragistics.Documents.Excel.WorksheetImage imageShape =
+  new Infragistics.Documents.Excel.WorksheetImage( image );
+imageShape.TopLeftCornerCell = worksheet.Rows[ 3 ].Cells[ 3 ];
+imageShape.BottomRightCornerCell = worksheet.Rows[ 3 ].Cells[ 3 ];
+imageShape.BottomRightCornerPosition = new PointF( 100, 100 );
+worksheet.Shapes.Add( imageShape );
+----
+
+image::images/ExcelEngine_Resizing_Rows_and_Columns_05.png[]
+
+[start=2]
+.. 画像が歪まないようにセルの行と列の幅と高さを増やします。
+
+*Visual Basic の場合：*
+
+----
+worksheet.Rows.Item(3).Height = 600
+worksheet.Columns.Item(3).Width = 10000
+----
+
+*C# の場合：*
+
+----
+worksheet.Rows[ 3 ].Height = 600;
+worksheet.Columns[ 3 ].Width = 10000;
+----
+
+image::images/ExcelEngine_Resizing_Rows_and_Columns_06.png[]
+
+[start=5]
+. *ワークブックを保存します。*
+
+ワークブックをファイルに書き出します。
+
+*Visual Basic の場合：*
+
+----
+workbook.Serialize("C:\Resize.xls")
+----
+
+*C# の場合：*
+
+----
+workbook.Serialize( "C:\\Resize.xls" );
+----
+

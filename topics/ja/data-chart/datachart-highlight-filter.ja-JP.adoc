@@ -1,0 +1,105 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-highlight-filter",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"]
+}
+|metadata|
+////
+
+= チャート強調表示フィルター
+
+このトピックは、コード例を示して、データ強調表示機能を link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールで使用する方法を説明します。
+
+[[Introduction]]
+== 概要
+
+link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールは、プロットされたデータのサブセットを表示できるようにすることで、チャートにプロットされた系列の視覚化を強化できるデータ強調表示オーバーレイをサポートしています。これを有効にすると、列シリーズおよびエリア シリーズ タイプの場合は不透明度を下げて全体セットが表示され、線シリーズ タイプの場合は破線が表示されることで、データのサブセットが強調表示されます。これは、データ セットの目標値と実際の値などを視覚化するのに役立ちます。
+
+== {DataChartName} での強調表示フィルターの使用
+
+link:{DataChartLink}.{DataChartName}.html[{DataChartName}] では、強調表示フィルター API の多くは主に、強調表示するデータのサブセットを表すコレクションに link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] プロパティを設定することによって、シリーズ自体で発生します。link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] 内の項目の数は、強調表示するシリーズのデータ ソースにバインドされているデータの数と一致する必要があります。カテゴリ シリーズの場合は、デフォルトで強調表示パスとして定義した link:{DataChartLink}.anchoredcategoryseries{ApiProp}ValueMemberPath.html[ValueMemberPath] が使用されます。
+
+シリーズの link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] とデータ ソースの間でスキーマが一致しない場合は、シリーズの link:{DataChartLink}.anchoredcategoryseries{ApiProp}HighlightedValueMemberPath.html[HighlightedValueMemberPath] プロパティを使用してこれを構成できます。さらに、シリーズ自体のデータ ソースを強調表示ソースとして使用し、サブセットを表すデータ項目にパスを設定したい場合は、これを行うことができます。これは、link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] を提供せずに、link:{DataChartLink}.anchoredcategoryseries{ApiProp}HighlightedValueMemberPath.html[HighlightedValueMemberPath] プロパティをそのパスに設定するだけで行われます。
+
+列およびエリア シリーズ の場合の不透明度の低減は、シリーズの link:{DataChartLink}.series{ApiProp}HighlightedValuesFadeOpacity.html[HighlightedValuesFadeOpacity] プロパティを設定することで構成できます。オーバーレイをまったく表示したくない場合は、link:{DataChartLink}.series{ApiProp}HighlightedValuesDisplayMode.html[HighlightedValuesDisplayMode] プロパティを `Hidden` に設定することもできます。
+
+強調表示フィルターによって表示されるシリーズの部分は、チャートの凡例レイヤーとツールチップ レイヤーに個別に表示されます。link:{DataChartLink}.series{ApiProp}HighlightedTitleSuffix.html[HighlightedTitleSuffix] を設定することで、ツールチップと凡例に表示されるタイトルを構成できます。これにより、指定した値がシリーズの link:{DataChartLink}.series{ApiProp}Title.html[Title] の末尾に追加されます。
+
+DataLegend または DataToolTipLayer を使用すると、強調表示されたシリーズがグループ化されて表示されます。これは、シリーズの link:{DataChartLink}.AnchoredCategorySeries~HighlightedValuesDataLegendGroup.html[HighlightedValuesDataLegendGroup] プロパティを設定してシリーズを適切に分類することで管理できます。
+
+==== コード例
+
+以下のコード スニペットは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールの強調表示フィルター機能の使用法を示しています。
+
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="chart" Grid.Row="2" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding Data}" Label="{}{Category}"/>
+        <ig:NumericYAxis x:Name="yAxis" MinimumValue="0" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries XAxis="{Binding ElementName=xAxis}"
+                         YAxis="{Binding ElementName=yAxis}"
+                         ItemsSource="{Binding Data}"
+                         ValueMemberPath="Total"
+                         HighlightedValuesDisplayMode="Overlay"
+                         HighlightedValueMemberPath="Mobile"
+                         HighlightedTitleSuffix=" - Mobile"
+                         Title="Online Traffic By Device Data"/>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+
+ifdef::wpf,win-forms[]
+*C# の場合:*
+[source,csharp]
+----
+ColumnSeries series = new ColumnSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis,
+    ItemsSource = data,
+    ValueMemberPath = "Total",
+    HighlightedValuesDisplayMode = SeriesHighlightedValuesDisplayMode.Overlay,
+    HighlightedValueMemberPath = "Mobile",
+    HighlightedTitleSuffix = " - Mobile",
+    Title = "Online Traffic By Device Data"
+};
+
+chart.Series.Add(series);
+----
+endif::wpf,win-forms[]
+ 
+ifdef::wpf,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim series As ColumnSeries = New ColumnSeries() With {
+    .XAxis = xAxis,
+    .YAxis = yAxis,
+    .ItemsSource = vm.Data,
+    .ValueMemberPath = "Total",
+    .HighlightedValuesDisplayMode = SeriesHighlightedValuesDisplayMode.Overlay,
+    .HighlightedValueMemberPath = "Mobile",
+    .HighlightedTitleSuffix = " - Mobile",
+    .Title = "Online Traffic By Device Data"
+}
+
+chart.Series.Add(series)
+----
+endif::wpf,win-forms[]
+
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+** link:datachart-series-highlighting.html[チャートの強調表示]
+** link:datachart-data-tooltip.html[チャートのデータ ツールチップ]

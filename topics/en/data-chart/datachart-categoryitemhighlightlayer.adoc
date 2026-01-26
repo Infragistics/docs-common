@@ -1,0 +1,279 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-categoryitemhighlightlayer",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Getting Started","How Do I"],
+    "guid": "bf559d04-b8c5-4838-a970-bd7ca9d05d29",
+    "buildFlags": ["SL","ANDROID","WPF","WINFORMS"],
+    "createdOn": "2014-06-05T19:39:00.6243698Z"
+}
+|metadata|
+////
+
+= Category Item Highlight Layer
+
+== Topic Overview
+
+=== Purpose
+
+This topic provides information about the category item highlight layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category item highlight layer and provides an example of its implementation.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|The _{DataChartName}_ control requires a data object model to be mapped to control's DataContext property. This article will provide a simple data object model but you can create your own and use it with this sample code instead.
+
+| link:datachart-category-series-overview.html[Category Series]
+|This topic explains various types of Category Series in the _{DataChartName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview,Overview>>
+* <<Preview,Preview>>
+* <<Properties,Properties>>
+* <<Example,Example>>
+* <<RelatedContent,Related Content>>
+
+[[Overview]]
+== Overview
+
+=== Category item highlight layer overview
+
+The link:{DataChartLink}.categoryitemhighlightlayer.html[CategoryItemHighlightLayer] highlights items in series using category axis by either drawing a banded shape or rendering a marker at that position.
+
+The default highlight depends on the type of series. For example, the highlight for a link:{DataChartLink}.columnseries.html[ColumnSeries] and a link:{DataChartLink}.lineseries.html[LineSeries] is different; for link:{DataChartLink}.columnseries.html[ColumnSeries] it is a banded shape, for link:{DataChartLink}.lineseries.html[LineSeries] it is a marker. You can override the default highlight by setting the link:{DataChartLink}.categoryitemhighlightlayer{ApiProp}highlighttype.html[HighlightType] property. For more information on this property, see the <<Properties,Properties>> section below.
+
+[[Preview]]
+
+=== Preview
+
+The following image is a preview of the  _{DataChartName}_   control rendered with the link:{DataChartLink}.categoryitemhighlightlayer.html[CategoryItemHighlightLayer] added.
+
+ifdef::wpf,win-universal[]
+image::images/Category_Item_Highlight_Layer_1.png[]
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+image::images/Category_Item_Highlight_Layer_3.png[]
+endif::xamarin[]
+
+[[Properties]]
+== Properties
+
+=== Category item highlight layer summary
+
+The following table summarizes the properties of the link:{DataChartLink}.categoryitemhighlightlayer.html[CategoryItemHighlightLayer].
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.categoryitemhighlightlayer{ApiProp}bandhighlightwidth.html[BandHighlightWidth]
+|`double`
+|This property specifies the width of the highlight area for the items in a series that are aligned on gridlines. For example link:{DataChartLink}.lineseries.html[LineSeries], link:{DataChartLink}.areaseries.html[AreaSeries] and link:{DataChartLink}.splineseries.html[SplineSeries]. 
+
+This property has no effect if there are series present aligned between gridlines. For example link:{DataChartLink}.columnseries.html[ColumnSeries] and link:{DataChartLink}.waterfallseries.html[WaterfallSeries]. 
+
+When this property has a value set for it, a banded shape is highlighted around the gridline.
+
+| link:{DataChartLink}.categoryitemhighlightlayer{ApiProp}highlighttype.html[HighlightType]
+| link:{DataChartLink}.categoryitemhighlighttype.html[CategoryItemHighlightType]
+|This property specifies what the highlight should look like. 
+
+The default uses a marker for series such as link:{DataChartLink}.lineseries.html[LineSeries], and a highlight band series such as link:{DataChartLink}.columnseries.html[ColumnSeries].
+
+| link:{DataChartLink}.categoryitemhighlightlayer{ApiProp}useinterpolation.html[UseInterpolation]
+|`bool`
+|This property specifies if the highlight band should snap-to-cursor, instead of snap-to-gridlines. 
+
+This property has no effect if there are series present aligned between gridlines. For example, link:{DataChartLink}.columnseries.html[ColumnSeries] and link:{DataChartLink}.waterfallseries.html[WaterfallSeries] series.
+
+ifdef::wpf,win-universal[]
+| link:{DataChartLink}.categoryitemhighlightlayer{ApiProp}markertemplate.html[MarkerTemplate]
+|`DataTemplate`
+|This property specifies which template to use for the marker highlight type instead of using available marker types.
+endif::wpf,win-universal[]
+
+|====
+
+[[Example]]
+== Example
+
+=== Example
+
+The following screenshot illustrates how the  _{DataChartName}_   control with the link:{DataChartLink}.CategoryItemHighlightLayer.html[CategoryItemHighlightLayer] object’s
+
+link:{DataChartLink}.CategoryItemHighlightLayer{ApiProp}BandHighlightWidth.html[BandHighlightWidth] and link:{DataChartLink}.Series{ApiProp}Brush.html[Brush] properties looks as a result of the following setting:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+|link:{DataChartLink}.Series{ApiProp}Brush.html[Brush]
+|`Red`
+
+|link:{DataChartLink}.CategoryItemHighlightLayer{ApiProp}HighlightType.html[HighlightType]
+|`Marker`
+
+|====
+
+ifdef::wpf,win-universal[]
+image::images/Category_Item_Highlight_Layer_2.png[]
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+image::images/Category_Item_Highlight_Layer_4.png[]
+endif::xamarin[]
+
+Following is the code used to implement this example
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="theChart" Margin="5,0,5,0" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xmCategoryXAxis"
+                          ItemsSource="{StaticResource CategoryData1}"
+                          Label="{}{Category}">
+            <ig:CategoryXAxis.LabelSettings>
+                <ig:AxisLabelSettings x:Name="xmCategoryXAxisLabel"
+                                      Extent="25"
+                                      VerticalAlignment="Bottom"
+                                      FontSize="11" />
+            </ig:CategoryXAxis.LabelSettings>
+        </ig:CategoryXAxis>
+        <ig:NumericYAxis x:Name="xmNumericYAxis1">
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings x:Name="xmNumericYAxisLabel"
+                                      Extent="50"
+                                      Location="OutsideLeft" />
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries ItemsSource="{StaticResource CategoryData1}"
+                         ValueMemberPath="Value"
+                         XAxis="{Binding ElementName=xmCategoryXAxis}"
+                         YAxis="{Binding ElementName=xmNumericYAxis1}">
+        </ig:ColumnSeries>
+        <ig:LineSeries ItemsSource="{StaticResource CategoryData2}"
+                       ValueMemberPath="Value"
+                       XAxis="{Binding ElementName=xmCategoryXAxis}"
+                       YAxis="{Binding ElementName=xmNumericYAxis1}">
+        </ig:LineSeries>
+        
+        <ig:CategoryItemHighlightLayer HighlightType="Marker" Brush="Red" />
+   </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="theChart">
+  <ig:{DataChartName}.Axes>
+    <ig:CategoryXAxis x:Name="xAxis"
+                      ItemsSource="{Binding CategoryData1}"
+                      Label="Category"/>
+    <ig:NumericYAxis x:Name="yAxis"/>
+  </ig:{DataChartName}.Axes>
+  <ig:{DataChartName}.Series>
+    <ig:ColumnSeries ItemsSource="{Binding CategoryData2}"
+                     ValueMemberPath="Value"
+                     XAxis="{x:Reference xAxis}"
+                     YAxis="{x:Reference yAxis}">
+    </ig:ColumnSeries>
+    <ig:LineSeries ItemsSource="{Binding CategoryData1}"
+                   ValueMemberPath="Value"
+                   XAxis="{x:Reference xAxis}"
+                   YAxis="{x:Reference yAxis}">
+    </ig:LineSeries>
+
+    <ig:CategoryItemHighlightLayer HighlightType="Marker" Brush="Red"/>
+  </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-universal,xamarin[]
+
+*In C#:*
+
+----
+var catItemHighlightLayerSeries = new CategoryItemHighlightLayer();
+catItemHighlightLayerSeries.HighlightType = CategoryItemHighlightType.Marker;
+catItemHighlightLayerSeries.Brush = new SolidColorBrush(Colors.Red);
+theChart.Series.Add(catItemHighlightLayerSeries);
+----
+
+endif::wpf,win-universal,xamarin[]
+
+ifdef::wpf,win-universal[]
+
+*In VB:*
+
+----
+Dim catItemHighlightLayerSeries As New CategoryItemHighlightLayer()
+catItemHighlightLayerSeries.HighlightType = CategoryItemHighlightType.Marker;
+catItemHighlightLayerSeries.Brush = New SolidColorBrush(Colors.Red)
+theChart.Series.Add(catItemHighlightLayerSeries)
+----
+
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+
+*In VB:*
+
+----
+Dim catItemHighlightLayerSeries As New CategoryItemHighlightLayer()
+catItemHighlightLayerSeries.HighlightType = CategoryItemHighlightType.Marker;
+catItemHighlightLayerSeries.Brush = New SolidColorBrush(Color.Red)
+theChart.Series.Add(catItemHighlightLayerSeries)
+----
+
+endif::win-forms[]
+
+[[RelatedContent]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-commonproperties.html[Common Properties]
+|This topic provides information about the properties and methods that the pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interaction feature uses for highlighting, pick:[wpf,win-universal="hovering"]pick:[xamarin="touch"] and interacting with the tooltip interactions inherited from the link:{DataChartLink}.series_members.html[Series] class.
+
+| link:datachart-crosshairlayer.html[Crosshair Layer]
+|This topic provides information about the crosshair layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the crosshair layer and provides an implementation example.
+
+| link:datachart-categoryhighlightlayer.html[Category Highlight Layer]
+|This topic provides information about the category highlight layer which is used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category highlight layer and provides an example of its implementation.
+
+| link:datachart-categorytooltiplayer.html[Category Tooltip Layer]
+|This topic provides information about the category tooltip layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category tooltip layer and provides an example of its implementation.
+
+| link:datachart-itemtooltiplayer.html[Item Tooltip Layer]
+|This topic provides information about the item tooltip layer which is used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the item tooltip layer and also provides an example of its implementation.
+
+|====

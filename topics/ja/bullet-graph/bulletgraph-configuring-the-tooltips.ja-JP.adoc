@@ -1,0 +1,537 @@
+﻿////
+|metadata|
+{
+    "name": "bulletgraph-configuring-the-tooltips",
+    "controlName": ["{BulletGraphName}"],
+    "tags": ["Charting","How Do I"],
+    "guid": "e0a3ab7f-f465-4924-8f59-82b07e05f47e",
+    "buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:53:12.0118724Z"
+}
+|metadata|
+////
+
+= チャート ツールチップの構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックではコード例を使用して、 _{BulletGraphName}_   コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:bulletgraph-overview.html[{BulletGraphName} 概要]
+|このトピックでは、主要機能、最小要件、ユーザー機能など、 _{BulletGraphName}_ コントロールに関する概念的な情報を提供します。
+
+ifdef::sl,wpf[]
+| link:bulletgraph-adding.html[{BulletGraphName} の追加]
+|このトピックでは、{BulletGraphName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+endif::sl,wpf[]
+
+ifdef::xamarin[]
+| link:bulletgraph-adding.html[{BulletGraphName} の追加]
+|このトピックでは、{BulletGraphName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+endif::xamarin[]
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref363159199, 概要 >>
+
+** <<_Ref363158368,ツールチップ構成の概要>>
+** <<_Ref363158374,ツールチップ構成の概要表>>
+
+* <<_Ref363158380, ツールチップの有効 / 無効 >>
+
+** <<_Ref349921543,概要>>
+** <<_Ref349921549,プロパティ設定>>
+** <<_Ref363158399,コード例>>
+
+* <<_Ref363158410, ツールチップ遅延の構成 >>
+
+** <<_Ref361908053,概要>>
+** <<_Ref361908057,プロパティ設定>>
+** <<_Ref363158443,コード例>>
+
+* <<_Ref363158460, パフォーマンス バーのカスタム ツールチップの構成 >>
+
+** <<_Ref361907965,概要>>
+** <<_Ref361907971,プロパティ設定>>
+** <<_Ref363158476,例>>
+
+* <<_Ref363158489, 比較マーカーのカスタム ツールチップの構成 >>
+
+** <<_Ref361907990,概要>>
+** <<_Ref361907998,プロパティ設定>>
+** <<_Ref363158549,例>>
+
+* <<_Ref363158616, 比較範囲のカスタム ツールチップの構成 >>
+
+** <<_Ref361908016,概要>>
+** <<_Ref361908023,プロパティ設定>>
+** <<_Ref363158549,例>>
+
+* <<_Ref361908080, 関連コンテンツ >>
+
+[[_Ref363159199]]
+== 概要
+
+[[_Ref363158368]]
+
+=== ツールチップ構成の概要
+
+_{BulletGraphName}_   コントロールはツールチップをサポートします。ツールチップは、パフォーマンス バー、比較マーカーおよび比較範囲で指定された値を表示するように、あらかじめ設定されています。各視覚要素に対応するツールチップは、プロパティ設定で個別に設定されています。
+
+ツールチップの可視性 (有効 / 無効)、遅延 (ツールチップが表示されるまでのタイムアウト値が設定可能です)、値について、それぞれ設定できます。ツールチップの値はテンプレート、文字列、UI 要素に設定できるため、具体的なユース ケースをより詳細に示すことができます。
+
+デフォルトでは、ツールチップは無効になっています。
+
+[[_Ref363158374]]
+
+=== ツールチップ構成の概要表
+
+以下の表は、ツールチップに関する  _{BulletGraphName}_   コントロールで構成できる項目と管理に使用するプロパティをマップしています。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成可能な項目|詳細|プロパティ/イベント|デフォルト値
+
+|可視性
+|{BulletGraphName} コントロールのツールチップを有効または無効にできます。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltip.html[ShowToolTip]
+| _False_ 
+
+|遅延
+|視覚要素にマウスを合わせたときにツールチップが表示されるまでのタイムアウトを、ミリ秒数単位で設定します。
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltiptimeout.html[ShowToolTipTimeout]
+| _500_ 
+
+|値
+|ツールチップのプロパティでカスタムに値を設定できます。値は次のとおりです: 
+
+* テンプレート 
+
+* 文字列 
+
+* UI 要素 
+
+|
+|
+|
+|パフォーマンス バー
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuetooltip.html[ValueToolTip]
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuename.html[ValueName] の初期化状態による (<<_Ref363158460,パフォーマンス バーのカスタム ツールチップの構成>>を参照)
+
+|
+|比較マーカー
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}targetvaluetooltip.html[TargetValueToolTip]
+|比較マーカーで示された値
+
+|
+|比較範囲
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[RangeToolTip]
+|ハイフン (-) で区切られた範囲の開始値と終了値です。
+
+|====
+
+.注:
+[NOTE]
+====
+デフォルトのツールチップを変更してそれぞれの視覚要素に異なる値をバインドするには、`{Item.Property}` 構文、または `{Item}` 構文を使用する必要があります。
+====
+
+[[_Ref363158380]]
+== ツールチップの有効 / 無効
+
+[[_Ref349921543]]
+
+=== 概要
+
+_{BulletGraphName}_   のツールチップを、表示または非表示 (デフォルト設定) にします。
+
+[[_Ref349921549]]
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|ツールチップの表示
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltip.html[ShowToolTip]
+|`True`
+
+|ツールチップの非表示
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltip.html[ShowToolTip]
+|`False`
+
+|====
+
+[[_Ref363158399]]
+
+=== コード例
+
+以下のコード例はツールチップを表示します:
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{BulletGraphName} x:Name="bulletGraph"
+                           ...
+                           ShowToolTip="True"
+                           />
+----
+
+endif::xaml[]
+
+[[_Ref363158410]]
+== ツールチップ遅延の構成
+
+[[_Ref361908053]]
+
+=== 概要
+
+視覚要素がホバーされてからマウスツールチップが表示されるまでの遅延を設定できます。デフォルト値は 500 ミリ秒です。
+
+[[_Ref361908057]]
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|ツールチップが表示される前の初期遅延の設定
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}showtooltiptimeout.html[ShowToolTipTimeout]
+|任意の値 (ミリ秒)
+
+|====
+
+[[_Ref363158443]]
+
+=== コード例
+
+以下のコード例では、ツールチップの遅延として 2000 ミリ秒を設定します:
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{BulletGraphName} x:Name="bulletGraph"
+                           ...
+                           ShowToolTip="True"
+                           ShowToolTipTimeout="2000"
+                           />
+----
+
+endif::xaml[]
+
+[[_Ref363158460]]
+== パフォーマンス バーのカスタム ツールチップの構成
+
+[[_Ref361907965]]
+
+=== 概要
+
+ツールチップの既定値は、 link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuename.html[ValueName] プロパティが初期化されているかどうかにより事前に設定されます。
+
+`ValueName` プロパティが初期化されている場合は、ツールチップ プロパティのデフォルト書式は以下のようになります。 _<ValueName> :<Value>_  
+
+`ValueName` プロパティが初期化されていない場合は、ツールチップのデフォルト書式は次のようになります。 _<値>_  
+
+ツールチップに表示されるデータとそのルック アンド フィールの両方またはいずれか一方を変更するには、カスタム テンプレート、UI 要素または文字列で設定できます。
+
+[[_Ref361907971]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|パフォーマンス バーのカスタム ツールチップの設定
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuetooltip.html[ValueToolTip]
+|任意の文字列、`UI 要素`、または`データ テンプレート`
+
+|====
+
+[[_Ref361907977]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、 _igBulletGraph_   パフォーマンス バーのツールチップの外観がどのようになるか示しています。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<DataTemplate>
+    <Border BorderThickness="1" Background="Coral" CornerRadius="4">
+        <TextBlock>
+            <Run Text="The value is:"/>
+            <Run Text="{Binding Path=Item}"/>
+        </TextBlock>
+    </Border>
+</DataTemplate>
+----
+
+endif::xaml[]
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}valuetooltip.html[ValueToolTip]
+| _"[{Item}]"_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Tooltips_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<Grid.Resources>
+            <DataTemplate x:Key="actValueTmpl">
+                <Border BorderThickness="1" Background="Coral" CornerRadius="4">
+                    <TextBlock>
+                        <Run Text="The value is:"/>
+                        <Run Text="{Binding Path=Item}"/>
+                    </TextBlock>
+                </Border>
+            </DataTemplate>
+        <ig:{BulletGraphName} x:Name="bulletGraph"
+                           Height="100"
+                           Width="300"
+                           ShowToolTip="True"
+                           Value="42"
+                           ValueToolTip="{StaticResource actValueTmpl}"/>
+----
+
+endif::xaml[]
+
+[[_Ref363158489]]
+== 比較マーカーのカスタム ツールチップの構成
+
+[[_Ref361907990]]
+
+=== 概要
+
+比較マーカーのツールチップは、値についてはデフォルトのシステム フォントを使用し、またコントロールの外観についてはデフォルトのスタイル設定で表示されます。カスタム設定の場合、ツールチップの値を文字列、UI 要素またはデータ テンプレートで設定します。
+
+[[_Ref361907998]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|比較マーカーのカスタム ツールチップの構成
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}targetvaluetooltip.html[TargetValueToolTip]
+|任意の文字列、`UI 要素`、または`データ テンプレート`
+
+|====
+
+[[_Ref361908002]]
+
+=== 例
+
+以下のコードでは、以下の設定の結果、ツールチップによって提供された比較マーカーの値が角括弧に囲われて表示されます。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}targetvaluetooltip.html[TargetValueToolTip]
+| _"[{Item}]"_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Tooltips_2.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{BulletGraphName} x:Name="bulletGraph"
+                           Height="100"
+                           Width="300"
+                           ShowToolTip="True"
+                           TargetValue="76"
+                           TargetValueToolTip="[{Item}]"/>
+----
+
+endif::xaml[]
+
+[[_Ref363158616]]
+== 比較範囲のカスタム ツールチップの構成
+
+[[_Ref361908016]]
+
+=== 概要
+
+比較範囲のツールチップはデフォルトで、マウスでホバーしている範囲が厳密には範囲内ではない場合でも、区切り文字にハイフンを使用して範囲の開始値と終了値 (例：0 - 34) を表示します。事前に設定されている内容を変更するには、ツールチップ用のカスタム書式の設定や UI 要素の割り当て、またはデータ テンプレートを適用します。
+
+[[_Ref361908023]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|比較範囲のカスタム ツールチップの構成
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[RangeToolTip]
+|任意の文字列、`UI 要素`、または`データ テンプレート`
+
+|====
+
+[[_Ref361908028]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、ツールチップによって提供された比較範囲の値が角括弧で表示されている状態を示しています。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<StackPanel Orientation="Horizontal">
+    <TextBlock>
+        <Run Text="["/>
+        <Run Text="{Binding Item.StartValue}"/>
+        <Run Text="]"/>
+    </TextBlock>
+    <TextBlock>
+        <Run Text=" - "/>
+　   </TextBlock>
+    <TextBlock>
+        <Run Text="["/>
+　       <Run Text="{Binding Item.EndValue}"/>
+        <Run Text="]"/>
+    </TextBlock>
+</StackPanel>
+----
+
+endif::xaml[]
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{BulletGraphLink}.{BulletGraphName}{ApiProp}rangetooltip.html[RangeToolTip]
+| _"[{Item}]"_ 
+
+|====
+
+image::images/BulletGraph_Configuring_the_Tooltips_3.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+ <ig:{BulletGraphName} x:Name="bulletGraph"
+                           Height="100"
+                           Width="300"
+                           ShowToolTip="True"
+                    >
+            <ig:{BulletGraphName}.RangeToolTip>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>
+                        <Run Text="["/>
+                        <Run Text="{Binding Item.StartValue}"/>
+                        <Run Text="]"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text=" - "/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="["/>
+                        <Run Text="{Binding Item.EndValue}"/>
+                        <Run Text="]"/>
+                    </TextBlock>
+                </StackPanel>
+            </ig:{BulletGraphName}.RangeToolTip>
+            <ig:{BulletGraphName}.Ranges>
+                <ig:{BulletGraphRange} Brush="Cyan"
+                                        EndValue="89"
+                                        Outline="Blue"
+                                        StartValue="0"
+                                        />
+            </ig:{BulletGraphName}.Ranges>
+        </ig:{BulletGraphName}>
+----
+
+endif::xaml[]
+
+[[_Ref361908080]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:bulletgraph-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成 ({BulletGraphName})]
+|このトピックでは、コード例を使用して、{BulletGraphName} コントロールのタイトルおよびサブタイトルを構成する方法を説明します。説明には、タイトル領域の幅、テキストの開始位置、およびタイトル / サブタイトルのテキストが含まれます。
+
+| link:bulletgraph-configuring-the-scale.html[スケールの構成 ( _{BulletGraphName}_ )]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールのスケールを構成する方法を説明します。説明には、コントロール内のスケールの配置、スケールの目盛およびラベルの構成が含まれます。
+
+| link:bulletgraph-configuring-the-performance-bar.html[パフォーマンス バーの構成 ({BulletGraphName})]
+|このトピックでは例を使用して、 _{BulletGraphName}_ コントロールのパフォーマンス バーを構成する方法を説明します。説明には、バーが示す値、幅、位置、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-the-comparative-marker.html[比較マーカーの構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールの比較目盛マーカーを構成する方法を説明します。説明には、マーカーの値、幅、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-comparative-ranges.html[比較範囲の構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、 _{BulletGraphName}_ コントロールの範囲を構成する方法を説明します。説明には、範囲の数、位置、長さ、幅、および書式設定が含まれます。
+
+| link:bulletgraph-configuring-the-background.html[背景の構成 ({BulletGraphName})]
+|このトピックではコード例を使用して、ブレット グラフの背景を構成する方法を説明します。説明には、背景のサイズ、位置、色、および境界線の設定が含まれます。
+
+|====

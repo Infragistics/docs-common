@@ -1,0 +1,121 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-range-series-overview",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting"],
+    "guid": "",
+    "buildFlags": [],
+    "createdOn": "2017-03-05T19:39:00.3992752Z"
+}
+|metadata|
+////
+
+= 範囲シリーズ
+
+このトピックは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールの範囲シリーズのさまざまなタイプを説明します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Introduction,概要>>
+* <<_Types,範囲シリーズのタイプ>>
+* <<_Preview,範囲シリーズのプレビュー>>
+* <<_SimilarSeries,同様のシリーズ>>
+* <<_SupportedAxes,サポートされる軸>>
+* <<_DataBinding,データ バインディング>>
+** <<_DataRequirements,データ要件>>
+** <<_DataSample,データの例>>
+* <<_RelatedTopics,関連トピック>>
+
+[[_Introduction]]
+== 概要
+
+範囲シリーズは、データを取り入れてそれを水平線 (たとえば、柱状シリーズ) または垂直線 (たとえば、棒シリーズ) に沿って延ばしたデータ ポイントのコレクションとして描画するチャート シリーズの中でも、もっとも簡単でもっとも一般的な形のグループです。
+
+[[_Types]]
+== 範囲シリーズのタイプ
+
+{DataChartName} コントロールは、以下のタイプの範囲シリーズをサポートします。各タイプについては個別のトピックで説明します:
+
+* link:datachart-category-range-area-series.html[範囲エリア シリーズ]
+* link:datachart-category-range-column-series.html[範囲柱状シリーズ]
+
+これらのトピックは、特定のタイプの範囲シリーズを作成してデータをこのシリーズにバインドする方法に関する有用な情報を提供します。
+
+
+[[_Preview]]
+== 範囲シリーズのプレビュー
+
+このセクションは、範囲シリーズのすべてのタイプのプレビューを提供します。
+ 
+image::images/Using_xamDataChart_Category_Series_11.png[]
+図 1: 範囲柱状シリーズの実装例
+
+image::images/Using_xamDataChart_Category_Series_12.png[]
+図 2: 範囲エリア シリーズの実装例
+ 
+[[_SupportedAxes]] 
+== サポートされる軸
+
+{DataChartName} コントロールは、さまざまな軸タイプを提供しますが、範囲シリーズの特定のタイプでは以下の軸タイプのみ使用できます。以下の表に、サポートされる軸を示します。
+
+[options="header", cols="a,a,a"]
+|====
+|シリーズ タイプ| XAxis タイプ | YAxis タイプ 
+ 
+| 
+`RangeColumnSeries` 
+
+`RangeAreaSeries` 
+  
+|link:{DataChartLink}.CategoryXAxis.html[CategoryXAxis]
+
+link:{DataChartLink}.CategoryDateTimeXAxis.html[CategoryDateTimeXAxis]
+
+ifdef::wpf,win-forms[]
+link:{DataChartLink}.TimeXAxis.html[TimeXAxis]
+
+link:{DataChartLink}.OrdinalTimeXAxis.html[OrdinalTimeXAxis]
+endif::wpf,win-forms[]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis]
+
+ifdef::wpf,win-forms[]
+link:{DataChartLink}.PercentChangeYAxis.html[PercentChangeYAxis] 
+endif::wpf,win-forms[]
+ 
+|====
+
+さらに、各範囲シリーズは link:{DataChartLink}.HorizontalAnchoredCategorySeries{ApiProp}XAxis.html[XAxis] プロパティを使用する 1 つの x 軸と link:{DataChartLink}.HorizontalAnchoredCategorySeries{ApiProp}XAxis.html[YAxis] プロパティを使用する 1 つの y 軸にバインドを設定する必要があります。軸についての詳細は、link:datachart-axes.html[「軸」]トピックを参照してください。
+
+[[_DataBinding]] 
+== データ バインディング
+
+このセクションではデータ要件からデータ例、バインディング ダイアグラムまでのすべてのタイプのエリア シリーズに対するバインディング データについての情報を提供します。
+
+[[_DataRequirements]] 
+==== データ要件
+
+{DataChartName} コントロールの他のシリーズ タイプと同様、範囲シリーズも link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}] プロパティを使用してデータをバインドします。以下は、範囲シリーズのデータ要件のリストです。
+
+* データ モデルは、カテゴリ軸 (link:{DataChartLink}.CategoryXAxis.html[CategoryXAxis] など) の link:{DataChartLink}.Axis{ApiProp}Label.html[Label] プロパティpick:[wpf,win-forms="または link:{DataChartLink}.TimeXAxis.html[TimeXAxis] の場合に link:{DataChartLink}.TimeAxisBase{ApiProp}DateTimeMemberPath.html[DateTimeMemberPath] "]にマップするデータ 1 列を含む必要があります。
+* データ モデルは、範囲シリーズの link:{DataChartLink}.RangeCategorySeries{ApiProp}HighMemberPath.html[HighMemberPath] プロパティを使用してマップする数値データ列を 1 列含む必要があります。
+* データ モデルは、範囲シリーズの link:{DataChartLink}.RangeCategorySeries{ApiProp}LowMemberPath.html[LowMemberPath] プロパティを使用してマップする 2 列目の数値データ列を含む必要があります。
+* データソースはデータ項目を少なくとも 1 つ含む必要があります。含まない場合はチャートは範囲シリーズを描画しません。
+* データ ソースは link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイス (link:http://msdn.microsoft.com/ja-jp/library/6sh2ey19.aspx[List], link:http://msdn.microsoft.com/ja-jp/library/ms132397.aspx[Collection], link:http://msdn.microsoft.com/ja-jp/library/7977ey2c.aspx[Queue], link:http://msdn.microsoft.com/ja-jp/library/system.collections.stack.aspx[Stack] など) を実装しなければなりません。
+ 
+特定のシリーズ タイプの要件については、link:datachart-series-requirements.html[シリーズ要件]トピックを参照してください。
+
+[[_DataSample]] 
+=== データの例
+
+上記の基準を満たすオブジェクトにlink:resources-sample-energy-data.html[サンプル エネルギー データ]があり、ダウンロードしてプロジェクトで使用できます。
+
+[[_RelatedTopics]] 
+== 関連コンテンツ
+
+* link:datachart-axes.html[軸]
+* link:datachart-multiple-axes.html[複数軸の使用]
+* link:datachart-multiple-series.html[複数シリーズの追加]
+* link:datachart-series-requirements.html[シリーズ要件]

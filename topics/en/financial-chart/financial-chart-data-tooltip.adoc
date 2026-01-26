@@ -1,0 +1,218 @@
+﻿= Chart Data Tooltip
+
+In {ProductName}, the data tooltip of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] displays values and titles of series as well as legend badges of series in a tooltip. In addition, it provides many configuration properties of the link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] for filtering series rows and values columns, styling, and formatting values. This tooltip type updates while moving the mouse inside of the plot area of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}].
+
+
+== Data Tooltip Elements
+
+The data tooltip of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] displays content using a set of three types of rows and four types of columns. 
+
+=== Data Tooltip Rows
+
+The rows of the data tooltip include the header row, series row(s), and the summary row.
+
+The header row displays the axis label of the point that is hovered, and can be changed using the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipHeaderText.html[DataToolTipHeaderText] property.
+
+The series row can actually be a set of rows corresponding to each series plotted in the chart. These rows will display the legend badge, series title, actual/abbreviated value of the the series, and abbreviation symbol and unit, if specified.
+
+Finally, there is a summary row that displays the total of all series values. The default summary title can be changed using the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipSummaryTitleText.html[DataToolTipSummaryTitleText] property of the series. Also, you can use the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipSummaryType.html[DataToolTipSummaryType] property to customize whether you display the Total, Min, Max, or Average of series values in the summary row.
+
+The following code snippet demonstrates setting the properties mentioned above to have a data tooltip with a `Total` summary type with a custom title for the summary and a custom header:
+
+ifdef::wpf[]
+
+*In XAML*:
+
+[source, xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipHeaderText="My Custom Data Tooltip Header"
+                     DataToolTipSummaryType="Total"
+                     DataToolTipSummaryTitleText="Grand Total:"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+financialChart1.DataToolTipHeaderText = "My Custom Data Tooltip Header";
+financialChart1.DataToolTipSummaryType = DataLegendSummaryType.Total;
+financialChart1.DataToolTipSummaryTitleText = "Grand Total:";
+----
+
+endif::wpf,win-forms[]
+
+=== Data Tooltip Columns
+
+The columns of the data tooltip include the title, label, value, and units columns. Each series in the chart can have multiple columns for label, value, and units depending on the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] or link:{FinancialChartLink}.{FinancialChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] collections of the chart.
+
+The title column displays legend badges and series titles, which come from the `Title` property of the different series plotted in the chart.
+
+The label column displays the name or abbreviation of the different property paths in the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] or link:{FinancialChartLink}.{FinancialChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] collections of the chart.
+
+The value column displays series values as abbreviated text which can be formatted using the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] property to apply the same abbreviation for all numbers by setting this property to `Auto` or `Shared`. Alternatively, a user can select other abbreviations such as `Independent`, `Kilo`, `Million`, etc. Precision of abbreviated values is controlled using the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] and link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions] for minimum and maximum digits, respectively.
+
+The units column displays an abbreviation symbol and/or unit text, which can be set on the tooltip by setting the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText].
+
+The columns included in the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] or link:{FinancialChartLink}.{FinancialChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] generally correspond to the value paths of your underlying data items, but the financial series has the option to include some special ones in addition to the `High`, `Low`, `Open`, and `Close` paths that are required for the financial series to plot correctly. You have the ability to show `TypicalPrice`, `Change`, and `Volume` options within the legend.
+    
+The following code snippet demonstrates the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText] and the minimum/maximum fractions set for the data tooltip on the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]:
+    
+ifdef::wpf[]
+
+*In XAML*:
+[source, xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipUnitsText="K"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+financialChart1.DataToolTipUnitsText = "K";
+financialChart1.DataToolTipValueFormatMinFractions = 2;
+financialChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+
+== Data Tooltip Styling
+
+The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] provides properties for styling each type of column in its data tooltip. Each of these properties begins with Title, Label, Value, or Units, and you can style the text's color, font, and margin. For example, if you wanted to set the text color of each of these, you would set the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipTitleTextColor.html[DataToolTipTitleTextColor], link:{FinancialChartLink}.{FinancialChartName}~DataToolTipLabelTextColor.html[DataToolTipLabelTextColor], link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueTextColor.html[DataToolTipValueTextColor], and link:{FinancialChartLink}.{FinancialChartName}~DataToolTipUnitsTextColor.html[DataToolTipUnitsTextColor] properties.
+
+The following code snippet demonstrates how to set the styling properties mentioned above:
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipTitleTextColor="LightGray"
+                     DataToolTipLabelTextColor="LightGray"
+                     DataToolTipValueTextColor="Green"
+                     DataToolTipUnitsTextColor="Green"
+                     DataToolTipUnitsText="K"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+financialChart1.DataToolTipTitleTextColor = Brushes.LightGray;
+financialChart1.DataToolTipLabelTextColor = Brushes.LightGray;
+financialChart1.DataToolTipValueTextColor = Brushes.Green;
+financialChart1.DataToolTipUnitsTextColor = Brushes.Green;
+financialChart1.DataToolTipUnitsText = "K";
+----
+
+endif::wpf,win-forms[]
+
+== Data Tooltip Grouping & Positioning
+
+You can set the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipGroupingMode.html[DataToolTipGroupingMode] property to either `Grouped` or `Individual` to group content for multiple series into single tooltip or separate content for each series in multiple tooltips. In the `Grouped` mode, you can customize where the tooltip is shown by setting the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipGroupedPositionModeX.html[DataToolTipGroupedPositionModeX] and link:{FinancialChartLink}.{FinancialChartName}~DataToolTipGroupedPositionModeY.html[DataToolTipGroupedPositionModeY] properties. This essentially allows you to customize the horizontal and vertical alignments of the tooltip and whether you want it to track to the closest series points to the mouse position or pin the tooltip to edge of plot area.
+
+The following code snippet demonstrates a data tooltip that will be pinned to the top-left of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] as you scroll:
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipGroupingMode="Grouped"
+                     DataToolTipGroupedPositionModeX="PinLeft"
+                     DataToolTipGroupedPositionModeY="PinTop"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+financialChart1.DataToolTipGroupingMode = DataToolTipLayerGroupingMode.Grouped;
+financialChart1.DataToolTipGroupedPositionModeX = DataTooltipGroupedPositionX.PinLeft;
+financialChart1.DataToolTipGroupedPositionModeY = DataTooltipGroupedPositionY.PinTop;
+----
+
+endif::wpf,win-forms[]
+
+== Data Tooltip Value Formatting
+
+The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] provides automatic abbreviation of large numbers for its data tooltip using its link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] property. This adds a multiplier in the units column such as kilo, million, billion, etc. You can customize the number of fractional digits that are displayed by setting the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] and link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions]. This will allow you to determine the minimum and maximum number of digits that appear after the decimal point, respectively.
+
+The following code snippet demonstrates how to set the minimum and maximum fractions of the data tooltip of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]:
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+financialChart1.DataToolTipValueFormatMinFractions = 2;
+financialChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+== Data Tooltip Value Mode
+
+You can change the default decimal display of values within the data tooltip to be currency by changing the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] property of the chart. The link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] also exposes the ability to modify the culture of the displayed currency symbol in the tooltip by using its link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] property and setting it to its corresponding culture tag.
+
+For example, the following code snippet will create a chart with the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] set to "en-GB" and the link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] set to "Currency":
+
+ifdef::wpf[]
+
+*In XAML*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatCulture="en-GB"
+                     DataToolTipValueFormatMode="Currency"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+financialChart1.DataToolTipValueFormatCulture = "en-GB";
+financialChart1.DataToolTipValueFormatMode = DataLegendValueMode.Currency;
+----
+
+endif::wpf,win-forms[]

@@ -1,0 +1,261 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-sparkline-data-binding",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","Data Binding"],
+    "guid": "3b2b2088-98d2-46fc-84a1-86397c679f73",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2363484Z"
+}
+|metadata|
+////
+
+= {SparklineName} データ バインディング
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、コード例を示して、 link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ コントロールをデータにバインドする方法を説明します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref317187002,データ バインディング - 概念的概要>>
+
+** <<_Ref317187009,概要>>
+** <<_Ref317187012,プロパティ設定>>
+
+* <<_Ref317187018,データ バインディング - コード例>>
+* <<_Ref317187132,関連コンテンツ>>
+
+[[_Ref317187002]]
+== データ バインディング - 概念的概要
+
+[[_Ref317187009]]
+
+=== 概要
+
+_{SparklineName}_ コントロールには、一次元データが必要です。データ セットには少なくとも 2 つの _数値_ フィールドを含む必要があります。これらのデータ型要件を満たしていない場合、 _{SparklineName}_   は空のチャートを描画します (エラーは返しません)。データ ソース フィールドのテキストを使用して、X 軸の最初と最後のラベルを表示できます。
+
+最低要件として _{SparklineName}_ では、コントロールをデータ コレクションのインスタンスにバインドする pick:[wpf,win-universal,xamarin="link:{SparklineLink}.{SparklineName}~itemssource.html[ItemSource]"]pick:[win-forms="link:{SparklineLink}.{SparklineName}~datasource.html[DataSource]"] プロパティと、どのデータを表示するか特定する link:{SparklineLink}.{SparklineName}~valuememberpath.html[ValueMemberPath] プロパティが必要です。
+
+[[_Ref317187012]]
+
+=== プロパティ設定
+
+以下の表は、データ バインディング プロパティ設定をリストしています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ名|プロパティ設定
+
+| pick:[wpf,win-universal,xamarin="_ItemsSource_"]pick:[win-forms="_DataSource_"]
+| pick:[wpf,win-universal,xamarin="{Binding Source={StaticResource resource key name}}"]pick:[win-forms="データのコレクション"] 
+
+| _ValueMemberPath_ 
+| _field name_ 
+
+|====
+
+[[_Ref317187018]]
+
+== コード例: データ バインディング
+
+=== 説明
+
+以下のコードはデータ バインディングを示します。
+
+
+
+
+ifdef::xaml[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<UserControl
+    xmlns:igSparkline="http://schemas.infragistics.com/xaml"
+    xmlns:local="clr-namespace:SparklineDemo">
+    <UserControl.Resources>
+        <local:TestData x:Key="testdata"/> 
+    </UserControl.Resources>
+     <igSparkline:{SparklineName} 
+          Name="{SparklineName}1"
+         ItemsSource="{Binding Source={StaticResource testdata}}"
+         ValueMemberPath="Value"/>
+----
+endif::xaml[]
+
+
+
+ifdef::xaml[]
+*C# の場合:*
+[source,csharp]
+----
+this.{SparklineName}1.ItemsSource = new TestData();
+----
+endif::xaml[]
+
+
+ifdef::win-forms[] 
+*C# の場合:*
+[source,csharp]
+----
+this.{SparklineName}1.DataSource = new TestData();
+this.{SparklineName}1.ValueMemberPath = "Value";
+----
+endif::win-forms[] 
+
+
+ifdef::wpf[] 
+*Visual Basic の場合:*
+[source,vb]
+----
+Me.{SparklineName}1.ItemsSource = New TestData()
+----
+endif::wpf[] 
+
+ifdef::win-forms[] 
+*Visual Basic の場合:*
+[source,vb]
+
+----
+Me.{SparklineName}1.DataSource = New TestData()
+Me.{SparklineName}1.ValueMemberPath = "Value"
+----
+
+endif::win-forms[] 
+
+
+*C# の場合:*
+[source,csharp]
+
+----
+public class TestData : ObservableCollection<TestDataItem>
+    {
+        public TestData()
+        {
+           Add(new TestDataItem { Label = "Label1", Value = 1 });
+           Add(new TestDataItem { Label = "Label2", Value = 2 });
+           Add(new TestDataItem { Label = "Label3", Value = 3 });
+           Add(new TestDataItem { Label = "Label4", Value = -4 });
+           Add(new TestDataItem { Label = "Label5", Value = 5 });
+           Add(new TestDataItem { Label = "Label6", Value = -6 });
+           Add(new TestDataItem { Label = "Label7", Value = 7 });
+           Add(new TestDataItem { Label = "Label8", Value = 8 });
+           Add(new TestDataItem { Label = "Label9", Value = 9 });
+        }
+    }
+public class TestDataItem : INotifyPropertyChanged
+    {
+        private string _label;
+        public string Label
+        {
+            get { return _label; }
+            set { _label = value; RaisePropertyChanged("Label"); }
+        }
+        private double? _value;
+        public double? Value
+        {
+            get { return _value; }
+            set { _value = value; RaisePropertyChanged("Value"); }
+        }
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new   PropertyChangedEventArgs(propertyName));
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+----
+
+
+ifdef::wpf,win-forms[] 
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class TestData
+   Inherits ObservableCollection(Of TestDataItem)
+      Public Sub New()
+      Add(New TestDataItem() With {.Label = "Label1", .Value = 1})
+      Add(New TestDataItem() With {.Label = "Label2", .Value = 2})
+      Add(New TestDataItem() With {.Label = "Label3", .Value = 3})
+      Add(New TestDataItem() With {.Label = "Label4", .Value = -4})
+      Add(New TestDataItem() With {.Label = "Label5", .Value = 5})
+      Add(New TestDataItem() With {.Label = "Label6", .Value = -6})
+      Add(New TestDataItem() With {.Label = "Label7", .Value = 7})
+      Add(New TestDataItem() With {.Label = "Label8", .Value = 8})
+      Add(New TestDataItem() With {.Label = "Label9", .Value = 9})
+   End Sub
+End Class
+Public Class TestDataItem
+      Implements INotifyPropertyChanged
+      Private _label As String
+      Public Property Label() As String
+            Get
+                  Return _label
+            End Get
+            Set
+                  _label = value
+                  RaisePropertyChanged("Label")
+            End Set
+      End Property
+      Private _value As System.Nullable(Of Double)
+      Public Property Value() As System.Nullable(Of Double)
+            Get
+                  Return _value
+            End Get
+            Set
+                  _value = value
+                  RaisePropertyChanged("Value")
+            End Set
+      End Property
+      Private Sub RaisePropertyChanged(propertyName As String)
+            RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+      End Sub
+      Public Event PropertyChanged As PropertyChangedEventHandler
+End Class
+----
+
+endif::wpf,win-forms[] 
+
+
+[[_Ref317187132]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+|====

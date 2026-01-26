@@ -1,0 +1,142 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-getting-started-with-grid",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-02-05T19:08:29.1330392Z"
+}
+|metadata|
+////
+
+= {DataGridName} を使用した作業の開始
+
+このトピックでは、link:{DataGridLink}.{DataGridName}.html[{DataGridName}] コントロールをビューに追加し、サンプル データを使用し生成するために必要な基本手順について説明することにより、すばやく作業を開始できます。
+ 
+=== 概要
+このトピックには、以下のセクションがあります。
+
+* <<RequiredBackground,前提条件>> 
+* <<PreparingProject,準備>>
+* <<CreatingControl,{DataGridName} の作成>>
+* <<VerifyResults,結果の確認>>
+* <<RelatedTopics,関連トピック>>
+
+[[RequiredBackground]]   
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::xaml[]
+| link:xamarin-project-with-infragistics-controls.html[Infragistics コントロールでプロジェクトを作成] 
+|{DataGridName} コントロールには {ProductName} コントロールの NuGet パッケージが必要です。このトピックでは、それをプロジェクトに追加する方法を説明します。
+endif::xaml[]
+ 
+ifdef::android[]
+| link:android-project-with-infragistics-controls.html[Infragistics コントロールでプロジェクトを作成] 
+|{DataGridName} コントロールには {ProductName} コントロールのライブラリ ファイルが必要です。このトピックでは、それをプロジェクトに追加する方法を説明します。
+endif::android[]
+ 
+|====
+ 
+[[PreparingProject]]
+=== 準備
+
+[start=1]
+. プロジェクトに新しいクラス ファイルを作成し、SampleSalesPerson という名前を付けます。このクラスはサンプル データの生成に使用されます。
+
+[start=2]
+. SampleSalesPerson クラス ファイルの内容を link:SampleSalesPerson.html[SampleSalesPerson] リソースのソース コードに置き換えます。
+
+[start=3]
+
+. 以下の参照をビューに追加します。
+
+ifdef::android[]
+*Java の場合:*
+[source, java]
+----
+import com.infragistics.controls.*;
+----
+endif::android[]
+
+ifdef::xaml[]
+*XAML の場合:*
+[source, xaml]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Grids;assembly=Infragistics.XF.DataGrid"
+xmlns:local="clr-namespace:Infragistics.Data;assembly=YourAppName" 
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*C# の場合:*
+[source, csharp]
+----
+using Infragistics.XamarinForms.Controls.Grids;
+using Infragistics.Data;
+----
+endif::xaml[]
+
+[[CreatingControl]]
+=== {DataGridName} の作成
+
+メイン ビューの {DataGridName} コントロールのインスタンスを作成し、link:{DataGridLink}.{DataGridName}~{ApiDataSource}.html[{ApiDataSource}] {ApiMember}を使用して、次のサンプル コードに示すようにサンプル データを生成します。
+
+ifdef::android[]
+*Java の場合:* 
+[source, java]
+----  
+{DataGridName} DataGrid = new {DataGridName}(this);
+DataGrid.setDataSource(SampleSalesPerson.GenerateSalesData(100)); 
+----
+endif::android[]
+
+ifdef::xaml[]
+*XAML の場合:*
+[source, xaml]
+----
+<ig:XamDataGrid x:Name="DataGrid" >
+    <ig:XamDataGrid.ItemsSource>
+        <local:SampleSalesTeam />
+    </ig:XamDataGrid.ItemsSource>          
+</ig:XamDataGrid>
+----
+
+*C# の場合:*
+[source, csharp]
+----
+{DataGridName} DataGrid = new {DataGridName}(this);
+DataGrid.ItemsSource = SampleSalesPerson.GenerateSalesData(100);
+----
+endif::xaml[]
+
+[[VerifyResults]]
+=== 結果の確認
+
+アプリケーションを保存し実行して、結果が以下のスクリーンショットのようになることを確認します(画面の向きや解像度の違いを除く)。
+
+image::images/datagrid-getting-started-with-grid.png[]
+
+
+[[RelatedTopics]]   
+=== 関連トピック
+
+以下の表は、このトピックに関連するトピックを示します。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+ 
+| link:datagrid-supported-column-types.html[サポートされる列タイプ]
+|このトピックでは、{DataGridName} コントロールでサポートされる列タイプの情報を提供します。
+  
+| link:datagrid-working-with-columns.html[列の作業]
+|このトピックでは、{DataGridName} コントロールで列を使用する際のコード例を提供します。
+ 
+|====

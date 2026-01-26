@@ -1,0 +1,204 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-webchart-set-up-drilldown-charts",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{C99D67FD-A0FD-4EFC-B1C0-BD02F282CAD9}",  
+    "buildFlags": ["asp-net","aspnet-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Set Up Drilldown Charts
+
+This topic describes how to set up drilldown mode to expose users to a progressively detailed presentation of data. One or all elements of a chart can be made drillable, allowing the user to click an element and "drill down" to the same or different chart type, and to any depth an application requires.
+
+The following is a list of terms that are used throughout the topic:
+
+* Drilled Level -- The depth to which a user has drilled down, increasing from 0 at the top-level chart.
+* Parent Chart -- The chart in which a user has clicked a drillable chart element. A parent chart displays more general information.
+* Child Chart -- The chart that appears when the user clicks a drillable chart element. A child chart displays more specific information. Child charts supporting further drilldown can also be parent charts.
+* Drill Back -- The process by which a user drills up to a previously presented parent chart, one level at a time.
+* Top-Level Chart -- The chart that is first displayed by WebChart to the user. It serves as the parent chart and is at the root of the "ancestral tree", which is the drilldown hierarchy. The user cannot drill back from the top-level chart.
+
+The following procedure demonstrates how to define the linkage between a parent column chart with four columns, and a child pie chart with three slices. When the user clicks on the first column of the parent (top-level) chart, the child chart will appear.
+
+== Initializing the Parent WebChart with a DrillElement:
+
+Set up your parent WebChart™ in the Page_Load event. In this example, a zero-aligned column chart is used, and typical DataBinding is performed. Then, set up a DrillElement, and verify the code snippet for the syntax.
+
+To set up a DrillElement:
+
+[start=1]
+. Set  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~enabled.html[UltraChart.Drill.Enabled]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~enabled.html[UltraChart.Drill.Enabled]"]  to True.
+[start=2]
+. Set  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~drillelements.html[UltraChart.Drill.DrillElements]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~drillelements.html[UltraChart.Drill.DrillElements]"]  to a new DrillElement array that contains one new DrillElement.
+[start=3]
+. Set the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.drillelement~drilldown.html[DrillDown]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.drillelement~drilldown.html[DrillDown]"]  property of your DrillElement to a new object that implements IDrillDown.
+
+In the example code below, make a class called "MyDrillDown," which implements  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown.html[IDrillDown]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown.html[IDrillDown]"] .
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Shared
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub Page_Load(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	If Me.UltraChart1.Data.DataSource Is Nothing Then
+		' Configure chart for parent data
+		Me.UltraChart1.ChartType = ChartType.ColumnChart
+		Me.UltraChart1.Data.ZeroAligned = True
+		' Set up datasource for parent data
+		Me.UltraChart1.Data.DataSource = GetColumnData()
+		Me.UltraChart1.Data.IncludeColumn(0, False)
+		' Initialize DrillElement
+		Me.UltraChart1.Drill.Enabled = True
+		Me.UltraChart1.Drill.DrillElements = New DrillElement() {New DrillElement()}
+		Me.UltraChart1.Drill.DrillElements(0).DrillDown = New MyDrillDown(UltraChart1)
+		Me.UltraChart1.Data.DataBind()
+	End If
+End Sub
+----
+
+*In C#:*
+
+----
+using Infragistics.WebUI.UltraWebChart;
+using Infragistics.UltraChart.Shared;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void Page_Load(object sender, System.EventArgs e)
+{
+	if (this.ultraChart1.Data.DataSource == null) 
+	{
+		// Configure chart for parent data
+		this.UltraChart1.ChartType = ChartType.ColumnChart;
+		this.UltraChart1.Data.ZeroAligned = true;
+		// Set up datasource for parent data
+		this.UltraChart1.Data.DataSource = GetColumnData();
+		this.UltraChart1.Data.IncludeColumn(0, false);
+		// Initialize DrillElement
+		this.UltraChart1.Drill.Enabled = true;
+		this.UltraChart1.Drill.DrillElements = new DrillElement[] {new DrillElement()};
+		this.UltraChart1.Drill.DrillElements[0].DrillDown = new MyDrillDown(UltraChart1);
+		this.UltraChart1.Data.DataBind();
+	}
+}
+----
+
+== Creating a Class that Implements IDrillDown
+
+For the DrillElement to work, the code requires a class with IDrillDown. IDrillDown contains only one method  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown~drill.html[Drill]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~drillback.html[Drill]"] , which you will use later.
+
+But first, implement the constructor. The best practice here is to pass in a reference to your WebChart, as was done in the previous step.
+
+.Note
+[NOTE]
+====
+You can pass in other information through the constructor, such as the title of your WebChart. In this example, only the chart reference is passed.
+====
+
+Then the "Drill" method should be written. Note the parameters that are passed in; this is the information you will have access to when you call this method during drilldown. This method is very flexible; in this sample, the only parameters that are needed are "chartType" and "dataSource". Alternatively, you could fetch your data based on the integer values of "row" and "column" (from the parent table).
+
+In the "Drill" method, you must:
+
+* configure the child chart; and
+* data bind the child chart.
+
+Conditional logic can also be used here, such as determining the depth of the drilling.
+
+.Note
+[NOTE]
+====
+The  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~depth.html[Drill.Depth]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~depth.html[Drill.Depth]"]  property is not implemented in WebChart, so you must use other means to determine this (you can pass your own depth value into the constructor, or through one of the arguments of Drill()).
+====
+
+*In Visual Basic:*
+
+----
+Friend Class MyDrillDown
+Implements IDrillDown
+	Private myChart As UltraChart
+	Public Sub New(ByVal chart As UltraChart)
+		myChart = chart
+	End Sub
+	Public Sub Drill(ByVal row As Integer, ByVal column As Integer, _
+	  ByVal chartType As _
+	  Infragistics.UltraChart.Shared.Styles.ChartType, _
+	  ByVal dataSource As Object) Implements _
+	  Infragistics.UltraChart.Resources.IDrillDown.Drill
+		' Initialize child chart
+		myChart.ChartType = chartType
+		myChart.Drill.Enabled = False
+		myChart.Data.DataSource = dataSource
+		myChart.Data.IncludeColumn(0, False)
+		myChart.Data.IncludeColumn(1, False)
+		myChart.Data.DataBind()
+	End Sub
+End Class
+----
+
+*In C#:*
+
+----
+internal class MyDrillDown : IDrillDown
+{
+	private UltraChart myChart;
+	public MyDrillDown(UltraChart chart)
+	{
+		myChart = chart;
+	}
+	#region IDrillDown Members
+	void Infragistics.UltraChart.Resources.IDrillDown.Drill(int row, int column,
+	  Infragistics.UltraChart.Shared.Styles.ChartType chartType, 
+	  object dataSource)
+	{
+		// Initialize child chart
+		myChart.ChartType = chartType;
+		myChart.Drill.Enabled = false;
+		myChart.Data.DataSource = dataSource;
+		myChart.Data.IncludeColumn(0, false);
+		myChart.Data.IncludeColumn(1, false);
+		myChart.Data.DataBind();
+	}
+	#endregion
+}
+----
+
+== Implement the ChartDataClicked Event
+
+The UltraChart.ChartDataClicked event occurs when you click on the WebChart. In this event handler, you have access to all the information you need, such as the row and column (of the Parent) that are being Drilled into. This information is accessible through the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs ("e")]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.chartdataeventargs.html[ChartDataEventArgs("e")]"] .
+
+In drilldown scenario, you must call the DrillDown.Drill() method of your DrillElement (the one you set up in Page_Load). This is the same method that you implemented in your IDrillDown class. In the arguments for this method call, you pass the values that you will use to initialize your child chart.
+
+*In Visual Basic:*
+
+----
+Private Sub UltraChart1_ChartDataClicked(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDataEventArgs) _
+  Handles UltraChart1.ChartDataClicked
+	Me.UltraChart1.Drill.DrillElements(0).DrillDown.Drill(e.DataRow, e.DataColumn, _
+	  ChartType.LineChart, GetLineData())
+End Sub
+----
+
+*In C#:*
+
+----
+private void UltraChart1_ChartDataClicked(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDataEventArgs e)
+{
+	this.UltraChart1.Drill.DrillElements[0].DrillDown.Drill(e.DataRow, 
+	  e.DataColumn, ChartType.LineChart, GetLineData());
+}
+----
+
+Your project is now ready to build and run.

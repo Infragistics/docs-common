@@ -1,0 +1,131 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-changing-the-default-font",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "7e238c1b-44c5-43d6-94d7-88ed88c5958d","buildFlags": [],
+    "createdOn": "2012-03-29T12:43:41.4498073Z"
+}
+|metadata|
+////
+
+= 既定のフォントを変更 pick:[wpf,xamarin="({ExcelEngineName})"]
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、Microsoft Excel® にエクスポートするとき、ワークシートの既定のフォントを変更する方法を説明します。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320773574,概要>>
+* <<_Ref320773586,コード例: 既定のフォントを変更>>
+* <<_Ref320773593,関連コンテンツ>>
+
+[[_Ref320773574]]
+== 概要
+
+Infragistics Excel ワークブックには Normal スタイルという特殊なタイプのスタイルがあります。これは `Workbook.Styles`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.workbookstylecollection~normalstyle.html[NormalStyle]"] プロパティによってアクセスできます。このスタイルにはワークブックのすべてのセルのデフォルトのプロパティが含まれています。ただし、行、列またはセルで指定されている場合はその限りではありません。Normal スタイルのプロパティを変更すると、ワークブックのデフォルトのセル書式プロパティを変更します。
+
+[[_Ref320773586]]
+== コード例: 既定のフォントを変更
+
+=== 説明
+
+`Workbook.Styles.NormalStyles.StyleFormat`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat~font.html[Font]"] またはいくつかのプロパティを希望の値に設定することで、既定のフォントを変更できます。
+
+以下のコード例は、新しいワークブックを作成して、ワークブックにシートを 1 つ追加します。新しい `NormalStyle.StyleFormat`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.iworksheetcellformat~font.html[Font]"]  pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.iworksheetcellformat~font.html[Font]"] を作成します。これはワークブックのデフォルト スタイルになります。フォント ファミリは Times New Roman に変更され、フォント サイズは 16 pt に変更されます。最終的にワークブックが保存されます。
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Change_Default_Font_1.png[]
+
+ご覧のとおり、既定のフォント ファミリは  *Times New Roman*  で既定のフォント サイズは 16 pt です。
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+' Create new workbook and add worksheet
+Dim workbook As New Infragistics.Documents.Excel.Workbook(Infragistics.Documents.Excel.WorkbookFormat.Excel2007)
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("Sheet1")
+Dim normalFont As Infragistics.Documents.Excel.IWorkbookFont = workbook.Styles.NormalStyle.StyleFormat.Font
+' Specifying the name of default font
+normalFont.Name = "Times New Roman"
+' Specifying the font size.Font size height is measured in twips.One twips is 1/20th of a point
+normalFont.Height = 16 * 20
+ifdef::wpf[]
+Dim saveFileDialog As New SaveFileDialog() With { _
+    .Filter = "Excel 2007 files|*.xlsx", _
+    .DefaultExt = "xlsx" _
+}
+If saveFileDialog.ShowDialog() = True Then
+    Dim stream As Stream = saveFileDialog.OpenFile()
+    workbook.Save(stream)
+    stream.Close()
+End If
+endif::wpf[]
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+// Create new workbook and add worksheet
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook(Infragistics.Documents.Excel.WorkbookFormat.Excel2007);
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("Sheet1");
+Infragistics.Documents.Excel.IWorkbookFont normalFont = workbook.Styles.NormalStyle.StyleFormat.Font;
+// Specifying the name of default font
+normalFont.Name = "Times New Roman";
+// Specifying the font size.Font size height is measured in twips.One twips is 1/20th of a point
+normalFont.Height = 16 * 20;
+ifdef::wpf[]
+SaveFileDialog saveFileDialog = new SaveFileDialog
+{
+    Filter = "Excel 2007 files|*.xlsx",
+    DefaultExt = "xlsx"
+};
+if (saveFileDialog.ShowDialog() == true)
+{
+    Stream stream = saveFileDialog.OpenFile();
+    workbook.Save(stream);
+    stream.Close();
+}
+endif::wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref320773593]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-applying-styles-to-cells.html[スタイルをセルに適用]
+|{ExcelEngineName} によってセルの外観と動作をカスタマイズすることができます。
+
+| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]
+|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルおよび機能の理解を深めるための情報を提供します。
+endif::wpf,xamarin[]
+
+|====

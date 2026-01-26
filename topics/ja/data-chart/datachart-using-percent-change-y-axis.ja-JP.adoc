@@ -1,0 +1,93 @@
+﻿= PercentChangeYAxis の使用
+
+このトピックは、コード例を示して、link:{DataChartLink}.percentchangeyaxis.html[PercentChangeYAxis] を link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで使用する方法を説明します。この軸で実際のデータ値の代わりにパーセント値を表示できます。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+|====
+|トピック|目的
+
+|link:datachart-axes.html[チャート軸]
+|`{DataChartName}` コントロールで使用される link:{DataChartLink}.Axis.html[Axis] オブジェクトの概念的情報を紹介します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Overview, 概要>>
+* <<CodeExample, コード例>>
+* <<Related, 関連コンテンツ>>
+
+[[Overview]]
+=== 概要
+
+PercentChangeYAxis を以下のシリーズ タイプで使用できます。
+
+* link:datachart-category-series-overview.html[カテゴリ シリーズ]
+* link:datachart-range-series-overview.html[範囲シリーズ]
+* link:datachart-financial-indicators-overview.html[財務指標]
+* link:datachart-series-financial-price-series-overview.html[財務シリーズ]
+* link:datachart-scatter-series-overview.html[散布シリーズ]
+
+.注:
+[NOTE]
+====
+link:datachart-stacked-series-overview.html[StackedSeries] は現在 `PercentChangeYAxis` をサポートしません。
+====
+
+PercentChangeYAxis は、シリーズの最初のデータ ポイントを参照値として使用します。それ以後の値は参照値に比較して増減パーセントに基づいて拡大縮小されます。
+
+CategorySeries の場合、参照値はシリーズの `ValueMemberPath` に相対します。
+
+ScatterSeries の場合、参照値はシリーズの `YMemberPath` に相対します。
+
+RangeSeries の場合、参照値は最初の安値に相対します。
+
+FinancialSeries および財務指標の場合、参照値は最初の始値に相対します。
+
+[[CodeExample]]
+=== コード例
+
+以下のコード例は {DataChartName} コントロールで PercentChangeYAxis の使用を紹介します。
+
+ifdef::wpf[]
+**XAML の場合:**
+[source, xaml]
+----
+<ig:{DataChartName} x:Name="chart">
+    <ig:{DataChartName}.Axes>
+        <ig:PercentChangeYAxis x:Name="yAxis"/>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+**C# の場合:**
+[source, csharp]
+----
+var dataChart = new {DataChartName}();
+var percentYAxis = new PercentChangeYAxis();
+dataChart.Axes.Add(percentYAxis);
+----
+
+**VB.NET の場合:**
+[source, vb]
+----
+Dim dataChart As {DataChartName} = New {DataChartName}()
+Dim percentYAxis As PercentChangeYAxis = New PercentChangeYAxis()
+dataChart.Axes.Add(percentYAxis)
+----
+
+以下の画像は、FinancialPriceSeries で PercentChangeYAxis の使用を表示します。
+
+image:images/percent_change_y_axis.png[]
+
+[[Related]]
+=== 関連コンテンツ
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-multiple-axes.html[複数軸の使用]
+

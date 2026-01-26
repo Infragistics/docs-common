@@ -1,0 +1,891 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-adding",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Charting","Getting Started","How Do I"],
+    "guid": "7f986dad-f1d1-4806-a567-d956f04da43b",
+    "buildFlags": ["SL","WPF","win-universal,xamarin"],
+    "createdOn": "2014-06-05T19:53:12.044886Z"
+}
+|metadata|
+////
+
+= {LinearGaugeName} の追加
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:lineargauge-overview.html[{LinearGaugeName} 概要]
+|このトピックでは、主要機能、最小要件、ユーザー機能など、 _{LinearGaugeName}_ コントロールに関する概念的な情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref357677909, {LinearGaugeName} の追加 – 概念的な概要 >>
+
+** <<_Ref361648039, _{LinearGaugeName}_ の追加の概要>>
+** <<_Ref361648047,要件>>
+** <<_Ref361648052,手順>>
+
+* <<_Ref361422086, {LinearGaugeName} の追加 – コード例 >>
+
+** <<_Ref361648073,概要>>
+** <<_Preview,プレビュー>>
+** <<_Ref361648084,前提条件>>
+** <<_Overview,概要>>
+** <<_Ref361648095,手順>>
+
+* <<_Ref357677916, 関連コンテンツ >>
+
+[[_Ref357677909]]
+== _{LinearGaugeName}_ の追加 – 概念的な概要
+
+[[_Ref361648039]]
+
+=== {LinearGaugeName} の追加の概要
+
+_{LinearGaugeName}_ をページに追加するには、コントロールのインスタンスを作成して、ページのルート要素に追加する必要があります。コントロールは、主目盛や副目盛に0 から 100 までの値を使用して、スケールを表示するようあらかじめ設定されています。さらに、配置されたコンテナーのサイズをデフォルトで測定します。
+
+[[_Ref361648047]]
+
+=== 要件
+
+
+ifdef::android[]
+以下の jars をプロジェクトに塚します。
+
+** Infragistics.Gauge.jar
+** Infragistics.Core.jar
+** Infragistics.UI.jar
+** DV.Shared.jar
+endif::android[]
+
+ifdef::wpf[]
+
+以下の NuGet パッケージをメイン プロジェクトに追加します。
+
+** Infragistics.WPF.Gauges
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+以下の Infragistics アセンブリをメイン プロジェクトに追加します。
+
+** {ApiPlatform}{LinearGaugeAssembly}.{DllVersion}dll
+** {ApiPlatform}{DataVizAssembly}.{DllVersion}dll 
+** {ApiPlatform}Win.Portable.Core.{DllVersion}dll 
+** {ApiPlatform}{DllVersion}dll
+endif::win-forms[]
+
+ifdef::xamarin[]
+link:xamarin-project-with-infragistics-controls.html#NuGetPackages[NuGet パッケージによって参照の追加]を参照してください。
+endif::xamarin[]
+
+以下の名前空間を追加します。
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="clr-namespace:{LinearGaugeNamespace};assembly={ApiPlatform}Gauges"
+----
+
+*C# の場合:*
+[source,csharp]
+----
+using {LinearGaugeNamespace};
+----
+endif::xamarin[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+
+*C# の場合:*
+[source,csharp]
+----
+using {LinearGaugeNamespace};
+----
+
+*VB の場合:* 
+[source,vb]
+----
+Imports {LinearGaugeNamespace}
+---- 
+endif::wpf[]
+
+ifdef::android[] 
+*Java の場合:* 
+[source,js]
+----
+import {RadialGaugeNamespace}.{RadialGaugeName};
+---- 
+endif::android[]
+
+[[_Ref361648052]]
+
+=== 手順
+
+以下は、_{LinearGaugeName}_ を追加する一般的な手順です。
+
+*1. {LinearGaugeName} コントロールの追加*
+
+*2. スケールの構成*
+
+*3. 針の構成*
+
+*4. 追加要素の構成*  (詳細は、<<_Ref361422086,{LinearGaugeName} の追加 – コード例>>および link:lineargauge-configuring.html[{LinearGaugeName} の構成]を参照してください。)
+
+[[_Ref361422086]]
+== _{LinearGaugeName}_ の追加 – コード例
+
+[[_Ref361648073]]
+
+=== 概要
+
+以下の手順は、{LinearGaugeName} コントロールのインスタンスを作成して、{PlatformName} アプリケーションに追加し、針および 3 つの比較範囲をスケール上に構成します。
+
+[[_Preview]]
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/XamLinearGauge_Adding_1_17_1.png[]
+
+[[_Ref361648084]]
+
+=== 前提条件
+
+この手順を実行するには、以下が必要です。
+
+* pick:[wpf,xamarin="ページ"]pick:[win-forms="Form "]がある {PlatformName} プロジェクト
+* プロジェクトに追加した必要なアッセンブリ参照および名前空間 (<<_Ref361648047,「要件」>>を参照)
+
+[[_Overview]]
+
+=== 概要
+
+以下はプロセスの概要です。
+
+*1. {LinearGaugeName} コントロールの追加*
+
+*2. スケールの構成*
+
+*3. 針の構成*
+
+*4. 比較範囲の追加*
+
+[[_Ref361648095]]
+
+=== 手順
+
+以下の手順は、_{LinearGaugeName}_ コントロールをアプリケーションに追加する方法について説明します。
+
+=== 1. {LinearGaugeName} コントロールの追加
+
+*_{LinearGaugeName}_ 宣言をページのルート `Grid` 要素に追加します。pick:[sl,wpf,win-universal="次に、任意の `Height` および `Width` を設定します。"]*
+
+ifdef::xaml[]
+
+*XAML の場合:*
+[source, xaml]
+----
+ifdef::wpf,sl,win-universal[]
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                    Height="70" Width="300" />
+endif::wpf,sl,win-universal[]
+
+ifdef::xamarin[]
+<ig:{LinearGaugeName} x:Name="linearGauge"/>
+endif::xamarin[]
+----
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var linearGauge = new XamLinearGauge();
+linearGauge.Height = 70;
+linearGauge.Width = 300;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var linearGauge = new XamLinearGauge();
+linearGauge.Height = 70;
+linearGauge.Width = 300;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var linearGauge = new UltraLinearGauge();
+linearGauge.Height = 70;
+linearGauge.Width = 300;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var linearGauge = new XamLinearGauge();
+linearGauge.Height = 70;
+linearGauge.Width = 300;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var linearGauge = new XamLinearGauge();
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim linearGauge As New XamLinearGauge
+With linearGauge
+      .Height = "70"
+      .Width = "300"
+ End With
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim linearGauge As New XamLinearGauge
+With linearGauge
+      .Height = "70"
+      .Width = "300"
+ End With
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim linearGauge As New UltraLinearGauge
+With linearGauge
+      .Height = "70"
+      .Width = "300"
+ End With
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim linearGauge As New XamLinearGauge
+With linearGauge
+      .Height = "70"
+      .Width = "300"
+ End With
+----
+
+endif::win-universal[]
+
+この宣言は、 link:lineargauge-overview.html#_Ref349815332[デフォルトの外観]、 link:lineargauge-overview.html#_Ref361168497[設定]および固定サイズで、{LinearGaugeName} のインスタンスを作成します。これは、スケールが主目盛および副目盛を使用して 0 から 100 の範囲で表示されるため、追加構成が必要なことを意味します。
+
+image::images/XamLinearGauge_Adding_2_17_1.png[]
+
+=== 2.スケールを構成します。
+
+*スケールの値をカスタマイズするには、`MinimumValue` および `MaximumValue` プロパティを設定する必要があります。* この例では、スケールは 5 から開始され 55 で終了します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                   ...
+                   MinimumValue="5"
+                   MaximumValue="55">
+</ig:{LinearGaugeName}>
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 55;
+linearGauge.MinimumValue = 5;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 55;
+linearGauge.MinimumValue = 5;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 55;
+linearGauge.MinimumValue = 5;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 55;
+linearGauge.MinimumValue = 5;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 55;
+linearGauge.MinimumValue = 5;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.MinimumValue = "5"
+.MaximumValue = "55"
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.MinimumValue = "5"
+.MaximumValue = "55"
+----
+
+endif::wpf[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.MinimumValue = "5"
+.MaximumValue = "55"
+----
+
+endif::win-universal[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.MinimumValue = "5"
+.MaximumValue = "55"
+----
+
+endif::win-forms[]
+
+変化したスケールを以下のスクリーンショットに示します。
+
+image::images/XamLinearGauge_Adding_3_17_1.png[]
+
+=== 3. 針を構成します。
+
+針をスケール上に配置するには、`TargetValue` プロパティの値で制御します。この例では、`Value` プロパティを 43 に設定します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                   ...
+                 Value="43">
+</ig:{LinearGaugeName}>
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Value = 43;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Value = 43;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Value = 43;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Value = 43;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Value = 43;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.Value = "43"
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.Value = "43"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.Value = "43"
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+.Value = "43"
+----
+
+endif::win-universal[]
+
+以下のスクリーンショットは、これまでの手順で _{LinearGaugeName}_ コントロールの外観がどのようになるかを示しています。
+
+image::images/XamLinearGauge_Adding_4_17_1.png[]
+
+=== 4. 比較範囲を追加します。
+
+パフォーマンス バーで表示された値とある意味を持たせた範囲の値を比較するためには、比較範囲をスケール上に表示する必要があります。比較範囲は、複数の `{LinearGaugeRange}s` を個別に内部で定義できる `Ranges` プロパティが制御します。各範囲には、独自の開始値と終了値 (`StartValue` および `EndValue`) と色 (`Brush`) があります。
+
+この例では、3 つの比較範囲を構成します。それぞれ異なる灰色のグラデーションで、スケール目盛の 0、15、30 から開始します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                   ...
+                   >
+                   <ig:{LinearGaugeName}.Ranges>
+                        <ig:{LinearGaugeRange} StartValue="0"
+                                     EndValue="15"
+                                     Brush="Red"/>
+                        <ig:{LinearGaugeRange} StartValue="15"
+                                     EndValue="30"
+                                     Brush="Yellow"/>
+                        <ig:{LinearGaugeRange} StartValue="30"
+                                     EndValue="55"
+                                     Brush="Green"/>
+                   </ig:{LinearGaugeName}.Ranges>
+</ig:{LinearGaugeName}>
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var range1 = new XamLinearGraphRange();
+   range1.StartValue = 0;
+   range1.EndValue = 15;
+   range1.Brush = new SolidColorBrush(Color.FromRgb(250, 0, 0));
+var range2 = new XamLinearGraphRange();
+   range2.StartValue = 15;
+   range2.EndValue = 30;
+   range2.Brush = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+var range3 = new XamLinearGraphRange();
+   range3.StartValue = 30;
+   range3.EndValue = 55;
+   range3.Brush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+linearGauge.Ranges.Add(range1);
+linearGauge.Ranges.Add(range2);
+linearGauge.Ranges.Add(range3);
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var range1 = new XamLinearGraphRange();
+   range1.StartValue = 0;
+   range1.EndValue = 15;
+   range1.Brush = new SolidColorBrush(Color.FromRgb(250, 0, 0));
+var range2 = new XamLinearGraphRange();
+   range2.StartValue = 15;
+   range2.EndValue = 30;
+   range2.Brush = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+var range3 = new XamLinearGraphRange();
+   range3.StartValue = 30;
+   range3.EndValue = 55;
+   range3.Brush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+linearGauge.Ranges.Add(range1);
+linearGauge.Ranges.Add(range2);
+linearGauge.Ranges.Add(range3);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var range1 = new LinearGraphRange();
+   range1.StartValue = 0;
+   range1.EndValue = 15;
+   range1.Brush = new SolidColorBrush(Color.FromRgb(250, 0, 0));
+var range2 = new LinearGraphRange();
+   range2.StartValue = 15;
+   range2.EndValue = 30;
+   range2.Brush = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+var range3 = new LinearGraphRange();
+   range3.StartValue = 30;
+   range3.EndValue = 55;
+   range3.Brush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+linearGauge.Ranges.Add(range1);
+linearGauge.Ranges.Add(range2);
+linearGauge.Ranges.Add(range3);
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var range1 = new XamLinearGraphRange();
+   range1.StartValue = 0;
+   range1.EndValue = 15;
+   range1.Brush = new SolidColorBrush(Color.FromRgb(250, 0, 0));
+var range2 = new XamLinearGraphRange();
+   range2.StartValue = 15;
+   range2.EndValue = 30;
+   range2.Brush = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+var range3 = new XamLinearGraphRange();
+   range3.StartValue = 30;
+   range3.EndValue = 55;
+   range3.Brush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+linearGauge.Ranges.Add(range1);
+linearGauge.Ranges.Add(range2);
+linearGauge.Ranges.Add(range3);
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var range1 = new LinearGraphRange();
+   range1.StartValue = 0;
+   range1.EndValue = 15;
+   range1.Brush = new SolidColorBrush(Color.FromRgb(250, 0, 0));
+var range2 = new LinearGraphRange();
+   range2.StartValue = 15;
+   range2.EndValue = 30;
+   range2.Brush = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+var range3 = new LinearGraphRange();
+   range3.StartValue = 30;
+   range3.EndValue = 55;
+   range3.Brush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+linearGauge.Ranges.Add(range1);
+linearGauge.Ranges.Add(range2);
+linearGauge.Ranges.Add(range3);
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim range As New XamLinearGraphRange
+ With range
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 0, 0))
+      .StartValue = 0
+      .EndValue = 15
+ End With
+Dim range2 As New XamLinearGraphRange
+ With range2
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 255, 0))
+      .StartValue = 15
+      .EndValue = 30
+ End With
+Dim range3 As New XamLinearGraphRange
+ With range3
+      .Brush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+      .StartValue = 30
+      .EndValue = 55
+ End With
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim range As New XamLinearGraphRange
+ With range
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 0, 0))
+      .StartValue = 0
+      .EndValue = 15
+ End With
+Dim range2 As New XamLinearGraphRange
+ With range2
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 255, 0))
+      .StartValue = 15
+      .EndValue = 30
+ End With
+Dim range3 As New XamLinearGraphRange
+ With range3
+      .Brush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+      .StartValue = 30
+      .EndValue = 55
+ End With
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim range As New LinearGraphRange
+ With range
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 0, 0))
+      .StartValue = 0
+      .EndValue = 15
+ End With
+Dim range2 As New LinearGraphRange
+ With range2
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 255, 0))
+      .StartValue = 15
+      .EndValue = 30
+ End With
+Dim range3 As New LinearGraphRange
+ With range3
+      .Brush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+      .StartValue = 30
+      .EndValue = 55
+ End With
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim range As New XamLinearGraphRange
+ With range
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 0, 0))
+      .StartValue = 0
+      .EndValue = 15
+ End With
+Dim range2 As New XamLinearGraphRange
+ With range2
+      .Brush = New SolidColorBrush(Color.FromRgb(255, 255, 0))
+      .StartValue = 15
+      .EndValue = 30
+ End With
+Dim range3 As New XamLinearGraphRange
+ With range3
+      .Brush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+      .StartValue = 30
+      .EndValue = 55
+ End With
+----
+
+endif::win-universal[]
+
+グラフの最終的な外観を以下に示します。
+
+image::images/XamLinearGauge_Adding_1_17_1.png[]
+
+[[_Ref357677916]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:lineargauge-configuring.html[{LinearGaugeName} の構成]
+|このトピック グループは、向きや方向および視覚要素を含む _{LinearGaugeName}_ コントロールのさまざまな要素を構成する方法を説明します。
+
+| link:lineargauge-api-reference.html[API リファレンス ({LinearGaugeName})]
+|このトピックでは、{LinearGaugeName} コントロールに関連するキー クラスやプロパティに関する参考情報を提供します。
+
+|====

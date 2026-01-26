@@ -1,0 +1,908 @@
+﻿////
+|metadata|
+{
+    "name": "xamdoughnutchart-configuring-selection-and-explosion",
+    "controlName": ["{DoughnutChartName}"],
+    "tags": ["API","Charting","How Do I","Selection"],
+    "guid": "bd1caca1-194c-4c95-bb73-cd1b18034d9e",
+    "buildFlags": ["SL","WPF","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:12.0238775Z"
+}
+|metadata|
+////
+
+= Configuring Selection and Explosion ({DoughnutChartName})
+
+== Topic Overview
+
+=== Purpose
+
+This topic explains how to configure selection and explosion for the slices of the  _{DoughnutChartName}™_ .
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+| link:xamdoughnutchart-overview.html[{DoughnutChartName} Overview]
+|This topic gives an overview of the _{DoughnutChartName}™_ control and its main features.
+
+| link:xamdoughnutchart-adding.html[Adding {DoughnutChartName}]
+|This topic explains using a code example how to add the _{DoughnutChartName}_ control to a {PlatformName} application.
+
+|=======
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref1,Slice Selection Configuration Summary>> 
+* <<_Ref2,Enable/Disable Slice Selection>>
+
+ifdef::wpf,win-forms[]
+* <<_Ref11, Configuring the Look of the Selected Slices>>
+endif::wpf,win-forms[]
+
+* <<_Ref3,Changing the Selection State upon pick:[wpf,win-forms="Click"]pick:[xamarin="Tap"]>>
+
+
+ifdef::wpf[]
+* <<_Ref33,Setting the IsSelected Property>>
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+* <<_Ref34,Modifying the Contents of the SelectedSlices Collection>>
+endif::wpf,win-forms[]
+
+* <<_Ref4,Slice Explosion Configuration Summary>>
+* <<_Ref5,Enable/ Disable Slice Explosion>>
+
+* <<_Ref6,Changing the Explosion State upon Slice pick:[wpf,win-forms="Click"]pick:[xamarin="Tap"]>>
+
+ifdef::wpf[]
+* <<_Ref7,Setting the IsExploded Property>>
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+* <<_Ref8,Modifying the Contents of the ExplodedSlices Collection>>
+endif::wpf,win-forms[]
+
+[[_Ref1]]
+== Slice Selection Configuration Summary
+
+=== Control configuration summary chart
+
+The following table lists the configurable aspects of the  _{DoughnutChartName}_   control related to slice selection.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspect|Details|Properties / Events
+
+|Enable/disable slice selection
+|You can enable or disable the ability to select slices or not.
+|
+* link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}allowsliceselection.html[AllowSliceSelection] 
+
+ifdef::wpf,win-forms[]
+|Configuring the look of the selected slices
+|You can define how the selected slices will look by defining a style pick:[xaml,android="with a `TargetType` of"] pick:[xaml,android=" link:{DoughnutChartLink}.slice_members.html[Slice]"] and assigning it to the link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] property of the pick:[android,xaml=" _{DoughnutChartName}_ "] pick:[win-forms="RingSeries"] .
+|
+* link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] 
+endif::wpf,win-forms[]
+
+|Changing the selection state upon slice pick:[wpf,win-forms="click"]pick:[xamarin="tap"]
+|If you attach an event handler for the link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] event, it supplies a reference to the pick:[wpf,win-forms="clicked"]pick:[xamarin="tapped"] slice in the event arguments allowing you to modify its selection state.
+|
+* link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+
+ifdef::wpf,android[]
+|Setting the IsSelected property
+|The _{DoughnutChartName}_ holds references to all the slices allowing you to modify their IsSelected property directly.
+|
+* link:{DoughnutChartLink}.slice{ApiProp}isselected.html[Slice.IsSelected] 
+endif::wpf,android[]
+
+ifdef::wpf,win-forms[]
+|Modifying the contents of the SelectedSlices collection
+|You can change the selected slice by changing the contents of the SelectedSlices collection.
+|
+* pick:[xaml,android=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedslices.html[SelectedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.ringseries{ApiProp}selectedslices.html[SelectedSlices]"] 
+
+endif::wpf,win-forms[]
+
+|====
+
+[[_Ref2]]
+== Enable/Disable Slice Selection
+
+=== Overview
+
+You can enable (default setting) or disable slice selection in the  _{DoughnutChartName}_  .
+
+.Note:
+[NOTE]
+====
+You must perform all the remaining slice selection configurations in this topic with slice selection enabled.
+====
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Enable/Disable slice selection
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}allowsliceselection.html[AllowSliceSelection]
+|`True` or `False`
+
+|====
+ifdef::wpf,win-forms[]
+
+[[_Ref11]]
+== Configuring the Look of the Selected Slices
+
+=== Overview
+
+The  _{DoughnutChartName}_   exposes a link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] property that determines the look of the selected slices. By default, no style is applied, and selecting a slice will not alter its appearance in any way. In order to apply your own style to the selected slices you need to define a `Style`  pick:[xaml,android="with `TargetType` of"]   pick:[xaml,android=" link:{DoughnutChartLink}.slice_members.html[Slice]"]  and set it as the value of the link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] property.
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Configure the look for selected slices.
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle]
+|pick:[android,xaml="A `Style` with `TargetType` of"] pick:[android,xaml=" link:{DoughnutChartLink}.slice_members.html[Slice]"] pick:[win-forms=" link:{DoughnutChartLink}.ringseries_members.html[RingSeries]"]
+
+|====
+
+=== Example
+
+The screenshot below demonstrates how the selected slice (the slice at the top) of the  _{DoughnutChartName}_   looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle]
+|
+ifdef::xaml[] 
+
+*In XAML:*
+[source,xaml]
+---- 
+<ig:{DoughnutChartName}>
+  <ig:{DoughnutChartName}.SelectedStyle>
+    <Style TargetType="ig:Slice">
+      <Setter Property="Background" Value="DarkGray"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+      <Setter Property="BorderThickness" Value="3"/>
+    </Style>
+  </ig:{DoughnutChartName}.SelectedStyle>
+...
+---- 
+endif::xaml[] 
+
+ifdef::win-forms[] 
+
+*In C#:*
+[source,csharp]
+---- 
+Style sliceStyle = new Style   
+{ 
+Fill = Color.Gray, 
+Opacity = .75, 
+}; 
+this.ultraDoughnutChart1.SelectedStyle = sliceStyle; 
+---- 
+
+*In VB:*
+[source,vb]
+---- 
+Dim sliceStyle As New Style 
+{ 
+.Fill = Color.Gray, _ 
+.Opacity = .75, _ 
+} 
+Me.UltraDoughnutChart1.SelectedStyle = sliceStyle 
+---- 
+endif::win-forms[] 
+
+|====
+
+ifdef::xaml[]
+image::images/XamDoughnutChart_Selection_Explosion_1.png[]
+endif::xaml[]
+
+ifdef::win-forms[] 
+image::images/Selection_Doughnut_Xamarin.png[] 
+endif::win-forms[] 
+
+endif::wpf,win-forms[]
+
+[[_Ref3]]
+== Changing the Selection State upon Slice pick:[wpf,win-forms="Click"]pick:[xamarin="Tap"]
+
+=== Overview
+
+The  _{DoughnutChartName}_   exposes a link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] event used to change the selected/unselected state of a slice.
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event / property:|What to do:
+
+|Set the `IsSelected` property
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+SliceClickEventArgs.IsSelected
+|Set the pick:[wpf,android=" link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected]"] pick:[xamarin=" link:{DoughnutChartLink}.sliceclickeventargs{ApiProp}isselected.html[IsSelected]"] pick:[win-forms=" link:{DoughnutChartLink}.doughnutsliceclickeventargs{ApiProp}isselected.html[IsSelected]"] property of the SliceClickEventArgs to `True` or `False`
+
+|====
+
+=== Example
+
+The following code example demonstrates how to toggle the selection state of slices upon pick:[wpf,win-forms="click"]pick:[xamarin="tap"].
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} SliceClick="DoughnutSliceClicked">
+…
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*In C#:*
+[source,csharp]
+ifdef::xaml[]
+----
+private void DoughnutSliceClicked(object sender, SliceClickEventArgs e)
+{
+    e.IsSelected = !e.IsSelected;
+}
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+[source,vb]
+ifdef::wpf[]
+----
+Private Sub DoughnutSliceClicked(sender As Object, e As SliceClickEventArgs)
+      e.IsSelected = Not e.IsSelected
+End Sub
+----
+endif::wpf[]
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+pick:[win-forms="*In C#:*"]
+
+ifdef::win-forms[]
+----
+void DoughnutChart_SliceClick(object sender, DoughnutSliceClickEventArgs e) 
+{ 
+ e.IsSelected = !e.IsSelected; 
+}
+----
+endif::win-forms[]
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+pick:[win-forms="*In VB:*"]
+
+ifdef::win-forms[]
+----
+Private Sub DoughnutChart_SliceClick(sender As Object, e As DoughnutSliceClickEventArgs)
+  e.IsSelected = Not e.IsSelected
+End Sub
+----
+endif::win-forms[]
+
+endif::win-forms[]
+
+
+ifdef::wpf,android[]
+
+[[_Ref33]]
+== Setting the IsSelected Property
+
+=== Overview
+
+The  _{DoughnutChartName}_   holds references to all the slices allowing you to modify their link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected] property directly to the link:{DoughnutChartLink}.slice_members.html[Slice] objects.
+
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event / property:|What to do:
+
+|Change the selection state upon slice pick:[wpf,win-forms="click"]pick:[xamarin="tap"]
+| link:{DoughnutChartLink}.slice{ApiProp}isselected.html[Slice.IsSelected]
+|Set the link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected] property of the link:{DoughnutChartLink}.slice_members.html[Slice] to `True` or `False`
+
+|====
+
+endif::wpf,android[]
+
+ifdef::wpf,android[]
+
+=== Example
+
+The following code example demonstrates how to obtain a reference to the first slice of the  _{DoughnutChartName}_   in order to set its link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected] property. Note that the execution of this code must occur after loading the particular ring series.
+
+*In XAML:*
+[source,xaml]
+ifdef::wpf[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+…
+----
+endif::wpf[]
+
+ifdef::wpf[]
+*In C#:*
+[source,csharp]
+----
+private void SeriesLoaded(object sender,  RoutedEventArgs    e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;
+    firstSlice.IsSelected = true;
+}
+----
+endif::wpf[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+
+----
+Private Sub SeriesLoaded(sender As Object, e As  RoutedEventArgs   )
+      Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice
+      firstSlice.IsSelected = True
+End Sub
+----
+endif::wpf[]
+
+endif::wpf,android[]
+
+ifdef::wpf,android,win-forms[]
+
+[[_Ref34]]
+== Modifying the Contents of the SelectedSlices Collection
+
+=== Overview
+
+Another approach for managing the selected slices is to modify the contents of the  pick:[xaml,android=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedslices.html[SelectedSlices]"]  pick:[win-forms=" link:{DoughnutChartLink}.ringseries{ApiProp}selectedslices.html[SelectedSlices]"]  collection of the  _{DoughnutChartName}_  . To do this, you need to obtain a reference to one or more  pick:[android,xaml=" link:{DoughnutChartLink}.slice_members.html[Slice]"]  pick:[win-forms="slice"]  objects that you want to select and add them to the SelectedSlices. If you want to unselect slices, remove them from the collection.
+
+=== Property settings
+
+The following table maps the desired behaviors to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event / property:|What to do:
+
+|Modify the contents of the SelectedSlices collection
+|pick:[xaml,android=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedslices.html[SelectedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.ringseries{ApiProp}selectedslices.html[SelectedSlices]"]
+|Add or Remove the respective pick:[xaml,android=" link:{DoughnutChartLink}.sliceitem_members.html[SliceItem]"] pick:[win-forms="slice"] from the SelectedSlices collection.
+
+|====
+
+=== Example
+
+The following code example demonstrates how to obtain a reference to the first slice of the  _{DoughnutChartName}_   in and add it to the collection with selected slices. An example of removing an item is also available. Note, execution of this code must occur after loading the particular ring series.
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+…
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+[source,csharp]
+ifdef::xaml[]
+----
+private void SeriesLoaded(object sender,  RoutedEventArgs    e)
+{
+     var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;     {}; "] 
+ // To add a selected item:
+this.doughnutChart.SelectedSlices.Add(3);   
+    // To remove a selected item: 
+     this.doughnutChart.SelectedSlices.RemoveAt(3);   
+}
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+
+    RingSeries ringSeries1 = doughnutChart.Series[0];
+    // To add a selected item:
+    ringSeries1.SelectedSlices.Add(3); 
+    // To remove a selected item: 
+    ringSeries.SelectedSlices.Remove(3); 
+
+----
+endif::win-forms[]
+
+ifdef::android[]
+----
+private void SeriesLoaded(object sender,      e)
+{
+     var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;     {}; "] 
+ // To add a selected item:
+this.doughnutChart.SelectedSlices.Add(3);   
+    // To remove a selected item: 
+     this.doughnutChart.SelectedSlices.RemoveAt(3);   
+}
+----
+endif::android[]
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+
+----
+Private Sub SeriesLoaded(sender As Object, e As  RoutedEventArgs   )
+       Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+ ' To add a selected item:
+Me.doughnutChart.SelectedSlices.Add(firstSlice)   
+ ' To remove a selected item: 
+       Me.doughnutChart.SelectedSlices.RemoveAt(0)   
+End Sub
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+----
+
+    Dim ringSeries1 = doughnutChart.Series(0) 
+    ' To add a selected item:
+    ringSeries1.SelectedSlices.Add(3); 
+    ' To remove a selected item: 
+    ringSeries.SelectedSlices.Remove(3); 
+
+----
+endif::win-forms[]
+
+ifdef::android[]
+----
+Private Sub SeriesLoaded(sender As Object, e As     )
+       Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+ ' To add a selected item:
+Me.doughnutChart.SelectedSlices.Add(firstSlice)   
+ ' To remove a selected item: 
+       Me.doughnutChart.SelectedSlices.RemoveAt(0)   
+End Sub
+----
+endif::android[]
+
+endif::xaml,win-forms[]
+
+endif::wpf,android,win-forms[]
+
+[[_Ref4]]
+== Slice Explosion Configuration Summary
+
+=== Control configuration summary chart
+
+The following table lists the configurable aspects of the  _{DoughnutChartName}_   control related to slice explosion.
+
+[options="header", cols="a,a,a"]
+|====
+|Configurable aspect|Details|Properties / Events
+
+|Enable/disable slice explosion
+|You can enable or disable the ability to explode slices.
+|
+link:{DoughnutChartLink}.piechartbase{ApiProp}allowsliceexplosion.html[AllowSliceExplosion] 
+
+|Changing the exploded state of a slice upon slice pick:[wpf,win-forms="click"]pick:[xamarin="tap"]
+|If you attach an event handler for the link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] event, a reference to the pick:[wpf,win-forms="clicked"]pick:[xamarin="tapped"] slice is supplied in the event arguments and you can modify its exploded state.
+|
+link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+ifdef::wpf,android[]
+|Setting the link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] property
+|The _{DoughnutChartName}_ holds references to all the slices allowing you to modify their link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] property directly.
+|
+link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[Slice.IsExploded] 
+
+endif::wpf,android[]
+
+ifdef::wpf,win-forms[]
+|Modifying the contents of the ExplodedSlices collection
+|You can change the exploded slices by changing the contents of the ExplodedSlices collection.
+|
+pick:[android,xaml=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}explodedslices.html[ExplodedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]"] 
+endif::wpf,win-forms[]
+|====
+
+[[_Ref5]]
+== Enable/ Disable Slice Explosion
+
+=== Overview
+
+You can enable (default setting) or disable slice explosion in the  _{DoughnutChartName}_  .
+
+.Note:
+[NOTE]
+====
+You must perform all the remaining slice explosion configurations in this topic with slice explosion enabled.
+====
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this property:|And set it to:
+
+|Enable/Disable slice explosion
+| link:{DoughnutChartLink}.piechartbase{ApiProp}allowsliceexplosion.html[AllowSliceExplosion]
+|`True` or `False`
+
+|====
+
+=== Example
+
+The following screenshot demonstrates a  _{DoughnutChartName}_   with 1 slice exploded.
+
+ifdef::android,wpf[]
+image::images/XamDoughnutChart_Selection_Explosion_2.png[]
+endif::android,wpf[]
+
+ifdef::xamarin,win-forms[]
+image::images/XamDoughnutChart_Selection_Explosion_Xamarin.png[]
+endif::xamarin,win-forms[]
+
+[[_Ref6]]
+== Changing the Explosion State upon Slice pick:[wpf,win-forms="Click"]pick:[xamarin="Tap"]
+
+=== Overview
+
+The  _{DoughnutChartName}_   exposes a link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] event used to change whether a slice is exploded.
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event / property:|What to do:
+
+|Set the IsExploded property
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+SliceClickEventArgs.IsExploded
+|Set the pick:[wpf,android=" link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded]"] pick:[xamarin=" link:{DoughnutChartLink}.sliceclickeventargs{ApiProp}isexploded.html[IsExploded]"] pick:[win-forms=" link:{DoughnutChartLink}.doughnutsliceclickeventargs{ApiProp}isexploded.html[IsExploded]"] property of the SliceClickEventArgs to `True` or `False`
+
+|====
+
+=== Example
+
+The following code example demonstrates how to toggle the explosion state of slices upon pick:[wpf,win-forms="click"]pick:[xamarin="tap"].
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} SliceClick="DoughnutSliceClicked">
+…
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+[source,csharp]
+ifdef::xaml[]
+----
+private void DoughnutSliceClicked(object sender,  SliceClickEventArgs e)
+{
+    e.IsExploded = !e.IsExploded;
+}
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+private void DoughnutSliceClicked(object sender, DoughnutSliceClickedEventArgs e)
+{
+    e.IsExploded = !e.IsExploded;
+}
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Private Sub DoughnutSliceClicked(sender As Object, e As RoutedEventArgs)
+      e.IsExploded = Not e.IsExploded
+End Sub
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+----
+Private Sub DoughnutSliceClicked(sender As Object, e As DoughnutSliceClickedEventArgs)
+      e.IsExploded = Not e.IsExploded
+End Sub
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]
+
+
+ifdef::wpf,android[]
+
+[[_Ref7]]
+== Setting the IsExploded Property
+
+=== Overview
+
+The  _{DoughnutChartName}_   exposes a link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] event used to change whether a slice is exploded.
+
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event / property:|What to do:
+
+|Change the explosion state upon slice pick:[wpf,win-forms="click"]pick:[xamarin="tap"]
+| link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[Slice.IsExploded]
+|Set the link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] property of the link:{DoughnutChartLink}.slice_members.html[Slice] to `True` or `False`
+
+|====
+
+endif::wpf,android[]
+
+
+ifdef::wpf,android[]
+
+=== Example
+
+The following code example demonstrates how to obtain a reference to the first slice of the  _{DoughnutChartName}_   in order to set its link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] property. Note that execution of this code must occur after loading the particular ring series.
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+        …
+    </ig:RingSeries>
+    …
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+[source,csharp]
+ifdef::xaml,win-forms[]
+----
+private void SeriesLoaded(object sender, RoutedEventArgs e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;
+    firstSlice.IsExploded = true;
+}
+----
+endif::xaml,win-forms[]
+
+endif::xaml,win-forms[]
+
+ifdef::xaml,win-forms[]
+
+ifdef::wpf,win-forms[]
+*In Visual Basic:*
+[source,vb]
+
+----
+Private Sub SeriesLoaded(sender As Object, e As RoutedEventArgs)
+      Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice
+      firstSlice.IsExploded = True
+End Sub
+----
+endif::wpf,win-forms[]
+
+endif::xaml,win-forms[]
+
+endif::wpf,android[]
+
+ifdef::wpf,android,win-forms[]
+
+[[_Ref8]]
+== Modifying the Contents of the ExplodedSlices Collection
+
+=== Overview
+
+Another approach for managing the exploded slices is to modify the contents of the  pick:[android,xaml=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}explodedslices.html[ExplodedSlices]"]  pick:[win-forms=" link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]"]  collection of the  _{DoughnutChartName}_  . To do this, you need to obtain a reference to one or more  pick:[android,xaml=" link:{DoughnutChartLink}.slice_members.html[Slice]"]  pick:[win-forms="slice"]  objects that you want to be able to explode and add them to the link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]. If you want to set the non-exploded state of slices, remove them from the collection.
+
+
+=== Property settings
+
+The following table maps the desired behavior to property settings.
+
+[options="header", cols="a,a,a"]
+|====
+|In order to:|Use this event / property:|What to do:
+
+|Modify the contents of the ExplodedSlices collection
+|pick:[android,xaml=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}explodedslices.html[ExplodedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]"]
+|Add or Remove the respective pick:[android,xaml=" link:{DoughnutChartLink}.sliceitem_members.html[SliceItem]"] pick:[win-forms="slice"] from the ExplodedSlices collection.
+
+|====
+
+=== Example
+
+The following code example demonstrates how to obtain a reference to the first slice of the  _{DoughnutChartName}_   in and add it to the collection with exploded slices. An example for removing an item is also available. Note, execution of this code must occur after loading the particular ring series.
+
+ifdef::xaml[]
+
+*In XAML:*
+[source,xaml]
+ifdef::xaml[]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+        …
+    </ig:RingSeries>
+    …
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*In C#:*
+[source,csharp]
+ifdef::xaml[]
+----
+private void SeriesLoaded(object sender, RoutedEventArgs e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice; 
+    // To add an exploded item:
+    this.doughnutChart.ExplodedSlices.Add(firstSlice);   
+    // To remove an exploded item: 
+    this.doughnutChart.ExplodedSlices.RemoveAt(0);   
+}
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+
+    RingSeries   ringSeries1 = doughnutChart.Series[0]; 
+    // To add an exploded item:
+    ringSeries1.ExplodedSlices.Add(3); 
+    // To remove an exploded item: 
+    ringSeries.ExplodedSlices.Remove(3); 
+
+----
+endif::win-forms[]
+
+ifdef::android[]
+----
+private void SeriesLoaded(object sender,      e)
+{
+     var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;     {}; "] 
+ // To add an exploded item:
+this.doughnutChart.ExplodedSlices.Add(3);   
+    // To remove an exploded item: 
+     this.doughnutChart.ExplodedSlices.RemoveAt(3);   
+}
+----
+endif::android[]
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,win-forms[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Private Sub SeriesLoaded(sender As Object, e As  RoutedEventArgs   )
+    Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+    ' To add an exploded item:
+    Me.doughnutChart.ExplodedSlices.Add(firstSlice)   
+    ' To remove an exploded item: 
+    Me.doughnutChart.ExplodedSlices.RemoveAt(0)   
+End Sub
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+----
+
+    Dim ringSeries1 = doughnutChart.Series(0) 
+    ' To add an exploded item:
+    ringSeries1.ExplodedSlices.Add(3) 
+    ' To remove an exploded item: 
+    ringSeries.ExplodedSlices.Remove(3) 
+
+----
+endif::win-forms[]
+
+ifdef::android[]
+----
+Private Sub SeriesLoaded(sender As Object, e As     )
+       Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+ ' To add an exploded item:
+Me.doughnutChart.ExplodedSlices.Add(firstSlice)   
+ ' To remove an exploded item: 
+       Me.doughnutChart.ExplodedSlices.RemoveAt(0)   
+End Sub
+----
+endif::android[]
+
+endif::wpf,win-forms[]
+
+endif::wpf,android,win-forms[]

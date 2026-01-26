@@ -1,0 +1,92 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-2d-spline-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{1846A47E-D656-4CAB-B5B4-4673DBCA5956}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with 2D Spline Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the spline chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for spline charts:
+
+* The data set contains one or more numeric columns. A numeric column is any DataColumn containing only values which can be interpreted as numbers. Note that it is recommended that the data set contains two or more numeric columns so that each line can have two or more points.
+* If you are binding the spline chart to a series object, see link:chart-requirements-for-series-binding.html[Requirements for Series Binding] for information on the series binding requirements.
+* If you are using the spline chart in a link:chart-composite-chart.html[composite chart], see link:chart-axis-requirements-for-composite-charts.html[Axis Requirements for Composite Charts] for information on the axis requirements for the chart.
+
+.Note
+[NOTE]
+====
+If the data available is in a different format, where each column represents one spline, and each row contains points for each spline, then you should swap the rows and columns. For information on how to do this, see link:chart-swap-rows-and-columns.html[Swap Rows and Columns].
+====
+
+== Mapping Data to Spline Charts
+
+The chart data is rendered using the following rules:
+
+* Each row is drawn as a single spline on the chart, with a number of points in the spline equal to the count of numeric columns in the data source. If there are multiple rows of data, each row constitutes a separate spline.
+* The first numeric column encountered in the data will be used for the value of the first point, the second column for the second point, and so on.
+* Every numeric column is displayed in the chart.
+* The x-axis (or horizontal axis) is a SetLabelAxis object, with the points evenly spaced apart for each item (point). The y-axis, or vertical axis, is the numeric axis. Labels on the y-axis can be formatted using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  property and a "numeric format":
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+* You can include or exclude any column from the chart using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[UltraChart.Data.IncludeColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[UltraChart.Data.IncludeColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[UltraChart.Data.IncludeColumn]"]  method.
+
+See below for an example data set, along with the rendered spline chart.
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockName|Monday|Tuesday|Wednesday|Thursday|Friday
+
+|IBM
+|111
+|96
+|85
+|125
+|65
+
+|MSN
+|75
+|23
+|15
+|75
+|100
+
+|MCI
+|55
+|63
+|84
+|95
+|80
+
+|ATT
+|12
+|12
+|40
+|60
+|50
+
+|VER
+|69
+|95
+|110
+|98
+|123
+
+|====
+
+image::images/Chart_Spline_Chart_01.png[Shows a 2D Spline Chart based on the data listed in the table above.]

@@ -1,0 +1,108 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-chart-markers",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= Chart Highlight Filter
+
+This topic explains, with code examples, how to use the data highlighting feature in the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] control.
+
+== Using Highlight Filter with {CategoryChartName}
+
+The highlight filter feature in the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] will highlight a subset of data while showing the total set with a reduced opacity in the case of column and area series types, and a dashed line in the case of line series types. 
+
+To enable the highlight filter feature in the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}], you need to provide an link:{CategoryChartLink}.{DomainChartName}{ApiProp}InitialHighlightFilter.html[InitialHighlightFilter] to the chart. Generally, in order to do this, you will also need to provide a value to the  link:{CategoryChartLink}.{DomainChartName}{ApiProp}InitialGroups.html[InitialGroups] property of the chart as well, as this will take a member path in your data to group the data by so you can then filter it based on an expression described below.
+
+The link:{CategoryChartLink}.{DomainChartName}{ApiProp}InitialHighlightFilter.html[InitialHighlightFilter] property uses a syntax similar to OData filter syntax in that the filter operator is an abbreviated. For example, if you are trying to apply a filter of "Country not equals USA" this would be "Country ne 'USA'" when setting the property.
+
+The following is a simple example that will filter out the number of sales per month by the UK using the following data source:
+
+*In C#*
+[source, cs]
+----
+    public class SalesItem
+    {
+        public double Value { get; set; }
+        public string Month { get; set; }
+        public string Country { get; set; }
+        
+    }
+
+    public class SalesItemData : List<SalesItem>    
+    {
+        Random r = new Random();
+        public SalesItemData()
+        {
+            this.Add(new SalesItem() { Month = "January", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "January", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "January", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "February", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "February", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "February", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "March", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "March", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "March", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "April", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "April", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "April", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "May", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "May", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "May", Country = "UK", Value = r.Next(500, 1000) });
+
+            this.Add(new SalesItem() { Month = "June", Country = "USA", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "June", Country = "Japan", Value = r.Next(500, 1000) });
+            this.Add(new SalesItem() { Month = "June", Country = "UK", Value = r.Next(500, 1000) });
+        }
+    }
+----
+
+ifdef::wpf[]
+
+*In XAML*
+[source, xaml]
+----
+<ig:{CategoryChartName} Name="chart"        
+                     ItemsSource="{Binding}"          
+                     InitialGroups="Month"                             
+                     ChartType="Column"          
+                     InitialHighlightFilter="Country ne 'UK'"                           
+                     HighlightedValuesDisplayMode="Overlay"
+                     YAxisMinimumValue="0"/>
+----
+
+endif::wpf[]
+
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+[source, csharp]
+----
+{CategoryChartName} chart = new {CategoryChartName}()
+{
+    ItemsSource = new SalesItemData(),
+    InitialGroups = "Month",
+    ChartType = CategoryChartType.Column,
+    InitialHighlightFilter = "Country ne 'UK'",
+    HighlightedValuesDisplayMode = SeriesHighlightedValuesDisplayMode.Overlay,
+    YAxisMinimumValue = 0
+};
+----
+
+endif::wpf,win-forms[]
+
+[[RelatedContent]]
+== Related Content
+
+** link:categorychart-annotation-and-overlays.html[Chart Annotations and Overlays]
+** link:categorychart-data-tooltip.html[Chart Data Tooltip]

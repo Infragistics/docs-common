@@ -1,0 +1,133 @@
+﻿= ボリューム ペイン
+
+=== 目的
+
+このトピックは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールのボリューム ペインを紹介します。
+
+pick:[wpf="image::images/financialchart_wpf_pane_volume.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_volume.png[]"]
+
+上の画面はチャートのボリューム ペインおよびランタイムにチャート タイプを変更するために使用されるドロップダウンを強調表示します。このペインのサポートされるチャート タイプ:
+
+* なし
+* 柱状
+* 折れ線
+* エリア
+
+デフォルトでタイプが `None` に設定されるため、チャートがボリューム ペインを描画しません。ボリューム ペインのプロパティの詳細には、以下を参照してください。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|型|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeType{HtmlApiExtension}[VolumeType]
+|`FinancialChartVolumeType`
+|ボリューム ペインのタイプを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeBrushes{HtmlApiExtension}[VolumeBrushes]
+|`BrushCollection`
+|ボリューム ペインの色設定に使用するブラシのパレットを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeOutlines{HtmlApiExtension}[VolumeOutlines]
+|`BrushCollection`
+|ボリューム ペインのアウトラインに使用するブラシのパレットを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}volumeThickness{HtmlApiExtension}[VolumeThickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|ボリューム ペインの太さを取得または設定します。
+
+|====
+
+
+
+ボリューム タイプをコードで設定できます:
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    VolumeType="Area"
+    VolumeBrushes="Red"
+    VolumeOutlines="Green"
+    VolumeThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.VolumeType = Infragistics.Controls.Charts.FinancialChartVolumeType.Area
+
+chart.VolumeBrushes = New Infragistics.BrushCollection()
+Dim brush As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Red;
+chart.VolumeBrushes.Add(brush)
+
+chart.VolumeOutlines = new Infragistics.BrushCollection()
+Dim brush2 As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Green
+chart.VolumeOutlines.Add(brush2)
+
+chart.VolumeThickness = 2
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.VolumeType = Infragistics.Controls.Charts.FinancialChartVolumeType.Area;
+
+chart.VolumeBrushes = new Infragistics.BrushCollection();
+var brush = new SolidColorBrush();
+brush.Color = Colors.Red;
+chart.VolumeBrushes.Add(brush);
+
+chart.VolumeOutlines = new Infragistics.BrushCollection();
+var brush2 = new SolidColorBrush();
+brush2.Color = Colors.Green;
+chart.VolumeOutlines.Add(brush2);
+
+chart.VolumeThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    volumeType: "area",
+    volumeBrushes: ["Red"],
+    volumeOutlines: ["Green"],
+    volumeThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "volumeType", "area");
+$("#financialChart").{FinancialChartName}("option", "volumeBrushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "volumeOutlines", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "volumeThickness", 2);
+----
+endif::jquery[]
+    
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+|link:financial-chart-chartpanes.html[チャート ペイン]
+|このトピックはチャート ペインの概要です。
+
+|====

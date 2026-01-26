@@ -1,0 +1,160 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-adding-xambarcode-using-xaml-code",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "be6fb2b0-dad7-4479-ad3e-df8b19c72c09",
+    "buildFlags": ["xaml"],
+    "createdOn": "2015-09-23T20:39:17.4464668Z"
+}
+|metadata|
+////
+
+= XAML コードを使用して xamBarcode を追加
+
+== 始める前に
+
+このトピックではユーザーができるだけ早く操作に慣れることができるよう、XAML を使用して、pick:[wpf="{Barcode128Name}™"]pick:[xamarin="{BarcodeQRName}™"] をアプリケーションに追加するために最低限必要な基本手順について説明します。
+
+== 達成すること
+
+基本的な pick:[wpf="{Barcode128Name}™"]pick:[xamarin="{BarcodeQRName}™"] コントロールをアプリケーションに追加します。
+
+== 次の手順を実行します
+[start=1]
+ifdef::wpf,win-forms,android[]
+. {PlatformName} アプリケーションを作成します。
+endif::wpf,win-forms,android[]
+ifdef::xamarin[]
+. Xamarin.Forms アプリケーション プロジェクトを作成します。
+endif::xamarin[]
+[start=2]
+ifdef::win-forms,android[]
+. ソリューション エクスプローラーで次の参照をプロジェクトに追加します。
+endif::win-forms,android[]
+
+ifdef::wpf[]
+
+. 以下の NuGet パッケージ参照をプロジェクトに追加します。
+
+** Infragistics.WPF.Barcodes
+
++
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-universal[]
+
+** {ApiPlatform}dll
+** {ApiPlatform}DataVisualization.dll
+** {ApiPlatform}Controls.Barcodes.dll
+** {ApiPlatform}Encoding.dll (QR Code のみ)
+
+endif::win-universal[]
+ 
+ifdef::xamarin[]
+. link:xamarin-project-with-infragistics-controls.html#NuGetPackages[NuGet パッケージで参照を追加します。]
+
+.注:
+[NOTE]
+====
+CJK エンコードのサポートをプロジェクトに追加します。
+
+Android プロジェクトの場合 - Android プロジェクトのプロパティを開き、[Android オプション] タブを選択し、[サポートされているその他のエンコーディング] セクションで CJK エンコードをチェックします。
+
+image::images/xamBarcode_Android_Encodings.png[]
+
+iOS プロジェクトの場合 - iOS プロジェクトのプロパティを開き、[iOS ビルド] タブを選択し、[国際化] セクションで CJK コードセットをチェックします。
+
+image::images/xamBarcode_iOS_Codesets.png[]
+
+====
+
+endif::xamarin[]
+
+[start=3]
+. pick:[wpf="{Barcode128Name}"]pick:[xamarin="{BarcodeQRName}"] の XAML 名前空間宣言を追加します。
+
+
+*XAML の場合:*
+[source,xaml]
+ifdef::wpf,win-universal[]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf,win-universal[]
+
+
+ifdef::xamarin[]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Barcodes;assembly=Infragistics.XF.Barcodes"
+----
+endif::xamarin[]
+
+[start=4]
+. バーコード記号を選択し、インスタンスを LayoutRoot という名前のデフォルトの pick:[wpf="Grid"]pick:[xamarin="StackLayout"] に追加します。
+
+ifdef::wpf[]
+*注:* 各バーコード記号は別のコントロールです。
+endif::wpf[]
+
+*サポートされる記号タイプ:*
+
+* link:xambarcode-configuring-qr-code.html[QR Code]
+
+ifdef::wpf[]
+* link:xambarcode-configuring-code128.html[Code 128]
+* link:xambarcode-xamcode39barcode.html[Code 39]
+* link:xambarcode-xameanupcbarcode.html[Ean/Upc]
+* link:xambarcode-xaminterleaved2of5barcode.html[Interleaved 2 Of 5]
+* link:xambarcode-xamgs1databarbarcode.html[GS1 DataBar]
+* link:xambarcode-xamintelligentmailbarcode.html[Intelligent Mail]
+* link:xambarcode-xamroyalmailbarcode.html[Royal Mail]
+* link:xambarcode-xampdf417barcode.html[PDF 417]
+* link:xambarcode-xammaxicodebarcode.html[Maxi Code]
+endif::wpf[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<Grid x:Name="LayoutRoot">
+    <ig:{Barcode128Name} x:Name="Barcode" />
+</Grid>
+----
+endif::wpf[]
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+<StackLayout x:Name="LayoutRoot">
+    <ig:{BarcodeQRName} x:Name="Barcode" />
+</StackLayout>
+----
+endif::xamarin[]
+
+[start=5]
+. 値をコントロールの Data プロパティに指定します。 
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{Barcode128Name} x:Name="Barcode" Data="Code128" />
+----
+endif::wpf[]
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{BarcodeQRName} x:Name="Barcode" Data="QRBarcode" />
+----
+endif::xamarin[]
+[start=6]
+. アプリケーションを保存して実行します。
+
+ifdef::wpf[]
+image::images/xamBarcode_Adding_Code128_01.png[]
+endif::wpf[]

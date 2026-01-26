@@ -1,0 +1,94 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-use-tooltips-in-drilldown-charts",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{7084E1E2-9141-4A21-B96B-CF9D4F468311}",  
+    "buildFlags": ["asp-net","aspnet-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ドリルダウン グラフでツールチップを使用
+
+== ツールチップ
+
+ツールチップは小さいウィンドウで、グラフ項目の一部を説明するヘルプテキストを表示します。マウスを移動したりクリックすることに対応したグラフ項目についての役立つ情報が表示されます。
+
+== ドリルダウン
+
+ドリルダウンは、概要からより詳細な情報に移動する動作です。WebChart では、ドリルダウンは要約グラフの項目をクリックすると他のグラフを生成する動作です。これによって要約されたグラフの元データの詳細を検証できます。例：要約グラフには四半期ごとの売上を要約を示す 4 つの列があります。ドリルダウンで特定の四半期の売上を検証できます。
+
+WebChart でドリルダウンを提供する最も一般的な方法は、他の WebChart で他のページにナビゲートすることです。ただし、「ツールチップ ドリルダウン」を提供することも可能で、要約グラフの異なる部分にマウスを移動すると反応してツールチップに詳細情報が表示されます。
+
+== ツールチップとドリルダウンの結合
+
+以下はツールチップをドリルダウンで結合できる方法の例です。
+
+カテゴリ別に年間コストを示す積層型棒 WebChart を指定すると、ツールチップ ドリルダウンは、コストのカテゴリに各地域がどのように関わっているかの詳細を WebChart 列に示すことができます。
+
+image::images/WebChart_Tooltip_Drilldown_01.png[]
+
+以下は、上記のように指定した要件を満たす方法の例です。
+
+以下の 2 つの ASPX ページを作成します。
+
+* Main.aspx -- 積層型柱状グラフを含みます。
+* BarDrill.aspx -- 棒グラフを含みます。
+
+Main.aspx では、Page_Load イベント ハンドラで、以下のコード例を追加します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Tooltips.FormatString = "<iframe src=BarDrill.aspx?ROW=<DATA_ROW>&COL=<DATA_COLUMN>>"
+----
+
+*C# の場合：*
+
+----
+this.UltraChart1.Tooltips.FormatString = "<iframe src=BarDrill.aspx?ROW=<DATA_ROW>&COL=<DATA_COLUMN>>";
+----
+
+BarDrill.aspx では、Page_Load イベント ハンドラで、以下のコードを追加します。
+
+*Visual Basic の場合：*
+
+----
+Private Sub Page_Load(ByVal sender As System.Object, _
+ByVal e As System.EventArgs) Handles MyBase.Load
+Dim ROW As Integer
+Dim COL As Integer
+If Not Page.Request("ROW") Is Nothing Then
+                ROW = CInt(Page.Request("ROW"))
+End If
+If Not Page.Request("COL") Is Nothing Then
+                COL = CInt(Page.Request("COL"))
+End If
+Me.UltraChart1.DataSource = GetBarData()
+Me.UltraChart1.DataBind()
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void Page_Load(object sender, System.EventArgs e)
+{
+int ROW = 0; 
+int COL = 0; 
+if (Page.Request["ROW"] != null) 
+        { 
+                ROW = int.Parse(Page.Request["ROW"]); 
+        } 
+if (Page.Request["COL"] != null) 
+        { 
+                COL = int.Parse(Page.Request["COL"]); 
+        } 
+this.UltraChart1.Data.DataSource = GetBarData(); 
+this.UltraChart1.Data.DataBind();
+}
+----

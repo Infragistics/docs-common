@@ -1,0 +1,311 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理等高線シリーズの使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールでシリーズの link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] タイプを使用する方法を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックでは、`{GeoMapName}` コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-triangulating-geographic-data.html[地理的データを三角測量]
+|このトピックでは、データ ポイントの三角測量がどのように機能するか、また `{GeoMapName}` コントロールでデータ描画のパフォーマンスをいかに向上できるのかを説明します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックでは、`{GeoMapName}` コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320651776, 地理等高線シリーズ >>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320651783,プレビュー>>
+** <<_Ref320651786,データ要件>>
+** <<_Ref335249132,データ バインディング>>
+** <<_Ref335248897,等高線の塗りつぶしスケール>>
+ifdef::wpf[]
+** <<_Ref335252263,等高線値リゾルバー>>
+endif::wpf[]
+** <<_Ref320651790,例>>
+
+<<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320651776]]
+== 地理等高線シリーズ
+
+[[_Ref320193474]]
+
+=== 概要
+
+`{GeoMapName}` コントロールで、 link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] は、各ポイントに数値が割り当てられた緯度および経度データの三角測量に基づいて、地理的コンテキストで色が付けられた等高線を描画するビジュアル マップ要素です。
+
+このタイプの地理的シリーズは、温度、気圧、降水量、人口分布、地理的データなど地理的位置によって定義された散布データの描画に役に立ちます。 link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] は、塗りつぶしスケールと地理散布エリア シリーズを使用して色がつけられた等高線でデータを表し、カラー スケールを使用して補間された面でデータを表す点を除いて link:{GeoMapLink}.geographicscatterareaseries_members.html[GeographicScatterAreaSeries] と多くの点で同じように機能します。
+
+[[_Ref320651783]]
+
+=== プレビュー
+
+以下は、アメリカの降水量をプロットする link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] のある {GeoMapName} コントロールのプレビューです。濃い青の等高線は降水量が少ないことを示し、明るい赤の等高線は降水量が多いことを示します。
+
+
+image::images/GeographicMap_Using_Geographic_Contour_Line_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== データ要件
+
+`{GeoMapName}` コントロールの地理的シリーズの他のタイプと同様、 link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] には、データ バインディングのための link:{GeoMapLink}.geographiccontourlineseries~{ApiDataSource}.html[ {ApiDataSource}] プロパティがあります。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイスを実装するオブジェクトにバインドできます。
+
+さらに、項目ソースの各項目にはデータ列が 3 つあり、2 つは地理的位置 (経度および緯度座標) を保管し、1 つのデータ列は地理的位置に関連した値を保管します。これらのデータ列は、地理的シリーズの link:{GeoMapLink}.geographicxytriangulatingseries~longitudememberpath.html[LongitudeMemberPath]、 link:{GeoMapLink}.geographicxytriangulatingseries~latitudememberpath.html[LatitudeMemberPath] および link:{GeoMapLink}.geographiccontourlineseries~valuememberpath.html[ValueMemberPath] プロパティによって識別されます。
+
+link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] は、三角測量が link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] プロパティに設定されていない場合、 link:{GeoMapLink}.geographiccontourlineseries~{ApiDataSource}.html[ {ApiDataSource}] の項目で定義済みのデータ三角測量を自動的に実行します。ただし、三角測量の計算は非常に時間のかかるプロセスであるため、このプロパティのために link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] を指定すると、ランタイム パフォーマンスがよくなります。特にデータ項目が多数ある場合には顕著です。
+
+.注:
+[NOTE]
+====
+三角測量データの作成、保存、読み込みのプロセスに関する詳細は、 link:geographicmap-triangulating-geographic-data.html[地理的データを三角測量]を参照してください。
+====
+
+[[_Ref335249132]]
+
+=== データ バインディング
+
+以下の表に、データ バインドに使用される link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] のプロパティをまとめています。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{GeoMapLink}.geographiccontourlineseries~{ApiDataSource}.html[ {ApiDataSource}]
+|IEnumerable
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] プロパティに提供する三角測量データがない場合三角測量を実行するための項目のソースを取得または設定します。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource]
+|IEnumerable
+|三角測量データのソースを取得または設定します。 link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] オブジェクトの link:{DataVizChartsLink}.triangulationsource~triangles.html[Triangles] をこのプロパティに設定すると、ランタイム パフォーマンスと地理的シリーズの描画の両方が向上します。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~longitudememberpath.html[LongitudeMemberPath]
+|String
+| {ApiDataSource} の各項目の経度を含むプロパティの名前。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~latitudememberpath.html[LatitudeMemberPath]
+|String
+| {ApiDataSource} の各項目の緯度を含むプロパティの名前。
+
+| link:{GeoMapLink}.geographiccontourlineseries~valuememberpath.html[ValueMemberPath]
+|String
+| link:{GeoMapLink}.geographiccontourlineseries~fillscale.html[FillScale] プロパティに設定された塗りつぶしスケールによってブラシへの変換が可能な数値を含む各データ項目のプロパティの名前。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglevertexmemberpath1.html[TriangleVertexMemberPath1]
+|String
+| {ApiDataSource} で最初の頂点のインデックスを含む、各三角形の link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] 項目のプロパティ名。このプロパティを設定することは義務ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取られます。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglevertexmemberpath2.html[TriangleVertexMemberPath2]
+|String
+| {ApiDataSource} で最初の頂点のインデックスを含む、各三角形の link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] 項目のプロパティ名。このプロパティを設定することは義務ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取られます。
+
+| link:{GeoMapLink}.geographicxytriangulatingseries~trianglevertexmemberpath3.html[TriangleVertexMemberPath3]
+|String
+| {ApiDataSource} で最初の頂点のインデックスを含む、各三角形の link:{GeoMapLink}.geographicxytriangulatingseries~trianglessource.html[TrianglesSource] 項目のプロパティ名。このプロパティを設定することは義務ではありません。カスタムの三角測量ロジックが提供されない場合はデフォルトで取られます。
+
+|====
+
+[[_Ref335248897]]
+
+=== 等高線の塗りつぶしスケール
+
+link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] の link:{GeoMapLink}.geographiccontourlineseries~fillscale.html[FillScale] を使用して地理的シリーズの等高線の塗りつぶしブラシを解決します。
+
+提供された link:{DataChartLink}.valuebrushscale_members.html[ValueBrushScale] クラスはユーザーのほとんどのカラリング ニーズを満たすはずですが、カスタムのカラリング ロジックのアプリケーションが link:{DataChartLink}.valuebrushscale_members.html[ValueBrushScale] クラスを継承します。
+
+以下の表は link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] の面のカラリングに影響する link:{DataChartLink}.custompalettecolorscale_members.html[CustomPaletteColorScale] プロパティをリストします。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+|Brushes 
+| pick:[wpf="link:{APIPlatform}datavisualization~Infragistics.brushcollection_members.html[BrushCollection]"]pick:[win-forms="Infragistics.Win.DataVisualization.BrushCollection"]
+| link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] の塗りつぶし等高線のためのブラシのコレクションを取得または設定します。
+
+| link:{DataChartLink}.custompalettecolorscale~maximumvalue.html[MaximumValue]
+|double
+|塗りつぶしスケールでブラシを割り当てるための最高値。
+
+| link:{DataChartLink}.custompalettecolorscale~minimumvalue.html[MinimumValue]
+|double
+|塗りつぶしスケールでブラシを割り当てるための最低値。
+
+|====
+
+ifdef::wpf[]
+[[_Ref335252263]]
+
+=== 等高線値リゾルバー
+
+link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] は、 link:{GeoMapLink}.geographiccontourlineseries~valuememberpath.html[ValueMemberPath] プロパティにマップされた項目の最小値と最大値の間を等間隔でちょうど 10 本の等高線を使用して描画します。これより多くの等高線が必要な場合、またはこれより少ない等高線が必要な場合、等高線の数を持つ link:{DataChartLink}.linearcontourvalueresolver_members.html[LinearContourValueResolver] を link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] の link:{GeoMapLink}.geographiccontourlineseries~valueresolver.html[ValueResolver] プロパティに割り当てることができます。
+
+以下のコードは、 link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] の等高線の数を構成する方法を示します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:GeographicContourLineSeries 
+        <ig:GeographicContourLineSeries.ValueResolver>
+                  <ig:LinearContourValueResolver ValueCount="5" />
+        </ig:GeographicContourLineSeries.ValueResolver>
+</ig:GeographicContourLineSeries>
+----
+
+アプリケーションで等高線の位置を決定するには、カスタムの値リゾルバーを実装します。これは、 link:{DataChartLink}.contourvalueresolver_members.html[ContourValueResolver] から継承し link:{DataChartLink}.contourvalueresolver~getcontourvalues.html[GetContourValues] メソッドをオーバーライドすることによって実行されます。
+
+以下のコードは、定義済みの位置に等高線を指定するカスタムの等高線値リゾルバーの実装を示します。
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class CustomValueResolver : Infragistics.Controls.Charts.ContourValueResolver
+{
+    public override IEnumerable<double> GetContourValues(IFastItemColumn<double> valueColumn)
+    {
+        return new double[] {1, 2, 4, 5, 8};
+    }
+}
+----
+endif::wpf[]
+[[_Ref320651790]]
+
+=== 例
+
+以下のコードは、 link:{GeoMapLink}.geographiccontourlineseries_members.html[GeographicContourLineSeries] をアメリカの降水量を表す三角測量データにバインドする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:ItfConverter x:Key="itfConverter" Source="precipitation_observed_20110831.itf" />
+<ig:XamGeographicMap.Series>
+    <ig:GeographicContourLineSeries 
+          ValueMemberPath="Value"  
+          LongitudeMemberPath="Point.X"
+          LatitudeMemberPath="Point.Y"
+          {ApiDataSource}="{Binding TriangulationSource.Points, Source={StaticResource itfConverter}}"
+          TrianglesSource="{Binding TriangulationSource.Triangles, Source={StaticResource itfConverter}}"
+          TriangleVertexMemberPath1="V1"
+          TriangleVertexMemberPath2="V2"
+          TriangleVertexMemberPath3="V3">
+        <ig:GeographicContourLineSeries.FillScale>
+            <ig:ValueBrushScale MinimumValue="0.05" MaximumValue="1.75">
+                        <ig:ValueBrushScale.Brushes>
+                                <SolidColorBrush Color="DarkRed"/>
+                                <SolidColorBrush Color="Red"/>
+                                <SolidColorBrush Color="Orange"/>
+                                <SolidColorBrush Color="Yellow"/>
+                        </ig:ValueBrushScale.Brushes>
+            </ig:ValueBrushScale>
+        </ig:GeographicContourLineSeries.FillScale>
+    </ig:GeographicContourLineSeries>
+</ig:XamGeographicMap.Series>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim itfConverter = New ItfConverter()
+itfConverter.Source = New Uri("precipitation_observed_20110831.itf", UriKind.RelativeOrAbsolute)
+Dim fillScale = New ValueBrushScale()
+fillScale.MinimumValue = 0.05
+fillScale.MinimumValue = 1.75
+fillScale.Brushes = New BrushCollection()
+fillScale.Brushes.Add(New SolidColorBrush(Colors.DarkRed))
+fillScale.Brushes.Add(New SolidColorBrush(Colors.Red))
+fillScale.Brushes.Add(New SolidColorBrush(Colors.Orange))
+fillScale.Brushes.Add(New SolidColorBrush(Colors.Yellow))
+Dim geoSeries = New GeographicContourLineSeries()
+geoSeries.FillScale = fillScale
+geoSeries.LongitudeMemberPath = "Point.X"
+geoSeries.LatitudeMemberPath = "Point.Y"
+geoSeries.TriangleVertexMemberPath1 = "V1"
+geoSeries.TriangleVertexMemberPath2 = "V2"
+geoSeries.TriangleVertexMemberPath3 = "V3"
+geoSeries.{ApiDataSource} = itfConverter.TriangulationSource.Points
+geoSeries.TrianglesSource = itfConverter.TriangulationSource.Triangles
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+var itfConverter = new ItfConverter();
+itfConverter.Source = new Uri("precipitation_observed_20110831.itf", UriKind.RelativeOrAbsolute);
+var fillScale = new ValueBrushScale();
+fillScale.MinimumValue = 0.05;
+fillScale.MinimumValue = 1.75;
+fillScale.Brushes = new BrushCollection();
+fillScale.Brushes.Add(new SolidColorBrush(Colors.DarkRed));
+fillScale.Brushes.Add(new SolidColorBrush(Colors.Red));
+fillScale.Brushes.Add(new SolidColorBrush(Colors.Orange));
+fillScale.Brushes.Add(new SolidColorBrush(Colors.Yellow));
+var geoSeries = new GeographicContourLineSeries();
+geoSeries.FillScale = fillScale;
+geoSeries.LongitudeMemberPath = "Point.X";
+geoSeries.LatitudeMemberPath = "Point.Y";
+geoSeries.TriangleVertexMemberPath1 = "V1";
+geoSeries.TriangleVertexMemberPath2 = "V2";
+geoSeries.TriangleVertexMemberPath3 = "V3";
+geoSeries.{ApiDataSource} = itfConverter.TriangulationSource.Points;
+geoSeries.TrianglesSource = itfConverter.TriangulationSource.Triangles;
+----
+
+[[_Ref320185294]]
+
+== 関連コンテンツ
+
+
+
+このトピックについては、以下のトピックも参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックでは、`{GeoMapName}` コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-triangulating-geographic-data.html[地理的データを三角測量]
+|このトピックでは、データ ポイントの三角測量がどのように機能するか、また `{GeoMapName}` コントロールでデータ描画のパフォーマンスをいかに向上できるのかを説明します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックでは、`{GeoMapName}` コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-scatter-area-series.html[地理散布エリア シリーズの使用]
+|このトピックでは、`{GeoMapName}` コントロールでシリーズの GeographicScatterAreaSeries タイプを使用する方法を提供します。
+
+|====

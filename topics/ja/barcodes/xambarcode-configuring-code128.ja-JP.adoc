@@ -1,0 +1,943 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-configuring-code128",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "8376e007-8d23-4b84-898a-0e6575254214",
+    "buildFlags": [],
+    "createdOn": "2015-09-23T20:38:57.6600296Z"
+}
+|metadata|
+////
+
+= コード 128 の構成
+
+{Barcode128Name} は、高密度の文字数字の可変長コード 126 記号表記を生成します。すべての 256 標準 ASCII 文字エンコーディングおよび 4 記号文字 (NC1、FNC2、FNC3、FNC4) が使用できます。$$*$$
+
+* FNC1 は UCC/EAN128 に使用され、UCC/EAN-128 識別子およびフィールド区切り記号として機能します。
+* FNC2 はバーコード リーダーにデータを保存して次の記号とともにそれを返還するよう指示します。
+* FNC3 は今後のために確保します。
+* FNC4 は、ASCII モードに切り替えるラッチ コード ワードとして使用されます。
+
+.注:
+[NOTE]
+====
+{Barcode128Name} の現在のバージョンは、FNC1 のみ使用します。コントロールは次のバージョンで他の特殊文字機能が向上します。
+====
+
+エンコード プロセスで {Barcode128Name} は 3 コード セット (A、B および C) を内部使用し、最短の記号を生成します。Code 128 には、HRI (Human Readable Interpretation) 文字で表示されないデータの整合性を確認するために必須チェックサム文字を必要です。2 つの 128 コード記号は、CodeType プロパティ (UCC/EAN-128 としても知られる標準および Ucc) によってサポートされ、指定されます。
+
+CodeType を Ucc として設定した場合、コントロールはデータがデータ コンテンツと共に有効なアプリケーション識別子で、更に明示的な形式 (以下のテーブルを参照) で構成されているかどうかを内部チェックします。各アプリケーション識別子は括弧で囲む必要があります。
+
+*例:*
+
+image::images/xamBarcode_XamCode128Barcode_03.png[]
+
+画像からの {Barcode128Name} には Data プロパティが "(11)100518(15)111018(10)17" に設定されています。
+
+以下の例ではデータを読み込み、抽出します。
+
+[start=1]
+. AI (11) はデータ コンテンツが 6 桁の数値で Production Date (YYMMDD) であることを示します。
+
+[start=2]
+. 値 100518 は May 18, 2010 を表します。
+
+[start=3]
+. 第 2 の AI - (15) はデータ コンテンツが Best Before Date (YYMMDD) で 6 桁の数値である必要があることを示します。
+
+[start=4]
+. 値 111018 は 2011 年 10 月 18 日を表します。
+
+[start=5]
+. 最後の AI - (10) はデータ コンテンツが Batch または Lot Number であることを示します。20 桁以下の英数字に設定する必要があります。
+
+[start=6]
+. 値は 17 です。
+
+サポートされるアプリケーション識別子および対応するデータ コンテンツの形式についてはこのトピックの最後にあるテーブルをご覧ください。
+
+== コードレイ:
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+ifdef::xaml[]
+----
+<ig:XamCode128Barcode 
+    x:Name="Barcode" 
+    CodeType="Standard"
+    Data="Code 128" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*Visual Basic の場合:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamCode128Barcode()
+Barcode.Data = "Code 128"
+Barcode.CodeType = Code128CodeType.Standard
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+ifdef::xaml[]
+----
+XamCode128Barcode Barcode = new XamCode128Barcode();
+Barcode.Data = "Code 128";
+Barcode.CodeType = Code128CodeType.Standard;
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+ifdef::android[]
+----
+Code128BarcodeView Barcode = new Code128BarcodeView();
+Barcode.setData("Code 128");
+Barcode.setCodeType(Code128CodeType.Standard);
+----
+endif::android[]
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source]
+----
+Dim barcode As New UltraCode128Barcode With _
+{
+  .Data = "Code 128", _
+  .CodeType = Code128CodeType.Standard _
+}
+this.Controls.Add(barcode)
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source]
+----
+var barcode = new UltraCode128Barcode
+{
+  Data = "Code 128",
+  CodeType = Code128CodeType.Standard
+};
+this.Controls.Add(barcode);
+----
+
+endif::win-forms[]
+
+image::images/xamBarcode_XamCode128Barcode_01.png[]
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+ifdef::xaml[]
+----
+<ig:XamCode128Barcode 
+    x:Name="Barcode" 
+    CodeType="Ucc" 
+    Data="(01)00653216546543" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*Visual Basic の場合:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamCode128Barcode()
+Barcode.Data = "(01)00653216546543"
+Barcode.CodeType = Code128CodeType.Ucc
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+ifdef::xaml[]
+----
+XamCode128Barcode Barcode = new XamCode128Barcode();
+Barcode.Data = "(01)00653216546543";
+Barcode.CodeType = Code128CodeType.Ucc;
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+ifdef::android[]
+----
+Code128BarcodeView bar128 = new Code128BarcodeView();
+bar128.setData("(01)00653216546543");
+bar128.setCodeType(Code128CodeType.Ucc);
+----
+endif::android[]
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source]
+----
+Dim barcode As New UltraCode128Barcode With _
+{
+    .Data = "(01)00653216546543", _
+    CodeType = Code128CodeType.Ucc _
+}
+this.Controls.Add(barcode)
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+var barcode = new UltraCode128Barcode
+{
+  Data = "(01)00653216546543",
+  CodeType = Code128CodeType.Ucc
+};
+this.Controls.Add(barcode);
+----
+
+endif::win-forms[]
+
+image::images/xamBarcode_XamCode128Barcode_02.png[]
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+ifdef::xaml[]
+----
+<ig:XamCode128Barcode 
+    x:Name="Barcode" 
+    CodeType="Ucc" 
+    Data="(11)100518(15)111018(10)17" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*Visual Basic の場合:*
+
+ifdef::xaml[]
+----
+Dim Barcode As New XamCode128Barcode()
+Barcode.Data = "(11)100518(15)111018(10)17"
+Barcode.CodeType = Code128CodeType.Ucc
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::xaml[]
+
+*C# の場合:*
+
+ifdef::xaml[]
+----
+XamCode128Barcode Barcode = new XamCode128Barcode();
+Barcode.Data = "(11)100518(15)111018(10)17";
+Barcode.CodeType = Code128CodeType.Ucc;
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+ifdef::android[]
+----
+Code128BarcodeView bar128 = new Code128BarcodeView();
+bar128.setData("(11)100518(15)111018(10)17");
+bar128.setCodeType(Code128CodeType.Ucc);
+----
+endif::android[]
+
+endif::android[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source]
+----
+Dim barcode As New UltraCode128Barcode With _
+{
+    .Data = "(11)100518(15)111018(10)17", _
+    .CodeType = Code128CodeType.Ucc _
+} 
+this.Controls.Add(barcode)
+----
+
+endif::win-forms[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source]
+----
+var barcode = new UltraCode128Barcode {
+    Data = "(11)100518(15)111018(10)17",
+    CodeType = Code128CodeType.Ucc
+};
+this.Controls.Add(barcode);
+----
+
+endif::win-forms[]
+
+== アプリケーション識別子
+
+*注:*
+
+____
+*(a):* 以下の慣例が適用されます。
+____
+
+____
+*n* - 数値の桁
+
+*an* - 任意の文字
+
+*n3* - 3 桁の数値
+
+*n..3* - 3 桁以下の数値
+
+*an..3* - 3 文字以下
+
+Format field インジケーターの最初の位置は、アプリケーション識別子の長さ (ディジット数) を示します。以下の値はデータ コンテンツの書式を参照します。
+
+例: *AI は n4+n14+an..16* - 4 桁の数値; 14 数値。データ コンテンツは16 桁以下の英数字。
+
+*(b):* は、YYMMDD で年と月のみがある場合、DD　に 0 を2 つ使用します。
+
+*(c):* ポイントの位置は、このアプリケーション識別子の4 番目の桁で示されます。例:
+
+小数点なしで重量 3100 kg
+
+2 小数点で重量 3102 kg
+____
+
+[options="header", cols="a,a,a,a"]
+|====
+|AI|データ コンテンツ|書式 (a)|データ タイトル
+
+|00
+|SSCC (出荷コンテナー シリアル コード)
+|n2+n18
+|SSCC
+
+|01
+|Global Trade Item Number (グローバル取引項目番号)
+|n2+n14
+|GTIN
+
+|02
+|含有取引項目の GTIN
+|n2+n14
+|CONTENT
+
+|10
+|一括またはロット番号
+|n2+an..20
+|BATCH/LOT
+
+|11 (b)
+|製造日
+|n2+n6
+|PROD DATE
+
+|12 (b)
+|期日 (YYMMDD)
+|n2+n6
+|DUE DATE
+
+|13 (b)
+|包装日 (YYMMDD)
+|n2+n6
+|PACK DATE
+
+|15 (b)
+|使用期限 (YYMMDD)
+|n2+n6
+|BEST BEFORE or SELL BY
+
+|17 (b)
+|有効期限 (YYMMDD)
+|n2+n6
+|USE BY OR EXPIRY
+
+|20
+|バリアント ナンバー
+|n2+n2
+|VARIANT
+
+|21
+|シリアル番号
+|n2+an..20
+|SERIAL
+
+|22
+|第 2 データ フィールド
+|n2+an..29
+|QTY /DATE /BATCH
+
+|240
+|追加項目識別
+|n3+an..30
+|ADDITIONAL ID
+
+|241
+|顧客部品番号
+|n3+an..30
+|CUST.PART NO.
+
+|242
+|オーダーメイド バリアント番号
+|n3+n..6
+|MTO VARIANT
+
+|250
+|第 2 シリアル番号
+|n3+an..30
+|SECONDARY SERIAL
+
+|251
+|ソース エンティティへの参照
+|n3+an..30
+|REF.TO SOURCE
+
+|253
+|グローバル ドキュメント タイプ識別子 (GDTI)
+|n3+n13+n..17
+|DOC.ID
+
+|254
+|GLN 拡張コンポーネント
+|n3+an..20
+|GLN EXTENSION
+
+|30
+|項目数 (変数メジャー トレード アイテム)
+|n2+n..8
+|VAR.COUNT
+
+|310 (c)
+|重量、キログラム (変数メジャー トレード アイテム)
+|n4+n6
+|NET WEIGHT (kg)
+
+|311 (c)
+|最初の範囲の長さ、メートル (変数メジャー トレード アイテム)
+|n4+n6
+|LENGTH (m)
+
+|312 (c)
+|幅、直径、または 2 番目の範囲の長さ、メートル (変数メジャー トレード アイテム)
+|n4+n6
+|WIDTH (m)
+
+|313 (c)
+|深さ、太さ、高さ、または 3 番目の範囲、メートル (変数メジャー トレード アイテム)
+|n4+n6
+|HEIGHT (m)
+
+|314 (c)
+|領域、スクエア メートル (変数メジャー トレード アイテム)
+|n4+n6
+|AREA (m²)
+
+|315 (c)
+|実容量、リットル (変数メジャー トレード アイテム)
+|n4+n6
+|NET VOLUME (l)
+
+|316 (c)
+|実容量、キュービック メートル (変数メジャー トレード アイテム)
+|n4+n6
+|NET VOLUME (m³)
+
+|320 (c)
+|重量、キログラム (変数メジャー トレード アイテム)
+|n4+n6
+|NET WEIGHT (kg)
+
+|321 (c)
+|最初の範囲の長さ、インチ (変数メジャー トレード アイテム)
+|n4+n6
+|LENGTH (i)
+
+|322 (c)
+|最初の範囲の長さ、フィート (変数メジャー トレード アイテム)
+|n4+n6
+|LENGTH (f)
+
+|323 (c)
+|最初の範囲の長さ、ヤード (変数メジャー トレード アイテム)
+|n4+n6
+|LENGTH (y)
+
+|324 (c)
+|幅、直径、または 2 番目の範囲の長さ、メートル (変数メジャー トレード アイテム)
+|n4+n6
+|WIDTH (i)
+
+|325 (c)
+|幅、直径、または 2 番目の範囲の長さ、フィート (変数メジャー トレード アイテム)
+|n4+n6
+|WIDTH (f)
+
+|326 (c)
+|幅、直径、または 2 番目の範囲の長さ、ヤード (変数メジャー トレード アイテム)
+|n4+n6
+|WIDTH (y)
+
+|327 (c)
+|深さ、太さ、高さ、または 3 番目の範囲、インチ (変数メジャー トレード アイテム)
+|n4+n6
+|HEIGHT (i)
+
+|328 (c)
+|深さ、太さ、高さ、または 3 番目の範囲、フィート (変数メジャー トレード アイテム)
+|n4+n6
+|HEIGHT (f)
+
+|329 (c)
+|深さ、太さ、高さ、または 3 番目の範囲、ヤード (変数メジャー トレード アイテム)
+|n4+n6
+|HEIGHT (y)
+
+|330 (c)
+|ロジスティック重さ、キログラム
+|n4+n6
+|GROSS WEIGHT (kg)
+
+|331 (c)
+|長さまたは最初の範囲、メートル
+|n4+n6
+|LENGTH (m), log
+
+|332 (c)
+|幅、直径、または 2 番目の範囲の長さ、メートル
+|n4+n6
+|WIDTH (m), log
+
+|333 (c)
+|深さ、太さ、高さ、または 3 番目の範囲、メートル
+|n4+n6
+|HEIGHT (m), log
+
+|334 (c)
+|領域、スクエア メートル
+|n4+n6
+|AREA (m²), log
+
+|335 (c)
+|ロジスティック ボリューム、リットル
+|n4+n6
+|VOLUME (l), log
+
+|336 (c)
+|ロジスティック ボリューム、キュービック リットル
+|n4+n6
+|VOLUME (m³), log
+
+|337 (c)
+|スクエア メートル毎のキログラム
+|n4+n6
+|KG PER m²
+
+|340 (c)
+|ロジスティック重さ、ポンド
+|n4+n6
+|GROSS WEIGHT (kg)
+
+|341 (c)
+|長さまたは最初の範囲、インチ
+|n4+n6
+|LENGTH (i), log
+
+|342 (c)
+|長さまたは最初の範囲、フィート
+|n4+n6
+|LENGTH (f), log
+
+|343 (c)
+|長さまたは最初の範囲、ヤード
+|n4+n6
+|LENGTH (y), log
+
+|344 (c)
+|幅、直径、または 2 番目の範囲の長さ
+|n4+n6
+|WIDTH (i), log
+
+|345 (c)
+|幅、直径、または 2 番目の範囲の長さ
+|n4+n6
+|WIDTH (f), log
+
+|346 (c)
+|幅、直径、または 2 番目の範囲の長さ
+|n4+n6
+|WIDTH (y), log
+
+|347 (c)
+|深さ、太さ、高さ、または 3 番目の範囲
+|n4+n6
+|HEIGHT (i), log
+
+|348 (c)
+|深さ、太さ、高さ、または 3 番目の範囲
+|n4+n6
+|HEIGHT (f), log
+
+|349 (c)
+|深さ、太さ、高さ、または 3 番目の範囲
+|n4+n6
+|HEIGHT (y), log
+
+|350 (c)
+|領域、スクエア インチ (変数メジャー トレード アイテム)
+|n4+n6
+|AREA (i²)
+
+|351 (c)
+|領域、スクエア フィート (変数メジャー トレード アイテム)
+|n4+n6
+|AREA (f²)
+
+|352 (c)
+|領域、スクエア ヤード (変数メジャー トレード アイテム)
+|n4+n6
+|AREA (y²)
+
+|353 (c)
+|領域、スクエア インチ
+|n4+n6
+|AREA (i²), log
+
+|354 (c)
+|領域、スクエア フィート
+|n4+n6
+|AREA (f²), log
+
+|355 (c)
+|領域、スクエア ヤード
+|n4+n6
+|AREA (y²), log
+
+|356 (c)
+|重量、トロイ オンス (変数メジャー トレード アイテム)
+|n4+n6
+|NET WEIGHT (t)
+
+|357 (c)
+|重量 (またはボリューム)、オンス (変数メジャー トレード アイテム)
+|n4+n6
+|NET VOLUME (oz)
+
+|360 (c)
+|実容量、クオート (変数メジャー トレード アイテム)
+|n4+n6
+|NET VOLUME (q)
+
+|361 (c)
+|実容量、ガロン U.S. (変数メジャー トレード アイテム)
+|n4+n6
+|NET VOLUME (g)
+
+|362 (c)
+|ロジスティック ボリューム、クオート
+|n4+n6
+|VOLUME (q), log
+
+|363 (c)
+|ロジスティック ボリューム、ガロン U.S.
+|n4+n6
+|VOLUME (g), log
+
+|364 (c)
+|実容量、キュービック インチ (変数メジャー トレード アイテム)
+|n4+n6
+|VOLUME (i³), log
+
+|365 (c)
+|実容量、キュービック フィート (変数メジャー トレード アイテム)
+|n4+n6
+|VOLUME (f³), log
+
+|366 (c)
+|実容量、キュービック ヤード (変数メジャー トレード アイテム)
+|n4+n6
+|VOLUME (y³), log
+
+|367 (c)
+|ロジスティック ボリューム、キュービック インチ
+|n4+n6
+|VOLUME (q), log
+
+|368 (c)
+|ロジスティック ボリューム、キュービック フィート
+|n4+n6
+|VOLUME (g), log
+
+|369 (c)
+|ロジスティック ボリューム、キュービック ヤード
+|n4+n6
+|VOLUME (i³), log
+
+|37
+|トレード アイテム数
+|n2+n..8
+|COUNT
+
+|390 (c)
+|適用支払額、現地通貨
+|n4+n..15
+|AMOUNT
+
+|391 (c)
+|適用支払額 ISO 通貨コード
+|n4+n3+n..15
+|AMOUNT
+
+|392 (c)
+|適用支払額、単一領域 (変数メジャー トレード アイテム)
+|n4+n..15
+|PRICE
+
+|393 (c)
+|適用支払額 と ISO 通貨コード (変数メジャー トレード アイテム)
+|n4+n3+n..15
+|PRICE
+
+|400
+|顧客の購入オーダー番号
+|n3+an..30
+|ORDER NUMBER
+
+|401
+|委託番号
+|n3+an..30
+|CONSIGNMENT
+
+|402
+|配送識別番号
+|n3+n17
+|SHIPMENT NO.
+
+|403
+|ルーティング コード
+|n3+an..30
+|ROUTE
+
+|410
+|配送先 - グローバル位置番号へ配送
+|n3+n13
+|SHIP TO LOC
+
+|411
+|請求先 - グローバル位置番号へ請求
+|n3+n13
+|BILL TO
+
+|412
+|グローバル位置番号から購入
+|n3+n13
+|PURCHASE FROM
+
+|413
+|配送 - グローバル位置番号へ転送
+|n3+n13
+|SHIP FOR LOC
+
+|414
+|実際の位置グローバル位置番号の ID
+|n3+n13
+|LOC No
+
+|415
+|請求グループのグローバル 位置番号
+|n3+n13
+|PAY TO
+
+|420
+|配送 - 単一郵便局内の郵便番号へ配送
+|n3+an..20
+|SHIP TO POST
+
+|421
+|配送 - ISO 国番号のある郵便番号へ配送
+|n3+n3+an..12
+|SHIP TO POST
+
+|422
+|取引項目の原産国
+|n3+n3
+|ORIGIN
+
+|423
+|最初にプロセスする国
+|n3+n3+n..12
+|COUNTRY - INITIAL PROCESS.
+
+|424
+|プロセスする国
+|n3+n3
+|COUNTRY - PROCESS.
+
+|425
+|分解する国
+|n3+n3
+|COUNTRY - DISASSEMBLY
+
+|426
+|すべてのプロセス チェインをカバーする国
+|n3+n3
+|COUNTRY – FULL PROCESS
+
+|7001
+|NATO ストック番号 (NSN)
+|n4+n13
+|NSN
+
+|7002
+|UN/ECE 食肉処理および 切り分け分類
+|n4+an..30
+|MEAT CUT
+
+|7003
+|有効期限の日と時刻
+|n4+n10
+|EXPIRY TIME
+
+|703s
+|ISO 国番号のあるプロセッサーの承認番号
+|n4+n3+an..27
+|PROCESSOR # s
+
+|8001
+|ロール製品 (幅、長さ、コア径、方向、スパイス )
+|n4+n14
+|DIMENSIONS
+
+|8002
+|携帯電話 ID
+|n4+an..20
+|CMT No
+
+|8003
+|グローバル返却可能アセット ID (GRAI)
+|n4+n14+an..1 6
+|GRAI
+
+|8004
+|グローバル個別アセット ID (GRAI)
+|n4+an..30
+|GIAI
+
+|8005
+|測定単位毎の価格
+|n4+n6
+|PRICE PER UNIT
+
+|8006
+|取引項目のコンポーネント ID
+|n4+n14+n2+n 2
+|GCTIN
+
+|8007
+|インターナショナル銀行アカウント番号 (IBAN)
+|n4+an..30
+|IBAN
+
+|8008
+|製造日時
+|n4+n8+n..4
+|PROD TIME
+
+|8018
+|グローバル サービス レーション番号 (GSRN)
+|n4+n18
+|GSRN
+
+|8020
+|支払伝票参照番号
+|n4+an..25
+|REF No
+
+|8100
+|GS1-128 クーポン拡張コード
+|n4+n6
+|-
+
+|8101
+|GS1-128 クーポン拡張コード
+|n4+n1+n5+n4
+|-
+
+|8102
+|GS1-128 クーポン拡張コード
+|n4+n1+n1
+|-
+
+|8110
+|北アメリカ用クーポン コード ID
+|n4+an..30
+|-
+
+|90
+|トレード パートナー間で相互に合意した情報
+|n2+an..30
+|INTERNAL
+
+|91 から 99
+|会社内部情報
+|n2+an..30
+|INTERNAL
+
+|====

@@ -1,0 +1,330 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= Chart Selection
+
+=== Purpose
+This topic introduces the concept of chart's selection functionality and guides you to the discussion of types of options available. This feature allows users to interactively select, highlight, outline and vice-versa deselect single or multiple series within a chart. This provides many different possibilities with how users interact with the data presented in more meaningful ways.
+
+== Configuring Selection
+The default behavior link:{CategoryChartLink}.{CategoryChartName}{ApiProp}SelectionMode.html[SelectionMode] turned off and requires opting into one of the following options. There are several selection modes available in the link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}]:
+
+- `Auto`
+- `None`
+- `Brighten`
+- `FadeOthers`
+- `GrayscaleOthers`
+- `FocusColorThickOutline`
+- `FocusColorOutline`
+- `SelectionColorThickOutline`
+- `SelectionColorOutline`
+- `FocusColorFill`
+- `SelectionColorFill`
+- `ThickOutline`
+
+Brighten will fade the selected item while FadeOthers will cause the opposite effect occur. `GrayscaleOthers` will behave similarily to FadeOthers but instead show a gray color to the rest of the series. Note this will override any SelectionBrush setting. `SelectionColorOutline` and `SelectionColorThickOutline` will draw a border around the series.
+
+In conjuction, a link:{CategoryChartLink}.{CategoryChartName}{ApiProp}SelectionBehavior.html[SelectionBehavior] is available to provide greater control on which items get selected. The default behavior for `Auto` is `PerSeriesAndDataItemMultiSelect`.
+
+- `Auto`
+- `PerDataItemMultiSelect`
+- `PerDataItemSingleSelect`
+- `PerSeriesAndDataItemMultiSelect`
+- `PerSeriesAndDataItemSingleSelect`
+- `PerSeriesAndDataItemGlobalSingleSelect`
+- `PerSeriesMultiSelect`
+- `PerSeriesSingleSelect`
+
+`PerSeriesAndDataItemGlobalSingleSelect` allows any one series to be selected at once across all categories compared to `PerSeriesSingleSelect` that selects the same series for every category at once.
+
+The following is a code example that implements single series selection across all categories example:
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="Chart" SelectionMode="SelectionColorFill" SelectionBehavior="PerSeriesSingleSelect">
+    <ig:{CategoryChartName}.Series>
+        <ig:ColumnSeries ValueMemberPath="Coal"           
+        </ig:ColumnSeries>
+		<ig:ColumnSeries ValueMemberPath="Gas"           
+        </ig:ColumnSeries>
+    </ig:{CategoryChartName}.Series>
+</ig:{CategoryChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new XamCategoryChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesSingleSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new UltraCategoryChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesSingleSelect;
+----
+
+endif::win-forms[]
+
+== Configuring Multiple Selection
+
+Data Item selection will limit one series to be selected across the chart, unless you set use one with that includes series in the name. eg. `PerSeriesAndDataItemMultiSelect`. This has no restraints.  
+
+Other selection modes offer various methods of selection. For example using link:{CategoryChartLink}.{CategoryChartName}{ApiProp}SelectionBehavior.html[SelectionBehavior] with PerDataItemMultiSelect will select all series in entire category when multiple series are present, but only one category at a time, deselecting anything selected previously. 
+
+You would use "PerDataItemSingleSelect" selection when your series are bound to the same data source and you want to select all items in a record in that datasource. For example if the records in the datasource have fields label, value1, value2 and series 1 is bound to value1 and series 2 is bound to value2 then selecting a point on either series would select values from both series.
+
+The following is a code example that implements multiple selection across all data items and series:
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="Chart" SelectionMode="SelectionColorFill" SelectionBehavior="PerSeriesAndDataItemMultiSelect">
+</ig:{CategoryChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new XamCategoryChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new UltraCategoryChart();
+chart.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+== Configuring Outline Selection
+A `FocusBrush` can be applied to style the outline of a series, along with the selection modes. Selected series will appear with a border when the link:{CategoryChartLink}.{CategoryChartName}{ApiProp}SelectionMode.html[SelectionMode] property is set to one of the focus options.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="Chart" FocusBrush="Green" SelectionMode="FocusColorThickOutline" SelectionBehavior="PerSeriesAndDataItemMultiSelect">
+</ig:{CategoryChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new XamCategoryChart();
+this.ColumnChart.FocusBrush = new SolidColorBrush(Colors.Green);
+chart.SelectionMode = SeriesSelectionMode.FocusColorThickOutline;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+var chart = new UltraCategoryChart();
+this.ColumnChart.FocusBrush = Colors.Green; 
+chart.SelectionMode = SeriesSelectionMode.FocusColorThickOutline;
+chart.SelectionBehavior = SeriesSelectionBehavior.PerSeriesAndDataItemMultiSelect;
+----
+
+endif::win-forms[]
+
+= Programmatic Selection
+
+In situations where an applications may need to have the selection programmed in code or to have selected items in the chart on startup. This can be achieved by adding items to the `SelectedSeriesCollection`. The "Matcher" property of the ChartSelection object.
+
+The matcher is ideal for using in charts when you do not have access to the actual series, like the data chart. In this case you if you know the properties that your datasource contained you can surmise the ValueMemberPaths that the series would have. For example, if you datasource has numeric properties Nuclear, Coal, Oil, Solar then you know there are series created for each of these properties. If you want to highlight the series bound to Solar values, you can add a ChartSelection object to the `SelectedSeriesItems` collection using a matcher with the following properties set
+   
+   Matcher.MemberPathType = "Value"
+   Matcher.MemberPath = "Solar"
+
+The following example uses dummy data found here:
+
+link:https://www.infragistics.com/help/wpf/resources-sample-energy-data[EnergyRenewableConsumption]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+    System.Windows.Forms.Timer timer;
+    public Form1()
+    {
+        InitializeComponent();
+
+        this.Load += Form1_Load;
+    }
+
+    private void Form1_Load(object? sender, EventArgs e)
+    {
+        this.ultraCategoryChart1.DataSource = new EnergyRenewableConsumption();
+        this.ultraCategoryChart1.SelectionMode = SeriesSelectionMode.SelectionColorFill;
+        this.ultraCategoryChart1.SelectionBehavior = SeriesSelectionBehavior.Auto;
+        this.ultraCategoryChart1.SelectionBrush = new SolidBrush(Color.Orange);
+        timer = new System.Windows.Forms.Timer();
+        timer.Interval = 100;
+        timer.Start();
+        timer.Tick += Timer_Tick;
+    }
+
+    private void Timer_Tick(object? sender, EventArgs e)
+    {
+        addSelection();
+        timer.Stop();
+    }
+
+    private void addSelection()
+    {
+        var chart = this.ultraCategoryChart1;
+        if (chart.DataSource != null)
+        {
+
+            ChartSelection selection = new ChartSelection();
+            selection.Item = ((EnergyRenewableConsumption)(this.ultraCategoryChart1.DataSource))[1];
+            SeriesMatcher matcher = new SeriesMatcher();
+            matcher.MemberPath = "Solar";
+            matcher.MemberPathType = "ValueMemberPath";
+            selection.Matcher = matcher;
+
+            chart.SelectedSeriesItems.Add(selection);
+
+            selection = new ChartSelection();
+            selection.Item = ((EnergyRenewableConsumption)(this.ultraCategoryChart1.DataSource))[1];
+            matcher = new SeriesMatcher();
+            matcher.MemberPath = "Hydro";
+            matcher.MemberPathType = "ValueMemberPath";
+
+            selection.Matcher = matcher;
+
+            chart.SelectedSeriesItems.Add(selection);
+        }
+    }
+}
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+---
+System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+
+public MainWindow()
+{
+    InitializeComponent();
+
+    DataContext = new SampleViewModel();					
+
+	this.Loaded += (s,e) => {
+
+        dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+        dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+        dispatcherTimer.Start();
+    };
+}
+
+private void dispatcherTimer_Tick(object sender, EventArgs e)
+{
+    addSelection();
+}
+
+private void addSelection()
+{
+    var chart = this.chart;
+    if (chart.ItemsSource != null)
+    {
+
+        ChartSelection selection = new ChartSelection();
+        selection.Item = ((SampleViewModel)DataContext).EnergyRenewableConsumption[1];
+        SeriesMatcher matcher = new SeriesMatcher();
+        matcher.MemberPath = "Solar";
+        matcher.MemberPathType = "ValueMemberPath";
+        selection.Matcher = matcher;
+
+        chart.SelectedSeriesItems.Add(selection);
+
+        selection = new ChartSelection();
+        selection.Item = ((SampleViewModel)DataContext).EnergyRenewableConsumption[1];
+        matcher = new SeriesMatcher();
+        matcher.MemberPath = "Hydro";
+        matcher.MemberPathType = "ValueMemberPath";
+
+        selection.Matcher = matcher;
+
+        chart.SelectedSeriesItems.Add(selection);
+    }
+}
+---
+
+endif::wpf[]
+
+
+= Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:categorychart-overview.html[Overview]
+|This topic provides a conceptual overview of the Category Chart control.
+
+|====

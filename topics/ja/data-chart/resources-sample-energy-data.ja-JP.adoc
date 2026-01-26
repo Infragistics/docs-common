@@ -1,0 +1,494 @@
+﻿////
+
+|metadata|
+{
+    "name": "resources-sample-energy-data",
+    "controlName": [],
+    "tags": [],
+    "guid": "c7f6d3d3-2278-4166-b503-e06c66ac2cb9",  
+    "buildFlags": [],
+    "createdOn": "2014-09-24T18:12:43.19847Z"
+}
+|metadata|
+////
+
+= サンプル エネルギー データ
+
+=== 目的
+
+このトピックでは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}]コントロールおよびその link:datachart-category-series-overview.html[カテゴリ シリーズ]pick:[wpf,win-forms,android="およびlink:datachart-stacked-series-overview.html[積層シリーズ]"]タイプで使用するデータおよびデータ モデルを提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<RequiredNamespaces,必須の名前空間>>
+* <<DataModel,データ モデル>>
+* <<DataSource,データ ソース>> 
+
+[[RequiredNamespaces]]
+=== 必須の名前空間
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel; 
+using System.ComponentModel;
+using System.Linq;
+namespace Infragistics.Models
+{
+  // TODO add data model
+  // TODO add data source 
+}
+----
+
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports System
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+Imports System.Linq 
+Namespace Infragistics.Models
+   ' TODO add data model
+   ' TODO add data source
+End Namespace
+----
+
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+import java.util.ArrayList;
+import java.util.Random;
+// TODO add data model
+// TODO add data source 
+----
+
+endif::android[]
+
+[[DataModel]]
+=== データ モデル
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class EnergyProduction
+{
+    public string Country { get; set; }
+    public string Region { get; set; }
+    public string Year { get; set; }
+
+    // Non-Renewable Energy Sources
+    public double Nuclear { get; set; }
+    public double Coal { get; set; }
+    public double Oil { get; set; }
+    public double Gas { get; set; }
+    // Renewable Energy Sources
+    public double Hydro { get; set; }
+    public double GeoThermal { get; set; }
+    public double Solar { get; set; }        
+    public double Wind { get; set; }
+
+    public double Total { get { return Renewable + NonRenewable; } }
+    public double Renewable { get { return Hydro + GeoThermal + Wind + Solar; } }
+    public double NonRenewable { get { return Coal + Oil + Gas + Nuclear; } }
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class EnergyProduction
+    Public Property Country As String
+    Public Property Region As Double
+    Public Property Year As Double
+    Public Property Nuclear As Double
+    Public Property Coal As Double
+    Public Property Oil As Double
+    Public Property Gas As Double
+    Public Property Hydro As Double
+    Public Property GeoThermal As Double
+    Public Property Solar As Double
+    Public Property Wind As Double
+    Public Property NonRenewable As Double Get Return Coal + Oil + Gas + Nuclear End Get End Property
+    Public Property Renewable As Double Get Return Hydro + GeoThermal + Wind + Solar End Get End Property
+    Public Property Total As Double Get Return Renewable + NonRenewable End Get End Property
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class EnergyProduction 
+{
+    private String _country;
+    public String getCountry() {
+        return _country;
+    }
+    public String setCountry(String country) {
+        _country = country;
+        return _country;
+    }
+    private String _region;
+    public String getRegion() {
+        return _region;
+    }
+    public String setRegion(String region) {
+        _region = region;
+        return _region;
+    }
+    private String _year;
+    public String getYear() {
+        return _year;
+    }
+    public String setYear(String year) {
+        _year = year;
+        return _year;
+    }
+    // Non-Renewable Energy Sources
+    private double _nuclear;
+    public double getNuclear() {
+        return _nuclear;
+    }
+    public double setNuclear(double value) {
+        _nuclear = value;
+        UpdateValues();
+        return _nuclear;
+    }
+    private double _coal;
+    public double getCoal() {
+        return _coal;
+    }
+    public double setCoal(double value) {
+        _coal = value;
+        UpdateValues();
+        return _coal;
+    }
+    private double _oil;
+    public double getOil() {
+        return _oil;
+    }
+    public double setOil(double value) {
+        _oil = value;
+        UpdateValues();
+        return _oil;
+    }
+    private double _gas;
+    public double getGas() {
+        return _gas;
+    }
+    public double setGas(double value) {
+        _gas = value;
+        UpdateValues();
+        return _gas;
+    }
+    // Renewable Energy Sources
+    private double _hydro;
+    public double getHydro() {
+        return _hydro;
+    }
+    public double setHydro(double value) {
+        _hydro = value;
+        UpdateValues();
+        return _hydro;
+    }
+    private double _geoThermal;
+    public double getGeoThermal() {
+        return _geoThermal;
+    }
+    public double setGeoThermal(double value) {
+        _geoThermal = value;
+        UpdateValues();
+        return _geoThermal;
+    }
+    private double _solar;
+    public double getSolar() {
+        return _solar;
+    }
+    public double setSolar(double value) {
+        _solar = value;
+        UpdateValues();
+        return _solar;
+    }
+    private double _wind;
+    public double getWind() {
+        return _wind;
+    }
+    public double setWind(double value) {
+        _wind = value;
+        UpdateValues();
+        return _wind;
+    }
+    private double _total;
+    public double getTotal(){
+        return _total;
+    }
+    public double setTotal(double value) {
+        _total = value;
+        return _total;
+    }
+    private double _renewable;
+    public double getRenewable(){
+        return _renewable;
+    }
+    public double setRenewable(double value) {
+        _renewable = value;
+        return _renewable;
+    }
+    private double _nonRenewable;
+    public double getNonRenewable(){
+        return _nonRenewable;
+    }
+    public double setNonRenewable(double value) {
+        _nonRenewable = value;
+        return _nonRenewable;
+    }
+    public void UpdateValues() {
+        this._renewable = _hydro + _geoThermal + _wind + _solar;
+        this._nonRenewable = _coal + _oil + _gas + _nuclear;
+        this._total = this._renewable + this._nonRenewable;
+    }
+    public EnergyProduction(String region, String year, String country, double coal, double oil, double gas, double nuclear, double hydro){
+        _region = region;
+        _year = year;
+        _country = country;
+        _coal = coal;
+        _oil = oil;
+        _gas = gas;
+        _nuclear = nuclear;
+        _hydro = hydro;
+        UpdateValues();
+    }
+}
+----
+endif::android[]
+
+[[DataMSource]]
+=== データ ソース
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class EnergyDataSource : List<EnergyProduction>
+{
+    public EnergyDataSource()
+    {
+        this.Add(new EnergyProduction { Region = "America", Country = "CAN", Coal = 400, Oil = 100, Gas = 175, Nuclear = 225, Hydro = 350 });
+        this.Add(new EnergyProduction { Region = "Asia", Country = "CHN", Coal = 925, Oil = 200, Gas = 350, Nuclear = 400, Hydro = 625 });
+        this.Add(new EnergyProduction { Region = "Europe", Country = "RUS", Coal = 550, Oil = 200, Gas = 250, Nuclear = 475, Hydro = 425 });
+        this.Add(new EnergyProduction { Region = "Asia", Country = "AUS", Coal = 450, Oil = 100, Gas = 150, Nuclear = 175, Hydro = 350 });
+        this.Add(new EnergyProduction { Region = "America", Country = "USA", Coal = 800, Oil = 250, Gas = 475, Nuclear = 575, Hydro = 750 });
+        this.Add(new EnergyProduction { Region = "Europe", Country = "FRA", Coal = 375, Oil = 150, Gas = 350, Nuclear = 275, Hydro = 325 });
+    }
+}
+
+public class EnergyDataHistory : List<EnergyProduction>
+{
+    public EnergyDataHistory()
+    {
+        this.Add(new EnergyProduction { Year = "2000", Country = "Canada", Coal = 400, Oil = 100, Gas = 175, Nuclear = 225, Hydro = 350 });
+        this.Add(new EnergyProduction { Year = "2010", Country = "Canada", Coal = 450, Oil = 150, Gas = 225, Nuclear = 255, Hydro = 400 });
+        this.Add(new EnergyProduction { Year = "2020", Country = "Canada", Coal = 300, Oil = 200, Gas = 275, Nuclear = 325, Hydro = 450 });
+        this.Add(new EnergyProduction { Year = "2000", Country = "China", Coal = 825, Oil = 200, Gas = 350, Nuclear = 400, Hydro = 625 });
+        this.Add(new EnergyProduction { Year = "2010", Country = "China", Coal = 925, Oil = 250, Gas = 400, Nuclear = 420, Hydro = 685 });
+        this.Add(new EnergyProduction { Year = "2020", Country = "China", Coal = 975, Oil = 300, Gas = 450, Nuclear = 450, Hydro = 725 });
+        this.Add(new EnergyProduction { Year = "2000", Country = "Russia", Coal = 550, Oil = 200, Gas = 250, Nuclear = 475, Hydro = 425 });
+        this.Add(new EnergyProduction { Year = "2010", Country = "Russia", Coal = 600, Oil = 220, Gas = 280, Nuclear = 525, Hydro = 485 });
+        this.Add(new EnergyProduction { Year = "2020", Country = "Russia", Coal = 650, Oil = 250, Gas = 350, Nuclear = 575, Hydro = 525 });
+        this.Add(new EnergyProduction { Year = "2000", Country = "Australia", Coal = 450, Oil = 100, Gas = 150, Nuclear = 175, Hydro = 350 });
+        this.Add(new EnergyProduction { Year = "2010", Country = "Australia", Coal = 480, Oil = 120, Gas = 250, Nuclear = 225, Hydro = 400 });
+        this.Add(new EnergyProduction { Year = "2020", Country = "Australia", Coal = 550, Oil = 180, Gas = 350, Nuclear = 275, Hydro = 450 });
+        this.Add(new EnergyProduction { Year = "2000", Country = "United States", Coal = 800, Oil = 250, Gas = 475, Nuclear = 575, Hydro = 750 });
+        this.Add(new EnergyProduction { Year = "2010", Country = "United States", Coal = 850, Oil = 300, Gas = 525, Nuclear = 625, Hydro = 800 });
+        this.Add(new EnergyProduction { Year = "2020", Country = "United States", Coal = 900, Oil = 350, Gas = 575, Nuclear = 675, Hydro = 850 });
+        this.Add(new EnergyProduction { Year = "2000", Country = "France", Coal = 375, Oil = 150, Gas = 350, Nuclear = 275, Hydro = 325 });
+        this.Add(new EnergyProduction { Year = "2010", Country = "France", Coal = 425, Oil = 200, Gas = 400, Nuclear = 325, Hydro = 385 });
+        this.Add(new EnergyProduction { Year = "2020", Country = "France", Coal = 455, Oil = 250, Gas = 450, Nuclear = 375, Hydro = 425 });
+    }
+}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class EnergyDataSource Inherits List(Of EnergyProduction)
+    Public Sub New()
+        Me.Add(New EnergyProduction() With { .Region = "America", .Country = "Canada", .Coal = 400, .Oil = 100, .Gas = 175, .Nuclear = 225, .Hydro = 350 })
+        Me.Add(New EnergyProduction() With { .Region = "Asia", .Country = "China", .Coal = 925, .Oil = 200, .Gas = 350, .Nuclear = 400, .Hydro = 625 })
+        Me.Add(New EnergyProduction() With { .Region = "Europe", .Country = "Russia", .Coal = 550, .Oil = 200, .Gas = 250, .Nuclear = 475, .Hydro = 425 })
+        Me.Add(New EnergyProduction() With { .Region = "Asia", .Country = "Australia", .Coal = 450, .Oil = 100, .Gas = 150, .Nuclear = 175, .Hydro = 350 })
+        Me.Add(New EnergyProduction() With { .Region = "America", .Country = "United States", .Coal = 800, .Oil = 250, .Gas = 475, .Nuclear = 575, .Hydro = 750 })
+        Me.Add(New EnergyProduction() With { .Region = "Europe", .Country = "France", .Coal = 375, .Oil = 150, .Gas = 350, .Nuclear = 275, .Hydro = 325 })
+    End Sub
+End Class
+    
+Public Class EnergyDataHistory Inherits List(Of EnergyProduction) 
+    Public Sub New()
+        Me.Add(New EnergyProduction() With { .Year = "2000", .Country = "Canada", .Coal = 400, .Oil = 100, .Gas = 175, .Nuclear = 225, .Hydro = 350 })
+        Me.Add(New EnergyProduction() With { .Year = "2010", .Country = "Canada", .Coal = 450, .Oil = 150, .Gas = 225, .Nuclear = 255, .Hydro = 400 })
+        Me.Add(New EnergyProduction() With { .Year = "2020", .Country = "Canada", .Coal = 300, .Oil = 200, .Gas = 275, .Nuclear = 325, .Hydro = 450 })
+        Me.Add(New EnergyProduction() With { .Year = "2000", .Country = "China", .Coal = 825, .Oil = 200, .Gas = 350, .Nuclear = 400, .Hydro = 625 })
+        Me.Add(New EnergyProduction() With { .Year = "2010", .Country = "China", .Coal = 925, .Oil = 250, .Gas = 400, .Nuclear = 420, .Hydro = 685 })
+        Me.Add(New EnergyProduction() With { .Year = "2020", .Country = "China", .Coal = 975, .Oil = 300, .Gas = 450, .Nuclear = 450, .Hydro = 725 })
+        Me.Add(New EnergyProduction() With { .Year = "2000", .Country = "Russia", .Coal = 550, .Oil = 200, .Gas = 250, .Nuclear = 475, .Hydro = 425 })
+        Me.Add(New EnergyProduction() With { .Year = "2010", .Country = "Russia", .Coal = 600, .Oil = 220, .Gas = 280, .Nuclear = 525, .Hydro = 485 })
+        Me.Add(New EnergyProduction() With { .Year = "2020", .Country = "Russia", .Coal = 650, .Oil = 250, .Gas = 350, .Nuclear = 575, .Hydro = 525 })
+        Me.Add(New EnergyProduction() With { .Year = "2000", .Country = "Australia", .Coal = 450, .Oil = 100, .Gas = 150, .Nuclear = 175, .Hydro = 350 })
+        Me.Add(New EnergyProduction() With { .Year = "2010", .Country = "Australia", .Coal = 480, .Oil = 120, .Gas = 250, .Nuclear = 225, .Hydro = 400 })
+        Me.Add(New EnergyProduction() With { .Year = "2020", .Country = "Australia", .Coal = 550, .Oil = 180, .Gas = 350, .Nuclear = 275, .Hydro = 450 })
+        Me.Add(New EnergyProduction() With { .Year = "2000", .Country = "United States", .Coal = 800, .Oil = 250, .Gas = 475, .Nuclear = 575, .Hydro = 750 })
+        Me.Add(New EnergyProduction() With { .Year = "2010", .Country = "United States", .Coal = 850, .Oil = 300, .Gas = 525, .Nuclear = 625, .Hydro = 800 })
+        Me.Add(New EnergyProduction() With { .Year = "2020", .Country = "United States", .Coal = 900, .Oil = 350, .Gas = 575, .Nuclear = 675, .Hydro = 850 })
+        Me.Add(New EnergyProduction() With { .Year = "2000", .Country = "France", .Coal = 375, .Oil = 150, .Gas = 350, .Nuclear = 275, .Hydro = 325 })
+        Me.Add(New EnergyProduction() With { .Year = "2010", .Country = "France", .Coal = 425, .Oil = 200, .Gas = 400, .Nuclear = 325, .Hydro = 385 })
+        Me.Add(New EnergyProduction() With { .Year = "2020", .Country = "France", .Coal = 455, .Oil = 250, .Gas = 450, .Nuclear = 375, .Hydro = 425 })
+    End Sub
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class EnergyDataSource extends ArrayList<EnergyProduction>
+{
+    public EnergyDataSource()
+    {
+        this.add(new EnergyProduction("America","","Canada",400,100,175,225,350));
+        this.add(new EnergyProduction("Asia","","China",925,200,350,400,625));
+        this.add(new EnergyProduction("Europe","","Russia",550,200,250,475,425));
+        this.add(new EnergyProduction("Asia","","Australia",450,100,150,175,350));
+        this.add(new EnergyProduction("America","","United States",800,250,475,575,750));
+        this.add(new EnergyProduction("Europe","","France",375,150,350,275,325));
+    }
+}
+
+public class EnergyDataHistory extends ArrayList<EnergyProduction>
+{
+    public EnergyDataHistory()
+    {
+        this.add(new EnergyProduction("","2000","Canada",400,100,175,225,350));
+        this.add(new EnergyProduction("","2010","Canada",450,150,225,255,400));
+        this.add(new EnergyProduction("","2020","Canada",300,200,275,325,450));
+        this.add(new EnergyProduction("","2000","China",825,200,350,400,625));
+        this.add(new EnergyProduction("","2010","China",925,250,400,420,685));
+        this.add(new EnergyProduction("","2020","China",975,300,450,450,725));
+        this.add(new EnergyProduction("","2000","Russia",550,200,250,475,425));
+        this.add(new EnergyProduction("","2010","Russia",600,220,280,525,485));
+        this.add(new EnergyProduction("","2020","Russia",650,250,350,575,525));
+        this.add(new EnergyProduction("","2000","Australia",450,100,150,175,350));
+        this.add(new EnergyProduction("","2010","Australia",480,120,250,225,400));
+        this.add(new EnergyProduction("","2020","Australia",550,180,350,275,450));
+        this.add(new EnergyProduction("","2000","United States",800,250,475,575,750));
+        this.add(new EnergyProduction("","2010","United States",850,300,525,625,800));
+        this.add(new EnergyProduction("","2020","United States",900,350,575,675,850));
+        this.add(new EnergyProduction("","2000","France",375,150,350,275,325));
+        this.add(new EnergyProduction("","2010","France",425,200,400,325,385));
+        this.add(new EnergyProduction("","2020","France",455,250,450,375,425));
+    }
+}
+----
+endif::android[]
+
+=== 監視可能なモデル
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+    public abstract class ObservableModel : INotifyPropertyChanged
+    {
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+        #endregion
+	}
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public MustInherit Class ObservableModel
+    Implements INotifyPropertyChanged
+    
+    #Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler
+    Protected Sub OnPropertyChanged(propertyName As String)
+        Dim handler As PropertyChangedEventHandler = Me.PropertyChanged
+        RaiseEvent handler(Me, New PropertyChangedEventArgs(propertyName))
+    End Sub
+    #Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler
+    Protected Sub OnPropertyChanged(propertyName As String)
+        Dim handler As PropertyChangedEventHandler = Me.PropertyChanged
+        RaiseEvent handler(Me, New PropertyChangedEventArgs(propertyName))
+    End Sub
+End Class
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public abstract class ObservableModel implements INotifyPropertyChanged
+{
+        public PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(String propertyName)
+        {
+        if(this.PropertyChanged != null) 
+        {
+            PropertyChanged.invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+};
+----
+
+endif::android[]

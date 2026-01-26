@@ -1,0 +1,234 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= Adding {GeoMapName} to a Page
+
+
+
+=== Purpose
+
+This topic provides information on how to add the link:{GeoMapLink}.{GeoMapName}.html[{GeoMapName}]™ control to an application page.
+
+=== Required Background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:geographicmap.html[{GeoMapName}]
+|This topic provides an overview of key features in the _{GeoMapName}_ control.
+
+|====
+
+=== In This Topic
+
+This topic contains the following sections
+
+* <<_Ref320185118,Adding {GeoMapName} to Page>>
+
+** <<_Ref320185129,Introduction>>
+** <<_Ref320186496,Preview>>
+** <<_Ref320185134,Requirements>>
+** <<_Ref320186499,Overview>>
+** <<_Ref320186502,Steps>>
+
+* <<_Ref320185294,Related Content>>
+
+[[_Ref320185118]]
+== Adding {GeoMapName} to a Page
+
+[[_Ref320185129]]
+
+=== Introduction
+
+The _{GeoMapName}_ control is designed to display geo-spatial data from shape files and geographic locations from view models on geographic imagery maps. However, this topic focuses on adding the _{GeoMapName}_ control with the minimum code and property settings required for display. By default the _{GeoMapName}_ control is displayed with geographic imagery tiles from Open Street Map service.
+
+[[_Ref320186496]]
+
+=== Preview
+
+The following is a preview of the _{GeoMapName}_ control with geographic imagery tiles from Open Street Map service.
+
+image::images/GeographicMap_Adding_GeographicMap_to_Page_1.png[]
+
+[[_Ref320185134]]
+
+=== Requirements
+
+The following table summarizes the requirements for adding the _{GeoMapName}_ control.
+
+[options="header", cols="a,a"]
+|====
+| *Requirement* | *Description* 
+
+|Prerequisites
+|To complete the procedure section of this topic, you need to create a {PlatformName} project.
+
+|Data
+|The _{GeoMapName}_ control does not require any data for its rendering because it displays geographic imagery tiles from Open Street Map in its background content. However, the _{GeoMapName}_ control can also display geo-spatial data from shape files and geographic locations from view models. Refer to the following topics for more information on how this is accomplished and for data requirements: 
+
+* link:geographicmap-using-geographic-imagery.html[Using Geographic Imagery] 
+
+* link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data] 
+
+* link:geographicmap-binding-geographic-data-models.html[Binding Geographic Data Models] 
+
+|====
+
+[[_Ref320186499]]
+
+=== Overview
+
+The following is a conceptual overview of the process:
+
+[start=1]
+. *Reference Infragistics assemblies in your project* 
+[start=2]
+. *Add Infragistics namespaces to your application's view* 
+[start=3]
+. *Add the Geographic Map control to your application's view* 
+[start=4]
+. *Verify the results* 
+
+[[_Ref320186502]]
+
+=== Steps
+
+The following procedure takes you step-by-step toward adding the _{GeoMapName}_ control to a page.
+
+ifdef::wpf[]
+
+=== Reference Infragistics NuGet packages
+
+Add the following Infragistics NuGet package to your application:
+
+** Infragistics.WPF.GeographicMap
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+=== Reference Infragistics assemblies in your project.
+
+[start=1]
+. Right click on your project and select the Add References… menu item.
+[start=2]
+. In the Add References dialog, browse to and add the following Infragistics assemblies:
+ 
+* {ApiPlatform}{GeoMapAssembly}{ApiVersion}.dll
+* {ApiPlatform}{GeoMapAssemblyBase}{ApiVersion}.dll
+* {ApiPlatform}{DataVizAssembly}{ApiVersion}.dll
+* {ApiPlatform}Portable.Core{ApiVersion}.dll
+
+endif::win-forms[]
+
+
+=== Add Infragistics namespaces to your application's view.
+
+In the application page, add the following namespace declarations:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Imports {GeoMapNamespace}
+----
+
+*In C#:*
+
+[source,csharp]
+----
+using {GeoMapNamespace};
+----
+
+=== Add the Geographic Map control to your application's view.
+
+The following code demonstrates adding the _{GeoMapName}_ control with the minimum code and property settings required for display:
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+<Grid x:Name="LayoutRoot">
+    <ig:XamGeographicMap x:Name="GeoMap" />
+</Grid>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Dim geoMap As New {GeoMapName}()
+ifdef::wpf[]
+Me.LayoutRoot.Children.Add(geoMap)
+endif::wpf[]
+ifdef::win-forms[]
+Me.Controls.Add(geoMap)
+endif::win-forms[]
+----
+
+*In C#:*
+
+[source,csharp]
+----
+var geoMap = new {GeoMapName}();
+ifdef::wpf[]
+this.LayoutRoot.Children.Add(geoMap);
+endif::wpf[]
+ifdef::win-forms[]
+this.Controls.Add(geoMap)
+endif::win-forms[]
+----
+
+=== Verify the results.
+
+Build and run your project to verify the result. If you have implemented the steps correctly, the displayed _{GeoMapName}_ should look like the one in the <<_Ref320186496,Preview>> section above.
+
+[[_Ref320185294]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+| *Topic* | *Purpose* 
+
+| link:geographicmap-using-geographic-imagery.html[Using Geographic Imagery]
+|This topic provides information on how to bind geographic imagery in the _{GeoMapName}_ control.
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[Binding Shape Files with Geo-spatial Data]
+|This topic provides information on how to bind shape files with geo-spatial data to the _{GeoMapName}_ control.
+
+| link:geographicmap-binding-geographic-data-models.html[Binding Geographic Data Models]
+|This topic provides information on how to bind a view model with geo-spatial data to the _{GeoMapName}_ control
+
+| link:geographicmap-navigating-map-content.html[Navigating Map Content]
+|This topic provides information on how to navigate the map content of the _{GeoMapName}_ control.
+
+| link:geographicmap-api-overview.html[API Overview]
+|This topic provides an API overview of key classes and properties of the _{GeoMapName}_ control and its components.
+
+|====

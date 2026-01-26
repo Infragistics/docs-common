@@ -1,0 +1,184 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-datavalidation",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "51124d15-4a0c-4393-93da-6b69bc33ecc5",  
+    "buildFlags": [],
+    "createdOn": "2011-10-18T18:39:13.2454635Z"
+}
+|metadata|
+////
+
+= Data Validation
+
+This topic outlines the data validation support in the Infragistics Excel Engine and provides a code example demonstrating usage.
+
+The topic is organized as follows:
+
+* <<One,Introduction>>
+* <<Two,Data Validation>>
+
+** <<TwoOne,Overview>>
+** <<TwoTwo,Code Example>>
+
+* <<Three,Related Topics>>
+
+[[One]]
+== Introduction
+
+Data validation is the process of verifying user-entered data based on specific requirements before committing the value. The Infragistics Excel Engine allows you to set validation rules on worksheets, individual cells, or even multiple cells. Using data validation is useful when you want users to enter data that needs to stay within specified criteria.
+
+.Note
+[NOTE]
+====
+The Excel Engine can create Microsoft Excel files without having Microsoft Excel installed, but to open the file, you will need to have an application compatible with the Microsoft Excel format.
+====
+
+The table below lists the supported validation rule types and provides a description.
+
+[options="header", cols="a,a"]
+|====
+|Rule Type|Description
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.anyvaluedatavalidationrule.html[AnyValueDataValidationRule]"] 
+|Allows any value to be set on the target cells.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.listdatavalidationrule.html[ListDataValidationRule]"] 
+|Allows only a specific set of values to be set on the target cells.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.customdatavalidationrule.html[CustomDataValidationRule]"] 
+|Uses a custom formula to validate the value set on the target cells
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.oneconstraintdatavalidationrule.html[OneConstraintDataValidationRule]"] 
+|Allows any value to be set on the target cells if it is of a certain type and passes a conditional test relative to one other value. The value can be enforced to be one of the following types: date, time, decimal, whole number, or text. When the type is text, the length of the text is used when testing the conditional constraint.
+
+| pick:[win-forms=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] pick:[asp-net=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] pick:[win-forms-old=" link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] pick:[aspnet-old=" link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.twoconstraintdatavalidationrule.html[TwoConstraintDataValidationRule]"] 
+|Allows any value to be set on the target cells if it is of a certain type and passes a conditional test relative to two other values. The value can be enforced to be one of the following types: date, time, decimal, whole number, or text. When the type is text, the length of the text is used when testing the conditional constraints.
+
+|====
+
+[[Two]]
+== Data Validation
+
+[[TwoOne]]
+== Overview
+
+The code snippet below creates a workbook with the following properties:
+
+* Workbook Named: output.xls
+* Worksheet Named: Validation
+* Rule Type: ListDataValidationRule
+* Valid Values: cat, dog, bird, goat, sheep, turtle, horse, chicken
+* Cell Validated: A1
+
+[[TwoTwo]]
+== Code Example
+
+*In C#:*
+
+----
+// Create the workbook with one worksheet called Validation
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("Validation");
+// Create a variable for the base data validation rule
+DataValidationRule dataRule = null;
+// Create a variable for the worksheet reference collection
+WorksheetReferenceCollection cellCollection = null;
+// Create a variable for a worksheet cell
+WorksheetCell wsc = null;
+// Create a new list data validation rule
+ListDataValidationRule ld = new ListDataValidationRule();
+// Copy the validation rule reference to the base data rule variable
+dataRule = ld;
+// Allow the worksheet cell to contain null values
+ld.AllowNull = true;
+// Allow the showing of the drop down for valid cell values
+ld.ShowDropdown = true;
+// Set the A1 cell's valid values
+ld.SetValuesFormula("=\"cat, dog, bird, goat, sheep, turtle, horse, chicken\"", "A1");
+// Reference the worksheet cell in the collection
+cellCollection = new WorksheetReferenceCollection(worksheet, "A1");
+// Add the error message information
+dataRule.ErrorMessageDescription = "Invalid value entered.";
+dataRule.ErrorMessageTitle = "Validation Error";
+dataRule.ErrorStyle = DataValidationErrorStyle.Stop;
+// Add the input message information
+dataRule.InputMessageDescription = "Type or select a value from the list.";
+dataRule.InputMessageTitle = "Value Selection";
+// Set whether or not to display the error message after an invalid value was entered
+dataRule.ShowErrorMessageForInvalidValue = true;
+// Set whether or not to display the input message
+dataRule.ShowInputMessage = true;
+// Add the data validation to the worksheet
+worksheet.DataValidationRules.Add(dataRule, cellCollection);
+try
+{
+    // Save the created workbook
+    workbook.Save("output.xls");
+    // Open the workbook to display the results
+    System.Diagnostics.Process.Start("output.xls");
+}
+catch
+{
+    MessageBox.Show("Please close any open instances of Excel.",
+        "Error Opening Workbook",
+        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+}
+----
+
+*In Visual Basic:*
+
+----
+' Create the workbook with one worksheet called Validation
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("Validation")
+' Create a variable for the base data validation rule
+Dim dataRule As DataValidationRule = Nothing
+' Create a variable for the worksheet reference collection
+Dim cellCollection As WorksheetReferenceCollection = Nothing
+' Create a variable for a worksheet cell
+Dim wsc As WorksheetCell = Nothing
+' Create a new list data validation rule
+Dim ld As New ListDataValidationRule()
+' Copy the validation rule reference to the base data rule variable
+dataRule = ld
+' Allow the worksheet cell to contain null values
+ld.AllowNull = True
+' Allow the showing of the drop down for valid cell values
+ld.ShowDropdown = True
+' Set the A1 cell's valid values
+ld.SetValuesFormula("=""cat, dog, bird, goat, sheep, turtle, horse, chicken""", "A1")
+' Reference the worksheet cell in the collection
+cellCollection = New WorksheetReferenceCollection(worksheet, "A1")
+' Add the error message information
+dataRule.ErrorMessageDescription = "Invalid value entered."
+dataRule.ErrorMessageTitle = "Validation Error"
+dataRule.ErrorStyle = DataValidationErrorStyle.[Stop]
+' Add the input message information
+dataRule.InputMessageDescription = "Type or select a value from the list."
+dataRule.InputMessageTitle = "Value Selection"
+' Set whether or not to display the error message after an invalid value was entered
+dataRule.ShowErrorMessageForInvalidValue = True
+' Set whether or not to display the input message
+dataRule.ShowInputMessage = True
+' Add the data validation to the worksheet
+worksheet.DataValidationRules.Add(dataRule, cellCollection)
+Try
+    ' Save the created workbook
+    workbook.Save("output.xls")
+    ' Open the workbook to display the results
+    System.Diagnostics.Process.Start("output.xls")
+Catch
+    MessageBox.Show("Please close any open instances of Excel.", "Error Opening Workbook", MessageBoxButtons.OK, MessageBoxIcon.[Stop])
+End Try
+----
+
+[[Three]]
+== Related Topics
+
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Accessing Cells and Regions by their Reference Strings]
+* link:excelengine-create-a-workbook.html[Create a Workbook]
+* link:excelengine-write-a-workbook-to-an-excel-file.html[Write a Workbook to an Excel File]

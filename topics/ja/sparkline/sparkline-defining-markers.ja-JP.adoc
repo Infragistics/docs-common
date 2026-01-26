@@ -1,0 +1,290 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-defining-markers",
+    "controlName": ["{SparklineName}"],
+    "tags": ["API","Charting","Layouts","Styling"],
+    "guid": "a727b367-959f-4ff3-ae80-868e37929a67",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2563877Z"
+}
+|metadata|
+////
+
+= マーカーの定義
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、コード例を示して、 link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}]™ コントロールのマーカーを定義する方法を説明します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、{SparklineName} コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+|====
+
+=== このトピックの構成
+
+このトピックには次のセクションがあります。
+
+* <<_Ref317083829,マーカーを定義 - 概念的概要>>
+
+** <<_Ref317161385,概要>>
+** <<_Ref317161389,プロパティ設定>>
+** <<_Ref317161394,例>>
+** <<_Ref317179476,マーカーの構成>>
+
+* <<_Ref317083809,マーカーを定義 - コード例>>
+
+** <<_Ref317161460,説明>>
+** <<Preview,プレビュー>>
+** <<_Ref317161464,コード>>
+
+* <<_Ref317161501,関連コンテンツ>>
+
+[[_Ref317083802]]
+[[_Ref317083829]]
+== マーカーを定義 - 概念的概要
+
+[[_Ref317161385]]
+
+=== 概要
+
+マーカーは、 _X/Y_   座標に基づいて個別のデータ ポイントを示すために、スパークライン上にオーバーレイ表示されたシンボル (円形の色が付いたアイコン) です。マーカーは、タイプ pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Line]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Line]"]、 pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Area]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Area]"] および pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Column]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Column]"] のスパークラインで設定できます。スパークラインの pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[WinLoss]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[WinLoss]"] タイプはマーカーを受け入れません。
+
+マーカーは、最初、最後、最高、最低、および負の各データ ポイント、またその組み合わせで表示できます。
+
+既定では、マーカーは表示されません。
+
+[[_Ref317161389]]
+
+=== プロパティ設定
+
+以下の表では、マーカーの表示に関するタスクをそれらを構成するプロパティ設定にマップしています。
+
+注: Collapsed 設定は、表示されないマーカーのデフォルトの状態を示します。
+
+[options="header", cols="a,a,a"]
+|====
+|以下を行うために:|プロパティ|次に設定
+
+|[[_Hlk317185178]] 
+
+すべてのマーカーを表示
+| link:sparkline-sparkline-property-reference.html#MarkerVisibility[MarkerVisibility]
+| _Visible_ 
+
+|すべてのマーカーを非表示
+| link:sparkline-sparkline-property-reference.html#MarkerVisibility[MarkerVisibility] 
+
+| _Collapsed_ 
+
+|最初のデータ ポイントでマーカーを表示
+| link:sparkline-sparkline-property-reference.html#FirstMarkerVisibility[FirstMarkerVisibility]
+| _Visible_ 
+
+|最初のデータ ポイントでマーカーを非表示
+| link:sparkline-sparkline-property-reference.html#FirstMarkerVisibility[FirstMarkerVisibility] 
+
+| _Collapsed_ 
+
+|最後のデータ ポイントでマーカーを表示
+| link:sparkline-sparkline-property-reference.html#LastMarkerVisibility[LastMarkerVisibility]
+| _Visible_ 
+
+|最後のデータ ポイントのマーカーを非表示にする
+| link:sparkline-sparkline-property-reference.html#LastMarkerVisibility[LastMarkerVisibility] 
+
+| _Collapsed_ 
+
+|最高のデータ ポイントでマーカーを表示
+| link:sparkline-sparkline-property-reference.html#HighMarkerVisibility[HighMarkerVisibility]
+| _Visible_ 
+
+|最高値のデータ ポイントのマーカーを非表示にする
+| link:sparkline-sparkline-property-reference.html#HighMarkerVisibility[HighMarkerVisibility]
+| _Collapsed_ 
+
+|最低のデータ ポイントでマーカーを表示
+| link:sparkline-sparkline-property-reference.html#LowMarkerVisibility[LowMarkerVisibility]
+| _Visible_ 
+
+|最低値のデータ ポイントのマーカーを非表示にする
+| link:sparkline-sparkline-property-reference.html#LowMarkerVisibility[LowMarkerVisibility]
+| _Collapsed_ 
+
+|負のデータ ポイントでマーカーを表示
+| link:sparkline-sparkline-property-reference.html#NegativeMarkerVisibility[NegativeMarkerVisibility]
+| _Visible_ 
+
+|負のデータ ポイントのマーカーを非表示にする
+| link:sparkline-sparkline-property-reference.html#NegativeMarkerVisibility[NegativeMarkerVisibility]
+| _Collapsed_ 
+
+|====
+
+[[_Ref317161394]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、スパークラインがどのように表示されるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+| *プロパティ* | *値* 
+
+| link:{SparklineLink}.{SparklineName}~markervisibility.html[MarkerVisibility]
+| _Visible_ 
+
+| link:{SparklineLink}.{SparklineName}~markersize.html[MarkerSize]
+| _15_ 
+
+|====
+
+image::images/Sparkline_Defining_Markers_1.png[]
+
+[[_Ref317179476]]
+
+=== マーカーの構成
+
+マーカーは、以下の点で構成できます。
+
+* 最初、最後、最高、最低および負の値などを個々に、または組み合わせて示すようにデータ ポイントを選択します。詳細は、<<_Ref317161389,プロパティ設定>>のブロックを参照してください。
+
+* サイズ
+
+* 色
+
+マーカーのサイズおよび色を構成する方法の詳細については、 link:sparkline-configuring-markers.html[「マーカーを構成」]のトピックを参照してください。
+
+[[_Ref317083809]]
+== マーカーを定義 - コード例
+
+[[_Ref317161460]]
+
+=== 説明
+
+以下のコードは、以下のデータ ポイントにマーカーを表示する方法を示します:
+
+* 最初のデータ ポイント
+
+* 最後のデータ ポイント
+
+* すべての負のデータ ポイント上
+
+[[Preview]]
+
+=== プレビュー
+
+…
+
+image::images/Sparkline_Defining_Markers_2.png[]
+
+[[_Ref317161464]]
+
+=== コード
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<igSparkline:{SparklineName}
+                MarkerVisibility="Collapsed"
+                HighMarkerVisibility="Collapsed"
+                LowMarkerVisibility="Collapsed"
+                FirstMarkerVisibility="Visible"
+                LastMarkerVisibility="Visible"
+                NegativeMarkerVisibility="Visible" />
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.MarkerVisibility = System.Windows.Visibility.Collapsed;
+this.{SparklineName}1.LowMarkerVisibility = System.Windows.Visibility.Collapsed;
+this.{SparklineName}1.HighMarkerVisibility = System.Windows.Visibility.Collapsed;
+this.{SparklineName}1.FirstMarkerVisibility = System.Windows.Visibility.Visible;
+this.{SparklineName}1.LastMarkerVisibility = System.Windows.Visibility.Visible;
+this.{SparklineName}1.NegativeMarkerVisibility = System.Windows.Visibility.Visible;
+----
+
+ifdef::sl,wpf,win-phone,win-universal[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.MarkerVisibility = System.Windows.Visibility.Collapsed
+Me.{SparklineName}1.LowMarkerVisibility = System.Windows.Visibility.Collapsed
+Me.{SparklineName}1.HighMarkerVisibility = System.Windows.Visibility.Collapsed
+Me.{SparklineName}1.FirstMarkerVisibility = System.Windows.Visibility.Visible
+Me.{SparklineName}1.LastMarkerVisibility = System.Windows.Visibility.Visible
+Me.{SparklineName}1.NegativeMarkerVisibility = System.Windows.Visibility.Visible
+----
+endif::sl,wpf,win-phone,win-universal[] 
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+ifdef::win-forms[] 
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.MarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Collapsed;
+this.{SparklineName}1.LowMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Collapsed;
+this.{SparklineName}1.HighMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Collapsed;
+this.{SparklineName}1.FirstMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Visible;
+this.{SparklineName}1.LastMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Visible;
+this.{SparklineName}1.NegativeMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Visible;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.MarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Collapsed
+Me.{SparklineName}1.LowMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Collapsed
+Me.{SparklineName}1.HighMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Collapsed
+Me.{SparklineName}1.FirstMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Visible
+Me.{SparklineName}1.LastMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Visible
+Me.{SparklineName}1.NegativeMarkerVisibility = Infragistics.Portable.Components.UI.Visibility.Visible
+----
+endif::win-forms[] 
+
+[[_Ref317161501]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+| link:sparkline-configuring-markers.html[マーカーの構成]
+|このトピックは、コード例を示して、 _{SparklineName}_ コントロールのマーカーを構成し、カスタマイズする方法を説明します。
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+|====

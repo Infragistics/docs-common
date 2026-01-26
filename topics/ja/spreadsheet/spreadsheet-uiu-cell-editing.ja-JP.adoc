@@ -1,0 +1,189 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-uiu-cell-editing",
+    "tags": ["Getting Started","Editing"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "78c2b472-22c3-4810-9cb9-a4ed8d4a3e6a",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0454051Z"
+}
+|metadata|
+////
+
+= セル編集のインタラクション ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、セルを編集する場合にユーザーが実行できる操作を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+|pick:[xaml="link:excelengine-about-infragistics-excel-engine.html[Infragistics Excel Engine について]"] pick:[win-forms="link:excelengine-understanding-the-infragistics-excel-engine.html[Infragistics Excel Engine について]"] 
+
+|このセクションでは、 _Infragistics Excel Engine_ のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-visual-elements.html[視覚要素の概要 ({SpreadsheetName})] 
+
+|このトピックでは、 _{SpreadsheetName}_ コントロールの視覚要素の概要を紹介します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref389813068, セルの編集 >>
+* <<_Ref389661717, ユーザー インタラクションと操作性 >>
+* <<_Ref389661722, 関連コンテンツ >>
+
+[[_Ref389813068]]
+== セルの編集
+
+=== セル編集の概要
+
+ユーザーは、{SpreadsheetName} のアクティブ セルの値を編集することができます。セル値は、セルが編集モードの場合に編集できます。このトピックの以下で説明する入力デバイスに応じて、コントロールは編集モードに入る複数の方法をサポートします。セル値を編集し新しい入力を確認した後、コントロールは、アクティブ セルを隣接するセルへ自動的に移動する場合があります。
+
+.注:
+[NOTE]
+====
+ユーザーが 2 つ以上のワークシートを選択された場合、セルのコンテンツを編集すると、すべての選択されたワークシートで同じアドレスのセルに同じセル コンテンツは設定されます。
+====
+
+[[_Ref389661717]]
+== ユーザー インタラクションと操作性
+
+=== ユーザー インタラクションの概要表
+
+以下の表では、 _{SpreadsheetName}_   コントロールのユーザー インタラクション機能を簡単に説明します。
+
+[options="header", cols="a,a,a,a"]
+|====
+|目的|方法|詳細|構成可能
+
+|セル編集モードに入る
+|
+* 特定のセルをダブルクリックする 
+
+* 特定のセルがアクティブである場合、`F2` キーを押す 
+
+|指定されたセルは編集モードに入り、ユーザーはそのコンテンツを変更できます
+|image::images/No.png[]
+
+|セル編集モードに入り、現在の値を置き換える
+|
+* 特定のセルがアクティブである場合、入力を開始する 
+
+* `バックスペース` キーを押す 
+
+|現在のセル値は、キーボードにより入力された値で置き換えられます。古い値は、`Ctrl+Z` キーを押すと、復元されます。
+|image::images/No.png[]
+
+|セル編集を終了し、新規入力を確認する
+|
+* `Enter` を押す 
+
+* `Ctrl+Enter` キーを押す 
+
+* `Ctrl+Shift+Enter` キーを押す 
+
+* 現在編集されているセルの外部をクリックします 
+
+|新規入力は、基となるワークシートの古いセル値を置き換えます。 
+
+コントロールの構成に応じて、アクティブ セルが隣接するセルに移動することがあります。 
+
+`Ctrl+Enter` の組み合わせは、すべての選択されたセルに変更を適用します。 
+
+`Ctrl+Shift+Enter` の組み合わせは、すべての選択されたセルに変更を適用し、入力された数式を配列数式として解析します。
+|image::images/Yes.png[] 
+
+link:spreadsheet-conf-cell-editing.html[セル編集の構成 ({SpreadsheetName})]
+
+|セル値をナビゲートまたはセルを使用してナビゲートする
+|矢印キー
+|ユーザーが、セルをダブルクリックまたは入力を開始して編集モードに入った場合、矢印キーを押すと、押した矢印キーに応じて、隣接するセルにナビゲートします。 
+
+ifdef::xaml[] 
+.注:
+[NOTE] 
+==== 
+矢印キーにセル値をナビゲートさせる必要がある場合は、セルが編集モードに入ったときに、コードで `ToggleCellEditMode` コマンドを発生させることができます。 コマンド発生の詳細については、  link:spreadsheet-work-commands.html[「コマンドの操作 ({SpreadsheetName})」]のトピックを参照してください。 
+==== 
+endif::xaml[] 
+
+ユーザーが `F2` キーを押して編集モード入った場合、左および右矢印キーを押すと、セル値を使用してナビゲートします。
+|image::images/No.png[]
+
+|セル編集を終了し、新規入力を破棄する
+|`ESC` キーを押す
+|現在編集されているセルが、編集モードを終了します。古いセル値は保持されます。
+|image::images/No.png[]
+
+|====
+
+.注:
+[NOTE]
+====
+すべてのコミットされたセル編集の変更は、基になるワークシートのデータに直接適用されます。
+====
+
+ifdef::xaml[]
+.注:
+[NOTE]
+====
+ワークシートの編集を無効にする場合は、「 link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集の無効化 (Infragistics Excel Engine)]」のトピックを参照してください。
+====
+endif::xaml[]
+
+[[_Ref389661722]]
+== 関連コンテンツ
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-uiu-activation-navigation.html[アクティベーションとナビゲーションのインタラクション ({SpreadsheetName})]
+|このトピックでは、コントロールのセルをナビゲートする場合にサポートされるユーザー操作を説明します。
+
+ifdef::xaml[]
+| link:spreadsheet-uiu-context-menu.html[コンテキスト メニューのインタラクション ({SpreadsheetName})]
+|このトピックでは、コントロールのコンテキスト メニューを使用してユーザーが実行できる操作を説明します。
+endif::xaml[]
+
+| link:spreadsheet-uiu-formula-bar.html[数式バーのインタラクション ({SpreadsheetName})]
+|このトピックでは、数式バーを使用するときにサポートされるユーザー操作を説明します。
+
+| link:spreadsheet-uiu-selection.html[選択のインタラクション ({SpreadsheetName})]
+|このトピックでは、セル、行、または列を選択する場合にサポートされるユーザー操作を説明します。
+
+| link:spreadsheet-uiu-tab-bar-area.html[タブ バー領域のインタラクション ({SpreadsheetName})]
+|このトピックでは、ワークシートと対話する場合にユーザーが実行できる操作を説明します。
+
+|====

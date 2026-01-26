@@ -1,0 +1,80 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-use-the-paintelements-elementtype-property",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{2EED04F6-BE61-42AD-9B26-AECD00C50217}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= PaintElement の ElementType プロパティを使用する
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  は ElementType という別のプロパティを提供します。ElementType プロパティは、塗りつぶし、グラデーション、ハッチ、テクスチャのいずれかの画像に対応するプロパティが指定されると更新されます。
+
+PaintElement が複数の塗りつぶし効果に割り当てられた値を持っている場合がありますが、開発者はそれらのひとつだけに適用したい場合があります。通常、最近使用した効果固有の設定が優先されます。ただし、ひとつの PaintElement に複数の塗りつぶしが定義されている場合開発者は、アクティブな塗りつぶしを選択する際に ElementType プロパティを調整する必要があります。
+
+以下の例は、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、グラデーションをプリミティブに適用できるように ElementType を修正する方法を示します。この例を展開して、チャートに使用可能なその他の ElementTypes を使用できます。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Shared.Styles
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+ Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b As Box = Nothing
+		b = CType(e.Primitive, Box)
+		If Not b Is Nothing AndAlso b.Row = 0 AndAlso b.Column = 2 Then
+			b.PE = b.PE.Clone()
+			' UltraChart にグラデーションの塗りつぶしを使用することを知らせます。
+			b.PE.ElementType = PaintElementType.Gradient
+			' ボックスの色を設定します。
+			b.PE.Fill = Color.Blue
+			b.PE.FillStopColor = Color.Cyan
+			' グラデーションとハッチの両方の塗りつぶしを初期化します。
+			b.PE.FillGradientStyle = GradientStyle.Vertical
+			b.PE.Hatch = FillHatchStyle.LargeGrid
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b = e.Primitive as Box;
+		if(b != null && b.Row == 0 && b.Column == 2)
+        {
+			b.PE = b.PE.Clone();
+			// Chart にグラデーションの塗りつぶしを使用することを知らせます。
+			b.PE.ElementType = PaintElementType.Gradient;
+			// ボックスの色を設定します。
+			b.PE.Fill = Color.Blue;
+			b.PE.FillStopColor = Color.Cyan;
+			// グラデーションとハッチの両方の塗りつぶしを初期化します。
+			b.PE.FillGradientStyle = GradientStyle.Vertical;
+			b.PE.Hatch = FillHatchStyle.LargeGrid;
+        }
+	}
+}
+----
+
+image::images/Chart_Use_the_PaintElements_ElementType_Property_01.png[]

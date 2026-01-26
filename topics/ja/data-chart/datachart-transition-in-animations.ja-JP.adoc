@@ -1,0 +1,321 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-transition-in-animations",
+    "tags": ["Getting Started","How Do I"],
+    "controlName": ["{DataChartName}"],
+    "guid": "e7671634-cd16-4022-8ba5-0535aa789308",  
+    "buildFlags": ["wpf","win-universal"],
+    "createdOn": "2014-06-05T19:45:38.0668069Z"
+}
+|metadata|
+////
+
+= チャート トランジション イン アニメーション
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールのトランジション アニメーション機能およびサポートされるシリーズのリストについての情報を提供します。
+
+=== 前提条件
+
+このトピックを理解するためには、以下のトピックを理解しておく必要があります:
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-getting-started-with-datachart.html[{DataChartName} を使用した作業の開始]
+|このトピックでは、簡単なデータ オブジェクト モデルを {DataChartName} で使用する方法を示します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref368408265,概要>>
+
+** <<_Ref368408282,概要>>
+** <<_Ref368408307,サポートされるシリーズ>>
+** <<_Ref368065506,サポートされるトランジションのタイプ>>
+** <<_Ref368408334,サポートされるトランジションのスピード タイプ>>
+** <<_Ref368408345,サポートされるイージング関数のタイプ>>
+
+* <<_Ref368408391,トランジションイン アニメーションを構成する>>
+
+** <<_Ref368408402,概要>>
+** <<_Ref368408409,例>>
+
+* <<_Ref368408420,関連コンテンツ>>
+
+[[_Ref368408265]]
+== 概要
+
+[[_Ref368408282]]
+
+=== 概要
+
+この機能は、新しいデータ ソースを読み込むときにシリーズをアニメーション化することを許可します。利用可能なアニメーションは、シリーズのタイプに基づきます。たとえば、 link:{DataChartLink}.columnseries_members.html[ColumnSeries] は x 軸から高めるとアニメーションを再生します。link:{DataChartLink}.lineseries_members.html[LineSeries] は y 軸から描画するとアニメーションを再生します。
+
+デフォルトでアニメーション トランジションは無効ですが、 link:{DataChartLink}.categoryseries{ApiProp}istransitioninenabled.html[IsTransitionInEnabled] を "True" に設定してトランジションイン アニメーションを有効にできます。
+
+アニメーション化されたトランジションのトランジション タイプ、データ ポイントに相対するスピード、およびイージング関数によって管理されるイージング トランジションを構成できます。
+
+[[_Ref368408307]]
+
+=== サポートされるシリーズ
+
+以下のシリーズ タイプはトランジションイン アニメーション機能をサポートします。
+
+* link:datachart-category-series-overview.html[カテゴリ シリーズ]
+* link:datachart-category-range-area-series.html[範囲カテゴリ シリーズ]
+* link:datachart-series-financial-price-series-overview.html[財務シリーズ]
+* link:datachart-financial-indicators-overview.html[財務指標]
+
+[[_Ref368065506]]
+
+=== サポートされるトランジションのタイプ
+
+移動および方向に基づいて複数のアニメーション トランジションのタイプがサポートされます。
+
+* FromZero - シリーズが数値軸の参照値からトランジションします。
+* アコーディオンタイプ トランジション:
+
+** 側面から:
+
+*** AccordionFromLeft – シリーズは左側からアコーディオンします。
+*** AccordionFromRight – シリーズは右側からアコーディオンします。
+*** AccordionFromTop – シリーズは上側からアコーディオンします。
+*** AccordionFromBottom – シリーズは下側からアコーディオンします。
+
+** 軸から:
+
+*** AccordionFromCategoryAxisMinimum – シリーズはカテゴリ軸の最小値からアコーディオンします。
+*** AccordionFromCategoryAxisMaximum – シリーズはカテゴリ軸の最大値からアコーディオンします。
+*** AccordionFromValueAxisMaximum – シリーズは値軸の最大値からアコーディオンします。
+*** AccordionFromValueAxisMinimum – シリーズは値軸の最小値からアコーディオンします。
+
+* Expand – シリーズは値の中点から展開します。
+* スウィープタイプ トランジション:
+
+** 側面から:
+
+*** SweepFromLeft – シリーズは左側からスイープします。
+*** SweepFromRight – シリーズは右側からスイープします。
+*** SweepFromTop – シリーズは上側からスイープします。
+*** SweepFromBottom – シリーズは下側からスイープします。
+*** SweepFromCenter – シリーズは中央からスイープします。
+
+** 軸から:
+
+*** SweepFromCategoryAxisMaximum – シリーズはカテゴリ軸の最大値からスイープします。
+*** SweepFromCategoryAxisMinimum – シリーズはカテゴリ軸の最小値からスイープします。
+*** SweepFromValueAxisMaximum – シリーズは値軸の最大値からスイープします。
+*** SweepFromValueAxisMinimum – シリーズは値軸の最小値からスイープします。
+
+[[_Ref368408334]]
+
+=== サポートされるトランジションのスピード タイプ
+
+トランジションのスピード タイプは、アニメーション化されたトランジションが再生されているときに、現在シリーズの項目に相対するスピードを決定します。以下のはスピード タイプです:
+
+* Auto – 自動的にスピード タイプを選択します。
+* IndexScaled – データ ポイントのインデックスが軸基点から離れた場合、そのポイントのアニメーションは遅いです。
+* Normal – すべてのスピードは標準です。データ ポイントが同じ時間に表示されます。
+* Random – データ ポイントがランダム時間に表示されます。
+* ValueScaled – データ ポイントの値が開始ポイントから離れた場合、そのポイントのアニメーションは遅いです。
+
+[[_Ref368408345]]
+
+=== サポートされるイージング関数のタイプ
+
+イージング関数は、アニメーションのイーズ インする方法を決定します。イージング関数を適用できます。デフォルト値は CubicEase です。
+
+[[_Configuring_the_Transition]]
+[[_Ref368408391]]
+== トランジションイン アニメーションを構成する
+
+[[_Ref368408402]]
+
+=== 概要
+
+トランジション タイプは、 link:{DataChartLink}.categoryseries{ApiProp}transitioninmode.html[TransitionInMode] プロパティをトランジション名に設定すると構成します。プロパティを "Auto" (デフォルト値) に設定すると、シリーズ タイプに基づいてトランジション タイプは自動的に選択されます。
+
+[[_Ref368408409]]
+
+=== 例
+
+以下の例では、以下の設定の結果、トランジション イン アニメーションが有効になり、シリーズ列を右側からアコーディオンできる方法を示します。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{DataChartLink}.categoryseries{ApiProp}istransitioninenabled.html[IsTransitionInEnabled]
+| "True"
+
+| link:{DataChartLink}.series{ApiProp}transitioninspeedtype.html[TransitionInSpeedType]
+| "IndexScaled"
+
+| link:{DataChartLink}.series{ApiProp}transitionineasingfunction.html[TransitionInEasingFunction]
+| "CubicEase"
+
+|====
+
+以下のコードはこの例を実装します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="Chart" >
+ <ig:{DataChartName}.Series>
+   <ig:ColumnSeries IsTransitionInEnabled="True"
+      TransitionInSpeed="IndexSpeed">
+      <ig:ColumnSeries.TransitionInEasingFunction>
+        <CubicEase />
+      </ig:ColumnSeries.TransitionInEasingFunction>
+   </ig:ColumnSeries>
+ </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamDataChart x:Name="Chart" >
+ <ig:XamDataChart.Series>
+    <ig:ColumnSeries IsTransitionInEnabled="True"
+      TransitionInSpeed="IndexSpeed">
+      <ig:ColumnSeries.TransitionInEasingFunction>
+        <CubicEase />
+      </ig:ColumnSeries.TransitionInEasingFunction>
+   </ig:ColumnSeries>
+ </ig:XamDataChart.Series>
+</ig:XamDataChart>
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var series = new ColumnSeries();
+series.IsTransitionInEnabled = true;
+series.TransitionInSpeed = TransitionInSpeedType.IndexSpeed;  
+series.TransitionInEasingFunction = System.Windows.Media.Animation.CubicEase;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var series = new ColumnSeries();
+series.IsTransitionInEnabled = true;
+series.TransitionInSpeed = TransitionInSpeedType.IndexSpeed;  
+series.TransitionInEasingFunction = System.Windows.Media.Animation.CubicEase;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+var series = new ColumnSeries();
+series.IsTransitionInEnabled = true;
+series.TransitionInSpeed = TransitionInSpeedType.IndexSpeed;  
+series.TransitionInEasingFunction = System.Windows.Media.Animation.CubicEase;
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim series As New ColumnSeries() 
+series.IsTransitionInEnabled = true
+series.TransitionInSpeed = TransitionInSpeedType.IndexSpeed
+series.TransitionInEasingFunction = System.Windows.Media.Animation.CubicEase
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim series As New ColumnSeries() 
+series.IsTransitionInEnabled = true
+series.TransitionInSpeed = TransitionInSpeedType.IndexSpeed
+series.TransitionInEasingFunction = System.Windows.Media.Animation.CubicEase
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim series As New ColumnSeries() 
+series.IsTransitionInEnabled = true
+series.TransitionInSpeed = TransitionInSpeedType.IndexSpeed
+series.TransitionInEasingFunction = System.Windows.Media.Animation.CubicEase
+----
+
+endif::xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+ColumnSeries series = new ColumnSeries();
+series.setIsTransitionInEnabled(true);
+series.setTransitionInEasingFunction(EasingFunction.CubicEase);
+series.setTransitionInSpeed(TransitionInSpeedType.IndexSpeed);
+----
+
+endif::android[]
+
+[[_Ref368408420]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する追加情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-using-datachart.html[{DataChartName} の構成]
+|このセクションでは、{DataChartName} コントロールのさまざまな機能を使用するために役立つ、重要な概念やタスク ベースの情報について説明します。
+
+|====

@@ -1,0 +1,343 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-creating-custom-axis-scalers",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Presentation","Getting Started","How Do I"],
+    "guid": "535b58d8-6ec4-4835-99a2-b3e08739040a",  
+    "buildFlags": ["wpf","win-universal"],
+    "createdOn": "2014-06-05T19:39:00.5823511Z"
+}
+|metadata|
+////
+
+= カスタム軸スケーラの作成
+
+このトピックは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールのカスタム軸スケーリング機能を紹介し、コード例を示して、カスタム軸スケーラーの作成方法を説明します。
+
+== 概要
+
+トピックは以下のとおりです。
+
+* <<Introduction,概要>>
+* <<SupportedAxes,サポートされる軸>> 
+* <<Example,例>> 
+ ** <<Preview,プレビュー>> 
+ ** <<Implementation,実装>>
+* <<RelatedContent,関連コンテンツ>>
+ ** link:datachart-axes.html[チャート軸]
+ ** link:datachart-using-axis-scales.html[軸目盛の構成]
+
+[[Introduction]]
+== 概要
+
+{DataChartName} コントロールは、カスタム軸スケールをアプリケーション内で実装できるよう設計されています。これは、カスタムス軸スケーラーを数値軸の link:{DataChartLink}.straightnumericaxisbase{ApiProp}scaler.html[Scaler] プロパティに適用して行うことができます。{DataChartName} コントロールの軸スケール機能の使用に関する基本情報は、link:datachart-using-axis-scales.html[軸目盛の構成] のトピックを参照してください。
+
+[[SupportedAxes]]
+== サポートされる軸
+
+表 1 - カスタム軸スケーリング機能をサポートする軸タイプのリスト
+
+[options="header", cols="a,a"]
+|====
+|軸タイプ|説明
+
+| link:{DataChartLink}.numericxaxis.html[NumericXAxis]
+|数値軸が {DataChartName} にプロットされる水平方向の X 軸を表します。
+
+| link:{DataChartLink}.numericyaxis.html[NumericYAxis]
+|数値軸が {DataChartName} にプロットされる垂直方向の Y 軸を表します。
+
+|====
+
+[[Example]]
+== 例
+
+カスタム軸スケーラの例は、{DataChartName} コントロールの値 0%～100% で Y 軸に沿ってプロットされる値をスケールする ProbabilityVerticalScaler です。
+
+[[Preview]]
+== プレビュー
+
+image::images/xamDataChart_Creating_Custom_Axis_Scalers_01.png[]
+
+図 1 - Y 軸に適用される ProbabilityVerticalScaler のある {DataChartName} コントロールのプレビュー。 
+
+[[Implementation]]
+== 実装
+
+カスタム軸スケーラを実装するには、link:{DataChartLink}.numericscaler.html[NumericScaler] 基本クラスから継承するクラスを作成し、基本クラスの以下の中小メソッドをオーバーライドする必要があります。
+
+[options="header", cols="a,a"]
+|====
+|NumericScaler メソッド|説明
+
+| link:{DataChartLink}.numericscaler{ApiProp}calculaterange.html[CalculateRange]
+|実行時に軸スケールの「実際の最小」値および「実際の最大」値を決定します。
+
+| link:{DataChartLink}.numericscaler{ApiProp}getscaledvalue.html[GetScaledValue]
+|軸上の数値と対応する表示または「ピクセル」位置を取得します。
+
+| link:{DataChartLink}.numericscaler{ApiProp}getunscaledvalue.html[GetUnscaledValue]
+|軸上の表示または「ピクセル」位置に対応する数値を取得します。これは多くの場合、GetScaledValue メソッドの逆関数となります。
+
+|====
+
+以下のコード スニペットは、NumericScaler クラスから継承し、y-軸の実際の範囲を 0-100 % に設定してデータ値を拡張/縮小するコードで、上記メソッドをオーバーライドしてカスタム ProbabilityVerticalScaler を作成する方法を示します。
+
+[NOTE]
+====
+**注:** CalculateRange メソッドは、値スケールが 0-100% に固定されているため、true 計算を含みません。この方法は、オーバーライドされたメソッドが更新された実際の軸範囲を返すために使用されます。
+====
+
+**Visual Basic の場合:**
+
+[source,vb]
+----
+Imports {DataChartNamespace}
+Namespace Infragistics.Samples.Common
+    ''' <summary>
+    ''' 垂直数値軸の確率スケーラを示します
+    ''' </summary>
+    Public Class ProbabilityVerticalScaler
+        Inherits NumericScaler
+        ''' <summary>
+        ''' 数値軸上の絶対最小確率値
+        ''' </summary>
+        Public Const AbsoluteProbabiltyMinimumValue As Double = 0.0
+        ''' <summary>
+        ''' 数値軸上の絶対最大確率値
+        ''' </summary>
+        Public Const AbsoluteProbabiltyMaximumValue As Double = 100.0
+        Protected Mu As Double = 0.5
+        Protected Sigma As Double = 0.075
+        ''' <summary>
+        ''' 軸スケールの実際の最小値および実際の最大値を計算します
+        ''' </summary>
+        Public Overrides Sub CalculateRange(target As NumericAxisBase, minimumValue As Double, maximumValue As Double, ByRef actualMinimumValue As Double, ByRef actualMaximumValue As Double)
+            ' このスケーラの場合、実際の軸範囲は常に 0～100% です
+            actualMinimumValue = AbsoluteProbabiltyMinimumValue
+            actualMaximumValue = AbsoluteProbabiltyMaximumValue
+        End Sub
+        ''' <summary>
+        ''' 軸上の数値に対応する表示 (ピクセル) 位置を返します
+        ''' </summary>
+        Public Overrides Function GetScaledValue(unscaledValue As Double, p As ScalerParams) As Double
+            Dim scaledValue As Double = (unscaledValue - ActualMinimumValue) / (ActualMaximumValue - ActualMinimumValue)
+            If Not p.IsInverted Then
+                scaledValue = 1.0 - scaledValue
+            End If
+            scaledValue = Me.Mu + Me.Sigma * System.Math.Tan(System.Math.PI * (scaledValue - 0.5))
+            Return p.ViewportRect.Top + p.ViewportRect.Height * (scaledValue - p.WindowRect.Top) / p.WindowRect.Height
+        End Function
+        ''' <summary>
+        ''' 軸上の表示または「ピクセル」位置に対応する数値を返します
+        ''' </summary>
+        Public Overrides Function GetUnscaledValue(scaledValue As Double, p As ScalerParams) As Double
+            Dim unscaledValue As Double = p.WindowRect.Top + p.WindowRect.Height * (scaledValue - p.ViewportRect.Top) / p.ViewportRect.Height
+            If Not p.IsInverted Then
+                unscaledValue = 1.0 - unscaledValue
+            End If
+            unscaledValue = 0.5 + 0.318309886183791 * System.Math.Atan2(unscaledValue - Me.Mu, Me.Sigma)
+            Return ActualMinimumValue + unscaledValue * (ActualMaximumValue - ActualMinimumValue)
+        End Function
+    End Class
+End Namespace
+----
+
+**C# の場合:**
+
+[source,csharp]
+----
+using {DataChartNamespace};
+namespace Infragistics.Samples.Common
+{
+    /// <summary>
+    /// 垂直数値軸の確率スケーラを示します
+    /// </summary>
+    public class ProbabilityVerticalScaler : NumericScaler
+    {
+        /// <summary>
+        /// 数値軸上の絶対最小確率値
+        /// </summary>
+        public const double AbsoluteProbabiltyMinimumValue = 0.0;
+        /// <summary>
+        /// 数値軸上の絶対最大確率値
+        /// </summary>
+        public const double AbsoluteProbabiltyMaximumValue = 100.0;
+        protected double Mu = 0.5;
+        protected double Sigma = 0.075;
+        /// <summary>
+        /// 軸スケールの実際の最小値および実際の最大値を計算します
+        /// </summary>
+        public override void CalculateRange(NumericAxisBase target, double minimumValue, double maximumValue,
+                                            out double actualMinimumValue,
+                                            out double actualMaximumValue)
+        {
+            // このスケーラの場合、実際の軸範囲は常に 0～100% です
+            actualMinimumValue = AbsoluteProbabiltyMinimumValue;
+            actualMaximumValue = AbsoluteProbabiltyMaximumValue;
+        }
+        
+        /// <summary>
+        /// 軸上の数値に対応する表示 (ピクセル) 位置を返します
+        /// </summary>
+        public override double GetScaledValue(double unscaledValue, ScalerParams p)
+        {
+            double scaledValue = (unscaledValue - ActualMinimumValue)/(ActualMaximumValue - ActualMinimumValue);
+            if (!p.IsInverted)
+            {
+                scaledValue = 1.0 - scaledValue;
+            }
+            scaledValue = this.Mu + this.Sigma * System.Math.Tan(System.Math.PI * (scaledValue - 0.5));
+            return p.ViewportRect.Top + p.ViewportRect.Height * (scaledValue - p.WindowRect.Top) / p.WindowRect.Height;
+        }
+        /// <summary>
+        /// 軸上の表示または「ピクセル」位置に対応する数値を返します
+        /// </summary>
+        public override double GetUnscaledValue(double scaledValue, ScalerParams p)
+        {
+            double unscaledValue = p.WindowRect.Top + p.WindowRect.Height * (scaledValue - p.ViewportRect.Top) / p.ViewportRect.Height;
+            if (!p.IsInverted)
+            {
+                unscaledValue = 1.0 - unscaledValue;
+            }
+            unscaledValue = 0.5 + 0.318309886183790671 * System.Math.Atan2(unscaledValue - this.Mu, this.Sigma);
+            return ActualMinimumValue + unscaledValue * (ActualMaximumValue - ActualMinimumValue);
+        }
+    }
+}
+----
+
+任意で、カスタム目盛値は、以下のコードで示されるように ProbabilityVerticalScaler 用に実装できます。
+
+**Visual Basic の場合:**
+
+[source,vb]
+----
+Imports System.Collections.Generic
+Imports System.Linq
+Imports {DataChartNamespace}
+
+Namespace Infragistics.Samples.Common
+    Public Class ProbabilityTickmarkValues
+        Inherits TickmarkValues
+        Public Sub New()
+            ' 確率目盛値を定義します。
+           Me.ProbabilityValues = New DoubleCollection() From { 0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100 }
+        End Sub
+
+        Protected First As Double
+        Protected Last As Double
+        Protected ProbabilityValues As DoubleCollection
+
+        ''' <summary>
+        ''' 軸ラベル、ストリップライン、およびグリッドラインを描画する前に目盛値を初期化します
+        ''' </summary>
+        ''' <param name="initializationParameters"></param>
+        Public Overrides Sub Initialize(initializationParameters As TickmarkValuesInitializationParameters)
+            MyBase.Initialize(initializationParameters)
+            ' 初期化は、最大値および最小値を保存するためにオーバーライドされます
+            ' これらの値は後で MajorValues() および MinorValues() メソッドで使用されます。
+            Me.First = initializationParameters.VisibleMinimum
+            Me.Last = initializationParameters.VisibleMaximum
+        End Sub
+        ''' <summary>
+        ''' 主目盛値を返します
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function MajorValues() As IEnumerable(Of Double)
+            Dim values As IEnumerable(Of Double) = ProbabilityValues.Where(Function(value) value >= Me.First AndAlso value <= Me.Last)
+            Return values
+        End Function
+        ''' <summary>
+        ''' 副目盛値を返します
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function MinorValues() As IEnumerable(Of Double)
+                ' 副目盛値はありません
+            Return New Double() {}
+        End Function
+    End Class
+End Namespace
+----
+
+**C# の場合:**
+
+[source,csharp]
+----
+using System.Collections.Generic;
+using System.Linq;
+using {DataChartNamespace};
+
+namespace Infragistics.Samples.Common
+{
+    public class ProbabilityTickmarkValues : TickmarkValues
+    {
+        public ProbabilityTickmarkValues()
+        {
+            // 確率目盛値を定義します
+            this.ProbabilityValues = new DoubleCollection { 0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100 };
+        }
+
+        protected double First;
+        protected double Last;
+        protected DoubleCollection ProbabilityValues;
+        
+        /// <summary>
+        /// 軸ラベル、ストリップライン、およびグリッドラインを描画する前に目盛値を初期化します
+        /// </summary>
+        /// <param name="initializationParameters"></param>
+        public override void Initialize(TickmarkValuesInitializationParameters initializationParameters)
+        {
+            base.Initialize(initializationParameters);
+            // 初期化は、最大値および最小値を保存するためにオーバーライドされます
+            // これらの値は後で MajorValues() および MinorValues() メソッドで使用されます。
+            this.First = initializationParameters.VisibleMinimum;
+            this.Last = initializationParameters.VisibleMaximum;
+        }
+        /// <summary>
+        /// 主目盛値を返します
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<double> MajorValues()
+        {
+            IEnumerable<double> values = ProbabilityValues.Where((value) => value >= this.First && value <= this.Last);
+            return values;
+        }
+        /// <summary>
+        /// 副目盛値を返します
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<double> MinorValues()
+        {
+            return new double[] { /* 副目盛値はありません */ };
+        }
+    }
+}
+----
+
+以下のコード スニペットでは、{DataChartName} コントロールで Y 軸に ProbabilityVerticalScaler を適用する方法を示します。
+
+**XAML の場合:**
+
+[source,xaml]
+----
+<ig:{DataChartName}.Axes>
+    <ig:NumericYAxis Name="yAxis" MinimumValue="0" MaximumValue="100" Label="{}{} %" >
+        <!-- ========================================================================== -->
+        <ig:NumericYAxis.Scaler>
+            <custom:ProbabilityVerticalScaler />
+        </ig:NumericYAxis.Scaler>
+        <!-- ========================================================================== -->
+        <ig:NumericYAxis.TickmarkValues>
+            <custom:ProbabilityTickmarkValues />
+        </ig:NumericYAxis.TickmarkValues>
+    </ig:NumericYAxis>
+</ig:{DataChartName}.Axes>
+----
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:datachart-axes.html[チャート軸]
+* link:datachart-using-axis-scales.html[軸目盛の構成]

@@ -1,0 +1,71 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-merge-cells",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{B891FD38-5628-48C0-B446-AF34BF6E906B}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:22:55Z"
+}
+|metadata|
+////
+
+= セルの結合
+
+セルの値またはフォーマットの設定以外に、2 つ以上のセルをひとつのセルとして表示するためにセルをマージすることができます。セルをマージする場合、矩形の領域内にセルがなければなりません。マージされた領域の一部である場合、領域内の各セルは同じ値とセル フォーマットを持つことになります。さらに、これらのセルはすべて、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~associatedmergedcellsregion.html[AssociatedMergedCellsRegion]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~associatedmergedcellsregion.html[AssociatedMergedCellsRegion]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~associatedmergedcellsregion.html[AssociatedMergedCellsRegion]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetcell~associatedmergedcellsregion.html[AssociatedMergedCellsRegion]"]  プロパティからアクセス可能な、同じ  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetmergedcellsregion.html[WorksheetMergedCellsRegion]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetmergedcellsregion.html[WorksheetMergedCellsRegion]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheetmergedcellsregion.html[WorksheetMergedCellsRegion]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheetmergedcellsregion.html[WorksheetMergedCellsRegion]"]  オブジェクトと関連付けられます。WorksheetMergedCellsRegion オブジェクトもセルと同じ値とセル フォーマットを持ちます。領域または領域内の任意のセルの値（またはセル フォーマット）を設定すると、すべてのセルおよび領域の値を変更します。セルをマージしない場合、マージされた領域がワークシートから削除されたために、以前マージされたセルすべてはマージされる以前に指定された共有のセル フォーマットを保持します。ただし、領域の左上のセルのみが共有値を保持します。
+
+以下のコードは、いくつかのセルをマージして、マージされたセル領域の値とフォーマットを設定する方法を示します。
+
+*Visual Basic の場合：*
+
+----
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = _
+  workbook.Worksheets.Add("Sheet1")
+' 列ヘッダをいくつか作成します。
+worksheet.Rows.Item(1).Cells.Item(1).Value = "Morning"
+worksheet.Rows.Item(1).Cells.Item(2).Value = "Afternoon"
+worksheet.Rows.Item(1).Cells.Item(3).Value = "Evening"
+' ヘッダが列ヘッダとなるマージされた領域を作成します。
+Dim mergedRegion1 As Infragistics.Documents.Excel.WorksheetMergedCellsRegion = _
+  worksheet.MergedCellsRegions.Add(0, 1, 0, 3)
+' マージされた領域の値を設定します。
+mergedRegion1.Value = "Day 1"
+' マージされた領域に単色の背景色を指定します。
+mergedRegion1.CellFormat.FillPattern = _
+  Infragistics.Documents.Excel.FillPatternStyle.Solid
+mergedRegion1.CellFormat.FillPatternForegroundColor = Color.SkyBlue
+' マージされた領域の中央のセルの配置を設定します。
+' セルとセルのマージされた領域がセル フォーマットを共有したために、これはマージされた 
+' 領域のフォーマットを最終的に設定することになります。
+worksheet.Rows.Item(0).Cells.Item(2).CellFormat.Alignment = _
+  Infragistics.Documents.Excel.HorizontalCellAlignment.Center
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add( "Sheet1" );
+// 列ヘッダをいくつか作成します。
+worksheet.Rows[ 1 ].Cells[ 1 ].Value = "Morning";
+worksheet.Rows[ 1 ].Cells[ 2 ].Value = "Afternoon";
+worksheet.Rows[ 1 ].Cells[ 3 ].Value = "Evening";
+// ヘッダが列ヘッダとなるマージされた領域を作成します。
+Infragistics.Documents.Excel.WorksheetMergedCellsRegion mergedRegion1 = 
+  worksheet.MergedCellsRegions.Add( 0, 1, 0, 3 );
+// マージされた領域の値を設定します。
+mergedRegion1.Value = "Day 1";
+// マージされた領域に単色の背景色を指定します。
+mergedRegion1.CellFormat.FillPattern = Infragistics.Documents.Excel.FillPatternStyle.Solid;
+mergedRegion1.CellFormat.FillPatternForegroundColor = Color.SkyBlue;
+// マージされた領域の中央のセルの配置を設定します。
+// セルとセルのマージされた領域がセル フォーマットを共有したために、これはマージされた 
+// 領域のフォーマットを最終的に設定することになります。
+worksheet.Rows[ 0 ].Cells[ 2 ].CellFormat.Alignment = 
+  Infragistics.Documents.Excel.HorizontalCellAlignment.Center;
+----
+
+image::images/ExcelEngine_Merge_Cells_01.png[]

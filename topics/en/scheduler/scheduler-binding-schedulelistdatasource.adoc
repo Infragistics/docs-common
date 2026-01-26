@@ -1,0 +1,116 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-binding-schedulelistdatasource",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-30T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= Binding to Data Using ScheduleListDataSource ({SchedulerName})
+
+== Purpose
+
+This topic explains how to bind the control to a data source using ScheduleListDataSource.
+
+== Required Background
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-overview.html[Overview ({SchedulerName})]
+|This topic provides an overview of the {SchedulerName} control.
+
+|=======
+
+== In This Topic
+
+* <<Ref00001, Overview>>
+* <<Ref00002, Main Properties>>
+* <<Ref00003, Code Example>>
+* <<Ref00004, Related Topics>>
+
+[[Ref00001]]
+== Overview
+
+You can bind the link:{SchedulerXFLink}.xamscheduler.html[{SchedulerClassName}] control to a data source using its link:{SchedulerXFLink}.xamscheduler~datasource.html[DataSource] property. This property accepts objects of type link:{SchedulerXFLink}.scheduledatasource.html[ScheduleDataSource]. An implementation of this abstract base class is the link:{SchedulerXFLink}.schedulelistdatasource.html[ScheduleListDataSource] class.
+
+[[Ref00002]]
+== Main Properties
+
+The following table lists the main properties you can use to configure an instance of the `ScheduleListDataSource`:
+
+[options="header", cols="a,a"]
+|=======
+|Property|Purpose
+|link:{SchedulerXFLink}.schedulelistdatasource~appointmentitemssource.html[AppointmentItemsSource]
+|You can set this property to an object implementing the `IEnumerable` interface and provide a set of link:{SchedulerCoreLink}.appointment.html[Appointment]s which are going to be used by the control.
+|link:{SchedulerXFLink}.schedulelistdatasource~resourceitemssource.html[ResourceItemsSource]
+|Set this property to an object implementing the `IEnumerable` interface and provide a set of link:{SchedulerCoreLink}.scheduleresource.html[ScheduleResource]s which are going to be used by the control.
+|=======
+
+.Note
+[NOTE]
+====
+You can even use your own object types for both activities and resources but in this case you must define a property mappings. This procedure is described in the link:scheduler-binding-custom-types.html[Using Custom Entity Types ({SchedulerName})] topic.
+====
+
+[[Ref00003]]
+== Code Example
+
+The following code snippet demonstrates how to create a {SchedulerName} control in XAML and set its data source to an instance of `ScheduleListDataSource`. Also the `ScheduleListDataSource`{empty}'s appointments and resources are bound to the `Appointments` and `Resources` fields respectively in the binding context.
+
+*In XAML:*
+[source,xaml]
+----
+<ig:XamScheduler>
+    <ig:XamScheduler.DataSource>
+        <ig:ScheduleListDataSource
+            AppointmentItemsSource="{Binding Appointments}"
+            ResourceItemsSource="{Binding Resources}" />
+    </ig:XamScheduler.DataSource>
+</ig:XamScheduler>
+----
+
+The following code snippet demonstrates how to create a `ScheduleListDataSource` with one appointment and set it on a {SchedulerName} control named "scheduler1":
+
+*In C#:*
+[source,csharp]
+----
+ObservableCollection<Appointment> appointments = new ObservableCollection<Appointment>();
+appointments.Add(new Appointment()
+{
+    Start = DateTime.Now,
+    End = DateTime.Now,
+    Subject = "Daily Meeting 1",
+    Location = "Conference Room #1",
+    ResourceId = "ID1",
+});
+
+ScheduleListDataSource listDataSource = new ScheduleListDataSource();
+listDataSource.AppointmentItemsSource = appointments;
+
+this.scheduler1.DataSource = listDataSource;
+----
+
+[[Ref00004]]
+== Related Topics
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-binding-custom-types.html[Using Custom Entity Types ({SchedulerName})]
+|This topic explains how to bind the control to a data source which uses custom entity types.
+
+|link:scheduler-appointment.html[Appointment ({SchedulerName})]
+|This topic explains the Appointment activity type.
+
+|link:scheduler-resources.html[Resources ({SchedulerName})]
+|This topic provides information about the resources concept of the {SchedulerName} control.
+
+|=======

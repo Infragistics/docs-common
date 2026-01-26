@@ -1,0 +1,1221 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-chart-performance",
+    "controlName": ["{DataChartName}"],
+    "tags": [],
+    "guid": "2a69d461-3484-4f39-9a15-363a7792dbf7",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.6723864Z"
+}
+|metadata|
+////
+
+= チャートのパフォーマンス
+
+[[Overview]]
+== 概要
+
+このトピックは、アプリケーションで link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールを可能な限り高速で動作させるのに役立つ重要な概念およびタスク ベースの情報を提供します。
+
+トピックは以下のとおりです。
+
+* <<Introduction,概要>>
+* <<ChartFeatures,チャート機能>>
+
+** <<Series,シリーズ タイプ>>
+** <<SeriesResolution,シリーズの解像度>>
+** <<Markers,マーカー>>
+** <<Axes,軸のタイプ>>
+** <<AxisLabels,軸ラベル>>
+** <<AxisExtent,軸範囲>>
+
+ifdef::wpf,win-forms,xamarin[]
+* <<DataImplementation,データの実装>>
+
+** <<DataSource,データ ソース>>
+** <<DataItems,データ項目>>
+
+endif::wpf,win-forms,xamarin[]
+
+* <<RelatedContent,関連コンテンツ>>
+
+[[Introduction]]
+== 概要
+
+{DataChartName} は大量のデータを処理し、 pick:[sl,wpf="数百万のデータ ポイントを探して、それらを数ミリ秒ごとに更新する機能"] を備えますが、チャートのパフォーマンスに影響を及ぼすチャート機能がいくつかあり、アプリケーションでのパフォーマンスを最適化する時に検討する必要があります。また、{DataChartName} コントロールのデータ ソースを実装する間に検討すべきデータ パターンがいくつかあります。
+
+[[ChartFeatures]]
+== チャート機能
+
+以下のセクションは、{DataChartName} コントロールでオーバーヘッドと更新の処理を増大させるチャート機能をリストします。
+
+[[Series]]
+=== シリーズ タイプ
+
+{DataChartName} コントロールの  pick:[xaml,win-forms="link:{DataChartLinkBase}.{DataChartBase}{ApiProp}series.html[Series] コレクション"]  pick:[android="link:{DataChartLinkBase}~addseries.html[Series] メソッド"] で定義されるシリーズの数は、チャートのパフォーマンスに影響します。また、シリーズのタイプはチャートに何らかの影響を与えます。たとえば、データ ポイント間のスプライン線の複雑な補間のために link:{DataChartLink}.lineseries.html[LineSeries] の使用は link:{DataChartLink}.splineseries.html[SplineSeries] の使用よりも推奨されます。同じことが link:{DataChartLink}.polarlineseries.html[PolarLineSeries] および link:{DataChartLink}.polarsplineseries.html[PolarSplineSeries] または link:{DataChartLink}.polarsplineareaseries.html[PolarSplineAreaSeries] に当てはまります。
+
+このコードは、{DataChartName} コントロールで link:{DataChartLink}.splineseries.html[SplineSeries] を link:{DataChartLink}.lineseries.html[LineSeries] で置き換える方法を示します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:SplineSeries ItemsSource="{Binding}"
+                             ValueMemberPath="Value"
+                             XAxis="{Binding ElementName=categoryXAxis}"
+                             YAxis="{Binding ElementName=numericYAxis}">
+            </ig:SplineSeries>            <ig:LineSeries ItemsSource="{Binding}"
+                           ValueMemberPath="Value"
+                           XAxis="{Binding ElementName=categoryXAxis}"
+                           YAxis="{Binding ElementName=numericYAxis}">
+            </ig:LineSeries>
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart x:Name="DataChart" >
+      <ig:XamDataChart.Series>
+            <ig:SplineSeries ItemsSource="{Binding}"
+                             ValueMemberPath="Value"
+                             XAxis="{x:Reference categoryXAxis}"
+                             YAxis="{x:Reference numericYAxis}">
+            </ig:SplineSeries>
+            <ig:LineSeries ItemsSource="{Binding}"
+                           ValueMemberPath="Value"
+                           XAxis="{x:Reference categoryXAxis}"
+                           YAxis="{x:Reference numericYAxis}">
+            </ig:LineSeries>
+      </ig:XamDataChart.Series>
+</ig:XamDataChart>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::win-forms[]
+----
+Dim splineSeries As New SplineSeries()
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value"
+splineSeries.XAxis = categoryXAxis
+splineSeries.YAxis = numericYAxis
+Dim lineSeries As New LineSeries()
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value"
+lineSeries.XAxis = Me.categoryXAxis
+lineSeries.YAxis = Me.numericYAxis
+Me.DataChart.Series.Add(splineSeries)Me.DataChart.Series.Add(lineSeries)
+----
+endif::win-forms[]
+
+ifdef::wpf[]
+----
+Dim splineSeries As New SplineSeries()
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value"
+splineSeries.XAxis = categoryXAxis
+splineSeries.YAxis = numericYAxis
+Dim lineSeries As New LineSeries()
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value"
+lineSeries.XAxis = Me.categoryXAxis
+lineSeries.YAxis = Me.numericYAxis
+Me.DataChart.Series.Add(splineSeries)Me.DataChart.Series.Add(lineSeries)
+----
+endif::wpf[]
+
+endif::wpf,win-forms[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+*C# の場合:*
+
+ifdef::win-forms[]
+----
+var splineSeries = new SplineSeries();
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value";
+splineSeries.XAxis = this.categoryXAxis;  
+splineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(splineSeries);var lineSeries = new LineSeries();
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value";
+lineSeries.XAxis = this.categoryXAxis;  
+lineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(lineSeries);
+----
+endif::win-forms[]
+
+ifdef::xaml[]
+----
+var splineSeries = new SplineSeries();
+splineSeries.DataSource = data;
+splineSeries.ItemsSource = data;
+splineSeries.ValueMemberPath = "Value";
+splineSeries.XAxis = this.categoryXAxis;  
+splineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(splineSeries);var lineSeries = new LineSeries();
+lineSeries.DataSource = data;
+lineSeries.ItemsSource = data;
+lineSeries.ValueMemberPath = "Value";
+lineSeries.XAxis = this.categoryXAxis;  
+lineSeries.YAxis = this.numericYAxis; 
+this.DataChart.Series.Add(lineSeries);
+----
+endif::xaml[]
+
+endif::wpf,win-forms,xamarin[]
+
+[[SeriesResolution]]
+=== シリーズの解像度
+
+link:{DataChartLink}.series.html[Series] で link:{DataChartLink}.series{ApiProp}resolution.html[Resolution] プロパティをより大きな値に設定するとパフォーマンスには貢献しますが、線の画像的な忠実度は低下します。このようなわけで、忠実度が受け入れられなくなるまで値を大きくする可能性があります。
+
+このコードは、{DataChartName} コントロールでシリーズの解像度を大きくする方法を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:LineSeries Resolution="1.5" />
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Dim series As New LineSeries()
+series.Resolution = 1.5
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Dim series As New LineSeries()
+series.Resolution = 1.5
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+LineSeries series = new LineSeries();
+series.Resolution = 1.5;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+LineSeries series = new LineSeries();
+series.Resolution = 1.5;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+LineSeries series = new LineSeries();
+series.Resolution = 1.5;
+----
+
+endif::xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+LineSeries series = new LineSeries();
+series.setResolution(1.5);
+----
+
+endif::android[]
+
+[[Markers]]
+=== マーカー
+
+データ チャートのパフォーマンスの話しをする時、マーカーは特に負荷がかかります。というのもマーカーはチャートのレイアウトの複雑さを高め、データ バインドを実行して、特定の情報を取得するからです。pick:[wpf,sl,win-forms,win-universal,android="テンプレートから実行するバインドのいくつかを何らかの方法で削除するとこの影響を抑えることができます。しかし、"]レイアウトの複雑さを高めるとオーバーヘッドが増えることになります。したがって、シリーズの link:{DataChartLink}.markerseries{ApiProp}markertype.html[MarkerType] プロパティを  pick:[wpf,win-universal,android="link:{DataChartLink}.markertype.html[MarkerType]"]  pick:[xamarin,win-forms="link:{DataChartLinkBase}.markertype.html[MarkerType]"]  列挙値に設定することで、チャートから削除すべきです。
+
+以下のコード例は、{DataChartName} コントロールからマーカーを削除する方法を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+      <ig:{DataChartName}.Series>
+            <ig:LineSeries MarkerType="None" />
+      </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Dim series As New LineSeries()
+series.MarkerType = MarkerType.None
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Dim series As New LineSeries()
+series.MarkerType = MarkerType.None
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+LineSeries series = new LineSeries();
+series.setMarkerType(MarkerType.NONE);
+----
+
+endif::android[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+var series = new LineSeries();
+series.MarkerType = MarkerType.None;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+var series = new LineSeries();
+series.MarkerType = MarkerType.None;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+var series = new LineSeries();
+series.MarkerType = MarkerType.None;
+----
+
+endif::xamarin[]
+
+[[Axes]]
+=== 軸のタイプ
+
+link:datachart-category-series-overview.html[XAxis] プロパティにバインドできる 2 種類の軸タイプをサポートします。ただし、タイムスパンの量に基づいてデータ ポイント間のスペースが重要ではない場合、 link:{DataChartLink}.categorydatetimexaxis.html[CategoryDateTimeXAxis] の使用は推奨されません。データを結合するには効率性が高いので、代わりに link:{DataChartLink}.categoryxaxis.html[CategoryXAxis] を使用してください。これは CategoryDateTimeXAxis のようにデータで並べ替えを実行しません。
+
+このコードは、{DataChartName} コントロールで CategoryDateTimeXAxis を CategoryXAxis で置き換える方法を示します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="categoryXAxis"
+                      ItemsSource="{Binding}"
+                      Label="{}{Date}">
+    </ig:CategoryXAxis>
+    <ig:CategoryDateTimeXAxis x:Name="categoryDateTimeXAxis"
+                      ItemsSource="{Binding}"
+                      DateTimeMemberPath="Date"
+                      Label="{}{Date}">
+    </ig:CategoryDateTimeXAxis>
+</ig:XamDataChart.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="categoryXAxis"
+                      ItemsSource="{Binding}"
+                      Label="Date">
+    </ig:CategoryXAxis>
+    <ig:CategoryDateTimeXAxis x:Name="categoryDateTimeXAxis"
+                      ItemsSource="{Binding}"
+                      DateTimeMemberPath="Date"
+                      Label="Date">
+    </ig:CategoryDateTimeXAxis>
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Dim categoryXAxis As New CategoryXAxis()
+categoryXAxis.Label = "Date"
+Dim categoryDateTimeXAxis As New CategoryDateTimeXAxis()
+categoryDateTimeXAxis.DateTimeMemberPath = "Date"
+categoryDateTimeXAxis.Label = "Date"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Dim categoryXAxis As New CategoryXAxis()
+categoryXAxis.Label = "Date"
+Dim categoryDateTimeXAxis As New CategoryDateTimeXAxis()
+categoryDateTimeXAxis.DateTimeMemberPath = "Date"
+categoryDateTimeXAxis.Label = "Date"
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+CategoryXAxis categoryXAxis = new CategoryXAxis();
+categoryXAxis.setLabel("Date");
+CategoryDateTimeXAxis categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.setDateTimeMemberPath("Date");
+categoryDateTimeXAxis.setLabel("Date");
+----
+
+endif::android[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+var categoryXAxis = new CategoryXAxis();
+categoryXAxis.Label = "Date";
+var categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.DateTimeMemberPath = "Date";
+categoryDateTimeXAxis.Label = "Date";
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+var categoryXAxis = new CategoryXAxis();
+categoryXAxis.Label = "Date";
+var categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.DateTimeMemberPath = "Date";
+categoryDateTimeXAxis.Label = "Date";
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+var categoryXAxis = new CategoryXAxis();
+categoryXAxis.Label = "Date";
+var categoryDateTimeXAxis = new CategoryDateTimeXAxis();
+categoryDateTimeXAxis.DateTimeMemberPath = "Date";
+categoryDateTimeXAxis.Label = "Date";
+----
+
+endif::xamarin[]
+
+.注:
+[NOTE]
+====
+軸のグリッド線をオフにした場合、{DataChartName} のパフォーマンスは向上されません。
+====
+
+[[AxisLabels]]
+=== 軸ラベル
+
+ifdef::wpf,sl,win-forms,win-universal,android[]
+マーカーと同じように、軸ラベルはテンプレートとバインドを使用し、データ コンテキストが頻繁に変更されるために、軸ラベルも負荷がかかります。pick:[sl,wpf="このパフォーマンスは、2011 volume 1 より大幅に向上しています。"] 
+endif::wpf,sl,win-forms,win-universal,android[]
+ラベルを使用しない場合、軸でオフする必要があります。
+
+ifdef::sl,wpf[]
+.注:
+[NOTE]
+====
+2011 volume 1 リリース以前は、簡潔な表現よりも軸ラベルに DataTemplates を使用することが提案されていました。この結果ラベルの使用度が下がりました。ところが、デフォルト構成に改善を行ったので、もうこのような事態にはなりません。その結果、この提案は逆転し、DataTemplates の使用を控えてください。
+====
+endif::sl,wpf[]
+
+このコードは、{DataChartName} コントロールで 軸を非表示にする方法を示します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName}.Axes>
+    <ig:CategoryXAxis x:Name="axis">
+           <ig:CategoryXAxis.LabelSettings>
+                    <ig:AxisLabelSettings Visibility="Collapsed" />
+           </ig:CategoryXAxis.LabelSettings>
+    </ig:CategoryXAxis>
+</ig:{DataChartName}.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:CategoryXAxis x:Name="axis" LabelVisibity="Collapsed" />
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::wpf,win-universal[]
+----
+Dim axis As New CategoryXAxis()
+axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Visibility = Visibility.Collapsed
+axis.LabelsVisible = false
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+----
+Dim axis As New CategoryXAxis()
+axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Visibility = Visibility.Collapsed
+axis.LabelsVisible = false
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+*C# の場合:*
+
+ifdef::wpf,win-universal[]
+----
+var axis = new CategoryXAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Visibility = Visibility.Collapsed;
+axis.LabelsVisible = false;
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+----
+var axis = new CategoryXAxis();
+axis.LabelVisibility = Visibility.Collapsed;
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+----
+var axis = new CategoryXAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Visibility = Visibility.Collapsed;
+axis.LabelsVisible = false;
+----
+endif::win-forms[]
+
+endif::wpf,win-forms,xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+CategoryXAxis axis = new CategoryXAxis();
+axis.setLabelsVisible(false);
+----
+
+endif::android[]
+
+[[AxisExtent]]
+=== 軸ラベルの範囲
+
+ifdef::sl,wpf[]
+2011 volume 1 リリース以前は、余分なチャートのリフレッシュを回避するために y 軸ラベルの link:{DataChartLink}.axislabelsettings{ApiProp}extent.html[Extent] プロパティの設定が重要でした。これもまだ良い考え方ではありますが、それほど重要ではなくなりました。
+endif::sl,wpf[]
+
+チャート コントロールは、一番長い値のあるラベルに基づいて Y 軸ベースのラベルのランタイム範囲を調整します。これは、データ変更とラベルの範囲を更新する必要がある場合、チャートのパフォーマンスを低下させます。そのため、チャート パフォーマンスを向上させるためにデザイン時ににラベル範囲を設定することをお勧めします。次のコードは、{DataChartName}で y 軸に固定されたラベル範囲を設定する方法を示します。
+
+ifdef::wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName}.Axes>
+    <ig:NumericYAxis x:Name="numericYAxis"
+                     LabelExtent="50" />
+</ig:{DataChartName}.Axes>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*XAML の場合:*
+
+----
+<ig:XamDataChart.Axes>
+    <ig:NumericYAxis x:Name="numericYAxis"
+                     LabelExtent="50" />
+</ig:XamDataChart.Axes>
+----
+
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::wpf,win-universal[]
+----
+Dim axis As New NumericYAxis()axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Extent = 50
+axis.LabelExtent = 50
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+----
+Dim axis As New NumericYAxis()axis.LabelSettings = New AxisLabelSettings()
+axis.LabelSettings.Extent = 50
+axis.LabelExtent = 50
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+NumericYAxis axis = new NumericYAxis();
+axis.setLabelExtent(50);
+----
+
+endif::android[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+*C# の場合:*
+
+ifdef::wpf,win-universal[]
+----
+var axis = new NumericYAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Extent = 50;
+axis.LabelExtent = 50;
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+----
+var axis = new NumericYAxis();
+axis.LabelExtent = 50;
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+----
+var axis = new NumericYAxis();
+axis.LabelSettings = new AxisLabelSettings();
+axis.LabelSettings.Extent = 50;
+axis.LabelExtent = 50;
+----
+endif::win-forms[]
+
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+
+[[DataImplementation]]
+== データの実装
+
+endif::wpf,win-forms,xamarin[]
+
+[[DataSource]]
+
+ifdef::wpf,win-forms,xamarin[]
+=== データ ソース
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+link:{DataChartLink}.series.html[Series] オブジェクトの link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] プロパティにバインドされているデータの 1 つまたは 2 つのポイントのみを変更する場合、`{DataChartName}` コントロールが `INotifyCollectionChanged` インターフェイスの複数の `Add`、`Remove`、`Replace`、および `Move` イベントの処理に最適化されているため、`INotifyCollectionChanged` インターフェイスの `Reset` イベントを送信しないようにしてください。複数の小さいイベントの代わりに 1 つのリセット イベントを送信すると、`{ApiDataSource}` が同じインタラクションで実行される多くの小さい操作よりも正味コストが高くなる可能性があります。 
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+このコードは、新しいデータ ポイントがコレクションに追加された時に、Reset イベント アクションの代わりに Add イベント アクションを使用してカスタム コレクションの変更を通知する方法を示します。
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Collections
+Imports System.Collections.Generic
+Imports System.Collections.Specialized
+Imports NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs
+Imports NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction
+Public Class DataCollection
+    Implements INotifyCollectionChanged
+    Implements IEnumerable
+    Protected Data As New List(Of DataPoint)()
+      Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+    Protected Sub OnCollectionChanged(e As NotifyEventArgs)
+        RaiseEvent CollectionChanged(Me, e)
+    End Sub
+    Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Return Me.Data.GetEnumerator()
+    End Function
+    Public Sub Add(dataPoint As DataPoint)
+        Me.Data.Add(dataPoint)
+        Dim e As New NotifyEventArgs(NotifyAction.Add, dataPoint)
+        ' 変更がひとつまたはふたつのポイントのみの時は、
+        ' Reset イベント アクションの代わりに Add イベント アクションを使用します
+        'NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+        Me.OnCollectionChanged(e)
+    End Sub
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.Collections
+Imports System.Collections.Generic
+Imports System.Collections.Specialized
+Imports NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs
+Imports NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction
+Public Class DataCollection
+    Implements INotifyCollectionChanged
+    Implements IEnumerable
+    Protected Data As New List(Of DataPoint)()
+      Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+    Protected Sub OnCollectionChanged(e As NotifyEventArgs)
+        RaiseEvent CollectionChanged(Me, e)
+    End Sub
+    Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Return Me.Data.GetEnumerator()
+    End Function
+    Public Sub Add(dataPoint As DataPoint)
+        Me.Data.Add(dataPoint)
+        Dim e As New NotifyEventArgs(NotifyAction.Add, dataPoint)
+        ' 変更がひとつまたはふたつのポイントのみの時は、
+        ' Reset イベント アクションの代わりに Add イベント アクションを使用します
+        'NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+        Me.OnCollectionChanged(e)
+    End Sub
+End Class
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+public class DataCollection : INotifyCollectionChanged, IEnumerable
+{
+        protected List<DataPoint> Data = new List<DataPoint>();
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected void OnCollectionChanged(NotifyEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        } 
+        public IEnumerator GetEnumerator()
+        {
+            return this.Data.GetEnumerator();
+        } 
+        public void Add(DataPoint dataPoint)
+        {
+            this.Data.Add(dataPoint);
+            NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Add, dataPoint);
+            // 変更がひとつまたはふたつのポイントのみの時は、
+            // Reset イベント アクションの代わりに Add イベント アクションを使用します
+            //NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+            this.OnCollectionChanged(e);
+        } 
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+public class DataCollection : INotifyCollectionChanged, IEnumerable
+{
+        protected List<DataPoint> Data = new List<DataPoint>();
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected void OnCollectionChanged(NotifyEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        } 
+        public IEnumerator GetEnumerator()
+        {
+            return this.Data.GetEnumerator();
+        } 
+        public void Add(DataPoint dataPoint)
+        {
+            this.Data.Add(dataPoint);
+            NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Add, dataPoint);
+            // 変更がひとつまたはふたつのポイントのみの時は、
+            // Reset イベント アクションの代わりに Add イベント アクションを使用します
+            //NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+            this.OnCollectionChanged(e);
+        } 
+}
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using NotifyEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+using NotifyAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+public class DataCollection : INotifyCollectionChanged, IEnumerable
+{
+        protected List<DataPoint> Data = new List<DataPoint>();
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected void OnCollectionChanged(NotifyEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        } 
+        public IEnumerator GetEnumerator()
+        {
+            return this.Data.GetEnumerator();
+        } 
+        public void Add(DataPoint dataPoint)
+        {
+            this.Data.Add(dataPoint);
+            NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Add, dataPoint);
+            // 変更がひとつまたはふたつのポイントのみの時は、
+            // Reset イベント アクションの代わりに Add イベント アクションを使用します
+            //NotifyEventArgs e = new NotifyEventArgs(NotifyAction.Reset);
+            this.OnCollectionChanged(e);
+        } 
+}
+----
+
+endif::xamarin[]
+
+[[DataItems]]
+
+ifdef::wpf,win-forms,xamarin[]
+=== データ項目
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+バインドされたデータ項目の値が値を変更しない場合、時間がかからない代替え策は、INotifyPropertyChanged インターフェイスを実装することではありません。
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+このインターフェイスを実装する場合、{DataChartName} コントロールのデータ バインド エンジンは、それぞれにハンドラーを登録しなければならないと想定するため、オーバーヘッドが増えます。
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf,win-forms,xamarin[]
+このコードは、INotifyPropertyChanged インターフェイスを実装した場合としない場合のデータ項目を示します。
+endif::wpf,win-forms,xamarin[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.ComponentModel
+Public Class DataPoint
+#Region "Properties"
+    Public Property X() As Double
+        Get
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            _x = Value
+        End Set
+    End Property
+    Private _x As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            _y = Value
+        End Set
+    End Property
+    Private _y As Double
+#End Region
+End Class
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value : OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Imports System.ComponentModel
+Public Class DataPoint
+#Region "Properties"
+    Public Property X() As Double
+        Get
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            _x = Value
+        End Set
+    End Property
+    Private _x As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            _y = Value
+        End Set
+    End Property
+    Private _y As Double
+#End Region
+End Class
+Public Class ObservableDataPoint
+    Implements INotifyPropertyChanged
+#Region "Properties"
+    Private _x As Double
+    Public Property X() As Double
+        Get 
+            Return _x
+        End Get
+        Set(ByVal value As Double)
+            If _x = value Then Return
+            _x = value
+            OnPropertyChanged("X")
+        End Set
+    End Property
+    Private _y As Double
+    Public Property Y() As Double
+        Get
+            Return _y
+        End Get
+        Set(ByVal value As Double)
+            If _y = value Then Return
+            _y = value : OnPropertyChanged("Y")
+        End Set
+    End Property
+#End Region
+#Region "INotifyPropertyChanged"
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal propertyName As String)
+        Me.OnPropertyChanged(New PropertyChangedEventArgs(propertyName))
+    End Sub
+    Protected Sub OnPropertyChanged(ByVal propertyChangedEventArgs As PropertyChangedEventArgs)
+        RaiseEvent PropertyChanged(Me, propertyChangedEventArgs)
+    End Sub
+#End Region
+End Class
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+using System.ComponentModel;
+public class DataPoint
+{
+    #region Properties
+    public double X { get; set; }
+    public double Y { get; set; }
+    #endregion
+}
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+using System.ComponentModel;
+public class DataPoint
+{
+    #region Properties
+    public double X { get; set; }
+    public double Y { get; set; }
+    #endregion
+}
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+using System.ComponentModel;
+public class DataPoint
+{
+    #region Properties
+    public double X { get; set; }
+    public double Y { get; set; }
+    #endregion
+}
+public class ObservableDataPoint : INotifyPropertyChanged
+{
+    #region Porperties
+    private double _x;
+    private double _y;
+    public double X
+    {
+        get { return _x; }
+        set { if (_x == value) return; _x = value; this.OnPropertyChanged("X"); }
+    }
+    public double Y
+    {
+        get { return _y; }
+        set { if (_y == value) return; _y = value; this.OnPropertyChanged("Y"); }
+    } 
+    #endregion
+    #region Event Handlers
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    protected void OnPropertyChanged(PropertyChangedEventArgs propertyChangedEventArgs)
+    {
+        PropertyChangedEventHandler handler = this.PropertyChanged;
+        if (handler != null)
+            handler(this, propertyChangedEventArgs);
+    }
+    #endregion
+}
+----
+
+endif::xamarin[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+* link:datachart-axes.html[チャート軸]
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-series-types.html[シリーズ タイプ]

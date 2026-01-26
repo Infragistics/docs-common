@@ -1,0 +1,155 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I","Styling"],
+    "controlName": ["financial-chart"]
+}
+|metadata|
+////
+
+= チャート ツールチップ
+
+ここでは、コード例とともに、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールのツールチップを無効にする方法およびカスタム ツールチップを作成する方法を説明します。
+
+== 概要
+
+{FinancialChartName} コントロールで、マウス カーソルがシリーズ上にホバーするときにツールチップは表示されます。
+
+== ツールチップの概要
+
+{FinancialChartName} コントロールは、各データ シリーズにデフォルト ツールチップを提供します。デフォルト ツールチップは、特定の項目 (時間、開値、高値、低値、終値、出来高など) に関するすべての情報を表示し、シリーズ スタイルに一致するためにスタイルが設定されます。
+
+デフォルト ツールチップが適さない場合、カスタム ツールチップを設定することもできます。ツールチップは次の特性をカスタマイズできます。
+
+* ツールチップのコンテンツ
+* ツールチップのルック アンド フィール
+
+デフォルトのツールチップを使用する場合、ツールチップの構造は、{FinancialChartName} コントロールの pick:[wpf=" link:{FinancialChartLink}.{FinancialChartName}{ApiProp}toolTipStyle{HtmlApiExtension}[ToolTipStyle] プロパティプロパティにカスタム コンテンツ"] pick:[jquery=" link:{FinancialChartLink}.{FinancialChartName}{ApiProp}tooltipTemplate{HtmlApiExtension}[tooltipTemplate] オプションにテンプレート要素の ID 文字列"]を提供してカスタマイズできます。
+
+ifdef::wpf[]
+さらに、各シリーズで使用されるツールチップの制御を強化するために、各シリーズに追加されたイベントを使用して、個々のシリーズの link:datachart-chart-tooltips.html[ツールチップ プロパティ]を更新できます。
+endif::wpf[]
+
+== デフォルト ツールチップ
+
+以下のスクリーン ショットは、{FinancialChartName} のデフォルト ツールチップについて紹介します。
+
+pick:[wpf="image::images/financialchart_wpf_default_tooltip.png[]"]
+pick:[jquery="image::images/financialchart_jquery_default_tooltip.png[]"]
+
+== コード例: カスタム ツールチップの表示
+
+この例は、任意のデータ ポイントの売上高の開値、高値、低値、および終値に関する情報をツールチップで表示する方法を示します。
+
+=== プレビュー
+
+pick:[wpf="image::images/financialchart_wpf_custom_tooltip.png[]"]
+pick:[jquery="image::images/financialchart_jquery_custom_tooltip.png[]"]
+
+図 1: カスタム ツールチップを持つ {FinancialChartName} コントロール
+
+== 手順
+
+ifdef::wpf[]
+[start=1]
+. ツールチップ プロパティのコンテンツの変更
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamFinancialChart ToolTipType="Item" ZoomSliderType="Area" YAxisAbbreviateLargeNumbers="False" >
+    <ig:XamFinancialChart.ItemsSource>
+        <local:StockPriceData />
+    </ig:XamFinancialChart.ItemsSource>
+    <ig:XamFinancialChart.ToolTips>
+        <col:ArrayList>           
+            <StackPanel>
+                <StackPanel Margin="0,5,5,5">
+                    <TextBlock Text="{Binding Item.Label}"/>
+                    <TextBlock Foreground="{Binding Series.ActualBrush}" Text="{Binding Series.Title}" />
+                </StackPanel>
+                <UniformGrid Columns="2">
+                    <TextBlock Text="Open:" />
+                    <TextBlock Text="{Binding Item.Open}"/>
+                    <TextBlock Text="High:" />
+                    <TextBlock Text="{Binding Item.High}" />
+                    <TextBlock Text="Low:" />
+                    <TextBlock Text="{Binding Item.Low}" />
+                    <TextBlock Text="Close:" />
+                    <TextBlock Text="{Binding Item.Close}" />
+                    <TextBlock Text="Volume:" />
+                    <TextBlock Text="{Binding Item.Volume}" />
+                </UniformGrid>
+            </StackPanel>                            
+        </col:ArrayList>
+        </ig:XamFinancialChart.ToolTips>
+</ig:XamFinancialChart>
+----
+
+endif::wpf[]
+
+ifdef::jquery[]
+[start=1]
+. チャートのツールチップのカスタム スタイルを追加します。
+
+*HTML の場合:*
+[source,html]
+----
+<div style="background: white;border-style: solid;border-width: 1px;">
+        <div style="font-weight:bold;">${series.title}</div>            
+        <div style="color:mediumpurple;">Open: ${item.open}</div>
+        <div style="color:red;">High: ${item.high}</div>
+        <div>Low: ${item.low}</div>
+        <div>Close: ${item.close}</div>
+        <div>Volume: ${item.volume}</div>
+    </div>
+</script>
+----
+
+[start=2]
+. {FinancialChartName} にカスタム ツールチップ スタイルを設定します。
+
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#chart").{FinancialChartName}({
+    dataSource: data,
+    tooltipTemplate: "chartTooltip"
+});
+----
+endif::jquery[]
+
+== ツールチップの無効化
+
+ifdef::wpf[]
+ツールチップを表示しないために空の pick:[wpf="ControlTemplate"]pick:[jquery="tooltipTemplate"] を設定します。
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName} x:Name="chart" ToolTipType="None">
+</ig:{FinancialChartName}>
+----
+endif::wpf[]
+
+ifdef::jquery[]
+ツールチップを表示しないために空の pick:[wpf="ControlTemplate"] pick:[jquery="tooltipTemplate"] を設定します。
+
+*HTML の場合:*
+[source,html]
+----
+<script id="chartTooltip" type="text/tmpl">
+</script>
+----
+endif::jquery[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+|link:financial-chart-chart-navigation.html[チャート ナビゲーション]
+|このトピックは、{FinancialChartName} のナビゲーションについて説明します。
+
+|====

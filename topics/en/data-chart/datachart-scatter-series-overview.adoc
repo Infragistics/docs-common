@@ -1,0 +1,190 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-scatter-series-overview",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "ae71f00e-36ce-4cda-8960-c7a0f6cab9d1",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5633433Z"
+}
+|metadata|
+////
+
+= Scatter Series
+
+This topic provides conceptual information to all types of Scatter Series in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+=== In This Topic
+
+This topic contains the following sections:
+
+* <<_Introduction,Introduction>>
+* <<_Types,Types of Scatter Series>>
+* <<_Preview,Preview of Scatter Series>> 
+* <<_SupportedAxes,Supported Axes>>
+* <<_Coordinate,Coordinate System>>
+* <<_DataBinding,Data Binding>>
+** <<_DataRequirements,Data Requirements>>
+** <<_DataSample,Data Sample>>
+* <<_RelatedContent,Related Content>>
+
+[[_Introduction]]
+== Introduction
+
+In the `{DataChartName}` control, Scatter Series is a group of series that show markers to represent the relationship among items in several distinct series of data or to plot data items using x and y coordinates. The x and y coordinates of the data point are determined by two numeric data columns. The Scatter Series draw attention to uneven intervals or clusters of data. These types of series are often used to plot scientific data, and can highlight the deviation of collected data from predicted results. Scatter series can also be used to organize data chronologically (even if the data is not in chronological order).
+
+[[_Types]]
+== Types of Scatter Series
+
+The {DataChartName} control provides the following types of Scatter Series and each of them is discussed in an individual topic:
+  
+* link:datachart-scatter-point-series.html[Scatter Point Series] 
+* link:datachart-scatter-line-series.html[Scatter Line Series] 
+* link:datachart-scatter-spline-series.html[Scatter Spline Series] 
+* link:datachart-bubble-series.html[Scatter Bubble Series] 
+ifdef::wpf,win-universal[]
+* link:datachart-scatter-high-density-scatter-series.html[High Density Scatter Series]
+* link:datachart-scatter-area-series.html[Scatter Area Series]
+* link:datachart-scatter-contour-series.html[Scatter Contour Series]
+* link:datachart-scatter-polygon-series.html[Scatter Polygon Series]
+* link:datachart-scatter-polyline-series.html[Scatter Polyline Series]
+endif::wpf,win-universal[]
+
+Refer to above topics to learn how to create a specific type of Scatter Series and bind data to it.
+
+[[_Preview]]
+== Preview of Scatter Series
+
+image::images/xamDataChart_Scatter_Series_02.png[]
+Figure 1: Sample implementation of Scatter Point Series
+
+image::images/xamDataChart_Scatter_Series_03.png[]
+Figure 2: Sample implementation of Scatter Line Series
+
+image::images/xamDataChart_Scatter_Series_04.png[]
+Figure 3: Sample implementation of Scatter Spline Series
+ 
+image::images/xamDataChart_Scatter_Bubble_Series_02.png[]
+Figure 4: Sample implementation of Scatter Bubble Series
+ 
+ifdef::wpf,win-universal[]
+image::images/High_Density_Scatter_Series_1_1.png[]
+Figure 5: Sample implementation of High Density Scatter Series
+endif::wpf,win-universal[]
+ 
+[[_SupportedAxes]] 
+== Supported Axes
+
+The {DataChartName} control provides various types of axes but only two types of axes can be used with all types of Scatter Series. The following table lists these supported axes:
+
+[options="header", cols="a,a,a"]
+|====
+|Series Type| X-Axis Type | Y-Axis Type 
+|`ScatterSeries` 
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis] +
+ifdef::wpf,win-forms[]
+link:{DataChartLink}.PercentChangeYAxis.html[PercentChangeYAxis]
+endif::wpf,win-forms[]
+ 
+|`ScatterLineSeries` 
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis] +
+ifdef::wpf,win-forms[]
+link:{DataChartLink}.PercentChangeYAxis.html[PercentChangeYAxis]
+endif::wpf,win-forms[]
+ 
+|`ScatterSplineSeries` 
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis] +
+ifdef::wpf,win-forms[]
+link:{DataChartLink}.PercentChangeYAxis.html[PercentChangeYAxis]
+endif::wpf,win-forms[]
+ 
+|`ScatterBubbleSeries` 
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis] +
+ifdef::wpf,win-forms[]
+link:{DataChartLink}.PercentChangeYAxis.html[PercentChangeYAxis]
+endif::wpf,win-forms[]
+ 
+ifdef::wpf,win-universal[]
+|`HighDensityScatterSeries`  
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis]
+
+|`ScatterAreaSeries`  
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis]
+
+|`ScatterContourSeries`  
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis]
+
+|`ScatterPolygonSeries`  
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis]
+
+|`ScatterPolylineSeries`  
+|link:{DataChartLink}.NumericXAxis.html[NumericXAxis]
+|link:{DataChartLink}.NumericYAxis.html[NumericYAxis]
+endif::wpf,win-universal[]
+|====
+
+In addition, each Scatter Series must have binding set to one x-axis using the property link:{DataChartLink}.ScatterBase{ApiProp}XAxis.html[XAxis] and one y-axis using link:{DataChartLink}.ScatterBase{ApiProp}XAxis.html[YAxis] property. For more information on axes, refer to the link:datachart-axes.html[Axes] topic.
+
+
+[[_Coordinate]]
+== Coordinate System
+
+In the Cartesian coordinate system, the location of data points is determined by a numeric value of an X-coordinate on the `NumericXAxis` and a numeric value of a Y-coordinate on the `NumericYAxis`. These coordinates are measured in the same unit of length, and they range from negative infinity to positive infinity. In addition, the origin of the Cartesian coordinate system or the location where the horizontal axis intersects with the vertical axis can be changed using the `CrossingAxis` and `CrossingValue` properties. For more detailed information on using these properties, please refer to the link:datachart-axis-crossing.html[Axis Crossing] topic.
+
+The following image shows the ScatterSeries with five data points at various locations in the Cartesian coordinate system:
+
+* The blue point is located in the center of the chart (0,0 – the origin of the coordinate system); 
+* The red point with an X-coordinate of 120 and a Y-coordinate of minus 80 (120, -80); 
+* The green point with an X-coordinate of minus 80 and a Y-coordinate of 160 (-80, 160); 
+* The orange point with an X-coordinate of 160 and a Y-coordinate of 120 (160, 120); and 
+* The gray point with an X-coordinate of minus 120 and a Y-coordinate of minus 120 (-120, -120). 
+
+image::images/xamDataChart_Scatter_Series_05.png[]
+
+
+[[_DataBinding]]
+== Data Binding
+
+This section provides information about binding data for all types of Scatter Series from data requirements through data sample to binding diagrams.
+
+[[_DataRequirements]]
+==== Data Requirements
+
+Similarly to other types of series in the {DataChartName} control, Scatter Series also use link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}] property to bind data. The following is a list of data requirements for Scatter Series:
+
+* The data model must contain at least one numeric data column (e.g. XValue) which is mapped using the link:{DataChartLink}.ScatterBase{ApiProp}XMemberPath.html[XMemberPath] property of Scatter series. pick:[wpf="An exception exists for the link:{DataChartLink}.ScatterPolygonSeries.html[ScatterPolygonSeries] and link:{DataChartLink}.ScatterPolygonSeries.html[ScatterPolylineSeries] as they require a List<List<Point>> for the link:{DataChartLink}.ShapeSeriesBase{ApiProp}ShapeMemberPath.html[ShapeMemberPath].  Because of this, the series already knows how to get the X value."]
+* The data model must contain at least second numeric data column (e.g. YValue) which is mapped using the link:{DataChartLink}.ScatterBase{ApiProp}YMemberPath.html[YMemberPath] property of Scatter series. pick:[wpf="An exception exists for the link:{DataChartLink}.ScatterPolygonSeries.html[ScatterPolygonSeries] and link:{DataChartLink}.ScatterPolygonSeries.html[ScatterPolylineSeries] as they require a List<List<Point>> for the link:{DataChartLink}.ShapeSeriesBase{ApiProp}ShapeMemberPath.html[ShapeMemberPath].  Because of this, the series already knows how to get the Y value."]
+* The data source must contain at least one data items otherwise the chart will not render the Scatter series.
+* The data source must implement the link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable] interface (e.g. link:http://msdn.microsoft.com/en-us/library/6sh2ey19.aspx[List], link:http://msdn.microsoft.com/en-us/library/ms132397.aspx[Collection], link:http://msdn.microsoft.com/en-us/library/7977ey2c.aspx[Queue], or link:http://msdn.microsoft.com/en-us/library/system.collections.stack.aspx[Stack])
+  
+
+For more information on the requirements for the specific types of series, refer to the link:datachart-series-requirements.html[Series Requirements] topic.
+
+
+[[_DataSample]]
+==== Data Sample
+
+An example of object that meets above criteria is the link:resources-sample-polar-data.html[PolarDataSource] which you can download and use it in your project.
+
+[[_RelatedContent]] 
+== Related Content
+ 
+* link:datachart-series-types.html[Series Types]
+* link:datachart-multiple-series.html[Adding Multiple Series]
+* link:datachart-series-requirements.html[Series Requirements]
+* link:datachart-scatter-point-series.html[Scatter Point Series] 
+* link:datachart-scatter-line-series.html[Scatter Line Series] 
+* link:datachart-scatter-spline-series.html[Scatter Spline Series] 
+* link:datachart-bubble-series.html[Scatter Bubble Series] 
+ifdef::wpf,win-universal[]
+* link:datachart-scatter-high-density-scatter-series.html[High Density Scatter Series] 
+endif::wpf,win-universal[]

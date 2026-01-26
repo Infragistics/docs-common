@@ -1,0 +1,272 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-data-validation",
+    "tags": ["Error Handling","Events","Validation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "c4d7a9e7-942e-4b80-95be-13f123f9c6d2",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0933905Z"
+}
+|metadata|
+////
+
+= Working with Data Validation ({SpreadsheetName})
+
+
+
+=== Purpose
+
+This topic explains how to handle the data validation event and how to show circles around the cells with invalid data.
+
+=== Required background
+
+The following table lists the concept and topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concept
+|Infragistics Excel Engine
+|==== 
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+| link:spreadsheet-features.html[Features Overview ({SpreadsheetName})] 
+
+|This topic explains in details the features of the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control from developer perspective. 
+
+| link:spreadsheet-uiu-data-validation.html[Data Validation Interactions ({SpreadsheetName})] 
+
+|This topic explains what actions can be performed by the user in relation with the data validation feature. 
+
+| link:spreadsheet-conf-data-validation.html[Configuring Data Validation ({SpreadsheetName})] 
+
+|This topic explains how to configure and set the build-in data validation rules. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref421192413, When Validation Occurs >>
+* <<_Ref421018135, Data Validation Event >>
+* <<_Ref421018142, Invalid Data Circles >>
+* <<_Ref421018166, Related Content >>
+
+[[_Ref421192413]]
+== When Validation Occurs
+
+=== Summary
+
+The {SpreadsheetName}’s data validation occurs when a user performed cell editing is done. If multiple cells are affected (for example when confirming editing with `Ctrl`+`Enter`) only the active cell will be validated.
+
+If you change the value of a cell as a result of other operations (for example selecting cell(s) and pressing `Delete` or pasting values) no validation will be performed.
+
+[[_Ref421018135]]
+== Data Validation Event
+
+The control supports a data validation-related event which is raised on cells which have validation rule assigned and when the user confirms a new input value which does not pass the validation. In the event arguments object of the event handler you have access to the edited cell and its validation rule. You can also implement your own logic which determines what action to be taken (accept, revert, stay in edit mode and show prompt) by the control.
+
+=== Settings
+
+The following table maps the desired task with the property from that manage it.
+
+[options="header", cols="a,a,a"]
+|====
+|Task|Use this property/event:|And
+
+|Attach data validation event handler
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}editmodevalidationerror_ev.html[EditModeValidationError]
+|Attach an event handler to it
+
+|Obtain the cell being edited
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~cell.html[Cell]
+|Read its value
+
+|Obtain the validation rule
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~validationrule.html[ValidationRule]
+|Read its value
+
+|Obtain or set the control’s next action
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~action.html[Action]
+|Read or set its value of type link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs_members.html[SpreadsheetEditModeValidationErrorEventArgs]
+
+|====
+
+.Note
+[NOTE]
+====
+You can use the link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~canstayineditmode.html[CanStayInEditMode] property of the event arguments to check if the cell is currently allowed to stay in editing mode.
+====
+
+=== Example
+
+The following code snippet demonstrates adding of a data validation event handler. The logic of this handler just checks if the new value can be parsed as integer and accepts the change:
+
+*In Visual Basic:*
+
+[source,vb]
+----
+Me.{SpreadsheetName}1.EditModeValidationError += EditModeValidationError_Handler
+Public Sub EditModeValidationError_Handler(sender As Object, _
+            e As SpreadsheetEditModeValidationErrorEventArgs)
+    Dim obj = Me.{SpreadsheetName}1.ActiveWorksheet.Rows(e.Cell.Row).Cells(e.Cell.Column).Value
+    Dim number As Integer
+    If Integer.TryParse(obj.ToString(), number) Then
+        e.Action = SpreadsheetEditModeValidationErrorAction.AcceptChange
+    Else
+        e.Action = SpreadsheetEditModeValidationErrorAction.StayInEditMode
+    End If
+End Sub
+----
+
+*In C#:*
+
+[source,csharp]
+----
+this.{SpreadsheetName}1.EditModeValidationError += {SpreadsheetName}_EditModeValidationError;
+void {SpreadsheetName}1_EditModeValidationError(object sender, SpreadsheetEditModeValidationErrorEventArgs e)
+       {
+           var obj = this.{SpreadsheetName}1.ActiveWorksheet.Rows[e.Cell.Row].Cells[e.Cell.Column].Value;
+           int number;
+           if (int.TryParse(obj.ToString(), out number))
+           {
+               e.Action = SpreadsheetEditModeValidationErrorAction.AcceptChange;
+           }
+           else
+           {
+               e.Action = SpreadsheetEditModeValidationErrorAction.StayInEditMode;
+           }
+       }
+----
+
+[[_Ref421018142]]
+== Invalid Data Circles
+
+=== Summary
+
+The {SpreadsheetName} control supports a visual notification option which draws a circle around each cell which has a validation rule set and its value does not pass the data validation.
+
+The following screenshot shows an invalid value circle around one of the control’s cells:
+
+image::images/xamSpreadsheet_val1.png[]
+
+=== Example
+
+The following code snippet shows how to invoke the command which shows the invalid data circles:
+
+ifdef::xaml[]
+
+*In XAML:*
+
+ifdef::xaml[]
+----
+<Button
+    Content="Show Validation Circles"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource
+            EventName="Click"
+            CommandType="CircleInvalidData" />
+    </ig:Commanding.Command>
+</Button>
+<ig:XamSpreadsheet x:Name="xamSpreadsheet1" />
+----
+endif::xaml[]
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+
+pick:[win-forms="*In C#:*"]
+----
+private void ultraButton1_Click(object sender, EventArgs e)
+ {
+   ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.CircleInvalidData);
+ }
+----
+
+endif::win-forms[]
+
+pick:[win-forms="*In VB:*"]
+
+ifdef::win-forms[]
+----
+Private Sub ultraButton1_Click(sender As Object, e As EventArgs)
+ ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.CircleInvalidData)
+End Sub
+----
+endif::win-forms[]
+
+The following code snippet shows how to invoke the command which hides the invalid data circles:
+
+pick:[win-forms="*C#*"]
+
+ifdef::win-forms[]
+----
+private void ultraButton1_Click(object sender, EventArgs e)
+ {
+   ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.ClearValidationCircles);
+ }
+----
+endif::win-forms[]
+
+pick:[win-forms="*In VB:*"]
+ifdef::win-forms[]
+----
+Private Sub ultraButton1_Click(sender As Object, e As EventArgs)
+ ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.ClearValidationCircles)
+End Sub
+----
+endif::win-forms[]
+
+ifdef::xaml[]
+
+*In XAML:*
+
+
+----
+<Button
+    Content="Clear Validation Circles"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource
+            EventName="Click"
+            CommandType="ClearValidationCircles" />
+    </ig:Commanding.Command>
+</Button>
+<ig:XamSpreadsheet x:Name="xamSpreadsheet1" />
+----
+
+
+endif::xaml[]
+
+
+
+[[_Ref421018166]]
+== Related Content
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:spreadsheet-work-activation.html[Working with Activation ({SpreadsheetName})]
+|This topic explains the activation feature from developer perspective.
+
+| link:spreadsheet-work-selection-formatting.html[Setting or Obtaining Active Selection's Formatting ({SpreadsheetName})]
+|This topic explains how to set or obtain active selection’s formatting.
+
+|====
+ 

@@ -1,0 +1,91 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-rule",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{7469ACC8-1869-4035-8595-90CF78947A98}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 罫線
+
+Rule エレメントは、デザイン、目的の両方において HTML の Horizontal Rule タグに非常に似ています。Rule エレメントは、実線の黒の 1 ピクセル幅などのデフォルト設定を使用した、親エレメントの幅全体に引かれるシンプルな線です。Rule エレメントはただのシンプルな線でなければならないというわけではありませんが、いくつかのプロパティを変更して強力なコンテンツ分割ツールとすることができます。
+
+Rule エレメントの幅は線が水平にどこまで引かれるかを定義するものではありません。線は常に親コンテナの幅全体に引かれます。Rule エレメントの幅は線の太さです。したがって、Width プロパティはエレメントの高さと考えた方がいいかもしれません（通常高さは垂直方向の距離と考えるからです）。
+
+image::images/Rule.png[]
+
+'''
+
+以下のコードを使用して、上記の画像のようなページをセクションに作成します。以下のコードは、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  エレメントが定義済みであり、少なくともひとつの  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  エレメントが追加されて section1 と名前を指定されていることを前提とします。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+.
+.
+.
+section1.AddQuickText("20 pixels of space above...")
+' Rule エレメントを定義して、上に 20 ピクセルのスペースを、
+' 下に 50 ピクセルのスペースを追加します。
+Dim rule As Infragistics.Documents.Reports.Reports.Report.IRule = section1.AddRule()
+rule.Margins.Top = 20
+rule.Margins.Bottom = 50
+section1.AddQuickText("...and 50 pixels of space below...")
+' Gap エレメントはコンテンツにスペースを配置するのに役立ちます。このギャップは、 
+' 20 ピクセルのスペースを提供するように明確に設定されます。
+Dim ruleGap As Infragistics.Documents.Reports.Reports.Report.IGap = section1.AddGap()
+ruleGap.Height = New FixedHeight(20)
+section1.AddQuickText("...and now three pixels wide, red, and dotted.")
+' セクションに Rule エレメントをもうひとつ追加します。
+rule = section1.AddRule()
+' Rule の色は Red になります。
+rule.Pen = New Pen(New Color(255, 0, 0))
+' Rule の幅 は 3 ピクセルになります。
+rule.Pen.Width = 3
+' Rule は点線になります。
+rule.Pen.Style = DashStyle.Dot
+' Rule は上に 20 ピクセルのスペースを、
+' 下に 50 ピクセルのスペースを配置します。
+rule.Margins.Top = 20
+rule.Margins.Bottom = 50
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+.
+.
+.
+section1.AddQuickText("20 pixels of space above...");
+// Rule エレメントを定義して、上に 20 ピクセルのスペースを、
+// 下に 50 ピクセルのスペースを追加します。
+Infragistics.Documents.Reports.Reports.Report.IRule rule = section1.AddRule();
+rule.Margins.Top = 20;
+rule.Margins.Bottom = 50;
+section1.AddQuickText("...and 50 pixels of space below...");
+// Gap エレメントはコンテンツにスペースを配置するのに役立ちます。このギャップは、 
+// 20 ピクセルのスペースを提供するように明確に設定されます。
+Infragistics.Documents.Reports.Reports.Report.IGap ruleGap = section1.AddGap();
+ruleGap.Height = new FixedHeight(20);
+section1.AddQuickText("...and now three pixels wide, red, and dotted.");
+// セクションに Rule エレメントをもうひとつ追加します。
+rule = section1.AddRule();
+// Rule の色は Red になります。
+rule.Pen = new Pen(new Color(255, 0, 0));
+// Rule の幅 は 3 ピクセルになります。
+rule.Pen.Width = 3;
+// Rule は点線になります。
+rule.Pen.Style = DashStyle.Dot;
+// Rule は上に 20 ピクセルのスペースを、
+// 下に 50 ピクセルのスペースを配置します。
+rule.Margins.Top = 20;
+rule.Margins.Bottom = 50;
+----

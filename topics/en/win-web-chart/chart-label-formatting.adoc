@@ -1,0 +1,152 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-label-formatting",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{CBAD2A8B-32ED-47E7-BF86-AF511DEBB015}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Label Formatting
+
+All the layers in the Chart control have specific information that is associated with label keywords. A label is text that is composed of these keywords. Upon rendering the chart, or at run time, these keywords assume certain values that are replaced on the fly before the layers are blended into the chart.
+
+.Note
+[NOTE]
+====
+*Note* : For detailed information about chart label formatting, see link:chart-use-predefined-and-custom-label-styles.html[Use Predefined and Custom Label Styles].
+====
+
+The X-axis (or horizontal axis) is a SetLabelAxis object, with the points evenly spaced apart for each item (point). the Y-axis, or vertical axis, is the numeric axis. Labels on the Y-axis can be formatted using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  property and a "numeric format":
+
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+== Formatting Types
+
+Chart uses the standard formatting types (e.g., numeric, date/time, enumeration, and composite) provided by the .NET Framework in order to handle formatting of your chart data (e.g., labels and annotations). For information on the supported formatting types, see the "Formatting Types" topic in the MSDN Library.
+
+== Built-In Label Formatting
+
+The Chart control provides you with a number of built-in format styles that you can use to change the display of your chart labels. For a description of the settings for each of these label styles, see link:chart-use-predefined-and-custom-label-styles.html[Use Predefined and Custom Label Styles].
+
+* Axis Item Label -- Specifies how each axis item's label is displayed in charts.
+* Axis Series Label -- Specifies how the series (or group) labels are displayed below each set of label items.
+* Pie Label -- Specifies how labels are displayed in pie charts.
+* ToolTip -- Specifies how ToolTip labels are displayed for each point on a chart.
+
+== Custom Label Formatting
+
+In addition to predefined label styles, the Chart control provides you with the ability to define your own custom label formats to suit the needs of your end users. By setting the label style to "Custom" and using label keywords (e.g., "ITEM_LABEL", "DATA_VALUE", and "PERCENT_VALUE), you can create your own custom labels.
+
+For example, in the screenshot of the pie chart below, the following label format string specifies that the chart's labels should be comprised of the percentage value, as well as the actual value, of each data item.
+
+<PERCENT_VALUE:#0.00>% (<DATA_VALUE:00.00>)
+
+image::Images/Chart_Labeling_and_Label_Format_01.png[Shows a 2D Pie Chart with the labels displaying the percent of the pie the slice occupies, and the data value.]
+
+The following are some additional examples of custom label formats:
+
+* To display a chart label item as 50%, you can use the following label format string: "<DATA_VALUE:00>%".
+* To display a chart label item as 25.25, you can use the following label format string: "<DATA_VALUE:00.00>".
+
+In addition to using the predefined label keywords, you can create your own label keywords in order to further extend the labeling capabilities of the Chart control.
+
+The following table lists the format strings common to the Chart control.
+
+[options="header", cols="a,a"]
+|====
+|Where used|Format Strings
+
+|Global Tokens
+|<TODAY_DATE> 
+
+<TODAY_DATETIME>
+
+|Used Where Applicable
+|<ITEM_LABEL> 
+
+<SERIES_LABEL> 
+
+<DATA_VALUE> 
+
+<ITEM_NUMBER> 
+
+<DATA_COLUMN> 
+
+<DATA_ROW> 
+
+<PERCENT_VALUE> 
+
+<LABEL_RENDER_LOCATION>
+
+|Bubble Chart, Scatter Chart, Polar Chart
+|<DATA_VALUE_X> 
+
+<DATA_VALUE_Y>
+
+|Bubble Chart
+|<DATA_VALUE_RADIUS>
+
+|Heat Map Chart
+|<DATA_VALUE_TOPLEFT> 
+
+<DATA_VALUE_TOPRIGHT> 
+
+<DATA_VALUE_BOTTOMLEFT> 
+
+<DATA_VALUE_BOTTOMRIGHT>
+
+|Box Chart
+|<DATA_VALUE_MIN> 
+
+<DATA_VALUE_MAX> 
+
+<DATA_VALUE_Q1> 
+
+<DATA_VALUE_Q2> 
+
+<DATA_VALUE_Q3>
+
+|Polar Chart
+|<DEGREES_VALUE> 
+
+<RADIANS_VALUE>
+
+|Gantt Chart
+|<START_TIME> 
+
+<END_TIME> 
+
+<TIME_ENTRY_INDEX>
+
+|Stacked Bar and Column Charts
+|<DATA_VALUE_ITEM>
+
+|Log Axes
+|<LOG_BASE> 
+
+<LOG_VALUE>
+
+|DataValueCustom Color Models
+|<ITEM_MIN> 
+
+<ITEM_MAX>
+
+|====
+
+== Related Topics
+
+* link:chart-customize-labels-using-the-irenderlabel-interface.html[Customize Labels Using the IRenderLabel Interface]
+* link:chart-display-labels-at-intervals-on-a-time-scale-axis.html[Display Labels at Intervals on a Time-Scale Axis]
+* link:chart-display-labels-at-user-defined-interval.html[Display Labels at a User-Defined Interval]
+* link:chart-rotate-series-labels.html[Rotate Series Labels]
+* link:chart-specify-row-labels.html[Specify Row Labels]
+* link:chart-use-predefined-and-custom-label-styles.html[Use Predefined and Custom Label Styles]

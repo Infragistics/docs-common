@@ -1,0 +1,169 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-writing-a-layer-class",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{FBAC9005-7632-45FC-B734-7D2AE9EB80D8}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= レイヤ クラスの記述
+
+カスタム レイヤ クラスは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  インタフェースを実装する必要があります。これを行うには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers.Layer]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers.Layer]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers.Layer]"]  を継承するか、インタフェースを直接実装します。
+
+image::images\Chart_Writing_a_Layer_Class_01.png[]
+
+ILayerを実装するには、各プロパティを格納するプライベートフィールドを作成し、インタフェースに格納されているパブリックプロパティ内にそれらを設定するか返します。
+
+*Visual Basic の場合：*
+
+----
+Imports System.Collections
+Imports Infragistics.UltraChart.Core.ColorModel
+Imports Infragistics.UltraChart.Core
+Imports Infragistics.UltraChart.Core.Layers
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Data
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Resources.Editor
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Core.Util
+...
+Public Class MyLayer
+	Implements ILayer
+	Private _chartCore As ChartCore
+	Public Property ChartCore() As Infragistics.UltraChart.Core.ChartCore _
+            Implements Infragistics.UltraChart.Core.Layers.ILayer.ChartCore
+		Get
+			Return Me._chartCore
+		End Get
+		Set(ByVal Value As Infragistics.UltraChart.Core.ChartCore)
+			Me._chartCore = Value
+		End Set
+	End Property
+	' その他のインタフェースメンバは省略します。
+End Class
+----
+
+*C# の場合：*
+
+----
+using System.Collections;
+using Infragistics.UltraChart.Core.ColorModel;
+using Infragistics.UltraChart.Core;
+using Infragistics.UltraChart.Core.Layers;
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Data;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Resources.Editor;
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Core.Util;
+...
+public class MyLayer : ILayer 
+{
+	private ChartCore _chartCore;
+	public ChartCore ChartCore 
+	{
+		get
+		{
+			return _chartCore;
+		}
+		set
+		{
+			_chartCore = value;
+		}
+	}
+	// その他のインタフェース メンバは省略します。
+}
+----
+
+pick:[win-forms-old="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  メソッドを実装するには、外枠（OuterBound インタフェース メンバ）を返します。任意の ILayer インタフェース メンバを使用し、開発者は必要に応じて後で変更またはカスタマイズできます。
+
+*Visual Basic の場合：*
+
+----
+Public Function GetInnerBounds() As Rectangle _
+  Implements Infragistics.UltraChart.Core.Layers.ILayer.GetInnerBounds
+	Return _outerBound
+End Function
+----
+
+*C# の場合：*
+
+----
+public Rectangle GetInnerBounds()
+{
+	return _outerBound;
+}
+----
+
+*グラフ レイヤ上での枠の設定* ：
+
+レイヤを処理してグラフ画像を作成するとき、レイヤはカスケード表示になります。各レイヤで外枠が設定された後、内枠のクエリーが実行されます。これらの内枠は、次のレイヤの外枠として設定され、処理はすべてのカスケードされているレイヤに繰り返されます。
+
+image::images\Chart_Writing_a_Layer_Class_02.png[]
+
+カスタム レイヤでは、開発者はこの規則を守る必要はありません。OuterBounds を任意のサイズと位置に設定し、グラフ上の任意の場所に描画することが可能です。GraphicsContext プリミティブは SceneGraph のクリップ領域をリセットするためにも使用されます。
+
+最後に、 pick:[win-forms-old="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  メソッドを実装（またはオーバーライド）します。すべてのカスタム レイヤ コードはここに進みます。このメソッドの 1 つの引数は SceneGraph です。SceneGraph はグラフの描画に使用されるプリミティブ（形状）のコレクションです。FillSceneGraph メソッドの実装では、必要なカスタムレイヤの外観や動作を設定するために、SceneGraph 内のオブジェクトの操作や新しいプリミティブの追加を行います。
+
+*Visual Basic の場合：*
+
+----
+Public Sub FillSceneGraph(ByVal scene As SceneGraph) _
+  Implements Infragistics.UltraChart.Core.Layers.ILayer.FillSceneGraph
+	' プリミティブを SceneGraph に追加します。
+	Dim myCircle As New Ellipse(New Point(100, 100), New Point(100, 100))
+	myCircle.PE.Fill = Color.Blue
+	scene.Add(myCircle)
+End Sub
+----
+
+*C# の場合：*
+
+----
+public void FillSceneGraph(SceneGraph scene) 
+{
+	// プリミティブを SceneGraph に追加します。
+	Ellipse myCircle = new Ellipse((new Point(100, 100)), (new Point(100, 100)));
+	myCircle.PE.Fill = Color.Blue;
+	scene.Add(myCircle);
+}
+----
+
+ILayer の実装が完了すると、レイヤを Chart に付加できます。
+
+*Visual Basic の場合：*
+
+----
+Private Sub WritingaLayerClass_Load(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	' レイヤを追加します
+	Me.UltraChart1.Layer.Add("My Layer", New MyLayer())
+	Me.UltraChart1.UserLayerIndex = New String() {"Default", "My Layer"}
+	Me.UltraChart1.InvalidateLayers()
+	Me.UltraChart1.DataSource = GetColumnData()
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void WritingaLayerClass_Load(object sender, System.EventArgs e)
+{
+	// レイヤを追加します
+	this.ultraChart1.Layer.Add("My Layer", new MyLayer());
+	this.ultraChart1.UserLayerIndex = new string[] {"Default", "My Layer"};
+	this.ultraChart1.InvalidateLayers();
+	this.ultraChart1.DataSource = GetColumnData();
+}
+----
+
+image::images\Chart_Writing_a_Layer_Class_03.png[]

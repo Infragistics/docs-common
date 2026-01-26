@@ -1,0 +1,265 @@
+﻿= Using Scatter Area Series
+
+=== Purpose
+
+This topic provides information on how to use the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] element in the link:{DataChartLink}.{DataChartName}_members.html[{DataChartName}]™ control.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref320651776, Scatter Area Series >>
+
+** <<_Ref320193474,Overview>>
+** <<_Ref320651783,Preview>>
+** <<_Ref320651786,Data Requirements>>
+** <<_Ref335249132,Data Binding>>
+** <<_Ref335248897,Color Scale>>
+** <<_Ref320651790,Example>>
+
+* <<_Ref320185294,Related Content>>
+
+[[_Ref320651776]]
+== Scatter Area Series
+
+[[_Ref320193474]]
+
+=== Overview
+
+In the _{DataChartName}_ control, the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] draws a colored surface based on a triangulation of X and Y data with a numeric value assigned to each point.
+
+This type of series is useful for rendering heat maps, magnetic field strength or wifi strength in an office. The link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] works a lot like the link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] except that it represents data as interpolated and colored surface instead of contour lines connecting data points with the same values.
+
+[[_Ref320651783]]
+
+=== Preview
+
+The following is a preview of the __{DataChartName}__ control with a link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] that is plotting 3D surface data where the Z axis is rendered as color changes across the surface.  Lower Z values are in blue and higher values are in red.
+
+image::images/DataChart_Using_Scatter_Area_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== Data Requirements
+
+Similar to other types of series in the __{DataChartName}__ control, the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] has the link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] property for the purpose of data binding. This property can be bound to an object that implements the link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable] interface (e.g. link:http://msdn.microsoft.com/en-us/library/6sh2ey19.aspx[List], link:http://msdn.microsoft.com/en-us/library/ms132397.aspx[Collection], link:http://msdn.microsoft.com/en-us/library/7977ey2c.aspx[Queue], link:http://msdn.microsoft.com/en-us/library/system.collections.stack.aspx[Stack]). In addition, each item in this object must have two data columns that stores point locations (one for X and one for Y). These data columns are then mapped to the link:{DataChartLink}.ScatterTriangulationSeries~XMemberPath.html[XMemberPath] and link:{DataChartLink}.ScatterTriangulationSeries~YMemberPath.html[YMemberPath] properties.  The data must also have one data column that stores a value for each point.  This value is used by the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] to color the surface. This value column is mapped to the link:{DataChartLink}.ScatterAreaSeries~ColorMemberPath.html[ColorMemberPath] property.
+
+The link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] automatically performs built-in data triangulation on items in the  link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}] if no triangulation is set to the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] property. However, computing triangulation can be a very time-consuming process, so the runtime performance will be better when specifying a  link:{DataVizChartsLink}.triangulationsource_members.html[TriangulationSource] for this property, especially when a large number of data items are present.
+
+ifdef::wpf[]
+.Note:
+[NOTE]
+====
+Refer to the link:datachart-triangulating-data.html[Triangulating Data] topic for more information about the process of creating, saving, and loading triangulation data.
+====
+endif::wpf[]
+
+[[_Ref335249132]]
+
+=== Data Binding
+
+The following table summarizes required properties of link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] used for data binding.
+
+[options="header", cols="a,a,a,a"]
+|====
+|Property Name|Property Type 2+|Description
+
+| link:{DataChartLink}.Series~{ApiDataSource}.html[{ApiDataSource}]
+|IEnumerable
+2+|Gets or sets the source of items to perform triangulation on if the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] property provides no triangulation data.
+
+| link:{DataChartLink}.ScatterTriangulationSeries~XMemberPath.html[XMemberPath]
+|string
+2+|The name of the property containing the X location for each item in the {ApiDataSource}.
+
+| link:{DataChartLink}.ScatterTriangulationSeries~YMemberPath.html[YMemberPath]
+|string
+2+|The name of the property containing the Y location for each item in the {ApiDataSource}.
+
+| link:{DataChartLink}.ScatterAreaSeries~ColorMemberPath.html[ColorMemberPath]
+|string
+2+|The name of the property on each data item containing a numeric value, which can be converted to a color by a color scale, set to the link:{DataChartLink}.ScatterAreaSeries~ColorScale.html[ColorScale] property.
+
+|====
+
+The following table summarizes optional properties of link:{DataChartLink}.ScatterContourSeries_members.html[ScatterContourSeries] used for data binding.
+
+[options="header", cols="a,a,a,a"]
+|====
+|Property Name|Property Type 2+|Description
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource]
+|IEnumerable
+2+|Gets or sets the source of triangulation data. Setting  link:{DataVizChartsLink}.TriangulationSource~Triangles.html[Triangles] of the  link:{DataVizChartsLink}.TriangulationSource_members.html[TriangulationSource] object to this property improves both runtime performance and series rendering.
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TriangleVertexMemberPath1.html[TriangleVertexMemberPath1]
+|string
+2+|The name of the property of the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] items which, for each triangle, contains the index of the first vertex point in the {ApiDataSource}. It is not mandatory to set this property. It is taken by default unless custom triangulation logic is provided.
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TriangleVertexMemberPath2.html[TriangleVertexMemberPath2]
+|string
+2+|The name of the property of the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] items which, for each triangle, contains the index of the second vertex point in the {ApiDataSource}. It is not mandatory to set this property. It is taken by default unless custom triangulation logic is provided.
+
+| link:{DataChartLink}.ScatterTriangulationSeries~TriangleVertexMemberPath3.html[TriangleVertexMemberPath3]
+|string
+2+|The name of the property of the link:{DataChartLink}.ScatterTriangulationSeries~TrianglesSource.html[TrianglesSource] items which, for each triangle, contains the index of the third vertex point in the {ApiDataSource}. It is not mandatory to set this property. It is taken by default unless custom triangulation logic is provided.
+
+|====
+
+[[_Ref335248897]]
+
+=== Color Scale
+
+Use the link:{DataChartLink}.ScatterAreaSeries~ColorScale.html[ColorScale] property of the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] to resolve values of points and thus fill the surface of the series. The colors are smoothly interpolated around the shape of the surface by applying a pixel-wise triangle rasterizer to triangulation data. Because rendering of the surface is pixel-wise, the color scale uses colors instead of brushes.
+
+The provided link:{DataChartLink}.CustomPaletteColorScale_members.html[CustomPaletteColorScale] class should satisfy most coloring needs, but the link:{DataChartLink}.ScatterAreaSeries~ColorScale.html[ColorScale] base class can be inherited by the application for custom coloring logic.
+
+The following table list properties of the link:{DataChartLink}.CustomPaletteColorScale_members.html[CustomPaletteColorScale] affecting surface coloring of the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries].
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.CustomPaletteColorScale_members.html[Palette]
+|ObservableCollection<Color>
+|Gets or sets the collection of colors to select from or to interpolate between.
+
+| link:{DataChartLink}.CustomPaletteColorScale~interpolationmode.html[InterpolationMode]
+| link:{DataChartLink}.ColorScaleInterpolationMode.html[ColorScaleInterpolationMode]
+|Gets or sets the method getting a color from the link:{DataChartLink}.CustomPaletteColorScale_members.html[Palette].
+
+| link:{DataChartLink}.CustomPaletteColorScale~maximumvalue.html[MaximumValue]
+|double
+|The highest value to assign a color. Any given value greater than this value will be Transparent.
+
+| link:{DataChartLink}.CustomPaletteColorScale~minimumvalue.html[MinimumValue]
+|double
+|The lowest value to assign a color. Any given value less than this value will be Transparent.
+
+|====
+
+[[_Ref320651790]]
+
+=== Example
+
+The following code shows how to bind the link:{DataChartLink}.ScatterAreaSeries_members.html[ScatterAreaSeries] 3D surface data in order to produce the above screenshot.  You can find the 3D surface data used in the below example link:resources-3d-surface-data.html[here].
+
+ifdef::wpf[]
+*In XAML:*
+
+[source,xaml]
+----
+
+<ig:{DataChartName}>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericXAxis x:Name="xAxis"/>
+        <ig:NumericYAxis x:Name="yAxis"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ScatterAreaSeries XAxis="{Binding ElementName=xAxis}"
+                              YAxis="{Binding ElementName=yAxis}"
+                              XMemberPath="X"
+                              YMemberPath="Y"
+                              ColorMemberPath="Z">
+            <ig:ScatterAreaSeries.ItemsSource> 
+                <model:CosXPlusCosY "/>
+            </ig:ScatterAreaSeries.ItemsSource>
+            <ig:ScatterAreaSeries.ColorScale>
+                <ig:CustomPaletteColorScale InterpolationMode="InterpolateRGB">
+                    <ig:CustomPaletteColorScale.Palette>
+                        <Color>Blue</Color>
+                        <Color>Green</Color>
+                        <Color>Yellow</Color>
+                        <Color>Red</Color>
+                    </ig:CustomPaletteColorScale.Palette>
+                </ig:CustomPaletteColorScale>
+            </ig:ScatterAreaSeries.ColorScale>
+        </ig:ScatterAreaSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' ScatterAreaSeries requires numeric X and Y axis
+Dim xAxis = New NumericXAxis()
+Dim yAxis = New NumericYAxis()
+Me.dataChart.Axes.Add(xAxis)
+Me.dataChart.Axes.Add(yAxis)
+
+' create and set data binding to the ScatterAreaSeries
+Dim series = New ScatterAreaSeries()
+series.{ApiDataSource} = New CosXPlusCosY()
+series.XMemberPath = "X"
+series.YMemberPath = "Y"
+series.ColorMemberPath = "Z"
+series.XAxis = xAxis
+series.YAxis = yAxis
+
+' set a color scale 
+Dim colorScale = New CustomPaletteColorScale()
+colorScale.InterpolationMode = ColorScaleInterpolationMode.InterpolateRGB
+colorScale.Palette.Add({ApiColorClass}.Blue)
+colorScale.Palette.Add({ApiColorClass}.Green)
+colorScale.Palette.Add({ApiColorClass}.Yellow)
+colorScale.Palette.Add({ApiColorClass}.Red)
+series.ColorScale = colorScale
+
+' add the ScatterAreaSeries to the {DataChartName}
+Me.dataChart.Series.Add(series)
+----
+
+*In C#:*
+
+[source,csharp]
+----
+// ScatterAreaSeries requires numeric X and Y axis
+var xAxis = new NumericXAxis();
+var yAxis = new NumericYAxis();
+this.dataChart.Axes.Add(xAxis);
+this.dataChart.Axes.Add(yAxis);
+
+// create and set data binding to the ScatterAreaSeries
+var series = new ScatterAreaSeries();
+series.{ApiDataSource} = new CosXPlusCosY();
+series.XMemberPath = "X";
+series.YMemberPath = "Y";
+series.ColorMemberPath = "Z";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+
+// set a color scale 
+var colorScale = new CustomPaletteColorScale();
+colorScale.InterpolationMode = ColorScaleInterpolationMode.InterpolateRGB;
+colorScale.Palette.Add({ApiColorClass}.Blue);
+colorScale.Palette.Add({ApiColorClass}.Green);
+colorScale.Palette.Add({ApiColorClass}.Yellow);
+colorScale.Palette.Add({ApiColorClass}.Red);
+series.ColorScale = colorScale;
+
+// add the ScatterAreaSeries to the {DataChartName}
+this.dataChart.Series.Add(series);
+----
+
+[[_Ref320185294]]
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+ifdef::xaml[]
+| link:datachart-creating-chart-in-xaml-code.html[Creating Chart in XAML code] 
+|This topic provides information on how to add the control to an application page.
+endif::xaml[]
+
+| link:datachart-series-requirements.html[Series Requirements]
+|This topic provides information on requirements of Series objects in the {DataChartName} control.
+
+
+|====

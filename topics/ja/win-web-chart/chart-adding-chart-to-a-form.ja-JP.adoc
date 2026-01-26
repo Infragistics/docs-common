@@ -1,0 +1,102 @@
+﻿////
+|metadata|
+{
+    "name": "chart-adding-chart-to-a-form",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D24A1A42-3780-4E32-B50C-F7B1F026E202}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= グラフをフォームに追加
+
+Chart コントロールの基本的な開始場所はフォームで取得および実行され、このトピックはそれについて説明します。フォームでチャートを取得して基本データ テーブルにバインドする基本を説明します。
+
+[start=1]
+. 既存の pick:[win-forms,win-forms-old="Windows アプリケーション"]
+pick:[asp-net="ASP.NET Web アプリケーション"]を開く、または新規アプリケーションを作成します。
+[start=2]
+. UltraChart コントロールをツールーボックスからフォームにドラッグします。チャート ウィザードが表示されます。基本チャートの設定には不要なので、ダイアログ ボックスで [キャンセル] をクリックできます。チャートがフォームに表示され、これは以下の画像のようになります。
+
+image::images/Chart_Adding_Chart_to_a_Form_01.png[]
+
+[start=3]
+. デフォルトで、ChartType プロパティは ColumnChart に設定されます。異なるチャートのタイプについての詳細は、 link:chart-chart-types.html[「チャート タイプ」セクション]を参照してください。
+[start=4]
+. コードビハインド ファイルに移動し、チャートをバインドするデータ テーブルを返す以下のメソッドを追加します。
+
+*Visual Basic の場合：*
+
+----
+Private Function GetColumnData() As DataTable
+	Dim myColumn As New DataTable
+	' 列と列名を定義します。
+	myColumn.Columns.Add("Series Labels", GetType(String))
+	myColumn.Columns.Add("Column A", GetType(Integer))
+	myColumn.Columns.Add("Column B", GetType(Integer))
+	myColumn.Columns.Add("Column C", GetType(Integer))
+	myColumn.Columns.Add("Column D", GetType(Integer))
+	' データの行を追加します。
+	myColumn.Rows.Add(New [Object]() {"Series A", 1, 4, 10, 4})
+	myColumn.Rows.Add(New [Object]() {"Series B", 3, 6, 4, 5})
+	myColumn.Rows.Add(New [Object]() {"Series C", 5, 8, 6, 7})
+	myColumn.Rows.Add(New [Object]() {"Series D", 7, 10, 7, 7})
+	Return myColumn
+End Function
+----
+
+*C# の場合：*
+
+----
+private DataTable GetColumnData()
+{
+	DataTable mydata = new DataTable();
+	// 列と列名を定義します。
+	mydata.Columns.Add("Series Labels", typeof(string));
+	mydata.Columns.Add("Column A", typeof(int));
+	mydata.Columns.Add("Column B", typeof(int));
+	mydata.Columns.Add("Column C", typeof(int));
+	mydata.Columns.Add("Column D", typeof(int));
+	// データの行を追加します。
+	mydata.Rows.Add(new Object[] {"Series A",1,4,10,4 });
+	mydata.Rows.Add(new Object[] {"Series B",3,6,4,5 });
+	mydata.Rows.Add(new Object[] {"Series C",5,8,6,7 });
+	mydata.Rows.Add(new Object[] {"Series D",7,10,7,7 });
+	return mydata;
+}
+----
+
+[start=5]
+. pick:[win-forms,win-forms-old="Form"] pick:[asp-net="Page"] ロード イベントを作成し、以下のコードを追加します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.DataSource = GetColumnData()
+Me.UltraChart1.DataBind()
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.DataSource = GetColumnData();
+this.ultraChart1.DataBind();
+----
+
+[start=6]
+. アプリケーションを実行すると以下のチャートの表示を確認できます。
+
+ifdef::asp-net,aspnet-old[]
+
+.注：
+[NOTE]
+====
+WebChart を使用している場合、aspnet ユーザーの ChartImages フォルダに読み取りおよび書き込み許可を設定する必要があります。そうでなければ、アプリケーションを実行する時に GDI+ エラーが表示されます。
+====
+endif::asp-net,aspnet-old[]
+
+image::images/Chart_Adding_Chart_to_a_Form_02.png[]
+
+このトピックはチャート設定の基本を説明しました。チャートのカスタマイズ方法の詳細は、 link:chart-using-chart.html[「チャートの使用」] セクションをトピックを参照してください。使用できる異なるチャート タイプについての詳細は、 link:chart-chart-types.html[「チャート タイプ」]セクションも参照できます。

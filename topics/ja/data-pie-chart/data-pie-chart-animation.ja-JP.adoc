@@ -1,0 +1,80 @@
+﻿////
+|metadata|
+{
+    "name": "piechart-selection",
+    "controlName": ["{PieChartName}"],
+    "tags": ["Charting","Data Presentation","How Do I"],
+    "guid": "",
+    "buildFlags": ["SL","WPF","win-phone","WINFORMS","ANDROID","XAMARIN"],
+    "createdOn": "2014-06-05T19:53:12.0788999Z"
+}
+|metadata|
+////
+
+= アニメーション
+
+このトピックでは、link:{DataPieChartLink}.{DataPieChartName}.html[{DataPieChartName}] コントロールで有効にできるさまざまなアニメーションに関する情報を提供します。
+
+このトピックは、以下のセクションで構成されています。
+
+* <<Requirements,要件>>
+* <<Overview,{DataPieChartName} のアニメーション>>
+* <<RelatedTopics,関連コンテンツ>>
+
+[[Requirements]]
+== 要件
+
+このトピックは、ユーザーがlink:data-pie-chart-data-binding.html[データ バインディング] トピックを既に読んでいることを前提とし、はじめにそのコードを使用します。
+
+[[Animation]]
+== {DataPieChartName} のアニメーション
+
+{DataPieChartName} は、スライスの表示や値の変更時のアニメーション化をサポートしています。
+
+`IsTransitionInEnabled` プロパティを `true` に設定すると、円チャートがアニメーションで表示されます。実行されるアニメーションのタイプは、`TransitionInMode` 列挙プロパティを表示したいアニメーションのタイプに設定することで構成できます。さらに、`TransitionInSpeedType` プロパティを、インデックス、値、通常、またはランダム化でスケー​​ルするように設定することもできます。このアニメーションの期間は、`TimeSpan` を受け取る `TransitionInDuration` プロパティで制御できます。
+
+データの変更をアニメーション化する場合は、`AnimateSeriesWhenAxisRangeChanges` プロパティを true に設定することでも実行できます。この変更の期間は、`TransitionDuration` プロパティを設定することでも構成できます。
+
+
+[[CodeExample]]
+
+== コード例
+
+ifdef::wpf[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{DataPieChartName} ItemsSource="{Binding Data}"              
+                    AnimateSeriesWhenAxisRangeChanges="True"
+                    IsTransitionInEnabled="True"
+                    TransitionDuration="00:00:3"
+                    TransitionInDuration="00:00:3"
+                    TransitionInMode="AccordionFromLeft"
+                    TransitionInSpeedType="Random" />
+----
+
+endif::wpf[]
+
+*C# の場合:*
+
+[source, csharp]
+----
+{DataPieChartName} dataPieChart = new {DataPieChartName}()
+{
+    ItemsSource = Data,
+    AnimateSeriesWhenAxisRangeChanges = true,
+    IsTransitionInEnabled = true,
+    TransitionDuration = new TimeSpan(0, 0, 3),
+    TransitionInDuration = new TimeSpan(0,0,3),
+    TransitionInMode = CategoryTransitionInMode.AccordionFromLeft,
+    TransitionInSpeedType = TransitionInSpeedType.Random
+};
+----
+
+[[RelatedTopics]]
+== 関連コンテンツ
+
+* link:data-pie-chart-data-binding.html[データ バインディング]
+* link:data-pie-chart-others-category.html[その他カテゴリ]

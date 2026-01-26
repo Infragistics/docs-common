@@ -1,0 +1,69 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-3d-spline-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{C9033EFA-C82D-4506-852A-0073F7C34D1D}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 立体スプライン グラフ データでの作業
+
+このトピックでは、立体スプライン グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、立体スプライン グラフのデータ要件のリストです。
+
+* データ セットには、ひとつまたは複数の数値列が含まれます。各線が 2 つ以上の点を持つことができるように、データ セットに 2 つ以上の数値列を含むことを推奨します。
+* 立体スプライン グラフを Series オブジェクトにバインドする場合には、Series バインディング要件の詳細は link:chart-requirements-for-series-binding.html[「Series バインディングの要件」]を参照してください。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、各列が 1 本の線を表し、各行に各線の点が含まれる書式の場合には、行と列を交換する必要があります。これを実行する詳細は、 link:chart-swap-rows-and-columns.html[「行と列の入れ替え」]を参照してください。
+====
+
+== データを立体スプライン グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* 各行はチャート上に単一の線（またはエリア）として描画され、線内の点の数はデータ ソース内の数値列の数と等しくなります。各行は z 軸に沿って、奥行きで表示されます。
+* 各数値列はチャート内に表示されます。データ内で現れる 1 番目の数値列は 1 番目の点の値に、2 番目の列は 2 番目の点の値に、というように使用されます。数値列は、数値として解釈できる値のみを含む任意の列です。
+* 折れ線グラフに沿ったデータ点は線分によって結ばれ、特定の行内の隣接する列を表します（投影される順に）。
+* ｘ 軸（水平軸）は SetLabelAxis オブジェクトで、各項目（点）に複数の点が均等に配置されます。y 軸（垂直軸）は数値軸です。Y 軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+
+* データ内で現れる最初の文字列の列は行ラベルに使用されます。
+* 行ラベルに使用する代替の列を選択して、プライマリ/セカンダリ ラベルを切り替えることができます。
+* 開発者は、UltraChart.Data. pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  メソッドを使用して、任意の列をチャートに追加または削除できます。
+
+描画された立体スプライン グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockName|Monday|Tuesday|Wednesday|Thursday|Friday
+
+|MSN
+|75
+|23
+|15
+|75
+|100
+
+|IBM
+|111
+|96
+|85
+|125
+|65
+
+|====
+
+image::images/Chart_Spline_Chart_3D_01.png[]

@@ -1,0 +1,320 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-sorting-tables",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "3ee2fd09-d352-4950-89f7-3ef6a2a80d9c","buildFlags": [],
+    "createdOn": "2012-03-29T13:08:36.8233297Z"
+}
+|metadata|
+////
+
+= テーブルの並べ替え pick:[wpf,xamarin="({ExcelEngineName})"]
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、テーブルで列を並べ替える方法を説明します。テーブル内の列は、`WorksheetTableColumn` pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"] プロパティに並べ替え条件を適用することで並べ替えることができます。
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref318391872,概要>>
+
+* <<_Ref318391904,コード例の概要>>
+
+* <<_Ref319876508,コード例: 順番に並べられた並べ替え条件>>
+
+* <<_Ref319876516,コード例: カスタム リスト並べ替え条件>>
+
+* <<_Ref319876564,コード例: 塗りつぶしの並べ替え条件>>
+
+* <<_Ref318391938,関連コンテンツ>>
+
+[[_Ref318391872]]
+== 概要
+
+テーブルの列で並べ替えの条件を設定することによって並べ替えが実行されます。並べ替え条件が列で設定されると、テーブルのすべての並べ替え条件は、テーブルのセルの順番を決定するために再評価されます。並べ替えの基準を満たすためにセルを移動させる必要があるとき、テーブルのセルの行全体が 1 つの単位として移動されます。テーブルのデータがそれ以降変更される場合、並べ替え条件は再評価されません。
+
+テーブルのフィルター条件は、並べ替え条件が追加、削除、変更される時に、または  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplysortconditions.html[ReapplySortConditions]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplysortconditions.html[ReapplySortConditions]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplysortconditions.html[ReapplySortConditions]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettable~reapplysortconditions.html[ReapplySortConditions]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettable~reapplysortconditions.html[ReapplySortConditions]"] メソッドがテーブルで呼び出されるときに限り再適用されます。
+
+並べ替え条件が再評価されると、表示されたセルのみが並べ替えられます。非表示行のすべてのセルは適切に維持されます。
+
+テーブルの列から並べ替え条件にアクセスすることに加えて、`WorksheetTable.SortSettings`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.worksheettablecolumn~sortcondition.html[SortCondition]"] コレクションからも公開されます。これは、列/並べ替え条件のペアの順番に並べられたコレクションです。このコレクション内の順序は並べ替えの優先順位です。コレクションの最初の並べ替え条件が最初に適用され、その条件によって並べ替えられた列内のセルの値によってテーブル内のすべての行が並べ替えられます。その並べ替え内のセルのグループに同じ値がある場合、行は、次の並べ替え条件を持つサブグループとして並べ替えられます。
+
+以下の並べ替え条件タイプを列で設定するために使用できます:
+
+[options="header", cols="a,a"]
+|====
+|並べ替え条件タイプ|説明
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.orderedsortcondition_members.html[OrderedSortCondition]"]
+|値に基づいて昇順または降順にセルを並べ替えます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.customlistsortcondition_members.html[CustomListSortCondition]"]
+|テキストまたは表示値に基づいて定義された順序でセルを並べ替えます。これは、カレンダーに表示する、またはアルファベット順でなく自分が定義したカスタム リストに表示するときの並べ替えに役に立ちます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.fillsortcondition_members.html[FillSortCondition]"]
+|塗りつぶしが特定のパターン/グラデーションであるかどうかに基づいてセルを並べ替えます。
+
+| pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"] pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"] pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"] pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.fontcolorsortcondition_members.html[FontColorSortCondition]"]
+|フォントが特定の色であるかどうかに基づいてセルを並べ替えます。
+
+|====
+
+文字列が大文字と小文字を区別して並べ替えられるかどうかを開発者が決定することを可能にする `WorksheetTable.SortSettings`  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[CaseSensitive]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[CaseSensitive]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[CaseSensitive]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.worksheettablecolumn~sortcondition.html[CaseSensitive]"] pick:[wpf,xamarin=" link:{ExcelEngineApiLink}infragistics.documents.excel.sorting.sortsettings%601~casesensitive.html[CaseSensitive]"] プロパティもあります。
+
+[[_Ref318391904]]
+== コード例の概要
+
+=== 概要
+
+以下の表には、このトピックのコード例が示されています。
+
+[options="header", cols="a,a"]
+|====
+|例|説明
+
+|順番に並べられた並べ替え条件
+|このコード例は、値に基づいて昇順または降順にテーブルからセルを並べ替える方法を示します。
+
+|カスタム リスト並べ替え条件
+|このコード例は、値に基づいて定義された順番でセルを並べ替える方法を示します。
+
+|塗りつぶし並べ替え条件
+|このコード例は、背景色に基づいてセルを並べ替える方法を示します。
+
+|====
+
+[[_Ref318391912]]
+[[_Ref319876508]]
+== コード例: 順番に並べられた並べ替え条件
+
+=== 説明
+
+このコード例は、値に基づいて昇順にテーブルからセルを並べ替える方法を示します。
+
+このコードは、ヘルパー クラス `ExcelExampleTable` を使用して名前が指定されたテーブルを取得します。その後で、順番に並べられた並べ替え条件が作成され、名前が指定されたテーブルの列に適用されます。最後に、並べ替えられたテーブルを持つワークブックが保存されます。
+
+=== 前提条件
+
+この例はワークブックをプログラムで作成するためのコード スニペットを使用します。ワークブックでは、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Create Sort Condition
+Dim orderedSort As Infragistics.Documents.Excel.Sorting.SortCondition = New Infragistics.Documents.Excel.Sorting.OrderedSortCondition(Infragistics.Documents.Excel.Sorting.SortDirection.Ascending)
+' Perform the sort
+table.Columns("FirstName").SortCondition = orderedSort
+' Save the workbook.
+workbook.Save("C:\TableSorting-Sorted.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Create Sort Condition
+Infragistics.Documents.Excel.Sorting.SortCondition orderedSort = new Infragistics.Documents.Excel.Sorting.OrderedSortCondition(
+    Infragistics.Documents.Excel.Sorting.SortDirection.Ascending);
+// Perform the sort
+table.Columns["FirstName"].SortCondition = orderedSort;
+// Save the workbook.
+ifdef::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+workbook.Save("C:\\TableSorting-Sorted.xlsx");
+endif::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref318391921]]
+[[_Ref319876516]]
+== コード例: カスタム リスト並べ替え条件
+
+=== 説明
+
+このコード例は、値に基づいて定義された順番でテーブルからセルを並べ替える方法を示します。
+
+このコードは、ヘルパー クラス `ExcelExampleTable` を使用して名前が指定されたテーブルを取得します。その後で、カスタムの並べ替え条件が作成され、名前が指定されたテーブルの列に適用されます。最後に、並べ替えられたテーブルを持つワークブックが保存されます。
+
+=== 前提条件
+
+この例はワークブックをプログラムで作成するためのコード スニペットを使用します。ワークブックでは、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Sorting_Exported_Tables_1.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = workbook.GetTable("Patients")
+' Create custom list sort condition
+Dim customListSortCondition As New Infragistics.Documents.Excel.Sorting.CustomListSortCondition(Infragistics.Documents.Excel.Sorting.SortDirection.Ascending, New String() {"High", "Medium", "Low"})
+' Perform the sort
+table.Columns("Severity").SortCondition = customListSortCondition
+workbook.Save("C:\TableSorting-Sorted.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook workbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.
+Infragistics.Documents.Excel.WorksheetTable table = workbook.GetTable("Patients");
+// Create custom list sort condition
+Infragistics.Documents.Excel.Sorting.CustomListSortCondition customListSortCondition = new Infragistics.Documents.Excel.Sorting.CustomListSortCondition(
+    Infragistics.Documents.Excel.Sorting.SortDirection.Ascending, new string[] { "High", "Medium", "Low" });
+// Perform the sort
+table.Columns["Severity"].SortCondition = customListSortCondition;
+ifdef::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+workbook.Save("C:\\TableSorting-Sorted.xlsx");
+endif::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+ifdef::xamarin[]
+workbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref318391932]]
+[[_Ref319876564]]
+== コード例: 塗りつぶしの並べ替え条件
+
+=== 説明
+
+このコード例は、背景色に基づいてセルを並べ替える方法を示します。
+
+このコードは、ヘルパー クラス `ExcelExampleTable` を使用して名前が指定されたテーブルを取得します。その後で、塗りつぶし並べ替え条件が作成され、名前が指定されたテーブルの列に適用されます。最後に、並べ替えられたテーブルを持つワークブックが保存されます。
+
+=== 前提条件
+
+この例はワークブックをプログラムで作成するためのコード スニペットを使用します。ワークブックでは、 _Patients_   という名前のテーブルが使用されます。pick:[win-forms,win-forms-old,asp-net,aspnet-old="コードは以下で見つけられます: link:excelengine-creating-excel-named-table-code-example.html[Excel の名前付きテーブルの作成のコード例]"]
+
+=== プレビュー
+
+以下のスクリーンショットは最終結果のプレビューです。
+
+image::images/Sorting_Exported_Tables_2.png[]
+
+=== コード
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim myWorkbook As Infragistics.Documents.Excel.Workbook = ExcelExampleTable.CreateExampleWorkbook()
+' Get a table.Table is created in separate code snippet.
+Dim table As Infragistics.Documents.Excel.WorksheetTable = myWorkbook.GetTable("Patients")
+Dim lastRow As Integer = table.DataAreaRegion.LastRow
+Dim rand As New Random()
+' Set Red background for random cells from first column
+Dim i As Integer = 1
+While i < lastRow
+    If rand.[Next](2) = 1 Then
+        myWorkbook.Worksheets(0).Rows(i).Cells(0).CellFormat.Fill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf="System.Drawing."]pick:[xamarin="Infragistics.Core.Graphics."]Color.FromArgb(255, 255, 0, 0))
+    End If
+    i += 1
+End While
+' Create Background Color Sort Condition
+Dim filterFill As Infragistics.Documents.Excel.CellFill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf="System.Drawing."]pick:[xamarin="Infragistics.Core.Graphics."]Color.FromArgb(255, 255, 0, 0))
+Dim fillSortCondition As New Infragistics.Documents.Excel.Sorting.FillSortCondition(filterFill, Infragistics.Documents.Excel.Sorting.SortDirection.Ascending)
+table.Columns(0).SortCondition = fillSortCondition
+myWorkbook.Save("C:\TableSorting-Sorted.xlsx")
+----
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+*C# の場合:*
+[source,csharp]
+----
+Infragistics.Documents.Excel.Workbook myWorkbook = ExcelExampleTable.CreateExampleWorkbook();
+// Get a table.Table is created in separate code snippet.
+Infragistics.Documents.Excel.WorksheetTable table = myWorkbook.GetTable("Patients");
+int lastRow = table.DataAreaRegion.LastRow;
+Random rand = new Random();
+// Set Red background for random cells from first column
+for (int i = 1; i < lastRow; i++)
+{
+    if (rand.Next(2) == 1)
+    {
+        myWorkbook.Worksheets[0].Rows[i].Cells[0].CellFormat.Fill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(
+        pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf="System.Drawing."]pick:[xamarin="Infragistics.Core.Graphics."]Color.FromArgb(255, 255, 0, 0));
+    }
+}
+// Create Background Color Sort Condition
+Infragistics.Documents.Excel.CellFill filterFill = Infragistics.Documents.Excel.CellFill.CreateSolidFill(
+    pick:[win-forms,asp-net,win-forms-old,aspnet-old,wpf="System.Drawing."]pick:[xamarin="Infragistics.Core.Graphics."]Color.FromArgb(255, 255, 0, 0));
+Infragistics.Documents.Excel.Sorting.FillSortCondition fillSortCondition = new Infragistics.Documents.Excel.Sorting.FillSortCondition(
+   filterFill, Infragistics.Documents.Excel.Sorting.SortDirection.Ascending);
+table.Columns[0].SortCondition = fillSortCondition;
+ifdef::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+myWorkbook.Save("C:\\TableSorting-Sorted.xlsx");
+endif::win-forms,asp-net,win-forms-old,aspnet-old,wpf[]
+ifdef::xamarin[]
+myWorkbook.Save(outputStream);
+endif::xamarin[]
+----
+
+[[_Ref318391938]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-support-named-tables-in-an-excel-spreadsheet.html[Excel 表計算で名前付きテーブルをサポート]
+|このトピックは、{ExcelEngineName} でのテーブルのサポートを説明します。Microsoft Excel® のテーブルは列に配列された関連したデータを含むセルの名前が指定された四角形の領域です。
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+| link:excelengine-understanding-the-infragistics-excel-engine.html[{ExcelEngineName} の理解]
+|このセクションでは、{ExcelEngineName} が提供する様々な特徴と機能を効果的に使用するための、タスク ベースの重要な情報について説明します。
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルおよび機能の理解を深めるための情報を提供します。
+endif::wpf,xamarin[]
+
+|====
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+=== サンプル
+
+以下のサンプルでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|サンプル|目的
+
+|名前付きテーブル
+|このサンプルは Excel で名前付きテーブルを使用する方法を紹介します。ワークシート領域をテーブルとして書式設定し、各テーブルの名前を指定できます。構成した後に、テーブルを名前によって取得し、テーブルに適用するスタイルを指定できます。また、テーブルの各列で並べ替え条件とフィルターを取得または設定できます。テーブルのスタイル、列の並べ替え順序、列のフィルターなどのオプションを指定できます。Excel ファイルを保存して設定を確認します。
+
+|====
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]

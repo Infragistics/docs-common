@@ -1,0 +1,171 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-polar-area-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"],
+    "guid": "cd7394e3-a2eb-4395-98b7-1246200f9f8b",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5513385Z"
+}
+|metadata|
+////
+
+= 極座標エリア シリーズ
+
+このトピックは、コード例を示して、極座標エリア シリーズを link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールで使用する方法を説明します。
+
+== 概要
+
+極座標エリア シリーズは、頂点つまりコーナーがデータ ポイントの極座標 (角度/半径) 系に置かれている塗りつぶされた多角形の形をしています。link:{DataChartLink}.polarareaseries.html[PolarAreaSeries] は link:{DataChartLink}.scatterseries.html[ScatterSeries] と同じデータ プロットの概念を使用していますが、横の線に沿って伸びるのではなく、円の周りでデータ ポイントをラップします。他のシリーズ タイプと同じように、複数の PolarAreaSeries は同じデータチャートにプロットでき、データ セットの相違点を示すために互いにオーバーレイできます。このシリーズのグループの詳細については、ラジアル シリーズトピックを参照してください。
+
+== プレビュー
+
+図 1 は、{DataChartName} コントロールにプロットされた時に極座標 エリア シリーズがどのように表示されるのかを示します。
+
+image::images/xamDataChart_Polar_Area_Series_01.png[]
+
+図 1: PolarAreaSeries の実装例
+
+== データ バインディング
+
+以下のコード スニペットでは、サンプルの極座標データ (link:resources-sample-polar-data.html[サンプル極座標データ]リソースからダウンロードで入手可能) を PolarAreaSeries にバインドする方法を示します。この例は {DataChartName} コントロール用のプロジェクトを設定済みであることを前提としています。
+
+ifdef::sl,wpf,win-universal[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+        <local:PolarDataSource x:Key="data" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericAngleAxis  x:Name="AngleAxis"  MinimumValue="0" MaximumValue="360" Interval="30"/>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis" MinimumValue="0" MaximumValue="100" Interval="20"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:PolarAreaSeries AngleAxis="{Binding ElementName=AngleAxis}" 
+                            RadiusAxis="{Binding ElementName=RadiusAxis}" 
+                            AngleMemberPath="Angle" 
+                            RadiusMemberPath="Radius" 
+                            ItemsSource="{StaticResource data}" 
+                            Thickness="5" 
+                            MarkerType="None" 
+                            Brush="#7F58A6C7">
+        </ig:PolarAreaSeries>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:PolarDataSource x:Key="data" />
+		</ResourceDictionary>
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericAngleAxis  x:Name="AngleAxis"  MinimumValue="0" MaximumValue="360" Interval="30"/>
+        <ig:NumericRadiusAxis x:Name="RadiusAxis" MinimumValue="0" MaximumValue="100" Interval="20"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:PolarAreaSeries AngleAxis="{x:Reference AngleAxis}" 
+                            RadiusAxis="{x:Reference RadiusAxis}" 
+                            AngleMemberPath="Angle" 
+                            RadiusMemberPath="Radius" 
+                            ItemsSource="{StaticResource data}" 
+                            Thickness="5" 
+                            MarkerType="None" 
+                            Brush="#7F58A6C7">
+        </ig:PolarAreaSeries> 
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-universal,win-forms,xamarin[]
+*C# の場合:*
+[source,csharp]
+----
+var data = new PolarDataSource(); 
+var AngleAxis = new NumericYAxis();
+var RadiusAxis = new CategoryXAxis(); 
+
+var series = new PolarAreaSeries();
+series.{ApiDataSource} = data;
+series.AngleMemberPath = "Angle"; 
+series.RadiusMemberPath = "Radius"; 
+series.AngleAxis = AngleAxis;
+series.RadiusAxis = RadiusAxis;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(AngleAxis);
+chart.Axes.Add(RadiusAxis);
+chart.Series.Add(series);
+----
+endif::wpf,win-universal,win-forms,xamarin[]
+
+ifdef::wpf,win-universal,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim data As New PolarDataSource()
+Dim AngleAxis As New NumericAngleAxis()
+Dim RadiusAxis As New NumericRadiusAxis()
+
+Dim series As New PolarAreaSeries()
+series.ItemsSource = polarDataSample
+series.AngleMemberPath = "Angle"
+series.RadiusMemberPath = "Radius"
+series.AngleAxis = AngleAxis
+series.RadiusAxis = RadiusAxis
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(AngleAxis)
+chart.Axes.Add(RadiusAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal,win-forms[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+PolarDataSource data = new PolarDataSource();
+DataChartView dataChart = new DataChartView(root.getContext());
+NumericAngleAxis AngleAxis = new NumericAngleAxis();
+NumericRadiusAxis RadiusAxis = new NumericRadiusAxis();
+
+PolarAreaSeries series = new PolarAreaSeries();
+series.setDataSource(data);
+series.setAngleMemberPath("Angle");
+series.setRadiusMemberPath("Radius");
+series.setAngleAxis(AngleAxis);
+series.setRadiusAxis(RadiusAxis);
+
+DataChartView chart = new DataChartView(rootView.getContext());
+chart.addAxis(RadiusAxis);
+chart.addAxis(AngleAxis);
+chart.addSeries(series);
+----
+
+endif::android[]
+
+== 関連コンテンツ
+
+* link:datachart-series-requirements.html[シリーズ要件]
+* link:datachart-using-numeric-angle-axis.html[数値角度軸の使用]
+* link:datachart-using-numeric-radius-axis.html[数値半径軸の使用]

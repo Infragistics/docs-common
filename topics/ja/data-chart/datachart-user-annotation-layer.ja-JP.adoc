@@ -1,0 +1,274 @@
+﻿= チャートのユーザー注釈 (ベータ版)
+
+{ProductName} では、ユーザー注釈機能を使用して、実行時に `{DataChartName}` にスライス、ストリップ、ポイントの各注釈を追加できます。これにより、エンドユーザーは、スライス注釈を使用して会社の四半期レポートなどの単一の重要イベントを強調したり、ストリップ注釈を使用して期間を持つイベントを示したりするなど、プロットに詳細を追加できます。ポイント注釈またはこれら 3 つの任意の組み合わせを使用して、プロットされたシリーズ上の個々のポイントを呼び出すこともできます。
+
+ifdef::wpf[]
+
+これは、`XamToolbar` のデフォルトのツールと統合されています。このトピックでは、`XamToolbar` を使用してチャートのプロット領域にユーザー注釈を追加する方法と、これらのユーザー注釈をプログラムから追加する方法を、例と共に解説します。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+次のトピックでは、コード例を用いて、チャートのプロット領域にユーザー注釈を追加する方法を説明します。
+
+endif::win-forms[]
+
+image:images/userAnnotationLayers.png[]
+
+.注:
+[NOTE]
+====
+これらの機能はデカルト軸をサポートするように設計されており、現在は半径または角度の軸には対応していません。
+====
+
+ifdef::wpf[]
+
+== XamToolbar でユーザー注釈を使用する
+
+`XamToolbar` には、「Annotate Chart」 と 「Delete Note」 という 2 つのツールを含む Annotations メニュー項目が用意されています。このメニュー項目を表示するには、対象のチャートで `IsUserAnnotationsEnabled` プロパティを `true` に設定する必要があります。Annotations メニュー項目は以下でハイライト表示されています:
+
+image:images/toolbarWithAnnotations.png[]
+
+開いた後に表示される 「Annotate Chart」 オプションを使用すると、`{DataChartName}` のプロット領域に注釈を付けることができます。
+追加できる注釈はスライス注釈、ストリップ注釈、ポイント注釈です。X 軸または Y 軸のラベルをクリックすると、スライス注釈を追加できます。プロット領域をクリックしてドラッグするとストリップ注釈を追加でき、チャート内のシリーズにプロットされたポイントをクリックするとポイント注釈を追加できます。
+
+追加済みの注釈は、「Delete Note」 メニュー項目を選択し、対応する軸注釈または項目コールアウトをクリックすることで削除できます。
+
+`XamToolbar` を使用してこれらのユーザー注釈を追加すると、`{DataChartName}` は `UserAnnotationInformationRequested` イベントを発生させ、そこでユーザー注釈に関する追加情報を提供できます。このイベント引数には `AnnotationInfo` プロパティがあり、追加される注釈のさまざまな要素を構成可能な `UserAnnotationInformation` オブジェクトを返します。
+
+以下の表は、`UserAnnotationInformation` で構成可能なさまざまなプロパティの詳細を示しています。
+
+[options="header", cols="a,a,a"]
+|====
+
+|プロパティ|タイプ|説明
+
+|`AnnotationData`
+|`string`
+|このプロパティは、ユーザー注釈に追加情報を提供するためのものです。このプロパティは、`UserAnnotationToolTipContentUpdating` イベントと組み合わせて使用され、注釈のツールチップに追加情報を表示するよう設計されています。
+
+|`AnnotationId`
+|`string`
+|この読み取り専用プロパティは、ユーザー注釈の一意の文字列 ID を返します。 
+
+|`BadgeColor`
+|`Brush`
+|このプロパティは、ユーザー注釈のバッジに使用する色を取得または設定します。
+
+|`BadgeImageUri`
+|`string`
+|このプロパティは、ユーザー注釈のバッジに使用する画像へのパスを取得または設定します。
+
+|`DialogSuggestedXLocation`
+|`double`
+|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 X 座標を取得します。
+
+|`DialogSuggestedYLocation`
+|`double`
+|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 Y 座標を取得します。
+
+|`Label`
+|`string`
+|このプロパティは、ユーザー注釈に表示するラベルを取得または設定します。
+
+|`MainColor`
+|`Brush`
+|このプロパティは、ユーザー注釈の背景を塗りつぶすために使用する色を取得または設定します。
+
+|====
+
+
+`UserAnnotationInformationRequested` イベントで注釈情報を更新した後、{DataChartName} の `FinishAnnotationFlow` メソッドを呼び出して注釈の作成を完了し、変更を確定する必要があります。あるいは、`CancelAnnotationFlow` を呼び出し、イベント引数の `AnnotationInfo` から取得できる `AnnotationId` を渡すことで注釈の作成を取り消すこともできます。これにより、プロット領域から注釈が削除されます。
+
+次のコード スニペットは、注釈フローを終了またはキャンセルするサンプルの `UserAnnotationInformationRequested` イベント ハンドラーを示しています。
+
+**C# の場合:**
+
+[source, cs]
+----
+public void dataChart1_UserAnnotationInformationRequested(object sender, UserAnnotationInformationEventArgs args)
+{
+    UserAnnotationInformation info = args.AnnotationInfo;
+
+    info.Label = "Annotation Label";
+    info.AnnotationData = "More annotation detail";
+    info.MainColor = Brushes.Yellow;
+    info.BadgeColor = Brushes.DodgerBlue;
+
+    //assume shouldCommit is a bool that determines whether or not you want the user annotation to be committed
+    if (shouldCommit)
+    {
+        dataChart1.FinishAnnotationFlow(info);
+    }
+    else
+    {
+        dataChart1.CancelAnnotationFlow(info.AnnotationId);
+    }
+}
+----
+
+
+endif::wpf[]
+
+== ユーザー注釈をプログラムで使用する
+
+`UserAnnotationLayer` をプログラムで使用する場合、`{DataChartName}` に対して 2 つのメソッドを呼び出し、ユーザー注釈の追加または削除を行えるモードに切り替えることができます。これらのメソッドは `StartCreatingAnnotation` と `StartDeletingAnnotation` です。
+
+`StartCreatingAnnotation` を呼び出した後は、X または Y 軸のラベルをクリックしてスライス注釈を追加したり、プロット領域をクリックしドラッグしてからマウスボタンを離してストリップ注釈を追加したり、チャート内のシリーズ上のデータ ポイントをクリックしてポイント注釈を追加したりできます。
+
+これらのユーザー注釈のいずれかを追加すると、`UserAnnotationInformationRequested` イベントが発生し、ユーザー注釈に関する詳細情報を提供できます。このイベント引数には `AnnotationInfo` プロパティがあり、追加される注釈のさまざまな要素を構成可能な `UserAnnotationInformation` オブジェクトを返します。
+
+以下の表は、`UserAnnotationInformation` で構成可能なさまざまなプロパティの詳細を示しています。
+
+[options="header", cols="a,a,a"]
+|====
+
+|プロパティ|タイプ|説明
+
+|`AnnotationData`
+|`string`
+|このプロパティは、ユーザー注釈に追加情報を提供するためのものです。このプロパティは、`UserAnnotationToolTipContentUpdating` イベントと組み合わせて使用され、注釈のツールチップに追加情報を表示するよう設計されています。
+
+|`AnnotationId`
+|`string`
+|この読み取り専用プロパティは、ユーザー注釈の一意の文字列 ID を返します。
+
+|`BadgeColor`
+|`Brush`
+|このプロパティは、ユーザー注釈のバッジに使用する色を取得または設定します。
+
+|`BadgeImageUri`
+|`string`
+|このプロパティは、ユーザー注釈のバッジに使用する画像へのパスを取得または設定します。
+
+|`DialogSuggestedXLocation`
+|`double`
+|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 X 座標を取得します。
+
+|`DialogSuggestedYLocation`
+|`double`
+|このプロパティは、ユーザー注釈が追加された位置に基づいて、ダイアログを表示する推奨 Y 座標を取得します。
+
+|`Label`
+|`string`
+|このプロパティは、ユーザー注釈に表示するラベルを取得または設定します。
+
+|`MainColor`
+|`Brush`
+|このプロパティは、ユーザー注釈の背景を塗りつぶすために使用する色を取得または設定します。
+
+|====
+
+`UserAnnotationInformationRequested` イベントで注釈情報を更新した後、{DataChartName} の `FinishAnnotationFlow` メソッドを呼び出して注釈の作成を完了し、変更を確定する必要があります。あるいは、`CancelAnnotationFlow` を呼び出し、イベント引数の `AnnotationInfo` から取得できる `AnnotationId` を渡すことで注釈の作成を取り消すこともできます。これにより、プロット領域から注釈が削除されます。
+
+次のコード スニペットは、注釈フローを終了またはキャンセルするサンプルの `UserAnnotationInformationRequested` イベント ハンドラーを示しています。
+
+**C# の場合:**
+
+[source, cs]
+----
+public void dataChart1_UserAnnotationInformationRequested(object sender, UserAnnotationInformationEventArgs args)
+{
+    UserAnnotationInformation info = args.AnnotationInfo;
+
+    info.Label = "Annotation Label";
+    info.AnnotationData = "More annotation detail";
+    info.MainColor = Brushes.Yellow;
+    info.BadgeColor = Brushes.DodgerBlue;
+
+    //assume shouldCommit is a bool that determines whether or not you want the user annotation to be committed
+    if (shouldCommit)
+    {
+        dataChart1.FinishAnnotationFlow(info);
+    }
+    else
+    {
+        dataChart1.CancelAnnotationFlow(info.AnnotationId);
+    }
+}
+----
+
+
+ユーザー注釈がチャートに追加されると、`Series` コレクションに `UserAnnotationLayer` として表示されます。`UserAnnotationLayer` には、プロット領域に追加された注釈の種類に応じて `UserSliceAnnotation`、`UserStripAnnotation`、および `UserPointAnnotation` 要素を格納できる `Annotations` コレクションがあります。
+
+== User Annotation ToolTip
+
+各ユーザー注釈は、マウス ホバー時にツールチップを表示し、さらに詳細な情報を提供できます。
+
+チャートは `UserAnnotationToolTipContentUpdating` イベントを公開しており、ツールチップが表示される際にその内容を更新できます。このイベント引数には `Content` と `AnnotationInfo` の 2 つのプロパティがあります。
+
+ツールチップは `UserAnnotationInformationRequested` イベントと連動する設計になっており、そのイベントで `AnnotationInfo.AnnotationData` に設定した追加情報を、ツールチップ表示時にも利用できます。`UserAnnotationToolTipContentUpdating` イベントのイベント引数の `AnnotationInfo` プロパティは、そのイベントで変更できる `UserAnnotationInformationRequested` の `AnnotationInfo` プロパティと同じインスタンスになります。これにより、ユーザー注釈の作成時に提供された情報を活用し、ツールチップ内にさらに多くの情報を提供できるようになります。
+
+次のコードスニペットは `UserAnnotationToolTipContentUpdating` イベントの使用例です。
+
+ifdef::wpf[]
+
+**C# の場合:**
+
+[source, cs]
+----
+public void xamDataChart1_UserAnnotationToolTipContentUpdating(object sender, UserAnnotationToolTipContentUpdatingEventArgs args)
+{
+    var cc = (ContentControl)args.Content;
+
+    TextBlock tb = null;
+
+    if(cc.Content == null)
+    {
+        tb = new TextBlock() { Text = args.AnnotationInfo.AnnotationData };
+        cc.Content = tb;
+    }
+    else
+    {
+        tb = cc.Content as TextBlock;
+        tb.Text = args.AnnotationInfo.AnnotationData;
+    }
+}
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+**C# の場合:**
+
+[source, cs]
+----
+public void ultraDataChart1_UserAnnotationToolTipContentUpdating(object sender, UserAnnotationToolTipContentUpdatingEventArgs args)
+{
+    Panel panel = (Panel)args.Content;
+
+    Label label = null;
+
+    if(panel.Controls.Count == 0)
+    {
+        label = new Label() { Text = args.AnnotationInfo.AnnotationData };
+        panel.Controls.Add(label);
+    }
+    else
+    {
+        label = panel.Controls[0] as Label;
+        label.Text = args.AnnotationInfo.AnnotationData;
+    }
+}
+----
+
+endif::win-forms[]
+
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-calloutlayer.html[コールアウト レイヤー]
+|このトピックは、ホバー操作に使用されるコールアウト レイヤーについての情報を提供します。コールアウト レイヤーのプロパティについて説明し、実装例を提供します。
+
+| link:datachart-data-annotation-slice-layer.html[データ注釈スライス レイヤー]
+|このトピックでは、軸注釈用のデータ注釈スライス イヤーについて説明し、プロパティと実装例を示します。
+
+| link:datachart-data-annotation-strip-layer.html[データ注釈ストリップ レイヤー]
+|このトピックでは、軸注釈用のデータ注釈ストリップ イヤーについて説明し、プロパティと実装例を示します。
+
+|====

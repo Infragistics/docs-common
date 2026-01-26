@@ -1,0 +1,143 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-chain",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{AEDB5D3B-4000-4C3D-8915-20A15A97E1E5}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チェーン
+
+Chain エレメントは、1 ページにすべてを表示するために十分なスペースがないがコンテンツを分割したくない場合に非常に役に立ちます。通常、Text エレメントを使用する時に、コンテンツを収めるために十分なスペースがページにない場合、以下の図に表示されるように次のページに流し込まれます。
+
+image::images/Chain_01.png[]
+
+ところが、Chain エレメントを使用することによって、そのコンテンツを一緒にすることができます。ページの区切りでエレメントのコンテンツが分割される代わりに、以下のスクリーンショットに示されるようにエレメント全体を次ページに移動します。
+
+image::images/Chain_02.png[]
+
+これは、1 ページにテキストのパラグラフを収めたい場合、または 1 ページに画像とそのテキスト キャプションを一緒に収めたい場合に役に立ちます。Chain エレメントは分割できないチェーンの中にすべてのコンテンツをリンクします。唯一の例外は、1 ページに収めることができるコンテンツよりも多くのコンテンツがチェーンの中にある場合です。この場合、Chain エレメントはすべてのコンテンツを 1 ページに一緒に収めることができないため、コンテンツ エレメントを一緒にグループ化しようとします。
+
+'''
+
+以下のコードを使用して、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.ichain.html[Chain]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.ichain.html[Chain]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.ichain.html[Chain]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.ichain.html[Chain]"]  エレメントを Section エレメントに追加し、テキストを追加します。
+
+[start=1]
+. *レポートを定義して、Section エレメントを追加します。*
+
+*Visual Basic の場合：*
+
+----
+'
+' レポートを作成し Section エレメントを追加します。
+'
+Dim report As Infragistics.Documents.Reports.Reports.Report.Report = _
+  New Infragistics.Documents.Reports.Reports.Report.Report()
+Dim section1 As Infragistics.Documents.Reports.Reports.Report.Section.ISection = _
+  report.AddSection()
+section1.PageMargins = _
+  New Infragistics.Documents.Reports.Reports.Report.Margins(50)
+----
+
+*C# の場合：*
+
+----
+//
+// レポートを作成しセクションを追加します。
+//
+Infragistics.Documents.Reports.Reports.Report.Report report =
+  new Infragistics.Documents.Reports.Reports.Report.Report();
+Infragistics.Documents.Reports.Reports.Report.Section.ISection section1 =
+  report.AddSection();
+section1.PageMargins = 
+  new Infragistics.Documents.Reports.Reports.Report.Margins(50);
+----
+
+[start=2]
+. *分割できないコンテンツを Section エレメントに追加します。*
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+*Visual Basic の場合：*
+
+----
+'
+' Chain エレメントと Text エレメントをチェーンに追加します。
+' このコンテンツは分割できません。
+'
+Dim string1 As String = "Lorem ipsum..."
+For i As Integer = 0 To 7
+' Chain エレメントを Band エレメントに追加します。
+  Dim chain1 As Infragistics.Documents.Reports.Reports.Report.IChain = _
+    section1.AddChain()
+' Text エレメントを Chain エレメントに追加します。
+  Dim chainText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _
+    chain1.AddText()
+' テキストでいくつかのスタイルを設定すると、エレメントがどこから開始し 
+' どこで終了するのかを確認できます。このように、コンテンツが分離されない
+' ことを確認できます。
+  chainText.Background = _
+    New Infragistics.Documents.Reports.Reports.Report.Background _
+    (Infragistics.Documents.Reports.Reports.Graphics.Brushes.SteelBlue)
+  chainText.Borders = _
+    New Infragistics.Documents.Reports.Reports.Report.Borders _
+    (Infragistics.Documents.Reports.Reports.Graphics.Pens.Black)
+  chainText.Paddings = _
+    New Infragistics.Documents.Reports.Reports.Report.Paddings(5)
+  chainText.Margins = _
+    New Infragistics.Documents.Reports.Reports.Report.Margins(5)
+' コンテンツを Text エレメントに追加します。
+  chainText.AddContent(string1)
+  chainText.AddLineBreak()
+  chainText.AddLineBreak()
+  chainText.AddContent(string1)
+Next i
+----
+
+*C# の場合：*
+
+----
+//
+// Chain エレメントと Text エレメントをチェーンに追加します。
+// このコンテンツは分割できません。
+//
+string string1 = "Lorem ipsum...";
+for (int i = 0; i < 8; i++)
+{
+	// Chain エレメントを Band エレメントに追加します。
+	Infragistics.Documents.Reports.Reports.Report.IChain chain1 =
+		section1.AddChain();
+	// Text エレメントを Chain エレメントに追加します。
+	Infragistics.Documents.Reports.Reports.Report.Text.IText chainText = 
+		chain1.AddText();
+	// テキストでいくつかのスタイルを設定すると、エレメントがどこから開始し 
+	// どこで終了するのかを確認できます。このように、コンテンツが分離されない
+	// ことを確認できます。
+	chainText.Background = 
+		new Infragistics.Documents.Reports.Reports.Report.Background
+		(Infragistics.Documents.Reports.Reports.Graphics.Brushes.SteelBlue);
+	chainText.Borders = 
+		new Infragistics.Documents.Reports.Reports.Report.Borders
+		(Infragistics.Documents.Reports.Reports.Graphics.Pens.Black);
+	chainText.Paddings = 
+		new Infragistics.Documents.Reports.Reports.Report.Paddings(5);
+	chainText.Margins = 
+		new Infragistics.Documents.Reports.Reports.Report.Margins(5);
+	// コンテンツを Text エレメントに追加します。
+	chainText.AddContent(string1);
+	chainText.AddLineBreak();
+	chainText.AddLineBreak();
+	chainText.AddContent(string1);
+}
+----

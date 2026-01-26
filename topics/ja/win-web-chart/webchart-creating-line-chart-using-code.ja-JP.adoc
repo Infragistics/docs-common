@@ -1,0 +1,148 @@
+﻿////
+
+|metadata|
+{
+    "name": "webchart-creating-line-chart-using-code",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{704F8FE3-0895-464A-8828-C0A44E4C8FDF}",  
+    "buildFlags": ["aspnet-old","asp-net"],
+    "createdOn": "2008-06-08T10:50:46Z"
+}
+|metadata|
+////
+
+= コードを使用して折れ線グラフを作成
+
+このチュートリアルは、コードを使用して折れ線グラフ™ を作成するプロセスを説明します。このチュートリアルが終わるまでには、折れ線グラフを作成し、シリーズ コレクションをグラフにバインドすることを詳しく理解することになります。
+
+以下の手順に従って平面折れ線グラフを作成します:
+
+[start=1]
+. 既存の Web アプリケーションを作成または開きます。
+[start=2]
+. 以下の Imports/using 文をコード ファイルの先頭に追加してください。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.WebUI.UltraWebChart
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Core.Layers
+----
+
+*C# の場合：*
+
+----
+using Infragistics.WebUI.UltraWebChart;
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Core.Layers;
+----
+
+[start=3]
+. グラフを宣言およびインスタンス化します。以下のコードを使用して、グラフをフォームに追加し、Page_load イベントでグラフ タイプを折れ線グラフに設定します。
+
+*Visual Basic の場合：*
+
+----
+' グラフを宣言およびインスタンス化します。
+Dim theChart As New UltraChart()
+' グラフをフォームに追加します。 
+Me.FindControl("Form1").Controls.Add(theChart)
+' グラフ タイプを LineChart に設定します。 
+theChart.ChartType = ChartType.LineChart
+----
+
+*C# の場合：*
+
+----
+protected void Page_Load(object sender, EventArgs e)
+        {
+	        // グラフを宣言およびインスタンス化します。
+	        UltraChart theChart = new UltraChart();
+// グラフをフォームに追加します。
+               this.FindControl("Form1").Controls.Add(theChart);
+// グラフ タイプを LineChart に設定します。
+               theChart.ChartType = ChartType.LineChart;    
+        }       
+----
+
+[start=4]
+. 以下の 2 つのメソッドを使用して、グラフを移植するサンプル データを生成します。これらのメソッドをコード ファイルに追加してください。
+
+*Visual Basic の場合：*
+
+----
+Private Shared Function GetNumericSeries() As NumericSeries
+        Dim series As New NumericSeries()
+' このコードは非連結データを使用してデータセットを格納します 
+	series.Points.Add(New NumericDataPoint(5, "Point A", False))
+	series.Points.Add(New NumericDataPoint(4, "Point B", False))
+        series.Points.Add(New NumericDataPoint(3, "Point C", False))
+        series.Points.Add(New NumericDataPoint(2, "Point D", False))
+        series.Points.Add(New NumericDataPoint(1, "Point E", False))
+        Return series
+End Function
+Private Shared Function GetNumericSeries1() As NumericSeries
+        Dim series1 As New NumericSeries()
+' このコードは非連結データを使用してデータセットを格納します 
+        series1.Points.Add(New NumericDataPoint(7, "Point A", False))
+        series1.Points.Add(New NumericDataPoint(-2, "Point B", False))
+        series1.Points.Add(New NumericDataPoint(8, "Point C", False))
+        series1.Points.Add(New NumericDataPoint(9, "Point D", False))
+        series1.Points.Add(New NumericDataPoint(10, "Point E", False))
+        Return series1
+End Function
+----
+
+*C# の場合：*
+
+----
+private static NumericSeries GetNumericSeries1()
+        {
+            NumericSeries series1 = new NumericSeries();
+// このコードは非連結データを使用してデータセットを格納します
+            series1.Points.Add(new NumericDataPoint(7.0, "Point A", false));
+            series1.Points.Add(new NumericDataPoint(-2.0, "Point B", false));
+            series1.Points.Add(new NumericDataPoint(8.0, "Point C", false));
+            series1.Points.Add(new NumericDataPoint(9.0, "Point D", false));
+            series1.Points.Add(new NumericDataPoint(10, "Point E", false));
+            return series1;
+        }
+----
+
+[start=5]
+. Page_Load イベントでシリーズ コレクションを折れ線グラフに追加します。
+
+*Visual Basic の場合：*
+
+----
+Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+' 最初のシリーズを折れ線グラフに追加します。
+Dim numseries As NumericSeries = GetNumericSeries()
+theChart.LineChart.ChartComponent.Series.Add(numseries)
+//2 番目のシリーズを折れ線グラフに追加します。 
+Dim numseries1 As NumericSeries = GetNumericSeries1()
+theChart.LineChart.ChartComponent.Series.Add(numseries1)
+End Sub
+----
+
+*C# の場合：*
+
+----
+protected void Page_Load(object sender, EventArgs e)
+        {
+//最初のシリーズを折れ線グラフに追加します。
+            NumericSeries numseries = GetNumericSeries();
+            theChart.LineChart.ChartComponent.Series.Add(numseries);
+//2 番目のシリーズを折れ線グラフに追加します。 
+            NumericSeries numseries1 = GetNumericSeries1();
+            theChart.LineChart.ChartComponent.Series.Add(numseries1);
+        }
+----
+
+例のコードは以下のグラフを生成します:
+
+image::images/LineChart_Using_Code.png[WebChart を手続き的に作成する方法を示します。]

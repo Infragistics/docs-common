@@ -1,0 +1,190 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-section-element",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{DADD015A-31FC-41ED-B05A-E252EB9B2C8F}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Section 要素
+
+Section エレメントは、Report エレメントを追加できる唯一のレイアウト エレメントです。このため、Section エレメントは以下の点で独特なものとなっています。
+
+* Section エレメントにはあらゆるレイアウト エレメントを含むことができます（もうひとつの Section エレメントを除く）。
+* Section エレメントによって個々のページをレポートに追加できます。
+* Section エレメントには電子透かしやスタンプとして使用するための Stationery および Decoration エレメントを含むことができます。その他のエレメントは、これら 2 つのエレメントを含むことはできません。
+* Section エレメントによって、レポートに link:documentengine-add-page-numbering.html[ページ番号を追加]することができます。
+
+Section エレメントのこのような独自の機能によって、レポート全体にいくつかの必要な設定を適用するだけでなく、高レベルでレポートを構成することができます。
+
+image::images/Section.png[]
+
+'''
+
+以下のコードは、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  オブジェクトを定義し、単一の  pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection]"]  を追加します。Section には、ヘッダ、フッタ、ステーショナリ、デコレーションが含まれます。
+
+[start=1]
+. *レポートとセクションを定義します。*
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+.
+.
+.
+Dim report As Infragistics.Documents.Reports.Reports.Report.Report = New Report()
+' メインの Section を作成し、それぞれの端に 50 ピクセルの
+' パディングを追加します。
+Dim section1 As Infragistics.Documents.Reports.Reports.Report.Section.ISection = report.AddSection()
+section1.PagePaddings.Left = 50
+section1.PagePaddings.Right = 50
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+.
+.
+.
+Infragistics.Documents.Reports.Reports.Report.Report report = new Report();
+// メインの Section を作成し、それぞれの端に 50 ピクセルのパディングを追加します。
+Infragistics.Documents.Reports.Reports.Report.Section.ISection section1 = report.AddSection();
+section1.PagePaddings.Left = 50;
+section1.PagePaddings.Right = 50;
+----
+
+[start=2]
+. *Header エレメントを Section に追加します。*
+
+*Visual Basic の場合：*
+
+----
+Dim sectionHeader As Infragistics.Documents.Reports.Reports.Report.Section.ISectionHeader = _  section1.AddHeader()
+sectionHeader.Repeat = True
+sectionHeader.Height = 50
+Dim sectionHeaderText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  sectionHeader.AddText(0, 0)
+sectionHeaderText.Paddings.All = 10
+sectionHeaderText.Alignment = New TextAlignment(Alignment.Left, Alignment.Middle)
+sectionHeaderText.Height = New RelativeHeight(100)
+sectionHeaderText.AddContent("Section Header")
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Reports.Reports.Report.Section.ISectionHeader sectionHeader =   section1.AddHeader();
+sectionHeader.Repeat = true;
+sectionHeader.Height = 50;
+Infragistics.Documents.Reports.Reports.Report.Text.IText sectionHeaderText =   sectionHeader.AddText(0, 0);
+sectionHeaderText.Paddings.All = 10;
+sectionHeaderText.Alignment = new TextAlignment(Alignment.Left, Alignment.Middle);
+sectionHeaderText.Height = new RelativeHeight(100);
+sectionHeaderText.AddContent("Section Header");
+----
+
+[start=3]
+. *Stationery エレメントを Section に追加します。*
+
+*Visual Basic の場合：*
+
+----
+' Stationery エレメントをレポートに追加します。
+' このエレメントはレポートのコンテンツの下に斜めに
+' 大文字の "DRAFT" を
+' 付けます。
+Dim stationery As Infragistics.Documents.Reports.Reports.Report.Section.IStationery = _  section1.AddStationery()
+stationery.Repeat = True
+Dim stationeryText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  stationery.AddText(200, 400, -45)
+stationeryText.Style = New Style(New Font("Verdana", 72), Brushes.Silver)
+stationeryText.AddContent("DRAFT")
+----
+
+*C# の場合：*
+
+----
+// Stationery エレメントをレポートに追加します。
+// このエレメントはレポートのコンテンツの下に斜めに
+// 大文字の "DRAFT" を
+// 付けます。
+Infragistics.Documents.Reports.Reports.Report.Section.IStationery stationery =   section1.AddStationery();
+stationery.Repeat = true;
+Infragistics.Documents.Reports.Reports.Report.Text.IText stationeryText =   stationery.AddText(200, 400, -45);
+stationeryText.Style = new Style(new Font("Verdana", 72), Brushes.Silver);
+stationeryText.AddContent("DRAFT");
+----
+
+[start=4]
+. *Decoration エレメントを Section に追加します。*
+
+*Visual Basic の場合：*
+
+----
+' Decoration エレメントをレポートに追加します。
+' このエレメントは、レポートのコンテンツ上に表示する
+' 大文字の "REJECTED" という
+' スタンプとして機能します。
+Dim decoration As Infragistics.Documents.Reports.Reports.Report.Section.IDecoration = _  section1.AddDecoration()
+decoration.MasterRange = MasterRange.All
+decoration.Rear = False
+Dim decorationText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  decoration.AddText(350, 650, -15)
+decorationText.Style = New Style(New Font("Verdana", 40), Brushes.Red)
+decorationText.Width = New RelativeWidth(35)
+decorationText.Borders = New Borders(New Pen(Colors.Red, 3, DashStyle.Solid), 10)
+decorationText.AddContent("REJECTED")
+----
+
+*C# の場合：*
+
+----
+// Decoration エレメントをレポートに追加します。
+// このエレメントは、レポートのコンテンツの上に表示する
+// 大文字の "REJECTED" という
+// スタンプとして機能します。
+Infragistics.Documents.Reports.Reports.Report.Section.IDecoration decoration =   section1.AddDecoration();
+decoration.MasterRange = MasterRange.All;
+decoration.Rear = false;
+Infragistics.Documents.Reports.Reports.Report.Text.IText decorationText =   decoration.AddText(350, 650, -15);
+decorationText.Style = new Style(new Font("Verdana", 40), Brushes.Red);
+decorationText.Width = new RelativeWidth(35);
+decorationText.Borders = new Borders(new Pen(Colors.Red, 3, DashStyle.Solid), 10);
+decorationText.AddContent("REJECTED");
+----
+
+[start=5]
+. *Footer エレメントを Section に追加します。*
+
+*Visual Basic の場合：*
+
+----
+Dim sectionFooter As Infragistics.Documents.Reports.Reports.Report.Section.ISectionFooter = _  section1.AddFooter()
+sectionFooter.Repeat = True
+sectionFooter.Height = 50
+Dim sectionFooterText As Infragistics.Documents.Reports.Reports.Report.Text.IText = _  sectionFooter.AddText(0, 0)
+sectionFooterText.Paddings.All = 10
+sectionFooterText.Alignment = New TextAlignment(Alignment.Center, Alignment.Middle)
+sectionFooterText.Height = New RelativeHeight(100)
+sectionFooterText.Background = New Background(Brushes.Gainsboro)
+sectionFooterText.AddContent("Copyright  1996 - 2007 Infragistics, Inc. All rights reserved.")
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Reports.Reports.Report.Section.ISectionFooter sectionFooter =   section1.AddFooter();
+sectionFooter.Repeat = true;
+sectionFooter.Height = 50;
+Infragistics.Documents.Reports.Reports.Report.Text.IText sectionFooterText =   sectionFooter.AddText(0, 0);
+sectionFooterText.Paddings.All = 10;
+sectionFooterText.Alignment = new TextAlignment(Alignment.Center, Alignment.Middle);
+sectionFooterText.Height = new RelativeHeight(100);
+sectionFooterText.Background = new Background(Brushes.Gainsboro);
+sectionFooterText.AddContent("Copyright © 1996 - 2007 Infragistics, Inc. All rights reserved.");
+----

@@ -1,0 +1,269 @@
+﻿////
+|metadata|
+{
+    "name": "spreadsheet-work-data-validation",
+    "tags": ["Error Handling","Events","Validation"],
+    "controlName": ["{SpreadsheetName}"],
+    "guid": "c4d7a9e7-942e-4b80-95be-13f123f9c6d2",
+    "buildFlags": [],
+    "createdOn": "2015-11-06T16:53:37.0933905Z"
+}
+|metadata|
+////
+
+= データ検証の使用 ({SpreadsheetName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、データ検証イベントの処理方法と、無効なデータのセルを円で囲んで示す方法を説明します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要な概念とトピックの一覧です。
+
+[options="header", cols="a,a"]
+|====
+|タイプ|コンテンツ
+
+|概念
+|Infragistics Excel Engine
+|==== 
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|トピック|目的 
+
+| link:spreadsheet-features.html[機能の概要 ({SpreadsheetName})] 
+
+|このトピックでは、{SpreadsheetName} コントロールの機能を開発者の観点から詳しく説明します。 
+
+| link:spreadsheet-uiu-data-validation.html[データ検証のインタラクション ({SpreadsheetName})] 
+
+|このトピックでは、データ検証機能に関連したユーザーが実行できる操作を説明します。 
+
+| link:spreadsheet-conf-data-validation.html[データ検証の構成 ({SpreadsheetName})] 
+
+|このトピックでは、定義済みのデータ検証ルールを構成および設定する方法について説明します。 
+
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref421192413, 検証の発生 >>
+* <<_Ref421018135, データ検証イベント >>
+* <<_Ref421018142, 無効なデータを示す円 >>
+* <<_Ref421018166, 関連コンテンツ >>
+
+[[_Ref421192413]]
+== 検証の発生
+
+=== 概要
+
+_{SpreadsheetName}_   のデータ検証は、セル編集が完了すると発生します。複数のセルが編集された場合 (たとえば、`Ctrl`+`Enter` キーを使用して編集した場合など)、アクティブなセルのみが検証されます。
+
+ほかの処理の結果としてセルの値が変更された場合は (たとえばセルを選択して `Delete` キーを押す、値を貼り付けるなど)、検証は実行されません。
+
+[[_Ref421018135]]
+== データ検証イベント
+
+このコントロールは、検証ルールが割り当てられたセルでのデータ検証に関連したイベントが発生した場合や、検証に合格しない値を新規に入力・確定した場合に対応します。イベント ハンドラーのイベント引数オブジェクトで、編集されたセルとその検証ルールにアクセスできます。また、コントロールによって実行されるアクション (受け入れる、戻る、編集モードを維持する、プロンプトの表示など) を決定するロジックを独自に実装することもできます。
+
+=== 設定
+
+以下の表は、任意のタスクとそれを管理するプロパティのマップを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|タスク|使用するプロパティ:|操作
+
+|データ検証イベント ハンドラーのアタッチ
+| link:{SpreadsheetLink}.{SpreadsheetName}{ApiProp}editmodevalidationerror_ev.html[EditModeValidationError]
+|イベント ハンドラーにアタッチします。
+
+|編集されたセルの取得
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~cell.html[Cell]
+|値を読み取ります
+
+|検証ルールの取得
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~validationrule.html[ValidationRules]
+|値を読み取ります
+
+|コントロールの次のアクションの取得または設定
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~action.html[Action]
+| link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs_members.html[SpreadsheetEditModeValidationErrorEventArgs] 型の値を読み取りまたは設定します。
+
+|====
+
+注:
+
+[NOTE]
+====
+イベント引数の link:{SpreadsheetLink}.spreadsheeteditmodevalidationerroreventargs~canstayineditmode.html[CanStayInEditMode] プロパティを使用すると、現在のセルで編集モードが維持されていることを確認できます。
+====
+
+=== 例
+
+以下のコードは、データ検証イベント ハンドラーを追加する方法を示します。このハンドラーのロジックは、新しい値が Integer として解析できることと変更を承諾することのみを確認します。
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SpreadsheetName}1.EditModeValidationError += EditModeValidationError_Handler
+Public Sub EditModeValidationError_Handler(sender As Object, _
+            e As SpreadsheetEditModeValidationErrorEventArgs)
+    Dim obj = Me.{SpreadsheetName}1.ActiveWorksheet.Rows(e.Cell.Row).Cells(e.Cell.Column).Value
+    Dim number As Integer
+    If Integer.TryParse(obj.ToString(), number) Then
+        e.Action = SpreadsheetEditModeValidationErrorAction.AcceptChange
+    Else
+        e.Action = SpreadsheetEditModeValidationErrorAction.StayInEditMode
+    End If
+End Sub
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SpreadsheetName}1.EditModeValidationError += EditModeValidationError_Handler;
+public void EditModeValidationError_Handler(
+    object sender,
+    SpreadsheetEditModeValidationErrorEventArgs e)
+{
+    var obj = this.{SpreadsheetName}1.ActiveWorksheet.Rows[e.Cell.Row].Cells[e.Cell.Column].Value;
+    int number;
+    if (int.TryParse(obj.ToString(), out number))
+    {
+        e.Action = SpreadsheetEditModeValidationErrorAction.AcceptChange;
+    }
+    else
+    {
+        e.Action = SpreadsheetEditModeValidationErrorAction.StayInEditMode;
+    }
+}
+----
+
+[[_Ref421018142]]
+== 無効なデータを示す円
+
+=== 概要
+
+_{SpreadsheetName}_   コントロールは、検証ルールに従って、値がデータ検証に合格しないセルをそれぞれ円で囲む視覚的な通知オプションをサポートしています。
+
+以下のスクリーンショットは、コントロールの 1 つのセルを無効な値の円で囲んだ状態を示します。
+
+image::images/xamSpreadsheet_val1.png[]
+
+=== 例
+
+以下のコードは、無効なデータを示す円を表示するコマンドを呼び出す方法を示しています。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+----
+<Button
+    Content="Show Validation Circles"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource
+            EventName="Click"
+            CommandType="CircleInvalidData" />
+    </ig:Commanding.Command>
+</Button>
+<ig:XamSpreadsheet x:Name="xamSpreadsheet1" />
+----
+
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+private void ultraButton1_Click(object sender, EventArgs e)
+ {
+   ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.CircleInvalidData);
+ }
+----
+
+pick:[win-forms="*VB の場合:*"]
+
+----
+Private Sub ultraButton1_Click(sender As Object, e As EventArgs)
+ ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.CircleInvalidData)
+End Sub
+----
+
+endif::win-forms[]
+
+以下のコードは、無効なデータを示す円を非表示にするコマンドを呼び出す方法を示しています。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+----
+<Button
+    Content="Clear Validation Circles"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource
+            EventName="Click"
+            CommandType="ClearValidationCircles" />
+    </ig:Commanding.Command>
+</Button>
+<ig:XamSpreadsheet x:Name="xamSpreadsheet1" />
+----
+
+endif::xaml[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+private void ultraButton1_Click(object sender, EventArgs e)
+ {
+   ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.ClearValidationCircles);
+ }
+----
+
+*VB の場合:*
+
+----
+Private Sub ultraButton1_Click(sender As Object, e As EventArgs)
+ ultraSpreadsheet1.PerformAction(UltraSpreadsheetAction.ClearValidationCircles)
+End Sub
+----
+
+endif::win-forms[]
+
+[[_Ref421018166]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:spreadsheet-work-activation.html[アクティベーションの操作 ({SpreadsheetName})]
+|このトピックでは、アクティベーション機能を開発者の観点から説明します。
+
+| link:spreadsheet-work-selection-formatting.html[アクティブな選択の書式の設定または取得 ({SpreadsheetName})]
+|このトピックでは、アクティブな選択の書式を設定または取得する方法を説明します。
+
+|====

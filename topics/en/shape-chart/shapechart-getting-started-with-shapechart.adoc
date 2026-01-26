@@ -1,0 +1,125 @@
+﻿= Getting Started with {ShapeChartName}
+
+== Topic Overview
+
+=== Purpose
+
+This topic explains with a code example how to add the  link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control to {PlatformName} applications.
+
+=== In this topic
+
+* <<Introduction, Introduction>>
+* <<Preview, Preview>>
+* <<Requirements, Requirements>>
+* <<Steps, Adding the {ShapeChartName}>>
+* <<Related, Related Content>>
+
+[[Introduction]]
+=== Introduction
+
+The following procedure shows how to add the {ShapeChartName} to {PlatformName} applications.
+
+[[Preview]]
+=== Preview
+
+The following is a screenshot of the {ShapeChartName}.
+
+image::images/shapechart_getting_started.png[]
+
+[[Requirements]]
+== Requirements
+
+ifdef::wpf[]
+
+Add the following NuGet package to your application:
+
+** Infragistics.WPF.Charts
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+Add the following Infragistics assembly references to your application:
+
+** {ApiPlatform}{ShapeChartAssembly}.dll
+** {ApiPlatform}{DataVizAssembly}.dll
+** {ApiPlatform}dll
+
+endif::win-forms[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf[]
+
+*In C#:*
+[source,csharp]
+----
+using {ShapeChartNamespace};
+----
+
+ifdef::wpf,win-forms[]
+*In VB:*
+[source,vb]
+----
+Imports {ShapeChartNamespace}
+----
+endif::wpf,win-forms[]
+
+
+[[Steps]]
+== Adding the {ShapeChartName} to the {PlatformName} application
+
+=== 1. Add the {ShapeChartName} to the page.
+
+The following code demonstrates adding the {ShapeChartName} control with the minimal code and property settings required for display. The below code uses the link:resources-sample-scatter-data.html[Sample Scatter Data] resource.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} ItemsSource="{Binding DataCollection}" />
+</Grid>
+----
+endif::wpf[]
+
+*In C#:*
+[source,csharp]
+----
+var data = new ScatterDataSource();
+var shapeChart = new {ShapeChartName}();
+shapeChart.ItemsSource = data;
+this.layoutRoot.Children.Add(shapeChart);
+----
+
+ifdef::wpf,win-forms[]
+*In VB:*
+[source,vb]
+----
+Dim data As New ScatterDataSource()
+Dim shapeChart As New {ShapeChartName}()
+shapeChart.ItemsSource = data
+Me.layoutRoot.Children.Add(shapeChart)
+----
+endif::wpf,win-forms[]
+
+
+=== 2. Verify the results.
+
+Build and run your project to verify the result. If you have implemented the steps correctly, the displayed {ShapeChartName} should look like the one in the Preview section above.
+
+[[Related]]
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic:
+
+* link:shapechart-binding-to-shapefile-data.html[Binding to Shape File Data]
+* link:shapechart-binding-to-break-even-data.html[Binding to Break Even Data]

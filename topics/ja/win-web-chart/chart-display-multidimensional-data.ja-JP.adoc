@@ -1,0 +1,168 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-display-multidimensional-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{1586A714-6AE4-44D2-9BC1-61A88866B1D4}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= 多次元データの表示
+
+このトピックは、複数のテーブルから三次元データまたは通常のデータを取得して、仮想テーブルにデータを配置する方法のデモを行うサンプル コードを提供します。Chart コントロールはこれを表示できます。
+
+たとえば、以下の画像は、チャートに基づく 3 つの別々のテーブルを説明しています。
+
+image::images/Chart_Display_Multi-table_Data_in_Chart_01.png[]
+
+Chart コントロールはデータをグラフ化するためにフラット データ セットが必要です。したがって、以下のテーブルの例に示すように、データをフラット レコードセットに変換する必要があります。
+
+image::images/Chart_Display_Multi-table_Data_in_Chart_02.png[]
+
+=== 多次元データを適切なフォーマットに再構成するには：
+
+[start=1]
+. すべてのテーブルは、列および行の数が同じでなければなりません。そうでなければ、コードを自分の状況に合わせて変更する必要があります。以下のサンプル コードでは、3 列、3 行から成るテーブルを使用しています。事前定義のテーブルで作業している場合、必ずこの条件に合わせてください。
+
+*Visual Basic の場合：*
+
+----
+' 各テーブルを作成して dataSet に追加します。
+Dim dataSet1  As New DataSet("MarketDataSet")
+Dim Market1 As DataTable = dataSet1.Tables.Add("Market1")
+Dim Market2 As DataTable = dataSet1.Tables.Add("Market2")
+Dim Market3 As DataTable = dataSet1.Tables.Add("Market3")
+' 列および行を各テーブルに追加します。
+Dim rnd As Random = New Random(0)
+Dim x As Integer
+For x = 0 To dataSet1.Tables.Count - 1
+	' ラベル列を追加します
+	dataSet1.Tables(x).Columns.Add("Time", GetType(String))
+	' 3 つのデータ列を追加します。
+	Dim z As Integer
+	For z = 0 To 2
+		dataSet1.Tables(x).Columns.Add("Product " & (z + 1), GetType(Double))
+	Next z
+	' 行をテーブルに追加します。
+	Dim y As Integer
+	For y = 0 To 2
+			dataSet1.Tables(x).Rows.Add(New Object() {"time " & (y + 1), _
+			rnd.Next(1, 10), rnd.Next(1, 10), rnd.Next(1, 10)})
+	Next y
+Next x
+----
+
+*C# の場合：*
+
+----
+// 各テーブルを作成して dataSet に追加します。
+DataSet dataSet= new DataSet("MarketDataSet");
+DataTable Market1=dataSet.Tables.Add("Market1");
+DataTable Market2=dataSet.Tables.Add("Market2");
+DataTable Market3=dataSet.Tables.Add("Market3");
+// 列および行を各テーブルに追加します。
+Random rnd = new Random(0);
+for(short x=0; x<dataSet.Tables.Count; x++)
+{
+	// ラベル列を追加します。
+	dataSet.Tables[x].Columns.Add("Time",typeof(string));
+	// 3 つのデータ列を追加します。
+	for(short i=0; i<3; i++)
+	{
+		dataSet.Tables[x].Columns.Add("Product " + (i+1),typeof(double));
+	}
+	// 行をテーブルに追加します。
+	for(short y=0; y<3; y++)
+	{
+		dataSet.Tables[x].Rows.Add(new Object[]{"time " + (y+1), 
+		rnd.Next(1,10),rnd.Next(1,10),rnd.Next(1,10) });
+	}
+}
+----
+
+[start=2]
+. 2 つのデータセットからデータを取り込み、チャート要素で使用可能な単一のテーブルに格納します。
+
+*Visual Basic の場合：*
+
+----
+' これらのテーブルを 1 つに変換します。
+Dim AllMarkets As DataTable = dataSet1.Tables.Add("AllMarkets")
+AllMarkets.Columns.Add("LabelsColumns")
+Dim i As Integer
+For i = 0 To (dataSet1.Tables.Count - 2)
+	AllMarkets.Columns.Add(dataSet1.Tables(i).TableName, GetType(Double))
+Next i
+Dim table1 As DataTable = dataSet1.Tables(0)
+Dim table2 As DataTable = dataSet1.Tables(1)
+Dim table3 As DataTable = dataSet1.Tables(2)
+Dim Pcnt As Integer = 1 
+' これは製品番号の追跡を維持します。
+Dim Tcnt As Integer = 1 
+' これはタイム番号の追跡を維持します。
+For i = 0 To (((table1.Rows.Count) $$*$$ (table1.Columns.Count - 1)) - 1)
+	' タイム カウントが 4 の場合、タイム カウントを 1 にリセットし、 
+	' 製品カウントを 1 つだけ増やします。
+	' これらのカウンタは、新しいテーブルに挿入する製品番号と 
+	' タイム番号の追跡を維持します。
+	If Tcnt = 4 Then
+		Pcnt += 1
+		Tcnt = 1
+	End If
+	' 新しい行をテーブルに追加します。
+	' セル 1 は列名と行ラベルの組み合わせです。
+	' 後続のセルは、メソッドを使用して元のテーブルから値が取得されます。
+	' table1.Rows(Tcnt-1)(Pcnt)。カウントに基づいて、最初のパラメータは行番号。 
+	' 2 番目のパラメータは列番号。
+	AllMarkets.Rows.Add(New Object() {table1.Columns(Pcnt).ColumnName + " " + _
+	table1.Rows(Tcnt - 1)(0), table1.Rows(Tcnt - 1)(Pcnt), table2.Rows(Tcnt - 1)(Pcnt), table3.Rows(Tcnt - 1)(Pcnt)})
+	Tcnt += 1
+Next i
+Me.UltraChart1.Data.DataSource = dataSet1.Tables("AllMarkets")
+----
+
+*C# の場合：*
+
+----
+// これらのテーブルを 1 つに変換します。
+DataTable AllMarkets=dataSet.Tables.Add("AllMarkets");
+AllMarkets.Columns.Add("LabelsColumns");
+for(short i=0;i<dataSet.Tables.Count-1; i++)
+{
+	AllMarkets.Columns.Add(dataSet.Tables[i].TableName, typeof(double));
+}
+DataTable table1=dataSet.Tables[0];
+DataTable table2=dataSet.Tables[1];
+DataTable table3=dataSet.Tables[2];
+int Pcnt=1; 
+// これは製品番号の追跡を維持します。
+int Tcnt=1; 
+// これはタイム番号の追跡を維持します。
+for (short i=0; i<table1.Rows.Count$$*$$(table1.Columns.Count-1); i++)
+{
+	// タイム カウントが 4 の場合、タイム カウントを 1 にリセットし、製品カウントを 1 つだけ増やします。
+	// これらのカウンタは、新しいテーブルに挿入する製品番号とタイム番号の追跡を維持します。
+	if(Tcnt==4)
+	{
+		Pcnt+=1;
+		Tcnt=1;
+	}
+	// 新しい行をテーブルに追加します。
+	// セル 1 は、列名と行ラベルの組み合わせです。
+	// 後続のセルは、メソッドを使用して元のテーブルから値が取得されます。
+	// table1.Rows[Tcnt-1][Pcnt]。 カウントに基づいて、最初のパラメータは行番号。2 番目のパラメータは列番号。
+	AllMarkets.Rows.Add(new Object[]{table1.Columns[Pcnt].ColumnName+ " " + table1.Rows[Tcnt-1][0],table1.Rows[Tcnt-1][Pcnt],table2.Rows[Tcnt-1][Pcnt],table3.Rows[Tcnt-1][Pcnt]});
+	Tcnt+=1;
+}
+this.ultraChart1.Data.DataSource=dataSet.Tables["AllMarkets"];
+----
+
+[start=3]
+. 最終チャートは以下の画像のようになります。
+
+image::images/Chart_Display_Multi-table_Data_in_Chart_03.png[]

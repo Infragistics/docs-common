@@ -1,0 +1,59 @@
+﻿////
+|metadata|
+{
+    "name": "chart-working-with-column-line-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{4EBE0B91-7E33-4306-8B59-487966534758}",
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= 柱状折れ線グラフ データでの作業
+
+このトピックでは、平面柱状折れ線グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、平面柱状折れ線グラフのデータ要件のリストです。
+
+* データ セットには、ひとつまたは複数の数値列が含まれます。各線が 2 つ以上の点を持つことができるように、データ セットに 2 つ以上の数値列を含むことを推奨します。
+* データ セットには少なくとも 1 行が含まれます。
+
+[NOTE]
+====
+*注：* 複数のデータ ソースを使用している場合には、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.ColumnData.SwapRowsAndColumns]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.ColumnData.SwapRowsAndColumns]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.ColumnData.SwapRowsAndColumns]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.LineData.SwapRowsAndColumns]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.LineData.SwapRowsAndColumns]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ColumnLineChart.LineData.SwapRowsAndColumns]"]  プロパティを True に設定します。
+====
+
+== データを柱状折れ線グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+* 複数行のデータがある場合、各行はひとつの柱状シリーズを構成します。
+* 柱状折れ線グラフは複合グラフです。柱状折れ線グラフを使用して同じデータ ソースまたは異なるデータ ソースをプロットできます。
+** 同じデータを柱状および折れ線としてプロットするには、UltraChart.Data.DataSource プロパティを設定します。
+** 柱状データと折れ線データのための個別のデータ ソースをプロットする場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.ColumnData.DataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.ColumnData.DataSource]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.ColumnData.DataSource]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.LineData.DataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.LineData.DataSource]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ColumnLineChart.LineData.DataSource]"]  の両プロパティを設定します。
+
+== 列データ
+
+* 各行は、柱状グループとして個別に描画されます。これらの柱状グループは「シリーズ」と呼ばれます。各シリーズは、X 軸の下にシリーズ ラベルを表示します。データ値は、y 軸に沿った柱状の高さで表されます。
+* ｘ 軸（水平軸）は SetLabelAxis オブジェクトで、各項目（点）に複数の点が均等に配置されます。y 軸（垂直軸）は数値軸です。Y 軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+== 折れ線データ
+
+* 各行はチャート上に単一の線（またはエリア）として描画され、線内の点の数はデータ ソース内の数値列の数と等しくなります。
+* データ内で現れる 1 番目の数値列は 1 番目の点の値に、2 番目の数値列は 2 番目の点に、というように使用されます。
+* X2 軸（上部の水平軸）は「セット ラベル」軸で、各項目（点）に複数の点が均等に配置されます。y2 軸すなわち右側の垂直軸は数値軸です。y2 軸上のラベルは、FormatString プロパティと「数値書式」を使用して書式設定できます。
+[source]
+----
+UltraChart.Axis.Y2.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----

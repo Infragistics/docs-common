@@ -1,0 +1,61 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-determine-which-axis-is-being-scrolled-or-scaled",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{79688CF6-25F1-4B41-B7FB-D3C016AC478E}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= スクロールまたはスケールされる軸を決定
+
+エンド ユーザによってスケールまたはスクロールされるチャートの軸を決定しなければならないケースに遭遇する場合があります。
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartscrollscaleeventargs.html[ChartScrollScaleEventArgs]"]  オブジェクトは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~scrolling_ev.html[Scrolling]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~scaling_ev.html[Scaling]"]  イベントに渡されますが、スクロールされる軸についての情報を保持する以下のプロパティを含みます（2006 Volume 3 リリース以降追加）。
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartscrollscaleeventargs~axisnumber.html[AxisNumber]"]  -- スクロールされる軸を識別する列挙値。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.chartscrollscaleeventargs~axis.html[Axis]"]  -- Axis レイヤへのオブジェクト参照。軸での座標のマッピングや軸での主要なプロパティへのアクセスなど、高度な操作に使用することができる（ pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.axis~minimum.html[Minimum]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.axis~maximum.html[Maximum]"]  など）。
+
+以下のサンプル コードは、Scrolling イベントを使用して、AxisNumber および Axis プロパティの両方を参照する方法を示します。
+
+[NOTE]
+====
+*注：* 以下のサンプル コードは、Scaling イベント ハンドラでも使用できます。
+====
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Events
+...
+Private Sub UltraChart1_Scrolling(ByVal sender As System.Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartScrollScaleEventArgs) _
+  Handles UltraChart1.Scrolling
+	' "Y_Axis 表示軸範囲は 2.25 から 87.34 です" のように出力します。
+	Me.txtEvents.Text += e.AxisNumber.ToString() + " visible axis range is now: " + _
+	  e.Axis.WindowMinimum.ToString() + " to " + e.Axis.WindowMaximum.ToString() + _
+	  Environment.NewLine
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Shared.Events;
+...
+private void ultraChart1_Scrolling(object sender, ChartScrollScaleEventArgs e)
+{
+// "Y_Axis 表示軸範囲は 2.25 から 87.34 です" のように出力します。
+        Console.WriteLine(e.AxisNumber.ToString() + " visible axis range is now: " + 
+          e.Axis.WindowMinimum.ToString() + " to " + e.Axis.WindowMaximum.ToString());
+}
+----
+
+== 関連トピック
+
+link:chart-scrolling-and-scaling-charts.html[チャートのスクロールとスケール] link:chart-axis-requirements-for-composite-charts.html[]

@@ -1,0 +1,104 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-null-values",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{9F5EAE6E-2494-4623-9E52-B66334A6A031}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Null Values
+
+Charts are often required to display sets of data which contain null values. Since null values in a data source can have different meanings, the Chart control provides a variety of ways to plot null values in a set.
+
+A common question that is asked when handling null values is: Where on the chart should values be placed when they are null?
+
+For most chart types, the Chart control provides a  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.styles.nullhandling.html[NullHandling]"]  property. In the Properties window of the Designer view, the NullHandling property is available under the property that corresponds to the chart type. For example, in the Properties window of the Column chart, the NullHandling property is available under the ColumnChart property.
+
+.Note
+[NOTE]
+====
+When using value types in .NET (e.g., System.Int32, System.Double, and System.DateTime), you cannot have null values because value types are not nullable. If you wish to have null values in a dataset, use nullable types, such as the types contained in the System.Data.SqlTypes namespace.
+====
+
+The following is a list of the NullHandling values. Each value treats null values differently.
+
+* NullHandling.Zero -- Plots null values at 0.0 on the y-axis
+* NullHandling.DontPlot -- Does not connect segments; it skips over them and does not connect the adjacent point.
+* NullHandling.InterpolateSimple -- Uses simple (linear) interpolation to plot a point between the null value's preceding and subsequent formulas. The following is the formula used for this:
+
+----
+	interpolatedValue = (precedingValue / 2) + (subsequentValue / 2)
+----
+
+* NullHandling.InterpolateCustom -- Performs custom interpolation logic at the application level to populate the null values by handling the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.shared.events.interpolatevalueseventargs.html[UltraChart.InterpolateValues]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.interpolatevalueseventargs.html[UltraChart.InterpolateValues]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.shared.events.interpolatevalueseventargs.html[UltraChart.InterpolateValues]"]  event. In the above example, this event handler populates null values with the value 120\.
+
+The table below is an example of an Area chart's data set:
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockName|Monday|Tuesday|Wednesday|Thursday|Friday
+
+|IBM
+|111
+|96
+|85
+|null
+|65
+
+|MSN
+|75
+|23
+|15
+|75
+|100
+
+|MCI
+|55
+|63
+|84
+|95
+|80
+
+|ATT
+|12
+|12
+|40
+|60
+|50
+
+|VER
+|69
+|95
+|110
+|98
+|123
+
+|====
+
+The area chart images below illustrate how the data is plotted using the four different types of null handling.
+
+[cols="a,a"]
+|====
+|NullHandling.Zero
+|NullHandling.DontPlot
+
+|image::Images\Chart_Null_Handling_and_Empty_Styles_01.png[Shows an area chart demonstrating the NullHandling.Zero option.]
+|image::Images\Chart_Null_Handling_and_Empty_Styles_02.png[Shows an area chart demonstrating the NullHandling.DontPlot option.]
+
+|NullHandling.InterpolateSimple
+|NullHandling.InterpolateCustom
+
+|image::Images\Chart_Null_Handling_and_Empty_Styles_03.png[Shows an area chart demonstrating the NullHandling.InterpolateSimple option.]
+|image::Images\Chart_Null_Handling_and_Empty_Styles_04.png[Shows an area chart demonstrating the NullHandling.InterpolateCustom option.]
+
+|====
+
+== Related Topic
+
+link:chart-customize-the-display-of-null-values.html[Customize the Display of Null Values]

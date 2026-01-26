@@ -1,0 +1,234 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-series-financial-price-series-overview",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting"],
+    "guid": "93330a7e-2699-4311-b9c2-1d3df418bf27",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.4542971Z"
+}
+|metadata|
+////
+
+= Financial Series
+
+The link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control’s link:{DataChartLink}.FinancialPriceSeries.html[FinancialPriceSeries] used to plot stock prices, and show the stock's high, low, open, and close prices over time. In addition, it can display trend lines for stock prices. Financial Price Series is often used in combination with a number of other link:datachart-financial-indicators-overview.html[Financial Indicators] to measure changes and analyze trends of stock prices.
+
+== Display Modes
+
+The Financial Price Series has two display modes that are configurable by setting enumerable value on the link:{DataChartLink}.FinancialPriceSeries{ApiProp}DisplayType.html[DisplayType] property.
+
+=== Candlestick Mode
+
+The link:{DataChartLink}.FinancialPriceSeries.html[FinancialPriceSeries] in  pick:[wpf,win-universal,android=" link:{DataChartLink}.PriceDisplayType.html[Candlestick]"]  pick:[xamarin,win-forms=" link:{DataChartLinkBase}.PriceDisplayType.html[Candlestick]"]  mode is used to plot stock prices, and show the stock's high, low, open and close prices for each day. Each data point is plotted as a vertical column with vertical lines on both the top and bottom. The vertical line indicates the span between high and low values of an investment. The top of the vertical line indicates the highest price during a session and the bottom of the vertical line indicates the lowest price during a session. The vertical columns indicate the span between the opening and closing values of an investment. The columns are filled using Series’ Brush when there is positive value and using Series’ NegativeBrush when there is negative value between the opening and closing values
+
+image::images/xamDataChart_Financial_Price_Series_in_Candlestick_Mode_01.png[]
+
+=== OHLC Mode
+
+The link:{DataChartLink}.FinancialPriceSeries.html[FinancialPriceSeries] in  pick:[wpf,win-universal,android=" link:{DataChartLink}.PriceDisplayType.html[OHLC]"] pick:[xamarin,win-forms=" link:{DataChartLinkBase}.PriceDisplayType.html[OHLC]"] display mode is used to plot stock prices, and show the stock's High, Low, Open, and Close prices for each day. Each data point is plotted as a vertical line with horizontal perpendicular lines on both the left and right side. The vertical line indicates the span between high and low values of an investment. The top of the vertical line indicates the highest price during a session and the bottom of the vertical line indicates the lowest price during a session. The horizontal lines indicate the span between the opening and closing values of an investment. The horizontal line on the left-hand side of the vertical line indicates the opening value of a session. The horizontal line on the right-hand side of the vertical line indicates the closing value of a session
+
+image::images/xamDataChart_Financial_Price_Series_in_OHLC_Mode_01.png[]
+
+== Code Example
+
+The following code snippet shows how to add `FinancialPriceSeries` in `Candlestick` mode to the `{DataChartName}` control and bind link:resources-sample-stocks-data.html[Stock Price Data] source.
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+----
+endif::xaml[]
+
+ifdef::wpf,win-universal[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="chart" >
+    <ig:{DataChartName}.Resources>
+        <local:StockPriceData x:Key="data" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericYAxis x:Name="yAxis"  />
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{StaticResource data}" Label="{}{Date}" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:FinancialPriceSeries 
+                DisplayType="Candlestick"  
+                ItemsSource="{StaticResource data}" 
+                OpenMemberPath="Open" 
+                CloseMemberPath="Close" 
+                HighMemberPath="High" 
+                LowMemberPath="Low" 
+                VolumeMemberPath="Volume" 
+                XAxis="{Binding ElementName=xAxis}" 
+                YAxis="{Binding ElementName=yAxis}">
+        </ig:FinancialPriceSeries>       
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf,win-universal[]
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamDataChart x:Name="chart" >
+    <ig:{DataChartName}.Resources>
+		<ResourceDictionary>
+			<local:StockPriceData x:Key="data" />
+		</ResourceDictionary>	
+    </ig:{DataChartName}.Resources>
+    <ig:XamDataChart.Axes>
+        <ig:NumericYAxis x:Name="yAxis"  />
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{StaticResource data}" Label="Date" />
+    </ig:XamDataChart.Axes>
+    <ig:XamDataChart.Series>
+        <ig:FinancialPriceSeries 
+                DisplayType="Candlestick"  
+                ItemsSource="{StaticResource data}" 
+                OpenMemberPath="Open" 
+                CloseMemberPath="Close" 
+                HighMemberPath="High" 
+                LowMemberPath="Low" 
+                VolumeMemberPath="Volume" 
+                XAxis="{x:Reference xAxis}" 
+                YAxis="{x:Reference yAxis}">
+        </ig:FinancialPriceSeries>       
+    </ig:XamDataChart.Series>
+</ig:XamDataChart>
+----
+endif::xamarin[]
+
+
+ifdef::wpf,win-universal,xamarin[]
+*In C#:*
+[source,csharp]
+----
+var data = new StockPriceData(); 
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.ItemsSource = data;
+xAxis.Label = "Date";
+var series = new FinancialPriceSeries();
+series.DisplayType = PriceDisplayType.Candlestick; 
+series.ItemsSource = data;
+series.OpenMemberPath = "Open";
+series.HighMemberPath = "High";
+series.LowMemberPath = "Low";
+series.CloseMemberPath = "Close";
+series.VolumeMemberPath = "Volume";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+endif::wpf,win-universal,xamarin[]
+
+ifdef::win-forms[]
+*In C#:*
+[source,csharp]
+----
+var data = new StockPriceData(); 
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.DataSource = data;
+xAxis.Label = "{Date}";
+var series = new FinancialPriceSeries();
+series.DisplayType = PriceDisplayType.Candlestick; 
+series.DataSource = data;
+series.OpenMemberPath = "Open";
+series.HighMemberPath = "High";
+series.LowMemberPath = "Low";
+series.CloseMemberPath = "Close";
+series.VolumeMemberPath = "Volume";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+endif::win-forms[]
+
+
+ifdef::wpf,win-universal[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New StockPriceData()
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.ItemsSource = data
+xAxis.Label = "Date"
+Dim series As New FinancialPriceSeries()
+series.DisplayType = PriceDisplayType.Candlestick
+series.ItemsSource = data
+series.OpenMemberPath = "Open"
+series.HighMemberPath = "High"
+series.LowMemberPath = "Low"
+series.CloseMemberPath = "Close"
+series.VolumeMemberPath = "Volume"
+series.XAxis = xAxis
+series.YAxis = yAxis
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-universal[]
+
+ifdef::win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New StockPriceData()
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.DataSource = data
+xAxis.Label = "{Date}"
+Dim series As New FinancialPriceSeries()
+series.DisplayType = PriceDisplayType.Candlestick
+series.DataSource = data
+series.OpenMemberPath = "Open"
+series.HighMemberPath = "High"
+series.LowMemberPath = "Low"
+series.CloseMemberPath = "Close"
+series.VolumeMemberPath = "Volume"
+series.XAxis = xAxis
+series.YAxis = yAxis
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::win-forms[]
+
+
+
+ifdef::android[]
+*In Java:*
+[source,java]
+----
+StockPriceData data = new StockPriceData();
+NumericYAxis yAxis = new NumericYAxis();
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.setDataSource(data);
+xAxis.setLabel("Date");
+FinancialPriceSeries series = new FinancialPriceSeries();
+series.setDisplayType(PriceDisplayType.CANDLESTICK);
+series.setDataSource(data);
+series.setOpenMemberPath("Open");
+series.setHighMemberPath("High");
+series.setLowMemberPath("Low");
+series.setCloseMemberPath("Close");
+series.setVolumeMemberPath("Volume");
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+DataChartView chart = new DataChartView(rootView.getContext());
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+endif::android[]

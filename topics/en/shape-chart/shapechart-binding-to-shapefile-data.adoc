@@ -1,0 +1,173 @@
+﻿= Binding the {ShapeChartName} to ShapeFile Data
+
+This topic explains, with code examples, how to bind the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control to shape file data.
+
+=== Required Background
+|====
+|Topic|Purpose
+
+|link:shapechart-getting-started-with-shapechart.html[Getting Started with {ShapeChartName}]
+|This topic explains how to bind data to the {ShapeChartName} control.
+
+|====
+
+=== In this topic
+
+* <<Overview, Overview>>
+* <<CodeExampleSingle, Binding the {ShapeChartName} to a Shape File>>
+* <<CodeExampleMulti, Binding the {ShapeChartName} to Multiple Shape Files>>
+* <<RelatedContent, Related Content>>
+
+[[Overview]]
+== Overview
+
+The {ShapeChartName} control has the ability to bind and display shape files. You can do this by utilizing a link:{DataVizLink}.maps.shapefileconverter.html[ShapefileConverter] as the ItemsSource and setting the {ShapeChartName}'s link:{ShapeChartLink}.{ShapeChartName}{ApiProp}charttype.html[ChartType] property to `Polygon`. This is useful if you want to use the {ShapeChartName} control to visualize different shape data. For example, if you wanted to map out the body of an airplane or an airplane seating chart, the {ShapeChartName} can help you to achieve this, as shown by the code examples below.
+
+The {ShapeChartName} also has the ability to bind to multiple shape files at the same time. This is particularly useful if you need to layer multiple shapes over one another. You can do this by using a `List<ShapefileConverter>` as the `ItemsSource` for the {ShapeChartName}.
+
+It is important to note that you will need both a .shp and a .dbf file in order to use this, as you will need to provide a path to the `DatabaseSource` and `ShapefileSource` properties for your ShapefileConverter element(s). You will also need to ensure that the BuildAction of your .shp and .dbf files is set to Resource.
+
+[[CodeExampleSingle]]
+== Binding the {ShapeChartName} to a Shape File
+
+The following code example shows how to bind a single shape file to the {ShapeChartName}.
+
+*In XAML:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    
+    <ig:{ShapeChartName} x:Name="shapeChart" ChartType="Polygon">
+        <ig:{ShapeChartName}.ItemsSource>
+            <ig:ShapefileConverter DatabaseSource="/ShapeFiles/AirplaneBody.dbf" 
+                                   ShapefileSource="/ShapeFiles/AirplaneBody.shp"/>
+        </ig:{ShapeChartName}.ItemsSource>
+    </ig:{ShapeChartName}>
+    
+</Grid>
+----
+
+*In C#:*
+[source, csharp]
+----
+var shapeChart = new {ShapeChartName}();
+shapeChart.ChartType = ShapeChartType.Polygon;            
+
+var shape = new ShapefileConverter();
+shape.DatabaseSource = new Uri("/ShapeFiles/AirplaneBody.dbf", UriKind.RelativeOrAbsolute);
+shape.ShapefileSource = new Uri("/ShapeFiles/AirplaneBody.shp", UriKind.RelativeOrAbsolute);
+            
+shapeChart.ItemsSource = shape;
+
+layoutRoot.Children.Add(shapeChart);
+----
+
+ifdef::wpf[]
+*In VB:*
+[source, vb]
+----
+Dim shapeChart = New {ShapeChartName}()
+shapeChart.ChartType = ShapeChartType.Polygon
+
+Dim shape = New ShapefileConverter()
+shape.DatabaseSource = New Uri("/ShapeFiles/AirplaneBody.dbf", UriKind.RelativeOrAbsolute)
+shape.ShapefileSource = New Uri("/ShapeFiles/AirplaneBody.shp", UriKind.RelativeOrAbsolute)
+
+shapeChart.ItemsSource = shape
+
+layoutRoot.Children.Add(shapeChart)
+----
+endif::wpf[]
+
+The above code can result in a {ShapeFileName} that looks like the following:
+
+image:images/shapechart_shapefile_single.png[]
+
+[[CodeExampleMulti]]
+== Binding the {ShapeChartName} to Multiple Shape Files
+
+The following code example shows how to bind multiple shape files to the {ShapeChartName}. It also uses the following collection in order to do so:
+
+*In C#:*
+[source, csharp]
+----
+public class ShapeFileCollection : List<ShapefileConverter>
+{
+}
+----
+
+*In XAML:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} x:Name="shapeChart" ChartType="Polygon">
+        <ig:{ShapeChartName}.ItemsSource>
+            <local:ShapeFileCollection>
+                <ig:ShapefileConverter DatabaseSource="ShapeFiles/AirplaneBody.dbf" ShapefileSource="ShapeFiles/AirplaneBody.shp" />
+                <ig:ShapefileConverter DatabaseSource="ShapeFiles/AirplaneSeats.dbf" ShapefileSource="ShapeFiles/AirplaneSeats.shp"/>
+            </local:ShapeFileCollection>
+        </ig:{ShapeChartName}.ItemsSource>
+    </ig:{ShapeChartName}>
+</Grid>
+----
+
+*In C#:*
+[source, csharp]
+----
+var shapeChart = new {ShapeChartName}();
+shapeChart.ChartType = ShapeChartType.Polygon;
+
+var data = new ShapeFileCollection();
+
+var shape1 = new ShapefileConverter();
+shape1.DatabaseSource = new Uri("/ShapeFiles/AirplaneBody.dbf", UriKind.RelativeOrAbsolute);
+shape1.ShapefileSource = new Uri("/ShapeFiles/AirplaneBody.shp", UriKind.RelativeOrAbsolute);
+
+var shape2 = new ShapefileConverter();
+shape2.DatabaseSource = new Uri("/ShapeFiles/AirplaneSeats.dbf", UriKind.RelativeOrAbsolute);
+shape2.ShapefileSource = new Uri("/ShapeFiles/AirplaneSeats.shp", UriKind.RelativeOrAbsolute);
+
+data.Add(shape1);
+data.Add(shape2);
+
+shapeChart.ItemsSource = data;
+
+layoutRoot.Children.Add(shapeChart);
+----
+
+
+ifdef::wpf[]
+*In VB:*
+[source, vb]
+----
+Dim shapeChart = New {ShapeChartName}()
+shapeChart.ChartType = ShapeChartType.Polygon
+
+Dim data = New ShapeFileCollection()
+
+Dim shape1 = New ShapefileConverter()
+shape1.DatabaseSource = New Uri("/ShapeFiles/AirplaneBody.dbf", UriKind.RelativeOrAbsolute)
+shape1.ShapefileSource = New Uri("/ShapeFiles/AirplaneBody.shp", UriKind.RelativeOrAbsolute)
+
+Dim shape2 = New ShapefileConverter()
+shape2.DatabaseSource = New Uri("/ShapeFiles/AirplaneSeats.dbf", UriKind.RelativeOrAbsolute)
+shape2.ShapefileSource = New Uri("/ShapeFiles/AirplaneSeats.shp", UriKind.RelativeOrAbsolute)
+
+data.Add(shape1)
+data.Add(shape2)
+
+shapeChart.ItemsSource = data
+
+layoutRoot.Children.Add(shapeChart)
+----
+endif::wpf[]
+
+The above code can result in a {ShapeChartName} that looks like the following:
+
+image:images/shapechart_shapefile_multi.png[]
+
+[[RelatedContent]]
+== Related Content
+
+* link:shapechart-binding-to-break-even-data.html[Binding Break-Even Data in {ShapeChartName}]
+* link:shapechart-using-legend.html[Using Legend]

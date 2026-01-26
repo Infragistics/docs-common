@@ -1,0 +1,321 @@
+﻿////
+
+|metadata|
+{
+    "name": "resources-sample-stocks-data",
+    "controlName": [],
+    "tags": [],
+    "guid": "1da540b2-7f8b-4825-b8f2-4295fa1e6c4b",  
+    "buildFlags": [],
+    "createdOn": "2015-01-30T20:09:39.9723962Z"
+}
+|metadata|
+////
+
+= サンプル株価データ
+
+=== 目的
+
+このトピックでは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールおよびそのlink:datachart-series-financial-price-series-overview.html[散布シリーズ]およびlink:datachart-financial-indicators-overview.html[財務指標]タイプで使用するサンプル データおよびデータ モデルを提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref410393734,必須の名前空間>>
+* <<_Ref410393754,データ モデル>>
+* <<_Ref410393747,データ ソース>>
+
+[[_Ref410393734]]
+
+=== 必須の名前空間
+
+ifdef::wpf,win-forms,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel; 
+using System.ComponentModel;
+using System.Linq;
+namespace Infragistics.Models
+{
+  // TODO add data model
+  // TODO add data source 
+}
+----
+
+endif::wpf,win-forms,win-universal,xamarin[]
+
+ifdef::wpf,win-forms,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports System
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+Imports System.Linq 
+Namespace Infragistics.Models
+   ' TODO add sample data model
+   ' TODO add sample data source
+End Namespace
+----
+
+endif::wpf,win-forms,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// TODO add data model
+// TODO add data source 
+----
+
+endif::android[]
+
+[[_Ref410393754]]
+=== データ モデル
+
+ifdef::wpf,win-forms,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class StockPriceItem
+{
+    public double Volume { get; set; }
+    public double Open { get; set; }
+    public double Close { get; set; }
+    public double High { get; set; }
+    public double Low { get; set; }
+    public DateTime Date { get; set; }
+}
+----
+endif::wpf,win-forms,win-universal,xamarin[]
+
+ifdef::wpf,win-forms,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class StockPriceItem
+    Public Property Volume As Double
+    Public Property Open As Double
+    Public Property Close As Double
+    Public Property High As Double
+    Public Property Low As Double
+    Public Property Date As DateTime
+End Class
+----
+endif::wpf,win-forms,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class StockPriceItem {
+    private double _volume;
+    public double getVolume(){
+        return _volume;
+    }
+    public double setVolume(double value) {
+        _volume = value;
+        return _volume;
+    }
+    private double _open;
+    public double getOpen(){
+        return _open;
+    }
+    public double setOpen(double value) {
+        _open = value;
+        return _open;
+    }
+    private double _close;
+    public double getClose(){
+        return _close;
+    }
+    public double setClose(double value) {
+        _close = value;
+        return _close;
+    }
+    private double _high;
+    public double getHigh(){
+        return _high;
+    }
+    public double setHigh(double value) {
+        _high = value;
+        return _high;
+    }
+    private double _low;
+    public double getLow(){
+        return _low;
+    }
+    public double setLow(double value) {
+        _low = value;
+        return _low;
+    }
+    private Calendar _date;
+    public String getDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
+        return sdf.format(_date.getTime());
+    }
+    public Calendar setDate(Calendar value) {
+        _date = (Calendar)value.clone();
+        return _date;
+    }
+}
+----
+endif::android[]
+
+[[_Ref410393747]]
+=== データ ソース
+
+ifdef::wpf,win-forms,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class StockPriceData : List<StockPriceItem>
+{
+    protected internal Random Rand = new Random();
+    
+    public StockPriceData()
+    {
+        double open = 500, close, low, high, mod;
+        double volume = 10000;
+        var total = 100;
+        var range = 5;
+        var date = DateTime.Now.AddDays(-total);
+        for (var i = 0; i < total; i++)
+        {
+            low = open - (Rand.NextDouble() * range);
+            high = open + (Rand.NextDouble() * range);
+            mod = Rand.NextDouble() - 0.4;
+            close = open + (mod * range);
+            var item = new StockPriceItem();
+            item.Volume = volume;
+            item.Open = open;
+            item.Close = close;
+            item.High = high;
+            item.Low = low;
+            item.Volume = volume;
+            item.Date = date;
+            this.Add(item);
+            open = open + (mod * range * 2);
+            volume = volume + (mod * range * 100 );
+            date = date.AddDays(1);
+        }
+    }
+}
+----
+endif::wpf,win-forms,win-universal,xamarin[]
+
+ifdef::wpf,win-forms,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class StockPriceData Inherits ist(Of StockPriceItem)
+    
+    Protected Rand As Random = New Random
+    Public Sub New()
+        MyBase.New
+        Dim mod As Double
+        Dim open As Double = 500
+        Dim close As Double
+        Dim low As Double
+        Dim high As Double
+        Dim volume As Double = 10000
+        Dim total As var = 100
+        Dim range As var = 5
+        Dim date As var = DateTime.Now.AddDays((total * -1))
+        Dim i As var = 0
+        Do While (i < total)
+            low = (open  - (Rand.NextDouble * range))
+            high = (open  + (Rand.NextDouble * range))
+            mod = (Rand.NextDouble - 0.4)
+            close = (open  + (mod * range))
+            Dim item As var = New StockPriceItem
+            item.Volume = volume
+            item.Open = open
+            item.Close = close
+            item.High = high
+            item.Low = low
+            item.Volume = volume
+            item.Date = date
+            Me.Add(item)
+            open = (open + (mod  * (range * 2)))
+            volume = (volume   + (mod    * (range * 100)))
+            date = date.AddDays(1)
+            i = (i + 1)
+        Loop
+    End Sub
+End Class
+----
+endif::wpf,win-forms,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class StockPriceData extends extends ArrayList<StockPriceItem>
+{
+    protected  Random rand = new Random();
+    
+    public StockPriceData() {
+        double open = 500, close, low, high, mod;
+        double volume = 10000;
+        int total = 100;
+        int range = 5;
+        Calendar date = Calendar.getInstance();
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.add(Calendar.DATE, -total);
+        for (int i = 0; i < total; i++)
+        {
+            low = open - (rand.nextDouble() * range);
+            high = open + (rand.nextDouble() * range);
+            mod = rand.nextDouble() - 0.4;
+            close = open + (mod * range);
+            StockPriceItem item = new StockPriceItem();
+            item.setVolume(volume);
+            item.setOpen(open);
+            item.setClose(close);
+            item.setHigh(high);
+            item.setLow(low);
+            item.setVolume(volume);
+            item.setDate(date);
+            this.add(item);
+            open = open + (mod * range * 2);
+            volume = volume + (mod * range * 100 );
+            date.add(Calendar.DATE,1);
+		}
+    }
+}
+----
+
+endif::android[]
+
+[[_Configuring_a_Custom]]
+
+[[_Ref386478097]]

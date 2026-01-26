@@ -1,0 +1,273 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-zoomlevel",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["How Do I","Layouts"],
+    "guid": "e2e86f70-9b89-4490-8c70-363432c79bcf",
+    "buildFlags": [],
+    "createdOn": "2014-05-29T08:03:13.2663758Z"
+}
+|metadata|
+////
+
+= ワークシートのズーム レベルの設定 ({ExcelEngineName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、ワークシートのズーム レベルをプログラムで設定する方法を説明します。
+
+=== 前提条件
+
+このトピックを理解するために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+|このセクションでは、{ExcelEngineName} のオブジェクト モデルと機能をより深く理解するうえで役立つ情報を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+*  *<<_Ref389548430,概要>>*
+*  *<<_Ref389548450,ズーム レベル構成の概要>>* 
+*  *<<_Ref389488250,ズーム レベルの設定>>* 
+ifdef::wpf[]
+*  *<<_Ref391563491,ズーム レベルの増減>>* 
+*  *<<_Ref391563483,ズーム レベルを 100% に設定>>* 
+*  *<<_Ref391563475,選択に対応したズーム レベルの設定>>* 
+endif::wpf[]
+*  *<<_Ref389548467,関連コンテンツ>>* 
+
+[[_Ref389548430]]
+== 概要
+
+=== ズームの概要
+
+ワークシートでは、拡大 (ズーム) レベルを制御できます。pick:[wpf="link:{ApiPlatform}controls.grids.xamspreadsheet{ApiVersion}~infragistics.controls.grids.xamspreadsheet.html[_xamSpreadsheet_] コントロールは、一貫してビューのコンテンツ表示 (テキスト、画像、図形) を拡大縮小します。ただし、セルの境界線は拡大縮小されません。"]
+
+[[_Ref389548450]]
+== ズーム レベル構成の概要
+
+=== ヘッダーの構成の概要表
+
+以下の表は、ワークシートのズーム機能の構成可能な要素を簡単に説明しています。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な項目|詳細|プロパティ / コマンド
+
+|<<_Ref389488250,ズーム レベルの設定>>
+|ワークシートのズーム レベルを特定の値に設定します。
+| link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetdisplayoptions~magnificationinnormalview.html[MagnificationInNormalView]
+
+ifdef::wpf[]
+
+|<<_Ref391563491,ズーム レベルの増減>>
+|ズーム レベルを 10% ずつ増減します。
+|
+* `ZoomIn` 
+
+* `ZoomOut` 
+
+|<<_Ref391563483,ズーム レベルを 100% に設定>>
+|ズーム レベルを 100% に設定します。
+|`ZoomTo100`
+
+|<<_Ref391563475,選択に対応したズーム レベルの設定>>
+|選択されたすべてがビューに収まるようにズーム レベルを設定します。
+|`ZoomToSelection`
+
+endif::wpf[]
+
+|====
+
+[[_Ref389488250]]
+== ズーム レベルの設定
+
+[[_Hlk368069110]]
+
+=== 概要
+
+各ワークシートのズームは、 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet~displayoptions.html[DisplayOptions] オブジェクトの `MagnificationInNormalView` プロパティを使用して個別に変更できます。このプロパティの値の範囲は 10 から 400 です。
+
+=== プロパティ設定
+
+以下の表は、任意の構成とそれを管理するプロパティ設定のマッピングを示します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定値:
+
+|ズーム レベルを変更する
+|`MagnificationInNormalView`
+|10 ～ 400 の `int` 型の値。
+
+|====
+
+[[_Hlk337817761]]
+
+=== 例
+
+以下のコードは、ズーム レベルを 150% に設定する方法を示します。
+
+*C# の場合:*
+[source,csharp]
+----
+ifdef::wpf[]
+this.spreadsheet1.Workbook.Worksheets[0].DisplayOptions.MagnificationInNormalView = 150;
+endif::wpf[]
+ifdef::xamarin[]
+workbook1.Worksheets[0].DisplayOptions.MagnificationInNormalView = 150;
+endif::xamarin[]
+----
+
+ifdef::wpf[]
+[[_Ref391563491]]
+== ズーム レベルの増減
+
+=== 概要
+
+ワークシートのズーム レベルは、コマンドにより増減できます。`ZoomIn` コマンドは、ズーム レベルを 10% ずつ増やし、`ZoomOut` コマンドはズーム レベルを 10% ずつ減らします。
+
+=== プロパティ設定
+
+以下の表は、任意の動作とそれを管理するコマンドとの対応表です。
+
+[options="header", cols="a,a"]
+|====
+|目的:|使用するコマンド：
+
+|ズーム レベルを上げる
+|`ZoomIn`
+
+|ズーム レベルを下げる
+|`ZoomOut`
+
+|====
+
+=== 例
+
+以下のコードは、ズーム レベルを増減するための 2 つのボタンを作成する方法を示します。
+
+*XAML の場合:*
+[source,xaml]
+----
+<Button Content="Zoom In"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="ZoomIn" />
+    </ig:Commanding.Command>
+</Button>
+<Button Content="Zoom Out"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="ZoomOut" />
+    </ig:Commanding.Command>
+</Button>
+----
+
+[[_Ref391563483]]
+== ズーム レベルを 100% に設定
+
+=== 概要
+
+ズーム レベルは、`ZoomTo100` コマンドを使用して 100% に設定できます。
+
+=== プロパティ設定
+
+以下の表は、任意の動作とそれを管理するコマンドとの対応表です。
+
+[options="header", cols="a,a"]
+|====
+|目的:|使用するコマンド：
+
+|ズーム レベルを 100% に設定する
+|`ZoomTo100`
+
+|====
+
+=== 例
+
+以下のコードは、ズーム レベルを 100% に設定するためのボタンを作成する方法を示します。
+
+*XAML の場合:*
+[source,xaml]
+----
+<Button Content="Zoom To 100%"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="ZoomTo100" />
+    </ig:Commanding.Command>
+</Button>
+----
+
+[[_Ref391563475]]
+== 選択に対応したズーム レベルの設定
+
+=== 概要
+
+ワークシートのズーム レベルは、`ZoomToSelection` コマンドを使用して、選択されたすべてのセルが見えるレベルに設定できます。
+
+=== プロパティ設定
+
+以下の表は、任意の動作とそれを管理するコマンドとの対応表です。
+
+[options="header", cols="a,a"]
+|====
+|目的:|使用するコマンド：
+
+|ズームを選択された内容に対応するレベルに設定する
+|`ZoomToSelection`
+
+|====
+
+=== 例
+
+以下のコードは、ズーム レベルを選択された内容に対応するように設定するボタンを作成する方法を示します。
+
+*XAML の場合:*
+[source,xaml]
+----
+<Button Content="Zoom To Selection"
+    ig:Commanding.CommandTarget="{Binding ElementName=xamSpreadsheet1}">
+    <ig:Commanding.Command>
+        <igPrim:SpreadsheetCommandSource 
+            EventName="Click" CommandType="ZoomToSelection" />
+    </ig:Commanding.Command>
+</Button>
+----
+
+endif::wpf[]
+
+[[_Ref389548467]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:excelengine-configuringgridlines.html[グリッド線の構成 ({ExcelEngineName})]
+|このトピックは、グリッド線を表示または非表示にし、カラーを設定する方法を説明します。
+
+| link:excelengine-configuringheaders.html[ヘッダーの構成 ({ExcelEngineName})]
+|このトピックでは、列と行のヘッダーを表示または非表示にする方法を説明します。
+
+| link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集の無効化 ({ExcelEngineName})]
+|このトピックでは、ワークシートのセル値が編集されないようにする方法を説明します。
+
+|====

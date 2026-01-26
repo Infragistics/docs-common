@@ -1,0 +1,84 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-apply-a-hatch-style-to-a-primitive",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{EF93FF40-47C0-4AA4-8231-89E6385D2159}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= ハッチ スタイルをプリミティブに適用
+
+領域をグラデーションで塗りつぶす機能のほか、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  はタイリング可能な多種多様なパターン塗りつぶしも利用できます。開発者は、グラフィカルなチャート エレメントの内部をハッチ、ジグザク、レンガ面、チェッカーボードなどのパターンで塗りつぶす場合、これらを Paint Element の Hatch プロパティに割り当てることができます。
+
+ハッチ パターンの前景色は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fill.html[Fill]"]  プロパティの色値で定義し、背景色は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopcolor.html[FillStopColor]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopcolor.html[FillStopColor]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~fillstopcolor.html[FillStopColor]"]  プロパティに割り当てられた色値で決定します。
+
+image::images/Chart_Rendering_With_Paint_Element_07.png[]
+
+以下の例は、任意のボックス（柱状グラフと棒グラフで使用されるプリミティブ形状）を使用し、ハッチ スタイルを適用する方法を示します。これでこの例を拡張して、チャートのすべてのプリミティブにハッチ スタイルを適用することができます。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Core.Primitives
+...
+Private Sub UltraChart1_ChartDrawItem(ByVal sender As Object, _
+  ByVal e As Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs) _
+  Handles UltraChart1.ChartDrawItem
+	' ColumnChart から、ボックス プリミティブを取得します。
+	If TypeOf e.Primitive Is Box Then
+		Dim b As Box = Nothing
+		b = CType(e.Primitive, Box)
+		If Not b Is Nothing AndAlso b.Row = 0 AndAlso b.Column = 2 Then
+			b.PE = b.PE.Clone()
+			' Primitives PaintElement Type を hatch に設定します。
+			b.PE.ElementType = PaintElementType.Hatch
+			' ハッチの開始色と終了色を設定します。
+			b.PE.Fill = Color.Black
+			b.PE.FillStopColor = Color.Yellow
+			' ハッチ パターンを設定します。
+			b.PE.Hatch = FillHatchStyle.DarkUpwardDiagonal
+		End If
+	End If
+End Sub
+----
+
+*C# の場合：*
+
+----
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Shared.Styles;
+...
+private void ultraChart1_ChartDrawItem(object sender, 
+  Infragistics.UltraChart.Shared.Events.ChartDrawItemEventArgs e)
+{
+	// ColumnChart から、ボックス プリミティブを取得します。
+	if (e.Primitive is Box)
+	{
+		Box b = e.Primitive as Box;
+		if(b != null && b.Row == 0 && b.Column == 2)
+        {
+			b.PE = b.PE.Clone();
+			// Primitives PaintElement Type を hatch に設定します。
+			b.PE.ElementType = PaintElementType.Hatch;
+			// ハッチの開始色と終了色を設定します。
+			b.PE.Fill = Color.Black;
+			b.PE.FillStopColor = Color.Yellow;
+			// ハッチ パターンを設定します。
+			b.PE.Hatch = FillHatchStyle.DarkUpwardDiagonal;
+        }
+	{
+}
+----
+
+image::images/Chart_Apply_a_Hatch_Style_to_a_Primitive_01.png[]
+
+== 関連トピック
+
+link:chart-adding-primitives-to-a-chart-layer.html[プリミティブをグラフ レイヤに追加する]

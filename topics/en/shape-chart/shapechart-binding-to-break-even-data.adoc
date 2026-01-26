@@ -1,0 +1,210 @@
+﻿= Binding Break-Even Data in {ShapeChartName}
+
+This topic explains, with a code example, how to bind break-even data in the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control.
+
+=== Required Background
+ 
+The following topics are prerequisites to understanding this topic:
+|====
+|Topic|Purpose
+
+|link:shapechart-overview.html[{ShapeChartName} Overview]
+|This topic provides conceptual information about the {ShapeChartName} control including its main features, minimum requirements, and user functionality.
+
+|link:shapechart-getting-started-with-shapechart.html[Getting Started with {ShapeChartName}]
+|This topic explains how to bind data to the {ShapeChartName} control.
+
+|====
+
+=== In this topic
+
+* <<Overview, Overview>>
+* <<Preview, Preview>>
+* <<CodeExample, Code Example>>
+* <<RelatedContent, Related Content>>
+
+[[Overview]]
+== Overview
+
+The {ShapeChartName} control has support for binding "break-even" data. In order to do this, you will need to have at least a single data item with four `double` properties named FixedCost, VariableCost, Revenue, and Units. You can also optionally add a `double` property named MarginalProfit in order to plot that as well. This will allow you to view a financial visualization of the break-even point given a number of units sold when bought for a particular price and sold for a particular price.
+
+Once plotted, the {ShapeChartName} control will create a view with the Revenue property on the Y-Axis and the Units property on the X-Axis to generate a linear financial view of the relation between the two. This includes a series for each of the required properties mentioned above.
+
+Also generated will be a linear view of the Total Cost, Break Even point, and optionally the Marginal Profit, along with an area view of the Profit Area, Loss Area, and optionally, the Marginal Area as well.
+
+=== Preview
+
+The following is a preview image of what the {ShapeChartName} control looks like when bound to break-even data:
+
+image:images/shapechart-breakeven.png[]
+
+[[CodeExample]]
+== Code Example
+
+The following code example demonstrates how to create the preview image above with the {ShapeChartName} control. It uses the following break even data item:
+
+*In C#:*
+[source, csharp]
+----
+public class BreakEvenItem
+{
+    public BreakEvenItem()
+    {
+        MarginalProfit = double.NaN;
+        VariableCost = double.NaN;
+        FixedCost = double.NaN;
+        Revenue = double.NaN;
+        Units = double.NaN;
+    }
+
+    public double FixedCost { get; set; }
+    public double VariableCost { get; set; }
+    public double Revenue { get; set; }
+    public double Units { get; set; }
+    public double MarginalProfit { get; set; }    
+}
+
+public class BreakEvenList : List<BreakEvenItem>
+{
+    public BreakEvenList()
+    {
+                   
+    }
+}
+----
+
+*In XAML:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+
+    <ig:{ShapeChartName} Legend="{Binding ElementName=Legend}" 
+                      Brushes="#6E7F2AFA #80FF3100 #7B02B602 #F67222E7 #F4C62600 #F9808080 #F9282828 #EE029802 #EE078FE4"
+                      Thickness="3"
+                      YAxisTitle="Price ($)"
+                      XAxisTitle="Number of Units"
+                      Title="Projected Sales">
+            <ig:{ShapeChartName}.ItemsSource>
+                <local:BreakEvenList>
+                    <local:BreakEvenItem FixedCost="1000" VariableCost="600" Revenue="1800" Units="100" />
+                </local:BreakEvenList>
+            </ig:{ShapeChartName}.ItemsSource>
+        </ig:{ShapeChartName}>
+
+        <ig:{LegendName} x:Name="Legend"
+                   Content="Legend"
+                   Grid.Column="1" />
+                   
+</Grid>
+----
+
+
+*In C#:*
+[source, csharp]
+----
+public MainWindow()
+{
+    InitializeComponent();
+
+    var shapeChart = new {ShapeChartName}();
+    var legend = new {LegendName}() { Content = "Legend" };
+
+    var data = new BreakEvenList();
+    var item = new BreakEvenItem() { FixedCost = 1000, VariableCost = 600, Revenue = 1800, Units = 100 };
+
+    data.Add(item);
+
+    shapeChart.ItemsSource = data;
+    shapeChart.Legend = legend;
+    shapeChart.Thickness = 3;
+    shapeChart.YAxisTitle = "Price ($)";
+    shapeChart.XAxisTitle = "Number of Units";
+    shapeChart.Title = "ShapeChart with BreakEvenData";
+    shapeChart.Brushes = this.GetBrushCollection();
+
+    Grid.SetColumn(legend, 1);
+
+    layoutRoot.Children.Add(shapeChart);
+    layoutRoot.Children.Add(legend);
+}
+
+private BrushCollection GetBrushCollection()
+{
+    var brushes = new BrushCollection();
+    brushes.Add(new SolidColorBrush(Color.FromArgb(110, 127, 42, 250)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(128, 255, 49, 0)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(123, 2, 182, 2)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(246, 114, 34, 231)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(244, 198, 38, 0)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(249, 128, 128, 128)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(249, 40, 40, 40)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(238, 2, 152, 2)));
+    brushes.Add(new SolidColorBrush(Color.FromArgb(238, 7, 143, 228)));
+    return brushes;
+}      
+----
+
+ifdef::wpf[]
+*In VB:*
+[source, vb]
+----
+
+Public Sub New()
+	InitializeComponent()
+
+	Dim shapeChart = New {ShapeChartName}()
+	Dim legend = New {LegendName}() With
+	{
+		.Content = "Legend"
+	}
+
+	Dim data = New BreakEvenList()
+	Dim item = New BreakEvenItem() With {
+		.FixedCost = 1000,
+		.VariableCost = 600,
+		.Revenue = 1800,
+		.Units = 100
+	}
+
+	data.Add(item)
+
+	shapeChart.ItemsSource = data
+	shapeChart.Legend = legend
+	shapeChart.Thickness = 3
+	shapeChart.YAxisTitle = "Price ($)"
+	shapeChart.XAxisTitle = "Number of Units"
+	shapeChart.Title = "ShapeChart with BreakEvenData"
+	shapeChart.Brushes = Me.GetBrushCollection()
+
+	Grid.SetColumn(legend, 1)
+
+	layoutRoot.Children.Add(shapeChart)
+	layoutRoot.Children.Add(legend)
+End Sub
+
+Private Function GetBrushCollection() As BrushCollection
+	Dim brushes = New BrushCollection()
+	brushes.Add(New SolidColorBrush(Color.FromArgb(110, 127, 42, 250)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(128, 255, 49, 0)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(123, 2, 182, 2)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(246, 114, 34, 231)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(244, 198, 38, 0)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(249, 128, 128, 128)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(249, 40, 40, 40)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(238, 2, 152, 2)))
+	brushes.Add(New SolidColorBrush(Color.FromArgb(238, 7, 143, 228)))
+	Return brushes
+End Function
+----
+
+endif::wpf[]
+
+
+[[RelatedContent]]
+== Related Content
+* link:shapechart-binding-to-shapefile-data.html[Binding to Shape File Data]
+* link:shapechart-using-legend.html[Using Legend]

@@ -1,0 +1,189 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理的データ モデルをバインディング
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™  コントロールを地理的データを含むモデルに追加する方法を示します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+|このトピックは、 {GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320185118,地理的データ モデルをバインディング>>
+
+** <<_Ref320185129,概要>>
+** <<_Ref320186496,プレビュー>>
+** <<_Ref321311621,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320185118]]
+== 地理的データ モデルをバインディング
+
+[[_Ref320185129]]
+
+=== 概要
+
+{GeoMapName} コントロールは、シェープ ファイルから地理的データ、そして地理的画像マップのデータ モデルから地理的位置を表示するように設計されています。地理的シリーズの link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] プロパティは、データ モデルへのバインディングのために使用されます。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]™ インターフェイスを実装するオブジェクトにバインドできます - たとえば、 link:http://msdn.microsoft.com/ja-jp/library/6sh2ey19.aspx[List]、 link:http://msdn.microsoft.com/ja-jp/library/ms132397.aspx[Collection]、 link:http://msdn.microsoft.com/ja-jp/library/7977ey2c.aspx[Queue]、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.stack.aspx[Stack])。ただし、地理的シリーズのタイプによっては、各データ項目に固有のデータ構造を持つプロパティが必要です。
+
+以下の表で、地理的シリーズのタイプごとに必要となるデータ構造を簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|地理的シリーズ|データ マッピング プロパティ|説明
+
+| link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries]
+| link:{GeoMapLink}.geographicsymbolseries~longitudememberpath.html[LongitudeMemberPath]
+link:{GeoMapLink}.geographicsymbolseries~latitudememberpath.html[LatitudeMemberPath]
+|シンボルの地理的な経度と緯度の座標を含む link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}] 項目のデータ列の名前を指定します。これらのプロパティは、倍精度、整数、または浮動などの数値型のデータ列にマップする必要があります。
+
+|  link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries]
+| link:{GeoMapLink}.geographicshapeseriesbase~shapememberpath.html[ShapeMemberPath]
+|図形の地理的ポイントを含む link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}]  項目のデータ列の名前を指定します。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.windows.point.aspx[Point]> または link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.windows.point.aspx[Point]>> のデータ列にマップする必要があります。
+
+| link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries]
+| link:{GeoMapLink}.geographicshapeseriesbase~shapememberpath.html[ShapeMemberPath]
+|線の地理的座標を含む link:{DataChartLink}.series~{ApiDataSource}.html[{ApiDataSource}]  項目のデータ列の名前を指定します。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.windows.point.aspx[Point]> または link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.windows.point.aspx[Point]>> のデータ列にマップする必要があります。
+
+|====
+
+[[_Ref320186496]]
+
+=== プレビュー
+
+以下は、世界の都市の場所を含むデータ モデルにバインドされた link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] を持つ  {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Binding_Geographic_Data_Models_1.png[]
+
+[[_Ref321311621]]
+
+=== 例
+
+以下のコードは、 link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] を pick:[wpf="link:{ApiPlatform}controls.charts.xamdatachart{ApiVersion}~infragistics.controls.charts.pointlist_members.html[PointList]"]pick:[win-forms="link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable]<{GeoMapNamespace}.Point>"] クラスを使用して保存された世界の都市の地理的位置を含むデータ モデルにバインドする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap.Series>
+    <ig:GeographicSymbolSeries LongitudeMemberPath="X"
+                               LatitudeMemberPath="Y">
+         <ig:GeographicSymbolSeries.{ApiDataSource}>
+            <ig:PointList>
+                <Point X="0.12" Y="51.50" x:Uid="London"/>
+                <Point X="37.51" Y="55.75" x:Uid="Moscow"/>
+                <Point X="151.2" Y="-33.83" x:Uid="Sedney"/>
+                <Point X="139.6917" Y="35.6895" x:Uid="Tokyo"/>
+                <Point X="77.2250" Y="28.6353" x:Uid="Delhi"/>
+                <Point X="-99.1276" Y="19.4270" x:Uid="MexicoCity"/>
+                <Point X="-73.9870" Y="40.7561" x:Uid="NewYork"/>
+                <Point X="-118.2434" Y="34.0522" x:Uid="LosAngeles"/>
+                <Point X="-46.6388" Y="-23.5489" x:Uid="SaoPaulo"/>
+            </ig:PointList>
+        <ig:GeographicSymbolSeries.{ApiDataSource}>
+    </ig:GeographicSymbolSeries>
+</ig:XamGeographicMap.Series>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+ifdef::wpf[]
+Dim geoLocations = New Infragistics.Controls.Charts.PointList()
+endif::wpf[]
+ifdef::win-forms[]
+Dim geoLocations = New List<{GeoMapNamespace}.Point>()
+endif::win-forms[]
+
+geoLocations.Add(New Point() With { .X = 0.12, .Y = 51.5 })
+geoLocations.Add(New Point() With { .X = 37.51, .Y = 55.75 })
+geoLocations.Add(New Point() With { .X = 151.2, .Y = -33.83 })
+geoLocations.Add(New Point() With { .X = 139.6917, .Y = 35.6895 })
+geoLocations.Add(New Point() With { .X = 77.225, .Y = 28.6353 })
+geoLocations.Add(New Point() With { .X = -99.1276, .Y = 19.427 })
+geoLocations.Add(New Point() With { .X = -73.987, .Y = 40.7561 })
+geoLocations.Add(New Point() With { .X = -118.2434, .Y = 34.0522 })
+geoLocations.Add(New Point() With { .X = -46.6388, .Y = -23.5489 })
+Me.GeoMap.Series(0).{ApiDataSource} = geoLocations
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+ifdef::wpf[]
+var geoLocations = new Infragistics.Controls.Charts.PointList();
+endif::wpf[]
+ifdef::win-forms[]
+var geoLocations = new List<{GeoMapNamespace}.Point>();
+endif::win-forms[]
+
+geoLocations.Add(new Point() { X = 0.12, Y = 51.50 });
+geoLocations.Add(new Point() { X = 37.51, Y = 55.75 });
+geoLocations.Add(new Point() { X = 151.2, Y = -33.83 });
+geoLocations.Add(new Point() { X = 139.6917, Y = 35.6895 });
+geoLocations.Add(new Point() { X = 77.2250, Y = 28.6353 });
+geoLocations.Add(new Point() { X = -99.1276, Y = 19.4270 });
+geoLocations.Add(new Point() { X = -73.9870, Y = 40.7561 });
+geoLocations.Add(new Point() { X = -118.2434, Y = 34.0522 });
+geoLocations.Add(new Point() { X = -46.6388, Y = -23.5489 });
+Me.GeoMap.Series[0].{ApiDataSource} = geoLocations
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、 {GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、 {GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+|このトピックは、 {GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、 {GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+|====

@@ -1,0 +1,53 @@
+﻿= データ バインド
+
+{FinancialChartName} は、データ セットが単一か複数かどうかに関係なく、データ ソースを分析し、ルールを適用するためにデータ アダプターを使用してデータをプロットします。
+
+データ モデルに関連する特定のプロパティでプロットする必要があるかどうかを明示的に定義する必要があります。プロパティを link:{FinancialChartLink}.{FinancialChartName}{ApiProp}includedProperties{HtmlApiExtension}[IncludedProperties] または link:{FinancialChartLink}.{FinancialChartName}{ApiProp}excludedProperties{HtmlApiExtension}[ExcludedProperties] に設定し、チャートにそのプロパティを含むか除外するかを設定できます。 
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamFinancialChart ItemsSource="{Binding ChartData}"
+                      IncludedProperties="{Binding IncludedDataFields}"
+                      ExcludedProperties="{Binding ExcludedDataFields}" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.IncludedProperties = new string[] { "Open", "High", "Low", "Close", "Volume", "Date" };
+chart.ExcludedProperties = new string[] { "PercentChange", "SellOrders", "BuyOrders", "Label" };
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart = New {FinancialChartName}()
+chart.IncludedProperties = New String(){ "Open", "High", "Low", "Close", "Volume", "Date" }
+chart.ExcludedProperties = New String(){ "PercentChange", "SellOrders", "BuyOrders", "Label" }
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,js]
+----
+$("#chart").{FinancialChartName}({
+    dataSource: data,
+    includedProperties: [ "Open", "High", "Low", "Close", "Volume", "Date" ],
+    excludedProperties: [ "PercentChange", "SellOrders", "BuyOrders", "Label" ]]
+});
+----
+endif::jquery[]
+
+以下のトピックはデータのバインドについて説明します。
+
+* link:financial-chart-binding-to-single-data.html[データの単一のセットにバインド]
+
+* link:financial-chart-binding-to-multiple-data.html[データの複数のセットにバインド]
+
+* link:financial-chart-binding-to-live-data.html[ライブ データへのバインド]

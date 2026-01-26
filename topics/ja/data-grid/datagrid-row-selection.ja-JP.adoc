@@ -1,0 +1,486 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-row-selection",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "26254643-58cf-4fee-9342-8142850e1e3f","buildFlags": [],
+    "createdOn": "2016-03-01T17:05:46.213579Z"
+}
+|metadata|
+////
+
+= 行の選択
+
+このトピックでは、link:{DataGridLink}.{DataGridName}.html[{DataGridName}] コントロールを使用した行選択の実装プロセスを手順を追って説明します。
+
+== このトピックの内容
+このトピックには、以下のセクションがあります。
+
+* <<Requirements,前提条件 >>
+* <<Overview,概要>>
+* <<_Ref444597611,単一セル選択>>
+* <<_Ref444597620,複数行の選択>>
+* <<_Ref444597625,選択行での作業>>
+* <<_Ref444513251,項目別に行を選択>>
+* <<_Ref444534896,項目キーで行を選択>>
+* <<RelatedTopics,関連トピック>>
+
+[[Requirements]]   
+== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+
+| link:datagrid-getting-started-with-grid.html[{DataGridName} を使用した作業の開始] 
+| このトピックでは、{DataGridName} コントロールをビューに追加してサンプルデータを生成するための基本的な手順を紹介します。 
+
+| link:SampleSalesPerson.html[営業担当者サンプル] 
+| このリソース トピックは、 {DataGridName} コントロールのデータソースを使用したサンプル データの実装を提供します。
+
+|====
+[[Overview]]   
+== 概要
+
+{DataGridName} コントロールを使用すると、3 つのモードの行選択が可能になります。これらはすべて link:{DataGridLink}.{DataGridName}{ApiProp}selectionmode.html[pick:[android="set"]SelectionMode] {ApiMember}を使用して実装され、{DataGridName} コントロールから公開されます。
+
+* 単一行 - 単一行の選択
+* 複数行 - 複数行の選択
+* なし - 行の選択を防止
+
+[[_Ref444597611]]
+== 単一行選択:
+
+[start=1]
+以下のコード スニペットで、単一行に選択を設定します。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.setSelectionMode(GridSelectionMode.SINGLE_ROW);
+----
+endif::android[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+
+[source, xaml]
+----
+<ig:XamDataGrid x:Name="DataGrid" SelectionMode="SingleRow" />
+----
+
+*C# の場合:*
+
+[source, csharp]
+----
+DataGrid.SelectionMode = GridSelectionMode.SingleRow;
+----
+
+endif::xamarin[]
+
+[start=2]
+. 結果を確認します。{DataGridName} コントロールは、任意の行へのタッチ入力に応答して強調表示による選択を適用します。タッチ入力で別の行が選択されると、その行に強調表示による選択外観が適用されて、現在選択されている行のみがアクティブ外観で表示されます。
+
+次のスクリーンショットは、単一行が選択されたグリッドを示しています。
+
+image::images/GridSelectionMode-Final_1.png[]
+
+[[_Ref444597620]]
+== 複数行の選択:
+
+[start=1]
+. 以下のコード スニペットで、複数行に選択を設定します。
+
+ifdef::android[]
+*Java の場合:*
+
+----
+DataGrid.setSelectionMode(GridSelectionMode.MULTIPLE_ROW);
+----
+endif::android[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+
+[source, xaml]
+----
+<ig:XamDataGrid x:Name="DataGrid" SelectionMode="MultipleRow" />
+----
+
+*C# の場合:*
+
+[source, csharp]
+----
+DataGrid.SelectionMode = GridSelectionMode.MultipleRow;
+----
+
+endif::xamarin[]
+
+[start=2]
+. 結果を確認します。{DataGridName} コントロールは、任意の数の行へのタッチ入力に応答し、それらに強調表示による選択を適用します。タッチ入力によって、これらの行が再度選択されると、強調表示による選択が解除されます。
+
+以下のスクリーンショットでこの動作を示します。個別の行選択は、前回選択された行とは独立し、複数行に選択外観が同時に適用されることはありません。
+
+image::images/GridSelectionMode-Final_2.png[]
+
+[[_Ref444597625]]
+== 選択行での作業
+
+{DataGridName} コントロールを使用すると、選択された行に関連付けられている基本データ ソース オブジェクトへの参照を、次のように取得できます。
+
+[options="header", cols="a,a"]
+|====
+|メンバー|目的
+
+| link:{DataGridLink}.{DataGridName}{ApiPropGet}SelectedItems.html[pick:[android="set"]SelectedItems] 
+| 選択項目のコレクションを返します。
+
+| link:{DataGridLink}.{DataGridName}{ApiPropGet}SelectedKeys.html[pick:[android="set"]SelectedKeys] 
+| 選択項目のキー コレクションを返します。
+|====
+
+link:{DataGridLink}.{DataGridName}{ApiPropGet}SelectedItems.html[pick:[android="set"]SelectedItems] および link:{DataGridLink}.{DataGridName}{ApiPropGet}SelectedKeys.html[pick:[android="set"]SelectedKeys] は両方とも、選択された行に関連付けられたキーまたは項目のコレクション全体を解決するため、単一行の選択モードおよび複数行の選択モードに実装できます。
+
+[start=1]
+. 以下のコードは行選択を有効にします。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.setSelectionMode(GridSelectionMode.MULTIPLE_ROW);
+----
+endif::android[]
+
+ifdef::xamarin[]
+*C# の場合:*
+
+[source, csharp]
+----
+DataGrid.SelectionMode = GridSelectionMode.MultipleRow;
+----
+endif::xamarin[]
+
+[start=2]
+. 以下のイベント ハンドラーを追加し、選択項目を反復して項目についての情報をログします。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.setOnGridSelectedItemsChangedListener(new OnGridSelectedItemsChangedListener() {
+   @Override public void selectedItemsChanged({DataGridName} dataGridView,
+        GridSelectedItemsChangedEvent gridSelectedItemsChangedEvent) 
+        {
+            Log.v("","SelectedItems:");
+            for(int i = 0; i < dataGridView.getSelectedItems().size(); i++)
+            {
+				SalesPerson item = (SalesPerson)dataGridView.getSelectedItems().get(i);
+                Log.v("", "index=" + i + " name=" + item.FirstName + " " + item.LastName);
+            }
+        }
+});
+----
+endif::android[]
+
+ifdef::xamarin[]
+*C# の場合:*
+[source, csharp]
+----
+DataGrid.SelectedItemsChanged += (s, e) =>
+{
+    Debug.WriteLine("SelectedItems:");
+    for (int i = 0; i < DataGrid.SelectedItems.Count; i++)
+    {
+        var item = (SampleSalesPerson)DataGrid.SelectedItems[i];
+        Debug.WriteLine("index=" + i + " name=" + item.FirstName + " " + item.LastName);
+    }
+};
+----
+endif::xamarin[]
+
+[start=3]
+. 結果を確認します。{DataGridName} コントロールは、任意の行へのタッチ入力に応答し、選択された各行の基本項目に関連付けられた名前と名字がログ コンソールにログされます。この動作を次のスクリーンショットおよびコンソール アウトプットで示します。
+
+----
+SelectedItems:
+index=0 name=William Vargas
+index=1 name=Oscar Perry
+index=2 name=William Perez
+index=3 name=Ralph Holmes
+index=4 name=Jack Adams
+----
+
+image::images/GridSelectionMode-Final_3.png[]
+
+[[_Ref444513251]]
+== 項目別に行を選択
+
+{DataGridName} コントロールを使用すると、 link:{DataGridLink}.{DataGridName}{ApiPropGet}selecteditems.html[pick:[android="set"]SelectedItems] {ApiMember}を使用し、SelectedItems コレクションの操作でプログラムにより行を選択できます。この方法を使用すると、行選択はその行に関連付けられた基本項目をコレクションに追加することで実行できます。
+
+次の例では、link:{DataGridLink}.{DataGridName}{ApiPropGet}selecteditems.html[pick:[android="set"]SelectedItems] {ApiMember}を使用して、プログラムにより行を選択する方法を示します。
+
+[start=1]
+. 以下のコードは行選択を有効にします。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.setSelectionMode(GridSelectionMode.MULTIPLE_ROW);
+----
+endif::android[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+[source, csharp]
+----
+DataGrid.SelectionMode = GridSelectionMode.MultipleRow;
+----
+
+endif::xamarin[]
+
+[start=2]
+. {DataGridName} コントロールの link:{DataGridLink}.{DataGridName}{ApiPropGet}ActualDataSource.html[pick:[android="set"]ActualDataSource] 内のインデックス位置へアクセスして 2 つのオブジェクトを宣言します。 
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+Object item1 = DataGrid.getActualDataSource().getItemAtIndex(1);
+Object item2 = DataGrid.getActualDataSource().getItemAtIndex(2);
+----
+endif::android[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source, csharp]
+----
+var item1 = DataGrid.ActualDataSource.GetItemAtIndex(1);
+var item2 = DataGrid.ActualDataSource.GetItemAtIndex(2); 
+----
+
+endif::xamarin[]
+
+[start=3]
+. link:{DataGridLink}.{DataGridName}{ApiPropGet}SelectedItems.html[pick:[android="set"]SelectedItems] コレクションで `Add()` メソッドを使用して上記の項目オブジェクトを追加します。
+
+[start=4]
+. ボタンの pick:[android="set"]OnClickListener イベント ハンドラー内で、オブジェクトを宣言し、それを {DataGridName} コントロールの DataSource 内でインデックス位置 2 の項目に設定します。
+
+このパラメーターは、実際の項目参照を含み、参照に関連付けられた行が、{DataGridName} コントロール内で選択されます。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.getSelectedItems().add(item1);
+DataGrid.getSelectedItems().add(item2);
+----
+endif::android[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source, csharp]
+---- 
+DataGrid.SelectedItems.Add(item1);
+DataGrid.SelectedItems.Add(item2);
+----
+
+endif::xamarin[]
+
+[start=4]
+. V結果を確認します。{DataGridName} コントロールはプログラムで pick:[android="`get`"]`SelectedItems` コレクションの項目をルックアップしてインデックスが 1 と 2 の行を選択します。 
+
+image::images/GridSelectionMode-Final_4.png[]
+
+[[_Ref444534896]]
+== 項目キーで行を選択
+
+{DataGridName} コントロールを使用すると、link:{DataGridLink}.{DataGridName}{ApiPropGet}selectedkeys.html[pick:[android="set"]SelectedKeys] {ApiMember}を使用し、SelectedKeys コレクションの操作でプログラムにより行を選択できます。この方法を使用すると、行に関連付けられた基本項目のキーをコレクションに追加することで行の選択が実行できます。この方法は、プログラムによる選択が必要な項目のインスタンスにアクセスできない仮想データソースを取り扱う場合に特に役立ちます。
+
+次の例では、link:{DataGridLink}.{DataGridName}{ApiPropGet}selectedkeys.html[pick:[android="set"]SelectedKeys] {ApiMember}を使用して、プログラムにより行を選択する方法を示します。
+
+[start=1]
+. 以下のコードは行選択を有効にします。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.setSelectionMode(GridSelectionMode.MULTIPLE_ROW);
+----
+endif::android[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+[source, csharp]
+----
+DataGrid.SelectionMode = GridSelectionMode.MultipleRow;
+----
+
+endif::xamarin[]
+
+[start=2]
+. 以下のコード スニペットは文字列配列のインスタンスをサイズ 2 で作成します。
+
+ここでは、項目の基本パブリック プロパティの 2 つを使用して項目をターゲットにします（この例では `FirstName` と `LastName`）。配列の最初のインスタンスには、文字列値 `FirstName` を割り当て、2 番目のインデックスには `LastName` の値を割り当てます。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+final String propertyArray[] = new String[2];
+propertyArray[0] = "FirstName";
+propertyArray[1] = "LastName";
+----
+endif::android[]
+
+ifdef::xamarin[]
+*C# の場合:*
+[source, csharp]
+----
+var propertyArray = new string[2];
+propertyArray[0] = "FirstName";
+propertyArray[1] = "LastName";
+----
+endif::xamarin[]
+
+[start=3]
+. propertyArray を {DataGridName} コントロールの link:{DataGridLink}.{DataGridName}{ApiPropGet}PrimaryKey.html[pick:[android="set"]PrimaryKey] {ApiMember} として割り当てます。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.setPrimaryKey(propertyArray);
+----
+endif::android[]
+
+ifdef::xamarin[]
+*C# の場合:*
+[source, csharp]
+----
+DataGrid.PrimaryKey = propertyArray;
+----
+
+endif::xamarin[]
+
+.注:
+[NOTE]
+====
+{DataGridName} コントロールの primaryKey が設定されていない場合、オブジェクトのハッシュコードが代わりに primaryKey として使用されます。複数のオブジェクトが同一のハッシュコードを共有している場合、すべてのオブジェクトが同時に選択されます。 
+====
+
+[start=4]
+. 新しい文字列配列のインスタンスをサイズ 2 で宣言し、選択したいデータ項目の値を割り当てます。
+
+.注:
+[NOTE]
+==== 
+例えば、"Kyle" の値をインデックス位置に割り当て、値 "Adams" を 2 番目のインデックス位置に割り当てます。データ項目にこれらの値があることを注意してください。そうでない場合、{DataGridName} コントロールは列を選択しません。
+====
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+String primaryKeyArray[] = new String[2];
+primaryKeyArray[0] = "Kyle";
+primaryKeyArray[1] = "Adams";
+----
+endif::android[]
+
+ifdef::xamarin[]
+*C# の場合:*
+[source, csharp]
+----
+var primaryKeyArray = new string[2];
+primaryKeyArray[0] = "Kyle";
+primaryKeyArray[1] = "Adams";
+----
+endif::xamarin[]
+
+[start=5]
+. link:{DataGridLink}.PrimaryKeyValue.html[PrimaryKeyValue] インスタンスを作成し、propertyArray (一致項目とみなされるパブリック プロパティを記述) および primaryKeyArray インスタンス (一致項目のパブリック プロパティの値が何であるべきかを記述) に渡します。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+PrimaryKeyValue primarykeyValue = new PrimaryKeyValue(propertyArray, primaryKeyArray);
+----
+endif::android[]
+
+ifdef::xaml[]
+*C# の場合:*
+[source, csharp]
+----
+var primarykeyValue = new PrimaryKeyValue(propertyArray, primaryKeyArray);
+----
+endif::xaml[]
+
+[start=6]
+. primaryKeyValue を {DataGridName} コントロールの `SelectedKeys` コレクションに追加します。
+
+ifdef::android[]
+*Java の場合:*
+
+[source,js]
+----
+DataGrid.getSelectedKeys().add(primarykeyValue);
+----
+endif::android[]
+
+ifdef::xamarin[]
+*C# の場合:*
+
+[source, csharp]
+----
+DataGrid.SelectedKeys.Add(primarykeyValue);
+----
+
+endif::xamarin[]
+
+[start=7]
+. 結果を確認します。{DataGridName} コントロールは、プログラムにより、`FirstName` が "Kyle" と等しく、`LastName` が "Adams" と等しいデータ項目に関連付けられた行が選択されます。
+
+image::images/GridSelectionMode-Final_5.png[]
+
+[[RelatedTopics]]   
+=== 関連トピック
+
+以下の表は、このトピックに関連するトピックを示します。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+ 
+| link:datagrid-supported-column-types.html[サポートされる列タイプ]
+|このトピックでは、{DataGridName} コントロールでサポートされる列タイプの情報を提供します。
+  
+| link:datagrid-working-with-columns.html[列の作業]
+|このトピックでは、{DataGridName} コントロールで列を使用する際のコード例を提供します。
+|====

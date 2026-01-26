@@ -1,0 +1,1670 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-configuring-the-scale",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Charting","Formatting","How Do I"],
+    "guid": "3e9795c1-08c8-4a10-b885-e7fafd9bb09c",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0588918Z"
+}
+|metadata|
+////
+
+= スケールの構成 ({LinearGaugeName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは例を使用して、_{LinearGaugeName}_ コントロールのスケールをカスタマイズする方法を説明します。説明には、コントロール内のスケールの配置、スケールの目盛およびラベルの構成が含まれます。(デフォルト設定については、 link:lineargauge-overview.html[_{LinearGaugeName}_ 概要]のトピックを参照してください。)
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:lineargauge-overview.html[{LinearGaugeName} 概要]
+|このトピックでは、主要機能、最小要件、ユーザー機能など、_{LinearGaugeName}_ コントロールに関する概念的な情報を提供します。
+
+ifdef::xaml[]
+| link:lineargauge-adding.html[{LinearGaugeName} の追加]
+|このトピックでは、{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+endif::xaml[]
+
+ifdef::android[]
+| link:android-adding-linear-gauge.html[{LinearGaugeName} の追加]
+|このトピックでは、{LinearGaugeName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+endif::android[]
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Introduction, 概要 >>
+
+** <<_Ref361864023,スケール構成の概要>>
+** <<_Ref361864029,スケール構成の概要表>>
+
+* <<_Ref362970089,スケールサイズと位置の構成 >>
+
+** <<_Ref361864053,概要>>
+** <<_Ref361864060,プロパティ設定>>
+** <<_Ref361864068,例>>
+
+* <<_Ref358209468, スケールの範囲の構成 >>
+
+** <<_Ref362957285,概要>>
+** <<_Ref362957294,プロパティ設定>>
+** <<_Ref362957303,例>>
+
+* <<_ConfiguringScaleMajorTickMarks, スケールの主目盛の構成 >>
+
+** <<_Ref361864212,概要>>
+** <<_ConfiguringThePositionAlongTheScale,スケールに沿った位置、数、およびスペースの構成>>
+** <<_Ref362623912,スケール全域での位置およびセグメントの長さの構成>>
+** <<_Ref361864247,プロパティ設定>>
+** <<_Ref361864252,例>>
+
+* <<_Ref358209462, スケールの副目盛の構成 >>
+
+** <<_Ref361864270,概要>>
+** <<_Ref362631410,スケールに沿った位置、数、およびスペースの構成>>
+** <<_Ref362631420,スケール全域での位置およびセグメントの長さの構成>>
+** <<_Ref361864274,プロパティ設定>>
+** <<_Ref361864279,例>>
+
+* <<_Ref362292715, スケールのラベリングの構成 >>
+
+** <<_Ref361864298,概要>>
+
+ifdef::sl,wpf,win-universal[]
+** <<_Ref361864305,イベント処理>>
+
+endif::sl,wpf,win-universal[]
+
+** <<_Ref361864310,プロパティ設定>>
+** <<_Ref361864318,例 - 水平方向>>
+** <<_Ref361864329,例 - 垂直方向>>
+
+* <<_Ref361864362, 関連コンテンツ >>
+
+** <<_Ref361864379,トピック>>
+
+** <<_Ref362293151,リソース>>
+
+[[_Introduction]]
+== 概要
+
+[[_Ref361864023]]
+
+=== スケール構成の概要
+
+_{LinearGaugeName}_ コントロールのスケールは、目盛とラベル (番号) で形成された論理エンティティです。目盛のサイズおよび位置は link:lineargauge-overview.html#_GraphAreaLinк[グラフ領域]に対して構成され、番号ラベルの位置はコントロールの内側の端 (水平方向で下端) に対して構成されます。
+
+{LinearGaugeName} コントロールの目盛は、チャートに沿ってメジャーに等間隔で表示されます。目盛は、主目盛および副目盛の 2 種類がサポートされています。どちらの目盛も、グラフ領域に対して測定される範囲関連の各プロパティの値を調整することにより、スケールに沿って配置できます。目盛の正確な数、位置、外観、および表示の頻度はプロパティ設定によりカスタマイズできます。
+
+ラベルについては、位置、テキスト、書式などのさまざまな要素が構成できます。
+
+[[_Ref361864029]]
+
+=== スケール構成の概要表
+
+以下の表は、_{LinearGaugeName}_ コントロールのスケールで構成できる要素を簡単に説明し、構成に使用するプロパティへのマッピングです。
+
+[options="header", cols="a,a,a"]
+|====
+|*構成可能な点*|プロパティ|*デフォルト値*
+
+|位置
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+| _0.05_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+| _0.95_ 
+
+|最小値
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minimumvalue.html[MinimumValue]
+| _0_ 
+
+|最大値
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}maximumvalue.html[MaximumValue]
+| _100_ 
+
+|主目盛
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[interval]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+| _0.02_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.2_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickbrush.html[TickBrush]
+|デフォルトのテーマで定義済み
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _2.0_ 
+
+|副目盛
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+| _3.0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+| _0.06_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.2_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|デフォルトのテーマで定義済み
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _1.0_ 
+
+|ラベル
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval]
+|設定なし
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _0_ 
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _0_ 
+
+ifdef::sl,wpf,win-universal[]
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelformat.html[LabelFormat]
+|設定なし
+endif::sl,wpf,win-universal[]
+
+|
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}fontbrush.html[FontBrush]
+|デフォルトのテーマで定義済み
+
+|====
+
+[[_Ref362970089]]
+== スケールサイズと位置の構成
+
+[[_Ref361864053]]
+
+=== 概要
+
+スケールに沿ったディメンションの _{LinearGaugeName}_ コントロール内でのスケールのサイズおよび位置は、 link:lineargauge-overview.html#_Ref361168457[グラフ領域]に対して決定されます。これは一組のプロパティ ( link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scalestartextent.html[ScaleStartExtent] および link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scaleendextent.html[ScaleEndExtent]) により実行されます。
+
+image::images/XamLinearGauge_Overview_5.png[]
+
+グラフ領域の他方 (スケール全域) のディメンションでのスケールの配置自体を構成できませんが、スケールを構成するすべての要素で個別に構成されます。
+
+.注:
+[NOTE]
+====
+番号ラベルの配置を制御する `LabelExtent` プロパティの値は、コントロールの方向が水平の場合はコントロールの高さに対して測定され、それ以外の場合はコントロールの幅に対して測定されます。(詳細は、 link:lineargauge-configuring-orientation-and-direction.html[向きと方向の構成]を参照してください。)
+====
+
+[[_Ref361864060]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864068,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|スケールに沿ったディメンション - サイズと位置|開始位置
+|[[ScaleStartExten]] 
+
+水平方向で link:lineargauge-overview.html#_Ref361168457[グラフ領域]の左端からの *スケール* *の開始位置* 、または垂直方向でグラフ領域の下端からのスケールの開始位置。(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。(詳細は、 link:lineargauge-configuring-orientation-and-direction.html[向きと方向の構成]を参照してください。)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scalestartextent.html[ScaleStartExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.2_) 
+
+|終了位置
+|[[ScaleEndExten]] 
+
+水平方向でグラフ領域の左端からのスケール *の終了位置* 、または垂直方向でグラフ領域の下端からのスケールの終了位置。(スケールの方向が反転した場合、水平方向で右端、垂直方向で上端となります。(詳細は、 link:lineargauge-configuring-orientation-and-direction.html[向きと方向の構成]を参照してください。)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}scaleendextent.html[ScaleEndExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.8_ )
+
+|====
+
+[[_Ref361864068]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、_{LinearGaugeName}_ の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+|`ScaleStartExtent`
+| _0.2_ 
+
+|`ScaleEndExtent`
+| _0.9_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Scale_1_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                 ScaleStartExtent="0.2"
+                 ScaleEndExtent="0.9" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.ScaleStartExtent = .2;
+linearGauge.ScaleEndExtent = .9;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.ScaleStartExtent = .2;
+linearGauge.ScaleEndExtent = .9;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.ScaleStartExtent = .2;
+linearGauge.ScaleEndExtent = .9;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.ScaleStartExtent = .2;
+linearGauge.ScaleEndExtent = .9;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.ScaleStartExtent = .2;
+linearGauge.ScaleEndExtent = .9;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.ScaleStartExtent = ".2"
+.ScaleEndExtent = ".9"
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.ScaleStartExtent = ".2"
+.ScaleEndExtent = ".9"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.ScaleStartExtent = ".2"
+.ScaleEndExtent = ".9"
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.ScaleStartExtent = ".2"
+.ScaleEndExtent = ".9"
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+linearGauge.setScaleStartExtent(.2);
+linearGauge.setScaleEndExtent(.9);
+----
+
+endif::android[]
+
+[[_Ref358209468]]
+== スケールの範囲の構成
+
+[[_Ref362957285]]
+
+=== 概要
+
+スケールの値は、その値の範囲 (つまり最小値と最大値) を指定することで定義します。 link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minimumvalue.html[MinimumValue] および link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}maximumvalue.html[MaximumValue] プロパティで指定します。
+
+最小値と最大値を設定するとスケール内のすべての値が定義され、すべての値は最小値と最大値の間に均等に分布されます。ただし、表示されるにはスケールに配置された番号ラベルがある値のみです。(スケールの値は番号ラベルによってのみ表示できます。ラベルは、スケール上のラベルの位置に基づき各値を表示します。つまり、ラベルの値はスケールに沿ったラベルの配置よって構成され、明示的には設定されません。)最小値および最大値の位置にラベルは必要ではありません。これは、最小値および最大値がスケール上に表示されず、スケールが以下のように表示される可能性があることを意味します。
+
+image::images/XamLinearGauge_Configuring_the_Scale_2_17_1.png[]
+
+スケールの範囲を定義すると、比較範囲および針などの他の値ベースの視覚要素もスケール上に配置できます。前述の要素は値ベースであるため、スケールの範囲が変化 (最小値または最大値の変化、あるいはその両方の変化) すると、これらの視覚要素は、スケール上の位置が保持されたスケール値に応じて再配置されます。
+
+[[_Ref362957294]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864068,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|スケールの最小値
+|スケールが開始する値。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minimumvalue.html[MinimumValue]
+|スケールのメジャーにおける任意の値
+
+|スケールの最大値
+|スケールが終了する値。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}maximumvalue.html[MaximumValue]
+|スケールのメジャーにおける任意の値
+
+|====
+
+[[_Ref362957303]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、_{LinearGaugeName}_ の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+|`MinimumValue`
+| _60_ 
+
+|`MaximumValue`
+| _70_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Scale_3_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                     MinimumValue="60"
+                     MaximumValue="70" />
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 70;
+linearGauge.MinimumValue = 60;
+----
+
+endif::xaml[]
+
+ifdef::sl,wpf,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.MinimumValue = "60"
+linearGauge.MaximumValue = "70"
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.MinimumValue = "60"
+linearGauge.MaximumValue = "70"
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MaximumValue = 70;
+linearGauge.MinimumValue = 60;
+----
+
+endif::win-forms[]
+
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+linearGauge.setMinimumValue(60);
+linearGauge.setMaximumValue(70);
+----
+
+endif::android[]
+
+[[_ConfiguringScaleMajorTickMarks]]
+== スケールの主目盛の構成
+
+[[_Ref361864212]]
+
+=== 概要
+
+{LinearGaugeName} コントロールの主目盛は、位置および表示する間隔に関してカスタマイズできます。主目盛を形成する線分の高さ、幅、および色も構成が可能です。
+
+[[_ConfiguringThePositionAlongTheScale]]
+
+=== スケールに沿った位置、数、およびスペースの構成
+
+主目盛は、開始点および終了点 ( link:lineargauge-overview.html#_Ref361168457[グラフ領域]の端からの最初と最後の目盛位置)、および表示する間隔 (各目盛間の距離) で定義します。( link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspostinitial.html[TicksPostInitial]、 link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspreterminal.html[TicksPreTerminal]、および link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[Interval] プロパティで定義されます。)この方法で主目盛の開始点および終了点を定義すると、基本的にスケールの位置および長さを定義することになります。
+
+image::images/XamLinearGauge_Overview_7.png[]
+
+[[_Ref362623912]]
+
+=== スケール全域での位置およびセグメントの長さの構成
+
+スケール全域のディメンションでは、主目盛を形成する線分の長さと位置は link:lineargauge-overview.html#_Ref361168457[グラフ領域]の端に対して構成されます。( link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstartextent.html[TickStartExtent] および link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickendextent.html[TickEndExtent] プロパティによって構成されます。)
+
+image::images/XamLinearGauge_Overview_8.png[]
+
+[[_Ref361864247]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864252,例>>を参照してください。
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|要素|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|スケールに沿った位置、数、およびスペース 
+|開始点
+|スケールの<<_Ref361864060,開始位置>>に対して主目盛が始まる距離
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+|スケールの開始位置からスケールのメジャーの任意の距離
+
+|
+|終了点
+|スケールの<<_Ref361864060,終了位置>>に対して主目盛が終了する距離
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+|スケールの終了位置からスケールのメジャーの任意の距離
+
+|
+|間隔
+|主目盛を配置する間隔 (間隔は、スケールのメジャーにおける隣接する 2 つの主目盛間の距離です。)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[Interval]
+|スケールのメジャーにおける任意の値
+
+|スケール全域での位置およびセグメントの長さ
+|開始点
+|主目盛を形成する線分の開始点。(開始点は、水平方向でグラフ領域の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。)負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+|方向に応じたグラフ領域の高さと幅の相対部分として、スケールのメジャーの望ましい値。小数で指定 (例: _0.2)_ 
+
+|
+|終了点
+|水平方向でグラフ領域の下部から主目盛を形成する線分の終了点、または垂直方向でグラフ領域の左の境界線からの主目盛の線分の終了点。負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。(開始点と終了点間の差が目盛の線分の長さになります。)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+|方向に応じた、グラフ領域の高さと幅の相対部分として望ましい値。小数で指定 (例: _0.8_ )
+
+|ルックアンドフィール
+|幅
+|主目盛の線分の幅
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+|任意の値 (ピクセル)
+
+|
+|色
+|主目盛の色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickbrush.html[TickBrush]
+|任意の色
+
+|====
+
+[[_Ref361864252]]
+
+=== 例
+
+以下のスクリーンショットは、下記設定の結果、_{LinearGaugeName}_ の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[Interval]
+| _30_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickbrush.html[TickBrush]
+| _Lime_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickendextent.html[TickEndExtent]
+| _0.9_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspostinitial.html[TicksPostInitial]
+| _30_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickspreterminal.html[TicksPreTerminal]
+| _10_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstartextent.html[TickStartExtent]
+| _0.5_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}tickstrokethickness.html[TickStrokeThickness]
+| _3_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Scale_4_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                     Interval="30"
+                     TickBrush="Lime"
+                     TickEndExtent="0.9"
+                     TicksPostInitial="30"
+                     TicksPreTerminal="10"
+                     TickStartExtent="0.5"
+                     TickStrokeThickness="3" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Interval = 30;
+linearGauge.TickBrush = new SolidColorBrush(Color.FromRgb(128, 255, 0));
+linearGauge.TickEndExtent = .9;
+linearGauge.TicksPostInitial = 30;
+linearGauge.TicksPreTerminal = 10;
+linearGauge.TickStartExtent = .5;
+linearGauge.TickStrokeThickness = 3;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Interval = 30;
+linearGauge.TickBrush = new SolidColorBrush(Color.FromRgb(128, 255, 0));
+linearGauge.TickEndExtent = .9;
+linearGauge.TicksPostInitial = 30;
+linearGauge.TicksPreTerminal = 10;
+linearGauge.TickStartExtent = .5;
+linearGauge.TickStrokeThickness = 3;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Interval = 30;
+linearGauge.TickBrush = new SolidColorBrush(Color.FromRgb(128, 255, 0));
+linearGauge.TickEndExtent = .9;
+linearGauge.TicksPostInitial = 30;
+linearGauge.TicksPreTerminal = 10;
+linearGauge.TickStartExtent = .5;
+linearGauge.TickStrokeThickness = 3;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Interval = 30;
+linearGauge.TickBrush = new SolidColorBrush(Color.FromRgb(128, 255, 0));
+linearGauge.TickEndExtent = .9;
+linearGauge.TicksPostInitial = 30;
+linearGauge.TicksPreTerminal = 10;
+linearGauge.TickStartExtent = .5;
+linearGauge.TickStrokeThickness = 3;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Interval = 30;
+linearGauge.TickBrush = new SolidColorBrush(Color.FromRgb(128, 255, 0));
+linearGauge.TickEndExtent = .9;
+linearGauge.TicksPostInitial = 30;
+linearGauge.TicksPreTerminal = 10;
+linearGauge.TickStartExtent = .5;
+linearGauge.TickStrokeThickness = 3;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Interval = "30"
+linearGauge.TickBrush = New SolidColorBrush(Color.FromRgb(51, 255, 51))
+linearGauge.TickEndExtent = ".9"
+linearGauge.TicksPostInitial = "30"
+linearGauge.TicksPreTerminal = "10"
+linearGauge.TickStartExtent = ".5"
+linearGauge.TickStrokeThickness = "3"
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Interval = "30"
+linearGauge.TickBrush = New SolidColorBrush(Color.FromRgb(51, 255, 51))
+linearGauge.TickEndExtent = ".9"
+linearGauge.TicksPostInitial = "30"
+linearGauge.TicksPreTerminal = "10"
+linearGauge.TickStartExtent = ".5"
+linearGauge.TickStrokeThickness = "3"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Interval = "30"
+linearGauge.TickBrush = New SolidColorBrush(Color.FromRgb(51, 255, 51))
+linearGauge.TickEndExtent = ".9"
+linearGauge.TicksPostInitial = "30"
+linearGauge.TicksPreTerminal = "10"
+linearGauge.TickStartExtent = ".5"
+linearGauge.TickStrokeThickness = "3"
+----
+
+endif::win-forms[]
+
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Interval = "30"
+linearGauge.TickBrush = New SolidColorBrush(Color.FromRgb(51, 255, 51))
+linearGauge.TickEndExtent = ".9"
+linearGauge.TicksPostInitial = "30"
+linearGauge.TicksPreTerminal = "10"
+linearGauge.TickStartExtent = ".5"
+linearGauge.TickStrokeThickness = "3"
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+linearGauge.setInterval(30);
+linearGauge.setTickBrush(new SolidColorBrush(Color.parseColor("#82FA58"));
+linearGauge.setTickEndExtent(.9);
+linearGauge.setTicksPostInitial(30);
+linearGauge.setTicksPreTerminal(10);
+linearGauge.setTickStartExtent(.5);
+linearGauge.setTickStrokeThickness(3);
+----
+
+endif::android[]
+
+[[_Ref358209462]]
+== スケールの副目盛の構成
+
+[[_Ref361864270]]
+
+=== 概要
+
+{LinearGaugeName} コントロールの副目盛は、明示的に無効にできます。あるいは、2 つの主目盛間の番号、位置、サイズ、および色をカスタマイズできます。
+
+[[_Ref362631410]]
+
+=== スケールに沿った位置、数、およびスペースの構成
+
+副目盛は、数 (隣接する 2 つの主目盛間の副目盛の数) として定義されます。(数は link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickcount.html[MinorTickCount] プロパティにより定義されます。このプロパティを  _0_  に設定すると、副目盛が無効 (非表示) になります。)数が設定されると、指定された数の副目盛はスケール全体で、各隣接した 2 つの主目盛間に均等に配置されます。
+
+[[_Ref362631420]]
+
+=== スケール全域での位置およびセグメントの長さの構成
+
+スケール全域のディメンションでは、副目盛の長さと位置は link:lineargauge-overview.html#_Ref361168457[グラフ領域]の端に対して構成されます。
+
+image::images/XamLinearGauge_Overview_9.png[]
+
+[[_Ref361864274]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864279,例>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|番号とスペース
+|隣接する 2 つの主目盛間の副目盛の数
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+|任意の数。 _0_ を設定すると副目盛を非表示。
+
+|開始点
+|副目盛を形成する線分の開始点。(開始点は、水平方向で link:lineargauge-overview.html#_Ref361168457[グラフ領域]の下部に対して定義され、垂直方向でグラフ領域の左端に対して定義されます。)負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.2)_ 
+
+|終了点
+|水平方向ではグラフ領域の下部から副目盛を形成する線分の終了点、または垂直方向でグラフ領域の左の境界線からの副目盛の線分の終了点。負の値もサポートされ、グラフ領域の下方 / 左側の位置に表示します。(開始点と終了点間の差が目盛の線分の長さになります。)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+|方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.25)_ 
+
+|幅
+|副目盛の線分の幅
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+|任意の値 (ピクセル)
+
+|色
+|副目盛の色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickbrush.html[MinorTickBrush]
+|任意の色
+
+|====
+
+[[_Ref361864279]]
+
+=== 例
+
+以下のスクリーンショットは、下記設定の結果、_{LinearGaugeName}_ の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickbrush.html[MinorTickBrush]
+| _Purple_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickcount.html[MinorTickCount]
+| _4_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickendextent.html[MinorTickEndExtent]
+| _0.1_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstartextent.html[MinorTickStartExtent]
+| _0.05_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}minortickstrokethickness.html[MinorTickStrokeThickness]
+| _2_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[Interval]
+| _20_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Scale_5_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                     MinorTickBrush="Purple"
+                     MinorTickCount="4"
+                     MinorTickEndExtent="0.1"
+                     MinorTickStartExtent="0.05"
+                     MinorTickStrokeThickness="2"
+                     Interval="20" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MinorTickBrush = new SolidColorBrush(Color.FromRgb(153, 0 , 153));
+linearGauge.MinorTickCount = 4;
+linearGauge.MinorTickEndExtent = .1;
+linearGauge.MinorTickStartExtent = .05;
+linearGauge.MinorTickStrokeThickness = 2;
+linearGauge.Interval = 20;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MinorTickBrush = new SolidColorBrush(Color.FromRgb(153, 0 , 153));
+linearGauge.MinorTickCount = 4;
+linearGauge.MinorTickEndExtent = .1;
+linearGauge.MinorTickStartExtent = .05;
+linearGauge.MinorTickStrokeThickness = 2;
+linearGauge.Interval = 20;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MinorTickBrush = new SolidColorBrush(Color.FromRgb(153, 0 , 153));
+linearGauge.MinorTickCount = 4;
+linearGauge.MinorTickEndExtent = .1;
+linearGauge.MinorTickStartExtent = .05;
+linearGauge.MinorTickStrokeThickness = 2;
+linearGauge.Interval = 20;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MinorTickBrush = new SolidColorBrush(Color.FromRgb(153, 0 , 153));
+linearGauge.MinorTickCount = 4;
+linearGauge.MinorTickEndExtent = .1;
+linearGauge.MinorTickStartExtent = .05;
+linearGauge.MinorTickStrokeThickness = 2;
+linearGauge.Interval = 20;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.MinorTickBrush = new SolidColorBrush(Color.FromRgb(153, 0 , 153));
+linearGauge.MinorTickCount = 4;
+linearGauge.MinorTickEndExtent = .1;
+linearGauge.MinorTickStartExtent = .05;
+linearGauge.MinorTickStrokeThickness = 2;
+linearGauge.Interval = 20;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.MinorTickBrush = New SolidColorBrush(Color.FromRgb(102, 0, 102))
+linearGauge.MinorTickCount = "4"
+linearGauge.MinorTickEndExtent = ".1"
+linearGauge.MinorTickStartExtent = ".05"
+linearGauge.MinorTickStrokeThickness = "2"
+linearGauge.Interval = "20"
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.MinorTickBrush = New SolidColorBrush(Color.FromRgb(102, 0, 102))
+linearGauge.MinorTickCount = "4"
+linearGauge.MinorTickEndExtent = ".1"
+linearGauge.MinorTickStartExtent = ".05"
+linearGauge.MinorTickStrokeThickness = "2"
+linearGauge.Interval = "20"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.MinorTickBrush = New SolidColorBrush(Color.FromRgb(102, 0, 102))
+linearGauge.MinorTickCount = "4"
+linearGauge.MinorTickEndExtent = ".1"
+linearGauge.MinorTickStartExtent = ".05"
+linearGauge.MinorTickStrokeThickness = "2"
+linearGauge.Interval = "20"
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.MinorTickBrush = New SolidColorBrush(Color.FromRgb(102, 0, 102))
+linearGauge.MinorTickCount = "4"
+linearGauge.MinorTickEndExtent = ".1"
+linearGauge.MinorTickStartExtent = ".05"
+linearGauge.MinorTickStrokeThickness = "2"
+linearGauge.Interval = "20"
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+linearGauge.setMinorTickBrush(new SolidColorBrush(Color.parseColor("#8904B1"));
+linearGauge.setMinorTickCount(4);
+linearGauge.setMinorTickEndExtent(.1);
+linearGauge.setMinorTickStartExtent(.05);
+linearGauge.setMinorTickStrokeThickness(2);
+linearGauge.setInterval(20);
+----
+
+endif::android[]
+
+[[_Ref361864288]]
+[[_Ref362292715]]
+== スケールのラベリングの構成
+
+[[_Ref361864298]]
+
+=== 概要
+
+デフォルトで、スケールのメジャーを示すラベルは有効になっています。ラベルは以下の要因で定義します。
+
+*  *開始点および終了点*  - スケールの両端での最初と最後のラベルの位置
+*  *ラベル行の幅*  - 方向 (垂直 / 水平) に応じたコントロールの高さと幅に対する幅。この幅は、適用されたスタイル テンプレートのフォント設定のみで間接的に制御できます。
+*  *発生する間隔*  (相互距離)。( link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]、 link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]、および link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval] プロパティにより定義されます。)
+*  *スケール全域のディメンションでのラベル行の位置*  - デフォルトで、水平に対してコントロールの下部、垂直に対して左側に設定されています。水平のスケール方向で全行は垂直に移動し、垂直のスケール方向で水平に移動することができます。 link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent] プロパティにより定義されます。
+
+image::images/XamLinearGauge_Overview_6.png[]
+
+各ラベルが表示する値は、スケール上の位置によって表される値で定義されます。(このためには<<_Ref362967447,スケールの値の範囲の構成>>が必要です。)文字列の書式はラベルに適用できるため、外観を追加でカスタマイズできます。デフォルトで、数値ラベルは各主目盛に対して表示され、ラベルはスケールの方向 (水平 / 垂直) に応じてスケールの下位 / 左側に配置されます。
+
+ラベルと主目盛をカスタマイズすると、相互の位置関係を確認する必要があります。位置を合わせるには、目盛の間隔 ( link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}interval.html[Interval] プロパティ) とラベルの間隔 (`LabelInterval` プロパティ) を同じ値に設定します。(デフォルトで、`LabelInterval` プロパティは設定されていませんが、`Interval` に設定された値を使用するため、正しく位置合わせされます。)
+
+ifdef::sl,wpf,win-universal[]
+
+[[_Ref361864305]]
+
+=== イベント処理
+
+ifdef::sl,wpf,win-universal[]
+
+{LinearGaugeName} のラベルは、対応するイベントを処理する場合に追加で書式設定し、位置を調整できます。
+
+以下の表では、任意の動作と各イベントのマップを示します。
+
+[options="header", cols="a,a"]
+|====
+|目的:|このイベントの処理:
+
+|ラベルのフォーマット
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}formatlabel_ev.html[FormatLabel]
+
+|ラベルの位置合わせ
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}alignlabel_ev.html[AlignLabel]
+
+|====
+
+endif::sl,wpf,win-universal[]
+
+endif::sl,wpf,win-universal[]
+
+[[_Ref361864310]]
+
+=== プロパティ設定
+
+以下の表では、任意の動作と各プロパティ設定のマップを示します。構成可能な要素の実例については、<<_Ref361864318,例 - 水平方向>>を参照してください。
+
+[options="header", cols="a,a,a,a"]
+|====
+|構成の目的:|詳細|使用するプロパティ:|設定の選択肢:
+
+|位置
+|垂直 / 水平方向に応じた、コントロールの下部 / 左端に対するラベル行の配置。
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent]
+|垂直 / 水平方向に応じた、コントロールの高さと幅の相対部分として望ましい値。小数で指定 (例: _0.8_ )。
+
+|開始点
+|スケールに沿った最初のラベルのスケールのメジャーにおける位置
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+|スケールの最初のラベルを表示するスケールのメジャーにおける値
+
+|終了点
+|スケールに沿った最後のラベルのスケールのメジャーにおける位置
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+|スケールの最後のラベルを表示するスケールのメジャーにおける値
+
+|間隔
+|ラベルを配置する間隔 (間隔は、スケールのメジャーにおける隣接する 2 つのラベルの距離です。)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval]
+|スケールのメジャーにおける任意の値
+
+ifdef::sl,wpf,win-universal[]
+|文字列の書式
+|ラベルの文字列の書式 (数値、時間、複合など)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelformat.html[LabelFormat]
+|任意の link:http://msdn.microsoft.com/ja-jp/library/26etazsy.aspx[文字列形式] (通貨の値を表示する _{0:c}_ など)
+endif::sl,wpf,win-universal[]
+
+ifdef::sl,wpf,win-universal[]
+|フォント色
+|ラベルのフォント色
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}fontbrush.html[FontBrush]
+|任意の色
+endif::sl,wpf,win-universal[]
+
+|====
+
+[[_Ref361864318]]
+
+=== 例 - 水平方向
+
+以下のスクリーンショットは、以下の設定の結果、デフォルトの水平方向で {LinearGaugeName} の外観がどのようになるか示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent]
+| _0.8_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval]
+| _30_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _20_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _20_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}fontbrush.html[FontBrush]
+| _Green_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Scale_6_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                 LabelExtent="0.8"
+                 LabelInterval="30"
+                 LabelsPostInitial="20"
+                 LabelsPreTerminal="20"
+                 FontBrush="Green"  />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+linearGauge.setLabelExtent(.8);
+linearGauge.setLabelInterval(30);
+linearGauge.setLabelsPostInitial(20);
+linearGauge.setLabelsPreTerminal(20);
+linearGauge.setFontBrush(new SolidColorBrush(Color.GREEN));
+----
+
+endif::android[]
+
+[[_Ref361864329]]
+
+=== 例 - 垂直方向
+
+以下のスクリーンショットは、以下のプロパティ設定の結果、(<<_Ref361864318,例 - 水平方向>>の場合と同様に) 垂直方向で {LinearGaugeName} の外観がどのようになるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}orientation.html[Orientation]
+| _Vertical_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelextent.html[LabelExtent]
+| _0.8_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelinterval.html[LabelInterval]
+| _30_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspostinitial.html[LabelsPostInitial]
+| _20_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}labelspreterminal.html[LabelsPreTerminal]
+| _20_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}fontbrush.html[FontBrush]
+| _Green_ 
+
+|====
+
+image::images/XamLinearGauge_Configuring_the_Scale_7_17_1.png[]
+
+以下のコードはこの例を実装します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                 Orientation="Vertical"
+                 LabelExtent="0.8"
+                 LabelInterval="30"
+                 LabelsPostInitial="20"
+                 LabelsPreTerminal="20"
+                 FontBrush="Green" />
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::sl[]
+
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = .8;
+linearGauge.LabelInterval = 30;
+linearGauge.LabelsPostInitial = 20;
+linearGauge.LabelsPreTerminal = 20;
+linearGauge.FontBrush = new SolidColorBrush(Color.FromRgb(0, 153, 0));
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+linearGauge.Orientation = LinearScaleOrientation.Vertical;
+linearGauge.LabelExtent = ".8"
+linearGauge.LabelInterval = "30"
+linearGauge.LabelsPostInitial = "20"
+linearGauge.LabelsPreTerminal = "20"
+linearGauge.FontBrush = New SolidColorBrush(Color.FromRgb(0, 255, 0))
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+linearGauge.setOrientation(LinearScaleOrientation.VERTICAL);
+linearGauge.setLabelExtent(.8);
+linearGauge.setLabelInterval(30);
+linearGauge.setLabelsPostInitial(20);
+linearGauge.setLabelsPreTerminal(20);
+linearGauge.setFontBrush(new SolidColorBrush(Color.GREEN));
+----
+
+endif::android[]
+
+[[_Ref361864362]]
+== 関連コンテンツ
+
+[[_Ref361864379]]
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:lineargauge-configuring-orientation-and-direction.html[向きと方向の構成 ({LinearGaugeName})]
+|このトピックは、垂直スケールと反転したスケール方向の両方またはいずれか一方により _{LinearGaugeName}_ コントロールを構成する方法を説明します。
+
+ifdef::sl,wpf,win-universal[]
+| link:lineargauge-configuring-the-title-subtitle.html[タイトル / サブタイトルの構成 ({LinearGaugeName})]
+|このトピックでは、コード例を使用して、{LinearGaugeName} コントロールのタイトルおよびサブタイトルを構成する方法を説明します。説明には、タイトル領域の幅、テキストの開始位置、およびタイトル / サブタイトルのテキストが含まれます。
+endif::sl,wpf,win-universal[]
+
+| link:lineargauge-configuring-the-needle.html[針の構成 ( _{LinearGaugeName}_ )]
+|このトピックではコード例を使用して、 _{LinearGaugeName}_ コントロールの針を構成する方法を説明します。説明には、針が示す値、幅、位置、および書式設定が含まれます。
+
+| link:lineargauge-configuring-the-ranges.html[範囲の構成 ( _{LinearGaugeName}_ )]
+|このトピックではコード例を使用して、 _{LinearGaugeName}_ コントロールの範囲を構成する方法を説明します。説明には、範囲の数、位置、長さ、幅、および書式設定が含まれます。
+
+| link:lineargauge-configuring-the-background.html[背景の構成 ({LinearGaugeName})]
+|このトピックではコード例を使用して、リニア ゲージの背景を構成する方法を説明します。説明には、背景のサイズ、位置、色、および境界線の設定が含まれます。
+
+ifdef::sl,wpf,win-universal[]
+| link:lineargauge-configuring-the-tooltips.html[ツールチップの構成 ({LinearGaugeName})]
+|このトピックではコード例を使用して、 _{LinearGaugeName}_ コントロールのツールチップを有効にする方法および表示する遅延時間を設定する方法を説明します。
+endif::sl,wpf,win-universal[]
+
+|====
+
+[[_Ref362293151]]
+
+=== リソース
+
+以下の資料 (Infragistics のコンテンツ ファミリー以外でもご利用いただけます) は、このトピックに関連する追加情報を提供します。
+
+[options="header", cols="a,a"]
+|====
+|タイトル|目的
+
+| link:http://msdn.microsoft.com/ja-jp/library/26etazsy.aspx[書式設定のタイプ]
+|書式設定タイプに関する MSDN の概要記事には、特定の文字列の書式に関する補助記事もあります。
+
+|====

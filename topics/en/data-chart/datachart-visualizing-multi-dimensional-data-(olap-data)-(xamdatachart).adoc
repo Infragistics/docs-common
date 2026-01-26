@@ -1,0 +1,276 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-visualizing-multi-dimensional-data-(olap-data)-(xamdatachart)",
+    "controlName": ["{DataChartName}"],
+    "tags": [],
+    "guid": "abd1333f-0efd-4fbe-8d91-710807eaa9c8","buildFlags": ["SL","WPF"],
+    "createdOn": "2014-06-05T19:39:00.5763485Z"
+}
+|metadata|
+////
+
+= Visualizing Multi-Dimensional Data (OLAP Data)
+
+== Topic Overview
+
+=== Purpose
+
+This topic explains, with code examples, how to display multi-dimensional data (OnLine Analytical Processing (OLAP) data) in the  _{DataChartName}_™ control.
+
+=== Required background
+
+The following table lists the topics required as a prerequisite to understanding this topic.
+
+[options="header", cols="a,a"]
+|====
+|Type|Content
+
+|Concepts
+| link:http://en.wikipedia.org/wiki/Online_analytical_processing[OLAP]
+
+|====
+
+[options="header", cols="a,a"] 
+
+|==== 
+
+|Topic|Purpose 
+
+| link:xampivotgrid-binding-data-to-the-xampivotgrid.html[Binding Data to the xamPivotGrid] 
+
+|This topic serves as an overview of the data sources supported by the _xamPivotGrid_™ control. 
+
+| link:xampivotgrid-databinding-using-flatdatasource.html[Using FlatDataSource] 
+
+|This topic explains how to use the `FlatDataSource` class for displaying `IEnumerable` data in the _xamPivotGrid_ . 
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart] 
+
+|You will learn how to add the _{DataChartName}_ control with simple data binding in {PlatformIDE} and Expression Blend®. 
+
+| link:resources-data-resources.html[Accessing Data] 
+
+|This section contains topics written specifically to help you access data using the _{DataChartName}_ control. 
+
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref333329785,Displaying OLAP Data in the {DataChartName} control – Conceptual Overview>>
+* <<_Ref333329797,Displaying OLAP Data in the {DataChartName} control – Procedure>>
+
+** <<_Ref327265276,Introduction>>
+** <<_Ref327265280,Preview>>
+** <<_Ref327265283,Requirements>>
+** <<_Ref327265286,Overview>>
+** <<_Ref327265289,Steps>>
+** <<_Ref333329436,Code>>
+
+* <<_Ref327265296,Related Content>>
+
+[[_Ref333329785]]
+[[_Ref327265266]]
+== Displaying OLAP Data in the  _{DataChartName}_  Control – Conceptual Overview
+
+[[displayingOlapDataSummary]]
+Displaying OLAP data in  _{DataChartName}_  summary
+
+In order to display OLAP data in the  _{DataChartName}_   control, you need to configure a special type of axis – OlapXAxis – specifically designed for visiualizing multi-dimensional data sets. Apart from visualizing OLAP data in the  _{DataChartName}_  , the OlapXAxis enables you to drill-down the data and to choose an axis from the data (columns or rows) for whose values the series will be plotted.
+
+The OlapXAxis has a link:{ApiPlatform}olap.xmla{ApiVersion}~infragistics.olap.xmla.xmladatasource_members.html[DataSource] property, similar to the one in the  _xamPivotGrid_   control, which enables you to use the data sources used in the  _xamPivotGrid_  , in the  _{DataChartName}_  , so you can visualize with the chart the same data that is displayed in the grid. The following picture demonstrates a  _XamPivotGrid_   and  _{DataChartName}_   bound to the same data source. (Tooltips are added to the image for the sake of clarity.)
+
+image::images/xamDataChart_Visualizing_Multi-Dimensional_Data_01.png[]
+
+[[_Ref333329797]]
+== Displaying OLAP Data in the  _{DataChartName}_  Control – Procedure
+
+[[_Ref327265276]]
+
+=== Introduction
+
+This procedure covers the required steps for displaying OLAP data in a  _{DataChartName}_  .
+
+The specific example outlined in the procedure uses a flat data source and the link:salesdatasample.html[Sales Data Sample] (`SalesDataSample` class) for generating the sample content displayed in a chart. For details about how to configure the data source, refer to the link:xampivotgrid-databinding-using-flatdatasource.html[Using FlatDataSource] topic.
+
+The procedure also optionally suggests adding a selector so that users can select items for columns, rows, filters, and measures from the data source (step 4). The selector is implemented through an instance of the  _xamPivotDataSelector_   component.
+
+[[_Ref327265280]]
+
+=== Preview
+
+The following screenshot is a preview of the final result.
+
+image::images/xamDataChart_Visualizing_Multi-Dimensional_Data_02.png[]
+
+[[_Ref327265283]]
+
+=== Requirements
+
+To complete the procedure, you need the following:
+
+* A {PlatformName} {PlatformIDE} application project.
+* References to the following assemblies:
+
+**  _{ApiPlatform}v{ProductVersion}_  
+**  _{ApiPlatform}DataVisualization.{ApiVersion}_  
+**  _{ApiPlatform}Olap{ApiVersion}_  
+**  _{ApiPlatform}Olap.FlatData{ApiVersion}_   (if you are not using flat data, include the respective assembly)
+**  _{ApiPlatform}Controls.Grids.XamPivotGrid{ApiVersion}_   (required only if you want to use the link:{ApiPlatform}controls.grids.xampivotgrid{ApiVersion}~infragistics.controls.grids.xampivotdataselector_members.html[XamPivotDataSelector]™)
+**  _{ApiPlatform}{DataChartAssembly}{ApiVersion}_  
+**  _{ApiPlatform}Controls.Charts.Olap.{ApiVersion}_  
+
+* The `SalesDataSample` class from the link:salesdatasample.html[Sales Data Sample] resource added to your application
+
+[[_Ref327265286]]
+
+=== Overview
+
+The following is a conceptual overview of the process:
+
+*1.*   *Configuring the data source*
+
+*2. Adding data chart and axes*
+
+*3. Configuring the*   *OlapXAxis*
+
+*4.*   _(Optional)_    * Adding a pivot data selector*
+
+[[_Ref327265289]]
+
+=== Steps
+
+=== 1. Configure the data source.
+
+If you choose not to use a link:{ApiPlatform}controls.grids.xampivotgrid{ApiVersion}~infragistics.controls.grids.xampivotdataselector_members.html[XamPivotDataSelector] control for assigning hierarchies and measures, you should provide some other mechanism for this, or as in the example below, assign some initial items as columns and measures to the data source. The following code should be placed in the resources section of your page/user control.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<models:SalesDataSample x:Key="DataSample"/>
+<olap:FlatDataSource
+    x:Key="DataSource"
+    Columns="[Date].[Date]"
+    Measures="AmountOfSale, NumberOfUnits"
+    MeasureListLocation="Rows"
+    ItemsSource="{StaticResource DataSample}" />
+----
+
+endif::wpf,win-universal[]
+
+=== 2. Add data chart and axes.
+
+1. Add a _xamDataChart_ control to your page.
+
+2. Add the required axes
+
+A. Add the x-axis. *Add an*  `OlapXAxis`  *to the*  `Axes`  *collection of the*   _{DataChartName}_ *chart.* 
+
+B. Add the y-axis.
+
+Add a  link:{DataChartLink}.numericyaxis_members.html[NumericYAxis] to the `Axes`  *collection of the _{DataChartName}_ chart.*
+
+Since the data that is visualized contains numeric values, you need such a y-axis to correctly display the data chart series.
+
+=== 3. Configure the OLAP x-axis.
+
+1. Attach the added y-axis to the OLAP-x-axis. Set the link:{DataChartLink}.numericyaxis_members.html[YAxis] property to the `NumericYAxis` defined in the previous step.
+
+2. Set the data source. Set the link:{ApiPlatform}controls.grids.xampivotgrid{ApiVersion}~infragistics.controls.grids.xampivotdataselector{ApiProp}datasource.html[DataSource] property to the data source defined in step 1.
+
+3. Configure the data axis from which the data is read. To do this,  set the link:{ApiPlatform}controls.charts.olap{ApiProp}{ApiVersion}{DataChartNamespace}.olapaxis{ApiProp}olapaxissource.html[OlapAxisSource] property. This property determines whether data is read from rows or from the columns of the data source. If you choose the columns, then each column in the data source will be displayed in the `OlapXAxis` of the data chart. For each row, a data chart series will be generated and displayed. The illustration in the <<OLE_LINK20,>><<displayingOlapDataSummary,Displaying OLAP data in  _{DataChartName}_  summary>> block demonstrates a pivot grid control and a data chart with an OLAP axis where the `OlapAxisSource` is set to link:{ApiPlatform}controls.charts.olap{ApiProp}{ApiVersion}{DataChartNamespace}.olapaxissource.html[Columns].
+
+4. Configure the series type. To configure the series type, set the link:{ApiPlatform}controls.charts.olap{ApiProp}{ApiVersion}{DataChartNamespace}.olapxaxisdefaultseries.html[DefaultSeries] property. (If you don’t configure it, the default Column series will be displayed.)
+
+=== 4. (Optional) Add a pivot data selector.
+
+The following snippet will add a  _XamPivotDataSelector_   component bound to the same data source as the data chart.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:Expander Grid.Column="1">
+ <ig:XamPivotDataSelector DataSource="{StaticResource DataSource}"/>
+</ig:Expander>
+----
+
+endif::wpf,win-universal[]
+
+[[_Ref333329436]]
+
+=== Code
+
+Following is the complete XAML code of the procedure.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<UserControl 
+      …
+      xmlns:ig="http://schemas.infragistics.com/xaml"
+      xmlns:models="clr-namespace:Infragistics.Samples.Data.Models"
+      xmlns:olap="http://schemas.infragistics.com/olap">
+    <UserControl.Resources>
+        <models:SalesDataSample x:Key="DataSample"/>
+        <olap:FlatDataSource
+            x:Key="DataSource"
+            Columns="[Date].[Date]"
+            Measures="AmountOfSale, NumberOfUnits"
+            MeasureListLocation="Rows"
+            ItemsSource="{StaticResource DataSample}" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ig:{DataChartName} OverviewPlusDetailPaneVisibility="Visible" HorizontalZoomable="True" VerticalZoomable="True">
+            <ig:{DataChartName}.Axes>
+                <ig:OlapXAxis
+                    YAxis="{Binding ElementName=YAxis}"
+                    DataSource="{StaticResource DataSource}"
+                    OlapAxisSource="Columns"
+                    DefaultSeries="ColumnSeries"/>
+                <ig:NumericYAxis x:Name="YAxis" MinimumValue="0"/>
+            </ig:{DataChartName}.Axes>
+        </ig:{DataChartName}>
+        <!--<ig:Expander Grid.Column="1">
+        <ig:XamPivotDataSelector DataSource="{StaticResource DataSource}"/>
+        </ig:Expander>-->
+    </Grid>
+</UserControl>
+----
+
+endif::wpf,win-universal[]
+
+[[_Ref327265296]]
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-customizing-series-when-used-with-multi-dimensional-data-(olap-data)-({DataChartName}).html[Customizing Series When Used With Multi-Dimensional Data (OLAP Data) ({DataChartName})]
+|This topic explains how to display multiple series types in one chart or to use stacked series when working with multi-dimensional data (OLAP data) in the _{DataChartName}_ control.
+
+| link:xampivotgrid-integration-with-chart.html[Integration with Data Chart]
+|The topic demonstrates how to build interaction between the _xamPivotGrid_ and the _{DataChartName}_ controls.
+
+| link:xampivotgrid-dataselector.html[DataSelector]
+|This topic is an introduction to the _xamPivotDataSelector_ control.
+
+|====

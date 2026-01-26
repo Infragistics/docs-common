@@ -1,0 +1,285 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 概要と詳細ペインを使用してマップ コンテンツをナビゲート
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールでマップ コンテンツをナビゲートするために link:{ApiPlatform}datavisualization{ApiVersion}~infragistics.controls.xamoverviewplusdetailpane_members.html[xamOverviewPlusDetailPane]™ コントロールを使用する方法を示します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap.html[{GeoMapName}]
+|このトピックは、`{GeoMapName}` コントロールの主な機能の概要を提供します。
+
+| link:geographicmap-navigating-map-content.html[マップ コンテンツをナビゲート]
+|このトピックは、`{GeoMapName}` コントロールでのマップ コンテンツのナビゲート、およびコントロールのすべてのサポートされるナビゲーション機能に関する概念を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref321140025, マップの概要ペインを表示 >>
+
+** <<_Ref320185129,概要>>
+** <<_Ref321140031,プレビュー>>
+** <<_Ref321140034,例>>
+
+* <<Thumbnail, マップの概要ペインでサムネイル画像を変更 >>
+
+** <<_Ref320185129,概要>>
+** <<_Ref321140031,プレビュー>>
+** <<_Ref321140034,例>>
+
+* <<_Ref321140037, マップの概要ペインを操作 >>
+* <<_Ref321140041, ユーザー相互作用の概要 >>
+
+** <<_Ref321140043,マップを増分で拡大>>
+** <<_Ref321140046,マップを特定のズーム レベルに拡大>>
+** <<_Ref321140051,マップを 100% のズーム レベルにリセット>>
+** <<_Ref321140055,すべての方向にマップをパン>>
+** <<_Ref321140058,マップの特定領域をパン>>
+** <<_Ref321140062,マップでマウス ドラッグ相互作用を変更>>
+
+* <<_Ref320185294, 関連コンテンツ >>
+
+[[_Ref321140025]]
+== マップの概要ペインを表示
+
+[[_Ref320185129]]
+
+=== 概要
+
+{GeoMapName} コントロールでは、マップ コンテンツの概要は xamOverviewPlusDetailPane コントロールによって表されます。このコントロールは、世界のサムネイルおよびナビゲーション機能を提供します。
+
+[[_Ref321140031]]
+
+=== プレビュー
+
+以下は、世界を表示する {GeoMapName} コントロールの概要が含まれる xamOverviewPlusDetailPane コントロールのプレビューです。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_1.png[]
+
+[[_Ref321140034]]
+
+=== 例
+
+以下のコードは、{GeoMapName} コントロールの右下角に xamOverviewPlusDetailPane コントロールを表示する方法を示します。
+
+.注:
+[NOTE]
+====
+OPD コントロールのレイアウト位置を増やすことは xamOverviewPlusDetailPane コントロールのためのカスタム マージンを持つスタイルをマップ コントロールの link:{GeoMapLink}.{GeoMapName}~overviewplusdetailpanestyle.html[OverviewPlusDetailPaneStyle] プロパティに設定することで可能となります。
+====
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="map" 
+ OverviewPlusDetailPaneVisibility="Visible" 
+ OverviewPlusDetailPaneHorizontalAlignment="Right" 
+ OverviewPlusDetailPaneVerticalAlignment="Bottom"> 
+</ig:XamGeographicMap>
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Dim map As New {GeoMapName}()
+map.OverviewPlusDetailPaneHorizontalAlignment = HorizontalAlignment.Right
+map.OverviewPlusDetailPaneVerticalAlignment = VerticalAlignment.Bottom
+map.OverviewPlusDetailPaneVisibility = Visibility.Visible
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+XamGeographicMap map = new {GeoMapName}();
+map.OverviewPlusDetailPaneHorizontalAlignment = HorizontalAlignment.Right;
+map.OverviewPlusDetailPaneVerticalAlignment = VerticalAlignment.Bottom;
+map.OverviewPlusDetailPaneVisibility = Visibility.Visible;
+----
+
+[[Thumbnail]]
+
+== マップの概要ペインでサムネイル画像を変更
+
+=== 概要
+
+{GeoMapName} コントロールは xamOverviewPlusDetailPane コントロール内の静的画像として世界のプレビューを表示します。デフォルト画像は Open Street Maps サービスによって提供される地理的画像からキャプチャされます。地理的画像の詳細は、 link:geographicmap-using-geographic-imagery.html[地理的画像の使用]を参照してください。
+
+.注:
+[NOTE]
+====
+現在、{GeoMapName} コントロールは xamOverviewPlusDetailPane コントロールの地理的シリーズのプレビューをサポートしていません。ただし、{GeoMapName} コントロールで描画された地理的シリーズのスクリーンショットをキャプチャでき、xamOverviewPlusDetailPane コントロールでサムネイル画像として使用されます。
+====
+
+=== プレビュー
+
+以下は、マップ コンテンツのサムネイルとしてカスタムの静的画像を提供する xamOverviewPlusDetailPane コントロールのためにスタイルをオーバーライドした {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_2.png[]
+
+=== 例
+
+xamOverviewPlusDetailPane コントロールの他のプロパティだけでなく、マップ コンテンツのサムネイルを変更するために link:{GeoMapLink}.{GeoMapName}~overviewplusdetailpanestyle.html[OverviewPlusDetailPaneStyle] プロパティを使用します。
+
+.注:
+[NOTE]
+====
+`xamOverviewPlusDetailPane` コントロールのコンテンツを塗りつぶすために、サムネイル画像は幅と高さの縦横比が 16:10 でなければなりません (たとえば 320 x 200 ピクセル)。
+====
+
+以下のコードは、希望のサムネイル画像を持つ xamOverviewPlusDetailPane タイプのスタイルを {GeoMapName} コントロールに適用する方法を示します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap.OverviewPlusDetailPaneStyle>
+    <Style TargetType="ig:XamOverviewPlusDetailPane" >
+        <Setter Property="ZoomTo100ButtonVisibility" Value="Collapsed" />
+        <Setter Property="InteractionStatesToolVisibility" Value="Visible" />
+        <Setter Property="ZoomLevelLargeChange" Value="0.2" />
+        <Setter Property="WorldStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="Stroke" Value="Black"/>
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Setter Property="Fill">
+                        <Setter.Value>
+                            <ImageBrush Stretch="Uniform" ImageSource="/AssemblyName;component/images/geoPreview.png" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>  
+            </Setter.Value> 
+        </Setter>
+    </Style>
+</ig:XamGeographicMap.OverviewPlusDetailPaneStyle>
+----
+
+[[_Ref321140037]]
+== マップの概要ペインを操作
+
+[[_Ref321140041]]
+
+=== ユーザー相互作用の概要
+
+以下の表で、`xamOverviewPlusDetailPane` コントロールのユーザー相互作用機能を簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+|目的|方法|詳細
+
+|マップを増分で拡大
+|マウスのスクロール ホイールまたは xamOverviewPlusDetailPane コントロールの拡大/縮小ボタン。
+|`xamOverviewPlusDetailPane` コントロールの拡大/縮小ボタンをクリックするか、プレビュー領域上でマウス ホイールをスクロールして、マップ コンテンツを拡大/縮小します。
+
+|マップを特定のズーム レベルに拡大
+|xamOverviewPlusDetailPane コントロールのズーム スライダー。
+|xamOverviewPlusDetailPane コントロールのズーム スライダーを変更して、特定のズーム レベルにマップ コンテンツを拡大/縮小します。
+
+|マップを 100% のズーム レベルにリセット
+|xamOverviewPlusDetailPane コントロールのズーム リセット ボタン。
+|xamOverviewPlusDetailPane コントロールのズーム リセット ボタンをクリックし、マップを 100% のズーム レベルにリセットします。
+
+|すべての方向にマップをパン
+|xamOverviewPlusDetailPane コントロールのウィンドウ四角形。
+|xamOverviewPlusDetailPane コントロールのプレビュー領域でウィンドウ四角形をドラッグすると、指定した方向にマップ コンテンツがパンされます。
+
+|マップの特定領域をパン
+|xamOverviewPlusDetailPane コントロールのプレビュー領域。
+|xamOverviewPlusDetailPane コントロールのプレビュー領域でウィンドウ四角形の外側をクリックすると、マウス カーソルがクリックされたマップ領域にマップ コンテンツがパンされます。
+
+|マップでマウス ドラッグ相互作用を変更
+|xamOverviewPlusDetailPane コントロールのカーソル ボタン。
+|xamOverviewPlusDetailPane コントロールのカーソル ボタンをクリックすると、マウスのドラッグでパンするかマウスのドラッグ相互作用でズームするために、マップでのマウス ドラッグ相互作用を変更します。
+
+|====
+
+[[_Ref321140046]]
+
+=== マップを特定のズーム レベルに拡大
+
+以下の画像は、xamOverviewPlusDetailPane コントロールのズーム スライダーを使用して、マップのコンテンツを特定のズーム レベルに拡大する方法を説明します。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_3.png[]
+
+[[_Ref321140043]]
+
+=== マップを増分で拡大
+
+以下の画像は、xamOverviewPlusDetailPane コントロールのズーム スライダーの両側に配置されているマウス ズームイン/ズームアウト ボタンを使用してマップのコンテンツを増分で拡大する方法を説明します。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_4.png[]
+
+[[_Ref321140051]]
+
+=== マップを 100% のズーム レベルにリセット
+
+以下の画像は、xamOverviewPlusDetailPane コントロールのズーム リセット ボタンを使用して、マップのコンテンツを 100% のズーム レベルにリセットする方法を説明します。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_5.png[]
+
+[[_Ref321140055]]
+
+=== すべての方向にマップをパン
+
+以下の画像は、xamOverviewPlusDetailPane コントロールのウィンドウ四角形を使用して、すべての方向にマップのコンテンツをパンする方法を説明します。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_6.png[]
+
+[[_Ref321140058]]
+
+=== マップの特定領域をパン
+
+以下の画像は、xamOverviewPlusDetailPane コントロールのウィンドウ四角形を使用して、マップのコンテンツをマップの特定領域にパンする方法を説明します。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_7.png[]
+
+[[_Ref321140062]]
+
+=== マップでマウス ドラッグ相互作用を変更
+
+以下の画像は、xamOverviewPlusDetailPane コントロールのカーソル ボタンを使用して、マップでのマウス ドラッグ相互作用を変更する方法を説明します。
+
+image::images/GeographicMap_Navigating_Map_Content_Using_Overview_Plus_Detail_Pane_8.png[]
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+このトピックについては、以下のトピックも参照してください。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-navigating-map-content.html[マップ コンテンツをナビゲート]
+|このトピックは、{GeoMapName} コントロールでのマップ コンテンツのナビゲート、およびコントロールのすべてのサポートされるナビゲーション機能に関する概念を提供します。
+
+| link:geographicmap-navigating-map-content-using-a-mouse.html[マウスを使用してマップ コンテンツをナビゲート]
+|このトピックは、マウス操作を使用した {GeoMapName} コントロールのマップ コンテンツのナビゲートに関する情報を提供します。
+
+| link:geographicmap-using-geographic-imagery.html[地理的画像を使用]
+|このトピックは、{GeoMapName} コントロールの背景コンテンツで地理的画像を描画する概要を提供します。
+
+|====

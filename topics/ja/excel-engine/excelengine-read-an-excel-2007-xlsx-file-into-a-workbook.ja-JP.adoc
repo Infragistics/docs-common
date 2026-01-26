@@ -1,0 +1,46 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-read-an-excel-2007-xlsx-file-into-a-workbook",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{9300DE23-3462-4D80-8F58-5A3757257D3A}",  
+    "buildFlags": [],
+    "createdOn": "2008-07-10T16:37:04Z"
+}
+|metadata|
+////
+
+= Excel 2007 XLSX ファイルをワークブックに読み取る
+
+Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み取ることができます。Excel ファイルが静的な  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  メソッドで読み取られる時に、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  オブジェクトが作成され、オブジェクトモデル全体にファイルからのすべてのサポートされる情報が移植されます。
+
+特定のフォーマットのワークブックをロードして別のフォーマットで保存したい場合、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Infragistics.Documents.Excel.Workbook]"]  クラスの  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~setcurrentformat.html[SetCurrentFormat]"]  メソッドを使用できます。また、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~currentformat.html[CurrentFormat]"]  プロパティは現在のワークブックフォーマットを取得するために使用できます。
+
+xlsx フォーマットをロードおよび保存する時のプロジェクトの依存および参照についての詳細は、トピック link:excelengine-office-2007-xlsx-file-generation-references-and-dependencies.html[「Office® 2007 xlsx ファイル生成の参照と依存」]を参照してください。
+
+[NOTE]
+====
+*注：* ワークブックを新しい xlsx フォーマット（Excel2007）でロードする時、Microsoft® Excel® などの安全なソースでワークブックが保存されたことを確認している場合には、 pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Load]"]  メソッドの verifyExcel2007Xml オーバーロードに False を割り当てることができます。大きいファイルに False を割り当てると、ロードされるファイルのコンテンツを検証することから Excel アセンブリは除外されます。これが順々にパフォーマンスを高めてより大きいファイルのロード時間を短縮します。
+====
+
+以下のコードは、既存の XLSX ワークブックで読み取り、変更を行い、ワークブックを新しいファイルに書き込む方法を示します。
+
+*Visual Basic の場合：*
+
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = _
+  Infragistics.Documents.Excel.Workbook.Load("C:\ExistingWorkbook.xlsx")
+workbook.Worksheets.Item(0).Rows.Item(0).Cells.Item(0).Value = 19
+workbook.Save("C:\ModifiedWorkbook.xlsx")
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = 
+  Infragistics.Documents.Excel.Workbook.Load( "C:\\ExistingWorkbook.xlsx" );
+workbook.Worksheets[0].Rows[0].Cells[0].Value = 19;
+workbook.Save( "C:\\ModifiedWorkbook.xlsx" );
+----

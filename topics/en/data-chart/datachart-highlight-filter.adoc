@@ -1,0 +1,105 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-highlight-filter",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Binding","Data Presentation","Sample Data Source"]
+}
+|metadata|
+////
+
+= Chart Highlight Filter
+
+This topic explains, with code examples, how to use the data highlighting feature in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+[[Introduction]]
+== Introduction
+
+The link:{DataChartLink}.{DataChartName}.html[{DataChartName}] control supports a data highlighting overlay that can enhance the visualization of the series plotted in the chart by allowing you to view a subset of the data plotted. When enabled, this will highlight a subset of data while showing the total set with a reduced opacity in the case of column and area series types, and a dashed line in the case of line series types. This can help you to visualize things like target values versus actual values with your data set.
+
+== Using Highlight Filter with {DataChartName}
+
+In the link:{DataChartLink}.{DataChartName}.html[{DataChartName}], much of the highlight filter API happens on the series themselves, mainly by setting the link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] property to a collection representing a subset of the data you want to highlight. The count of the items in the link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] needs to match the count of the data bound to the data source of the series that you are looking to highlight, and in the case of category series, it will use the link:{DataChartLink}.anchoredcategoryseries{ApiProp}ValueMemberPath.html[ValueMemberPath] that you have defined as the highlight path by default.
+
+In the case that the schema does not match between the link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource] and the data source of the series, you can configure this using the link:{DataChartLink}.anchoredcategoryseries{ApiProp}HighlightedValueMemberPath.html[HighlightedValueMemberPath] property on the series. Additionally, if you would like to use the data source of the series itself as the highlight source and have a path on your data item that represents the subset, you can do this. This is done by simply setting the link:{DataChartLink}.anchoredcategoryseries{ApiProp}HighlightedValueMemberPath.html[HighlightedValueMemberPath] property to that path and not providing a link:{DataChartLink}.series{ApiProp}HighlightedItemsSource.html[HighlightedItemsSource].
+
+The reduced opacity of the column and area series types is configurable by setting the link:{DataChartLink}.series{ApiProp}HighlightedValuesFadeOpacity.html[HighlightedValuesFadeOpacity] property on the series. You can also set the link:{DataChartLink}.series{ApiProp}HighlightedValuesDisplayMode.html[HighlightedValuesDisplayMode] property to `Hidden` if you do not wish to see the overlay at all.
+
+The part of the series shown by the highlight filter will be represented in the legend and tooltip layers of the chart separately. You can configure the title that this is given in the tooltip and legend by setting the link:{DataChartLink}.series{ApiProp}HighlightedTitleSuffix.html[HighlightedTitleSuffix]. This will append the value that you provide to the end of the link:{DataChartLink}.series{ApiProp}Title.html[Title] of the series.
+
+If the DataLegend or DataToolTipLayer is used then the highlighted series will appear grouped. This can be managed by setting the link:{DataChartLink}.AnchoredCategorySeries~HighlightedValuesDataLegendGroup.html[HighlightedValuesDataLegendGroup] property on the series to categorize them appropriately.
+
+==== Code Example
+
+The code snippet below demonstrates usage of the highlight filter feature in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] control.
+
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="chart" Grid.Row="2" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding Data}" Label="{}{Category}"/>
+        <ig:NumericYAxis x:Name="yAxis" MinimumValue="0" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries XAxis="{Binding ElementName=xAxis}"
+                         YAxis="{Binding ElementName=yAxis}"
+                         ItemsSource="{Binding Data}"
+                         ValueMemberPath="Total"
+                         HighlightedValuesDisplayMode="Overlay"
+                         HighlightedValueMemberPath="Mobile"
+                         HighlightedTitleSuffix=" - Mobile"
+                         Title="Online Traffic By Device Data"/>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+endif::wpf[]
+
+
+ifdef::wpf,win-forms[]
+*In C#:*
+[source,csharp]
+----
+ColumnSeries series = new ColumnSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis,
+    ItemsSource = data,
+    ValueMemberPath = "Total",
+    HighlightedValuesDisplayMode = SeriesHighlightedValuesDisplayMode.Overlay,
+    HighlightedValueMemberPath = "Mobile",
+    HighlightedTitleSuffix = " - Mobile",
+    Title = "Online Traffic By Device Data"
+};
+
+chart.Series.Add(series);
+----
+endif::wpf,win-forms[]
+ 
+ifdef::wpf,win-forms[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim series As ColumnSeries = New ColumnSeries() With {
+    .XAxis = xAxis,
+    .YAxis = yAxis,
+    .ItemsSource = vm.Data,
+    .ValueMemberPath = "Total",
+    .HighlightedValuesDisplayMode = SeriesHighlightedValuesDisplayMode.Overlay,
+    .HighlightedValueMemberPath = "Mobile",
+    .HighlightedTitleSuffix = " - Mobile",
+    .Title = "Online Traffic By Device Data"
+}
+
+chart.Series.Add(series)
+----
+endif::wpf,win-forms[]
+
+
+[[RelatedContent]]
+== Related Content
+
+** link:datachart-series-highlighting.html[Chart Highlighting]
+** link:datachart-data-tooltip.html[Chart Data Tooltip]

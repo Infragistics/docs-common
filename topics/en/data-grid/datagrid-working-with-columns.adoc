@@ -1,0 +1,579 @@
+﻿////
+|metadata|
+{
+    "name": "datagrid-working-with-columns",
+    "controlName": ["{DataGridName}"],
+    "tags": [],
+    "guid": "d921078c-d0d5-4aca-8ac3-bf9fb2e0b2b6","buildFlags": [],
+    "createdOn": "2016-02-05T19:12:36.6773736Z"
+}
+|metadata|
+////
+
+= Working with Columns
+
+This topic is designed to get you familiar working with supported column types and common column operations that you can use when working with the link:{DataGridLink}.{DataGridName}.html[{DataGridName}] control.
+
+== In this topic
+
+This topic contains the following sections
+
+* <<Background,Required Background>>
+* <<_Ref435537616,Auto Generate Columns>>
+* <<_Ref440618575,Conceptual Overview>>
+* <<_Ref435537735,Manually Defining Columns>>
+* <<_Ref440618663,Example of Manually Defining Columns>>
+* <<_Ref440618664,Overriding Column Type of Auto-Generate Columns>>
+* <<_Ref435537745,Column Operations>>
+
+
+[[RequiredBackground]]   
+== Required Background 
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datagrid-getting-started-with-grid.html[Getting Started With {DataGridName}] 
+| This topic provides basic steps required for adding the {DataGridName} control to your view and populating it with sample data. 
+
+| link:SampleSalesPerson.html[Sample Sales Person] 
+| This resource topic provides implementation of sample data that you can use a data source for the {DataGridName} control. 
+
+|====
+
+[[_Ref435537616]]
+== Auto Generate Columns
+
+This property allows you to configure whether or not the grid will create columns automatically for each pick:[android="field"]pick:[xaml="property"] of data item which is present in the assigned data source.
+
+[[_Ref440618575]]
+== Conceptual Overview:
+
+By default, the {DataGridName} control will automatically determine the appropriate type of column to create based on the type of each ‘category’ of data, (or ‘public property’) exposed on the underlying data. Take, for example, the link:SampleSalesPerson.html[SampleSalesPerson] class, used in the link:datagrid-getting-started-with-grid.html[Getting Started with {DataGridName}] topic, with its public properties in view:
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+public class SampleSalesPerson
+{
+    public String FirstName;    // public property FirstName
+    public String LastName;     // public property LastName
+    public String Territory;    // public property Territory
+    public int Sales;           // public property Sales
+}
+----
+endif::android[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+public class SampleSalesPerson
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Territory { get; set; }
+    public int Sales { get; set; }
+}
+----
+endif::xaml[]
+
+Notice that there are four public properties defined: FirstName, LastName, Sales, and Territory; the {DataGridName} control will create a column, based on the data type of each of these properties. To further conceptualize this process, imagine that several link:SampleSalesPerson.html[SampleSalesPerson] objects are created and added to a list, with each link:SampleSalesPerson.html[SampleSalesPerson] object having unique values assigned for its FirstName, LastName, Sales, and Territory properties.
+
+Continuing this thought process, imagine that the list were assigned as the link:{DataGridLink}.{DataGridName}~{ApiDataSource}.html[{ApiDataSource}] of the {DataGridName} control, while the link:{DataGridLink}.{DataGridName}{ApiProp}AutoGenerateColumns.html[pick:[android="set"]AutoGenerateColumn] {ApiMember} of the {DataGridName} control is passed the boolean value of true as its parameter, as demonstrated in the following code snippet.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+DataGrid.setAutoGenerateColumns(true);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<ig:XamDataGrid x:Name="DataGrid" AutoGenerateColumns="True" />
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.AutoGenerateColumns = true;
+----
+endif::xaml[]
+
+The {DataGridName} control will then create four separate columns of appropriate type, based on these data types and will use the name of each property as the name of its associated column.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Column Type
+
+| FirstName
+| `String`
+| link:{DataGridLink}.TextColumn_members.html[TextColumn] 
+
+| LastName
+| `String`
+| link:{DataGridLink}.TextColumn_members.html[TextColumn] 
+| Territory
+
+| `String`
+| link:{DataGridLink}.TextColumn_members.html[TextColumn] 
+ 
+| Sales
+| `Int`
+| link:{DataGridLink}.NumericColumn_members.html[NumericColumn] 
+ 
+|====
+
+The resulting {DataGridName} will appear similar to the following screenshot
+
+image::images/Working_with_Columns_1.png[]
+
+== Manually Defining Columns
+
+The {DataGridName} control also allows you to manually define columns, this enables complete control over what columns are displayed.
+
+There are two scenarios where this behavior is used:
+
+* To ensure that the {DataGridName} control only creates certain columns of a certain type for your data
+* To ensure the {DataGridName} control creates columns automatically, but only need to ensure that a specific column type is used for select columns.
+
+By default, the {DataGridName} control will automatically create all the columns, based on your data; however, it also provides the option for you to explicitly select the type of columns used.
+
+[[_Ref440618663]]
+== Example of Manually Defining Columns
+
+The following code example will show you how to manually define link:{DataGridLink}.TextColumn_members.html[TextColumn] and link:{DataGridLink}.NumericColumn_members.html[NumericColumn] in the {DataGridName} control. However, you can use the same logic for any of the link:datagrid-supported-column-types.html[Supported Column Types].
+
+Note that this example is using link:datagrid-supported-column-types.html[SampleSalesPerson] class as implementation of data items which have 4 public properties: FirstName, LastName, Sales, and Territory. However, it will manually define columns only for 3 properties: FirstName, LastName, and Sales as opposed to default behavior which would auto-generate columns for all 4 properties of the underlying data item. 
+
+[start=1]
+. Disable auto-generation of columns using the link:{DataGridLink}.{DataGridName}{ApiProp}AutoGenerateColumns.html[pick:[android="set"]AutoGenerateColumns] {ApiMember} of the {DataGridName} control.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+DataGrid.setAutoGenerateColumns(false);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<ig:XamDataGrid x:Name="DataGrid" AutoGenerateColumns="False" />
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.AutoGenerateColumns = false;
+----
+endif::xaml[]
+
+[start=2]
+. Create two instances of the `TextColumn` for string properties and one instance of `NumericColumn` for numeric property.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+TextColumn column1 = new TextColumn();
+column1.setKey("FirstName");
+
+TextColumn column2 = new TextColumn();
+column2.setKey("LastName");
+
+NumericColumn column3 = new NumericColumn();
+column3.setKey("Sales");
+
+DataGrid.addColumn(column1);
+DataGrid.addColumn(column2);
+DataGrid.addColumn(column3); 
+----
+endif::android[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<ig:XamDataGrid.Columns>  
+    <ig:TextColumn PropertyPath="FirstName" /> 
+    <ig:TextColumn PropertyPath="LastName" /> 
+    <ig:NumericColumn PropertyPath="Sales" /> 
+</ig:XamDataGrid.Columns>                
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+TextColumn column1 = new TextColumn();
+column1.PropertyPath = "FirstName"; 
+
+TextColumn column2 = new TextColumn();
+column2.PropertyPath = "LastName"; 
+
+NumericColumn column3 = new NumericColumn();
+column3.PropertyPath = "Sales"; 
+  
+DataGrid.Columns.Add(column1);
+DataGrid.Columns.Add(column2);
+DataGrid.Columns.Add(column3);
+----
+endif::xaml[]
+
+[start=3]
+. Run the application to verify; the {DataGridName} control will display two `TextColumn` types and one `NumericColumn` type.
+
+image::images/Working_with_Columns_2.png[]
+
+== Overriding Column Type of Auto-Generate Columns
+
+There may be certain situations where you only need to control the specific column types used for one or more columns and would like remaining columns to be automatically created by the {DataGridName} control. The following steps will walk you through the process of manually defining only those columns where you require explicit control over the column type used.
+
+These steps will include adding a `TextColumn` for the numeric values used for Sales data, in this case the values will be converted to the string data type and rendered within the `TextColumn`.
+
+.Note
+[NOTE]
+====
+If a column were not manually defined for it or if a column was defined, but its `PropertyPath` does not match the data’s property name, the {DataGridName} control will automatically create a `NumericColumn` for this type of data, maintaining its data type of Int.
+====
+
+[start=1]
+. Add the following code after the code where the {DataGridName} control object has been instantiated to create columns automatically.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+DataGrid.setAutoGenerateColumns(true);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<ig:XamDataGrid x:Name="DataGrid" AutoGenerateColumns="True" />
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.AutoGenerateColumns = true;
+----
+endif::xaml[]
+
+[start=2]
+. Create an instance of the link:{DataGridLink}.TextColumn_members.html[TextColumn] with mapping to the numeric "Sales" property to override its default `NumericColumn` rendering with `TextColumn` type.
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+TextColumn column1 = new TextColumn();
+column1.setKey(“Sales”);
+column1.setTitle(“Sales (As Text)”);
+DataGrid.addColumn(column1);
+----
+endif::android[]
+
+ifdef::xaml[]
+*In XAML:*
+[source, xaml]
+----
+<ig:XamDataGrid.Columns>   
+    <ig:TextColumn PropertyPath="Sales" HeaderText="Sales (As Text)" /> 
+</ig:XamDataGrid.Columns>                
+----
+endif::xaml[]
+
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+---- 
+TextColumn column1 = new TextColumn();
+column1.PropertyPath = "Sales"; 
+column1.HeaderText = "Sales (As Text)"; 
+DataGrid.Columns.Add(column1); 
+----
+endif::xaml[]
+
+[start=6]
+. Run the application to verify; the {DataGridName} control will display four TextColumn objects even for the numeric property: Sales.
+
+The Sales column displayed uses the `TextColumn` that you just created, overriding the original behavior of the {DataGridName} control, which would normally create a `NumericColumn` for this data type, although in this context the two column types are visually indistinguishable.
+
+The FirstName, LastName, and Territory columns were automatically created by the {DataGridName} control for the remaining properties of the underlying data, using the link:{DataGridLink}.{DataGridName}{ApiProp}AutoGenerateColumns.html[pick:[android="set"]AutoGenerateColumns] {ApiMember}.
+
+image::images/Working_with_Columns_3.png[]
+
+[[_Ref435537745]]
+== Column Operations
+
+There are several methods exposed from the {DataGridName} control that simplify several common column operations, including: adding, removing, inserting, moving, exchanging and hiding columns. This section will describe these methods and how they are used with examples for further context.
+
+Note that in the following examples that the logical and visual indexes of columns are equivalent, so changes made to underlying columns within the link:{DataGridLink}.Column_members.html[Column] collection of the {DataGridName} control will immediately be apparent in the {DataGridName} control’s UI.
+
+
+[options="header", cols="a,a,a"]
+|====
+|Column Operation|API Overview|Description
+
+| <<AddingColumns,Adding Columns>> 
+| 
+ifdef::android[]
+link:{DataGridLink}.{DataGridName}~AddColumn.html[DataGrid.addColumn](`Column` column)
+endif::android[]
+
+ifdef::xaml[]
+link:{DataGridLink}.GridColumnCollection_members.html[DataGrid.Columns.Add](`Column` column)
+endif::xaml[]
+
+| Adds a new column to columns collection of the {DataGridName} by appending it after the last existing column on right of the {DataGridName}.
+
+| <<RemovingColumns,Removing Columns>> 
+| 
+ifdef::android[]
+link:{DataGridLink}.{DataGridName}~RemoveColumn.html[DataGrid.RemoveColumn](`Column` column)
+
+link:{DataGridLink}.{DataGridName}~RemoveColumnAt.html[DataGrid.RemoveColumnAt](`int` index)
+endif::android[]
+ 
+ifdef::xaml[]
+link:{DataGridLink}.GridColumnCollection_members.html[DataGrid.Columns.Remove](`Column` column)
+
+link:{DataGridLink}.GridColumnCollection_members.html[DataGrid.Columns.RemoveAt](`int` index)
+endif::xaml[]
+
+| Removes existing column in columns collection of the {DataGridName} either by its index or reference object.
+
+| <<InsertingColumns,Inserting Columns>> 
+| 
+ifdef::android[]
+link:{DataGridLink}.{DataGridName}~InsertColumn.html[DataGrid.InsertColumn](`int` index, `Column` column)
+endif::android[]
+
+ifdef::xaml[]
+link:{DataGridLink}.GridColumnCollection_members.html[DataGrid.Columns.Insert](`int` index, `Column` column)
+endif::xaml[]
+
+| Inserts a new column at specified index of columns collection of the {DataGridName} 
+
+| <<MovingColumns,Moving Columns>> 
+| 
+link:{DataGridLink}.{DataGridName}~MoveColumn.html[DataGrid.MoveColumn](`int` oldIndex, `int` newIndex)
+
+| Moves existing column from its old index in columns collection to a new index.
+
+| <<ExchangingColumns,Exchanging Columns>> 
+| 
+link:{DataGridLink}.{DataGridName}~ExchangeColumn.html[DataGrid.ExchangeColumn](`Column` newColumn, `Column` existingColumn) 
+
+| Exchanges a new column with existing column in columns collection of the {DataGridName}  
+ 
+| <<HidingColumns,Hiding Columns>> 
+| 
+ifdef::android[]
+`Column`.link:{DataGridLink}.column{ApiProp}IsHidden.html[setIsHidden](`true`)
+endif::android[]
+
+ifdef::xaml[]
+ `Column`.link:{DataGridLink}.column{ApiProp}IsHidden.html[IsHidden] = true
+endif::xaml[]
+
+| Hides an existing column in columns collection of the {DataGridName}  
+ 
+|====
+
+[[AddingColumns]]
+==== Adding Columns
+
+The {DataGridName} control allows you to add columns dynamically that you have manually defined; this is useful if you need to add certain columns in response to some condition in your application.
+ 
+This code snippet demonstrates how to add `NumericColumn` to the {DataGridName} control, using the pick:[android="`addColumn`"] pick:[xamarin="`Add`"] method. After executing this code, the  column will appear to the right of existing columns (if any) or added as the first column on the left of {DataGridName}.
+ 
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+NumericColumn numericColumn = new NumericColumn();
+numericColumn.setKey("Sales");
+
+DataGrid.addColumn(numericColumn);
+----
+endif::android[]
+ 
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+NumericColumn numericColumn = new NumericColumn();
+numericColumn.PropertyPath = "Sales";  
+DataGrid.Columns.Add(numericColumn); 
+----
+endif::xaml[]
+
+==== Remove Columns
+
+The {DataGridName} control allows you to remove columns that have both been manually defined as well as those that have been automatically generated, via pick:[android="`removeColumn` and removeColumnAt"] pick:[xamarin="`Remove` and `RemoveAt`"] methods, respectively.
+
+This code snippet demonstrates how to remove a column that was defined at index 1 in to the {DataGridName} control, using the pick:[android="`removeColumnAt`"] pick:[xamarin="`RemoveAt`"] method. After executing this code, the column will be removed and columns on the right (if any) will be shifted to the left.
+ 
+ifdef::android[]
+*In Java:*
+[source, java]
+---- 
+DataGrid.removeColumnAt(1);
+----
+endif::android[]
+ 
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+---- 
+DataGrid.Columns.RemoveAt(1); 
+----
+endif::xaml[]
+
+[[InsertingColumns]]
+==== Inserting Columns
+
+The {DataGridName} control allows you to insert columns that you have manually defined; this would be useful, for example if you need to add a column at a specific position within the {DataGridName} control.
+
+This code snippet demonstrates how to insert a new column that was defined at index 0 in to the {DataGridName} control, using the pick:[android="`insertColumn`"] pick:[xamarin="`Insert`"] method. After executing this code, the column  will appear as the first column within the {DataGridName} control and existing columns (if any) will be shiftd to the right. 
+ 
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+NumericColumn numericColumn = new NumericColumn();
+numericColumn.setKey("Sales");
+
+DataGrid.insertColumn(0, numericColumn);
+----
+endif::android[]
+ 
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+NumericColumn numericColumn = new NumericColumn();
+numericColumn.PropertyPath = "Sales";  
+DataGrid.Columns.Insert(0, numericColumn); 
+----
+endif::xaml[]
+  
+[[MovingColumns]]
+==== Moving Columns
+
+The {DataGridName} allows you to dynamically move columns that you have manually defined; this behavior is useful if you need to rearrange columns on the fly as the result of some qualifying condition within your application.
+
+This code snippet demonstrates how to move two existing columns within the {DataGridName} control, using the pick:[android="`moveColumns`"] pick:[xamarin="`MoveColumn`"] method. After executing this code, the column object residing at the `oldIndex` position within the columns collection will have its index set to `newIndex` and all columns which have an index equal to or greater than the newIndex within the collection will have their index positions incremented by one. Columns which have an index position lower than newIndex, but higher than the oldIndex will have their index positions decremented by one. This process is demonstrated in the following example.
+ 
+ifdef::android[]
+*In Java:*
+[source, java]
+---- 
+DataGrid.moveColumn(2, 1);
+----
+endif::android[]
+ 
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+DataGrid.MoveColumn(2, 1); 
+----
+endif::xaml[]
+
+[[ExchangingColumns]]
+==== Exchanging Columns
+
+The {DataGridName} control allows you to replace columns which you have manually defined, but not yet added to its columns collection with those that are already present. This behavior is useful if you need to replace a current set of data, contained within a column with another set from your underlying data, which is not yet displayed; in response to some condition in your application.
+ 
+This code snippet demonstrates how to replace existing column with a new column in the {DataGridName} control, using the pick:[android="`exchangeColumn`"] pick:[xamarin="`ExchangeColumn`"] method. 
+After execution of this code, the column object that was passed in as the second parameter will be removed from the {DataGridName} control and will be replaced with the column that was passed in as the first parameter.
+
+.Note
+[NOTE]
+====
+Note: Both columns to be exchanged must be defined manually.
+====
+
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.setKey("Sales");
+DataGrid.addColumn(salesColumn);
+
+TextColumn territoryColumn = new TextColumn();
+territoryColumn.setKey("Territory");
+...
+DataGrid.exchangeColumn(territoryColumn, salesColumn);
+----
+endif::android[]
+ 
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+----
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.PropertyPath = "Sales";  
+DataGrid.Columns.Add(salesColumn); 
+
+TextColumn territoryColumn = new TextColumn();
+territoryColumn.PropertyPath = "Territory";  
+...
+DataGrid.ExchangeColumn(territoryColumn, salesColumn);
+----
+endif::xaml[]
+ 
+[[HidingColumns]]
+==== Hiding Columns
+
+The {DataGridName} control allows you to hide columns from view; this behavior is accessible via the pick:[android="`setIsHidden`"] pick:[xamarin="`IsHidden`"] {ApiMember} which is exposed from all `Column` objects. Hiding a column would be useful if you need to remove a column from view, due to some condition in your app, but don’t want to actually remove it from the grid; the hidden column will maintain its index position within the Columns collection of the {DataGridName} control.
+
+This code snippet demonstrates how to hide manually defined column in the {DataGridName} control. After excuting this code, the Sales column displayed within the {DataGridName} control to be removed from view and the Territory column which is present after the Sales column, is shifted to fill the space that the Sales column initially occupied.
+  
+ifdef::android[]
+*In Java:*
+[source, java]
+----
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.setKey("Sales");
+DataGrid.addColumn(salesColumn);
+...
+salesColumn.setIsHidden(true);
+----
+endif::android[]
+ 
+ifdef::xaml[]
+*In C#:*
+[source, csharp]
+---- 
+NumericColumn salesColumn = new NumericColumn();
+salesColumn.PropertyPath = "Sales";  
+DataGrid.Columns.Add(salesColumn); 
+...
+salesColumn.IsHidden = true;   
+----
+endif::xaml[]

@@ -1,0 +1,56 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-overview-of-chart-data-requirements",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{D1CA0D6B-F127-48FB-BD06-4AF5E95E9C22}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Overview of Chart Data Requirements
+
+When you hook up actual data to the Chart control, there are a number of requirements that you need to keep in mind. To hook up actual data from a database or array, you can use the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[DataSource]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[DataSource]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[DataSource]"]  property, then call the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~databind.html[DataBind]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~databind.html[DataBind]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~databind.html[DataBind]"]  method when the data is ready to be queried by the chart.
+
+== Data Requirements
+
+While it is easy to point the chart to your own custom data, it is not so easy to make sure you are supplying the appropriate amount and type of data that each chart type requires.
+
+Click the links below for topics that contain a list of each chart type and the requirements of each for receiving data at run time. If the data does not meet these minimum requirements an error will be generated.
+
+* link:chart-data-requirements-for-2d-charts.html[Data Requirements for 2D Charts]
+* link:chart-data-requirements-for-3d-charts.html[Data Requirements for 3D Charts]
+* link:chart-requirements-for-series-binding.html[Requirements for Series Binding]
+* link:chart-axis-requirements-for-composite-charts.html[Axis Requirements for Composite Charts]
+
+An easy way to understand these requirements is to look at how the chart data items are labeled at design time using demo data. Each chart item (e.g., bar, pie slice, and point) will be labeled by its column or row number to show you where and how each data value is used. At a simple level, every data set needs to have at least a few rows and columns of data (and usually at least one string column, although that isn't absolutely necessary.) The numeric column types do not need to be the same (e.g., integer and floating point) but they should lie within the same general data range (e.g., -10 to 150.0) in order for the chart to make sense. Using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[SwapRowsAndColumns]"]  property is necessary in certain instances where the data you supply is the reverse of what is expected. In all cases it is always preferred to massage the data to meet these requirements  _before_  you pass it to the Chart control.
+
+In many cases where only numeric data is expected, data binding can be done to simple one-dimensional arrays. Charts that demand multi-row, multi-column data (e.g., scatter and radar charts) or non-numeric data (e.g., the DateTime values required by candle charts) require a strongly-typed data source (e.g., DataTable, DataView and XML document with schema). Where it is necessary for the developer to specify the data columns to be charted, references to the appropriate properties in that chart's appearance (e.g., the pie chart's appearance property is named PieChart) are given. Any column indices that must be supplied to these properties are zero-based (i.e., the first column in the data table will be identified by the ordinal number 0.)
+
+== Column and Row Labels
+
+Although the Chart control will automatically select the data to use for row labels from the data set, you can easily override the default choice by using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~setrowlabels.html[SetRowLabels]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setrowlabels.html[SetRowLabels]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setrowlabels.html[SetRowLabels]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~setcolumnlabels.html[SetColumnLabels]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setcolumnlabels.html[SetColumnLabels]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~setcolumnlabels.html[SetColumnLabels]"]  properties. You invoke these methods with an array of strings to set up custom chart labels. For more information on setting the SetRowLabels property, see link:chart-specify-row-labels.html[Specify Row Labels].
+
+You can manually set the row to be used for chart labels using the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~rowlabelscolumn.html[RowLabelsColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~rowlabelscolumn.html[RowLabelsColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~rowlabelscolumn.html[RowLabelsColumn]"]  property (combined with the UseRowLabelsColumn boolean flag) which will override the default filter setting. If the specified column is a numeric column, the numeric data will be converted to strings for use as chart labels, but the data in the column will still be plotted on the chart unless it is explicitly excluded. If no row or column labels are specified, they will be generated with the prefix "Row#" or "Col#" and the index of that data value.
+
+== Excluding Rows and Columns
+
+You can use the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  method to both include and exclude columns from the chart. This method takes two parameters: an integer that evaluates the index of the column that will be acted upon, and a Boolean value that determines the action to take. A True value will include the column in the data used to create the chart, replacing the existing column for charts that take only one column of data. A False value will remove the column from the chart. To return all data assignments back to the default values assigned by the element, use the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~resetdatafilter.html[ResetDataFilter]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~resetdatafilter.html[ResetDataFilter]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~resetdatafilter.html[ResetDataFilter]"]  method.
+
+== Database Change Events
+
+The Chart control will catch the ColumnChangingEvent from only a DataTable or DataView object assigned to the data source. This will cause the Chart control to be redrawn automatically and possibly have any filters reset if the change is considered significant by the chart. All other data sources (similar to simple Arrays) need to inform the chart directly when the data has been updated by calling the BindDataSource method each time they make a change to the data.
+
+== Error Messages
+
+If the data bound to the chart does not meet all the requirements of that chart type, an error message will be displayed in place of the chart rendering. For example, if a scatter chart is chosen and the data passed in does not contain at least two numeric columns, the text "Scatter Chart Error:…" will appear where the chart would normally be drawn. If rows and columns are swapped and there aren't at least two rows in the scatter chart containing numeric data, the same message will be displayed.
+
+.Note
+[NOTE]
+====
+Since database table rows do not have a single unique data type, any strings or non-standard types will be converted to zero (0) when retrieving what is expected to be numeric data.
+====

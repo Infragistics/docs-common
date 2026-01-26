@@ -1,0 +1,196 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-winchart-set-up-drilldown-charts",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{A69A4673-AA32-43A7-AF8F-C2CDF0CDA82D}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ドリルダウン グラフの設定
+
+このトピックは、データの詳細を徐々に提示するためのドリルダウン設定方法について説明します。グラフのひとつまたはすべての要素は、ユーザーが要素をクリックでき、同じグラフ タイプまたは異なるグラフ タイプに、そしてアプリケーションが必要とする深さに対してドリルダウンが可能です。
+
+以下はトピック全体で使用される用語のリストです。
+
+* ドリル レベル -- ユーザーがドリルダウンする深さは、トップレベルのグラフでは 0 から増分します。
+* 親グラフ -- ユーザーがドリル可能なグラフ要素をクリックした場合の Chart。親グラフはより全般的な情報を表示します。
+* 子グラフ -- ユーザーがドリルダウン可能なグラフ要素をクリックした時に表示されるグラフ。子グラフはより特定な情報を表示します。さらなるドリルダウンをサポートしている子グラフは親グラフにもなります。
+* ドリルバック -- 以前に提示された親グラフへのユーザーによるドリルアップのプロセスで、一度にひとつのレベル。
+* トップレベル グラフ -- ユーザーに WinChart によって最初に表示されるグラフ。これは親グラフとしての役割を果たし、ドリルダウン階層である「子孫ツリー」のルートに存在します。ユーザーはトップレベル グラフからドリルバックできません。
+
+以下の手順は、4 つの縦棒を持つ親柱状グラフと 3 つのスライスを持つ子円グラフとの間のリンクの定義方法を示しています。ユーザーが親（トップレベル）グラフの最初の列をクリックすると、子グラフが表示されます。
+
+=== ドリルダウン グラフを設定するには、以下の手順に従ってください。
+
+[start=1]
+. コードの記述を開始する前にコード ビハインドに using/imports のディレクティブを配置します。そうすれば、メンバは完全に記述された名前を常に入力する必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Win.UltraWinChart
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Win.UltraWinChart;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. WinChart の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance.html[DrillDownAppearance]"]  の  プロパティを初期化します。
+
+開発者が実行時にグラフの DrillDownAppearance オブジェクト（DrillDown という名前のプロパティを使用して提供された）の DrillElements プロパティに DrillElement オブジェクトの配列を指定すると WinChart はドリル可能です。これは以下のように実行できます。
+
+*Visual Basic の場合：*
+
+----
+Dim drFirstQuarter As DrillElement = New DrillElement()
+Me.UltraChart1.Drill.DrillElements = New DrillElement() {drFirstQuarter }
+----
+
+*C# の場合：*
+
+----
+DrillElement drFirstQuarter = new DrillElement();
+this.ultraChart1.Drill.DrillElements = new DrillElement[] {drFirstQuarter};
+----
+
+ドリルダウンは追加のグラフ要素を作成しません。要素があるすべての操作は、同じ WinChart 要素で行なわれます。これは、設定したドリルダウン階層で親グラフまたは子グラフを描画します。プレゼンテーションのために設計したドリルダウン階層のすべてのグラフをリンクする DrillElement オブジェクトは、この配列指定で初期化されます。
+[start=3]
+. 各 DrillElement オブジェクトにプロパティを指定します。
+
+開発者は、作成した DrillElement オブジェクトのプロパティ値にこれらの値を指定することによって、バインドされるドリル可能なグラフ要素、子グラフ タイプ、および子グラフによって、新しいデータソースの ID を提供しなければなりません。
+
+グラフ要素の識別は、親グラフ タイプによって異なる意味を持つ場合があります（LineChart のデータ点と HeatMapChart の面領域）。一貫性のため、WinChart の DrillElement は、基本データに基づくグラフ要素を識別します。すべてのグラフ タイプは、データソースの行と列へのグラフ要素マッピングを保持します。
+
+ドリルダウン中、DrillElement の ID プロパティは、グラフ要素の行と列に一致します。一致する DrillElement は表示される情報（DataSource プロパティ）とどのように情報が示されるか（ChartType プロパティ）を説明します。ユーザーによってクリックされたグラフ要素と DrillElement が一致しない場合、そのグラフ要素はドリルできません。
+
+どのようにドリルダウン プロセスが機能するかを理解したら、DrillElement オブジェクトにこれらの設定を指定してください。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Drill.DrillElements(0).ID.Row = 0
+Me.UltraChart1.Drill.DrillElements(0).ID.Column = 1
+Me.UltraChart1.Drill.DrillElements(0).ChartType = ChartType.PieChart
+Me.UltraChart1.Drill.DrillElements(0).DataSource = New Double() {20.0, 30.0, 40.0}
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Drill.DrillElements[0].ID.Row = 0;
+this.ultraChart1.Drill.DrillElements[0].ID.Column = 1;
+this.ultraChart1.Drill.DrillElements[0].ChartType = ChartType.PieChart;
+this.ultraChart1.Drill.DrillElements[0].DataSource = new double[] { 20.0, 30.0, 40.0 };
+----
+
+[start=4]
+. IDrillDown を実装してドリルダウン時にコールバックを受け取ります（オプション）。
+
+親グラフから子グラフにドリルダウンを切り替える場合、グラフの他のプロパティを設定する必要がある場合があります（たとえば、WinChart の上に表示されるタイトル）。ドリルダウン切り替えの通知は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown.html[IDrillDown]"]  インタフェースの  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.idrilldown~drill.html[Drill]"]  メソッドを実装するオブジェクトで処理できます。
+
+新しい子グラフに適切なグラフのタイトルを変更できるオブジェクトに IDrillDown インタフェースを実装します。
+
+*Visual Basic の場合：*
+
+----
+Public Class ChartTitleUpdater
+  Implements IDrillDown
+	Private newTitle As String
+	Private chartComponent As UltraChart
+	Public Sub New(ByVal title As String, ByVal chart As UltraChart)
+		newTitle = title
+		chartComponent = chart
+	End Sub
+	Public Sub Drill(ByVal row As Integer, ByVal col As Integer, _
+	  ByVal newType As ChartType, ByVal data As Object) Implements IDrillDown.Drill
+		chartComponent.TitleTop.Text = newTitle
+	End Sub
+End Class
+----
+
+*C# の場合：*
+
+----
+public class ChartTitleUpdater : IDrillDown
+{
+	private string newTitle;
+	private UltraChart chartComponent;
+	public ChartTitleUpdater( string title, UltraChart chart)
+	{
+		newTitle = title;
+		chartComponent = chart;
+	}
+	public void Drill( int row, int column, ChartType newType, object data)
+	{
+		chartComponent.TitleTop.Text = newTitle;
+	}
+}
+----
+
+Drill() メソッドに提供される引数は、起動される DrillElement と同じプロパティです。ひとつの IDrillDown 実装がすべての通知を処理するために使用される場合（アプローチはここでは示されません）、この情報はドリルされた要素と区別するために役立ちます。
+[start=5]
+. IDrillDown オブジェクトの実装後、それぞれの DrillElement の DrillDown プロパティを設定することで WinChart にそのオブジェクトを呼び出すように命令します。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Drill.DrillElements(0).DrillDown = _
+  New ChartTitleUpdater("First Quarter Sales By Continent", _
+  Me.UltraChart1)
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Drill.DrillElements[0].DrillDown = 
+  new ChartTitleUpdater( "First Quarter Sales By Continent", this.ultraChart1);
+----
+
+[start=6]
+. 次に Drill Back をユーザーに提供します。ドリルバック機能を提供する手段には 2 種類あります。グラフ自体はグラフ領域の左上隅に表示される小さい四角の領域のドリルバック ボタンとして機能します。このボタンをユーザーがクリックすると、グラフは親にドリルバックします。デフォルトでは、このボタンは表示されませんが、この機能はデザインタイムまたはランタイムに DrillDownAppearance の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~showbutton.html[ShowButton]"]  プロパティを設定することで起動できます。
+
+*Visual Basic の場合：*
+
+----
+Me.UltraChart1.Drill.ShowButton = True
+----
+
+*C# の場合：*
+
+----
+this.ultraChart1.Drill.ShowButton = true;
+----
+
+代替の方法は、ドリルバック時にユーザー エクスペリエンスを制御するインタフェースを提供するためのアプリケーションです。DrillBack という名前のメソッドは、DrillDownAppearance クラスによってこの目的のために提供します。以下の例のコードは、開発者自身が選択したユーザーインタフェースで ShowButton と同じ機能を提供するためにボタンの Click イベント ハンドラに追加することができます。
+
+*Visual Basic の場合：*
+
+----
+If ( Me.UltraChart1.Drill.Depth > 0 ) Then
+	Me.UltraChart1.Drill.DrillBack()
+End If
+----
+
+*C# の場合：*
+
+----
+if ( this.ultraChart1.Drill.Depth > 0 )
+{
+	this.ultraChart1.Drill.DrillBack();
+}
+----
+
+DrillBack はドリル レベルが 0 を超える場合に限って適用されます。つまりユーザーは最上位グラフにはないという意味です。読み取り専用の  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.drilldownappearance~depth.html[Depth]"]  プロパティは、指定された時点でのドリルされたレベルを確認するために使用できます。

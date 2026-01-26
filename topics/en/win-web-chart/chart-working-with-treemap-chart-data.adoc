@@ -1,0 +1,89 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-treemap-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{648EA7FE-BBC3-4145-9433-8A54D201787E}",  
+    "buildFlags": [],
+    "createdOn": "2008-05-05T14:58:44Z"
+}
+|metadata|
+////
+
+= Working with Treemap Chart Data
+This topic discusses useful information that will help you to ensure that your data is rendered properly in your treemap chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily set the chart's data source to your own custom data, it is important that you supply the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+Treemap charts supports a DataTable and a TreeMapSeries object as data sources.
+
+The following is a list of data requirements for 2D treemap charts:
+
+* The schema contains one or more string columns.
+* The schema contains one or more numeric columns.
+* If you are binding your 2D treemap chart to a TreeMapSeries object, see link:chart-bind-a-treemap-chart-to-a-treemapseries-object.html[Bind a Treemap Chart to a TreeMapSeries object].
+
+== Mapping Data to a Treemap Chart
+
+The treemap chart renders data using the following rules:
+
+*Using a DataTable as a data source:*
+
+* Each DataRow represents a node in the chart.
+* When using a DataTable as your data source, the default behavior is that each string column is used as a category name.
+* The  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~indexorder.html[IndexOrder]"]  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~indexorder.html[IndexOrder]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~indexorder.html[IndexOrder]"]  property determines if the chart should color nodes based on data values.
+* The  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  property is the index of the DataColumn which contains numeric values. This property is used to set the colors of the leaf nodes in the treemap chart. If you do not set the ColorValueIndex, it defaults to the first numeric column in your DataTable. The ColorValueIndex property is a zero based index. For more information on the ColorValueIndex property, see link:chart-map-a-leaf-nodes-color-to-a-specific-column-in-a-data-table.html[Map a Leaf Node's Color to a Specific Column in a DataTable].
+* The  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~sizevalueindex.html[SizeValueIndex]"]  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~sizevalueindex.html[SizeValueIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~sizevalueindex.html[SizeValueIndex]"]  property is the index of the DataColumn which contains numeric values. This property is used to set the size of the nodes in your treemap chart. If you do not set the SizeValueIndex, it defaults to the first numeric column in the DataTable. The SizeValueIndex property is a zero based index.
+
+*Using a TreeMapSeries object as a data source*
+
+* Each TreeMapDataPoint object represents a node in the chart. For more information on using a TreeMapSeries object as a data source, see link:chart-bind-a-treemap-chart-to-a-treemapseries-object.html[Bind a Treemap Chart to a TreeMapSeries object].
+
+See below for an example data set, along with the rendered 2D treemap chart.
+
+[options="header", cols="a,a,a,a"]
+|====
+|Category|Name|Units Price|Yearly Sales
+
+|Fruit
+|Apples
+|3
+|200
+
+|Fruit
+|Bananas
+|2
+|100
+
+|Fruit
+|Oranges
+|1
+|50
+
+|Diary
+|Milk
+|4
+|20
+
+|Diary
+|Cheese
+|5
+|10
+
+|Meat
+|Steak
+|10
+|150
+
+|Meat
+|Chicken
+|8
+|35
+
+|====
+
+image::Images/Chart_Working_with_TreeMap_Chart_Data.png[Shows a Treemap Chart based on the data listed in the table above.]

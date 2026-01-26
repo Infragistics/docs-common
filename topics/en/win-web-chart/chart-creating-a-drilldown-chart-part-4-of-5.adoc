@@ -1,0 +1,38 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-4-of-5",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{6CF12446-317D-4EDE-9BAF-D75E8F576671}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Creating a Drilldown Chart (Part 4 of 5)
+
+This topic is a continuation of link:chart-creating-a-drilldown-chart-part-3-of-5.html[Creating a Drilldown Chart (Part 3 of 5)].
+
+For this particular walkthrough, the code and logic for data access is within the user interface. In a real-world enterprise application, this should be handled by the Data Access Layer and / or business objects that reside in the Business Logic Layer.
+
+The following method accepts the SqlCommand that was built in the BuildChart method and returns a DataTable that contains the schema and data for a particular drill level.
+*In Visual Basic:*
+
+[source]
+----
+Private Function GetChartData(ByVal theCommand As SqlCommand) As DataTableDim d As SqlDataAdapter = New SqlDataAdapter(theCommand)Dim t As DataTable = New DataTable("ChartData")d.Fill(t)Return tEnd Function
+----
+
+*In C#:*
+
+[source]
+----
+private DataTable GetChartData(SqlCommand theCommand){SqlDataAdapter d = new SqlDataAdapter(theCommand);DataTable t = new DataTable("ChartData");d.Fill(t);return t;}
+----
+
+== Related Topic
+
+link:chart-creating-a-drilldown-chart-part-5-of-5.html[Creating a Drilldown Chart (Part 5 of 5)]

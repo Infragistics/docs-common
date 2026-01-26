@@ -1,0 +1,129 @@
+﻿= Price Pane
+
+=== Purpose
+This topic demonstrates the Price Pane of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] control.
+
+pick:[wpf="image::images/financialchart_wpf_pane_price.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_price.png[]"]
+
+The above screenshot highlights the Price Pane of the chart and the drop down that is used to adjust the chart type at run time. In addition to rendering prices the Price Pane also makes use of trendlines and financial overlays. The supported chart types for this pane are:
+
+    * Auto
+    * Bar(OHLC)
+    * Candle
+    * Column
+    * Line
+    
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Type|Description
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}chartType{HtmlApiExtension}[ChartType]
+|`FinancialChartType`
+|Gets or sets the type of chart.
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}brushes{HtmlApiExtension}[Brushes]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for coloring the chart series.
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}outlines{HtmlApiExtension}[Outlines]
+|`BrushCollection`
+|Gets or sets the palette of brushes to use for outlines on the chart series.
+
+|link:{DomainChartLink}.{DomainChartName}{ApiProp}thickness{HtmlApiExtension}[Thickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|Gets or sets the thickness of the chart series.
+
+|====
+    
+By default, `ChartType` is set to Auto, which means the chart will choose the chart type based on the data. You can set the chart type through code as follows:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding}"
+    ChartType="Column"
+    Brushes="Red"
+    Outlines="Green"
+    Thickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*In Visual Basic:*
+[source,vb]
+----
+Dim chart as New {FinancialChartName}()
+chart.ChartType = Infragistics.Controls.Charts.FinancialChartType.Column
+
+chart.Brushes = New Infragistics.BrushCollection()
+Dim brush As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Red;
+chart.Brushes.Add(brush)
+
+chart.Outlines = new Infragistics.BrushCollection()
+Dim brush2 As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Green
+chart.Outlines.Add(brush2)
+
+chart.Thickness = 2
+----
+
+*In C#:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.ChartType = Infragistics.Controls.Charts.FinancialChartType.Column;
+
+chart.Brushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Red;
+chart.Brushes.Add(brush);
+
+chart.Outlines = new Infragistics.BrushCollection();
+SolidColorBrush brush2 = new SolidColorBrush();
+brush2.Color = Colors.Green;
+chart.Outlines.Add(brush2);
+
+chart.Thickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*In JavaScript*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    chartType: "column",
+    brushes: ["Red"],
+    outLines: ["Green"],
+    thickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "chartType", "column");
+$("#financialChart").{FinancialChartName}("option", "brushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "outLines", ["Green"]);
+$("#financialChart").{FinancialChartName}("option", "thickness", 2);
+----
+endif::jquery[]
+
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+|link:financial-chart-chartpanes.html[Chart Panes]
+|This article is an overview of the different chart panes.
+
+|====

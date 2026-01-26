@@ -1,0 +1,428 @@
+﻿= {DataGridName} でコントロール コンフィギュレーターを使用する
+
+このトピックでは、{DataGridName} コントロールを構成するためのコントロール コンフィギュレーターの使用方法について説明します。コントロール コンフィギュレーターの全般的な概要および更新方法についての情報は、link:getting-started-with-control-configurators.html[コントロール コンフィギュレーターを使用した作業の開始]をご覧ください。
+
+=== 概要
+
+このトピックは、以下のセクションで構成されます。
+ 
+* <<Introduction,概要>> 
+* <<Videos, ビデオ>>
+* <<Updates,更新>>
+* <<XDGOverview,{DataGridName} の概要>>
+* <<XDGLayoutModes,{DataGridName} のレイアウト モード>>
+* <<ConfigUI,コントロール コンフィギュレーター UI>>
+* <<ConfigRibbons,コントロール コンフィギュレーター リボン>>
+* <<ConfigLimits,コントロール コンフィギュレーターの制限>>
+
+[[Introduction]]
+== 概要
+
+{DataGridName} コントロール コンフィギュレーターは、Infragistics WPF {DataGridName} コントロールを構成し、リアルタイムのプレビューが可能なビジュアル ツールです。
+
+DataSource プロパティにデータ バインディングを設定後、リアルタイムでサンプル データが作成されます。このサンプル データは、プロジェクト タイプに基づいてコンフィギュレーター レイアウト サーフェイスに {DataGridName} を描画します。
+
+{DataGridName} コントロール コンフィギュレーターの主な使用事例として新しい {DataGridName} をすばやく構成したり、新しく作成した {DataGridName} の再構成したりといったシナリオがあります。Visual Studio XAML エディターで手動的に編集された {DataGridName} の構成はサポートされません。説明については、コントロール コンフィギュレーターの制限セクションを参照してください。
+
+image:images\WPF_ConfiguringDataGrid_1.png[]
+
+=== 要件
+
+WPF {DataGridName} コントロール コンフィギュレーターを使用するには、以下の製品の最新バージョンをインストールする必要があります。
+
+* Infragistics Ultimate 2017 Vol 2 以後 (サービス リリースを含む)
+* Ultimate UI for WPF 2017 Vol 2 以後 (サービス リリースを含む)
+
+=== 非推奨になった {DataGridName} のフィールド XAML
+
+以下のコードは {DataGridName} のフィールドを定義する非推奨になった XAML 構文を示します。この構文は WPF {DataGridName} コントロール コンフィギュレーターでサポートされません。
+
+*XAML の場合:*
+[source, xaml]
+----
+<ig:Field Name="SubTotal">
+    <ig:Field.Settings>
+        <ig:FieldSettings EditorType="{x:Type igEdit:XamCurrencyEditor}">
+            <ig:FieldSettings.EditorStyle>
+                <Style TargetType="{x:Type igEdit:XamCurrencyEditor}">
+                    <Setter Property="ValueType" Value="{x:Type system:Decimal}"/>
+                    <Setter Property="NullText" Value="No Salary"/>
+                    <Setter Property="Mask" Value="{}{currency:7.2}"/>
+                </Style>
+            </ig:FieldSettings.EditorStyle>
+        </ig:FieldSettings>
+    </ig:Field.Settings>
+</ig:Field>
+----
+
+=== 現在の {DataGridName} のフィールド XAML
+
+XAML の以下の一行を上記の XAML と置き換えます。この短い構文は 14.2 バージョンより利用可能です。WPF {DataGridName} コントロール コンフィギュレーターでは、XAML の Field 宣言にこの構文が使用できます。
+
+*XAML の場合:*
+[source, xaml]
+----
+<ig:CurrencyField Name="SubTotal" Mask="{}{currency:7.2}" NullText="No Salary"/>
+----
+
+.注:
+[NOTE]
+====
+Field コントロールはコントロール コンフィギュレーターでサポートされますが、ネストされたスタイルはサポートされません。説明については、以下のコントロール コンフィギュレーターの制限セクションを参照してください。
+====
+
+=== このトピックの画像で使用されるデータ モデル
+
+このトピックで使用されるサンプル プロジェクトを link:https://github.com/Infragistics/tools-samples/tree/master/ControlConfigurators/WpfControlConfiguratorApp[Infragistics GitHub リポジトリ]からダウンロードできます。
+
+以下のコード スニペットは OrderDetails コレクション プロパティを持つ Order クラスを示します。OrderDetails コレクション プロパティを使用すると、ネストされるフィールド レイアウトを作成できます。以上の画像には、ネストされる OrderDetails レイアウトを持つ Order レイアウトを示します。機能レイアウトは OrderDetails の子レイアウトです。
+
+*C# の場合:*
+[source, csharp]
+----
+public class Order
+{
+    public String AccountingCode { get; set; }
+    public IList<OrderDetail> OrderDetails { get; set; }
+
+    public Order()
+    {
+        this.OrderDetails = new List<OrderDetail>();
+    }
+}
+----
+
+[[Videos]]
+== ビデオ
+
+{DataGridName} コンフィギュレーターを使用する手順については、link:https://www.youtube.com/playlist?list=PLZ4rRHIJepBu9ge71Sn7dcL6vSdsh4T0z[ビデオ]を参照してください。
+
+[[Updates]]
+== 更新
+
+コントロール コンフィギュレーターは Microsoft Visual Studio Marketplace で更新されます。公開したときに更新を取得するには、自動更新を有効にしてください。
+
+image:images\ConfiguratorAutoUpdateScreenShot.png[alt="自動更新の有効化を確認"]
+
+[[XDGOverview]]
+== {DataGridName} の概要
+
+WPF {DataGridName} にリッチ オブジェクト モデル、機能セット、および機能性があります。{DataGridName} オブジェクト モデルの理解が {DataGridName} および {DataGridName} コントロール コンフィギュレーターを使用する際の前提条件です。
+
+image:images\WPF_ConfiguringDataGrid_2.png[]
+
+{DataGridName} オブジェクト モデルは、下位レベルのオブジェクト プロパティ値を解決するためにオブジェクト継承を使用します。上記のダイアグラムのオレンジまたは緑のオブジェクトは、上位レベルのオブジェクトから継承するオブジェクトです。未設定または未変更の下位レベルの値は、上位レベルのオブジェクトから値を継承します。プロパティの多くは null 値のデフォルト値があります。ランタイムでプロパティ解決ロジックはプロパティ値を null 以外の値に解決します。
+
+{DataGridName} オブジェクト モデルを使用すると、上位レベルに設定を指定し、必要に応じてより下位レベルのプロパティを変更します。
+
+例:
+
+{DataGridName} FieldLayoutSettings (上レベル) で RecordSelectorNumberType プロパティを設定し、FieldLayout でその FieldLayout の RecordSelectorNumberType を使用して別の値を設定できます。
+
+{DataGridName}、FieldLayout、または Field オブジェクトで設定可能な FieldSettings も同じです。
+
+
+.注:
+[NOTE]
+====
+コントロール コンフィギュレーターで下位レベル オブジェクトで値を設定し、その後上位レベル オブジェクトで同じ値を設定すると、下位レベルのオブジェクトの値を設定するため、上位レベル オブジェクトの値が解決されなく、下位レベル オブジェクトで使用されません。
+====
+
+[[XDGLayoutModes]]
+== {DataGridName} のレイアウト モード
+
+{DataGridName} は、レコードでセルの簡易配置および複合配置をサポートします。配置を手動的 (明示的) に指定または自動的に生成できます。自動配置機能を有効にするには、FieldLayoutSettings の AutoArrangeCells プロパティを LeftToRight または TopToBottom に設定します。このプロパティを Never に設定すると、自動配置機能を無効にします。
+
+詳細については、link:xamdata-arranging-cells-within-the-record.html[「レコード内でセルを整理」]トピックを参照してください。
+
+コントロール コンフィギュレーターで自動配置を有効または無効にするには、FieldLayout を選択して、リボンの [自動配置] の切り替えボタンをクリックします。自動配置はデフォルトで有効です。
+
+image:images\WPF_ConfiguringDataGrid_3.png[]
+
+自動配置が無効の場合にセルを行および列に配置するには、特定のフィールドを選択し、プロパティ グリッドでレイアウト カテゴリにスクロールして値を設定します。
+
+image:images\WPF_ConfiguringDataGrid_4.png[]
+
+フィールドのレイアウト値を設定すると {DataGridName} の UI が更新されます。
+
+以下の画像は Row、Column、RowSpan、および ColumnSpan プロパティを設定したレイアウトを示します。
+
+image:images\WPF_ConfiguringDataGrid_5.png[]
+
+
+.注:
+[NOTE]
+====
+自動配置が有効な場合は値に影響しないため、プロパティ グリッドのレイアウト カテゴリが非表示になります。
+====
+
+[[ConfigUI]]
+== コントロール コンフィギュレーター UI
+
+image:images\WPF_ConfiguringDataGrid_6.png[]
+
+以下のリストはコントロール コンフィギュレーター UI の領域を説明します。
+
+. コンテキスト リボン タブ (1) – コンテキスト リボン タブは、コントロール コンフィギュレーターの左列の最下位レベルで選択したオブジェクトに基づいて表示されます。上記の画像で、Customer.FirstName フィールドが選択済みで、[フィールド] のコンテキスト タブがアクティブです。[フィールド] のフィールド設定コンテキスト タブにアクセスするには、それをクリックします。
+
+. {DataGridName} オブジェクト (2) – {DataGridName} オブジェクトの階層ツリー ビューを表示します。オブジェクトを選択すると、表示されるリボン タブが変更されて、プロパティ グリッド (6) にオブジェクトのプロパティを表示します。最上位レイアウトの子オブジェクトはここで削除できます。たとえば、Features レイアウトを削除するには、右側の [-] ボタンをクリックします。
+
+. フィールド (3) – このパネルは [現在] のフィールド (3A) および [利用可能] なフィールド (3B) に分割されます。{DataGridName} オブジェクト (2) でフィールド レイアウトを選択すると、[フィールド] セクションが生成されます。
+
+    * [現在] セクション (3A) は選択済みのフィールド レイアウトの UI に追加した FieldItems の階層ツリー ビューを表示します。FieldItem のコレクションは Fields および FieldGroups を含みます。FieldItems を削除するには、[-] アイコンをクリックします。FieldItems を順序変更するには、[現在] フィールド セクション (3A) でドラッグします。オブジェクトを選択すると、表示されるリボン タブが変更され、プロパティ グリッド (6) でオブジェクトのプロパティを表示します。
+    
+    * [利用可能] セクション (3B) は UI に追加していないフィールドを示します。[+] アイコンをクリックすると、フィールドは選択した FieldLayout および UI に追加されます。
+    
+. フィールドまたはフィールド グループ (4) - 選択すると表示されるリボン タブが変更され、プロパティ グリッド (6) でオブジェクトのプロパティを表示します。[-] アイコンでこの FieldItem を削除します。また、すべてのフィールドの左にフィールド タイプ アイコンが表示されます。
+    
+    * ネストされるモデル オブジェクト構文 (Customer.FirstName) は、FieldLayout オブジェクトで選択された Field がクラス プロパティの場合に使用されます。この例では、Order クラスに Customer クラス プロパティがあります。
+    
+    * ネストされるプロパティを持つフィールドは以下のような別のバインド構文を使用します。BindingType が UseNameBinding の代わりに UseAlternateBinding に設定されます。AlternateBinding プロパティは Customer.FirstName に設定されます。 + 
+    image:images\WPF_ConfiguringDataGrid_7.png[]
+    
+    * 非バインド フィールドの BindingType は Unbound です。
+    
+    * 以下の FieldGroup は 3 つの子 Field を含みます。FieldGroup は子 FieldGroup を含むこともできます。FieldGroup のすべての子 FieldItem が削除または移動された場合、FieldGroup を削除できます。 +
+	image:images\WPF_ConfiguringDataGrid_8.png[]
+    
+. ヘルプ – 各リボン タブにリボンまたはプロパティ グリッドでの項目についてのヘルプ トピックへのリンクを含みます。
+    
+    * また、{DataGridName} オブジェクト (2) の項目の上にホバーすると、ヘルプ アイコンが表示されます。クリックすると、ブラウザーでそのオブジェクトのヘルプ トピックが表示されます。 + 
+    image:images\WPF_ConfiguringDataGrid_26.png[]
+
+. プロパティ グリッド (6) – 最下位レベルで選択済みのオブジェクトのプロパティを表示します。この例では、Customer.FirstName の Field オブジェクトが最下位レベルの選択済みオブジェクトです。
+
+    * オブジェクトを選択すると、選択済みのオブジェクトに基づいてプロパティ グリッドのタイトルが変更されます。
+    
+    * プロパティはカテゴリにグループ化されます。
+
+. フィールド エディターに固有のプロパティ カテゴリ (7) – FieldItem を選択すると、最初のプロパティ グリッド カテゴリ (7) は Field エディターにないプロパティを示します。Field および Template エディターに固有のプロパティがないため、フィールド カテゴリが最初に表示されます。
+
+. フィールド カテゴリ (8) – Field カテゴリおよびそれ以下のカテゴリはすべてのフィールド エディターに共有されます。
+
+=== フィールド セクション ボタンおよびエキスパンダー機能
+
+image:images\WPF_ConfiguringDataGrid_9.png[]
+
+. [最大化] ボタン (1) をクリックすると、FieldItem を操作するためのフィールドの現在のセクション (2) が左列全体に表示されます。標準の状態に戻るには、[最大化] ボタンが配置されていた場所にある [復元] ボタンをクリックします。
+
+. [すべて削除] ボタンをクリックすると、選択した FieldLayout および UI からすべての FieldItem を削除します。
+
+. [追加オプション] エクスパンダー コントロールをクリックすると、3 つのボタンを表示します。
+    
+    * [非バインドの追加] - クリックすると、現在のセクションに非バインド フィールドを追加します。
+	* [フィールド グループの追加] - クリックすると、現在のセクションに FieldGroup を追加します。
+	* [すべて追加] - クリックすると、現在のセクションにすべての利用可能なフィールドを追加します。
+
+=== 追加されたフィールドの表示場所
+
+フィールドがセクション (3B) のボタンを使用して追加される場合、フィールドは以下の条件に基づいてセクション 3A に追加されます:
+
+* FieldLayout が選択済みのオブジェクトの場合 (フィールドは選択されません)、フィールドは 3A でリストの終了に追加されます。
+* FieldGroup が選択済みのオブジェクトの場合、フィールドはその FieldGroup の子の終了に追加されます。
+* FieldItem が選択済みのオブジェクトで、FieldGroup にある場合、フィールドは選択済みの FieldItem の後に追加されます。
+* FieldItem が選択済みのオブジェクトで、FieldGroup にない場合、フィールドは選択済みの FieldItem の後に追加されます。
+
+この機能を使用すると、新しく追加されたフィールドを移動する必要はありません。
+
+=== 項目の移動
+
+FieldItems を現在のセクション (3A) でドラッグすると、FieldItem の移動先を示すドラッグ ガイドが表示されます。FieldItem を FieldGroup に追加するには、FieldItem を FieldGroup 上にドロップするか、FieldGroup にドロップします。
+
+.注:
+[NOTE]
+====
+自動配置フィールド レイアウトを使用しない場合、FieldItem をドラッグした後、プロパティ グリッドを使用してその FieldItem の Row、Column、RowSpan、および ColumnSpan プロパティを設定する必要があります。
+====
+
+[[ConfigRibbons]]
+== コントロール コンフィギュレーター リボン
+
+{DataGridName} コントロール コンフィギュレーターは、馴染みのあるリボン インターフェイスでよく使用されるアクションやオプションを表示します。リボン タブは {DataGridName} オブジェクト ペインおよび Fields ペインで選択済みのオブジェクトに基づいて決定されます。選択したオブジェクトに基づいて、異なるリボン タブが表示されます。
+
+{DataGridName} のオブジェクト ペインから {DataGridName} または FieldLayouts オブジェクトを選択すると、フィールド レイアウト設定、フィールド設定、およびビュー設定タブが表示されます。このリボン タブは {DataGridName} レベルで有効/無効にできる、頻繁に使用される機能を表示します。
+
+image:images\WPF_ConfiguringDataGrid_10.png[]
+
+{DataGridName} のオブジェクト ペインに追加したフィールド レイアウトを選択すると、フィールド レイアウト、フィールド レイアウト設定、およびフィールド設定タブが表示されます。このリボン タブは選択したフィールド レイアウト レベルで有効/無効にできる、頻繁に使用される機能を表示します。このレベルの設定は {DataGridName} または FieldLayouts オブジェクト レベルの設定をオーバーライドします。
+
+image:images\WPF_ConfiguringDataGrid_11.png[]
+
+フィールド ペインでフィールド レイアウトに追加したフィールドを選択すると、フィールドおよびフィールド設定タブが表示されます。このリボン タブは選択したフィールド レベルで有効/無効にできる頻繁に使用される機能を表示します。このレベルの設定は親のフィールド レイアウト オブジェクト レベルの設定をオーバーライドします。
+
+image:images\WPF_ConfiguringDataGrid_12.png[]
+
+データ グリッド タブは常に表示されます。データ グリッド タブをクリックすると、{DataGridName} オブジェクトまたはフィールド ペインで選択済みのオブジェクトに関係なく {DataGridName} オブジェクト ペインの {DataGridName} レベルに移動されます。
+
+=== リボン ツール
+
+リボン タブには、構成中の {DataGridName} コントロールの機能を有効/無効にする多数のツールが含まれます。このツールを使用して {DataGridName} コントロールの機能のプロパティを設定できます。
+
+データ グリッド タブおよびフィールド レイアウト、フィールドなどの主な機能タブにあるリボン ツールは、{DataGridName} でプロパティを設定する機能を提供します。このプロパティは FieldLayoutSettings または FieldSettings などの API メンバーにあります。たとえば、データ グリッドの主なタブのフィルタリング グループは FieldLayoutSettings および FieldSettings でのプロパティを設定します。リボン ツールのツールチップは、設定するプロパティの名前および {DataGridName} API の場所についての情報を提供します。
+
+image:images\WPF_ConfiguringDataGrid_13.png[]
+
+
+=== ボタン
+
+ボタンはリボン タブの一番簡易なツールです。ボタン ツールをクリックしてアクションを実行します。このアクションについての説明がツールチップに表示されます。
+
+image:images\WPF_ConfiguringDataGrid_14.png[]
+
+=== null 許容型のチェック ボックス
+
+多くの {DataGridName} API オブジェクトのプロパティが null 許容型のブール値です。このプロパティはリボン タブに 3 ステート チェック ボックスによって表されます。以下は各ステートのビジュアル表現です。
+
+|====
+|Null|True|False
+
+|image:images\WPF_ConfiguringDataGrid_15.png[]
+|image:images\WPF_ConfiguringDataGrid_16.png[]
+|image:images\WPF_ConfiguringDataGrid_17.png[]
+
+|====
+
+
+=== 単一選択
+
+単一選択ツールは複数のオプションを含むメニューをドロップダウンします。利用可能なオプションから選択すると選択が設定されてツールが閉じられます。
+
+image:images\WPF_ConfiguringDataGrid_18.png[]
+
+=== 複数選択
+
+複数選択ツールは単一選択ツールと同様に複数のオプションを表示しますが、複数選択ツールは開いたままで複数の値を選択できます。コントロール コンフィギュレーターでメニュー以外をクリックすると、複数選択メニューが閉じられます。「All」または「None」オプションがある場合、そのオプションを選択すると以前に選択したオプションは解除されてメニュー ツールが閉じられます。
+
+image:images\WPF_ConfiguringDataGrid_19.png[]
+
+=== 高度オプション
+
+リボン タブ グループから特定のグループに関連する詳細機能を提供するダイアログを起動できます。リボン タブ グループはよく使用される機能の一部のみを公開しますが、リボン タブ グループに適切でない高度な構成機能がある場合に便利です。
+
+このダイアログ起動機能はリボン タブ グループの右下角で小さいアイコンによって表されます。
+
+image:images\WPF_ConfiguringDataGrid_20.png[]
+
+=== フィルタリング
+
+フィルタリング リボン タブ グループは一般的なフィルタリング機能を提供しますが、フィルタリング グループのダイアログを起動すると高度なフィルタリング オプションを設定できます。
+
+image:images\WPF_ConfiguringDataGrid_21.png[]
+
+ダイアログを起動すると、機能セット (1)、フィルター リソース (2)、FieldLayoutSettings で利用可能なフィルタリング オプション (3)、および FieldSetting で利用可能なフィルタリング オプション (4) が表示されます。
+
+image:images\WPF_ConfiguringDataGrid_22.png[]
+
+機能セット (1) にある値を変更すると、変更を保存するために [機能の適用] ボタンをクリックする必要があります。FieldLayoutSettings (3) または FieldSettings (4) の変更は直ちに保存されます。ウィンドウの X ボタンまたは [閉じる] ボタンをクリックすると、設定はキャンセルされません。
+
+=== パフォーマンス
+
+パフォーマンス タブ グループは単一のスクロール モード設定を含みます。パフォーマンス グループのダイアログ ランチャーをクリックすると高度なパフォーマンス ダイアログを起動できます。
+
+image:images\WPF_ConfiguringDataGrid_23.png[]
+
+ダイアログを起動すると、機能セット (1)、パフォーマンス リソース (2)、プロパティおよび抑制されるイベントのタブ (3)、{DataGridName} でのパフォーマンス オプション (4)、FieldLayoutSettings でのパフォーマンス オプション (5)、および FieldSettings でのパフォーマンス オプション (6) が表示されます。
+
+image:images\WPF_ConfiguringDataGrid_24.png[]
+
+=== 抑制されるイベント
+
+処理されないルーティング イベントを抑制することによってパフォーマンスが向上します。これは、要素階層のルーティング イベントで発生するオーバヘッドによるパフォーマンスの低下を改善します。イベントを選択して発生されるのを抑制します。
+
+image:images\WPF_ConfiguringDataGrid_25.png[]
+
+機能セット (1) にある値を変更すると、変更を保存するために [機能の適用] ボタンをクリックする必要があります。パフォーマンス ダイアログ (3、4、5、6) での変更は直ちに保存されます。ウィンドウの X ボタンまたは [閉じる] ボタンをクリックすると、設定はキャンセルされません。
+
+[[ConfigLimits]]
+== コントロール コンフィギュレーターの制限
+
+{DataGridName} コントロール コンフィギュレーターは新しい {DataGridName} または手動的に編集されていない XAML を使用する {DataGridName} の編集エクスペリエンスを向上します。
+
+コントロール コンフィギュレーターでの {DataGridName} はライブ実行している {DataGridName} です。コントロール コンフィギュレーターがユーザー コードを実行できない、あるいは XAML でユーザー型またはスタイルを解析できません。
+
+デフォルト デザイン タイムの作業では {DataGridName} の構成に時間がかかります。
+
+上記の説明にあるように以下の親フィールド オブジェクトのプロパティは {DataGridName} コントロール コンフィギュレーターでサポートされません。ユーザー XAML で設定されるプロパティは保存時に失われます。
+
+|====
+|型|プロパティ名
+
+|link:{DataGridLink}.ComboBoxField.html[ComboBoxField]
+|link:{DataGridLink}.ComboBoxField{ApiProp}ComboBoxStyle.html[ComboBoxStyle], +
+ link:{DataGridLink}.ComboBoxField{ApiProp}DropDownButtonStyle.html[DropDownButtonStyle], +
+ link:{DataGridLink}.ComboBoxField{ApiProp}PostDropDownAreaTemplate.html[PostDropDownAreaTemplate], +
+ link:{DataGridLink}.ComboBoxField{ApiProp}PreDropDownAreaTemplate.html[PreDropDownAreaTemplate]
+
+|link:{DataGridLink}.DateTimeField.html[DateTimeField]
+|link:{DataGridLink}.DateTimeField{ApiProp}DropDownButtonStyle.html[DropDownButtonStyle] 
+
+|link:{DataGridLink}.Field.html[Field]
+|link:{DataGridLink}.Field{ApiProp}CalculationSettings.html[CalculationSettings], +
+ link:{DataGridLink}.Field{ApiProp}CellBindings.html[CellBindings], +
+ link:{DataGridLink}.Field{ApiProp}CellValuePresenterStyle.html[CellValuePresenterStyle], +
+ link:{DataGridLink}.Field{ApiProp}DataType.html[DataType], +
+ link:{DataGridLink}.Field{ApiProp}EditAsType.html[EditAsType], +
+ link:{DataGridLink}.Field{ApiProp}EditorStyle.html[EditorStyle], +
+ link:{DataGridLink}.Field{ApiProp}EditorType.html[EditorType], +
+ link:{DataGridLink}.Field{ApiProp}FormatProvider.html[FormatProvider], +
+ link:{DataGridLink}.Field{ApiProp}IsSelected.html[IsSelected], +
+ link:{DataGridLink}.Field{ApiProp}ValueConstraint.html[ValueConstraint], +
+ link:{DataGridLink}.Field{ApiProp}ValueToTextConverter.html[ValueToTextConverter]
+
+|link:{DataGridLink}.FieldGroup.html[FieldGroup]
+|link:{DataGridLink}.FieldGroup{ApiProp}LabelPresenterStyle.html[LabelPresenterStyle], +
+ link:{DataGridLink}.FieldItem{ApiProp}ToolTip.html[ToolTip]
+
+|link:{DataGridLink}.FieldLayout.html[FieldLayout]
+|link:{DataGridLink}.FieldLayout{ApiProp}CalculationReferenceId.html[CalculationReferenceId], +
+ link:{DataGridLink}.FieldLayout{ApiProp}CrossFieldRecordFilters.html[CrossFieldRecordFilters], +
+ link:{DataGridLink}.FieldLayout{ApiProp}RecordFilters.html[RecordFilters], +
+ link:{DataGridLink}.FieldLayout{ApiProp}SummaryDefinitions.html[SummaryDefinitions], +
+ link:{DataGridLink}.FieldLayout{ApiProp}ToolTip.html[ToolTip]
+
+|link:{DataGridLink}.FieldLayoutSettings.html[FieldLayoutSettings]
+|link:{DataGridLink}.FieldLayoutSettings{ApiProp}DataRecordCellAreaStyle.html[DataRecordCellAreaStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DataRecordPresenterStyle.html[DataRecordPresenterStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DataRecordPresenterStyleSelector.html[DataRecordPresenterStyleSelector], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DefaultColumnDefinition.html[DefaultColumnDefinition], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}DefaultRowDefinition.html[DefaultRowDefinition], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}FieldGroupLabelPresenterStyle.html[FieldGroupLabelPresenterStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}HeaderLabelAreaStyle.html[HeaderLabelAreaStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}HeaderPrefixAreaStyle.html[HeaderPrefixAreaStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}HeaderPresenterStyle.html[HeaderPresenterStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}MaxFieldsToAutoGenerate.html[MaxFieldsToAutoGenerate], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordListControlStyle.html[RecordListControlStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordSelectorNumberStyle.html[RecordSelectorNumberStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordSelectorNumberStyleSelector.html[RecordSelectorNumberStyleSelector], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}RecordSelectorStyle.html[RecordSelectorStyle], +
+ link:{DataGridLink}.FieldLayoutSettings{ApiProp}SpecialRecordOrder.html[SpecialRecordOrder]
+ 
+|link:{DataGridLink}.FieldSettings.html[FieldSettings]
+|link:{DataGridLink}.FieldSettings{ApiProp}CellPresenterStyle.html[CellPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}CellValuePresenterStyle.html[CellValuePresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}CellValuePresenterStyleSelector.html[CellValuePresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditAsType.html[EditAsType], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditorStyle.html[EditorStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditorStyleSelector.html[EditorStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}EditorType.html[EditorType], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandableFieldRecordPresenterStyle.html[ExpandableFieldRecordPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandableFieldRecordPresenterStyleSelector.html[ExpandableFieldRecordPresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandedCellStyle.html[ExpandedCellStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}ExpandedCellStyleSelector.html[ExpandedCellStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterCellEditorStyle.html[FilterCellEditorStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterCellValuePresenterStyle.html[FilterCellValuePresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterComparer.html[FilterComparer], +
+ link:{DataGridLink}.FieldSettings{ApiProp}FilterEvaluator.html[FilterEvaluator], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByComparer.html[GroupByComparer], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByEvaluator.html[GroupByEvaluator], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByRecordPresenterStyle.html[GroupByRecordPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}GroupByRecordPresenterStyleSelector.html[GroupByRecordPresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}LabelPresenterStyle.html[LabelPresenterStyle], +
+ link:{DataGridLink}.FieldSettings{ApiProp}LabelPresenterStyleSelector.html[LabelPresenterStyleSelector], +
+ link:{DataGridLink}.FieldSettings{ApiProp}SortComparer.html[SortComparer]
+
+|link:{DataGridLink}.GridViewSettings.html[ViewSettings]
+|link:https://msdn.microsoft.com/ja-jp/library/system.windows.frameworkcontentelement.focusvisualstyle(v=vs.110).aspx[FocusVisualStyle], +
+ link:https://msdn.microsoft.com/ja-jp/library/system.windows.frameworkcontentelement.tooltip(v=vs.110).aspx[ToolTip]
+
+|====

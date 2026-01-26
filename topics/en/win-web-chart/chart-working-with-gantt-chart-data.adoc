@@ -1,0 +1,199 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-gantt-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{C7EDF332-9226-47ED-BC17-D8E9E0A7932D}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with Gantt Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the gantt chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for gantt charts:
+
+* The data set contains either of the following:
+
+** DataTable object that consists of both of the following:
+
+*** two columns that contain DateTime values
+*** two columns that contain string or numeric values
+
+** GanttDataSource object that consists of at least one item.
+
+* If a DataTable is used, the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~starttimecolumnindex.html[StartTimeColumnIndex]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~starttimecolumnindex.html[StartTimeColumnIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~starttimecolumnindex.html[StartTimeColumnIndex]"]  and  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~endtimecolumnindex.html[EndTimeColumnIndex]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~endtimecolumnindex.html[EndTimeColumnIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.ganttcolumnappearance~endtimecolumnindex.html[EndTimeColumnIndex]"]  properties must be set to identify the correct column indices to use in the data.
+* If you are binding the gantt chart to a series object, see link:chart-requirements-for-series-binding.html[Requirements for Series Binding] for information on the series binding requirements.
+* If you are using the gantt chart in a link:chart-composite-chart.html[Composite chart], see link:chart-axis-requirements-for-composite-charts.html[Axis Requirements for Composite Charts] for information on the axis requirements for the chart.
+
+.Note
+[NOTE]
+====
+If the data available is in a format where each column represents one line, and each row contains points for each line, then you should swap the rows and columns. For information on how to do this, see link:chart-swap-rows-and-columns.html[Swap Rows and Columns].
+====
+
+== Mapping Data to Gantt Charts
+
+The chart data is rendered using the following rule:
+
+* If a DataTable is used as the data source for the gantt chart, there are many columns of information which can be used in addition to the (required) start, end time, series, and task columns.
+
+See below for an example data set, along with the rendered gantt chart.
+
+[options="header", cols="a,a,a,a,a,a,a,a"]
+|====
+|GanttSeries|GanttTask|GanttStart|GanttEnd|GanttID|GanttLinkTo|GanttPercentComplete|GanttOwner
+
+|Plan
+|Establish Goals
+|1/9/2006
+|1/15/2006
+|0
+|1
+|100
+|Thomas
+
+|Plan
+|Determine Milestones
+|1/17/2006
+|1/21/2006
+|1
+|-1
+|25
+|Thomas
+
+|Plan
+|Delegate Effort
+|1/9/2006
+|1/11/2006
+|2
+|3
+|0
+|Thomas
+
+|Plan
+|Review
+|1/11/2006
+|1/13/2006
+|3
+|4
+|0
+|Thomas
+
+|Design
+|Outline Plans
+|1/15/2006
+|1/21/2006
+|4
+|5
+|100
+|Bill
+
+|Design
+|Create Diagram
+|1/21/2006
+|1/29/2006
+|5
+|-1
+|33
+|Bill
+
+|Implement
+|Phase 1
+|1/10/2006
+|1/14/2006
+|6
+|7
+|100
+|David
+
+|Implement
+|Phase 2
+|1/14/2006
+|1/16/2006
+|7
+|8
+|25
+|David
+
+|Implement
+|Phase 3
+|1/17/2006
+|1/19/2006
+|8
+|9
+|0
+|David
+
+|Implement
+|Phase 4
+|1/9/2006
+|1/24/2006
+|9
+|-1
+|0
+|David
+
+|====
+
+image::Images/Chart_Gantt_Chart_01.png[Shows a Gantt Chart based on the data listed in the table above.]
+
+Using the above data set as a model, the following properties must be set in order to load this information into a Gantt chart.
+
+[source]
+----
+UltraChart.GanttChart.Columns.SeriesLabelsColumnIndex = 0
+UltraChart.GanttChart.Columns.ItemLabelsColumnIndex = 1
+UltraChart.GanttChart.Columns.StartTimeColumnIndex = 2
+UltraChart.GanttChart.Columns.EndTimeColumnIndex = 3
+UltraChart.GanttChart.Columns.IDColumnIndex = 4
+UltraChart.GanttChart.Columns.LinkToColumnIndex = 5
+UltraChart.GanttChart.Columns.PercentCompleteColumnIndex = 6
+UltraChart.GanttChart.Columns.OwnerColumnIndex = 7
+----
+
+== GanttDataSource
+
+A specialized collection class,  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.ganttdatasource.html[GanttDataSource]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.ganttdatasource.html[GanttDataSource]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.ganttdatasource.html[GanttDataSource]"] , is provided for the Gantt chart type. If an external data source is not used, or if a more object-oriented, strongly-typed data model is preferred, then working with a GanttDataSource may be the right choice for you. See the example code below.
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Data
+Dim ganttData As New GanttDataSource()
+Dim seriesA As GanttSeries = ganttData.Series.Add("Series A")
+Dim task1 As GanttItem = seriesA.Items.Add("Task 1")
+task1.Times.Add(DateTime.Parse("11/29/2004 12:00 PM"), _
+  DateTime.Parse("12/01/2004 12:00 PM"))
+task1.Times(0).ID = 0
+task1.Times(0).LinkToID = 1
+task1.Times(0).PercentComplete = 100
+task1.Times(0).Owner = "Worker A"
+Dim task2 As GanttItem = seriesA.Items.Add("Task 2")
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Data;
+GanttDataSource ganttData = new GanttDataSource();
+GanttSeries seriesA = ganttData.Series.Add("Series A");
+GanttItem task1 = seriesA.Items.Add("Task 1");
+task1.Times.Add(DateTime.Parse("11/29/2004 12:00 PM"), 
+  DateTime.Parse("12/01/2004 12:00 PM"));
+task1.Times[0].ID = 0;
+task1.Times[0].LinkToID = 1;
+task1.Times[0].PercentComplete = 100;
+task1.Times[0].Owner = "Worker A";
+GanttItem task2 = seriesA.Items.Add("Task 2");
+// etc ...
+----

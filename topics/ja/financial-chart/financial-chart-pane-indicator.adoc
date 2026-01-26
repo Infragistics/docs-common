@@ -1,0 +1,313 @@
+﻿= インジケーター ペイン
+
+=== 目的
+
+このトピックは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コントロールのインジケーター ペインを紹介します。
+
+以下の画面はチャートのインジケーター ペインおよびランタイムにチャート タイプを変更するために使用されるドロップダウンを強調表示します。
+
+pick:[wpf="image::images/financialchart_wpf_pane_indicator.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_indicator.png[]"]
+
+=== インジケーター ペインの有効化
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|型|説明
+
+ifdef::wpf,win-forms[]
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorTypes{HtmlApiExtension}[IndicatorTypes]
+|`FinancialIndicatorTypeCollection`
+|インジケーター タイプのコレクションを取得または設定します: link:{FinancialChartLink}.financialIndicatorType{HtmlApiExtension}[FinancialIndicatorType]
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorDisplayTypes{HtmlApiExtension}[IndicatorDisplayTypes]
+|`IndicatorDisplayTypeCollection`
+|インジケーター表示タイプのコレクションを取得または設定します: link:{DataChartLink}.indicatorDisplayType{HtmlApiExtension}[IndicatorDisplayType]
+endif::wpf,win-forms[]
+
+ifdef::jquery[]
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorTypes{HtmlApiExtension}[IndicatorTypes]
+|`FinancialIndicatorTypeCollection`
+|インジケーター タイプのコレクションを取得または設定します: `FinancialIndicatorType`
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorDisplayTypes{HtmlApiExtension}[IndicatorDisplayTypes]
+|`IndicatorDisplayTypeCollection`
+|インジケーター表示タイプのコレクションを取得または設定します: `IndicatorDisplayType`
+endif::jquery[]
+
+|====
+
+既定では、インジケーター ペインは表示されません。インジケーター タイプをコードで設定できます:
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{FinancialChartName}>
+    <ig:{FinancialChartName}.IndicatorTypes>
+        <ig:FinancialIndicatorTypeCollection>
+            <ig:FinancialIndicatorType>AverageTrueRange</ig:FinancialIndicatorType>
+            <ig:FinancialIndicatorType>MassIndex</ig:FinancialIndicatorType>
+        </ig:FinancialIndicatorTypeCollection>
+    </ig:{FinancialChartName}.IndicatorTypes>
+    <ig:{FinancialChartName}.IndicatorDisplayTypes>
+        <ig:IndicatorDisplayTypeCollection>
+            <ig:IndicatorDisplayType>Area</ig:IndicatorDisplayType>
+            <ig:IndicatorDisplayType>Column</ig:IndicatorDisplayType>
+        </ig:IndicatorDisplayTypeCollection>
+    </ig:{FinancialChartName}.IndicatorDisplayTypes>
+</ig:{FinancialChartName}>
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart as New {FinancialChartName}()
+chart.IndicatorTypes = new FinancialIndicatorTypeCollection()
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.AverageTrueRange)
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.MassIndex)
+
+chart.IndicatorDisplayTypes = new IndicatorDisplayTypeCollection()
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Area)
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Column)
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new {FinancialChartName}();
+chart.IndicatorTypes = new FinancialIndicatorTypeCollection();
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.AverageTrueRange);
+chart.IndicatorTypes.Add(Infragistics.Controls.Charts.FinancialIndicatorType.MassIndex);
+
+chart.IndicatorDisplayTypes = new IndicatorDisplayTypeCollection();
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Area);
+chart.IndicatorDisplayTypes.Add(Infragistics.Controls.Charts.IndicatorDisplayType.Column);
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    indicatorTypes: ["AverageTrueRange", "MassIndex"],
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "indicatorTypes", ["AverageTrueRange", "MassIndex"]);
+----
+endif::jquery[]
+
+=== インジケーター ペインの構成
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|型|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorLongPeriod{HtmlApiExtension}[IndicatorLongPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|以下のインジケーター タイプのみに適用する `IndicatorLongPeriod` 期間を取得または設定します。
+
+MovingAverageConvergenceDivergenceIndicator +
+AbsoluteVolumeOscillatorIndicator +
+ChaikinOscillatorIndicator +
+PercentagePriceOscillatorIndicator +
+PercentageVolumeOscillatorIndicator   
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorPeriod{HtmlApiExtension}[IndicatorPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|以下のインジケーター タイプのみに適用する `IndicatorPeriod` 期間を取得または設定します。
+
+BollingerBandWidthIndicator +
+FullStochasticOscillatorIndicator +
+AverageDirectionalIndexIndicator +
+AverageTrueRangeIndicator +
+BollingerBandsOverlay +
+ChaikinVolatilityIndicator +
+CommodityChannelIndexIndicator +
+DetrendedPriceOscillatorIndicator +
+FastStochasticOscillatorIndicator +
+ForceIndexIndicator +
+MoneyFlowIndexIndicator +
+PriceChannelOverlay +
+RateOfChangeAndMomentumIndicator +
+RelativeStrengthIndexIndicator +
+SlowStochasticOscillatorIndicator +
+StandardDeviationIndicator +
+StochRSIIndicator +
+TRIXIndicator +
+WilliamsPercentRIndicator
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorShortPeriod{HtmlApiExtension}[IndicatorShortPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|以下のインジケーター タイプのみに適用する `IndicatorShortPeriod` 期間を取得または設定します。
+
+MovingAverageConvergenceDivergenceIndicator +
+AbsoluteVolumeOscillatorIndicator +
+ChaikinOscillatorIndicator +
+PercentagePriceOscillatorIndicator +
+PercentageVolumeOscillatorIndicator 
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorSignalPeriod{HtmlApiExtension}[IndicatorSignalPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|以下のインジケーター タイプのみに適用する `IndicatorSignalPeriod` 期間を取得または設定します。
+
+MovingAverageConvergenceDivergenceIndicator
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorSmoothingPeriod{HtmlApiExtension}[IndicatorSmoothingPeriod]
+ifdef::wpf,win-forms[]
+|`int`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|以下のインジケーター タイプのみに適用する `IndicatorSmoothingPeriod` 期間を取得または設定します。
+
+FullStochasticOscillatorIndicator  
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorMultiplier{HtmlApiExtension}[IndicatorMultiplier]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|以下のインジケーター タイプのみに適用する `IndicatorMultiplier` 期間を取得または設定します。
+
+BollingerBandWidthIndicator
+
+|====
+
+=== インジケーター ペインのスタイル設定
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|型|説明
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorBrushes{HtmlApiExtension}[IndicatorBrushes]
+|`BrushCollection`
+|IndicatorTypes プロパティに定義される順序でインジケーターの正の数の色のために使用するブラシのパレットを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorNegativeBrushes{HtmlApiExtension}[IndicatorNegativeBrushes]
+|`BrushCollection`
+|IndicatorTypes プロパティに定義される順序でインジケーターの負の数の色のために使用するブラシのパレットを取得または設定します。
+
+|link:{FinancialChartLink}.{FinancialChartName}{ApiProp}indicatorThickness{HtmlApiExtension}[IndicatorThickness]
+ifdef::wpf,win-forms[]
+|`double`
+endif::wpf,win-forms[]
+ifdef::jquery[]
+|`number`
+endif::jquery[]
+|すべてのインジケーターの太さを取得または設定します。
+
+|====
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamFinancialChart IndicatorTypes="Area"
+    IndicatorBrushes="Blue"
+    IndicatorNegativeBrushes="Red"
+    IndicatorThickness="2" />
+----
+endif::xaml[]
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim chart as New XamFinancialChart()
+chart.IndicatorBrushes = New Infragistics.BrushCollection()
+Dim brush = As SolidColorBrush = New SolidColorBrush()
+brush.Color = Colors.Blue;
+chart.IndicatorBrushes.Add(brush)
+
+chart.IndicatorNegativeBrushes = new Infragistics.BrushCollection()
+Dim brush2 = As SolidColorBrush = New SolidColorBrush()
+brush2.Color = Colors.Red
+chart.IndicatorNegativeBrushes.Add(brush2)
+
+chart.IndicatorThickness = 2
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var chart = new XamFinancialChart();
+chart.IndicatorBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush = new SolidColorBrush();
+brush.Color = Colors.Blue;
+chart.IndicatorBrushes.Add(brush);
+
+chart.IndicatorNegativeBrushes = new Infragistics.BrushCollection();
+SolidColorBrush brush2 = new SolidColorBrush();
+brush2.Color = Colors.Red;
+chart.IndicatorNegativeBrushes.Add(brush2);
+
+chart.IndicatorThickness = 2;
+----
+endif::wpf[]
+
+ifdef::jquery[]
+*JavaScript の場合:*
+[source,javascript]
+----
+$("#financialChart").{FinancialChartName}({ 
+    dataSource: data,
+    indicatorTypes: ["AverageTrueRange", "MassIndex"],
+    indicatorBrushes: ["Blue"],
+    indicatorNegativeBrushes: ["Red"],
+    indicatorThickness: 2
+});
+----
+
+[source,js]
+----
+$("#financialChart").{FinancialChartName}("option", "indicatorBrushes", ["Blue"]);
+$("#financialChart").{FinancialChartName}("option", "indicatorNegativeBrushes", ["Red"]);
+$("#financialChart").{FinancialChartName}("option", "indicatorThickness", 2);
+----
+endif::jquery[]
+
+pick:[wpf="image::images/financialchart_wpf_pane_indicator_style.png[]"]
+pick:[jquery="image::images/financialchart_jquery_pane_indicator_style.png[]"]
+
+
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+|link:financial-chart-chartpanes.html[チャート ペイン]
+|このトピックはチャート ペインの概要です。
+
+|====

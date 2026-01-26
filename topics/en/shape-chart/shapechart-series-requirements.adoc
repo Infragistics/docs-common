@@ -1,0 +1,337 @@
+﻿= Series Requirements
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<settingcharttype,Setting Chart Type>>
+* <<requiredsettings,Required Data Columns>>
+* <<creatingdataitems,Creating Data Items>>
+* <<RelatedContent,Related Content>>
+
+[[settingcharttype]]
+== Setting Chart Type
+
+As described in the link:shapechart-chart-types.html[Chart Types] topic the chart can render different types of chart with a simple change of a property.
+
+To assign chart type during initialization:
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{ShapeChartName} x:Name="ShapeChart" 
+    ChartType="Spline"
+</ig:{ShapeChartName}>
+----
+
+endif::XAML[]
+
+*In C#:*
+
+[source,xaml]
+----
+var ShapeChart = new XamShapeChart 
+{ 
+    ChartType = ShapeChartType.Spline
+};
+----
+
+endif::C#[]
+
+*In VB:*
+
+[source,xaml]
+----
+Dim ShapeChart = New XamShapeChart() With 
+{ 
+    .ChartType = ShapeChartType.Spline 
+}
+----
+
+endif::VB[]
+
+
+[[requiredsettings]]
+== Required Data Columns
+
+The following table explains which properties are required in the DataItems that the chart is populated with:
+
+[options="header", cols="6*<"]
+|====
+|Series Type
+| X
+| Y
+| Value
+| Radius
+| Points*
+
+
+| Point
+|X
+|X
+|
+|
+|
+
+| Line
+|X
+|X
+|
+|
+|
+
+| Spline
+|X
+|X
+|
+|
+|
+
+| High Density
+|X
+|X
+|
+|
+|
+
+| Bubble
+|X
+|X
+|
+|X
+|
+
+| Area
+|X
+|X
+|X
+|
+|
+
+| Contour
+|X
+|X
+|X
+|
+|
+
+| Polyline
+|
+|
+|
+|
+|X
+
+| Polygon
+|
+|
+|
+|
+|X
+
+|====
+
+Note:
+ifdef::XAML[]
+*Points column must be a list of lists of X/Y objects 
+endif::XAML[]
+
+[[creatingdataitems]]
+== Creating Data Items
+
+The following example exercises the minimum requirements for each chart type. Each data class below includes properties that are responsible for rending the visual data on the chart.
+
+==== Point, Line, Spline, High Density:
+*In C#:*
+
+[source,C#]
+----
+public class ScatterPoint
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+}
+----
+*In VB:*
+[source,VB]
+----
+Public Class ScatterPoint
+
+        Private m_X As Double
+	Public Property X() As Double
+        	Get
+        	    Return m_X
+        	End Get
+        	Set
+        	    m_X = Value
+        	End Set
+	End Property
+	
+	Private m_Y As Double
+	Public Property Y() As Double
+        	Get
+        	    Return m_Y
+        	End Get
+        	Set
+        	    m_Y = Value
+        	End Set
+	End Property
+	
+End Class
+----
+
+==== Contour or Area:
+*In C#:*
+
+[source,C#]
+----
+public class ScatterValue 
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double V { get; set; }
+}
+----
+*In VB:*
+[source,VB]
+----
+Public Class ScatterValue
+
+        Private m_X As Double
+	Public Property X() As Double
+		Get
+			Return m_X
+		End Get
+		Set
+			m_X = Value
+		End Set
+	End Property
+	
+	Private m_Y As Double
+	Public Property Y() As Double
+		Get
+			Return m_Y
+		End Get
+		Set
+			m_Y = Value
+		End Set
+	End Property
+	
+	Private m_V As Double
+	Public Property V() As Double
+		Get
+			Return m_V
+		End Get
+		Set
+			m_V = Value
+		End Set
+	End Property
+	
+End Class
+----
+==== Bubble:
+*In C#:*
+
+[source,C#]
+----
+public class ScatterBubble 
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double R { get; set; }
+    public double Fill { get; set; } // an optional value
+}
+----
+*In VB:*
+[source,VB]
+----
+Public Class ScatterBubble
+    
+        Private m_X As Double
+	Public Property X() As Double
+		Get
+			Return m_X
+		End Get
+		Set
+			m_X = Value
+		End Set
+	End Property
+	
+	Private m_Y As Double
+	Public Property Y() As Double
+		Get
+			Return m_Y
+		End Get
+		Set
+			m_Y = Value
+		End Set
+	End Property
+	
+	Private m_R As Double
+	Public Property R() As Double
+		Get
+			Return m_R
+		End Get
+		Set
+			m_R = Value
+		End Set
+	End Property
+	
+	Private m_Fill As Double ' an optional value
+	Public Property Fill() As Double
+		Get
+			Return m_Fill
+		End Get
+		Set
+			m_Fill = Value
+		End Set
+	End Property
+	
+End Class
+
+----
+==== Polyline or Polygon:
+*In C#:*
+
+[source,C#]
+----
+public class ScatterShape
+{
+  public List<List<Point>> Points { get; set; } 
+  // a nested list of list of points 
+}
+----
+*In VB:*
+[source,VB]
+----
+Public Class ScatterShape
+
+	Public Property Points() As List(Of List(Of Point))
+		Get
+			Return m_Points
+		End Get
+		Set
+			m_Points = Value
+		End Set
+	End Property
+	Private m_Points As List(Of List(Of Point))
+	' a nested list of list of points 
+	
+End Class
+----
+
+
+
+[[RelatedContent]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:shapechart-getting-started-with-shapechart.html[Getting Started with Shape Chart]
+|This article will get you up and running with the Shape Chart control.
+
+| link:shapechart-chart-types.html[Chart Types]
+|This article describes the available chart types.

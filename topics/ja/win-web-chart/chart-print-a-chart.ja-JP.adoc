@@ -1,0 +1,102 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-print-a-chart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{901CC991-184A-4702-A266-DB4C178FA602}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= チャートの印刷
+
+このトピックでは、チャートを印刷するために起動される  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~printchart.html[PrintChart]"]  メソッドを説明します。
+
+== チャートをデフォルトの Windows プリンタに印刷
+
+以下のサンプル コードは、チャートをデフォルトの Windows プリンタに印刷する方法を示しています。
+
+[start=1]
+. コードの記述を開始する前にコード ビハインドに using/directives を配置します。そうすれば、メンバは完全に記述された名前を常に入力する必要がなくなります。
+
+*Visual Basic の場合：*
+
+----
+Imports System.Drawing.Printing
+----
+
+*C# の場合：*
+
+----
+using System.Drawing.Printing;
+----
+
+[start=2]
+. 印刷したいチャートを含む Web フォームにコマンド ボタンを追加します。このボタンをクリックすると印刷ジョブが始まります。
+[start=3]
+. コマンドボタンの *Click* イベント ハンドラに以下のコードを追加します。
+
+*Visual Basic の場合：*
+
+----
+Private Sub btnPrintChart_Click(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles btnPrintChart.Click
+        Dim printer1 As New System.Drawing.Printing.PrinterSettings()
+        Dim page1 As New System.Drawing.Printing.PageSettings()
+        Me.UltraChart1.PrintChart(printer1, page1)
+End Sub
+----
+
+このコードは、System.Drawing.Printing 参照を名前空間に含めているだけでなく、Form のクラスで PrinterSettings と PageSettings オブジェクトを宣言していることを前提とします。
+
+*C# の場合：*
+
+----
+private void btnPrintChart_Click(object sender, EventArgs e)
+{
+	PrinterSettings printer1 = new PrinterSettings();
+	PageSettings page1 = new PageSettings();
+	this.ultraChart1.PrintChart(printer1, page1);
+}
+----
+
+== チャートを特定のプリンタに印刷
+
+指定された設定を使用して特定の印刷機器にチャートを印刷することもできます。このサンプル コードは、「ColorLaser」というシステム上の特定のプリンタに横方向でチャートを印刷する方法を説明します。
+
+[start=1]
+. 印刷したいチャートを含む Web フォームにコマンド ボタンを追加します。このボタンをクリックすると印刷ジョブが始まります。
+[start=2]
+. コマンド ボタンの Click イベントハンドラに以下のコードを追加します。
+
+*Visual Basic の場合：*
+
+----
+Private Sub btnPrintChart_Click(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles btnPrintChart.Click
+        Dim printer1 As New System.Drawing.Printing.PrinterSettings()
+        Dim page1 As New System.Drawing.Printing.PageSettings()
+        printer1.PrinterName = "ColorLaser"
+        page1.Landscape = True
+        Me.UltraChart1.PrintChart(printer1, page1)
+End Sub
+----
+
+このコードは、System.Drawing.Printing 参照を名前空間に含めているだけでなく、Form のクラスで PrinterSettings と PageSettings オブジェクトを宣言していることを前提とします。
+
+*C# の場合：*
+
+----
+private void btnPrintChart_Click(object sender, EventArgs e)
+{
+        printer1 = new PrinterSettings();
+        page1 = new PageSettings(printer1);
+        printer1.PrinterName = "ColorLaser";
+        page1.Landscape = true;
+        this.ultraChart1.PrintChart(printer1, page1);
+}
+----

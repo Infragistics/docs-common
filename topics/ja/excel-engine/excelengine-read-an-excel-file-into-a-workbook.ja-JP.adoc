@@ -1,0 +1,37 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-read-an-excel-file-into-a-workbook",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "{ED15E95B-5340-498C-9E01-7CFC7D725967}",  
+    "buildFlags": [],
+    "createdOn": "2007-04-05T08:23:22Z"
+}
+|metadata|
+////
+
+= Excel ファイルをワークブックに読み取る
+
+Microsoft® Excel® ファイルを書き出すだけでなく、Infragistics.Documents.Excel アセンブリはこれらのファイルを読み取ることができます。既存の Excel ファイルから  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook.html[Workbook]"]  オブジェクトを作成し、変更を行い、修正したワークブックを含む新しいファイルを保存することができます。Excel ファイルが静的な  pick:[win-forms="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Deserialize]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Deserialize]"]  pick:[win-forms-old="link:{ApiPlatform}documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Deserialize]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.excel{ApiVersion}~infragistics.documents.excel.workbook~load.html[Deserialize]"]  メソッドで読み取られる時に、Workbook オブジェクトが作成され、オブジェクト モデル全体にファイルからのすべてのサポートされる情報が格納されます。ワークブックおよびワークシート オプションだけでなく、セル値、フォーマット、および画像はすべて、解析されたワークブックからアクセスおよび修正可能です。
+
+以下のコードは、既存のワークブックで読み取り、変更を行い、ワークブックを新しいファイルに書き込む方法を示します。
+
+*Visual Basic の場合：*
+
+----
+Dim workbook As Infragistics.Documents.Excel.Workbook = _
+  Infragistics.Documents.Excel.Workbook.Load("C:\ExistingWorkbook.xls")
+workbook.Worksheets.Item(0).Rows.Item(0).Cells.Item(0).Value = 19
+workbook.Save("C:\ModifiedWorkbook.xls")
+----
+
+*C# の場合：*
+
+----
+Infragistics.Documents.Excel.Workbook workbook = 
+  Infragistics.Documents.Excel.Workbook.Load( "C:\\ExistingWorkbook.xls" );
+workbook.Worksheets[ 0 ].Rows[ 0 ].Cells[ 0 ].Value = 19;
+workbook.Save( "C:\\ModifiedWorkbook.xls" );
+----

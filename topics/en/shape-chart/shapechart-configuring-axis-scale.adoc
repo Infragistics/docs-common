@@ -1,0 +1,84 @@
+﻿= Configuring Axis Scales
+
+=== Overview
+
+This topic covers the different scaling modes of the axes of the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control, and is organized as follows:
+
+* <<Intro, Introduction>>
+* <<Props, Properties>>
+* <<CodeExample, Code Example>>
+* <<Related, Related Content>>
+
+[[Intro]]
+== Introduction
+
+In the `{ShapeChartName}` control, both axes are numeric and allow scaling of data values using built-in scalers. This can be set by setting the `IsLogarithmic` property for each axis in the chart. Setting this property effectively sets the axis scaler to a linear or logarithmic mode for the particular axis it is set on.
+
+[[Props]]
+== Properties
+
+The following table lists the properties that affect the scale of the axes in the `{ShapeChartName}` control.
+
+|====
+|Axis Property|Property Type|Description
+
+|link:{DataChartLink}.xamcartesianchart{ApiProp}xaxisislogarithmic.html[XAxisIsLogarithmic], +
+link:{DataChartLink}.xamcartesianchart{ApiProp}yaxisislogarithmic.html[YAxisIsLogarithmic]
+|`bool`
+|Gets or sets whether or not to set a particular axis to scale its data items to a logarithmic plot. While this property is false, a linear scale will be used for the corresponding axis.
+
+|link:{DataChartLink}.xamcartesianchart{ApiProp}xaxislogarithmbase.html[XAxisLogarithmBase], +
+link:{DataChartLink}.xamcartesianchart{ApiProp}yaxislogarithmbase.html[YAxisLogarithmBase]
+|`int`
+|Gets or sets the base value to use in the log function when mapping the position of data items along the corresponding numeric axis. This property is only effective if the corresponding "IsLogarithmic" property for the axis is set to true.
+
+|====
+
+[[CodeExample]]
+
+== Code Example
+
+The following code snippet shows how to use the built-in axis scalers to scale data values plotted in the `{ShapeChartName}` control:
+
+ifdef::wpf,xamarin[]
+*In XAML:*
+[source, xaml]
+----
+<ig:{ShapeChartName} x:Name="shapeChart"
+                  ItemsSource="{Binding Data}"
+                  XAxisIsLogarithmic="True"
+                  XAxisLogarithmBase="2"
+                  YAxisIsLogarithmic="True"
+                  YAxisLogarithmBase="2" />
+----
+endif::wpf,xamarin[]
+
+
+*In C#:*
+[source, csharp]
+----
+shapeChart.XAxisIsLogarithmic = true;
+shapeChart.XAxisLogarithmBase = 2;
+shapeChart.YAxisIsLogarithmic = true;
+shapeChart.YAxisLogarithmBase = 2;
+----
+
+ifdef::wpf,win-forms[]
+*In Visual Basic:*
+[source, vb]
+----
+shapeChart.XAxisIsLogarithmic = True
+shapeChart.XAxisLogarithmBase = 2
+shapeChart.YAxisIsLogarithmic = True
+shapeChart.YAxisLogarithmBase = 2
+----
+endif::wpf,win-forms[]
+
+Using the above code will result in a `{ShapeChartName}` that looks like the following when using an exponential, linear, quadratic, and logarithmic set of data items:
+
+image:images/shape-chart-axis-scales.png[]
+
+[[Related]]
+== Related Content
+
+* link:shapechart-using-legend[Using Legend in {ShapeChartName}]

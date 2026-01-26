@@ -1,0 +1,152 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-chart-types",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= チャート タイプの構成
+
+=== このトピックの内容
+
+このトピックには以下のセクションがあります。
+
+* <<settingcharttype,チャート タイプの設定>> 
+* <<lookandfeel,ルック アンド フィールド>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[settingcharttype]]
+== チャート タイプの設定
+
+link:categorychart-chart-types.html[チャート タイプ] トピックの説明のとおり、チャートはプロパティを変更するだけでさまざまなチャートタイプを描画できます。
+
+初期化時にチャート タイプを割り当てる方法:
+
+ifdef::xaml[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+                        ItemsSource="{Binding EnergySampleData}"
+                        ChartType="Spline">
+</ig:{CategoryChartName}>
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.ChartType = CategoryChartType.Spline;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.ChartType = CategoryChartType.Spline
+----
+endif::win-forms[]
+
+[[lookandfeel]]
+== ルックアンドフィール
+
+チャートの外観カスタマイズ用に多数のプロパティが用意されています。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+|pick:[wpf,xamarin="link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}Brushes.html[Brushes]"]pick:[win-forms="link:{CategoryChartLink}.{CategoryChartName}{ApiProp}Brushes.html[Brushes]"] 
+|link:{DataVizLinkBase}.BrushCollection.html[BrushCollection]
+|チャート シリーズの色設定に使用するブラシのパレットを取得または設定します。
+
+|link:{CategoryChartLink}.{CategoryChartName}{ApiProp}negativebrushes.html[NegativeBrushes] 
+|link:{DataVizLinkBase}.BrushCollection.html[BrushCollection]
+|チャート シリーズの色設定に使用するブラシのパレットを取得または設定します。
+
+|pick:[wpf,xamarin="link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}Outlines.html[Outlines]"]pick:[win-forms="link:{CategoryChartLink}.{CategoryChartName}{ApiProp}Outlines.html[Outlines]"]
+|link:{DataVizLinkBase}.BrushCollection.html[BrushCollection]
+|チャート シリーズのアウトラインに使用するブラシのパレットを取得または設定します。
+
+|link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}resolution.html[Resolution]
+|`double`
+|このチャートのシリーズの描画解像度を取得または設定します。n = 解像度で、各 n 水平ピクセルのすべての項目を単一のデータポイントに結合します。解像度 = 0 の場合、すべてのデータポイントがグラフィッカル オブジェクトとして描画されます。チャートの解像度が高くなるとパフォーマンスが向上します。チャート シリーズの太さを取得または設定します。
+
+|link:{CategoryChartLink}.{CategoryChartDomain}{ApiProp}thickness.html[Thickness]
+|`double`
+|チャート シリーズの太さを取得または設定します。ChartType に基づいて、これは使用されるメイン ブラシ、またはアウトラインのみです。たとえば、Line の ChartType を使用する場合、Thickness プロパティは描画される折れ線の太さに影響します。Column の ChartType を使用する場合、Thickness プロパティは柱状の外部境界線の太さに影響します。
+
+|====
+
+以下の例では、折れ線、エリア、およびウォーターフォール チャート タイプを使用して上記で説明したプロパティのいくつかを使用します。
+構成オプションの詳細については、このトピックの最後にあるリンクをご利用ください。
+
+ifdef::xaml[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding EnergySampleData}"
+                        ChartType="Area" 
+                        Brushes="Blue Green" 
+                        NegativeBrushes="Red Yellow" 
+                        Outlines="Black" 
+                        Thickness="3">
+</ig:{CategoryChartName}>
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(19, 23, 132, 0));
+this.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(36, 132, 19, 0));
+
+this.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(132, 46, 19, 0));
+this.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(187, 221, 17, 0));
+
+this.ultraCategoryChart1.Outlines.Add(System.Drawing.Color.FromArgb(0, 0, 0, 0));
+
+this.ultraCategoryChart1.Thickness = 3;
+----
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(19, 23, 132, 0))
+Me.ultraCategoryChart1.Brushes.Add(System.Drawing.Color.FromArgb(36, 132, 19, 0))
+
+Me.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(132, 46, 19, 0))
+Me.ultraCategoryChart1.NegativeBrushes.Add(System.Drawing.Color.FromArgb(187, 221, 17, 0))
+
+Me.ultraCategoryChart1.Outlines.Add(System.Drawing.Color.FromArgb(0, 0, 0, 0))
+
+Me.ultraCategoryChart1.Thickness = 3
+----
+endif::win-forms[] 
+
+image::images/categorychart_configuring_chart_types_line.png[]
+image::images/categorychart_configuring_chart_types_area.png[]
+image::images/categorychart_configuring_chart_types_waterfall.png[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:categorychart-walkthrough.html[カテゴリ チャートの追加]
+|このトピックは、{CategoryChartName} コントロールを作成する方法を紹介します。
+
+| link:categorychart-chart-types.html[チャート タイプ]
+|このトピックは利用可能なチャート タイプを説明します。

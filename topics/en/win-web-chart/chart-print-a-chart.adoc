@@ -1,0 +1,102 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-print-a-chart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{901CC991-184A-4702-A266-DB4C178FA602}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Print a Chart
+
+This topic discusses the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.win.ultrawinchart.ultrachart~printchart.html[PrintChart]"]  method, which is invoked to print a WinChart™.
+
+== Printing a Chart to the Default Windows Printer
+
+The sample code below demonstrates how to print a chart to the default Windows printer:
+
+[start=1]
+. Before you start writing any code, you should place using/directives in your code-behind so you don't need to always type out a member's fully qualified name.
+
+*In Visual Basic:*
+
+----
+Imports System.Drawing.Printing
+----
+
+*In C#:*
+
+----
+using System.Drawing.Printing;
+----
+
+[start=2]
+. Add a command button to the web form containing the chart you wish to print. The user will click this button to initiate the print job.
+[start=3]
+. Add the following code to the *Click* event handler for the command button:
+
+*In Visual Basic:*
+
+----
+Private Sub btnPrintChart_Click(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles btnPrintChart.Click
+        Dim printer1 As New System.Drawing.Printing.PrinterSettings()
+        Dim page1 As New System.Drawing.Printing.PageSettings()
+        Me.UltraChart1.PrintChart(printer1, page1)
+End Sub
+----
+
+This code assumes that you have included the System.Drawing.Printing reference into your namespace as well as declared a PrinterSettings and PageSettings object in the Form's class.
+
+*In C#:*
+
+----
+private void btnPrintChart_Click(object sender, EventArgs e)
+{
+	PrinterSettings printer1 = new PrinterSettings();
+	PageSettings page1 = new PageSettings();
+	this.ultraChart1.PrintChart(printer1, page1);
+}
+----
+
+== Printing a Chart to a Specific Printer
+
+You can also print the chart to a specific printer device using specified settings. The sample code below illustrates how to print the chart in landscape orientation to a specific printer on the system named "ColorLaser".
+
+[start=1]
+. Add a command button to the web form containing the chart you wish to print. The user will click this button to initiate the print job.
+[start=2]
+. Add the following code to the Click event handler for the command button:
+
+*In Visual Basic:*
+
+----
+Private Sub btnPrintChart_Click(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles btnPrintChart.Click
+        Dim printer1 As New System.Drawing.Printing.PrinterSettings()
+        Dim page1 As New System.Drawing.Printing.PageSettings()
+        printer1.PrinterName = "ColorLaser"
+        page1.Landscape = True
+        Me.UltraChart1.PrintChart(printer1, page1)
+End Sub
+----
+
+This code assumes that you have included the System.Drawing.Printing reference into your namespace as well as declared a PrinterSettings and PageSettings object in the Form's class.
+
+*In C#:*
+
+----
+private void btnPrintChart_Click(object sender, EventArgs e)
+{
+        printer1 = new PrinterSettings();
+        page1 = new PageSettings(printer1);
+        printer1.PrinterName = "ColorLaser";
+        page1.Landscape = true;
+        this.ultraChart1.PrintChart(printer1, page1);
+}
+----

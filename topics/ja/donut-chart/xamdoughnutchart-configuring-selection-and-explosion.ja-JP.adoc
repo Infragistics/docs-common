@@ -1,0 +1,861 @@
+﻿////
+|metadata|
+{
+    "name": "xamdoughnutchart-configuring-selection-and-explosion",
+    "controlName": ["{DoughnutChart}"],
+    "tags": ["API","Charting","How Do I","Selection"],
+    "guid": "bd1caca1-194c-4c95-bb73-cd1b18034d9e",
+    "buildFlags": ["SL","WPF","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:12.0238775Z"
+}
+|metadata|
+////
+
+= 選択と展開の構成 ({DoughnutChartName})
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、{DoughnutChartName} のスライスの選択および展開を構成する方法を説明します。
+
+=== 前提条件
+
+本トピックの理解を深めるために、以下のトピックを参照することをお勧めします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:xamdoughnutchart-overview.html[{DoughnutChartName} 概要]
+|このトピックは、 _{DoughnutChartName}_ コントロールおよびその主要機能の概要を説明します。
+
+| link:xamdoughnutchart-adding.html[{DoughnutChartName} の追加]
+|このトピックではコード例を使用して、{DoughnutChartName} コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<_Ref1,すり明日選択構成のサマリー>> 
+* <<_Ref2,スライス選択の有効化 / 無効化>>
+
+ifdef::wpf,win-forms[]
+* <<_Ref11, 選択済みスライスの見た目の構成>>
+endif::wpf,win-forms[]
+
+* <<_Ref3,スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の選択状態の変更>>
+
+ifdef::wpf[]
+* <<_Ref33,IsSelected プロパティの設定>>
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+* <<_Ref34,SelectedSlices コレクションのコンテンツの修正>>
+endif::wpf,win-forms[]
+
+* <<_Ref4,スライス展開構成のサマリー>>
+* <<_Ref5,スライス展開の有効化 / 無効化>>
+* <<_Ref6,スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の展開状態の変更>>
+
+ifdef::wpf[]
+* <<_Ref7,IsExploded プロパティの設定>>
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+* <<_Ref8,ExplodedSlices コレクションのコンテンツの修正>>
+endif::wpf,win-forms[]
+
+[[_Ref1]]
+== スライス選択構成のサマリー
+
+=== コントロール構成の要点チャート
+
+以下の表に、 _{DoughnutChartName}_   コントロールの、スライスの選択に関して構成可能な項目の一覧を示します。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な項目|詳細|プロパティ/イベント
+
+|スライス選択の有効化/無効化
+|スライスを選択する機能を有効または無効にできます。
+|
+* link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}allowsliceselection.html[AllowSliceSelection] 
+
+ifdef::wpf,win-forms[]
+|選択済みスライスの見た目の構成
+|pick:[xaml,android="link:{DoughnutChartLink}.slice_members.html[Slice] の `TargetType` で"] スタイルを定義し、 pick:[android,xaml="_{DoughnutChartName}_ "] pick:[win-forms="RingSeries"] の link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] プロパティに割り当てることで選択されたスライスがどのように見えるかを定義できます。
+|
+* link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] 
+endif::wpf,win-forms[]
+
+|スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の選択状態の変更
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] イベント用イベント ハンドラーをアタッチする場合、選択状態を修正可能なイベント引数でpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]されたスライスへの参照を提供します。
+|
+* link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+ifdef::wpf,android[]
+|IsSelected プロパティの設定
+|_{DoughnutChartName}_ は、IsSelected プロパティを直接修正できるすべてのスライスへの参照を保持します。
+|
+* link:{DoughnutChartLink}.slice{ApiProp}isselected.html[Slice.IsSelected] 
+endif::wpf,android[]
+
+ifdef::wpf,win-forms[]
+|SelectedSlices コレクションのコンテンツの修正
+|SelectedSlices コレクションのコンテンツを変更することにより選択されたスライスを変更できます。
+|
+* pick:[xaml,android=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedslices.html[SelectedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.ringseries{ApiProp}selectedslices.html[SelectedSlices]"] 
+endif::wpf,win-forms[]
+
+|====
+
+[[_Ref2]]
+== スライス選択の有効化 / 無効化
+
+=== 概要
+
+_{DoughnutChartName}_   でスライス選択を有効 (デフォルト設定) または無効にできます。
+
+.注:
+[NOTE]
+====
+このトピックで残っているスライス選択構成のすべてをスライス選択を有効にして実行します。
+====
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|スライス選択の有効化/無効化
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}allowsliceselection.html[AllowSliceSelection]
+|`True` または `False`
+
+|====
+
+ifdef::wpf,win-forms[]
+
+[[_Ref11]]
+== 選択済みスライスの見た目の構成
+
+=== 概要
+
+_{DoughnutChartName}_   は、選択されたスライスの見た目を決定する link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] プロパティを公開します。デフォルトでは、適用されるスタイルはありません。スライスを選択しても、その見た目はどのようにも変わりません。独自のスタイルを選択されたスライスに適用すると、 pick:[xaml,android=" link:{DoughnutChartLink}.slice_members.html[Slice] の `TargetType` を持つ"]  `Style` を定義して、 link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle] プロパティの値として設定する必要があります。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|選択済みスライスの見た目の構成
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle]
+|pick:[android,xaml=" link:{DoughnutChartLink}.slice_members.html[Slice] の `TargetType` を持つ`Style`"] pick:[win-forms=" link:{DoughnutChartLink}.ringseries_members.html[RingSeries]"]
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、以下の設定結果として  _{DoughnutChartName}_   の選択されたスライス (一番上のスライス) がどのように見えるかが示されます。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedstyle.html[SelectedStyle]
+|
+ifdef::xaml[] 
+
+*XAML の場合:*
+[source,xaml]
+---- 
+<ig:{DoughnutChartName}>
+  <ig:{DoughnutChartName}.SelectedStyle>
+    <Style TargetType="ig:Slice">
+      <Setter Property="Background" Value="DarkGray"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+      <Setter Property="BorderThickness" Value="3"/>
+    </Style>
+  </ig:{DoughnutChartName}.SelectedStyle>
+...
+---- 
+endif::xaml[] 
+
+ifdef::win-forms[]
+*C# の場合:*
+[source,csharp]
+---- 
+Style sliceStyle = new Style 
+{ 
+ Fill = Color.Gray, 
+ Opacity = .75, 
+};
+this.ultraDoughnutChart1.SelectedStyle = sliceStyle;
+---- 
+
+*VB の場合:*
+[source,vb]
+---- 
+Dim sliceStyle As New Style 
+{ 
+ .Fill = Color.Gray, _ 
+ .Opacity = .75, _
+}
+Me.UltraDoughnutChart1.SelectedStyle = sliceStyle
+---- 
+endif::win-forms[] 
+
+|====
+
+ifdef::xaml[]
+image::images/XamDoughnutChart_Selection_Explosion_1.png[]
+endif::xaml[]
+
+ifdef::win-forms[] 
+image::images/Selection_Doughnut_Xamarin.png[] 
+endif::win-forms[] 
+
+endif::wpf,win-forms[]
+
+[[_Ref3]]
+== スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の選択状態の変更
+
+=== 概要
+
+_{DoughnutChartName}_   は、スライスされた選択/非選択状態を変更するために使用する link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] イベントを公開します。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するイベント/プロパティ: |手順
+
+|`IsSelected` プロパティを設定します。
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+SliceClickEventArgs.IsSelected
+|SliceClickEventArgs の pick:[wpf,android="link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected]"]pick:[xamarin=" link:{DoughnutChartLink}.sliceclickeventargs{ApiProp}isselected.html[IsSelected]"]pick:[win-forms="link:{DoughnutChartLink}.doughnutsliceclickeventargs{ApiProp}isselected.html[IsSelected]"] プロパティを `True` または `False` に設定します。
+
+|====
+
+=== 例
+
+以下のコード例は、pick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時に選択状態の切り替え方法を示します。
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DoughnutChartName} SliceClick="DoughnutSliceClicked">
+…
+----
+
+*C# の場合:*
+[source,csharp]
+----
+private void DoughnutSliceClicked(object sender, SliceClickEventArgs e)
+{
+    e.IsSelected = !e.IsSelected;
+}
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Private Sub DoughnutSliceClicked(sender As Object, e As SliceClickEventArgs)
+      e.IsSelected = Not e.IsSelected
+End Sub
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+void DoughnutChart_SliceClick(object sender, DoughnutSliceClickEventArgs e) 
+{ 
+ e.IsSelected = !e.IsSelected; 
+}
+----
+
+*VB の場合:*
+[source,vb]
+----
+Private Sub dc_SliceClick(sender As Object, e As DoughnutSliceClickEventArgs)
+      e.IsSelected = Not e.IsSelected
+End Sub
+----
+endif::win-forms[]
+
+ifdef::wpf,android[]
+
+[[_Ref33]]
+== IsSelected プロパティの設定
+
+=== 概要
+
+_{DoughnutChartName}_ は、 link:{DoughnutChartLink}.slice_members.html[Slice] オブジェクトへに対し link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected] プロパティを直接修正できるすべてのスライスへの参照を保持します。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するイベント/プロパティ: |手順
+
+|スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の選択状態の変更
+| link:{DoughnutChartLink}.slice{ApiProp}isselected.html[Slice.IsSelected]
+|link:{DoughnutChartLink}.slice_members.html[Slice] の link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected] プロパティを `True` または `False` に設定します。
+
+|====
+
+=== 例
+
+以下のコード例は、 link:{DoughnutChartLink}.slice{ApiProp}isselected.html[IsSelected] プロパティを設定するために、 _{DoughnutChartName}_   の最初のスライスへの参照の取得方法を示します。このコードは、特定のリング シリーズをロード後に実行する点にご注意ください。
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+…
+----
+
+*C# の場合:*
+[source,csharp]
+----
+private void SeriesLoaded(object sender,  RoutedEventArgs    e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;
+    firstSlice.IsSelected = true;
+}
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Private Sub SeriesLoaded(sender As Object, e As  RoutedEventArgs   )
+      Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice
+      firstSlice.IsSelected = True
+End Sub
+----
+endif::wpf[]
+
+endif::wpf,android[]
+
+ifdef::wpf,android,win-forms[]
+
+[[_Ref34]]
+== SelectedSlices コレクションのコンテンツの修正
+
+=== 概要
+
+選択されたスライスは、 _{DoughnutChartName}_   の  pick:[xaml,android=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedslices.html[SelectedSlices]"]  pick:[win-forms=" link:{DoughnutChartLink}.ringseries{ApiProp}selectedslices.html[SelectedSlices]"]  コレクションのコンテンツを修正することでも管理できます。それには、選択して SelectedSlices に追加しようとする 1 つ以上の  pick:[android,xaml=" link:{DoughnutChartLink}.slice_members.html[Slice]"]  pick:[win-forms="slice"]  オブジェクトへの参照を取得しなければなりません。スライスを選択しない場合、コレクションから削除します。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するイベント/プロパティ: |手順
+
+|SelectedSlices コレクションのコンテンツを修正します。
+|pick:[xaml,android=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}selectedslices.html[SelectedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.ringseries{ApiProp}selectedslices.html[SelectedSlices]"]
+|SelectedSlices コレクションから各pick:[xaml,android=" link:{DoughnutChartLink}.sliceitem_members.html[SliceItem] "]pick:[win-forms="スライス"]を追加または削除します。 
+
+|====
+
+=== 例
+
+以下のコード例は、 _{DoughnutChartName}_   の最初のスライスへの参照を取得し、選択されたスライスでコレクションに追加する方法を示します。項目の削除例も利用できます。このコードは、特定のリング シリーズをロード後に実行する点にご注意ください。
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+…
+----
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合:*
+
+ifdef::wpf[]
+[source,csharp]
+----
+private void SeriesLoaded(object sender, RoutedEventArgs e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;     {}; "] 
+	// 項目を選択します:
+	this.doughnutChart.SelectedSlices.Add(3);   
+    // 項目を選択解除します: 
+    this.doughnutChart.SelectedSlices.RemoveAt(3);   
+}
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+[source,csharp]
+----
+private void SeriesLoaded(object sender, SeriesLoadedEventArgs e)
+{
+    RingSeries ringSeries1 = doughnutChart.Series[0];
+    // 項目を選択します:
+    ringSeries1.SelectedSlices.Add(3); 
+    // 項目を選択解除します: 
+    ringSeries1.SelectedSlices.Remove(3); 
+}
+----
+endif::win-forms[]
+
+ifdef::android[]
+----
+private void SeriesLoaded(object sender,      e)
+{
+     var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;     {}; "] 
+ // 項目を選択します:
+this.doughnutChart.SelectedSlices.Add(3);   
+    // 項目を選択解除します: 
+     this.doughnutChart.SelectedSlices.RemoveAt(3);   
+}
+----
+endif::android[]
+
+endif::wpf,win-forms[]
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::wpf[]
+[source,csharp]
+----
+Private Sub SeriesLoaded(sender As Object, e As  RoutedEventArgs   )
+       Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+ ' 項目を選択します:
+Me.doughnutChart.SelectedSlices.Add(firstSlice)   
+ ' 項目を選択解除します: 
+       Me.doughnutChart.SelectedSlices.RemoveAt(0)   
+End Sub
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+[source,csharp]
+----
+Private Sub SeriesLoaded(sender As Object, e As SeriesLoadedEventArgs )
+    Dim ringSeries1 = doughnutChart.Series(0)
+	' 項目を選択します:
+	ringSeries1.SelectedSlices.Add(3); 
+	' 項目を選択解除します: 
+    ringSeries1.SelectedSlices.Remove(3); 
+End Sub
+----
+endif::win-forms[]
+
+ifdef::android[]
+----
+Private Sub SeriesLoaded(sender As Object, e As     )
+       Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+ ' 項目を選択します:
+Me.doughnutChart.SelectedSlices.Add(firstSlice)   
+ ' 項目を選択解除します: 
+       Me.doughnutChart.SelectedSlices.RemoveAt(0)   
+End Sub
+----
+endif::android[]
+
+endif::wpf,win-forms[]
+
+endif::wpf,android,win-forms[]
+
+[[_Ref4]]
+== スライス展開構成のサマリー
+
+=== コントロール構成の要点チャート
+
+以下の表に、 _{DoughnutChartName}_   コントロールの、スライスの展開に関して構成可能な項目の一覧を示します。
+
+[options="header", cols="a,a,a"]
+|====
+|構成可能な項目|詳細|プロパティ/イベント
+
+|スライス展開の有効化/無効化
+|スライスを展開する機能を有効または無効にできます。
+|
+link:{DoughnutChartLink}.piechartbase{ApiProp}allowsliceexplosion.html[AllowSliceExplosion] 
+
+|スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時にスライスの展開状態を変更
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] イベント用イベント ハンドラーをアタッチする場合、イベント引数でpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]されたスライスへの参照を提供するので、展開状態を修正できます。
+|
+link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+ifdef::wpf,android[]
+| link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] プロパティの設定
+|_{DoughnutChartName}_ は、 link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] プロパティを直接修正できるすべてのスライスへの参照を保持します。
+|
+link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[Slice.IsExploded] 
+
+endif::wpf,android[]
+
+ifdef::wpf,win-forms[]
+|ExplodedSlices コレクションのコンテンツの修正
+|ExplodedSlices コレクションのコンテンツを変更することにより展開されたスライスを変更できます。
+|
+pick:[android,xaml=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}explodedslices.html[ExplodedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]"] 
+endif::wpf,win-forms[]
+|====
+
+[[_Ref5]]
+== スライス展開の有効化 / 無効化
+
+=== 概要
+
+_{DoughnutChartName}_ でスライス展開を有効 (デフォルト設定) または無効にできます。
+
+.注:
+[NOTE]
+====
+このトピックで残っているスライス展開構成のすべてをスライス展開を有効にして実行します。
+====
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するプロパティ:|設定の選択肢:
+
+|スライス展開の有効化/無効化
+| link:{DoughnutChartLink}.piechartbase{ApiProp}allowsliceexplosion.html[AllowSliceExplosion]
+|`True` または `False`
+
+|====
+
+=== 例
+
+以下のスクリーンショットは、1 つのスライスが展開された  _{DoughnutChartName}_   を示します。
+
+ifdef::wpf,android[]
+image::images/XamDoughnutChart_Selection_Explosion_2.png[]
+endif::wpf,android[]
+
+ifdef::xamarin,win-forms[]
+image::images/XamDoughnutChart_Selection_Explosion_Xamarin.png[]
+endif::xamarin,win-forms[]
+
+[[_Ref6]]
+== スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の展開状態の変更
+
+=== 概要
+
+_{DoughnutChartName}_ は、スライスが展開されるかどうかを変更するために使用する link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] イベントを公開します。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するイベント/プロパティ: |手順
+
+|IsExploded プロパティの設定
+| link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] 
+
+SliceClickEventArgs.IsExploded
+|SliceClickEventArgs の pick:[wpf,android="link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded]"]pick:[xamarin=" link:{DoughnutChartLink}.sliceclickeventargs{ApiProp}isexploded.html[IsExploded]"]pick:[win-forms="link:{DoughnutChartLink}.doughnutsliceclickeventargs{ApiProp}isexploded.html[IsExploded]"] プロパティを `True` または `False` に設定します。 
+
+|====
+
+=== 例
+
+以下のコード例は、pick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時に展開状態の切り替え方法を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DoughnutChartName} SliceClick="DoughnutSliceClicked">
+…
+----
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+
+ifdef::xaml[]
+[source,csharp]
+----
+private void DoughnutSliceClicked(object sender,  SliceClickEventArgs e)
+{
+    e.IsExploded = !e.IsExploded;
+}
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+[source,csharp]
+----
+private void DoughnutSliceClicked(object sender, DoughnutSliceClickedEventArgs e)
+{
+    e.IsExploded = !e.IsExploded;
+}
+----
+endif::win-forms[]
+
+endif::xaml,win-forms[]
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::wpf[]
+[source,vb]
+----
+Private Sub DoughnutSliceClicked(sender As Object, e As RoutedEventArgs)
+      e.IsExploded = Not e.IsExploded
+End Sub
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+[source,vb]
+----
+Private Sub DoughnutSliceClicked(sender As Object, e As DoughnutSliceClickedEventArgs)
+      e.IsExploded = Not e.IsExploded
+End Sub
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::android,wpf[]
+
+[[_Ref7]]
+== IsExploded プロパティの設定
+
+[[_Ref349921851]]
+
+=== 概要
+
+_{DoughnutChartName}_   は、スライスが展開されるかどうかを変更するために使用する link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}sliceclick_ev.html[SliceClick] イベントを公開します。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するイベント/プロパティ: |手順
+
+|スライスのpick:[wpf,win-forms="クリック"]pick:[xamarin="タップ"]時の展開状態を変更します。
+| link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[Slice.IsExploded]
+|link:{DoughnutChartLink}.slice_members.html[Slice] の link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] プロパティを `True` または `False` に設定します。
+
+|====
+
+endif::android,wpf[]
+
+ifdef::android,wpf[]
+
+=== 例
+
+以下のコード例は、 link:{DoughnutChartLink}.slice{ApiProp}isexploded.html[IsExploded] プロパティを設定するために、 _{DoughnutChartName}_   の最初のスライスへの参照の取得方法を示します。このコードは、特定のリング シリーズをロード後に実行する点にご注意ください。
+
+pick:[xaml="*XAML の場合:*"]
+
+ifdef::xaml[]
+[source,xaml]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+	…
+	</ig:RingSeries>
+…
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+ifdef::xaml,win-forms[]
+
+*C# の場合:*
+[source,csharp]
+----
+private void SeriesLoaded(object sender, RoutedEventArgs e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;
+    firstSlice.IsExploded = true;
+}
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Private Sub SeriesLoaded(sender As Object, e As RoutedEventArgs)
+      Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice
+      firstSlice.IsExploded = True
+End Sub
+----
+
+endif::xaml,win-forms[]
+
+endif::android,wpf[]
+
+ifdef::wpf,android,win-forms[]
+
+[[_Ref8]]
+== ExplodedSlices コレクションのコンテンツの修正
+
+=== 概要
+
+展開されたスライスは、 _{DoughnutChartName}_   の  pick:[android,xaml=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}explodedslices.html[ExplodedSlices]"]  pick:[win-forms=" link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]"]  コレクションのコンテンツを修正することでも管理できます。それには、展開して link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices] に追加しようとする 1 つ以上の  pick:[android,xaml=" link:{DoughnutChartLink}.slice_members.html[Slice]"]  pick:[win-forms="slice"]  オブジェクトへの参照を取得しなければなりません。スライスの非展開状態を設定しない場合、コレクションから削除します。
+
+=== プロパティ設定
+
+以下の表は、要求ビヘイビアーをプロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|目的:|使用するイベント/プロパティ: |手順
+
+|ExplodedSlices コレクションのコンテンツを修正します。
+|pick:[android,xaml=" link:{DoughnutChartLink}.{DoughnutChartName}{ApiProp}explodedslices.html[ExplodedSlices]"] pick:[win-forms=" link:{DoughnutChartLink}.piechartbase{ApiProp}explodedslices.html[ExplodedSlices]"]
+|ExplodedSlices コレクションから各pick:[android,xaml=" link:{DoughnutChartLink}.sliceitem_members.html[SliceItem] "]pick:[win-forms="スライス"]を追加または削除します。
+
+|====
+
+=== 例
+
+以下のコード例は、 _{DoughnutChartName}_   の最初のスライスへの参照を取得し、展開されたスライスでコレクションに追加する方法を示します。項目の削除例も利用できます。このコードは、特定のリング シリーズをロード後に実行する点にご注意ください。
+
+ifdef::xaml[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:{DoughnutChartName} x:Name="doughnutChart">
+    <ig:RingSeries Loaded="SeriesLoaded">
+	…
+	</ig:RingSeries>
+…
+</ig:{DoughnutChartName}>
+----
+endif::xaml[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合:*
+
+ifdef::xaml[]
+[source,csharp]
+----
+private void SeriesLoaded(object sender, RoutedEventArgs e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice; 
+	// 項目を展開します:
+	this.doughnutChart.ExplodedSlices.Add(firstSlice);   
+    // 項目の展開を解除します: 
+    this.doughnutChart.ExplodedSlices.RemoveAt(0);   
+}
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+[source,csharp]
+----
+private void SeriesLoaded(object sender, SeriesLoadedEventArgs e)
+{
+     RingSeries ringSeries1 = new doughnutChart.Series[0];
+	// 項目を展開します:
+	ringSeries1.ExplodedSlices.Add(3); 
+    // 項目の展開を解除します: 
+    ringSeries.ExplodedSlices.Remove(3); 
+}
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::android[]
+----
+private void SeriesLoaded(object sender, e)
+{
+    var firstSlice = ((RingSeries)this.doughnutChart.Series[0]).Ring.ArcItems[0].SliceItems[0].Slice;
+	// 項目を展開します:
+	this.doughnutChart.ExplodedSlices.Add(3);   
+    // 項目の展開を解除します: 
+    this.doughnutChart.ExplodedSlices.RemoveAt(3);   
+}
+----
+endif::android[]
+
+ifdef::wpf,win-forms[]
+
+*Visual Basic の場合:*
+
+ifdef::wpf[]
+[source,vb]
+----
+Private Sub SeriesLoaded(sender As Object, e As RoutedEventArgs)
+     Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+	' 項目を展開します:
+	Me.doughnutChart.ExplodedSlices.Add(firstSlice)   
+	' 項目の展開を解除します: 
+    Me.doughnutChart.ExplodedSlices.RemoveAt(0)   
+End Sub
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+[source,vb]
+----
+Private Sub SeriesLoaded(sender As Object, e As SeriesLoadedEventArgs)
+    Dim ringSeries1 = doughnutChart.Series(0)
+	' 項目を展開します:
+	ringSeries1.ExplodedSlices.Add(3);
+	' 項目の展開を解除します: 
+    ringSeries.ExplodedSlices.Remove(3)
+End Sub
+----
+endif::win-forms[]
+
+endif::wpf,win-forms[]
+
+ifdef::android[]
+----
+Private Sub SeriesLoaded(sender As Object, e As     )
+    Dim firstSlice = DirectCast(Me.doughnutChart.Series(0), RingSeries).Ring.ArcItems(0).SliceItems(0).Slice   
+	' 項目を展開します:
+	Me.doughnutChart.ExplodedSlices.Add(firstSlice)   
+	' 項目の展開を解除します: 
+    Me.doughnutChart.ExplodedSlices.RemoveAt(0)   
+End Sub
+----
+endif::android[]
+
+endif::wpf,android,win-forms[]

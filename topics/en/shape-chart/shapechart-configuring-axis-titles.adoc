@@ -1,0 +1,165 @@
+﻿= Configuring Axis Titles
+
+=== Purpose
+
+This topic provides information on configuring the x-axis and y-axis titles in the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<PropertySettings, Property Settings>>
+* <<CodeSnippet, Code Snippet>>
+* <<Related, Related Content>>
+
+[[PropertySettings]]
+== Property Settings
+
+You can customize the look and feel of the `{ShapeChartName}` control's x-axis and y-axis titles in many different ways, such as applying different font styles, margins, and alignment. This can be achieved by utilizing the following properties:
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitle.html[XAxisTitle] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitle.html[YAxisTitle] 
+|`string`
+|Determines the text to be used for the x-axis and y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleAlignment.html[XAxisTitleAlignment] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleAlignment.html[YAxisTitleAlignment]
+|`enumeration`
+|Determines the horizontal alignment of the x-axis title and the vertical alignment of the y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleAngle.html[XAxisTitleAngle] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleAngle.html[YAxisTitleAngle] 
+|`double`
+|Determines the angle rotation for the x-axis and y-axis titles.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleFontFamily.html[XAxisTitleFontFamily] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleFontFamily.html[YAxisTitleFontFamily]
+|`FontFamily`
+|Determines the font family applied to the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleFontSize.html[XAxisTitleFontSize] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleFontSize.html[YAxisTitleFontSize]
+|`double`
+|Determines the font size of the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleFontStretch.html[XAxisTitleFontStretch] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleFontStretch.html[YAxisTitleFontStretch]
+|`FontStretch`
+|Determines the font stretch applied to the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleFontStyle.html[XAxisTitleFontStyle] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleFontStyle.html[YAxisTitleFontStyle] 
+|`FontStyle`
+|Determines the font styles to be applied to the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleFontWeight.html[XAxisTitleFontWeight] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleFontWeight.html[YAxisTitleFontWeight]
+|`FontWeight`
+|Determines the font weight to be applied to the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleForeground.html[XAxisTitleForeground] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleForeground.html[YAxisTitleForeground] 
+|`Brush`
+|Determines the color of the text for the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleMargin.html[XAxisTitleMargin] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleMargin.html[YAxisTitleMargin]
+|`Thickness`
+|Determines the margin to be applied to the x-axis or y-axis title.
+
+|link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}XAxisTitleOpacity.html[XAxisTitleOpacity] +
+link:{ShapeChartLink}.{ShapeChartXY}{ApiProp}YAxisTitleOpacity.html[YAxisTitleOpacity]
+|`double`
+|Determines the opacity of the text of the x-axis or y-axis title.
+
+|====
+
+[[CodeSnippet]]
+== Code Snippet
+
+The following code examples show how to customize the titles on the x-axis and y-axis in the `{ShapeChartName}` control. The code below uses the link:resources-sample-scatter-data.html[Sample Scatter Data] resource.
+
+ifdef::wpf[]
+*In XAML:*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} ItemsSource="{Binding}"
+                      XAxisTitleFontSize="16"
+                      XAxisTitleMargin="14"
+                      XAxisTitle="X-Axis Title"
+                      XAxisTitleForeground="Blue"
+                      XAxisTitleFontStyle="Italic"
+                      YAxisTitleFontSize="12"
+                      YAxisTitle="Y-Axis Title"
+                      YAxisTitleAngle="90"
+                      YAxisTitleForeground="Red" />
+</Grid>
+----
+endif::wpf[]
+
+
+*In C#:*
+[source, csharp]
+----
+var data  = new ScatterDataSource();
+
+var chart = new {ShapeChartName}();
+chart.ItemsSource = data;
+chart.XAxisTitleFontSize = 16;
+chart.XAxisTitleMargin = new Thickness(14);
+chart.XAxisTitle = "X-Axis Title";
+chart.XAxisTitleForeground = Brushes.Blue;
+chart.XAxisTitleFontStyle = FontStyles.Italic;
+chart.YAxisTitleFontSize = 12;
+chart.YAxisTitle = "Y-Axis Title";
+chart.YAxisTitleAngle = 90;
+chart.YAxisTitleForeground = Brushes.Red;
+
+layoutRoot.Children.Add(chart);
+----
+
+ifdef::wpf,win-forms[]
+*In Visual Basic*
+[source, vb]
+----
+Dim data = New ScatterDataSource()
+
+Dim chart = New {ShapeChartName}()
+chart.ItemsSource = data
+chart.XAxisTitleFontSize = 16
+chart.XAxisTitleMargin = New Thickness(14)
+chart.XAxisTitle = "X-Axis Title"
+chart.XAxisTitleForeground = Brushes.Blue
+chart.XAxisTitleFontStyle = FontStyles.Italic
+chart.YAxisTitleFontSize = 12
+chart.YAxisTitle = "Y-Axis Title"
+chart.YAxisTitleAngle = 90
+chart.YAxisTitleForeground = Brushes.Red
+
+layoutRoot.Children.Add(chart)
+
+----
+endif::wpf,win-forms[]
+
+The above code will result in a `{ShapeChartName}` that looks like the following:
+
+image::images/shapechart_axis_titles.png[]
+
+=== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Description
+
+|link:shapechart-overview.html[{ShapeChartName} Overview]
+|This topic provides conceptual information about the {ShapeChartName} control including its main features, minimum requirements, and user functionality.
+
+|link:shapechart-getting-started-with-shapechart.html[Getting Started with {ShapeChartName}]
+|This topic explains how to bind data to the {ShapeChartName} control.
+
+|====

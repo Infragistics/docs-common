@@ -1,0 +1,158 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-eventhandling",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "c71c9ae7-9d07-49bc-a4c8-e4280cac9614","buildFlags": ["XAML"],
+    "createdOn": "2015-09-23T20:39:35.3113901Z"
+}
+|metadata|
+////
+
+= Handling Events
+
+== Before You Begin
+
+The {BarcodesName}™ control exposes the following events:
+====
+* link:{BarcodesLink}.{BarcodesRoot}~datachanged_ev.html[DataChanged]
+ifdef::wpf,win-forms[]
+* link:{BarcodesLink}.{BarcodesRoot}~errormessagedisplaying_ev.html[ErrorMessageDisplaying]
+endif::wpf,win-forms[]
+====
+ifdef::wpf,win-forms[]
+The ErrorMessageDisplayingEventArgs object’s ErrorMessage property allows you to get or set the error message. 
+endif::wpf,win-forms[]
+The DataChangedEventArgs object’s NewData property conveniently allows you to get the value of the {BarcodesName} control’s Data property that has just been changed.
+
+== What You Will Accomplish
+
+You will handle the DataChanged pick:[wpf,win-forms="and ErrorMessageDisplaying"] pick:[wpf,win-forms="events"] pick:[xamarin="event"].
+
+== Follow these Steps
+
+[start=1]
+. Add a {BarcodesName} control to your pick:[wpf="page"] pick:[xamarin="application"] pick:[win-forms="form"]. For more info on this, see  pick:[xaml=" link:xambarcode-adding-xambarcode-using-xaml.html[Adding Barcode Using XAML Code]"]   pick:[xaml="or"]  link:xambarcode-adding-barcode-in-code-behind.html[Adding Barcode In Code-Behind] .
+[start=2]
+. Handle the pick:[wpf="events"] pick:[xamarin,win-forms="event"]:
+
+ifdef::wpf,win-forms[]
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamMaxiCodeBarcode
+        x:Name="Barcode"
+        DataChanged="Barcode_DataChanged"
+        ErrorMessageDisplaying="Barcode_ErrorMessageDisplaying" />
+----
+endif::xaml[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Import Infragistics.Controls.Barcodes
+
+Private Sub Barcode_DataChanged (ByVal sender As System.Object,
+    ByVal e As DataChangedEventArgs)
+        Dim errorMessage = e.ErrorMessage
+End Sub
+
+Private Sub Barcode_ErrorMessageDisplaying (ByVal sender As System.Object, ByVal e As ErrorMessageDisplayingEventArgs)
+    Dim newData = e.NewData
+End Sub
+---- 
+
+*In C#:*
+[source,csharp]
+----
+using Infragistics.Controls.Barcodes;
+
+private void Barcode_ErrorMessageDisplaying(object sender,
+  ErrorMessageDisplayingEventsArgs e) {
+    string errorMessage = e.ErrorMessage;
+}
+
+private void Barcode_DataChanged(object, DataChangedEventArgs e) {
+    string newData = e.NewData;
+}
+----
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+[source,xaml]
+----
+<ig:XamQRCodeBarcode x:Name="Barcode" DataChanged="Barcode_DataChanged"/>
+----
+*In C#:*
+[source,csharp]
+----
+using Infragistics.XamarinForms.Controls.Barcodes;
+using Infragistics.Controls.Barcodes.Implementation;
+
+private void Barcode_DataChanged(object sender, DataChangedEventArgs e) 
+{
+    string newData = e.NewData;
+}
+----
+
+endif::xamarin[]
+
+[start=3]
+. Save and run your application.
+
+== Default Error Message
+
+ifdef::wpf,win-forms[]
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamPdf417Barcode
+	x:Name="Barcode"
+	Data="xamBarcode"
+	EncodingMode="Numeric" />
+----
+endif::xaml[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim Barcode As New {BarcodePDF417Name}()
+Barcode.Data = "xamBarcode"
+Barcode.EncodingMode = CompactionMode.Numeric
+----
+
+*In C#:*
+[source,csharp]
+----
+var Barcode = new {BarcodePDF417Name}();
+Barcode.Data = "xamBarcode";
+Barcode.EncodingMode = CompactionMode.Numeric;
+----
+endif::wpf,win-forms[]
+ifdef::xamarin[]
+
+*In XAML:*
+[source,xaml]
+----
+<ig:XamQRCodeBarcode x:Name="Barcode" Data="xamBarcode" EncodingMode="Numeric" />
+----
+
+*In C#:*
+[source,csharp]
+----
+var barcode = new XamQRCodeBarcode
+{
+    Data = "xamBarcode",
+    EncodingMode = EncodingMode.Numeric,
+};
+----
+endif::xamarin[]
+
+image::images/barcode_dataError.png[]

@@ -1,0 +1,425 @@
+﻿////
+|metadata|
+{
+    "name": "chart-use-predefined-and-custom-label-styles",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{29DEF2AB-38C5-4B87-910B-AD692E2EB189}","buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Use Predefined and Custom Label Styles
+
+This topic describes how to apply formatting to chart labels and create custom label styles. For a high-level overview of chart label formatting, see link:chart-label-formatting.html[Label Formatting].
+
+[start=1]
+. Before you start writing any code, you should place using/imports directives in your code-behind so you don't need to always type out a member's fully qualified name.
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.UltraChart.Shared.Styles
+----
+
+*In C#:*
+
+----
+using Infragistics.UltraChart.Shared.Styles;
+----
+
+[start=2]
+. You can choose a built-in label format style for each label. The built-in style of AxisItemLabel could be set as follows:
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.DataValue
+----
+
+*In C#:*
+
+----
+this.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.DataValue;
+----
+
+[start=3]
+. The following lists explain each style setting the various labels can have.
+
+[options="header", cols="a,a"]
+|====
+|AxisItemLabelStyle|Description
+
+|None
+|No Labels
+
+|ItemLabel
+|Show the text labels at each tickmark
+
+|DataValue
+|Show the data value at each tickmark
+
+|Label_and_Data
+|Show both text label and data value at tick mark
+
+|Custom
+| _See Custom Description Below_ 
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|AxisSeriesLabelStyle|Description
+
+|None
+|No Labels
+
+|SeriesLabel
+|Show the series (group) labels below each set of items
+
+|Custom
+| _See Custom Description Below_ 
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|PieLabelStyle|Description
+
+|None
+|No Labels
+
+|Percent
+|Show the pie slice percent
+
+|Data
+|Show the pie slice data value
+
+|Label
+|Show the pie slice label
+
+|Label_and_Percent
+|Show the pie slice label and percent
+
+|Custom
+| _See Custom Description Below_ 
+
+|====
+
+[options="header", cols="a,a"]
+|====
+|TooltipStyle|Description
+
+|None
+|No Labels
+
+|DataValue
+|Show the data value for each point
+
+|LabelPlusDataValue
+|Show the text labels and DataValue for each point
+
+|RowColumnPlusDataValue
+|Show Row, Column and DataValue for each point
+
+|Custom
+| _See Custom Description Below_ 
+
+|====
+
+[start=4]
+. Next is an explanation of how the custom Label works to define your own labels. Suppose your X axis is in date format, but you want to display the item label, plus the date in another format. You can create your own custom labels as follows:
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom
+Me.UltraChart1.Axis.X.Labels.ItemFormatString = _
+  "<ITEM_LABEL><DATA_VALUE:MMM-dd-yyyy>"
+----
+
+*In C#:*
+
+----
+this.UltraChart1.Axis.X.Labels.ItemFormat = AxisItemLabelFormat.Custom;
+this.UltraChart1.Axis.X.Labels.ItemFormatString = 
+  "<ITEM_LABEL><DATA_VALUE:MMM-dd-yyyy>"
+----
+
+If the label is "My Text" and the Date is 5/10/2005 it would format the label as follows:
+
+[source]
+----
+"<ITEM_LABEL><DATA_VALUE:MMM-dd-yyyy>" = MyText May 10, 2005
+----
+
+For a currency data type, you could use a format string such as 
+
+[source]
+----
+<DATA_VALUE:$#0.00>
+----
+
+which would format a value of 29.5 as "$29.50". Text messages can also be included in the format string. If the data for a field was 5/10/2005, you could display the message "The date is May 10, 2002" by using the format string 
+
+[source]
+----
+"The date is <DATA_VALUE:MMM-dd-yyyy>"
+----
+
+After inserting the name of the tag, such as <DATA_VALUE> you can place any standard Format string after the colon. For example, 
+
+[source]
+----
+<DATA_VALUE:MM/dd/yyyy hh:nn:ss>
+----
+
+[start=5]
+. Here is a list of tags that are valid for custom labeling. In each object, global tags can be used in any label. Local tags can only be used in the local object for which it is listed. You must always set the label style to 'Custom' before you can set the format string using these keywords. Also see the Labeling Sample to view these in action and to try your own custom labels.
+
+==== Global Keywords
+
+[options="header", cols="a,a,a"]
+|====
+|Keyword|Type|Value
+
+|TODAY_DATE
+|System.DateTime
+|System.DateTime.Today
+
+|TODAY_DATETIME
+|System.DateTime
+|System.DateTime.Now
+
+|====
+
+==== Local Keywords
+
+
+*_AxisLabelAppearance Context_*
+[options="header", cols="a,a,a"]
+|====
+
+|Keyword|Type|Value
+
+|SERIES_LABEL
+|String
+|Row Label. (If Data.SwapRowColumn = True, then Column Label)
+
+|ITEM_LABEL
+|String
+|Column Label. (If Data.SwapRowColumn = True, then Row Label)
+
+|DATA_VALUE
+|Double
+|Data value if available
+
+|====
+
+*_PieLabelAppearance Context_* 
+[options="header", cols="a,a,a"]
+|====
+
+|Keyword|Type|Value
+
+|DATA_COLUMN
+|Integer
+|Column number of data being displayed
+
+|DATA_ROW
+|Integer
+|Row number of data being displayed
+
+|ITEM_LABEL
+|String
+|Column Label. (If Data.SwapRowColumn = True, then Row Label)
+
+|PERCENT_VALUE
+|Double
+|Percentage value of Data item for which this pie label is being rendered.
+
+|DATA_VALUE
+|Double
+|Data value of data being rendered.
+
+|====
+
+*_TooltipAppearance Context_*
+[options="header", cols="a,a,a"]
+|====
+
+|Keyword|Type|Value
+
+|DATA_COLUMN
+|Integer
+|System.DateTime.Today
+
+|DATA_ROW
+|Integer
+|System.DateTime.Now
+
+|SERIES_LABEL
+|String
+|Row Label. (If Data.SwapRowColumn = True, then Column Label)
+
+|ITEM_LABEL
+|String
+|Column Label. (If Data.SwapRowColumn = True, then Row Label)
+
+|PERCENT_VALUE
+|Double
+|Percentage value of Data item for which this pie label is being rendered. (This is available only in the case where the tooltip is rendered for pie chart or pie chart 3D.)
+
+|DATA_VALUE
+|Double
+|Data value of data being rendered.
+
+|====
+
+[start=6]
+. It is also possible to create custom label keywords to further extend the labelling capabilities of the element. For example, suppose you have a chart in a Human Resources application displaying employee data, and you want to display a tooltip that will provide information about individual employees represented by the chart. The information you wish to display is the employee's ID number, the number of vacation days they have for the current year, and their current status (in or out of the office.) Suppose that this information is unrelated to the data being displayed in the chart, and is not drawn form the same data source that is being used to create the chart.
+
+To display the required information, you can create a custom label keyword and add it to the tooltips for the chart. Suppose you create the keyword <MY_EMPLOYEE_INFO>. You can use the custom keyword in your tooltips as either:
+
+[source]
+----
+<MY_EMPLOYEE_INFO>
+----
+
+or 
+
+[source]
+----
+<MY_EMPLOYEE_INFO:format1>
+----
+
+To use this keyword, you would include it in a tooltip format string as follows:
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Tooltips.FormatString = "<MY_EMPLOYEE_INFO>"
+----
+
+*In C#:*
+
+----
+this.UltraChart1.Tooltips.FormatString = "<MY_EMPLOYEE_INFO>";
+----
+
+To define custom keywords, you implement the IRenderLabel interface of the element. The following code shows an example of how to implement the interface:
+
+[source, csharp]
+public interface IRenderLabel
+{
+/// <summary>
+/// This is called for each label item being rendered.
+/// </summary>
+string ToString(Hashtable Context);
+}
+
+You must pass it the LabelHash of the element. The LabelHash contains a name/value pair that includes the name of your custom keyword and the object implementing the interface. Continuing the example above, you would pass in the following combination to the interface:
+
+[source]
+----
+("MY_EMPLOYEE_INFO", UltraChart1)
+----
+
+Once the interface has been implemented, whenever the element must render the <MY_EMPLOYEE_INFO> keyword, it will invoke the interface with the appropriate contextual information. The contextual information is covered in the respective Chart Appearance classes. In addition to label context, the Chart adds the following context information:
+
+[options="header", cols="a,a,a"]
+|====
+|Keyword|Type|Value
+
+|RENDER_KEYWORD
+|String
+|MY_EMPLOYEE_INFO
+
+|RENDER_FORMAT
+|String
+|format1
+
+|LABEL_RENDER_LOCATION
+|LabelRenderLocation object
+|TitleLayer, GridLayer, ChartLayer, AdornmentLayer, Axis
+
+|====
+
+[start=7]
+. Custom labels can also be applied on continuous, logarithmic-scale axes. In some scientific charting applications (a mass spectrograph for instance) it is preferable to plot labels on a logarithmic-scale axis where the labels appear as scientific notation (1 x 10^3^, 1 x 10^6^, 1 x 10^9^, etc.). This can be done using the custom labels, logarithmic qualifiers and the custom string format specifier E in concert.
+
+Logarithmic axes are only activated by setting the AxisAppearance's NumericAxisType to Logarithmic. Enabling the automatic labeling of these axes requires supplying an additional keyword in the axis' LabelAppearance's ItemFormatString (which must be Custom). Unless the label format has been designed to accommodate logarithmic spacing, the labels would appear incorrectly, so they are not shown by default on logarithmic-scale axes.
+
+The reason for this is that major gridlines for logarithmic axes are spaced evenly (for example, the major gridlines labeled 1, 10, 100 would be equidistant for a logarithmic-scale axis with LogBase 10), but minor gridlines are rendered with logarithmic spacing. This means the distance between minor gridlines diminishes as they get closer to the next higher major gridline, which forces the labels to be rendered in smaller regions beside any minor tick mark.
+
+Rendering labels on the major and minor gridlines of a logarithmic-scale axis means using the `atmajor` or `atminor` qualifier in the ItemFormatString property. These are applied to the ItemFormatString with the qualifier name, followed by the custom item format appearing within parentheses, similar to a function call in syntax.
+
+*In Visual Basic:*
+
+----
+Me.UltraChart1.Axis.Y.Labels.ItemFormat = AxisItemLabelFormat.Custom
+Me.UltraChart1.Axis.Y.Labels.ItemFormatString = _
+"atmajor(<DATA_VALUE:00.00>)"
+----
+
+*In C#:*
+
+----
+this.UltraChart1.Axis.Y.Labels.ItemFormat = AxisItemLabelFormat.Custom;
+this.UltraChart1.Axis.Y.Labels.ItemFormatString = "atmajor(<DATA_VALUE:00.00>)";
+----
+
+When using the atminor qualifier, developers must ensure their logarithmic-scale axis has ample space (or a small enough font is used) such that labels are not overlapping.
+
+When changing the scale of a continuous axis from Linear to Logarithmic or back, an adjustment must be made to the ItemFormatString of labels on that axis or they may vanish when the NumericAxisType property is changed similar to that shown in the following example where isLogarithmic is a Boolean flag that indicates whether the Y Axis should be logarithmic or linear in scale.
+
+*In Visual Basic:*
+
+----
+' isLogarithmic is a Boolean variable in your application.
+    If (isLogarithmic) Then
+        Me.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Logarithmic
+        ' Wrap an atmajor( ) qualifier around the item format string.
+        Me.UltraChart1.Axis.Y.Labels.ItemFormatString = _
+        String.Format("atmajor({0})", "<DATA_VALUE:00.00>")
+    Else
+        Dim embeddedFormat As String
+        embeddedFormat = Me.UltraChart1.Axis.Y.Labels.ItemFormatString
+        Me.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Linear
+        Try
+            embeddedFormat = embeddedFormat.Split(New Char() {"(", ")"})(1)
+        Catch ioore As IndexOutOfRangeException
+            ' Ignore: There was no keyword qualifier to remove 
+            ' an embedded format string from.
+        End Try
+    End If
+----
+
+*In C#:*
+
+----
+// isLogarithmic is a boolean variable in your application.
+if (isLogarithmic == true)
+{
+    this.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Logarithmic;
+    // Wrap an atmajor( ) qualifier around the item format string.
+    this.UltraChart1.Axis.Y.Labels.ItemFormatString = 
+    String.Format("atmajor({0})", "<DATA_VALUE:00.00>");
+}
+else
+{
+    string embeddedFormat = 
+    this.UltraChart1.Axis.Y.Labels.ItemFormatString;
+    this.UltraChart1.Axis.Y.NumericAxisType = NumericAxisType.Linear;
+    try
+    {
+       embeddedFormat = embeddedFormat.Split(new char[] {'(', ')'})[1];
+    }
+    catch ( IndexOutOfRangeException )
+    {
+        // Ignore: There was no keyword qualifier to remove 
+        // an embedded format string from.
+    }
+}
+----

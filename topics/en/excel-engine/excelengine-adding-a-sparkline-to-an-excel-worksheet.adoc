@@ -1,0 +1,117 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-adding-a-sparkline-to-an-excel-worksheet",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Exporting"],
+    "guid": "6621af60-43b5-4ba1-94d0-85367c0064b9",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7787089Z"
+}
+|metadata|
+////
+
+= Adding a Sparkline to a Worksheet ({ExcelEngineName})
+
+This topic contains the following sections:
+
+[start=1]
+* <<purpose,Purpose>>
+* <<required_background,Required background>>
+
+
+* <<adding_sparkline,Adding a Sparkline to an Excel Worksheet>>
+** <<supported_sparklines,Supported Sparklines>>
+** <<introduction,Introduction>>
+** <<preview,Preview>>
+** <<codesnippets,Code Snippets>>
+
+[[purpose]]
+== Purpose
+
+This topic demonstrates how to add sparklines to Excel® Worksheet (".xlsx), programmatically, using the {ExcelEngineName} to show visual representations of data trends. Sparklines serve as quick and easy solution to visualize variations in your data. Sparklines are placed in cells that can be positioned anywhere within a worksheet and compliments the data it's adjacent to.
+
+[[required_background]]
+== Required background
+
+*NOTE: The XLSX format is required. Other formats are not supported at this time.*
+
+You need to first read the following topics:
+ifdef::wpf[]
+
+* link:excelengine-creating-a-workbook.html[Creating a Workbook (Infragistics Excel Engine)]
+
+* link:excelengine-save-a-workbook.html[Saving a Workbook (Infragistics Excel Engine)]
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+* link:excelengine-create-a-workbook.html[Create a Workbook (Infragistics Excel Engine)]
+
+* link:excelengine-write-a-workbook-to-an-excel-file[Write a Workbook to an Excel File (Infragistics Excel Engine)]
+
+endif::win-forms[]
+
+[[adding_sparkline]]
+== Adding a Sparkline to an Excel Worksheet
+
+[[supported_sparklines]]
+=== Supported Sparklines
+
+The following is a list of the supported predefined sparkline types.
+
+[options="header", cols="a,a,a,a"]
+|====
+|SparklineType|Looks like...||
+
+|Line
+|image::images/ExcelChart_Sparkline_Line.png[]
+||
+|Column
+|image::images/ExcelChart_Sparkline_Column.png[]
+||
+|Stacked
+|image::images/ExcelChart_Sparkline_Stacked.png[]
+||
+|====
+
+[[introduction]]
+=== Introduction
+
+Before adding a sparkline to a worksheet, a new SparklineGroup is required to be added to the Worksheet.SparklineGroups collection, via its Add method. The SparklineGroups' Add method takes in three required parameters that corresponds to the sparkline's type, location, and data's location.  
+
+[[preview]]
+=== Preview
+
+Following is a preview of the final result of Sheet1: "Sparklines" displayed in Microsoft Excel 2016. The data is kept in Sheet2: "Data", with A1 through A10 made up of (4, 5, 2, 7, -1, 3, -2, 5, 2, and 6).
+
+image::images/ExcelChart_Sparklines.png[]
+
+ifdef::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+endif::asp-net,aspnet-old,win-forms,win-forms-old,wpf[]
+
+[[codesnippets]]
+=== Code Snippets
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim workbook As Workbook = New Workbook(WorkbookFormat.Excel2007)
+Dim sheet1 As Worksheet = workbook.Worksheets.Add("Sparklines")
+Dim sheet2 As Worksheet = workbook.Worksheets.Add("Data")
+sheet1.SparklineGroups.Add(SparklineType.Line, "Sparklines!A1:A1", "Data!A1:A10")
+sheet1.SparklineGroups.Add(SparklineType.Column, "Sparklines!B1:B1", "Data!A1:A10")
+sheet1.SparklineGroups.Add(SparklineType.Stacked, "Sparklines!C1:C1", "Data!A1:A10")
+----
+
+*In C#:*
+[source,csharp]
+----
+Workbook workbook = new Workbook(WorkbookFormat.Excel2007);
+Worksheet sheet1 = workbook.Worksheets.Add("Sparklines");
+Worksheet sheet2 = workbook.Worksheets.Add("Data");  
+sheet1.SparklineGroups.Add(SparklineType.Line, "Sparklines!A1:A1", "Data!A1:A10");
+sheet1.SparklineGroups.Add(SparklineType.Column, "Sparklines!B1:B1", "Data!A1:A10");
+sheet1.SparklineGroups.Add(SparklineType.Stacked, "Sparklines!C1:C1", "Data!A1:A10");
+----

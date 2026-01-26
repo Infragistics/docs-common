@@ -1,0 +1,80 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-stretch",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "cbaba02d-8411-42ef-b1c2-f362e4529f06","buildFlags": ["XAML","WINFORMS"],
+    "createdOn": "2015-09-23T20:40:56.1283956Z"
+}
+|metadata|
+////
+
+= Configuring Stretch
+
+Members of the link:{BarcodesLink}.{BarcodesRoot}{ApiProp}stretch.html[Stretch] property:
+
+* Fill - The content is resized to fill the destination dimensions. Because the content's height and width are scaled independently, the original aspect ratio of the image is not preserved which is why we do not recommend using this value when the barcode is used for reading (for reading use None or Uniform). The value is good when using the control with animation.
+* None - The content preserves its nominal dimension.
+* Uniform - The content is resized to fit in the destination dimensions while its native aspect ratio is preserved. This is the default value.
+* UniformToFill - The content is resized to completely fill the destination dimensions while it preserves its native aspect ratio. If the aspect ratio of the destination rectangle differs from the source, the source content is clipped.
+
+ifdef::wpf,win-forms,android[]
+==== The following illustration shows the different Stretch settings.
+image::images/xamBarcode_Stretch_01.png[]
+endif::wpf,win-forms,android[]
+
+== Setting the Stretch Property
+
+ifdef::wpf[]
+
+*In XAML:*
+[source,xaml]
+----
+<ig:{Barcode128Name} x:Name="Barcode" Stretch="Fill" />
+----
+
+endif::wpf[]
+ifdef::xamarin[]
+
+*In XAML:*
+[source,xaml]
+----
+<ig:{BarcodeQRName} x:Name="Barcode" Stretch="Fill" />
+----
+*In C#:*
+[source,csharp]
+----
+var Barcode = new {BarcodeQRName}();
+Barcode.Stretch = BarcodeStretch.Fill;
+----
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim Barcode As New {Barcode128Name}()
+Barcode.Stretch = Stretch.Fill
+----
+
+*In C#:*
+[source,csharp]
+----
+var Barcode = new {Barcode128Name}();
+Barcode.Stretch = Stretch.Fill;
+----
+
+endif::wpf,win-forms[]
+  
+ifdef::android[]
+
+*In Java:*
+
+----
+{Barcode128Name} Barcode = new {Barcode128Name}();
+Barcode.Stretch = Stretch.Fill;
+----
+
+endif::android[]

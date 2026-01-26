@@ -1,0 +1,76 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-bind-a-treemap-chart-to-a-treemapseries-object",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{76C53BCF-5427-403F-86DC-DC179C447349}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Bind a Treemap Chart to a TreeMapSeries Object
+
+You can bind your treemap chart to a TreeMapSeries object. Each node on your treemap chart is represented by a TreeMapDataPoint object. If the TreeMapDataPoint is a leaf node, then you can modify the SizeValue and ColorValue properties of the corresponding TreeMapDataPoint object. If the TreeMapDataPoint is not a leaf, then setting the SizeValue or ColorValue property will not affect it.
+
+The following code example demonstrates how to bind a treemap chart to a TreeMapSeries object.
+
+image::images\Chart_Binding_Treemap_Chart_to_a_TreeMapSeries_Object_01.png[Shows the resulting Treemap Chart based on the code below.]
+
+*In Visual Basic:*
+
+----
+' Instantiate a TreeMapSeries object 
+Dim myTreeMapSeries As New Infragistics.UltraChart.Resources.Appearance.TreeMapSeries()
+' Create a parent node
+myTreeMapSeries.Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (20, 0, "Item1", False))
+' Add a child node 
+myTreeMapSeries.Points(0).Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (20, 0, "Child1 of Item1", False))
+' Create another parent node 
+myTreeMapSeries.Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (10, 5, "Item2", False))
+' Add a child node 
+myTreeMapSeries.Points(1).Points.Add
+  (New Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint
+  (10, 5, "Child1 of Item2", False)) '
+' Bind your series to a chart 
+Me.ultraChart1.Series.Add(myTreeMapSeries)
+----
+
+*In C#:*
+
+----
+// Instantiate a TreeMapSeries object 
+Infragistics.UltraChart.Resources.Appearance.TreeMapSeries myTreeMapSeries = 
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapSeries();
+// Create a parent node 
+myTreeMapSeries.Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(20,  
+   0, "Item1", false));
+// Add a child node   
+myTreeMapSeries.Points[0].Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(20, 
+   0, "Child1 of Item1", false));
+// Create another parent node 
+myTreeMapSeries.Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(10, 
+   5, "Item2", false));
+// Add a child node 
+myTreeMapSeries.Points[1].Points.Add(
+   new Infragistics.UltraChart.Resources.Appearance.TreeMapDataPoint(10, 
+   5, "Child1 of Item2", false));
+// Bind your series to a chart 
+this.ultraChart1.Series.Add(myTreeMapSeries);
+----
+
+== Related Topic
+
+link:chart-set-a-leaf-nodes-color-using-a-treemapseries-object.html[Set a Leaf Node's Color using a TreeMapSeries Object]

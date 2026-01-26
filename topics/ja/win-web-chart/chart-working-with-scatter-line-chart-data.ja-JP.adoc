@@ -1,0 +1,105 @@
+﻿////
+|metadata|
+{
+    "name": "chart-working-with-scatter-line-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{171A1435-BCB7-4888-BCA7-8B89DADDEF25}",
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= 散布図折れ線グラフ データでの作業
+
+このトピックでは、散布図 - 折れ線グラフでデータが適切に描画されることを保証する支援となる役に立つ情報を説明します。
+
+== データ要件
+
+Chart コントロールによって固有のカスタム データにチャートを簡単にポイントすることができますが、そのチャートが必要とするデータの適切な量とタイプを提供することが重要です。使用しているチャートのタイプに基づいた最小要件をデータが満たさないと、エラーが生成されます。
+
+以下は、散布図 - 折れ線グラフのデータ要件のリストです。
+
+* データ セットには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columnx.html[ColumnX]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~columny.html[ColumnY]"]  プロパティによって識別される 2 つの数値列が含まれます。
+* 折れ線データも、ひとつ以上の数値列と少なくともひとつ以上の行を必要とします。データが複数行がある場合、各行は個別の線を構成します。各線が 2 つ以上の点を持つことができるように、データ セットに 2 つ以上の数値列を含むことを推奨します。
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ScatterLineChart.ScatterData.DataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ScatterLineChart.ScatterData.DataSource]"]  および  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ScatterLineChart.LineData.DataSource]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ScatterLineChart.LineData.DataSource]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~datasource.html[UltraChart.ScatterLineChart.LineData.DataSource]"]  の両プロパティを使用して、折れ線データだけでなく散布データのデータ ソースを設定する必要があります。
+
+[NOTE]
+====
+*注：* 使用可能なデータが、これらのデータ要件の「横向き」バージョンに相当する別の書式である場合、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ScatterLineChart.ScatterData.SwapRowsAndColumns]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ScatterLineChart.ScatterData.SwapRowsAndColumns]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ScatterLineChart.ScatterData.SwapRowsAndColumns]"]  と  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ScatterLineChart.LineData.SwapRowsAndColumns]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ScatterLineChart.LineData.SwapRowsAndColumns]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~swaprowsandcolumns.html[UltraChart.ScatterLineChart.LineData.SwapRowsAndColumns]"]  の両方またはいずれか一方の値を True に設定できます。
+====
+
+== データを散布図 - 折れ線グラフにマップ
+
+チャート データは以下の規則を使用して描画されます。
+
+*  pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~connectwithlines.html[ConnectWithLines]"]  プロパティが True の場合、線分は後続の行で識別される点を結びます。
+
+== 散布データ
+
+* 各行はひとつの散布点を表します。
+* ColumnX と ColumnY プロパティで指定したインデックスの列を使用し、各散布点の水平（X）位置と垂直（Y）位置を決定します。
+* 散布点は、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~groupbycolumn.html[GroupByColumn]"]  プロパティを指定して、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.scatterchartappearance~usegroupbycolumn.html[UseGroupByColumn]"]  プロパティを True に設定することによって、特定の列の値に応じてグループ化できます。異なるグループの散布点に異なるアイコン/色が使用されます。ConnectWithLines プロパティが True に設定されると、線は同じグループ内の散布点を結びます。
+* ｘ 軸（水平軸）は SetLabelAxis オブジェクトで、各項目（点）に複数の点が均等に配置されます。y 軸（垂直軸）は数値軸です。Y 軸上のラベルは、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]   pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]   pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.axisserieslabelappearance~formatstring.html[FormatString]"]  プロパティと「数値書式」を使用して書式設定できます。
+
+[source]
+----
+UltraChart.Axis.Y.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+== 折れ線データ
+
+* 各行はチャート上に単一の線として描画され、線内の点の数はデータ セット内の数値列の数と等しくなります。
+* データ内で現れる 1 番目の数値列は 1 番目の点の値に、2 番目の列は 2 番目の点の値に、というように使用されます。
+* X2 軸（上部の水平軸）は「セット ラベル」軸で、各項目（点）に複数の点が均等に配置されます。Y2 軸（右側の垂直軸）は数値軸です。Y2 軸上のラベルは、FormatString プロパティと「数値書式」を使用して書式設定できます。
+[source]
+----
+UltraChart.Axis.Y2.Labels.ItemFormatString = "<DATA_VALUE:##.##>"
+----
+
+
+描画された散布図 - 折れ線グラフとともに、サンプルのデータ セットは以下を参照してください。
+
+[options="header", cols="a,a,a,a,a,a"]
+|====
+|StockName|Monday|Tuesday|Wednesday|Thursday|Friday
+
+|IBM
+|111
+|96
+|85
+|125
+|65
+
+|MSN
+|75
+|23
+|15
+|75
+|100
+
+|MCI
+|55
+|63
+|84
+|95
+|80
+
+|ATT
+|12
+|12
+|40
+|60
+|50
+
+|VER
+|69
+|95
+|110
+|98
+|123
+
+|====
+
+image::images/Chart_Working_with_Scatter_Line_Chart_Data_01.png[]

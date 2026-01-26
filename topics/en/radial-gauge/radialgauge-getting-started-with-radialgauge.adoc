@@ -1,0 +1,260 @@
+﻿////
+|metadata|
+{
+    "name": "radialgauge-getting-started-with-radialgauge",
+    "tags": ["Getting Started","How Do I"],
+    "controlName": ["{RadialGaugeName}"],
+    "guid": "ea74c1c1-87da-4a46-aaa2-2a2572233abe",
+    "buildFlags": ["SL","WPF","XAMARIN","ANDROID","WINFORMS"],
+    "createdOn": "2014-06-05T19:53:11.967851Z"
+}
+|metadata|
+////
+
+= Adding {RadialGaugeName}
+ 
+=== Purpose
+
+This topic explains using a code example how to add the _{RadialGaugeName}_™ control to {PlatformName} applications.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Adding,Adding _{RadialGaugeName}_ to the {PlatformName} application>>
+
+** <<Introduction,Introduction>>
+** <<Preview,Preview>>
+** <<Prerequisites,Requirements>>
+** <<Overview,Overview>>
+** <<Steps,Steps>>
+
+* <<RelatedContent,Related Content>>
+
+[[Adding]]
+== Adding _{RadialGaugeName}_ to the {PlatformName} application
+
+[[Introduction]]
+
+=== Introduction
+
+The following procedure demonstrates adding the _{RadialGaugeName}_ to {PlatformName} applications.
+
+[[Preview]]
+
+=== Preview
+
+The following is a screenshot of the _{RadialGaugeName}_ control.
+
+image::images/Adding_xamRadialGauge_to_your_Application_1_17_1.png[]
+
+[[Prerequisites]]
+
+=== Requirements
+
+
+
+ifdef::android[]
+Add the following Infragistics jars to the your main project:
+
+** Infragistics.Gauge.jar
+** Infragistics.Core.jar
+** Infragistics.UI.jar
+** DV.Shared.jar
+endif::android[]
+
+ifdef::wpf[]
+Add the following NuGet package to your main project:
+
+** Infragistics.WPF.Gauges
+
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-forms[]
+Add the following Infragistics assemblies to your main project:
+
+** {ApiPlatform}{RadialGaugeAssembly}.{DllVersion}dll
+** {ApiPlatform}{DataVizAssembly}.{DllVersion}dll
+** {ApiPlatform}Win.Portable.Core.{DllVersion}dll
+endif::win-forms[]
+ 
+
+ifdef::xamarin[]
+Add assembly references by following instructions in the link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages] topic.
+endif::xamarin[]
+
+Also, add the following Infragistics namespaces:
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="clr-namespace:{LinearGaugeNamespace};assembly={ApiPlatform}Gauges"
+----
+*In C#:*
+[source,csharp]
+----
+using Infragistics.XamarinForms.Controls.Gauges;
+----
+endif::xamarin[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+*In C#:*
+[source,csharp]
+----
+using {RadialGaugeNamespace};
+----
+*In VB:* 
+[source,vb]
+----
+Imports {RadialGaugeNamespace}
+---- 
+endif::wpf[]
+ 
+ 
+ifdef::win-forms[] 
+*In C#:* 
+[source,csharp]
+----
+using {RadialGaugeNamespace};  
+----  
+*In VB:* 
+[source,vb]
+----
+Imports {RadialGaugeNamespace}
+---- 
+endif::win-forms[]
+ 
+ifdef::android[] 
+*In Java:* 
+[source,js]
+----
+import {RadialGaugeNamespace}.{RadialGaugeName};
+---- 
+endif::android[]
+ 
+
+[[Overview]]
+
+=== Overview
+
+Following is a conceptual overview of the process:
+
+*1. Adding the {RadialGaugeName} control to {PlatformName} applications*
+
+*2. Verifying the results*
+
+[[Steps]]
+
+=== Steps
+
+The following procedure takes you through the steps necessary for adding the _{RadialGaugeName}_ control to a page.
+
+=== 1. Add the {RadialGaugeName} control to the page.
+
+The following code demonstrates adding the _{RadialGaugeName}_ control with the minimum code and property settings required for display:
+
+ifdef::xaml[]
+*In XAML:*
+[source,xaml]
+<ig:XamRadialGauge x:Name="Gauge" />
+endif::xaml[]
+
+ifdef::sl,wpf,win-forms,win-universal[]
+
+*In Visual Basic:*
+
+ifdef::xaml[]
+----
+Dim radialGauge As New {RadialGaugeName}()
+Me.LayoutRoot.Children.Add(radialGauge)  
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+----
+Dim radialGauge As New {RadialGaugeName}()
+  Me.Controls.Add(radialGauge)
+----
+endif::win-forms[]
+
+endif::sl,wpf,win-forms,win-universal[]
+
+ifdef::sl,wpf,win-forms,win-universal,xamarin[]
+
+*In C#:*
+
+ifdef::xaml[]
+[source, csharp]
+var radialGauge = new {RadialGaugeName}();
+endif::xaml[]
+
+ifdef::win-forms[]
+[source, csharp]
+----
+var radialGauge = new {RadialGaugeName}();
+this.Controls.Add(radialGauge);
+----
+endif::win-forms[]
+endif::sl,wpf,win-forms,win-universal,xamarin[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+RadialGaugeView radialGauge = new RadialGaugeView(rootView.getContext());
+return (radialGauge);
+----
+
+endif::android[]
+
+=== 2. Verify the results.
+
+Build and run your project to verify the result. If you have implemented the steps correctly, the displayed {RadialGaugeName} should look like the one in the Preview section above.
+
+[[_Ref348111483]]
+
+[[RelatedContent]]
+
+== Related Content
+
+
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:radialgauge-configuring-the-backing.html[Configuring the Background ({RadialGaugeName})]
+|This topic provides a conceptual overview of the _{RadialGaugeName}_™ control’s backing feature. It describes the properties of the backing area and provides an example of its implementation.
+
+| link:radialgauge-configuring-labels.html[Configuring Labels ({RadialGaugeName})]
+|This topic provides a conceptual overview of labels with the {RadialGaugeName}™ control. It describes the properties of the labels and also provides an example of how to configure the labels.
+
+| link:radialgauge-configuring-optical-scaling.html[Configuring Optical Scaling ({RadialGaugeName})]
+|This topic provides a conceptual overview of labels with the {RadialGaugeName}™ control. It describes the properties of the scaling and configure the settings.
+
+| link:radialgauge-configuring-needles.html[Configuring Needles ({RadialGaugeName})]
+|This topic provides a conceptual overview of needles with the {RadialGaugeName}™ control. It describes the properties of the needles and also provides an example of how to configure them.
+
+| link:radialgauge-configuring-ranges.html[Configuring Ranges ({RadialGaugeName})]
+|This topic provides a conceptual overview of the {RadialGaugeName}™ control’s ranges. It describes the properties of the ranges and provides an example of how to add ranges to the radial gauge.
+
+| link:radialgauge-configuring-the-scale.html[Configuring the Scale ({RadialGaugeName})]
+|This topic provides a conceptual overview of the {RadialGaugeName}™ control’s scale. It describes the properties of the scale and also provides an example of how to implement it.
+
+| link:radialgauge-configuring-tick-marks.html[Configuring the Tick Marks ({RadialGaugeName})]
+|This topic provides a conceptual overview of tick marks with the {RadialGaugeName}™ control. It describes the tick marks’ properties and provides an example of how to implement them.
+
+|====

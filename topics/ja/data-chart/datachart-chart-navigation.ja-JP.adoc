@@ -1,0 +1,274 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-chart-navigation",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "06c9eed5-3dd5-4dcf-a7b2-151cb5b2bff9",  
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.661382Z"
+}
+|metadata|
+////
+
+= チャート ナビゲーション
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、コード例を使って、 link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロール内のナビゲーション用途のプロパティと、その使用方法を示します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:datachart-datachart.html[{DataChartName}]
+|このトピックでは、 _{DataChartName}_ コントロールの主な機能の概要を提供します。
+
+|====
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Introduction,概要>>
+* <<CodeExample,コード例>>
+ifdef::wpf[]
+* <<DragSnippet, Shift または Control に設定した DragModifier のコード スニペット>>
+endif::wpf[]
+* <<RelatedContent,関連コンテンツ>>
+
+[[Introduction]]
+== 概要
+
+{DataChartName} コントロールでは、チャート ナビゲーションはデフォルトで無効になっています。このセクションの手順に従ってください。以下の表で「推奨値」列に示されているプロパティ構成では、チャート ナビゲーションが有効になり、pick:[xaml="チャートにナビゲーション ズーム バーが表示されます。"]pick:[win-forms="ユーザーがマウス操作でズームできます。"]
+
+[options="header", cols="a,a,a,a,a"]
+|====
+|プロパティ名|タイプ|説明|デフォルト値|推奨値
+
+ifdef::sl,wpf,win-rt[]
+| link:{DataChartLinkBase}.{DataChartBase}{ApiProp}defaultinteraction.html[DefaultInteraction]
+|InteractionState
+|チャート プロット領域でのマウス ドラッグによって、チャートのコンテンツをズームまたはパンするかを構成します。有効な値: 
+
+* DragZoom 
+
+* DragPan 
+
+* なし 
+
+|DragZoom
+|DragZoom
+endif::sl,wpf,win-rt[]
+
+| link:{DataChartLink}.{DataChartName}{ApiProp}ishorizontalzoomenabled.html[IsHorizontalZoomEnabled]
+|Boolean
+|True の場合、チャートの水平ズームを有効にします。
+|False
+|True
+
+ifdef::sl,wpf,win-rt[]
+| link:{DataChartLink}.{DataChartName}{ApiProp}horizontalzoombarvisibility.html[HorizontalZoombarVisibility]
+|Visibility
+|チャートの水平ズーム バーの表示状態を変更します。
+|Collapsed
+|Visible
+endif::sl,wpf,win-rt[]
+
+| link:{DataChartLink}.{DataChartName}{ApiProp}isverticalzoomenabled.html[IsVerticalZoomEnabled]
+|Boolean
+|True の場合、チャートの垂直ズームを有効にします。
+|False
+|True
+
+ifdef::sl,wpf[]
+| link:{DataChartLink}.{DataChartName}{ApiProp}verticalzoombarvisibility.html[VerticalZoombarVisibility]
+|Visibility
+|チャートの垂直ズーム バーの表示状態を変更します。
+|Collapsed
+|Visible
+endif::sl,wpf[]
+
+ifdef::wpf[]
+| link:infragisticswpf.controls.charts.xamdatachart~infragistics.controls.seriesviewer~dragmodifier.html[DragModifier]
+|ModifierKey
+|ズームをトリガーする修飾キーを設定します。
+|None
+|Control
+endif::wpf[]
+ifdef::wpf[]
+| link:infragisticswpf.controls.charts.xamdatachart~infragistics.controls.seriesviewer~panmodifier.html[PanModifier]
+|ModifierKey
+|パンニングをトリガーする修飾キーを設定します。
+|Shift
+|Shift
+endif::wpf[]
+
+|====
+
+[[CodeExample]]
+== コード例
+
+以下のコード スニペットは、チャートを {DataChartName} コントロールに追加する方法を示します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="Chart" 
+                IsHorizontalZoomEnabled="True" 
+                IsVerticalZoomEnabled="True">
+</ig:{DataChartName}>
+----
+
+endif::xaml[]
+
+ifdef::wpf[]
+
+*Visual Basic の場合:*
+
+----
+Dim chart As New {DataChartName}()
+chart.IsHorizontalZoomEnabled = true
+chart.IsVerticalZoomEnabled = true
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+----
+Dim chart As New {DataChartName}()
+chart.IsHorizontalZoomEnabled = true
+chart.IsVerticalZoomEnabled = true
+----
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+*C# の場合:*
+
+----
+var chart = new {DataChartName}();
+chart.IsHorizontalZoomEnabled = true;
+chart.IsVerticalZoomEnabled = true;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+----
+var chart = new {DataChartName}();
+chart.IsHorizontalZoomEnabled = true;
+chart.IsVerticalZoomEnabled = true;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*C# の場合:*
+
+----
+var chart = new {DataChartName}();
+chart.IsHorizontalZoomEnabled = true;
+chart.IsVerticalZoomEnabled = true;
+----
+
+endif::xamarin[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+DataChartView chart = new DataChartView();
+chart.setIsHorizontalZoomEnabled(true);
+chart.setIsVerticalZoomEnabled(true);
+----
+
+endif::android[]
+
+ifdef::wpf[]
+
+[[DragSnippet]]
+== Shift または Control に設定した DragModifier のコード スニペット
+
+動作をトリガーする複数の修飾キーを設定する場合があります。これを実装するには、{DataChartName} の PreviewKeyDown イベントを処理し、押されているキーに基づいて `DragModifier` または `PanModifier` を変更するロジックを追加します。例については、以下のコード スニペットを参照してください。
+
+*C# の場合:*
+[source,csharp]
+----
+private void xamDataChart1_PreviewKeyDown(object sender, KeyEventArgs e)
+{
+    if (e.Key == Key.LeftShift | e.Key == Key.RightShift)
+    {
+        (sender as XamDataChart).DragModifier = ModifierKeys.Shift;
+    }
+    if (e.Key == Key.LeftCtrl | e.Key == Key.RightCtrl)
+    {
+        (sender as XamDataChart).DragModifier = ModifierKeys.Control;
+    }
+}
+----
+
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Sub XamDataChart1_PreviewKeyDown(ByVal sender As Object, ByVal e As KeyEventArgs)
+    If e.Key = Key.LeftShift OrElse e.Key = Key.RightShift Then
+        CType(sender, XamDataChart).DragModifier = ModifierKeys.Shift
+    End If
+    If e.Key = Key.LeftCtrl OrElse e.Key = Key.RightCtrl Then
+        CType(sender, XamDataChart).DragModifier = ModifierKeys.Control
+    End If
+End Sub
+----
+
+endif::wpf[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:datachart-navigating-chart-using-code.html[コードを使用してチャートをナビゲート]
+|このトピックは、コードビハインドでチャートをナビゲートする方法を提供します。
+
+ifdef::sl,wpf,win-rt,win-forms[]
+| link:datachart-navigating-chart-using-moue-and-keyboard.html[マウスおよびキーボードでチャートをナビゲート]
+|このトピックは、マウスとキーボードを使用してチャートをナビゲートする方法を提供します。
+endif::sl,wpf,win-rt,win-forms[]
+
+ifdef::android,xamarin,wpf,win-phone,win-rt,win-forms[]
+| link:datachart-navigating-chart-using-touch-gestures.html[タッチ ジェスチャを使用してチャートをナビゲート]
+|このトピックは、タッチ ジェスチャを使用してチャートをナビゲートする方法を提供します。
+endif::android,xamarin,wpf,win-phone,win-rt,win-forms[]
+
+ifdef::sl,wpf[]
+| link:datachart-navigating-chart-using-overview-plus-detail-pane.html[概要と詳細ペインを使用してチャートをナビゲート]
+|このトピックは、概要と詳細ペインを使用してチャートをナビゲートする方法を提供します。
+endif::sl,wpf[]
+
+|====

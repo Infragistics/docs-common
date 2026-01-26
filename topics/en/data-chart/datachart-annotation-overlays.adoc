@@ -1,0 +1,166 @@
+﻿= Chart Overlay Text (Beta)
+
+In {ProductName}, this topic explains how the link:datachart-series-value-overlay.html[Value Overlay], link:datachart-series-value-layer.html[Value Layer], and link:datachart-chartannotationlayers.html[Chart Annotation Layers] can show custom overlay text in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] component. While these annotations and overlay layers are often used to annotate important events (e.g. company quarter reports) on x-axis or important values on y-axis in relationship to the series shown, these can be further annotated with overlay text.
+
+For example, you can use DataAnnotationSliceLayer, ValueOverlay, and ValueLayer to show overlay text.
+
+image::images/MultipleDataAnnotationsWithOverlayText.png[]
+
+== Rendering Overlay Text
+
+The following code snippet demonstrates how to render a comparison of three annotation layers as shown in the picture above.
+
+ifdef::wpf[]
+
+*In XAML*:
+
+[source, xaml]
+----
+<ig:DataAnnotationSliceLayer 
+AnnotationValueMemberPath="Value" 
+AnnotationLabelMemberPath="Label" 
+OverlayTextLocation="OutsideBottomLeft"
+OverlayText="OverlayText on DataAnnotationSliceLayer"
+TargetAxis="{Binding ElementName=yAxis}"
+IsAxisAnnotationEnabled="true"
+{ApiDataSource}="{Binding}"
+/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+
+var yAxis = new NumericYAxis
+{
+    MinimumValue = 0,
+    MaximumValue = 550,
+    LabelExtent = 60,
+    LabelMargin = new Padding(0, 0, 5, 0),
+    LabelHorizontalAlignment = Portable.Components.UI.HorizontalAlignment.Center,
+};
+
+var sliceLayer = new DataAnnotationSliceLayer()
+{
+    DashArray = new DoubleCollection { 2, 4 },
+    Brush = Brushes.Red,
+    TargetMode = DataAnnotationTargetMode.NumericYAxes,
+    Name = "AnnoLayer", 
+    Thickness = 2,
+    OverlayText = "OverlayText on DataAnnotationSliceLayer",
+    OverlayTextLocation = OverlayTextLocation.OutsideBottomLeft,
+    AnnotationLabelMemberPath = "Label",
+    AnnotationValueMemberPath = "Value",
+    DataSource = new List<Annotation> { new Annotation() { Value = 0, } }
+};
+
+// Create the ValueOverlay
+var valueOverlay = new ValueOverlay()
+{
+    Value = 435,
+    Brush = Brushes.Green,
+    IsAxisAnnotationEnabled = true,
+    Thickness = 2,
+    DashArray = new DoubleCollection { 2, 4 },
+    Axis = yAxis,
+    OverlayText = "OverlayText on ValueOverlay",
+    OverlayTextLocation = OverlayTextLocation.OutsideBottomLeft
+};
+
+// Create the ValueLayer
+var valueLayer = new ValueLayer()
+{
+    ValueMode = ValueLayerValueMode.Average,
+    Brush = Brushes.Purple,
+    Thickness = 2,
+    DashArray = new DoubleCollection { 2, 4 },
+    IsAxisAnnotationEnabled = true,
+    OverlayText = "OverlayText on ValueLayer (Average)",
+    OverlayTextLocation = OverlayTextLocation.OutsideBottomLeft
+};
+
+chart.Series.Add(valueOverlay);
+chart.Series.Add(valueLayer);
+chart.Axes.Add(xAxisBottom);
+chart.Series.Add(sliceLayer);
+
+----
+
+endif::wpf,win-forms[]
+
+
+== Styling Overlay Text
+
+This code example shows how to style and customize Overlay Text on
+the link:datachart-series-value-overlay.html[Value Overlay], link:datachart-series-value-layer.html[Value Layer], and link:datachart-chartannotationlayers.html[Chart Annotation Layers]
+
+ifdef::wpf,win-forms[]
+
+*In C#*:
+
+[source, cs]
+----
+
+public Series StylingOverlayText()
+{
+    var annoLayer = new DataAnnotationSliceLayer();
+
+    // styling optional overlay text 
+    annoLayer.OverlayTextColor = Brushes.White;
+    annoLayer.OverlayTextBackground = Brushes.Green;
+    annoLayer.OverlayTextBorderColor = Brushes.Black;
+    annoLayer.OverlayTextBorderThickness = 1;
+    annoLayer.OverlayTextBorderRadius = 4;
+    annoLayer.OverlayTextHorizontalMargin = 5;
+    annoLayer.OverlayTextHorizontalPadding = 2;
+    annoLayer.OverlayTextVerticalMargin = 5;
+    annoLayer.OverlayTextVerticalPadding = 2;
+
+    return annoLayer;
+}
+
+----
+
+endif::wpf,win-forms[]
+
+
+== API References
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.valueoverlay{ApiProp}overlaytext.html[ValueOverlay.OverlayText] link:{DataChartLink}.ValueLayer{ApiProp}overlaytext.html[ValueLayer.OverlayText]
+| `string`
+| Assigning the static text displayed for the value layer or value overlay. Note, the data annotations has the advantage of using the `OverlayTextMemberPath`` property to map a property assigned for the text.
+
+| link:{DataChartLink}.dataannotationaxislayer{ApiProp}targetaxis.html[TargetAxis]
+|`Axis`
+|
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextMemberPath.html[OverlayTextMemberPath]
+|`string`
+|This property is a mapping to the name of the data column representing the overlay text that will be displayed as overlay text aside the annotation.
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextColor.html[OverlayTextColor]
+|`object`
+|Configurable setting that manages the color of the text within the overlay.
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextBackground.html[OverlayTextBackground]
+|`object`
+|Configurable setting of the color used for backing of the annotation overlay.
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextBorderColor.html[OverlayTextBorderColor]
+|`object`
+|Configurable setting of the color used for border color of the annotation overlay text.
+
+| link:{DataChartLink}.dataannotationshapelayer{ApiProp}OverlayTextLocation.html[OverlayTextLocation]
+|`string`
+|This property manages where the overlay text is positioned.
+
+|====

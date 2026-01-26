@@ -1,0 +1,222 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-binding-custom-types",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-30T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= Using Custom Entity Types ({SchedulerName})
+
+== Purpose
+
+This topic explains how to bind the control to a data source which uses custom entity types.
+
+== Required Background
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-overview.html[Overview ({SchedulerName})]
+|This topic provides an overview of the {SchedulerName} control.
+
+|link:scheduler-binding-schedulelistdatasource.html[Binding to Data Using ScheduleListDataSource ({SchedulerName})]
+|This topic explains how to bind the control to a data source using `ScheduleListDataSource`.
+
+|=======
+
+== In This Topic
+
+* <<Ref00001, Overview>>
+* <<Ref00002, Create Mapping for Custom Activity Objects>>
+* <<Ref00003, Code Example>>
+* <<Ref00004, Related Topics>>
+
+[[Ref00001]]
+== Overview
+
+If you have a collection of custom entity objects and you want to use it for either activities or resources you may use the link:{SchedulerXFLink}.schedulelistdatasource.html[ScheduleListDataSource]'s mapping infrastructure described below which will help the {SchedulerName} in recognizing the custom object's fields. The `ScheduleListDataSource` class has two key properties for creating such mappings:
+
+* link:{SchedulerXFLink}.schedulelistdatasource~appointmentpropertymappings.html[AppointmentPropertyMappings] - this property of type link:{SchedulerXFLink}.appointmentpropertymappingscollection.html[AppointmentPropertyMappingsCollection] is used to add mappings between your custom activity objects and the {SchedulerName}'s activities.
+
+* link:{SchedulerXFLink}.schedulelistdatasource~resourcepropertymappings.html[ResourcePropertyMappings] - this property of type link:{SchedulerXFLink}.resourcepropertymappingscollection.html[ResourcePropertyMappingsCollection] is used to add mappings between your custom resource objects and the {SchedulerName}'s resources.
+
+[[Ref00002]]
+== Create Mapping for Custom Activity Objects
+
+The following steps are showing how to create mappings for you custom activity entity objects:
+
+. Create a `ScheduleListDataSource` instance
+. Set its link:{SchedulerXFLink}.schedulelistdatasource~appointmentitemssource.html[AppointmentItemsSource] property to your activity entity objects collection
+. Add mappings in the link:{SchedulerXFLink}.schedulelistdatasource~appointmentpropertymappings.html[AppointmentPropertyMappings] collection for each property you need to map between your custom activity objects and the {SchedulerName}'s activities. 
+. The mappings are of type link:{SchedulerXFLink}.appointmentpropertymapping.html[AppointmentPropertyMapping] and have the following key properties which you should set:
+.. link:{SchedulerXFLink}.appointmentpropertymapping~property.html[Property] of type link:{SchedulerCoreLink}.data.appointmentproperty.html[AppointmentProperty] used to specify the {SchedulerName} activity's field
+.. link:{SchedulerXFLink}.schedulepropertymapping~dataobjectpropertyname.html[DataObjectPropertyName] of type `string` used to specify the property name in your custom activity entity object
+. Set the `ScheduleListDataSource` instance created in step 1 to the `DataSource` property of the {SchedulerName}.
+
+.Note
+[NOTE]
+====
+The mandatory fields you need to set for each activity are: `Start`, `End` and `Id`.
+====
+
+== Create Mapping for Custom Resource Objects
+
+The following steps are showing how to create mappings for your custom resource entity objects:
+
+. Create a `ScheduleListDataSource` instance
+. Set its link:{SchedulerXFLink}.schedulelistdatasource~resourceitemssource.html[ResourceItemsSource] property to your resource entity objects collection
+. Add mappings in the link:{SchedulerXFLink}.schedulelistdatasource~resourcepropertymappings.html[ResourcePropertyMappings] collection for each property you need to map between your custom resource objects and the {SchedulerName}'s resources. 
+. The mappings are of type link:{SchedulerXFLink}.resourcepropertymapping.html[ResourcePropertyMapping] and have the following key properties which you should set:
+.. link:{SchedulerXFLink}.resourcepropertymapping~property.html[Property] of type link:{SchedulerCoreLink}.data.scheduleresourceproperty.html[ScheduleResourceProperty] used to specify the {SchedulerName} resource's field
+.. link:{SchedulerXFLink}.schedulepropertymapping~dataobjectpropertyname.html[DataObjectPropertyName] of type `string` used to specify the property name in your custom resource entity object
+. Set the `ScheduleListDataSource` instance created in step 1 to the `DataSource` property of the {SchedulerName}.
+
+.Note
+[NOTE]
+====
+The mandatory fields you need to set for each resource are: `Id` and `DisplayName`.
+====
+
+[[Ref00003]]
+== Code Example
+
+The following code example demonstrates how to define custom mappings for both appointments and resources. The code snippet assumes you are having a view model named "CustomViewModel" with properties "Duties" and "Owners", containing all custom objects for appointments (of type `Duty`) and resources (of type `Owner`) respectively.
+
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+<ig:XamScheduler>
+
+    <ig:XamScheduler.BindingContext>
+        <local:CustomViewModel />
+    </ig:XamScheduler.BindingContext>
+
+    <ig:XamScheduler.DataSource>
+        <ig:ScheduleListDataSource
+            AppointmentItemsSource="{Binding Duties}"
+            ResourceItemsSource="{Binding Owners}">
+        
+        <ig:ScheduleListDataSource.AppointmentPropertyMappings>
+            <ig:AppointmentPropertyMappingsCollection>
+                <ig:AppointmentPropertyMapping Property="Start" DataObjectPropertyName="DutyStartTime" />
+                <ig:AppointmentPropertyMapping Property="End" DataObjectPropertyName="DutyEndTime" />
+                <ig:AppointmentPropertyMapping Property="Subject" DataObjectPropertyName="DutyShortName" />
+                <ig:AppointmentPropertyMapping Property="Description" DataObjectPropertyName="DutyLongName" />
+                <ig:AppointmentPropertyMapping Property="Location" DataObjectPropertyName="DutyPlace" />
+                <ig:AppointmentPropertyMapping Property="ResourceId" DataObjectPropertyName="OwnerId"/>
+                <ig:AppointmentPropertyMapping Property="Id" DataObjectPropertyName="DutyId"/>
+            </ig:AppointmentPropertyMappingsCollection>
+        </ig:ScheduleListDataSource.AppointmentPropertyMappings>
+
+        <ig:ScheduleListDataSource.ResourcePropertyMappings>
+            <ig:ResourcePropertyMappingsCollection>
+                <ig:ResourcePropertyMapping Property="DisplayName" DataObjectPropertyName="OwnerName" />
+                <ig:ResourcePropertyMapping Property="ColorScheme" DataObjectPropertyName="OwnerSpecificColor" />
+                <ig:ResourcePropertyMapping Property="Id" DataObjectPropertyName="OwnerId" />
+            </ig:ResourcePropertyMappingsCollection>
+        </ig:ScheduleListDataSource.ResourcePropertyMappings>
+        
+    </ig:XamScheduler.DataSource>
+</ig:XamScheduler>
+----
+
+*In C#:*
+[source,csharp]
+----
+ScheduleListDataSource slds = new ScheduleListDataSource();
+slds.AppointmentItemsSource = Duties;
+slds.ResourceItemsSource = Owners;
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Start,
+        DataObjectPropertyName = nameof(Duty.DutyStartTime)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.End,
+        DataObjectPropertyName = nameof(Duty.DutyEndTime)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Subject,
+        DataObjectPropertyName = nameof(Duty.DutyShortName)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Description,
+        DataObjectPropertyName = nameof(Duty.DutyLongName)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Location,
+        DataObjectPropertyName = nameof(Duty.DutyPlace)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Id,
+        DataObjectPropertyName = nameof(Duty.DutyId)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.ResourceId,
+        DataObjectPropertyName = nameof(Duty.OwnerId)
+    });
+
+slds.ResourcePropertyMappings.Add(
+    new ResourcePropertyMapping()
+    {
+        Property = ScheduleResourceProperty.DisplayName,
+        DataObjectPropertyName = nameof(Owner.OwnerName)
+    });
+    
+slds.ResourcePropertyMappings.Add(
+    new ResourcePropertyMapping()
+    {
+        Property = ScheduleResourceProperty.ColorScheme,
+        DataObjectPropertyName = nameof(Owner.OwnerSpecificColor)
+    });
+
+slds.ResourcePropertyMappings.Add(
+    new ResourcePropertyMapping()
+    {
+        Property = ScheduleResourceProperty.Id,
+        DataObjectPropertyName = nameof(Owner.OwnerId)
+    });
+----
+endif::xamarin[]
+
+[[Ref00004]]
+== Related Topics
+
+[options="header", cols="a,a"]
+|=======
+|Topic|Purpose
+
+|link:scheduler-appointment.html[Appointment ({SchedulerName})]
+|This topic explains the Appointment activity type.
+
+|link:scheduler-resources.html[Resources ({SchedulerName})]
+|This topic provides information about the resources concept of the {SchedulerName} control.
+
+|=======

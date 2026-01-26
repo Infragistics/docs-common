@@ -1,0 +1,159 @@
+﻿////
+|metadata|
+{
+    "name": "xambarcode-adding-xambarcode-using-xaml-code",
+    "controlName": ["{BarcodesName}"],
+    "tags": [],
+    "guid": "be6fb2b0-dad7-4479-ad3e-df8b19c72c09","buildFlags": ["xaml"],
+    "createdOn": "2015-09-23T20:39:17.4464668Z"
+}
+|metadata|
+////
+
+= Adding Barcode Using XAML Code
+
+== Before You Begin
+
+This topic is designed to get you up and running as quickly as possible by describing the basic steps required for adding a pick:[wpf="{Barcode128Name}™"]  pick:[xamarin="{BarcodeQRName}™"] control to your application using XAML.
+
+== What You Will Accomplish
+
+You will add a basic pick:[wpf="{Barcode128Name}™"]  pick:[xamarin="{BarcodeQRName}™"] control to your application.
+
+== Follow these Steps
+[start=1]
+ifdef::wpf,win-forms,android[]
+. Create a {PlatformName} application.
+endif::wpf,win-forms,android[]
+ifdef::xamarin[]
+. Create a Xamarin.Forms application project.
+endif::xamarin[]
+[start=2]
+ifdef::win-forms,android[]
+. In the Solution Explorer, add the following references to your project:
+endif::win-forms,android[]
+
+ifdef::wpf[]
+
+. Add the following NuGet package references to your project:
+
+** Infragistics.WPF.Barcodes
+
++
+For more information on setting up the NuGet feed and adding NuGet packages, you can take a look at the following documentation: link:nuget-feeds.html[NuGet Feeds].
+
+endif::wpf[]
+
+ifdef::win-universal[]
+
+** {ApiPlatform}dll
+** {ApiPlatform}DataVisualization.dll
+** {ApiPlatform}Controls.Barcodes.dll
+** {ApiPlatform}Encoding.dll (only for QR Code)
+
+endif::win-universal[]
+ 
+ifdef::xamarin[]
+. link:xamarin-project-with-infragistics-controls.html#NuGetPackages[Add References Through NuGet Packages].
+
+.Note:
+[NOTE]
+====
+Add support for the CJK encoding to your project. 
+
+For Android project - open Android project properties – select Android Options tab - Additional supported encodings – check CJK encoding.
+
+image::images/xamBarcode_Android_Encodings.png[]
+
+For iOS project - open iOS Project properties – select iOS Build tab - Internationalization – Codesets – check cjk codeset.
+
+image::images/xamBarcode_iOS_Codesets.png[]
+
+====
+
+endif::xamarin[]
+
+[start=3]
+. Add an XML namespace declaration for pick:[wpf="{Barcode128Name}"]  pick:[xamarin="{BarcodeQRName}"]:
+
+
+*In XAML:*
+[source,xaml]
+ifdef::wpf,win-universal[]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----
+endif::wpf,win-universal[]
+
+
+ifdef::xamarin[]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Barcodes;assembly=Infragistics.XF.Barcodes"
+----
+endif::xamarin[]
+
+[start=4]
+. Choose a barcode symbology, and add an instance to the pick:[wpf="Grid"]  pick:[xamarin="StackLayout"] named LayoutRoot.
+
+ifdef::wpf[]
+*Note:* Each barcode symbology is a separate control.
+endif::wpf[]
+
+*Supported Symbology Types:*
+
+* link:xambarcode-configuring-qr-code.html[Configuring QR Code]
+
+ifdef::wpf[]
+* link:xambarcode-configuring-code128.html[Configuring Code 128]
+* link:xambarcode-xamcode39barcode.html[Code 39]
+* link:xambarcode-xameanupcbarcode.html[Ean/Upc]
+* link:xambarcode-xaminterleaved2of5barcode.html[Interleaved 2 Of 5]
+* link:xambarcode-xamgs1databarbarcode.html[GS1 DataBar]
+* link:xambarcode-xamintelligentmailbarcode.html[Intelligent Mail]
+* link:xambarcode-xamroyalmailbarcode.html[Royal Mail]
+* link:xambarcode-xampdf417barcode.html[PDF 417]
+* link:xambarcode-xammaxicodebarcode.html[Maxi Code]
+endif::wpf[]
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<Grid x:Name="LayoutRoot">
+    <ig:{Barcode128Name} x:Name="Barcode" />
+</Grid>
+----
+endif::wpf[]
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+<StackLayout x:Name="LayoutRoot">
+    <ig:{BarcodeQRName} x:Name="Barcode" />
+</StackLayout>
+----
+endif::xamarin[]
+
+[start=5]
+. Assign a value to the control’s Data property
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{Barcode128Name} x:Name="Barcode" Data="Code128" />
+----
+endif::wpf[]
+ifdef::xamarin[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{BarcodeQRName} x:Name="Barcode" Data="QRBarcode" />
+----
+endif::xamarin[]
+[start=6]
+. Save and run your application.
+
+ifdef::wpf[]
+image::images/xamBarcode_Adding_Code128_01.png[]
+endif::wpf[]

@@ -1,0 +1,74 @@
+﻿////
+|metadata|
+{
+    "name": "excelengine-add-a-formula-to-a-cell",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": ["Application Blocks","Calculations","Exporting","Getting Started","How Do I"],
+    "guid": "{090BEB57-8245-4C9F-9159-0A419C5A94F8}",
+    "buildFlags": [],
+    "createdOn": "2012-01-30T19:39:51.7497031Z"
+}
+|metadata|
+////
+
+= 数式をセルに追加 ({ExcelEngineName})
+
+{ExcelEngineName} によってワークシートでセルまたはセルのグループに Microsoft® Excel® の数式を追加することが可能となります。 link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~applyformula.html[ApplyFormula] メソッドを使用する、または link:{ExcelEngineApiLink}infragistics.documents.excel.formula.html[Formula] オブジェクトをインスタンス化してセルに適用することによって、これを実行できます。数式をセルに適用する方法に関係なく、WorksheetCell オブジェクトの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~formula.html[Formula] プロパティを使用して、Formula オブジェクトにアクセスできます。値が必要な場合には、セルの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell~value.html[Value] プロパティを使用します。
+
+以下のコードは、数式をセルに追加する方法を示します。例のコードは、worksheet1 という名前の Worksheet オブジェクトへの参照があることを前提とします。
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+worksheet1.Rows(5).Cells(0).ApplyFormula("=Sum(A1:A5)")
+'数式を適用するために Formula オブジェクトを使用
+Dim sumFormula As Formula = Formula.Parse("=Sum(A1:A5)"pick:[xamarin=", CellReferenceMode.A1"])
+sumFormula.ApplyTo(worksheet1.Rows(5).Cells(0))
+----
+endif::wpf[]
+
+*C# の場合：*
+[source,csharp]
+----
+worksheet1.Rows[5].Cells[0].ApplyFormula("=Sum(A1:A5)");
+//数式を適用するために Formula オブジェクトを使用
+Formula sumFormula = Formula.Parse("=Sum(A1:A5)"pick:[xamarin=", CellReferenceMode.A1"]);
+sumFormula.ApplyTo(worksheet1.Rows[5].Cells[0]);
+----
+
+== 関連トピック
+
+link:excelengine-about-infragistics-excel-engine.html[{ExcelEngineName} について]
+
+link:excelengine-creating-a-workbook.html[ワークブックを作成]
+
+link:excelengine-load-an-excel-file.html[Excel ファイルのロード]
+
+link:excelengine-save-a-workbook.html[ワークブックの保存]
+
+link:excelengine-format-a-cell.html[セルをフォーマット]
+
+link:excelengine-copy-a-cells-format.html[セルのフォーマットのコピー]
+
+link:excelengine-reference-cells-and-regions.html[セルと領域を参照]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-merge-cells.html[セルの結合]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-merging-cells.html[セルの結合]
+endif::wpf,xamarin[]
+
+link:excelengine-add-a-comment-to-a-cell.html[コメントをセルに追加]
+
+link:excelengine-disable-editing-of-a-worksheet.html[ワークシートの編集を無効にする]
+
+ifdef::win-forms,win-forms-old,asp-net,aspnet-old[]
+link:excelengine-freeze-rows-and-columns.html[行と列をフリーズ]
+endif::win-forms,win-forms-old,asp-net,aspnet-old[]
+ifdef::wpf,xamarin[]
+link:excelengine-freeze-and-split-panes.html[行と列をフリーズ ({ExcelEngineName})]
+endif::wpf,xamarin[]
+
+link:excelengine-set-excel-document-properties.html[Excel ドキュメント プロパティの設定]

@@ -1,0 +1,63 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-set-a-leaf-nodes-color-using-a-treemapseries-object",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{F8B057AA-C261-4578-B546-B856B61D6A60}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Set a Leaf Node's Color using a TreeMapSeries Object
+
+If you are using a TreeMapSeries object as your data source, the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.treemapchartappearance~colorvalueindex.html[ColorValueIndex]"]  property of each TreeMapDataPoint determines the color of the leaf nodes. The color value is relative to the minimum and maximum color values of your treemap chart. The colors of the leaf node is scaled based on the settings of the ColorModel.ColorBegin and ColorModel.ColorEnd properties. For example, if you set every ColorValue property to 3, then every leaf node will be the same color. If the values of your ColorValue properties range from 30 to 100, then the leaf node with the ColorValue property set to 30 will be the minimum color and the leaf node with the ColorValue property set to 100 will be the maximum color.
+
+For more information on using the TreeMapSeries object as a data source, see link:chart-working-with-treemap-chart-data.html[Working with Treemap Chart Data].
+
+The following example code demonstrates how to set the leaf node's color if you are using a TreeMapSeries object as your data source.
+
+*In Visual Basic:*
+
+----
+' Set the mimimum color
+Me.ultraChart1.ColorModel.ColorBegin = System.Drawing.Color.Blue
+' Set the maximum color
+Me.ultraChart1.ColorModel.ColorEnd = System.Drawing.Color.Red
+myseries.Points.Add(new TreeMapDataPoint(12, 34, "item1", False)) 
+' The second arg represents the color value
+' Set the leaf node color to blue
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 0, "FirstChildOfItem1",False))
+' Set the leaf node color to purple (half way between blue and red
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 5, "SecondChildOfItem1", False))
+' Set the leaf node color to red
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 10, "ThirdChildOfItem1", False))
+Me.ultraChart1.Series.Add(myseries)
+----
+
+*In C#:*
+
+----
+// Set the mimimum color 
+this.ultraChart1.ColorModel.ColorBegin = System.Drawing.Color.Blue;
+// Set the maximum color 
+this.ultraChart1.ColorModel.ColorEnd = System.Drawing.Color.Red;
+myseries.Points.Add(new TreeMapDataPoint(12, 34, "item1", false)); 
+// The second arg represents the color value
+// Set the leaf node color to blue
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 0, "FirstchildOfItem1", false)); 
+// Set the leaf node color to purple (half way between blue and red)
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 5, "SecondchildOfItem1", false));
+// Set the leaf node color to red
+myseries.Points[0].Points.Add(new TreeMapDataPoint(20, 10, "ThirdchildOfItem1", false));
+this.ultraChart1.Series.Add(myseries);
+----
+
+== Related Topics
+
+link:chart-set-a-treemap-charts-color-based-on-hierarchical-level.html[Set a Treemap Chart's Color Based on Hierarchical Level]
+
+link:chart-map-a-leaf-nodes-color-to-a-specific-column-in-a-data-table.html[Set a Leaf Node's Color using a Data Table]

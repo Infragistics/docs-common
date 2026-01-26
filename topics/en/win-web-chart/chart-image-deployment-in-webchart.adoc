@@ -1,0 +1,46 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-image-deployment-in-webchart",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{169A9093-F807-4ECA-8ACF-554CBD953A1E}",  
+    "buildFlags": ["asp-net","aspnet-old"],
+    "createdOn": "2006-04-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Image Deployment in WebChart
+
+WebChart™ is unlike other web controls because in addition to generating HTML, it generates an image on the server upon every request. This image must be deployed in some way so that it is accessible in the client's browser window.
+
+Two options are provided through the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~scenario.html[DeploymentScenario.Scenario]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~scenario.html[Deployment.Scenario]"]  property:
+
+* DeploymentScenario = Session: Chart images are streamed through a page called ImagePipe.aspx which contains a single SecureImagePipe control.
+* DeploymentScenario = FileSystem: Chart images are saved as files on the file system.
+
+The following sections provide more detailed descriptions of the above-mentioned scenarios:
+
+== Session-Based Deployment
+
+After the browser requests the page with the chart, the server will generate the chart image and store it in the session state, along with a unique key to identify it.
+
+The server will render an IMG element containing a link to the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.secureimagepipe.html[SecureImagePipe]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.secureimagepipe.html[SecureImagePipe]"]  page (typically named ImagePipe.aspx) with a QueryString. The QueryString contains the unique key to the chart that has been stored in the session state. When the browser makes its request for that IMG element, the SecureImagePipe page will load, sending the image to a stream. The image is then available for display in the client browser.
+
+Session-base deployment can work in a load-balanced "web farm" environment, as long as session state is managed correctly in the application.
+
+.Note
+[NOTE]
+====
+If session state is set to "InProc," then this deployment scenario will not work across multiple web servers.
+====
+
+If the DeploymentScenario.Scenario property is set to Session, then the application must have an ASPX page containing a single SecureImagePipe control. Typically this page will be named ImagePipe.aspx and it will be in the same folder as the web form containing the chart. However, the name and location of this page can be customized using the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~imagepipepagename.html[ImagePipePageName]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.ultrachart~imagepipepagename.html[ImagePipePageName]"]  property.
+
+== File System-Based Deployment
+
+In file-system image deployment, an image is saved to the file system on the web server and a URL is generated to correspond to the image that was saved. If the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~imageurl.html[DeploymentScenario.ImageURL]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~imageurl.html[DeploymentScenario.ImageURL]"]  property contains the token "#SEQNUM," then the chart will save a finite number of images before the file name is reset. For example, if the ImageURL property is set to "Chart_#SEQNUM(100).jpg", then files will be generated with names like "Chart_1.jpg", "Chart_2.jpg", ... "Chart_99.jpg", "Chart_100.jpg", then back to "Chart_1.jpg" again.
+
+In this scenario, the user account under which the web application is running must have permission to write and modify files in the folder specified under the  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~filepath.html[DeploymentScenario.FilePath]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.webui.ultrawebchart.webdeploymentscenario~filepath.html[DeploymentScenario.FilePath]"]  property. By default, this user account is "aspnet-old" in Windows® XP and "NETWORK SERVICE" in Windows Server 2003.

@@ -1,0 +1,222 @@
+﻿////
+|metadata|
+{
+    "name": "scheduler-binding-custom-types",
+    "controlName": ["scheduler"],
+    "tags": [],
+    "guid": "","buildFlags": [],
+    "createdOn": "2017-03-30T09:37:02.0484523Z"
+}
+|metadata|
+////
+
+= カスタム エンティティ型の使用 ({SchedulerName})
+
+== 目的
+
+このトピックでは、コントロールをカスタム エンティティ型を使用するデータ ソースへバインドする方法を説明します。
+
+== 前提条件
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-overview.html[概要 ({SchedulerName})]
+|このトピックでは、{SchedulerName} コントロール シリーズの概要を説明します。
+
+|link:scheduler-binding-schedulelistdatasource.html[ScheduleListDataSource とデータへのバインド ({SchedulerName})]
+|このトピックでは、コントロールを `ScheduleListDataSource` を使用してデータ ソースへバインドする方法を説明します。
+
+|=======
+
+== このトピックの構成
+
+* <<Ref00001, 概要>>
+* <<Ref00002, カスタム アクティビティ オブジェクトのマッピングを作成>>
+* <<Ref00003, コード例>>
+* <<Ref00004, 関連トピック>>
+
+[[Ref00001]]
+== 概要
+
+カスタム エンティティ オブジェクトのコレクションをアクティビティまたはリソースで使用するには、以下に説明される link:{SchedulerXFLink}.schedulelistdatasource.html[ScheduleListDataSource] のマッピング設定を使用して {SchedulerName} がカスタム オブジェクトのフィールドを認識できます。`ScheduleListDataSource` クラスにマッピングを作成するために 2 つの主なプロパティがあります。
+
+* link:{SchedulerXFLink}.schedulelistdatasource~appointmentpropertymappings.html[AppointmentPropertyMappings] - このプロパティは link:{SchedulerXFLink}.appointmentpropertymappingscollection.html[AppointmentPropertyMappingsCollection] 型で、カスタム アクティビティ オブジェクトおよび {SchedulerName} のアクティビティの間のマッピングを追加するために使用されます。
+
+* link:{SchedulerXFLink}.schedulelistdatasource~resourcepropertymappings.html[ResourcePropertyMappings] - このプロパティは link:{SchedulerXFLink}.resourcepropertymappingscollection.html[ResourcePropertyMappingsCollection] 型で、カスタム リソース オブジェクトおよび {SchedulerName} のリソースの間のマッピングを追加するために使用されます。
+
+[[Ref00002]]
+== カスタム アクティビティ オブジェクトのマッピングを作成
+
+以下の手順は、カスタム アクティビティ エンティティ オブジェクトのマッピングを作成します。
+
+. `ScheduleListDataSource` インスタンスを作成します。
+. その link:{SchedulerXFLink}.schedulelistdatasource~appointmentitemssource.html[AppointmentItemsSource] プロパティをアクティビティ エンティティ オブジェクト コレクションに設定します。
+. カスタム アクティビティ オブジェクトおよび {SchedulerName} のアクティビティの間にマップする各プロパティのために link:{SchedulerXFLink}.schedulelistdatasource~appointmentpropertymappings.html[AppointmentPropertyMappings] コレクションでマッピングを追加します。
+. マッピングは link:{SchedulerXFLink}.appointmentpropertymapping.html[AppointmentPropertyMapping] 型で、以下の主なプロパティを設定する必要があります。
+.. link:{SchedulerCoreLink}.data.appointmentproperty.html[AppointmentProperty] 型の link:{SchedulerXFLink}.appointmentpropertymapping~property.html[Property] は {SchedulerName} のアクティビティ フィールドを指定します。
+.. `string` 型の link:{SchedulerXFLink}.schedulepropertymapping~dataobjectpropertyname.html[DataObjectPropertyName] はカスタム アクティビティ エンティティ オブジェクトのプロパティ名を指定します。
+. 手順 1 で作成された `ScheduleListDataSource` インスタンスを {SchedulerName} の `DataSource` プロパティに設定します。
+
+.注:
+[NOTE]
+====
+各アクティビティで設定する必須フィールドは `Start`、`End`、および `Id` です。
+====
+
+== カスタム リソース オブジェクトのマッピングを作成
+
+以下の手順は、カスタム リソース エンティティ オブジェクトのマッピングを作成します。
+
+. `ScheduleListDataSource` インスタンスを作成します。
+. その link:{SchedulerXFLink}.schedulelistdatasource~resourceitemssource.html[ResourceItemsSource] プロパティをリソース エンティティ オブジェクト コレクションに設定します。
+. カスタム リソース オブジェクトおよび {SchedulerName} のリソースの間にマップする各プロパティのために link:{SchedulerXFLink}.schedulelistdatasource~resourcepropertymappings.html[ResourcePropertyMappings] コレクションでマッピングを追加します。
+. マッピングは link:{SchedulerXFLink}.resourcepropertymapping.html[ResourcePropertyMapping] 型で、以下の主なプロパティを設定する必要があります。
+.. link:{SchedulerCoreLink}.data.scheduleresourceproperty.html[ScheduleResourceProperty] 型の link:{SchedulerXFLink}.resourcepropertymapping~property.html[Property] は {SchedulerName} のリソース フィールドを指定します。
+.. `string` 型の link:{SchedulerXFLink}.schedulepropertymapping~dataobjectpropertyname.html[DataObjectPropertyName] はカスタム リソース エンティティ オブジェクトのプロパティ名を指定します。
+. 手順 1 で作成された `ScheduleListDataSource` インスタンスを {SchedulerName} の `DataSource` プロパティに設定します。
+
+.注:
+[NOTE]
+====
+各リソースで設定する必須フィールドは `Id` および `DisplayName` です。
+====
+
+[[Ref00003]]
+== コード例
+
+以下のコード例は、予定およびリソースのカスタム マッピングを定義する方法を紹介します。コード スニペットは、`Duty` 型の予定のカスタム オブジェクトおよび `Owner` 型のリソースのカスタム オブジェクトを含む  Duties および Owners プロパティを持つ CustomViewModel と呼ばれるビュー モデルを使用します。
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+<ig:XamScheduler>
+
+    <ig:XamScheduler.BindingContext>
+        <local:CustomViewModel />
+    </ig:XamScheduler.BindingContext>
+
+    <ig:XamScheduler.DataSource>
+        <ig:ScheduleListDataSource
+            AppointmentItemsSource="{Binding Duties}"
+            ResourceItemsSource="{Binding Owners}">
+        
+        <ig:ScheduleListDataSource.AppointmentPropertyMappings>
+            <ig:AppointmentPropertyMappingsCollection>
+                <ig:AppointmentPropertyMapping Property="Start" DataObjectPropertyName="DutyStartTime" />
+                <ig:AppointmentPropertyMapping Property="End" DataObjectPropertyName="DutyEndTime" />
+                <ig:AppointmentPropertyMapping Property="Subject" DataObjectPropertyName="DutyShortName" />
+                <ig:AppointmentPropertyMapping Property="Description" DataObjectPropertyName="DutyLongName" />
+                <ig:AppointmentPropertyMapping Property="Location" DataObjectPropertyName="DutyPlace" />
+                <ig:AppointmentPropertyMapping Property="ResourceId" DataObjectPropertyName="OwnerId"/>
+                <ig:AppointmentPropertyMapping Property="Id" DataObjectPropertyName="DutyId"/>
+            </ig:AppointmentPropertyMappingsCollection>
+        </ig:ScheduleListDataSource.AppointmentPropertyMappings>
+
+        <ig:ScheduleListDataSource.ResourcePropertyMappings>
+            <ig:ResourcePropertyMappingsCollection>
+                <ig:ResourcePropertyMapping Property="DisplayName" DataObjectPropertyName="OwnerName" />
+                <ig:ResourcePropertyMapping Property="ColorScheme" DataObjectPropertyName="OwnerSpecificColor" />
+                <ig:ResourcePropertyMapping Property="Id" DataObjectPropertyName="OwnerId" />
+            </ig:ResourcePropertyMappingsCollection>
+        </ig:ScheduleListDataSource.ResourcePropertyMappings>
+        
+    </ig:XamScheduler.DataSource>
+</ig:XamScheduler>
+----
+
+*C# の場合:*
+[source,csharp]
+----
+ScheduleListDataSource slds = new ScheduleListDataSource();
+slds.AppointmentItemsSource = Duties;
+slds.ResourceItemsSource = Owners;
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Start,
+        DataObjectPropertyName = nameof(Duty.DutyStartTime)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.End,
+        DataObjectPropertyName = nameof(Duty.DutyEndTime)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Subject,
+        DataObjectPropertyName = nameof(Duty.DutyShortName)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Description,
+        DataObjectPropertyName = nameof(Duty.DutyLongName)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Location,
+        DataObjectPropertyName = nameof(Duty.DutyPlace)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.Id,
+        DataObjectPropertyName = nameof(Duty.DutyId)
+    });
+
+slds.AppointmentPropertyMappings.Add(
+    new AppointmentPropertyMapping()
+    {
+        Property = AppointmentProperty.ResourceId,
+        DataObjectPropertyName = nameof(Duty.OwnerId)
+    });
+
+slds.ResourcePropertyMappings.Add(
+    new ResourcePropertyMapping()
+    {
+        Property = ScheduleResourceProperty.DisplayName,
+        DataObjectPropertyName = nameof(Owner.OwnerName)
+    });
+    
+slds.ResourcePropertyMappings.Add(
+    new ResourcePropertyMapping()
+    {
+        Property = ScheduleResourceProperty.ColorScheme,
+        DataObjectPropertyName = nameof(Owner.OwnerSpecificColor)
+    });
+
+slds.ResourcePropertyMappings.Add(
+    new ResourcePropertyMapping()
+    {
+        Property = ScheduleResourceProperty.Id,
+        DataObjectPropertyName = nameof(Owner.OwnerId)
+    });
+----
+endif::xamarin[]
+
+[[Ref00004]]
+== 関連トピック
+
+[options="header", cols="a,a"]
+|=======
+|トピック|目的
+
+|link:scheduler-appointment.html[予定 ({SchedulerName})]
+|このトピックは Appointment アクティビティ型を説明します。
+
+|link:scheduler-resources.html[リソース ({SchedulerName})]
+|このトピックは、{SchedulerName} コントロールのリソース概念について説明します。
+
+|=======

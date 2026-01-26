@@ -1,0 +1,218 @@
+﻿= チャートのデータ ツールチップ
+
+{ProductName} では、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  のデータ ツールチップは、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示します。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] の多くの構成プロパティを提供します。このツールチップ タイプは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  のプロット領域内でマウスを動かすと更新されます。
+
+
+== データ ツールチップの要素
+
+link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  のデータ ツールチップは、3 種類の行と 4 種類の列のセットを使用してコンテンツを表示します。
+
+=== データ ツールチップの行
+
+データ ツールチップの行には、ヘッダー行、シリーズ行、および集計行が含まれます。
+
+ヘッダー行には、ホバーされたポイントの軸ラベルが表示され、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipHeaderText.html[DataToolTipHeaderText] プロパティを使用して変更できます。
+
+シリーズ行は、実際には、チャートにプロットされた各シリーズに対応する行のセットにすることができます。これらの行には、凡例バッジ、シリーズ タイトル、シリーズの実際の値 / 省略値、および指定されている場合は省略記号と単位が表示されます。
+
+最後に、すべてのシリーズ値の合計を表示する集計行があります。デフォルトの集計タイトルは、シリーズの link:{FinancialChartLink}.{FinancialChartName}~DataToolTipSummaryTitleText.html[DataToolTipSummaryTitleText] プロパティを使用して変更できます。また、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipSummaryType.html[DataToolTipSummaryType] プロパティを使用して、シリーズ値の合計、最小、最大、または平均を集計行に表示するかどうかをカスタマイズできます。
+
+以下のコードス ニペットは、上記のプロパティを設定して、集計のカスタム タイトルとカスタム ヘッダーを持つ `Total` 集計タイプのデータ ツールチップを設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+
+[source, xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipHeaderText="My Custom Data Tooltip Header"
+                     DataToolTipSummaryType="Total"
+                     DataToolTipSummaryTitleText="Grand Total:"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+financialChart1.DataToolTipHeaderText = "My Custom Data Tooltip Header";
+financialChart1.DataToolTipSummaryType = DataLegendSummaryType.Total;
+financialChart1.DataToolTipSummaryTitleText = "Grand Total:";
+----
+
+endif::wpf,win-forms[]
+
+=== データ ツールチップの列
+
+データ ツールチップ の列には、タイトル、ラベル、値、および単位の列が含まれます。チャートの各シリーズには、チャートの link:{FinancialChartLink}.{FinancialChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] または link:{FinancialChartLink}.{FinancialChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
+
+タイトル列には、チャートにプロットされた各シリーズの `Title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
+
+ラベルの列には、チャートの link:{FinancialChartLink}.{FinancialChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] または link:{FinancialChartLink}.{FinancialChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
+
+値の列には、一連の値が省略形のテキストとして表示されます。この省略形は、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] プロパティを使用して書式設定でき、このプロパティを `Auto` または `Shared` に設定することですべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の精度は、最小桁数と最大桁数にそれぞれ link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] と link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions] を使用して制御されます。
+
+単位の列には、省略記号や単位テキストが表示されます。これらは、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText] を設定することでツールチップに設定できます。
+
+link:{FinancialChartLink}.{FinancialChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] および link:{FinancialChartLink}.{FinancialChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] に含まれる列は、通常、基になるデータ項目の値パスに対応しますが、ファイナンシャル シリーズには、正しくプロットするために必要な `High`、`Low`、`Open`、`Close` パス、および、いくつかの特別なパスを含めるオプションがあります 。凡例内に `TypicalPrice`、`Change`、および `Volume` オプションを表示することができます。
+    
+以下のコードスニペットは、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText] と link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] のデータ ツールチップに設定された最小/最大の端数を示しています。
+    
+ifdef::wpf[]
+
+*XAML の場合*:
+[source, xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipUnitsText="K"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+financialChart1.DataToolTipUnitsText = "K";
+financialChart1.DataToolTipValueFormatMinFractions = 2;
+financialChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+
+== データ ツールチップのスタイル設定
+
+link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  は、データ ツールチップの各タイプの列をスタイル設定するためのプロパティを提供します。これらの各プロパティ名は、Title、Label、Value、Units で始まり、テキストの色、フォント、およびマージンのスタイルを設定できます。たとえば、これらのそれぞれのテキストの色を設定する場合は、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipTitleTextColor.html[DataToolTipTitleTextColor]、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipLabelTextColor.html[DataToolTipLabelTextColor]、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueTextColor.html[DataToolTipValueTextColor]、および link:{FinancialChartLink}.{FinancialChartName}~DataToolTipUnitsTextColor.html[DataToolTipUnitsTextColor] プロパティを設定します。
+
+以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipTitleTextColor="LightGray"
+                     DataToolTipLabelTextColor="LightGray"
+                     DataToolTipValueTextColor="Green"
+                     DataToolTipUnitsTextColor="Green"
+                     DataToolTipUnitsText="K"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+financialChart1.DataToolTipTitleTextColor = Brushes.LightGray;
+financialChart1.DataToolTipLabelTextColor = Brushes.LightGray;
+financialChart1.DataToolTipValueTextColor = Brushes.Green;
+financialChart1.DataToolTipUnitsTextColor = Brushes.Green;
+financialChart1.DataToolTipUnitsText = "K";
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップのグループ化と配置
+
+link:{FinancialChartLink}.{FinancialChartName}~DataToolTipGroupingMode.html[DataToolTipGroupingMode] プロパティを` Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipGroupedPositionModeX.html[DataToolTipGroupedPositionModeX] プロパティと link:{FinancialChartLink}.{FinancialChartName}~DataToolTipGroupedPositionModeY.html[DataToolTipGroupedPositionModeY] プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+
+以下のコード スニペットは、スクロールすると link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  の左上にピン固定されるデータ ツールチップを示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipGroupingMode="Grouped"
+                     DataToolTipGroupedPositionModeX="PinLeft"
+                     DataToolTipGroupedPositionModeY="PinTop"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+financialChart1.DataToolTipGroupingMode = DataToolTipLayerGroupingMode.Grouped;
+financialChart1.DataToolTipGroupedPositionModeX = DataTooltipGroupedPositionX.PinLeft;
+financialChart1.DataToolTipGroupedPositionModeY = DataTooltipGroupedPositionY.PinTop;
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップ値の書式設定
+
+link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  は、その link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] プロパティを使用して、データ ツールチップに大きな数の自動省略形を提供します。これにより、単位の列に kilo、million、billion などの乗数が追加されます。link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] および link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions] を設定することにより、表示される小数桁数をカスタマイズできます。これにより、小数点以下に表示される最小桁数と最大桁数をそれぞれ決定できます。
+
+以下のコード スニペットは、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] の データ ツールチップの最小部分と最大部分を設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+financialChart1.DataToolTipValueFormatMinFractions = 2;
+financialChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップの値モード
+
+チャートの link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] プロパティを変更することにより、データ ツールチップ内の値のデフォルトの 10 進表示を通貨表示に変更できます。link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]  は、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] プロパティを使用し、対応するカルチャ タグに設定することにより、ツールチップに表示されている通貨記号のカルチャを変更する機能も公開します。
+
+たとえば、以下のコード スニペットは、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] が "en-GB" に設定され、link:{FinancialChartLink}.{FinancialChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] が "Currency" に設定されたチャートを作成します。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{FinancialChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatCulture="en-GB"
+                     DataToolTipValueFormatMode="Currency"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+financialChart1.DataToolTipValueFormatCulture = "en-GB";
+financialChart1.DataToolTipValueFormatMode = DataLegendValueMode.Currency;
+----
+
+endif::wpf,win-forms[]

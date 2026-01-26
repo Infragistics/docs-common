@@ -1,0 +1,278 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-axis-label-settings",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "2a790505-160b-4323-9d84-ad3825198a94",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:39:00.5983574Z"
+}
+|metadata|
+////
+
+= Configuring Axis Label Settings
+
+In the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control, you can change the location, rotation angle, margin, horizontal/vertical alignment, visibility, and appearance of the axis label using the following properties of an link:{DataChartLink}.axis.html[Axis] objects.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.axis{ApiProp}label.html[Label]
+|String
+|Determines data mapping (category axis) and formatting (all axis) of labels
+
+ifdef::sl,wpf,win-universal[]
+|LabelSettings
+| link:{DataChartLink}.axislabelsettings.html[AxisLabelSettings]
+|Determines labels’ settings such foreground, font, alignment, margins, angle and many more. See also link:datachart-axis-label-settings.html[Configuring Axis Label Settings]
+endif::sl,wpf,win-universal[]
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}angle.html[LabelSettings.Angle]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labelangle.html[LabelAngle]"]
+|double
+|Determines angle rotation of axis labels
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}extent.html[LabelSettings.Extent]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labelextent.html[LabelExtent]"]
+|double
+|Determines empty space that extents between axis labels and the axis main line
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}fontfamily.html[LabelSettings.FontFamily]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labelfontfamily.html[LabelFontFamily]"]
+|`FontFamily`
+|Determines font of axis labels
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}horizontalalignment.html[LabelSettings.HorizontalAlignment]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labelhorizontalalignment.html[LabelHorizontalAlignment]"]
+|HorizontalAlignment
+|Determines horizontal alignment of labels on CategoryYAxis and NumericYAxis only
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}verticalalignment.html[LabelSettings.VerticalAlignment]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labelverticalalignment.html[LabelVerticalAlignment]"]
+|VerticalAlignment
+|Determines vertical alignment of labels on CategoryXAxis and NumericXAxis only
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}location.html[LabelSettings.Location]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labellocation.html[LabelLocation]"]
+|
+ifdef::xamarin,win-forms[] 
+
+link:{DataChartLinkBase}.axislabelslocation.html[AxisLabelsLocation] 
+
+endif::xamarin,win-forms[] 
+
+ifdef::android,sl,wpf,win-universal[] 
+
+link:{DataChartLink}.axislabelslocation.html[AxisLabelsLocation] 
+
+endif::android,sl,wpf,win-universal[]
+|Determines location of axis labels in relation to axis main line and chart plot area
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}angle.html[LabelSettings.Visibility]"] pick:[xamarin,android=" link:{DataChartLink}.axis{ApiProp}labelvisibility.html[LabelsVisibility]"]
+pick:[win-forms=" link:{DataChartLink}.axis{ApiProp}labelsvisible.html[LabelsVisibility]"]
+|`Visibility`
+|Determines whether or not axis labels are visible
+
+|pick:[sl,wpf,win-universal=" link:{DataChartLink}.axislabelsettings{ApiProp}angle.html[LabelSettings.Foreground]"] pick:[xamarin,win-forms,android=" link:{DataChartLink}.axis{ApiProp}labelangle.html[LabelTextColor]"]
+|Brush
+|Determines text color of axis labels
+
+|====
+
+The following sample code shows how to change the location, orientation angle, and appearance of the axis label on link:{DataChartLink}.categoryxaxis.html[CategoryXAxis] and link:{DataChartLink}.numericyaxis.html[NumericYAxis] in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}] control.
+
+ifdef::sl,wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis"
+                          Label="{}{Date:MM/dd}"
+                          ItemsSource="{Binding}" >
+            <ig:CategoryXAxis.LabelSettings>
+                <ig:AxisLabelSettings Foreground="Green"
+                                    Location="OutsideBottom"
+                                    Extent="40"
+                                    Angle="45" />
+                </ig:CategoryXAxis.LabelSettings>
+        </ig:CategoryXAxis>
+        <ig:NumericYAxis x:Name="yAxis" >
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Foreground="Red"
+                                    Location="OutsideRight"
+                                    Extent="40"
+                                    Angle="-30" />
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+    </ig:{DataChartName}.Axes>
+</ig:{DataChartName}>
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+[source, xaml]
+----
+<ig:CategoryXAxis x:Name="xAxis"
+                  Label="Date"
+                  LabelTextColor="Green"
+                  LabelLocation="OutsideBottom"
+                  LabelExtent="40"
+                  LabelAngle="45"
+                  ItemsSource="{Binding}" />
+<ig:NumericYAxis x:Name="yAxis"
+                 LabelTextColor="Red"
+                 LabelLocation="OutsideRight"
+                 LabelExtent="40"
+                 LabelAngle="-30" />
+                 
+----
+
+endif::xamarin[]
+
+ifdef::sl,wpf,win-universal[]
+
+*In C#:*
+
+----
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.Label = "Date";
+
+xAxis.LabelSettings = new AxisLabelSettings();
+xAxis.LabelSettings.Foreground = new SolidColorBrush(Colors.Green);
+xAxis.LabelSettings.Location = AxisLabelsLocation.OutsideBottom;
+xAxis.LabelSettings.Extent = 40;
+xAxis.LabelSettings.Angle = 45;
+
+yAxis.LabelSettings = new AxisLabelSettings();
+yAxis.LabelSettings.Foreground = new SolidColorBrush(Colors.Red);
+yAxis.LabelSettings.Location = AxisLabelsLocation.OutsideRight;
+yAxis.LabelSettings.Extent = 40;
+yAxis.LabelSettings.Angle = -30;
+
+
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+var yAxis = new NumericYAxis();
+var xAxis = new CategoryXAxis();
+xAxis.Label = "Date";
+xAxis.LabelLocation = AxisLabelsLocation.OutsideBottom;
+xAxis.LabelAngle = 45;
+xAxis.LabelExtent = 40;
+yAxis.LabelLocation = AxisLabelsLocation.OutsideRight;
+yAxis.LabelAngle = -30;
+yAxis.LabelExtent = 40;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+[source, csharp]
+----
+
+var xAxis = new CategoryXAxis()
+{
+    Label = "Date",
+    LabelTextColor = new SolidColorBrush(Color.Green),
+    LabelLocation = AxisLabelsLocation.OutsideBottom,
+    LabelExtent = 40,
+    LabelAngle = 45
+};
+
+var yAxis = new NumericYAxis()
+{
+    LabelTextColor= new SolidColorBrush(Color.Red),
+    LabelLocation = AxisLabelsLocation.OutsideRight,
+    LabelExtent = 40,
+    LabelAngle = -30
+};
+
+----
+
+endif::xamarin[]
+
+ifdef::sl,wpf,win-universal[]
+
+*In Visual Basic:*
+
+----
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.Label = "Date"
+
+xAxis.LabelSettings As New AxisLabelSettings()
+xAxis.LabelSettings.Foreground = New SolidColorBrush(Colors.Green)
+xAxis.LabelSettings.Location = AxisLabelsLocation.OutsideBottom
+xAxis.LabelSettings.Extent = 40
+xAxis.LabelSettings.Angle = 45
+
+yAxis.LabelSettings As New AxisLabelSettings()
+yAxis.LabelSettings.Foreground = New SolidColorBrush(Colors.Red)
+yAxis.LabelSettings.Location = AxisLabelsLocation.OutsideRight
+yAxis.LabelSettings.Extent = 40
+yAxis.LabelSettings.Angle = -30
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.Label = "Date"
+xAxis.LabelLocation = AxisLabelsLocation.OutsideBottom
+xAxis.LabelAngle = 45
+xAxis.LabelExtent = 40
+yAxis.LabelLocation = AxisLabelsLocation.OutsideRight
+yAxis.LabelAngle = -30
+yAxis.LabelExtent = 40
+----
+
+endif::win-forms[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+xAxis.setLabel("Date");
+xAxis.setLabelLocation(AxisLabelsLocation.OutsideBottom);
+xAxis.setLabelAngle(45);
+xAxis.setLabelExtent(40);
+yAxis.setLabelLocation(AxisLabelsLocation.OutsideRight);
+yAxis.setLabelAngle(-30);
+yAxis.setLabelExtent(40);
+----
+
+endif::android[]
+
+The following image shows how the {DataChartName} control might look with custom label settings for CategoryXAxis and NumericYAxis.
+
+image::images/xamDataChart_Axis_Label_Settings_01.png[]
+
+ifdef::sl,wpf,win-universal[]
+In order to remove a previous AxisLabelSettings, a new AxisLabelSettings must be added even if the Axis was previously cleared and re-added.
+endif::sl,wpf,win-universal[]
+
+== Related Content:
+
+ifdef::sl,wpf,win-universal[]
+* link:datachart-axis-label-templates.html[Configuring Axis Label Templates]
+
+endif::sl,wpf,win-universal[]
+
+* link:datachart-multiple-axes.html[Using Multiple Axes]

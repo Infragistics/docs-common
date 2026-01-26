@@ -1,0 +1,169 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-writing-a-layer-class",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{FBAC9005-7632-45FC-B734-7D2AE9EB80D8}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Writing a Layer Class
+
+A custom layer class must implement the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer.html[ILayer]"]  interface. This can be done by inheriting  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers.Layer]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers.Layer]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers_namespace.html[UltraChart.Core.Layers.Layer]"] , or by implementing the interface directly.
+
+image::images\Chart_Writing_a_Layer_Class_01.png[Shows the Layer bounds and public ILayer Interface members used when implementing the ILayer Interface.]
+
+To implement ILayer, create private fields to store properties, and set/return them in the public properties contained in the interface:
+
+*In Visual Basic:*
+
+----
+Imports System.Collections
+Imports Infragistics.UltraChart.Core.ColorModel
+Imports Infragistics.UltraChart.Core
+Imports Infragistics.UltraChart.Core.Layers
+Imports Infragistics.UltraChart.Core.Primitives
+Imports Infragistics.UltraChart.Data
+Imports Infragistics.UltraChart.Resources
+Imports Infragistics.UltraChart.Resources.Appearance
+Imports Infragistics.UltraChart.Resources.Editor
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Core.Util
+...
+Public Class MyLayer
+	Implements ILayer
+	Private _chartCore As ChartCore
+	Public Property ChartCore() As Infragistics.UltraChart.Core.ChartCore _
+            Implements Infragistics.UltraChart.Core.Layers.ILayer.ChartCore
+		Get
+			Return Me._chartCore
+		End Get
+		Set(ByVal Value As Infragistics.UltraChart.Core.ChartCore)
+			Me._chartCore = Value
+		End Set
+	End Property
+	' Other interface members omitted
+End Class
+----
+
+*In C#:*
+
+----
+using System.Collections;
+using Infragistics.UltraChart.Core.ColorModel;
+using Infragistics.UltraChart.Core;
+using Infragistics.UltraChart.Core.Layers;
+using Infragistics.UltraChart.Core.Primitives;
+using Infragistics.UltraChart.Data;
+using Infragistics.UltraChart.Resources;
+using Infragistics.UltraChart.Resources.Appearance;
+using Infragistics.UltraChart.Resources.Editor;
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Core.Util;
+...
+public class MyLayer : ILayer 
+{
+	private ChartCore _chartCore;
+	public ChartCore ChartCore 
+	{
+		get
+		{
+			return _chartCore;
+		}
+		set
+		{
+			_chartCore = value;
+		}
+	}
+	// Other interface members omitted
+}
+----
+
+To implement the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~getinnerbounds.html[GetInnerBounds()]"]  method, return the outer bounds [OuterBound interface member]. With any of the ILayer interface members, the developer can alter or customize later if necessary.
+
+*In Visual Basic:*
+
+----
+Public Function GetInnerBounds() As Rectangle _
+  Implements Infragistics.UltraChart.Core.Layers.ILayer.GetInnerBounds
+	Return _outerBound
+End Function
+----
+
+*In C#:*
+
+----
+public Rectangle GetInnerBounds()
+{
+	return _outerBound;
+}
+----
+
+*Setting Bounds On Chart Layers* :
+
+When processing layers to make chart images, layers are cascaded. The Outer bound is set in each layer, and is then queried for inner bounds. These inner bounds are set as the outer bounds of the next layer, and the process is repeated for all the cascaded layers.
+
+image::images\Chart_Writing_a_Layer_Class_02.png[Shows how the Chart Layers are stacked together when the chart is generated.]
+
+In a custom layer, a developer does not necessarily have to observe this rule; it is possible to set the OuterBounds to any size and location and draw anywhere on the chart. GraphicsContext Primitives are also used to reset the clipping area of the SceneGraph.
+
+Finally, implement (or override) the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.core.layers.ilayer~fillscenegraph.html[FillSceneGraph]"]  method: this is where all the custom layer code goes. The one argument for this method is the SceneGraph, which is the collection of Primitives (shapes) used to draw the chart. In the FillSceneGraph method implementation, manipulate the objects in the SceneGraph, or add new Primitives in order to give your custom layer the look or behavior you require.
+
+*In Visual Basic:*
+
+----
+Public Sub FillSceneGraph(ByVal scene As SceneGraph) _
+  Implements Infragistics.UltraChart.Core.Layers.ILayer.FillSceneGraph
+	' Add Primitives to the SceneGraph
+	Dim myCircle As New Ellipse(New Point(100, 100), New Point(100, 100))
+	myCircle.PE.Fill = Color.Blue
+	scene.Add(myCircle)
+End Sub
+----
+
+*In C#:*
+
+----
+public void FillSceneGraph(SceneGraph scene) 
+{
+	// Add Primitives to the SceneGraph
+	Ellipse myCircle = new Ellipse((new Point(100, 100)), (new Point(100, 100)));
+	myCircle.PE.Fill = Color.Blue;
+	scene.Add(myCircle);
+}
+----
+
+Once the implementation of ILayer is complete, the layer can be attached to the Chart.
+
+*In Visual Basic:*
+
+----
+Private Sub WritingaLayerClass_Load(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	' Add the layer
+	Me.UltraChart1.Layer.Add("My Layer", New MyLayer())
+	Me.UltraChart1.UserLayerIndex = New String() {"Default", "My Layer"}
+	Me.UltraChart1.InvalidateLayers()
+	Me.UltraChart1.DataSource = GetColumnData()
+End Sub
+----
+
+*In C#:*
+
+----
+private void WritingaLayerClass_Load(object sender, System.EventArgs e)
+{
+	// Add the layer
+	this.ultraChart1.Layer.Add("My Layer", new MyLayer());
+	this.ultraChart1.UserLayerIndex = new string[] {"Default", "My Layer"};
+	this.ultraChart1.InvalidateLayers();
+	this.ultraChart1.DataSource = GetColumnData();
+}
+----
+
+image::Images\Chart_Writing_a_Layer_Class_03.png[Shows a 2D Column Chart with a blue circle that was added by implementing the ILayer Interface.]

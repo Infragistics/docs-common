@@ -1,0 +1,81 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-use-a-custom-brush-in-a-paintelement",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{5C7A80DB-208F-4CA0-9E44-FA340CB6DC2F}",  
+    "buildFlags": [],
+    "createdOn": "2006-12-04T00:00:00Z"
+}
+|metadata|
+////
+
+= PaintElement でカスタム ブラシを使用する
+
+pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement.html[PaintElement]"]  内にカスタム ブラシを使用することも可能です。これを行うには、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~elementtype.html[ElementType]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~elementtype.html[ElementType]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~elementtype.html[ElementType]"]  を CustomBrush に設定し、 pick:[win-forms="link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~custombrush.html[CustomBrush]"]  pick:[asp-net="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~custombrush.html[CustomBrush]"]  pick:[aspnet-old="link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.paintelement~custombrush.html[CustomBrush]"]  プロパティを任意の Brush オブジェクトに設定します。
+
+カスタム ブラシによって、Chart の組み込み PaintElement で使用可能な機能よりも多くの機能を実行できます。カスタム ブラシを使用することによって、PaintElement が持っていない System.Drawing 名前空間で使用可能な描画オプションを使用できます。
+
+以下の例は、CustomBrush を使用してチャートを修正する方法を示します。
+
+*Visual Basic の場合：*
+
+----
+Imports System.Drawing.Drawing2D
+Imports Infragistics.UltraChart.Shared.Styles
+Imports Infragistics.UltraChart.Resources.Appearance
+...
+Private Sub Use_a_Custom_Brush_in_a_PaintElement_Load(ByVal sender As System.Object, _
+  ByVal e As System.EventArgs) Handles MyBase.Load
+	Me.UltraChart1.ColorModel.ModelStyle = ColorModels.CustomSkin
+	Me.UltraChart1.ColorModel.Skin.PEs.Add(New PaintElement())
+	Me.UltraChart1.ColorModel.Skin.PEs(0).ElementType = PaintElementType.CustomBrush
+	Me.UltraChart1.DataSource = GetColumnData()
+	Me.UltraChart1.ColorModel.Skin.PEs(0).CustomBrush = Me.GetBrush()
+	Me.UltraChart1.InvalidateLayers()
+End Sub
+Private Function GetBrush() As LinearGradientBrush
+	If Not (Me.myBrush Is Nothing) Then
+		' ブラシを使用した場合は破棄することを忘れないように...
+		' 新しく作成することでブラシを更新するときにこれを含めます。
+		Me.myBrush.Dispose()
+	End If
+	Me.myBrush = New LinearGradientBrush(Me.UltraChart1.Location, _
+	  New Point(Me.UltraChart1.Right, Me.UltraChart1.Bottom), Color.Red, Color.Blue)
+	Return Me.myBrush
+End Function
+----
+
+*C# の場合：*
+
+----
+using System.Drawing.Drawing2D;
+using Infragistics.UltraChart.Shared.Styles;
+using Infragistics.UltraChart.Resources.Appearance;
+...
+private void Use_a_Custom_Brush_in_a_PaintElement_Load(object sender, EventArgs e)
+{
+	this.ultraChart1.ColorModel.ModelStyle = ColorModels.CustomSkin;
+	this.ultraChart1.ColorModel.Skin.PEs.Add(new PaintElement());
+	this.ultraChart1.ColorModel.Skin.PEs[0].ElementType = PaintElementType.CustomBrush;
+	this.ultraChart1.DataSource = GetColumnData();
+	this.ultraChart1.ColorModel.Skin.PEs[0].CustomBrush = this.GetBrush();
+	this.ultraChart1.InvalidateLayers();
+}
+private LinearGradientBrush GetBrush()
+{
+	if (this.myBrush != null)
+	{
+		// ブラシを使用した場合は破棄することを忘れないように...
+		// 新しく作成することでブラシを更新するときにこれを含めます。
+		this.myBrush.Dispose();
+	}
+	this.myBrush = new LinearGradientBrush(this.ultraChart1.Location, 
+	  new Point(this.ultraChart1.Right, this.ultraChart1.Bottom), Color.Red, Color.Blue);
+	return this.myBrush;
+}
+----
+
+image::images/Chart_Use_a_Custom_Brush_in_a_PaintElement_01.png[]

@@ -1,0 +1,371 @@
+﻿////
+|metadata|
+{
+    "name": "lineargauge-configuring-the-background",
+    "controlName": ["{LinearGaugeName}"],
+    "tags": ["Charting","How Do I"],
+    "guid": "1a263fb4-b5f0-4f78-9f96-f58e1ebf1263",
+    "buildFlags": [],
+    "createdOn": "2014-06-05T19:53:12.0608918Z"
+}
+|metadata|
+////
+
+= Configuring the Background ({LinearGaugeName})
+
+
+
+=== Purpose
+
+This topic explains, with code examples, how to configure a background for the linear gauge. This includes setting the background’s size, position, color, and border.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:lineargauge-overview.html[ _{LinearGaugeName}_ Overview]
+|This topic provides conceptual information about the _{LinearGaugeName}_™ control including its main features, minimum requirements, and user functionality.
+
+ifdef::xaml[]
+| link:lineargauge-adding.html[Adding _{LinearGaugeName}_ ]
+|This topic explains how to add the _{LinearGaugeName}_ control to a {PlatformName} application.
+endif::xaml[]
+
+ifdef::android[]
+| link:android-adding-linear-gauge.html[Adding _{LinearGaugeName}_ ]
+|This topic explains how to add the _{LinearGaugeName}_ control to a {PlatformName} application.
+endif::android[]
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<_Ref362875679, Configuring the Background >>
+
+** <<_Ref363719648,Background configuration summary>>
+** <<_Ref363719661,Background configuration summary chart>>
+** <<_Ref362875705,Property settings>>
+** <<_Ref362875711,Example>>
+
+* <<_Ref357787115, Related Content >>
+ 
+
+[[_Ref362875679]]
+== Configuring the Background
+
+[[_Ref363719648]]
+
+=== Background configuration summary
+
+The background of the _{LinearGaugeName}_ control is configurable in terms of spread and position and look-and-feel (fill and border). The spread and position are configurable in the dimension across the scale (through the link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent] and link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent] properties); along the scale, the background always spreads from one edge of the control to the other. The fill color and the border are managed by a set of properties available in the style template.
+
+The following picture demonstrates a background color of a variety of light blue and a yellow green border with a thickness of 3 pixels. The background extent is made smaller by providing values for its link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent] and link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent] properties.
+
+image::images/XamLinearGauge_Overview_12.png[]
+
+[[_Ref363719661]]
+
+=== Background configuration summary chart
+
+The following table explains briefly the configurable aspects of _{LinearGaugeName}_ control’s background and maps them to properties that configure them.
+
+[options="header", cols="a,a,a"]
+|====
+|*Configurable aspects* |Property|Default value
+
+|Spread and position (across the scale)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+| _0_ 
+
+|Spread and position (across the scale)
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+| _1.0_ 
+
+|Fill color
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|Defined in the default theme
+
+|Border color
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+|Defined in the default theme
+
+|Border thickness
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+| _2.0_ 
+
+|====
+
+[[_Ref362875705]]
+
+=== Property settings
+
+The following table maps the desired behavior to its respective property settings.
+
+[options="header", cols="a,a,a,a"]
+|====
+|In order to configure:|Details|Use this property:|And set it to:
+
+
+|Bottom / left edge position
+|The position of lower edge of the background (at horizontal orientation) or the left edge (at vertical orientation) relative to the bottom edge of the Graph area at horizontal orientation or to its left edge – at vertical orientation.
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+|The desired value as a relative part of the height/width of the Graph area (depending on the orientation) presented as a fraction of 1 (e.g. _0.2)_ 
+
+|Top / right edge position
+|The position of top edge of the background at horizontal orientation or the right edge at vertical orientation relative to the lower edge of the Graph area at horizontal orientation or to its left edge – at vertical orientation.
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+|The desired value as a relative part of the height/width of the Graph area (depending on the orientation) presented as a fraction of 1 (e.g. _0.2_ )
+
+|Fill color
+|Fill color of the background
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+|The desired color
+
+|Border thickness
+|Border thickness of the background
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+|The desired value in pixels
+
+|Border color
+|Border color of the background
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+|The desired color
+
+|====
+
+[[_Ref362875711]]
+
+=== Example
+
+The screenshot below demonstrates how the _{LinearGaugeName}_ looks as a result of the following settings:
+
+[options="header", cols="a,a"]
+|====
+|Property|Value
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingbrush.html[BackingBrush]
+| _“#FFDAB9”_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingoutline.html[BackingOutline]
+| _“#00FFFF”_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingstrokethickness.html[BackingStrokeThickness]
+| _“3”_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backinginnerextent.html[BackingInnerExtent]
+| _“0.2”_ 
+
+| link:{LinearGaugeLink}.{LinearGaugeName}{ApiProp}backingouterextent.html[BackingOuterExtent]
+| _“0.7”_ 
+
+|====
+
+image::images/xamLinearGauge_Configuring_the_Background_1_17_1.png[]
+
+Following is the code that implements this example.
+
+ifdef::xaml[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{LinearGaugeName} x:Name="linearGauge"
+                 BackingBrush="#FFDAB9"
+                 BackingOutline="#00FFFF"
+                 BackingStrokeThickness="3"
+                 BackingInnerExtent="0.2"
+                 BackingOuterExtent="0.7"/>
+----
+
+endif::xaml[]
+
+ifdef::sl[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.BackingBrush = new SolidColorBrush(Color.FromRgb(255, 153, 153));
+linearGauge.BackingOutline = new SolidColorBrush(Color.FromRgb(51, 255, 255));
+linearGauge.BackingStrokeThickness = 3;
+linearGauge.BackingInnerExtent = .2;
+linearGauge.BackingOuterExtent = .7;
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.BackingBrush = new SolidColorBrush(Color.FromRgb(255, 153, 153));
+linearGauge.BackingOutline = new SolidColorBrush(Color.FromRgb(51, 255, 255));
+linearGauge.BackingStrokeThickness = 3;
+linearGauge.BackingInnerExtent = .2;
+linearGauge.BackingOuterExtent = .7;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.BackingBrush = new SolidColorBrush(Color.FromRgb(255, 153, 153));
+linearGauge.BackingOutline = new SolidColorBrush(Color.FromRgb(51, 255, 255));
+linearGauge.BackingStrokeThickness = 3;
+linearGauge.BackingInnerExtent = .2;
+linearGauge.BackingOuterExtent = .7;
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.BackingBrush = new SolidColorBrush(Color.FromRgb(255, 153, 153));
+linearGauge.BackingOutline = new SolidColorBrush(Color.FromRgb(51, 255, 255));
+linearGauge.BackingStrokeThickness = 3;
+linearGauge.BackingInnerExtent = .2;
+linearGauge.BackingOuterExtent = .7;
+----
+
+endif::win-universal[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+[source,csharp]
+----
+linearGauge.BackingBrush = new SolidColorBrush(Color.FromRgb(255, 153, 153));
+linearGauge.BackingOutline = new SolidColorBrush(Color.FromRgb(51, 255, 255));
+linearGauge.BackingStrokeThickness = 3;
+linearGauge.BackingInnerExtent = .2;
+linearGauge.BackingOuterExtent = .7;
+----
+
+endif::xamarin[]
+
+ifdef::sl[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.BackingBrush = New SolidColorBrush(Color.FromRgb(255, 102, 102))
+linearGauge.BackingOutline = New SolidColorBrush(Color.FromRgb(0, 255, 255))
+linearGauge.BackingStrokeThickness = "3"
+linearGauge.BackingInnerExtent = ".2"
+linearGauge.BackingOuterExtent = ".7"
+----
+
+endif::sl[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.BackingBrush = New SolidColorBrush(Color.FromRgb(255, 102, 102))
+linearGauge.BackingOutline = New SolidColorBrush(Color.FromRgb(0, 255, 255))
+linearGauge.BackingStrokeThickness = "3"
+linearGauge.BackingInnerExtent = ".2"
+linearGauge.BackingOuterExtent = ".7"
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.BackingBrush = New SolidColorBrush(Color.FromRgb(255, 102, 102))
+linearGauge.BackingOutline = New SolidColorBrush(Color.FromRgb(0, 255, 255))
+linearGauge.BackingStrokeThickness = "3"
+linearGauge.BackingInnerExtent = ".2"
+linearGauge.BackingOuterExtent = ".7"
+----
+
+endif::win-forms[]
+
+ifdef::win-universal[]
+
+*In Visual Basic:*
+
+[source,vb]
+----
+linearGauge.BackingBrush = New SolidColorBrush(Color.FromRgb(255, 102, 102))
+linearGauge.BackingOutline = New SolidColorBrush(Color.FromRgb(0, 255, 255))
+linearGauge.BackingStrokeThickness = "3"
+linearGauge.BackingInnerExtent = ".2"
+linearGauge.BackingOuterExtent = ".7"
+----
+
+endif::win-universal[]
+
+ifdef::android[]
+
+*In Java:*
+
+[source,js]
+----
+linearGauge.setBackingBrush(new SolidColorBrush(Color.parseColor("#F6E3CE")));
+linearGauge.setBackingOutline(new SolidColorBrush(Color.CYAN));
+linearGauge.setBackingStrokeThickness(3);
+linearGauge.setBackingInnerExtent(.2);
+linearGauge.setBackingOuterExtent(.7);
+----
+
+endif::android[]
+
+[[_Ref357787115]]
+== Related Content
+
+[[_Ref362875752]]
+
+
+
+The following topics provide additional information related to this topic.
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+ifdef::sl,wpf,win-universal,android[]
+| pick:[sl,wpf=" link:lineargauge-configuring-the-title-subtitle.html[Configuring the Title/Subtitle ( _{LinearGaugeName}_ )]"] 
+|This topic explains, with code examples, how to configure the title and subtitle of the _{LinearGaugeName}_ control. This includes the title area width the start position of the text and the title/subtitle text itself.
+endif::sl,wpf,win-universal,android[]
+
+| link:lineargauge-configuring-the-scale.html[Configuring the Scale ( _{LinearGaugeName}_ )]
+|This topic explains, with examples, how to configure the scale of the _{LinearGaugeName}_ control. This includes positioning the scale inside the control and configuring the scale tick marks and labels.
+
+| link:lineargauge-configuring-the-needle.html[Configuring the Needle ({LinearGaugeName})]
+|This topic explains, with code examples, how to configure the needle of the _{LinearGaugeName}_ control. This includes the needle’s value, width, and formatting.
+
+| link:lineargauge-configuring-the-ranges.html[Configuring the Ranges ({LinearGaugeName})]
+|This topic explains, with code examples, how to configure ranges in the _{LinearGaugeName}_ control. This includes the number of ranges and their positions, lengths, widths, and formatting.
+
+ifdef::endif::wpf,sl,win-universal,android[]
+| link:lineargauge-configuring-the-tooltips.html[Configuring the Tooltips ( _{LinearGaugeName}_ )]
+|This topic explains, with code examples, how to enable the topoltips in the _{LinearGaugeName}_ control and configure the delay with which they are displayed.
+endif::endif::wpf,sl,win-universal,android[]
+
+|====

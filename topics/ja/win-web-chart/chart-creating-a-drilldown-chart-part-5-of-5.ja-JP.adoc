@@ -1,0 +1,86 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-5-of-5",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{6FCE4571-FDF8-4C37-914E-1F8E9B62F394}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= ドリルダウン チャートの作成（5/5）
+
+このトピックは、ドリルダウン チャートの作成（4/5）の続きです。
+
+エンド ユーザーはチャート内でデータ要素をクリックするだけでドリルダウンを開始します。たとえば、チャートが最初にロードすると、エンド ユーザーは顧客を表すバーをクリックします。チャートは次のレベルにドリルし、これは顧客の発注を表します。エンド ユーザーは円グラフのスライスによって表されるひとつの発注をクリックします。次のレベルは特定の発注の詳細が格納されたチャートで、これが最大のドリル レベルであるため、ドリルは終了します。
+
+チャートのクリック操作は、“ChartDataClicked” イベントによって処理されます。このイベントでは、結果として生成されたデータがグループ化される特定の行の文字列値を取得するためにイベント引数の行ラベルが使用されます。たとえば、ある人物の名前、次にセールスの数を選択する SQL クエリーを提出し、名前でグループ化する場合、結果として生成されたデータには、各人物のセールスを表す数字とともに名前のリストが含まれます。各行の実際の名前はチャートの用語では「行ラベル」と考えられます。
+
+以下の例のコードは、チャートをクリックした時に RowLabel を取得する方法を示します。
+*Visual Basic の場合：*
+
+----
+Private Sub ultraChart1_ChartDataClicked( _ 
+    ByVal sender As Object, _ 
+    ByVal e As Infragistics.UltraChart.Shared.Events.ChartDataEventArgs) _ 
+    Handles ultraChart1.ChartDataClicked 
+    If (_currDrill = MAX_DRILL) Then Return 
+    Me.DrillDown() 
+    Me.BuildChart(e.RowLabel) 
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void ultraChart1_ChartDataClicked( 
+ object sender, 
+ Infragistics.UltraChart.Shared.Events.ChartDataEventArgs e) 
+{ 
+     if (_currDrill == MAX_DRILL)return; 
+     this.DrillDown(); 
+     this.BuildChart( e.RowLabel ); 
+}
+----
+
+エンド ユーザーは、表示されている任意のリンク ラベルをクリックすることによって任意のレベルにドリルバックできます。チャートにドリルする間、Link Label Text プロパティにはクエリーを実行するために使用された値が格納されます。
+
+前のレベルにドリルバックする時に、データベースを再クエリーするために情報を使用することができます。
+
+以下の例のコードは、エンド ユーザーがクリックしたリンク ラベルを表す値に現在のドリル レベルを設定する（各リンク ラベルは既知のドリルレベルを表す）方法を示します。これでチャートがビルドされ、リンク ラベルのテキスト プロパティの値を渡します。これによって以前にそのラベルに移動するために使用された同じ情報を使用してチャートがビルドされます。
+*Visual Basic の場合：*
+
+----
+Private Sub lnk1_Click(ByVal sender As Object, _ 
+  ByVal e As System.EventArgs) Handles lnk1.Click 
+      _currDrill = MIN_DRILL 'ドリル レベルを開始に設定します 
+      Me.BuildChart(Nothing) 'Form Load の場合と同じようにチャートをビルドします 
+End Sub
+Private Sub lnk2_Click(ByVal sender As Object, _ 
+  ByVal e As System.EventArgs) Handles lnk2.Click 
+      _currDrill = 2 
+     Me.BuildChart(Me.lnk2.Text) 
+End Sub
+----
+
+*C# の場合：*
+
+----
+private void lnk1_LinkClicked(object sender, 
+  System.Windows.Forms.LinkLabelLinkClickedEventArgs e) 
+{ 
+    _currDrill = MIN_DRILL; //ドリル レベルを開始に設定します 
+    this.BuildChart(null);  //Form Load の場合と同じようにチャートをビルドします 
+} 
+private void lnk2_LinkClicked(object sender, 
+   System.Windows.Forms.LinkLabelLinkClickedEventArgs e) 
+{ 
+    _currDrill = 2; 
+    this.BuildChart( this.lnk2.Text ); 
+}
+----
+

@@ -1,0 +1,223 @@
+﻿= Conditional Formatting
+
+=== Purpose
+
+This topic explains how to configure and set conditional formatting on a link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet.html[Worksheet] in the link:{SpreadsheetLink}.{SpreadsheetName}.html[{SpreadsheetName}] control.
+
+=== Required Background
+
+The following table lists the concepts and topics required as a prerequisite to understanding this topic:
+
+|====
+|Topic|Purpose
+
+|link:spreadsheet-adding.html[Adding {SpreadsheetName} to Your Page]
+|This topic provides detailed instructions to help you get up and running as soon as possible with the `{SpreadsheetName}`.
+
+|link:spreadsheet-conf-worksheets.html[Worksheets]
+|This topic explains how to configure the worksheets in the `{SpreadsheetName}`.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<FormattingSummary, Conditional Formatting Configuration Summary>>
+* <<FormattingChart, Conditional Formatting Configuration Summary Chart>>
+* <<CodeExample, Code Example>>
+* <<Related, Related Content>>
+
+[[FormattingSummary]]
+== Conditional Formatting Configuration Summary
+
+You can configure the conditional formatting of a particular `Worksheet` by using the many "Add" methods exposed on the link:{ExcelEngineApiLink}infragistics.documents.excel.worksheet{ApiProp}conditionalformats.html[ConditionalFormats] collection of that worksheet. The first parameter of these "Add" methods is the `string` region of the Worksheet that you would like to apply the conditional format to.
+
+Many of the conditional formats that you can add to your Worksheet have a `CellFormat` property that determines the way that the link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetcell.html[WorksheetCell] elements should look when the condition in that conditional format holds true. For example, you can use the properties attached to this CellFormat property such as Fill and Font to determine the background and font settings of your cells, respectively.
+
+When a conditional format is created and a CellFormat applied, there is a subset of properties that are currently supported by the `Worksheet Cell`. The properties that are currently honored off of the CellFormat are Fill, Border properties, FormatString, and some Font properties such as Strikethrough, Underline, Italic, Bold, and Color. Many of these can be seen from the code snippet below.
+
+There are a few conditional formats that do not have a `CellFormat` property, as their visualization on the `WorksheetCell` behaves differently. These conditional formats are the `DataBarConditionalFormat`, `ColorScaleConditionalFormat`, and `IconSetConditionalFormat`.
+
+When loading a pre-existing Workbook from Excel, the formats will be preserved when that Workbook is loaded into the `{SpreadsheetName}`. The same is true for when you save the Workbook out to an Excel file.
+
+[[FormattingChart]]
+== Conditional Formatting Configuration Summary Chart
+
+The following table briefly explains the different conditional formats supported by the `Worksheet` element and maps them to the methods off of that element's `ConditionalFormats` collection used to add them:
+
+|====
+|Conditional Format Object|Method|Details
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.averageconditionalformat.html[AverageConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addaveragecondition.html[AddAverageCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether a cell's value is above or below the average or standard deviation for the associated range.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.blanksconditionalformat.html[BlanksConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addblankscondition.html[AddBlanksCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether the cell's value is not set.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.colorscaleconditionalformat.html[ColorScaleConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addcolorscalecondition.html[AddColorScaleCondition]
+|Exposes properties which control the coloring of a WorksheetCell based on the cell's value as relative to minimum, midpoint, and maximum threshold values.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.databarconditionalformat.html[DataBarConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adddatabarcondition.html[AddDataBarCondition]
+|Exposes properties which display data bars in a WorksheetCell based on the cell's value as relative to the associated range of values.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.datetimeconditionalformat.html[DateTimeConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adddatetimecondition.html[AddDateTimeCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether a cell's DateTime value falls within a given range of time.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.duplicateconditionalformat.html[DuplicateConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addduplicatecondition.html[AddDuplicateCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether a cell's value is unique or duplicated across the associated range.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.errorsconditionalformat.html[ErrorsConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adderrorscondition.html[AddErrorsCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether the cell's value is valid.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.formulaconditionalformat.html[FormulaConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addformulacondition.html[AddFormulaCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether the cell's value meets the criteria defined by a Formula.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.iconsetconditionalformat.html[IconSetConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addiconsetcondition.html[AddIconSetCondition]
+|Exposes properties which display icons in a WorksheetCell based on the cell's value as relative to threshold values.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.noblanksconditionalformat.html[NoBlanksConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addnoblankscondition.html[AddNoBlanksCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether the cell's value is set.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.noerrorsconditionalformat.html[NoErrorsConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addnoerrorscondition.html[AddNoErrorsCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether the cell's value is valid.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.operatorconditionalformat.html[OperatorConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addoperatorcondition.html[AddOperatorCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether the cell's value meets the criteria defined by a logical operator.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.rankconditionalformat.html[RankConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addrankcondition.html[AddRankCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether a cell's value is within the top of bottom rank of values across the associated range.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.textoperatorconditionalformat.html[TextOperatorConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}addtextcondition.html[AddTextCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether a cell's text value meets the criteria defined by a string and a FormatConditionTextOperator value as placed in the AddTextCondition method's parameters.
+
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.uniqueconditionalformat.html[UniqueConditionalFormat]
+|link:{ExcelEngineApiLink}infragistics.documents.excel.conditionalformatting.conditionalformatcollection{ApiProp}adduniquecondition.html[AddUniqueCondition]
+|Exposes properties which control the visual attributes of a WorksheetCell based on whether a cell's value is unique across the associated range.
+
+|====
+
+[[CodeExample]]
+== Code Example
+
+The following code example demonstrates usage of the conditional format objects mentioned above.
+
+*In C#:*
+[source, csharp]
+----
+Workbook book = new Workbook();
+Worksheet sheet = book.Worksheets.Add("Sheet1");
+
+AverageConditionalFormat avgFormat = sheet.ConditionalFormats.AddAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage);            
+avgFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+
+BlanksConditionalFormat blankFormat = sheet.ConditionalFormats.AddBlanksCondition("B1:B10");
+blankFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.Gray);
+
+ColorScaleConditionalFormat colorFormat = sheet.ConditionalFormats.AddColorScaleCondition("C1:C10", ColorScaleType.ThreeColor);
+colorFormat.MinimumThreshold.FormatColor = new WorkbookColorInfo(System.Drawing.Color.Green);
+colorFormat.MidpointThreshold.FormatColor = new WorkbookColorInfo(System.Drawing.Color.Orange);
+colorFormat.MaximumThreshold.FormatColor = new WorkbookColorInfo(System.Drawing.Color.Red);            
+
+DataBarConditionalFormat dataBarFormat = sheet.ConditionalFormats.AddDataBarCondition("D1:D10");
+
+DateTimeConditionalFormat dateTimeFormat = sheet.ConditionalFormats.AddDateTimeCondition("E1:E10", FormatConditionTimePeriod.NextWeek);
+dateTimeFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Blue);
+
+DuplicateConditionalFormat duplicateFormat = sheet.ConditionalFormats.AddDuplicateCondition("F1:F10");
+duplicateFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Magenta);
+
+FormulaConditionalFormat formulaFormat = sheet.ConditionalFormats.AddFormulaCondition("H1:H10", "=H1>2");
+formulaFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Blue);
+
+IconSetConditionalFormat iconFormat = sheet.ConditionalFormats.AddIconSetCondition("I1:I10", FormatConditionIconSet.IconSet3Arrows);           
+            
+NoBlanksConditionalFormat noBlanksFormat = sheet.ConditionalFormats.AddNoBlanksCondition("J1:J10");
+noBlanksFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.LightGray);
+   
+OperatorConditionalFormat operatorFormat = sheet.ConditionalFormats.AddOperatorCondition("L1:L10", FormatConditionOperator.Greater);            
+operatorFormat.SetOperand1(500);
+operatorFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+
+RankConditionalFormat rankFormat = sheet.ConditionalFormats.AddRankCondition("M1:M10", FormatConditionTopBottom.Top, 5);
+rankFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Blue);
+
+TextOperatorConditionalFormat textFormat = sheet.ConditionalFormats.AddTextCondition("N1:N10", "A", FormatConditionTextOperator.Contains);
+textFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Magenta);
+
+UniqueConditionalFormat uniqueFormat = sheet.ConditionalFormats.AddUniqueCondition("O1:O10");
+uniqueFormat.CellFormat.Font.ColorInfo = new WorkbookColorInfo(System.Drawing.Color.Red);
+----
+
+*In Visual Basic:*
+[source, vbnet]
+----
+Dim book As New Workbook()
+Dim sheet As Worksheet = book.Worksheets.Add("Sheet1")
+
+Dim avgFormat As AverageConditionalFormat = sheet.ConditionalFormats.AddAverageCondition("A1:A10", FormatConditionAboveBelow.AboveAverage)
+avgFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Red)
+
+Dim blankFormat As BlanksConditionalFormat = sheet.ConditionalFormats.AddBlanksCondition("B1:B10")
+blankFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.Gray)
+
+Dim colorFormat As ColorScaleConditionalFormat = sheet.ConditionalFormats.AddColorScaleCondition("C1:C10", ColorScaleType.ThreeColor)
+colorFormat.MinimumThreshold.FormatColor = New WorkbookColorInfo(System.Drawing.Color.Green)
+colorFormat.MidpointThreshold.FormatColor = New WorkbookColorInfo(System.Drawing.Color.Orange)
+colorFormat.MaximumThreshold.FormatColor = New WorkbookColorInfo(System.Drawing.Color.Red)
+
+Dim dataBarFormat As DataBarConditionalFormat = sheet.ConditionalFormats.AddDataBarCondition("D1:D10")
+
+Dim dateTimeFormat As DateTimeConditionalFormat = sheet.ConditionalFormats.AddDateTimeCondition("E1:E10", FormatConditionTimePeriod.NextWeek)
+dateTimeFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Blue)
+
+Dim duplicateFormat As DuplicateConditionalFormat = sheet.ConditionalFormats.AddDuplicateCondition("F1:F10")
+duplicateFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Magenta)
+
+Dim formulaFormat As FormulaConditionalFormat = sheet.ConditionalFormats.AddFormulaCondition("H1:H10", "=H1>2")
+formulaFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Blue)
+
+Dim iconFormat As IconSetConditionalFormat = sheet.ConditionalFormats.AddIconSetCondition("I1:I10", FormatConditionIconSet.IconSet3Arrows)
+
+Dim noBlanksFormat As NoBlanksConditionalFormat = sheet.ConditionalFormats.AddNoBlanksCondition("J1:J10")
+noBlanksFormat.CellFormat.Fill = CellFill.CreateSolidFill(System.Drawing.Color.LightGray)
+
+Dim operatorFormat As OperatorConditionalFormat = sheet.ConditionalFormats.AddOperatorCondition("L1:L10", FormatConditionOperator.Greater)
+operatorFormat.SetOperand1(500)
+operatorFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Red)
+
+Dim rankFormat As RankConditionalFormat = sheet.ConditionalFormats.AddRankCondition("M1:M10", FormatConditionTopBottom.Top, 5)
+rankFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Blue)
+
+Dim textFormat As TextOperatorConditionalFormat = sheet.ConditionalFormats.AddTextCondition("N1:N10", "A", FormatConditionTextOperator.Contains)
+textFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Magenta)
+
+Dim uniqueFormat As UniqueConditionalFormat = sheet.ConditionalFormats.AddUniqueCondition("O1:O10")
+uniqueFormat.CellFormat.Font.ColorInfo = New WorkbookColorInfo(System.Drawing.Color.Red)
+----
+
+After filling the `Worksheet` element with data, the above will result in a {SpreadsheetName} that looks like the following:
+
+image:images/spreadsheet-conditional-formatting.png[]
+
+[[Related]]
+== Related Content
+
+The following topics provide additional information related to this topic.
+
+* link:spreadsheet-working.html[Working with {SpreadsheetName}]
+* link:spreadsheet-work-data-validation.html[Data Validation]

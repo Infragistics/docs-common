@@ -1,0 +1,154 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理的ポリライン シリーズを使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールで link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] 要素を使用する方法を提供します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加] 
+
+|このトピックは、{GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、{GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320651776, 地理的ポリライン シリーズ >>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320651783,プレビュー>>
+** <<_Ref320651786,データ要件>>
+** <<_Ref320651790,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320651776]]
+== 地理的ポリライン シリーズ
+
+[[_Ref320193474]]
+
+=== 概要
+
+{GeoMapName} コントロールでは、 link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] は、地理的コンテキストで多角形を使用して地理的データを表示する視覚地図要素です。地理的シリーズのこのタイプは、都市または空港などの地理的位置間の道路または接続を描画するためにしばしば使用されます。 link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] は、地理的データが多角形の代わりにポリラインで描画されることを除いて、 link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] とほどんど同様に機能します。
+
+[[_Ref320651783]]
+
+=== プレビュー
+
+以下は、北米の道路をプロットしている link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] での {GeoMapName} コントロールのプレビューです。
+
+image::images/GeographicMap_Using_Geographic_Polyline_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== データ要件
+
+{GeoMapName} コントロールの地理的シリーズの他のタイプと同様、 link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] には、データ バインディングのための link:{DataChartLink}.series~{ApiDataSource}.html[ {ApiDataSource}] プロパティがあります。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/6sh2ey19.aspx[List]、 link:http://msdn.microsoft.com/ja-jp/library/ms132397.aspx[Collection]、 link:http://msdn.microsoft.com/ja-jp/library/7977ey2c.aspx[Queue]、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.stack.aspx[Stack] など link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイスを実装するオブジェクトにバインドできます。さらに、このオブジェクトの各項目には、 link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable]<pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.point.aspx[Point]"]pick:[win-forms="{GeoMapNamespace}.Point"]> または link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable]<link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable]<pick:[wpf="link:http://msdn.microsoft.com/en-us/library/system.windows.point.aspx[Point]"]pick:[win-forms="{GeoMapNamespace}.Point"]>> 構造を使用して接続された項目の地理的位置（経度と緯度）を保存するデータ列が 1 つ必要です。後者は、シェープ ファイルおよび link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] オブジェクトで使用される標準的なデータ構造です。このデータ列は、 link:{GeoMapLink}.geographicshapeseriesbase~shapememberpath.html[ShapeMemberPath] プロパティにマップされます。 link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] は、 {GeoMapName} コントロールで多角形をプロットするために、このマップされたデータ列のポイントを使用します。
+
+[[_Ref320651790]]
+
+=== 例
+
+以下のコードは、ShapefileConverter を使用してシェープ ファイルからロードした都市の場所に link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] をバインドする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:ShapefileConverter x:Key="shapefileConverter"
+                        ShapefileSource="ShapeFiles/north_america_primary_roads.shp"
+                        DatabaseSource="ShapeFiles/north_america_primary_roads.dbf" >
+</ig:ShapefileConverter>
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.Series>
+        <ig:GeographicPolylineSeries  {ApiDataSource}="{StaticResource shapefileConverter}"
+                                   ShapeMemberPath="Points">
+        </ig:GeographicPolylineSeries>
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' GeographicPolylineSeries を作成して、データ バインディングを設定します
+Dim geoSeries = New GeographicPolylineSeries()
+geoSeries.{ApiDataSource} = shapefileConverter
+geoSeries.ShapeMemberPath = "Points"
+' GeographicPolylineSeries を {GeoMapName} に追加します
+Me.GeoMap.Series.Add(geoSeries)
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// GeographicPolylineSeries を作成して、データ バインディングを設定します
+var geoSeries = new GeographicPolylineSeries();
+geoSeries.{ApiDataSource} = shapefileConverter;
+geoSeries.ShapeMemberPath = "Points";
+// GeographicPolylineSeries を {GeoMapName} に追加します
+this.GeoMap.Series.Add(geoSeries);
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加] 
+
+|このトピックは、{GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、{GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+| link:geographicmap-using-geographic-series.html[地理的シリーズを使用]
+|このトピックは、{GeoMapName} コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+|====

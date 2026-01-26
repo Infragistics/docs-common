@@ -1,0 +1,152 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-configuring-axis-gap-and-overlap",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= 軸間隔と重複の構成
+
+=== 目的
+
+このトピックでは、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] コントロール軸間隔および軸の重なりを構成する方法を説明します。
+
+=== 前提条件
+
+このトピックを理解するためには、link:categorychart-walkthrough.html[カテゴリ チャートの追加]トピックを理解しておく必要があります。
+
+
+=== このトピックの内容
+
+このトピックには以下のセクションがあります。
+
+* <<ConfigureAxisGap,軸間隔>> 
+* <<ConfigureAxisOverlap,軸の重複>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[ConfigureAxisGap]]
+== 軸間隔
+
+=== 概要
+
+{CategoryChartName} コントロールの軸間隔機能は、チャート シリーズ間の間隔を設定できます。
+
+=== プロパティ
+
+link:{CategoryChartLink}.{CategoryChartName}{ApiProp}XAxisGap.html[XAxisGap] プロパティは、0 と 1 の間の float 値である必要があります。値は、シリーズ間で利用可能なピクセル数から間隔の相対幅を表します。0 - シリーズ間に間隔は描画されません。1 - シリーズ間に利用可能な最大の間隔が描画されます。
+
+たとえば、`XAxisGap` 0.5 は間隔を描画するための利用可能なスペースの半分です。
+
+.注:
+[NOTE]
+====
+XAxisGap プロパティは非連続のシリーズ タイプにのみ適用します。これは柱状およびウォーターフォールの ChartType を含みます。
+====
+
+=== 例
+
+以下は、{CategoryChartName} を `XAxisGap` `0.5` で初期化するコードです。
+
+ifdef::xaml[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+                        ItemsSource="{Binding EnergySampleData}"
+                        XAxisGap="0.5" 
+                        ChartType="Column">
+</ig:{CategoryChartName}>
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.XAxisGap = 0.5;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.XAxisGap = 0.5
+----
+endif::win-forms[]
+
+image::images/categorychart_axis_gap.png[]
+
+[[ConfigureAxisOverlap]]
+== 軸の重複
+
+=== 概要
+
+{CategoryChartName} コントロールの軸の重複機能は、描画されたカテゴリの重なりを設定できます。
+
+=== プロパティ
+
+link:{CategoryChartLink}.{CategoryChartName}{ApiProp}XAxisOverlap.html[XAxisOverlap] プロパティは、-1 と 1 の間の float 値である必要があります。値は、各シリーズに利用可能なピクセル数から相対する重複を示します。
+
+負の値 (-1 以上): カテゴリは互いに生成する間隔によって引き離されます。
+
+正の数 (1 以下): カテゴリが互いに重なります。値 1 は、互いのチャート上にカテゴリを描画します。 
+
+たとえば、`XAxisOverlap` 0.5 は間隔を描画するための利用可能なスペースの半分です。
+
+.注:
+[NOTE]
+====
+XAxisOverlap プロパティは非連続のシリーズ タイプにのみ適用します。これは柱状およびウォーターフォールの ChartType を含みます。
+====
+
+=== 例
+
+ifdef::xaml[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+                        ItemsSource="{Binding EnergySampleData}"
+                        XAxisOverlap="0.5" 
+                        ChartType="Column">
+</ig:{CategoryChartName}>
+----
+endif::xaml[]
+
+ifdef::win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.XAxisOverlap = 0.5;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.XAxisOverlap = 0.5
+----
+endif::win-forms[]
+
+image::images/categorychart_axis_overlap.png[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:categorychart-walkthrough.html[カテゴリ チャートの追加]
+|このトピックはカテゴリ チャートを作成する方法を紹介します。
+
+| link:categorychart-chart-types.html[チャート タイプ]
+|このトピックは利用可能なチャート タイプを説明します。

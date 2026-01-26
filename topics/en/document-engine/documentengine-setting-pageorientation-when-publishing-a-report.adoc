@@ -1,0 +1,45 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-setting-pageorientation-when-publishing-a-report",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{34717629-DE75-4810-B4F8-F0AF5921DF7F}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Setting PageOrientation when publishing a Report
+
+When publishing a PDF or XPS document, the Orientation of the page can be set by the  pick:[win-forms=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pageorientation.html[PageOrientation]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pageorientation.html[PageOrientation]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pageorientation.html[PageOrientation]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection~pageorientation.html[PageOrientation]"]  property. When the  pick:[win-forms=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Report.Publish()]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Report.Publish()]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Report.Publish()]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report~publish.html[Report.Publish()]"]  method is used, the PageOrientation needs to be directly set on each Section  pick:[win-forms=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection()]"]  pick:[asp-net=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection()]"]  pick:[win-forms-old=" link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection()]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[ISection()]"]  that you add to the Report.
+
+*In Visual Basic:*
+
+----
+Dim r As Infragistics.Documents.Reports.Report.Report = New Report()
+'Adding a section to the Report 
+Dim s As Infragistics.Documents.Reports.Report.Section.ISection = r.AddSection()
+s.PageOrientation = PageOrientation.Portrait 
+'Adding Text to the Section 
+Dim t As Infragistics.Documents.Reports.Report.Text.IText = s.AddText()
+t.AddContent(”Test Text”) 
+Dim theFile As String = c:\test.pdf”
+r.Publish(theFile, FileFormat.PDF)
+----
+
+*In C#:*
+
+----
+Infragistics.Documents.Reports.Report.Report r = new Report();
+//Adding a section to the Report
+Infragistics.Documents.Reports.Report.Section.ISection s = r.AddSection();
+ s.PageOrientation = PageOrientation.Portrait;
+ //Adding Text to the Section
+ Infragistics.Documents.Reports.Report.Text.IText t = s.AddText();
+ t.AddContent(”Test Text”);
+ string theFile = @”c:\test.pdf”;
+ r.Publish(theFile, FileFormat.PDF);
+----

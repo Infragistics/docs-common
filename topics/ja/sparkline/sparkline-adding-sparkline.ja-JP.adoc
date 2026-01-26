@@ -1,0 +1,172 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-adding-sparkline",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","Getting Started"],
+    "guid": "81ddee34-34ab-4723-bd2b-ca9a43ccfbcd",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2873585Z"
+}
+|metadata|
+////
+
+= {SparklineName} を追加
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{ApiPlatform}{SparklineAssembly}.html[{SparklineName}] コントロールの追加方法の概要を説明し、使用できる追加オプションを紹介します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められる素材をリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref317075029,Sparkline の追加>>
+
+** <<Introduction,概要>>
+** <<_Ref317075452,要件>>
+** <<_Ref320180895,{SparklineName} コントロールを追加する場合のオプション>>
+
+* <<_Ref317075104,関連コンテンツ>>
+
+[[_Ref317075029]]
+== Sparkline の追加
+
+=== 概要
+
+Sparkline は、スタンドアロン コントロールとして、グリッド セルやテキスト付きのインラインなど、{PlatformName} アプリケーションの小さなスペースに表示できます。 _{SparklineName}_   コントロールは、コード内 (C# または Visual Basic) だけでなく、pick:[sl,wpf,win-phone,win-universal,xamarin="XAML"]pick:[win-forms="デザイナー"]からも追加できます。
+
+どのデータを表示するか判断するには、データ ポイントとしてクラスに少なくとも 2 つの数値フィールドがあるデータ ソースが必要です。これは、それぞれ ItemsSource プロパティと link:sparkline-sparkline-property-reference.html#ValueMemberPath[ValueMemberPath] プロパティで処理されます。 _{SparklineName}_   コントロールを構成するには、最低でもこれらのプロパティ セットが必要です。
+
+_{SparklineName}_   コントロールの追加に必要なプロジェクト要件として、アセンブリ参照と名前空間の追加、さらにデータ要件がいくつかあります。
+
+チャートを描画するためにデータに少なくとも 2 つの数値フィールドが含まれている限り、 _{SparklineName}_   は一次元のデータ ソースをサポートします。
+
+[[_Ref317075452]]
+
+=== 要件
+
+ifdef::wpf[]
+
+以下の NuGet パッケージ参照をメイン プロジェクトに追加します。
+
+** Infragistics.WPF.Sparkline
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+以下の Infragistics アセンブリをメイン プロジェクトに追加します。
+
+** {ApiPlatform}{SparklineAssembly}{ApiVersion}.dll 
+** {ApiPlatform}{DataVizAssembly}{ApiVersion}.dll
+** {ApiPlatform}{ApiVersion}dll
+endif::win-forms[]
+
+ifdef::win-forms[]
+** {ApiPlatform}Win.Portable.Core{ApiVersion}.dll 
+endif::win-forms[]
+
+
+ifdef::xamarin[]
+詳細については、link:xamarin-project-with-infragistics-controls#NuGetPackages.html[NuGet パッケージで参照を追加]を参照してください。
+endif::xamarin[]
+
+以下のアセンブリ参照をプロジェクトに追加します。
+
+ifdef::xamarin[]
+*XAML の場合:* 
+[source,xaml]
+----
+xmlns:ig="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly={ApiPlatform}Sparkline"
+----
+*C# の場合:*
+[source,csharp]
+----
+using Infragistics.XamarinForms.Controls.Charts;
+----
+endif::xamarin[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+---- 
+*C# の場合:*
+[source,csharp]
+----
+using Infragistics.Controls.Charts;
+----
+*VB の場合:* 
+[source,vb]
+----
+Imports Infragistics.Controls.Charts
+---- 
+endif::wpf[]
+
+数値を含む一次元データが必要です。 
+
+*注:* Win/Loss 型の Sparkline では、チャートには最高値と最低値の 2 つの値のみ使用されます。データ セットの残りの値は無視されます。
+
+[[_Ref320022805]]
+
+=== {SparklineName} コントロールを追加する場合のオプション
+
+以下の表は、 _{SparklineName}_   コントロールの追加方法を示しています。
+
+[options="header", cols="a,a"]
+|====
+|例|説明
+
+| link:sparkline-adding-a-sparkline-to-a-page.html[{SparklineName} をページに追加]
+|一次元データを使用して、 _{SparklineName}_ コントロールを直接ページに追加できます。
+
+ifdef::sl,wpf[]
+| link:xamgrid-sparkline-column.html[スパークライン列]
+|Sparkline column 型を使用して、 _{SparklineName}_ コントロールを _xamGrid_™ セルに追加できます。
+endif::sl,wpf[]
+
+|====
+
+[[_Ref317075039]]
+
+[[_Ref317075104]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+ifdef::sl,wpf[]
+| link:xamgrid-sparkline-column.html[Sparkline Column]
+|このトピックは、 _xamGrid_ コントロールの Sparkline column 型を紹介し、その使用方法を示します。
+endif::sl,wpf[]
+
+|====

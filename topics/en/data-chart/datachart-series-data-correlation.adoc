@@ -1,0 +1,529 @@
+﻿////
+|metadata|
+{
+    "name": "datachart-series-data-correlation",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Presentation","Getting Started","How Do I"],
+    "guid": "2c836c87-4b28-44b0-91f8-ed796e1cf69e",
+    "buildFlags": ["wpf","win-universal"],
+    "createdOn": "2014-06-05T19:39:00.6453753Z"
+}
+|metadata|
+////
+
+= Series Data Correlation
+
+This topic introduces Series Data Correlation feature of the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control and explains how to use it with code examples.
+
+== Overview
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<Requirements,Requirements>>
+
+** Assembly Requirements
+** Data Requirements
+
+* <<Example,Example>>
+
+** Preview
+** Procedure
+
+* <<RelatedContent,Related Content>>
+
+** link:datachart-series-requirements.html[Series Requirements]
+** link:datachart-series-value-overlay.html[Value Overlay]
+** link:ig-math-calculators.html[Infragistics Math Calculators]
+
+== Introduction
+
+The Series Data Correlation is an integration of the {DataChartName} control with the link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] that allows for the calculation of the correlation between two values in a data set displayed using the link:{DataChartLink}.scatterseries.html[ScatterSeries]. Data Correlation is useful for identifying how two variables in the data set are related to each other. For example, you can use correlation to determine if there is a connection between high blood pressure readings and the age group of patients plotted in the {DataChartName} control. Refer to the link:ig-math-calculators.html[Infragistics Math Calculators] topic for more information about the link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] and the different types of data correlation.
+
+== Requirements
+
+This section provides prerequisites for working with the Series Data Correlation feature of the {DataChartName} control.
+
+ifdef::win-forms[]
+
+== Assembly Requirements
+
+Table 1 – List of assemblies that need to be added to a {PlatformName} project.
+
+[options="header", cols="a,a"]
+|====
+|Assembly|Description
+
+|{ApiPlatform}Math.Calculators{ApiVersion}.dll
+|{ProductName} assembly containing mathematical calculators to compute correlation, mean, median, variance and many more mathematical values.
+
+|{ApiPlatform}Math{ApiVersion}.dll
+|{ProductName} assembly containing standard mathematical constants and all-purpose mathematical functions designed to act on a variety of mathematical objects.
+
+|{ApiPlatform}{DataChartAssembly}{ApiVersion}.dll
+|{ProductName} assembly containing the {DataChartName} control and various types of Series and Axes for plotting data.
+
+|====
+
+endif::win-forms[]
+
+ifdef::wpf[]
+
+== Assembly Requirements
+
+Table 1 – List of NuGet packages that need to be added to a {PlatformName} project.
+
+[options="header", cols="a,a"]
+|====
+|NuGet Package|Description
+
+|Infragistics.Math.Calculators
+|{ProductName} NuGet package containing mathematical calculators to compute correlation, mean, median, variance and many more mathematical values.
+
+|Infragistics.WPF.Math
+|{ProductName} NuGet package containing standard mathematical constants and all-purpose mathematical functions designed to act on a variety of mathematical objects.
+
+|Infragistics.WPF.Charts
+|{ProductName} NuGet package containing the {DataChartName} control and various types of Series and Axes for plotting data.
+
+|====
+
+endif::wpf[]
+
+== Data Requirements
+
+The CorrelationCalculator requires data object that must implement the link:http://msdn.microsoft.com/en-us/library/system.collections.ienumerable.aspx[IEnumerable] interface (e.g. link:http://msdn.microsoft.com/en-us/library/6sh2ey19.aspx[List], link:http://msdn.microsoft.com/en-us/library/ms132397.aspx[Collection], link:http://msdn.microsoft.com/en-us/library/7977ey2c.aspx[Queue], link:http://msdn.microsoft.com/en-us/library/system.collections.stack.aspx[Stack]) and items of this object must consist of two numeric data columns on which data correlation is calculated. Furthermore, these two data columns must be mapped to XMemberPath and YMemberPath properties of the CorrelationCalculator and the ScatterSeries objects.
+
+An example of an object that meets the above criteria is the CorrelationDataSample, which you can download from the link:resources-correlationdatasample.html[Correlation Data Sample] resource and use it in your project.
+
+.Note:
+[NOTE]
+====
+Once the data is bound to ItemsSource of the link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] the correlation is computed and stored as a numeric value in the Value property of the link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator].
+====
+
+== Example
+
+The following example demonstrates how to calculate correlation of data bound to the ScatterSeries in the {DataChartName} control and display the result as title of the series in a legend of the chart. It assumes that you added all required assemblies listed in the Assembly Requirement section to your project.
+
+== Preview
+
+ifdef::sl,wpf,win-phone,win-universal[]
+image::images/Series_Data_Correlation_01.png[]
+endif::sl,wpf,win-phone,win-universal[]
+
+Figure 1 – Sample integration of the {DataChartName} control with CorrelationCalculator
+
+== Procedure
+
+This procedure provides steps necessary for integrating the {DataChartName} control with CorrelationCalculator and displaying the result of calculation.
+
+.Note:
+[NOTE]
+====
+This example uses the CorrelationDataSample object as data source but you can use your own data. Refer to the Data Requirements section of this topic for more information data requirements.
+====
+
+[start=1]
+. Add link:resources-correlationdatasample.html[Correlation Data Sample] object as data source that will provide data for calculating correlation.
+
+ifdef::win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+xmlns:local="using:Infragistics.Samples.Data.Models"
+----
+
+endif::win-universal[]
+
+ifdef::wpf[]
+
+*In XAML:*
+
+----
+xmlns:local="clr-namespace:Infragistics.Samples.Data.Models"
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<local:CorrelationDataSample x:Key="Data">
+    <local:CorrelationDataSample.Settings>
+        <local:CorrelationDataSettings DataDistribution="RandomlyIncreasing" />
+    </local:CorrelationDataSample.Settings>
+</local:CorrelationDataSample>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Samples.Data.Models
+...
+Dim data As New CorrelationDataSample()
+data.Settings = New CorrelationDataSettings()
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Samples.Data.Models
+...
+Dim data As New CorrelationDataSample()
+data.Settings = New CorrelationDataSettings()
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Samples.Data.Models
+...
+Dim data As New CorrelationDataSample()
+data.Settings = New CorrelationDataSettings()
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+using Infragistics.Samples.Data.Models;
+...
+CorrelationDataSample data = new CorrelationDataSample();
+data.Settings = new CorrelationDataSettings();
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+using Infragistics.Samples.Data.Models;
+...
+CorrelationDataSample data = new CorrelationDataSample();
+data.Settings = new CorrelationDataSettings();
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+using Infragistics.Samples.Data.Models;
+...
+CorrelationDataSample data = new CorrelationDataSample();
+data.Settings = new CorrelationDataSettings();
+data.Settings.DataDistribution = DataDistribution.RandomlyIncreasing;
+----
+
+endif::xamarin[]
+
+.Note:
+[NOTE]
+====
+The CorrelationCalculator is not a visual element and it must be defined in resources section on application, page, or control level the same way as you would define a data source.
+====
+
+[start=2]
+. Create instance of the link:{ApiPlatform}math.calculators{ApiVersion}~infragistics.math.calculators.correlationcalculator.html[CorrelationCalculator] with appropriate data bindings.
+
+ifdef::win-universal[]
+
+*In XAML:*
+
+[source,xaml]
+----
+xmlns:ig="using:Infragistics.Controls.Charts"
+xmlns:igMath="using:Infragistics.Math.Calculators"
+----
+
+endif::win-universal[]
+
+ifdef::wpf[]
+
+*In XAML:*
+
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+xmlns:igMath="http://schemas.infragistics.com/xaml"
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<ig:CorrelationCalculator x:Key="correlationCalc" 
+                          XMemberPath="X" YMemberPath="Y" 
+                          ItemsSource="{StaticResource Data}" />
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Math.Calculators
+...
+Dim correlationCalc As New CorrelationCalculator()
+correlationCalc.XMemberPath = "X"
+correlationCalc.YMemberPath = "Y"
+correlationCalc.ItemsSource = data
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Math.Calculators
+...
+Dim correlationCalc As New CorrelationCalculator()
+correlationCalc.XMemberPath = "X"
+correlationCalc.YMemberPath = "Y"
+correlationCalc.ItemsSource = data
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In Visual Basic:*
+
+----
+Imports Infragistics.Math.Calculators
+...
+Dim correlationCalc As New CorrelationCalculator()
+correlationCalc.XMemberPath = "X"
+correlationCalc.YMemberPath = "Y"
+correlationCalc.ItemsSource = data
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+using Infragistics.Math.Calculators;
+...
+CorrelationCalculator correlationCalc = new CorrelationCalculator();
+correlationCalc.XMemberPath = "X";
+correlationCalc.YMemberPath = "Y";
+correlationCalc.ItemsSource = data;
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+using Infragistics.Math.Calculators;
+...
+CorrelationCalculator correlationCalc = new CorrelationCalculator();
+correlationCalc.XMemberPath = "X";
+correlationCalc.YMemberPath = "Y";
+correlationCalc.ItemsSource = data;
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+using Infragistics.Math.Calculators;
+...
+CorrelationCalculator correlationCalc = new CorrelationCalculator();
+correlationCalc.XMemberPath = "X";
+correlationCalc.YMemberPath = "Y";
+correlationCalc.ItemsSource = data;
+----
+
+endif::xamarin[]
+
+[start=3]
+. Bind Title property of link:{DataChartLink}.scatterseries.html[ScatterSeries] object to the Value property of the CorrelationCalculator resource. Alternatively, you can display the result of data correlation in other controls (e.g. TextBlock) through binding to a static resource.
+
+ifdef::wpf,win-universal[]
+
+*In XAML:*
+
+----
+<Grid >
+    <ig:{DataChartName} x:Name="DataChart" Legend="{Binding ElementName=Legend1}" Margin="5">
+        <ig:{DataChartName}.Axes>
+            <ig:NumericXAxis x:Name="xAxis" />
+            <ig:NumericYAxis x:Name="yAxis" />
+        </ig:{DataChartName}.Axes>
+        <ig:{DataChartName}.Series>
+            <!-- ========================================================================== -->
+            <ig:ScatterSeries Title="{Binding Value, Source={StaticResource correlationCalc}}"
+                              ItemsSource="{StaticResource Data}" 
+                              XMemberPath="X" YMemberPath="Y" 
+                              XAxis="{Binding ElementName=xAxis}" 
+                              YAxis="{Binding ElementName=yAxis}">
+            </ig:ScatterSeries>
+            <!-- ========================================================================== -->
+        </ig:{DataChartName}.Series>
+    </ig:{DataChartName}>
+    <ig:Legend x:Name="Legend1" Content="Data Correlation" 
+               VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
+</Grid>
+----
+
+endif::wpf,win-universal[]
+
+ifdef::wpf[]
+
+*In Visual Basic:*
+
+----
+Imports {DataChartNamespace}
+...
+Dim binding As New Binding()
+binding.Source = correlationCalc
+binding.Path = New PropertyPath("Value")
+binding.Mode = BindingMode.OneWay
+...
+Dim series As ScatterSeries = Me.DataChart.Series.OfType(Of ScatterSeries)().First()
+series.SetBinding(Series.TitleProperty, binding)
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In Visual Basic:*
+
+----
+Imports {DataChartNamespace}
+...
+Dim binding As New Binding()
+binding.Source = correlationCalc
+binding.Path = New PropertyPath("Value")
+binding.Mode = BindingMode.OneWay
+...
+Dim series As ScatterSeries = Me.DataChart.Series.OfType(Of ScatterSeries)().First()
+series.SetBinding(Series.TitleProperty, binding)
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In Visual Basic:*
+
+----
+Imports {DataChartNamespace}
+...
+Dim binding As New Binding()
+binding.Source = correlationCalc
+binding.Path = New PropertyPath("Value")
+binding.Mode = BindingMode.OneWay
+...
+Dim series As ScatterSeries = Me.DataChart.Series.OfType(Of ScatterSeries)().First()
+series.SetBinding(Series.TitleProperty, binding)
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+
+*In C#:*
+
+----
+using {DataChartNamespace};
+...
+Binding binding = new Binding();
+binding.Source = correlationCalc;
+binding.Path = new PropertyPath("Value");
+binding.Mode = BindingMode.OneWay;
+...
+ScatterSeries series = this.DataChart.Series.OfType<ScatterSeries>().First();
+series.SetBinding(Series.TitleProperty, binding);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*In C#:*
+
+----
+using {DataChartNamespace};
+...
+Binding binding = new Binding();
+binding.Source = correlationCalc;
+binding.Path = new PropertyPath("Value");
+binding.Mode = BindingMode.OneWay;
+...
+ScatterSeries series = this.DataChart.Series.OfType<ScatterSeries>().First();
+series.SetBinding(Series.TitleProperty, binding);
+----
+
+endif::win-forms[]
+
+ifdef::xamarin[]
+
+*In C#:*
+
+----
+using {DataChartNamespace};
+...
+Binding binding = new Binding();
+binding.Source = correlationCalc;
+binding.Path = new PropertyPath("Value");
+binding.Mode = BindingMode.OneWay;
+...
+ScatterSeries series = this.DataChart.Series.OfType<ScatterSeries>().First();
+series.SetBinding(Series.TitleProperty, binding);
+----
+
+endif::xamarin[]
+
+== Related Content
+
+link:datachart-series-requirements.html[Series Requirements]
+
+link:datachart-series-value-overlay.html[Value Overlay]
+
+link:ig-math-calculators.html[Infragistics Math Calculators]

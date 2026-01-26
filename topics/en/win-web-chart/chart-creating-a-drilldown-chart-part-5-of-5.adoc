@@ -1,0 +1,86 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-creating-a-drilldown-chart-part-5-of-5",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{6FCE4571-FDF8-4C37-914E-1F8E9B62F394}",  
+    "buildFlags": ["win-forms","win-forms-old"],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= Creating a Drilldown Chart (Part 5 of 5)
+
+This topic is a continuation of Creating a Drilldown Chart (Part 4 of 5).
+
+The end user initiates the drill down by simply on any data element within the chart. For example, when the chart first loads, the end user clicks on a bar, which represents a customer. The chart then drills to the next level and that represents the Customer’s Orders. The end user then clicks on one Order represented by a slice on the pie chartThe next level is now a chart populated with the particular Order’s details and thus ends the drilling because this is the maximum drill level.
+
+The chart click interaction is handled by the “ChartDataClicked” event. In this event, the Row Label of the event arguments is used to retrieve the string value of a particular row in which the resulting data is grouped by. For example, if you submit a SQL query that selects a person’s First Name and then a count of sales and you group by the First Name, the resulting data would contain a list of First Names along with a numeric that represents the sales for each person. The actual First Name value of each row would be considered the “Row Label” in chart terms.
+
+The following example code demonstrates how to retrieve the RowLabel when the chart is clicked.
+*In Visual Basic:*
+
+----
+Private Sub ultraChart1_ChartDataClicked( _ 
+    ByVal sender As Object, _ 
+    ByVal e As Infragistics.UltraChart.Shared.Events.ChartDataEventArgs) _ 
+    Handles ultraChart1.ChartDataClicked 
+    If (_currDrill = MAX_DRILL) Then Return 
+    Me.DrillDown() 
+    Me.BuildChart(e.RowLabel) 
+End Sub
+----
+
+*In C#:*
+
+----
+private void ultraChart1_ChartDataClicked( 
+ object sender, 
+ Infragistics.UltraChart.Shared.Events.ChartDataEventArgs e) 
+{ 
+     if (_currDrill == MAX_DRILL)return; 
+     this.DrillDown(); 
+     this.BuildChart( e.RowLabel ); 
+}
+----
+
+The end user can drill back to any level by clicking on any of the visible Link Labels. While drilling into the chart, the Link Label Text property was populated with the value that was used to perform the query.
+
+When drilling back to any previous level the information is available to requery the database.
+
+The following example code shows how to set the current drill level to a value that represents the link label the end user clicked (each link label represents a known drill level) and then the chart is built, passing in the value of the link label’s text property so that the chart is built using the same information that was used to get to that level previously.
+*In Visual Basic:*
+
+----
+Private Sub lnk1_Click(ByVal sender As Object, _ 
+  ByVal e As System.EventArgs) Handles lnk1.Click 
+      _currDrill = MIN_DRILL 'set drill level to the beginning 
+      Me.BuildChart(Nothing) 'build the chart just like we do in the form load 
+End Sub
+Private Sub lnk2_Click(ByVal sender As Object, _ 
+  ByVal e As System.EventArgs) Handles lnk2.Click 
+      _currDrill = 2 
+     Me.BuildChart(Me.lnk2.Text) 
+End Sub
+----
+
+*In C#:*
+
+----
+private void lnk1_LinkClicked(object sender, 
+  System.Windows.Forms.LinkLabelLinkClickedEventArgs e) 
+{ 
+    _currDrill = MIN_DRILL; //set drill level to the beginning 
+    this.BuildChart(null);  //build the chart just like we do in the form load 
+} 
+private void lnk2_LinkClicked(object sender, 
+   System.Windows.Forms.LinkLabelLinkClickedEventArgs e) 
+{ 
+    _currDrill = 2; 
+    this.BuildChart( this.lnk2.Text ); 
+}
+----
+

@@ -1,0 +1,84 @@
+﻿= 軸目盛の構成
+
+=== 概要
+
+このトピックは、link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] コントロールの軸のスケール モードを紹介します。
+
+* <<Intro, 概要>>
+* <<Props, プロパティ>>
+* <<CodeExample, コード例>>
+* <<Related, 関連コンテンツ>>
+
+[[Intro]]
+== 概要
+
+`{ShapeChartName}` コントロールでは、両方の軸が数値軸により組み込みスケーラを使用してデータ値をスケールできます。チャートで各軸の `isLogarithmic` プロパティを設定できます。特定の軸でこのプロパティを設定することにより、軸スケーラーをリニアまたは対数モードに設定します。
+
+[[Props]]
+== プロパティ
+
+以下の表は、`{ShapeChartName}` コントロールの軸のスケールに影響するプロパティを説明します。
+
+|====
+|軸プロパティ|プロパティ型|説明
+
+|link:{DataChartLink}.xamcartesianchart{ApiProp}xaxisislogarithmic.html[XAxisIsLogarithmic], +
+link:{DataChartLink}.xamcartesianchart{ApiProp}yaxisislogarithmic.html[YAxisIsLogarithmic]
+|`bool`
+|特定の軸のデータ項目を対数プロットにスケーリングするかどうかを取得または設定します。このプロパティが false の場合、相対する軸でリニア スケールが使用されます。
+
+|link:{DataChartLink}.xamcartesianchart{ApiProp}xaxislogarithmbase.html[XAxisLogarithmBase], +
+link:{DataChartLink}.xamcartesianchart{ApiProp}yaxislogarithmbase.html[YAxisLogarithmBase]
+|`int`
+|相対する数値軸にデータ項目の位置をマップするときに log 関数で使用する基本値を取得または設定します。このプロパティは、相対する軸の "IsLogarithmic" プロパティが true に設定される場合のみに適用されます。
+
+|====
+
+[[CodeExample]]
+
+== コード例
+
+以下のコードは、`{ShapeChartName}` コントロールでプロットされたスケール データ値に組み込み軸スケーラを使用する方法を示します。
+
+ifdef::wpf,xamarin[]
+*XAML の場合:*
+[source, xaml]
+----
+<ig:{ShapeChartName} x:Name="shapeChart"
+                  ItemsSource="{Binding Data}"
+                  XAxisIsLogarithmic="True"
+                  XAxisLogarithmBase="2"
+                  YAxisIsLogarithmic="True"
+                  YAxisLogarithmBase="2" />
+----
+endif::wpf,xamarin[]
+
+
+*C# の場合:*
+[source, csharp]
+----
+shapeChart.XAxisIsLogarithmic = true;
+shapeChart.XAxisLogarithmBase = 2;
+shapeChart.YAxisIsLogarithmic = true;
+shapeChart.YAxisLogarithmBase = 2;
+----
+
+ifdef::wpf,win-forms[]
+*Visual Basic の場合:*
+[source, vb]
+----
+shapeChart.XAxisIsLogarithmic = True
+shapeChart.XAxisLogarithmBase = 2
+shapeChart.YAxisIsLogarithmic = True
+shapeChart.YAxisLogarithmBase = 2
+----
+endif::wpf,win-forms[]
+
+上記のコードを使用すると、データ項目の指数、リニア、二次、および対数セットの場合に `{ShapeChartName}` が以下のような結果になります。
+
+image:images/shape-chart-axis-scales.png[]
+
+[[Related]]
+== 関連コンテンツ
+
+* link:shapechart-using-legend[{ShapeChartName} で凡例を使用]

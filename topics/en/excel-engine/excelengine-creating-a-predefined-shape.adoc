@@ -1,0 +1,133 @@
+﻿////
+
+|metadata|
+{
+    "name": "excelengine-creating-a-predefined-shape",
+    "controlName": ["Infragistics Excel Engine"],
+    "tags": [],
+    "guid": "12ed0b48-7d3b-4716-9bc2-9c17d0cbaa22",  
+    "buildFlags": [],
+    "createdOn": "2011-09-07T14:25:43.9588978Z"
+}
+|metadata|
+////
+
+= Creating a Predefined Shape
+
+This topic demonstrates how to create a predefined shape through the Infragistics Excel Engine.
+
+The topic is organized as follows:
+
+* <<One,Requirements>>
+* <<Two,Creating a Predefined Shape>>
+
+** <<TwoOne,Preview>>
+** <<TwoTwo,Code Snippet>>
+
+* <<Three,Related Topics>>
+
+[[One]]
+== Requirements
+
+* Infragistics4.Documents.Excel.v{ProductVersion} assembly added to your Visual Studio Windows Forms project
+* A button with a Click event
+
+[[Two]]
+== Code Example: Creating a Predefined Shape
+
+== Introduction
+
+The code snippet below creates a predefinedshape with the following parameters:
+
+* Shape: Diamond
+* Flipped Horizontally: True
+* Flipped Vertically: True
+* Fill: DeepSkyBlue
+* Outline: Black
+
+You need to paste the code into the Click event of the button.
+
+Explanatory comments for each manipulation of the shape are being provided in the code.
+
+[[TwoOne]]
+== Preview
+
+Following is a preview of the final result.
+
+image::images/ExcelEngine_Using_Predefined_Shapes_03.png[]
+
+Figure 1: Predefined shape that is created from the example code
+
+[[TwoTwo]]
+== Code Snippet
+
+*In C#:*
+
+----
+// Use a workbook and worksheet to hold the predefined shape
+Infragistics.Documents.Excel.Workbook workbook = new Infragistics.Documents.Excel.Workbook();
+Infragistics.Documents.Excel.Worksheet worksheet = workbook.Worksheets.Add("Shapes");
+// Creating a predefined shape
+WorksheetShape shape = WorksheetShape.CreatePredefinedShape(PredefinedShapeType.Diamond);
+// How to set a shape's text value
+WorksheetShapeWithText shapeWithText = shape as WorksheetShapeWithText;
+if (shapeWithText != null)
+{
+    shapeWithText.Text = new FormattedText("Your Text");
+}
+// How to flip a shape horizonatally
+shape.FlippedHorizontally = true;
+// How to flip a shape vertically
+shape.FlippedVertically = true;
+// How to fill a shape with color
+shape.Fill = ShapeFill.FromColor(Color.DeepSkyBlue);
+// How to create an outline around a shape with color
+shape.Outline = ShapeOutline.FromColor(Color.Black);
+// How to set the position of the shape
+//  - Set the top left corner of the shape to cell A0
+shape.TopLeftCornerCell = worksheet.Rows[0].Cells[0];
+//  - Set the bottom right corner of the shape to cell D12
+shape.BottomRightCornerCell = worksheet.Rows[11].Cells[4];
+// Add the shape to the worksheet
+worksheet.Shapes.Add(shape);
+// Save the workbook
+workbook.Save("your_workbook.xls");
+----
+
+*In Visual Basic:*
+
+[source,vb]
+----
+' Use a workbook and worksheet to hold the predefined shape
+Dim workbook As New Infragistics.Documents.Excel.Workbook()
+Dim worksheet As Infragistics.Documents.Excel.Worksheet = workbook.Worksheets.Add("Shapes")
+' Creating a predefined shape
+Dim shape As WorksheetShape = WorksheetShape.CreatePredefinedShape(PredefinedShapeType.Diamond)
+' How to set a shape's text value
+Dim shapeWithText As WorksheetShapeWithText = TryCast(shape, WorksheetShapeWithText)
+If shapeWithText IsNot Nothing Then
+    shapeWithText.Text = New FormattedText("Your Text")
+End If
+' How to flip a shape horizonatally
+shape.FlippedHorizontally = True ' How to flip a shape vertically
+shape.FlippedVertically = True ' How to fill a shape with color
+shape.Fill = ShapeFill.FromColor(Color.DeepSkyBlue)
+' How to create an outline around a shape with color
+shape.Outline = ShapeOutline.FromColor(Color.Black)
+' How to set the position of the shape'  - Set the top left corner of the shape to cell A0
+shape.TopLeftCornerCell = worksheet.Rows(0).Cells(0)
+' Set the bottom right corner of the shape to cell D12
+shape.BottomRightCornerCell = worksheet.Rows(11).Cells(4)
+' Add the shape to the worksheet
+worksheet.Shapes.Add(shape)
+' Save the workbook
+workbook.Save("your_workbook.xls")
+----
+
+[[Three]]
+== Related Topics
+
+* link:excelengine-using-predefined-shapes.html[Using Predefined Shapes]
+* link:excelengine-adding-shapes-to-a-worksheet.html[Adding Shapes to a Worksheet]
+* link:excelengine-add-an-image-to-a-worksheet.html[Add an Image to a Worksheet]
+* link:excelengine-accessing-cells-and-regions-by-their-reference-strings.html[Accessing Cells and Regions by their Reference Strings]

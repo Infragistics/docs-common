@@ -1,0 +1,88 @@
+﻿////
+
+|metadata|
+{
+    "name": "documentengine-site",
+    "controlName": ["Infragistics Document Engine"],
+    "tags": [],
+    "guid": "{2E713222-6301-455D-AA08-FD1A6A9AA649}",  
+    "buildFlags": [],
+    "createdOn": "0001-01-01T00:00:00Z"
+}
+|metadata|
+////
+
+= サイト
+
+Site エレメントは、ページにレイアウト エレメントを配置する際に最高のカスタマイズ機能を提供します。Site エレメントを使用すると、x 座標と y 座標を使用してエレメントを配置したり、任意の角度に回転することができます。
+
+Site エレメントはその他のレイアウト エレメントと差別化する固有のプロパティを持ちません。代わりにコンテンツ エレメントを追加する各メソッドは、2 つのオーバーロードを含んでいます。これらのオーバーロードによって、どこを選択したとしても、個別に各レイアウト エレメントを配置することができます。
+
+各レイアウト エレメント メソッドの最初のオーバーロードは、Site エレメントの左側からの距離と、Site エレメントの上側からの距離という 2 つのフロートを認めます。2 番目のオーバーロードは、レイアウト エレメントを配置すべき角度を制御する追加のフロートを認めます。
+
+image::images/Site.png[]
+
+'''
+
+以下のコードは、Site エレメントを Section エレメントに追加し、次に Text エレメントと Image エレメントを Site エレメントに追加します。上記の画像のように、Text エレメントは 45 度回転され、Image エレメントは -45 度回転されます。このトピックは、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.report.html[Report]"]  が定義済みで、 pick:[win-forms="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  pick:[asp-net="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  pick:[win-forms-old="link:{ApiPlatform}documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  pick:[aspnet-old="link:{ApiPlatform}webui.documents.reports{ApiVersion}~infragistics.documents.reports.report.section.isection.html[Section]"]  エレメントが追加されていることを前提としています。
+
+以下のテキストを使用して、`string1` 変数を設定します。
+
+[source]
+----
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec imperdiet mattis sem. Nunc ornare elit at justo. In quam nulla, lobortis non, commodo eu, eleifend in, elit. Nulla eleifend. Nulla convallis. Sed eleifend auctor purus. Donec velit diam, congue quis, eleifend et, pretium id, tortor. Nulla semper condimentum justo. Etiam interdum odio ut ligula. Vivamus egestas scelerisque est. Donec accumsan. In est urna, vehicula non, nonummy sed, malesuada nec, purus. Vestibulum erat. Vivamus lacus enim, rhoncus nec, ornare sed, scelerisque varius, felis. Nam eu libero vel massa lobortis accumsan. Vivamus id orci. Sed sed lacus sit amet nibh pretium sollicitudin. Morbi urna.
+----
+
+*Visual Basic の場合：*
+
+----
+Imports Infragistics.Documents.Reports.Reports.Report
+.
+.
+.
+Dim string1 As String = "Lorem ipsum..."
+' 新しい Site エレメントを定義して背景に色を付けます。
+Dim site As Infragistics.Documents.Reports.Reports.Report.ISite = section1.AddSite()
+site.Background = New Background(Brushes.LightSteelBlue)
+' Text エレメントを Site エレメントに追加します。Text エレメントは、
+' 250 ピクセル左に、100 ピクセル下に配置され、
+' 時計回りに 45 度回転されます。
+Dim siteText As Infragistics.Documents.Reports.Reports.Report.Text.IText = site.AddText(250, 100, 45)
+' string1 をテキストで置き換えます。
+siteText.AddContent(string1)
+' Text エレメントの背景に色を付けます。
+siteText.Background = New Background(Brushes.LightSlateGray)
+' Text エレメントは Site エレメントの幅の半分にすぎません。
+siteText.Width = New RelativeWidth(50)
+' Image エレメントを Site エレメントに追加します。Image エレメントは
+' 200 ピクセル左に、100 ピクセル下に配置され、
+' 反時計回りに 45 度回転されます。
+Dim siteImage As Infragistics.Documents.Reports.Reports.Report.IImage = _  site.AddImage(New Image("C:\Windows\Coffee Bean.bmp"), 200, 400, -45)
+----
+
+*C# の場合：*
+
+----
+using Infragistics.Documents.Reports.Reports.Report;
+.
+.
+.
+string string1 = "Lorem ipsum...";
+// 新しい Site エレメントを定義して背景に色を付けます。
+Infragistics.Documents.Reports.Reports.Report.ISite site = section1.AddSite();
+site.Background = new Background(Brushes.LightSteelBlue);
+// Text エレメントを Site エレメントに追加します。Text エレメントは、
+// 250 ピクセル左に、100 ピクセル下に配置され、
+// 時計回りに 45 度回転されます。
+Infragistics.Documents.Reports.Reports.Report.Text.IText siteText = site.AddText(250,100,45);
+// string1 をテキストで置き換えます。
+siteText.AddContent(string1);
+// Text エレメントの背景に色を付けます。
+siteText.Background = new Background(Brushes.LightSlateGray);
+// Text エレメントは Site エレメントの幅の半分にすぎません。
+siteText.Width = new RelativeWidth(50);
+// Image エレメントを Site エレメントに追加します。Image エレメントは
+// 200 ピクセル左に、100 ピクセル下に配置され、
+// 反時計回りに 45 度回転されます。
+Infragistics.Documents.Reports.Reports.Report.IImage siteImage =   site.AddImage(new Image(@"C:\Windows\Coffee Bean.bmp"), 200, 400, -45);
+----

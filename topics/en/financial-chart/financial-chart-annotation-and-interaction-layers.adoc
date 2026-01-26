@@ -1,0 +1,165 @@
+﻿////
+|metadata|
+{
+    "tags": ["API","Charting","How Do I"],
+    "controlName": ["FinancialChart"]
+}
+|metadata|
+////
+
+= Annotations and Interaction Layers
+
+=== Purpose
+
+This topic provides conceptual information about the annotations and interactions available on the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}™] control including the different types of interaction layers available.
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview,Overview>>
+* <<TypesofLayers,Types of Layers>>
+
+** <<CrosshairLayer,Crosshair Layer>>
+** <<CategoryTooltipLayer,Category Tooltip Layer>>
+** <<ItemTooltipLayer,Item Tooltip Layer>>
+** <<FinalValueLayer,Final Value Layer>>
+** <<CalloutLayer,Callout Layer>>
+* <<RelatedContent,Related Content>>
+
+[[Overview]]
+== Overview
+
+=== Hover interactions summary
+
+Internally, interactions are implemented through interaction layers which are series that are added to the series collection. These layers are dependent on the cursor position. Adding the interaction layers to the  _{FinancialChartName}_  control disables the default behavior of the crosshairs and/or tooltips (depending on which type of layer added).
+
+The default behavior is disabled because it prevents visual confusion as the interaction layers perform a similar visual function compared to the built in behavior as the cursor moves. You can, however, override this behavior and allow the default crosshair functionality to perform in addition to the interaction layer functionality. Also of note, only target a series by one tooltip layer at a time. If you target more than one tooltip layer at a series, the interaction layers that use tooltips will not function as expected.
+ifdef::wpf[]
+This is due to the fact that series tooltips are `UIElements` and can only be attached to the visual tree in one place at a time.
+endif::wpf[]
+Using a tooltip for a series in more than one location at once is not allowed.
+
+The following screenshot displays the  _{FinancialChartName}_  control with multiple layers enabled.
+
+pick:[jquery="image::images/financialchart_jquery_overlays.png[]"]
+pick:[wpf="image::images/financialchart_wpf_overlays.png[]"]
+
+[[TypesofLayers]]
+== Types of Layers
+
+=== Introduction
+
+Currently there are 3 different hover interaction layers and 2 annotation layers available on the  _{FinancialChartName}_  control. Each of these interaction layers provides different hover and tooltip interactions that may be used individually or combined with one another providing powerful interactions.
+
+=== Types of Layers
+
+The following table summarizes the different types of layers available on the  _{FinancialChartName}_  control.
+
+[options="header", cols="a,a,a"]
+|====
+|Layer Type|Description|pick:[wpf="Properties"]pick:[jquery="Options"]
+
+|[[CrosshairLayer]]
+
+Crosshairs Layer
+|The Crosshairs Layer provides crossing lines that follow your cursor and meet at the actual value of every targeted series.
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CrosshairsDisplayMode.html[CrosshairsDisplayMode]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CrosshairsSnapToData.html[CrosshairsSnapToData]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CrosshairsAnnotationEnabled.html[CrosshairsAnnotationEnabled]
+
+ifdef::wpf[]
+* NOTE: Set CrosshairsDisplayMode property to link:{DataChartLink}.CrosshairsDisplayMode.html[CrosshairsDisplayMode] enum value (Default, None, Horizontal, Vertical, or Both)
+endif::wpf[]
+ifdef::jquery[]
+* NOTE: Set crosshairsDisplayMode option to "default", "none", "horizontal", "vertical", or "both".
+endif::jquery[]
+
+
+|[[CategoryToolTipLayer]]
+
+Category ToolTip Layer
+|The Category ToolTip Layer displays grouped tooltips for series using a category axis.
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}ToolTipType.html[ToolTipType]
+ifdef::wpf[]
+* NOTE: Set ToolTipType property to link:{DataChartLink}.ToolTipType.html[ToolTipType].Category enum.
+endif::wpf[]
+ifdef::jquery[]
+* NOTE: Set toolTipType option to "category".
+endif::jquery[]
+
+|[[DataToolTipLayer]]
+
+Data ToolTip Layer
+
+|The Data ToolTip Layer is the default tooltip layer of the link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] and it displays grouped or individual tooltips with a link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] inside. 
+
+|* The Data ToolTip Layer is highly configurable, as it contains nearly all of the configuration options as the link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}]. As such, it would not make sense to list all of its properties here. You can read about this  link:financial-chart-data-tooltip.html[tooltip layer here.]
+
+|[[ItemToolTipLayer]] 
+
+Item ToolTip Layer
+|The Item ToolTip Layer displays tooltips for all target series individually.
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}ToolTipType.html[ToolTipType]
+
+ifdef::wpf[]
+* NOTE: Set ToolTipType property to link:{DataChartLink}.ToolTipType.html[ToolTipType].Item enum.
+endif::wpf[]
+ifdef::jquery[]
+* NOTE: Set toolTipType option to "item".
+endif::jquery[]
+
+|[[FinalValueLayer]]
+
+Final Value Layer
+|The Final Value Layer provides an annotation along the axis of the ending value displayed in a series.
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}FinalValueAnnotationsVisible.html[FinalValueAnnotationsVisible]
+
+|[[CalloutLayer]]
+
+Callout Layer
+|The Callout Layer displays a callout annotation at an X/Y position. It can show a label and some extra content on mouse-over.
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsVisible.html[CalloutsVisible]
+
+ifdef::wpf[]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsItemsSource.html[CalloutsItemsSource]
+endif::wpf[]
+
+ifdef::jquery[]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsDataSource.html[CalloutsDataSource]
+endif::jquery[]
+
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsContentMemberPath.html[CalloutsContentMemberPath]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsLabelMemberPath.html[CalloutsLabelMemberPath]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsXMemberPath.html[CalloutsXMemberPath]
+* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}CalloutsYMemberPath.html[CalloutsYMemberPath]
+
+|Value Layer
+
+|The Value Layer annotates different focal points of your data such as the minimum, maximum, or average values by drawing a dashed line at those calculated points.
+
+|* link:{FinancialChartLink}.{FinancialChartName}{ApiProp}ValueLines.html[ValueLines]
+
+|====
+
+[[RelatedContent]]
+
+== Related Content
+
+=== Topics
+
+The following topics provide additional information related to this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:financial-chart-overview.html[Overview]
+|This topic provides a conceptual overview of the Financial Chart control.
+
+|====

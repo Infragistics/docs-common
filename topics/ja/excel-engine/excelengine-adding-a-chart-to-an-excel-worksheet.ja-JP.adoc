@@ -1,0 +1,123 @@
+﻿= ワークシートにチャートを追加 ({ExcelEngineName})
+
+== 概要
+
+このトピックでは、データ トレンドを視覚的に表示するために {ExcelEngineName} とコードを使用して Excel® ワークシート (.xlsx) に link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetchart.html[WorksheetChart] を追加し、ワークシートのセル領域のデータ トレンドを可視化する方法を表します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Background,前提条件>>
+* <<Intro,はじめに>>
+* <<Adding_Chart,Excel ワークシートにチャートを追加>>
+* <<Chart_Types,サポートされるチャート タイプ>>
+* <<Preview,プレビュー>>
+* <<Code_Snippets,コード スニペット>>
+
+[[Background]]
+== 前提条件
+
+*注： XLSX 形式が必要です。現在他の形式はサポートされていません。*
+
+以下のトピックがあります。
+ifdef::wpf[]
+
+* link:excelengine-creating-a-workbook.html[ワークブックの作成 (Infragistics Excel Engine)]
+
+* link:excelengine-save-a-workbook.html[ワークシートの保存 (Infragistics Excel Engine)]
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+* link:excelengine-create-a-workbook.html[ワークブックの作成 (Infragistics Excel Engine)]
+
+* link:excelengine-write-a-workbook-to-an-excel-file.html[ワークブックを Excel ファイルに書き出す(Infragistics Excel Engine)]
+
+endif::win-forms[]
+
+[[Intro]]
+== はじめに
+
+ワークシートに `WorksheetChart` を追加するには、ワークシートの Shapes コレクションの link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetshapecollection{ApiProp}addchart.html[AddChart] メソッドを使用する必要があります。このメソッドでは、チャート タイプを指定し、使用するメソッドのオーバーロードに応じて twip の領域または左上と右下のセルのいずれかを選択します。
+
+`AddChart` メソッドはワークシートに追加される `WorksheetChart` 要素を返します。チャートで link:{ExcelEngineApiLink}infragistics.documents.excel.worksheetchart{ApiProp}setsourcedata.html[SetSourceData] メソッドを使用してデータソースとして使用するワークシート セル領域のセルのセル アドレスを設定できます。同様に行列のマッピングを Y と X 軸に切り替えることもできます。
+
+[[Adding_Chart]]
+== Excel ワークシートにチャートを追加
+
+[[Chart_Types]]
+=== サポートされるチャート タイプ
+
+折れ線、エリア、柱状、円を含む 70 タイプ以上のチャート タイプがサポートされます。箱ひげ図、ファンネル、ヒストグラム、パレート、地域マップ、サンバースト、ツリー マップ、ウォーターフォール チャートをサポートしています。ファンネル および地域マップには Excel365が必要で、残りは Excel2016 が必要です。詳細については、link:{ExcelEngineApiLink}infragistics.documents.excel.charts.charttype.html[Worksheet ChartType API トピック]をご覧ください。
+
+[[Preview]]
+=== プレビュー
+
+以下は、各データと折れ線、エリア、柱状、円チャートをコードスニペットを使用して表示したワークシートのプレビューです。
+
+image::images/excel_charts.png[]
+
+[[Code_Snippets]]
+=== コード スニペット
+
+*Visual Basic の場合:*
+[source,vb]
+----
+' Create workbook and worksheet to place the chart. Data in above screenshot is assumed to already exist.
+Dim workbook As Workbook = New Workbook(WorkbookFormat.Excel2007)
+Dim sheet As Worksheet = workbook.Worksheets.Add("Sheet1")
+
+' Get the cells for the four charts that will placed in the Worksheet.
+Dim cell1 As WorksheetCell = sheet.GetCell("A1")
+Dim cell2 As WorksheetCell = sheet.GetCell("B1")
+Dim cell3 As WorksheetCell = sheet.GetCell("C1")
+Dim cell4 As WorksheetCell = sheet.GetCell("D1")
+
+' Create Line chart.
+Dim chart1 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Line, cell1, New Point(0, 0), cell1, New Point(100, 100))
+chart1.SetSourceData("A2:D4", True)
+
+' Create Column chart.
+Dim chart2 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.ColumnClustered, cell2, New Point(0, 0), cell2, New Point(100, 100))
+chart2.SetSourceData("A2:D4", True)
+
+' Create Area chart.
+Dim chart3 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Area, cell3, New Point(0, 0), cell3, New Point(100, 100))
+chart3.SetSourceData("A2:D4", True)
+
+' Create Pie chart.
+Dim chart4 As WorksheetChart = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Pie, cell4, New Point(0, 0), cell4, New Point(100, 100))
+chart4.SetSourceData("A2:D4", False)
+----
+
+*C# の場合:*
+[source,csharp]
+----
+//Create workbook and worksheet to place the chart. Data in above screenshot is assumed to already exist.
+Workbook workbook = new Workbook(WorkbookFormat.Excel2007);
+Worksheet sheet = workbook.Worksheets.Add("Sheet1");
+
+//Get the cells for the four charts that will placed in the Worksheet.
+WorksheetCell cell1 = sheet.GetCell("A1");
+WorksheetCell cell2 = sheet.GetCell("B1");
+WorksheetCell cell3 = sheet.GetCell("C1");
+WorksheetCell cell4 = sheet.GetCell("D1");
+
+//Create Line chart.
+WorksheetChart chart1 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Line, cell1, new Point(0, 0), cell1, new Point(100, 100));
+chart1.SetSourceData("A2:D4", true);
+
+//Create Column chart.
+WorksheetChart chart2 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.ColumnClustered, cell2, new Point(0, 0), cell2, new Point(100, 100));
+chart2.SetSourceData("A2:D4", true);
+
+//Create Area chart.
+WorksheetChart chart3 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Area, cell3, new Point(0, 0), cell3, new Point(100, 100));
+chart3.SetSourceData("A2:D4", true);
+
+//Create Pie chart.
+WorksheetChart chart4 = sheet.Shapes.AddChart(Infragistics.Documents.Excel.Charts.ChartType.Pie, cell4, new Point(0, 0), cell4, new Point(100, 100));
+chart4.SetSourceData("A2:D4", false);
+----

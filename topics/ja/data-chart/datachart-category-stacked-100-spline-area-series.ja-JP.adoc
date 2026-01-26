@@ -1,0 +1,229 @@
+﻿////
+
+|metadata|
+{
+    "name": "datachart-category-stacked-100-spline-area-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Charting","Data Presentation","Getting Started","How Do I"],
+    "guid": "a884c0a1-c72f-4783-b7e9-dac442487230",  
+    "buildFlags": ["WINFORMS","wpf","win-universal","ANDROID"],
+    "createdOn": "2014-06-05T19:39:00.4392919Z"
+}
+|metadata|
+////
+
+= 積層型 100 スプライン エリア シリーズ
+
+このトピックは、コード例を示して、 link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] を link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ コントロールで使用する方法を説明します。
+
+== 概要
+
+トピックは以下のとおりです。
+
+* <<Introduction,概要>>
+* <<SeriesPreview,シリーズ プレビュー>>
+* <<SeriesRecommendations,シリーズの提案>>
+* <<DataRequirements,データ要件>>
+* <<DataRenderingRules,データ描画の規則>>
+* <<Examples,コード例>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[Introduction]]
+== 概要
+
+積層型 100 スプライン エリア シリーズは link:datachart-category-series-overview.html[カテゴリ シリーズ]のグループに属し、それぞれ互いに上に積層され塗りつぶされたスプラインの下の領域をもつスプラインのスムーズなカーブ (StackedFragmentSeries) によって接続されたポイントのコレクションを使用して描写されます。コレクションのそれぞれの積層フラグメントは各積層の視覚的な要素を表します。各積層は正の値と負の値の両方を含みます。正の値はいずれも y 軸の正の側にグループ化され、負の値は y 軸の負の側にグループ化されます。link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] は y 軸の値の扱いを除いたすべての面で link:{DataChartLink}.stackedsplineareaseries.html[StackedSplineAreaSeries] と同一です。データの直接的表現をする代わりに、 link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] はデータポイント内のすべての値の合計のパーセントに関するデータを表します。シリーズの他のタイプと軸のタイプを含んだより概念的情報は、link:datachart-category-series-overview.html[カテゴリ シリーズ]とlink:datachart-axes.html[チャート軸]トピックを参照してください。
+
+[[SeriesPreview]]
+== シリーズ プレビュー
+
+図 1 は、{DataChartName} コントロールでプロットされた時に link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] がどのように表示されるのかを示します。
+
+image::images/Stacked_100_Spline_Area_Series_01.png[]
+
+図 1: link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] タイプの実装例
+
+[[SeriesRecommendations]]
+== シリーズの提案
+
+{DataChartName} はシリーズのタイプ数に制限なくプロットできますが、同様タイプのシリーズで link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] を使用することをお勧めします。link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] で推奨されるシリーズのタイプ、および複数のシリーズ タイプのプロット方法に関する情報は、 link:datachart-multiple-series.html[複数シリーズ]トピックを参照してください。
+
+[[DataRequirements]]
+== データ要件
+
+{DataChartName} コントロールによって固有のデータ モデルにチャートを簡単にバインドすることができますが、そのシリーズが必要とするデータの適切な量とタイプを必ず提供するようにしてください。使用しているシリーズのタイプに基づいた最小要件をデータが満たさないと、コントロールによってエラーが生成されます。データ シリーズの要件についての詳細は、 link:datachart-series-requirements.html[シリーズ要件] と link:datachart-category-series-overview.html[カテゴリ シリーズ] を参照してください。
+
+以下は、 link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] タイプのデータ要件のリストです。
+
+* データ モデルには少なくとも 1 つの数値データ列を含む必要があります。各 link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] のポイントが 2 つ以上の積層したフラグメントを持つようにデータ モデルが 2 つ以上の数値データ列を含むことが推奨されます。
+* データ モデルにはラベルのためのオプションの文字列または日時フィールドを含むことができます。
+
+[[DataRenderingRules]]
+== データ描画の規則
+
+積層型 100 スプライン エリア シリーズは以下の規則を使用してデータを描画します。
+
+* 描画したいデータ モデルの各数値列に対し、 link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineSeries] のシリーズ コレクション プロパティに StackedFragmentSeries を追加する必要があります。
+* データ モデルの各行は単一の積層スプライン領域ポリゴンを表します。セクションは、 StackedFragmentSeries オブジェクトの ValueMemberPath プロパティにマップされたデータ モデル内の列に基づいて作成されます。
+* 行の 2 番目の値が描画された時、その値はその行の前の値の点に追加されます。この結果、チャートの上方に描画される各点は、その点での累積合計です。
+* x 軸上のデータ マッピングの Label プロパティにマップされる文字列または日時の列はカテゴリ ラベルとして使用されます。Label のデータ マッピングが指定されない場合、デフォルト ラベルが使用されます。
+* カテゴリ ラベルは x 軸上に描かれます。データ値は y 軸上に描かれます。
+* 描画時に、それぞれの連続シリーズが {DataChartName} コントロールのシリーズ コレクションの以前のシリーズの前に描画されて link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineSeries] タイプの複数のシリーズはレイヤに描画されます。この機能の詳細は、 link:datachart-multiple-series.html[複数シリーズ]のトピックを参照してください。
+
+[[Examples]]
+== コード例
+
+== データ バインディング
+
+以下のコード スニペットは、 link:{DataChartLink}.stacked100splineareaseries.html[Stacked100SplineAreaSeries] オブジェクトをカテゴリ データ サンプル (link:resources-sample-energy-data.html[エネルギー製造データ サンプル]からダウンロード可能) にバインドする方法を示します。Stacked100SplineAreaSeries のデータ要件の詳細な情報はこのトピックのデータ要件セクションを参照してください。
+
+ifdef::sl,wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+xmlns:local="clr-namespace:[DATA_MODEL_NAMESPACE]"
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::sl,wpf,win-universal[]
+
+*XAML の場合:*
+
+----
+<ig:{DataChartName} x:Name="DataChart" >
+    <ig:{DataChartName}.Resources>
+        <local:EnergyProductionDataSample x:Key="energyProdData" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:NumericYAxis x:Name="YAxis" MinimumValue="0" Label="{}{} %" />
+        <ig:CategoryXAxis x:Name="XAxis" ItemsSource="{StaticResource energyProdData}" Label="{}{Country}" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+    <!-- ========================================================================== -->
+        <ig:Stacked100SplineAreaSeries XAxis="{Binding ElementName=XAxis}" 
+                                YAxis="{Binding ElementName=YAxis}" 
+                                ItemsSource="{StaticResource energyProdData}">
+            <ig:Stacked100SplineAreaSeries.Series>
+                <ig:StackedFragmentSeries ValueMemberPath="Coal" Title="Coal" />
+                <ig:StackedFragmentSeries ValueMemberPath="Hydro" Title="Hydro" />
+                <ig:StackedFragmentSeries ValueMemberPath="Nuclear" Title="Nuclear" />
+                <ig:StackedFragmentSeries ValueMemberPath="Gas" Title="Gas" />
+                <ig:StackedFragmentSeries ValueMemberPath="Oil" Title="Oil" />
+            </ig:Stacked100SplineAreaSeries.Series>
+        </ig:Stacked100SplineAreaSeries>
+    </ig:{DataChartName}.Series>
+    <!-- ========================================================================== -->
+</ig:{DataChartName}>
+----
+
+endif::sl,wpf,win-universal[]
+
+ifdef::sl,wpf,win-forms,win-universal[]
+
+*Visual Basic の場合:*
+
+[source]
+----
+Dim dataSample As New EnergyProductionDataSample()
+Dim yAxis As New NumericYAxis()
+Dim xAxis As New CategoryXAxis()
+xAxis.DataSource = dataSample
+xAxis.Label = "Country"
+xAxis.ItemsSource = dataSample
+xAxis.Label = "{Country}"
+Me.DataChart.Axes.Add(xAxis)
+Me.DataChart.Axes.Add(yAxis)
+ ‘ create a stack fragment for each numeric column in your data
+Dim seriesFragment As New StackedFragmentSeries()
+seriesFragment.ValueMemberPath = "Coal"
+seriesFragment.Title = "Coal"
+‘ ...
+Dim series As New Stacked100SplineAreaSeries()
+series.ItemsSource = dataSample
+series.DataSource = dataSample
+series.XAxis = xAxis
+series.YAxis = yAxis
+‘ add all stack fragments to the series
+series.Series.Add(seriesFragment)
+‘ ...
+Me.DataChart.Series.Add(series)
+----
+
+endif::sl,wpf,win-forms,win-universal[]
+
+ifdef::sl,wpf,win-forms,win-universal[]
+
+*C# の場合:*
+
+[source]
+----
+EnergyProductionDataSample dataSample = new EnergyProductionDataSample(); 
+NumericYAxis yAxis = new NumericYAxis();
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.DataSource = dataSample;
+xAxis.Label = "Country";
+xAxis.ItemsSource = dataSample;
+xAxis.Label = "{Country}";
+this.DataChart.Axes.Add(xAxis);
+this.DataChart.Axes.Add(yAxis);
+// データ中の各数値列の積層フラグメントを作成
+StackedFragmentSeries seriesFragment = new StackedFragmentSeries();
+seriesFragment.ValueMemberPath = "Coal";
+seriesFragment.Title = "Coal";
+...
+Stacked100SplineAreaSeries series = new Stacked100SplineAreaSeries();
+series.ItemsSource = dataSample;
+series.DataSource = dataSample;
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+// シリーズの全積層フラグメントを追加
+series.Series.Add(seriesFragment);
+...
+this.DataChart.Series.Add(series);
+----
+
+endif::sl,wpf,win-forms,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+EnergyProductionDataSample data = new EnergyProductionDataSample();
+DataChartView chart = new DataChartView(rootView.getContext());
+NumericYAxis yAxis = new NumericYAxis();
+CategoryXAxis xAxis = new CategoryXAxis();
+xAxis.setDataSource(data);
+xAxis.setLabel("Country");
+// データ中の各数値列の積層フラグメントを作成
+StackedFragmentSeries seriesFragment = new StackedFragmentSeries();
+seriesFragment.setValueMemberPath("Coal");
+seriesFragment.setTitle("Coal");
+// ...
+Stacked100SplineAreaSeries series = new Stacked100SplineAreaSeries();
+series.setDataSource(data);
+series.setXAxis(xAxis);
+series.setYAxis(yAxis);
+// シリーズの全積層フラグメントを追加
+series.addSeries(seriesFragment);
+chart.addAxis(xAxis);
+chart.addAxis(yAxis);
+chart.addSeries(series);
+----
+
+endif::android[]
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+link:datachart-axes.html[軸]
+
+link:datachart-category-spline-area-series.html[スプライン エリア シリーズ]
+
+link:datachart-category-stacked-spline-area-series.html[積層型スプライン エリア シリーズ]
+
+link:datachart-category-series-overview.html[カテゴリ シリーズ]
+
+link:datachart-series-requirements.html[シリーズ要件]

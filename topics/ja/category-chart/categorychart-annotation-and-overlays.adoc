@@ -1,0 +1,612 @@
+﻿////
+|metadata|
+{
+    "tags": ["API","Charting","How Do I"],
+    "controlName": ["CategoryChart"]
+}
+|metadata|
+////
+
+= 注釈とオーバーレイ
+
+=== 目的
+
+このトピックは、利用可能なさまざまなタイプの操作レイヤーなど、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}™] コントロールで使用できる注釈や操作について概念的な情報を提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Overview,概要>>
+* <<TypesofLayers,レイヤーのタイプ>>
+
+** <<CrosshairLayer,十字線レイヤー>>
+** <<CategoryHighlightLayer,カテゴリ ハイライト レイヤー>>
+** <<CategoryItemHighlightLayer,カテゴリ項目強調表示レイヤー>>
+** <<DataToolTipLayer,データ ツールチップ レイヤー>>
+** <<CategoryTooltipLayer,カテゴリ ツールチップ レイヤー>>
+** <<ItemTooltipLayer,項目ツールチップ レイヤー>>
+** <<FinalValueLayer,最終値レイヤー>>
+** <<CalloutLayer,コールアウト レイヤー>>
+** <<ValueLayer, 値レイヤー>>
+* <<RelatedContent,関連コンテンツ>>
+
+[[Overview]]
+== 概要
+
+=== pick:[wpf,sl,win-universal,win-forms="ホバー"]pick:[xamarin="タッチ"] 操作のサマリー
+
+内部で、インタラクションはシリーズ コレクションに追加されるシリーズであるホバー操作レイヤーを介して実装されます。これらのレイヤーは pick:[wpf,sl,win-universal,win-forms="カーソル"]pick:[xamarin="タッチ"] 位置に依存します。操作レイヤーを _{CategoryChartName}_ コントロールに追加すると、十字線および/またはヒントのデフォルト ビヘイビアが無効になります (追加されるレイヤーのタイプ)。
+
+デフォルトのビヘイビアは、操作レイヤーの pick:[wpf,sl,win-universal,win-forms="カーソル"]pick:[xamarin="タッチ位置"] を動かすときの組み込みビヘイビアビヘイビアと視覚的な機能が似ているため無効にします。ただしこのビヘイビアを上書きし、操作レイヤーの機能に加えてデフォルトの十字線機能を実行できるようになります。また、一度に 1 つのツールチップ レイヤーで 1 つのシリーズのみが対象になります。1 つのシリーズで複数のヒントレイヤーをターゲットにすると、ヒントを使用する操作レイヤーが正しく動作しなくなります。
+ifdef::wpf[]
+これは、シリーズのツールチップが `UIElements` であり、ビジュアル ツリーに一度にアタッチできるのが一か所のみであるためです。
+endif::wpf[]
+シリーズに対してツールチップを複数の場所で使用することはできません。
+
+以下のスクリーンショットは、カテゴリ強調表示レイヤー、十字線レイヤー、および品目ツールチップ レイヤーが実装された _{CategoryChartName}_  コントロールを示しています。
+
+pick:[win-forms="image::images/categorychart_overlays_winforms.png[]"]
+pick:[wpf="image::images/categorychart_overlays_wpf.png[]"]
+pick:[xamarin="image::images/categorychart_overlays_wpf.png[]"]
+
+[[TypesofLayers]]
+== レイヤーのタイプ
+
+=== はじめに
+
+現在、_{CategoryChartName}_ コントロールで利用可能な pick:[wpf,sl,win-universal,win-forms="ホバー"]pick:[xamarin="タッチ"] 操作レイヤーは 5 種類で、注釈レイヤーは 2 種類あります。これら各操作レイヤーが異なる強調表示、pick:[wpf,sl,win-universal,win-forms="ホバー"]pick:[xamarin="タッチ"]、およびツールチップの操作を個別に、または組み合わせて提供し、強力な操作を実現します。
+
+
+
+[[CrosshairLayer]]
+==== 十字線レイヤー
+
+十字線レイヤーは、pick:[wpf,sl,win-universal,win-forms="カーソル"]pick:[xamarin="タッチ位置"] に従って、各ターゲット シリーズの実際の値と一致する十字線を提供します。デフォルトでこのレイヤーは無効ですが、link:{CategoryChartLink}.{DomainChartName}{ApiProp}CrosshairsAnnotationEnabled.html[CrosshairsAnnotationEnabled] プロパティを True に設定して有効にできます。十字線は、link:{CategoryChartLink}.{DomainChartName}{ApiProp}CrosshairsDisplayMode.html[CrosshairsDisplayMode] プロパティを link:{CategoryChartLink}.CrosshairsDisplayMode.html[CrosshairsDisplayMode] 列挙値 (Default、None、Horizontal、Vertical、または Both) に設定することにより、垂直、水平、または両方に表示できます。
+
+以下のコード例は、水平および垂直十字線を表示する方法を表します。
+
+ifdef::wpf,xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    CrosshairsAnnotationEnabled="True"
+    CrosshairsDisplayMode="Both"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*C# の場合:*
+
+
+[source,csharp]
+----
+this.categoryChart1.CrosshairsAnnotationEnabled = true;
+this.categoryChart1.CrosshairsDisplayMode = CrosshairsDisplayMode.Both;
+----
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.categoryChart1.CrosshairsAnnotationEnabled = true
+Me.categoryChart1.CrosshairsDisplayMode = CrosshairsDisplayMode.Both
+----
+endif::win-forms[]
+
+[[CategoryHighlightLayer]] 
+
+==== カテゴリ強調表示レイヤー
+カテゴリ強調表示レイヤーは _{CategoryChartName}_ コントロールの 1 つまたはすべてのカテゴリ軸をターゲットにします。pick:[wpf,sl,win-universal,win-forms="カーソル"]pick:[xamarin="タッチ"] 位置に最も近い軸のエリアを示す図形を描画します。デフォルトで、無効ですが、link:{CategoryChartLink}.{CategoryChartName}{ApiProp}IsCategoryHighlightingEnabled.html[IsCategoryHighlightingEnabled] プロパティを True に設定する場合は有効にします。
+
+軸に、軸の主グリッド線の間に配置されるシリーズ、たとえば ColumnSeries などが含まれる場合、現在のカテゴリを塗りつぶすシェイプが描画されます。
+LineSeries などその他のシリーズの場合、pick:[wpf,sl,win-universal,win-forms="ポインター"]pick:[xamarin="タッチ"] 位置に最も近いグリッドラインで調節可能な幅を持つバンドを描画します。この場合、UseInterpolation プロパティが有効になると、x 位置が pick:[wpf,sl,win-universal,win-forms=" ポインター"]pick:[xamarin="タッチ ポイントの位置"] の x 位置に付け加えられます。
+
+以下のコード例は、カテゴリ強調表示レイヤーを有効する方法を紹介します。
+
+ifdef::wpf,xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    IsCategoryHighlightingEnabled="True"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*C# の場合:*
+
+
+[source,csharp]
+----
+this.categoryChart1.IsCategoryHighlightingEnabled = true;
+----
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.categoryChart1.IsCategoryHighlightingEnabled = true
+----
+endif::win-forms[]
+
+
+[[CategoryItemHighlightLayer]] 
+
+==== カテゴリ項目強調表示レイヤー
+カテゴリ項目強調レイヤーは、その位置で縞模様シェイプまたはマーカーを描画することにより、カテゴリ軸を使用するシリーズ内の項目を強調表示します。デフォルトで、無効に設定されましたが、link:{CategoryChartLink}.{CategoryChartName}{ApiProp}IsItemHighlightingEnabled.html[IsItemHighlightingEnabled] プロパティを True に設定する場合、有効にします。
+
+デフォルトの強調表示はシリーズの型に依存します。たとえば、ColumnSeries と LineSeries は同じではありません。ColumnSeries の場合は長方形図形であり、LineSeries の場合はマーカーです。
+
+以下のコード例は、カテゴリ項目の強調表示レイヤーを有効する方法を紹介します。
+
+ifdef::wpf,xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    IsItemHighlightingEnabled="True"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.IsItemHighlightingEnabled = true;
+----
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.categoryChart1.IsItemHighlightingEnabled = true
+----
+endif::win-forms[]
+
+
+[[CategoryToolTipLayer]]
+
+==== カテゴリ ツールチップ レイヤー
+カテゴリ ツールチップ レイヤーは、カテゴリ軸を使用するシリーズ用にグループ化されたツールチップを表示します。
+このレイヤーを有効するには link:{CategoryChartLink}.{DomainChartName}{ApiProp}ToolTipType.html[ToolTipType] プロパティを link:{CategoryChartLink}.ToolTipType.html[ToolTipType].Category 列挙体に設定します。
+
+以下のコード例は、カテゴリ ツールチップ レイヤーを有効する方法を紹介します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    ToolTipType="Category"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1"
+    ToolTipType="Category"
+    ChartType="Column"                         
+    ItemsSource="{Binding WeatherData}"
+    SeriesAdded="categoryChart1_SeriesAdded">
+    <ig:{CategoryChartName}.Resources>
+        <DataTemplate x:Key="highDT">
+            <Label Text="{Binding Item.High, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="lowDT">
+            <Label Text="{Binding Item.Low, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+    </ig:{CategoryChartName}.Resources>
+</ig:{CategoryChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Category;
+----
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Category;
+//=======================================================
+
+private void categoryChart1_SeriesAdded(object sender, Infragistics.XamarinForms.Controls.Charts.ChartSeriesEventArgs args)
+{
+    ColumnSeries series = args.Series as ColumnSeries;
+
+    if (series != null)
+    {
+        switch (series.ValueMemberPath)
+        {
+            case "High":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["highDT"] as DataTemplate;
+                    break;
+                }
+            case "Low":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["lowDT"] as DataTemplate;
+                    break;
+                }
+        }
+    }
+}
+----
+endif::xamarin[]
+
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.categoryChart1.ToolTipType = ToolTipType.Category
+----
+endif::win-forms[]
+
+
+[[DataToolTipLayer]]
+
+==== データ ツールチップ レイヤー
+
+データ ツールチップ レイヤーは、link:categorychart-data-legend.html[{DataLegendName}] のような視覚化を備えたツールチップを表示します。チャート上で構成できる数多くのプロパティがあるため、独自のトピックを用意しました。データ ツール チップ レイヤーの詳細については、link:categorychart-data-tooltip.html[こちら]をご覧ください。ラベルの列には、凡例の link:{DataChartLink}.{DataLegendName}~IncludedColumns.html[IncludedColumns] または link:{DataChartLink}.{DataLegendName}~ExcludedColumns.html[ExcludedColumns]コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
+
+データ ツールチップ レイヤーは link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] でデフォルトでオンになっていますが、以下のコード例は有効にする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+    ToolTipType="Data"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Data;
+----
+endif::wpf,win-forms[]
+
+[[ItemToolTipLayer]] 
+
+==== 項目ツールチップ レイヤー
+項目ツールチップ レイヤーはすべてのターゲット シリーズに個別のツールチップを表示します。
+このレイヤーを有効に設定するには link:{CategoryChartLink}.{DomainChartName}{ApiProp}ToolTipType.html[ToolTipType] プロパティを link:{CategoryChartLink}.ToolTipType.html[ToolTipType].Item 列挙体に設定します。
+
+以下のコード例は、項目ツールチップ レイヤーを有効する方法を紹介します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="CategoryChart" 
+    ToolTipType="Item"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1"
+    ToolTipType="Item"
+    ChartType="Column"                         
+    ItemsSource="{Binding WeatherData}"
+    SeriesAdded="categoryChart1_SeriesAdded">
+    <ig:{CategoryChartName}.Resources>
+        <DataTemplate x:Key="highDT">
+            <Label Text="{Binding Item.High, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="lowDT">
+            <Label Text="{Binding Item.Low, StringFormat=\{0:n2\}}" />
+        </DataTemplate>
+    </ig:{CategoryChartName}.Resources>
+</ig:{CategoryChartName}>
+----
+endif::xamarin[]
+
+ifdef::wpf,win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Item;
+----
+endif::wpf,win-forms[]
+
+ifdef::xamarin[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.ToolTipType = ToolTipType.Category;
+//=======================================================
+
+private void categoryChart1_SeriesAdded(object sender, Infragistics.XamarinForms.Controls.Charts.ChartSeriesEventArgs args)
+{
+    ColumnSeries series = args.Series as ColumnSeries;
+
+    if (series != null)
+    {
+        switch (series.ValueMemberPath)
+        {
+            case "High":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["highDT"] as DataTemplate;
+                    break;
+                }
+            case "Low":
+                {
+                    series.ToolTipTemplate = categoryChart1.Resources["lowDT"] as DataTemplate;
+                    break;
+                }
+        }
+    }
+}
+----
+endif::xamarin[]
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.categoryChart1.ToolTipType = ToolTipType.Item
+----
+endif::win-forms[]
+
+
+[[FinalValueLayer]]
+
+==== 最終値レイヤー
+最終値レイヤーは、シリーズに表示された最終値の軸に沿った注釈をサポートします。これを有効するには link:{CategoryChartLink}.{DomainChartName}{ApiProp}FinalValueAnnotationsVisible.html[FinalValueAnnotationsVisible] プロパティを True に設定します。
+
+以下のコード例は、最終値 レイヤーを有効する方法を紹介します:
+
+ifdef::wpf,xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName} x:Name="categoryChart1" 
+    FinalValueAnnotationsVisible="True"
+    ChartType="Column"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}>
+----
+endif::wpf,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.FinalValueAnnotationsVisible = true;
+----
+
+ifdef::win-forms[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.categoryChart1.FinalValueAnnotationsVisible = true
+----
+endif::win-forms[]
+
+
+[[CalloutLayer]]
+
+==== コールアウト レイヤー
+コールアウト レイヤーは、X/Y 位置にコールアウト注釈を表示します。マスク オーバー操作をする場合、ラベルと追加のコンテンツが表示されます。デフォルトで、コールアウト レイヤーは無効に設定されましたが、link:{CategoryChartLink}.{DomainChartName}{ApiProp}CalloutsVisible.html[CalloutsVisible] を True に設定する場合、有効にします。
+
+以下のコード例は、コールアウト レイヤーをカテゴリ チャートに追加する方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName}  
+    x:Name="categoryChart1"                         
+    CalloutsVisible="True"
+    CalloutsItemsSource="{StaticResource WeatherData}"
+    CalloutsXMemberPath="Index"
+    CalloutsYMemberPath="Value"
+    CalloutsLabelMemberPath="Info"
+    CalloutsContentMemberPath="Info"
+    ChartType="Column"
+    IncludedProperties="Month, High, Low"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}> 
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.CalloutsVisible = true;
+this.categoryChart1.CalloutsItemsSource = WeatherData;
+this.categoryChart1.CalloutsXMemberPath = "Index";
+this.categoryChart1.CalloutsYMemberPath = "Value";
+this.categoryChart1.CalloutsLabelMemberPath = "Info";
+this.categoryChart1.CalloutsContentMemberPath = "Info";
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName}  
+    x:Name="categoryChart1"                     
+    CalloutsVisible="True"
+    CalloutsItemsSource="{StaticResource WeatherData}"
+    CalloutsXMemberPath="Index"
+    CalloutsYMemberPath="Value"
+    CalloutsLabelMemberPath="Info"
+    ChartType="Column"
+    IncludedProperties="Month, High, Low"
+    ItemsSource="{StaticResource WeatherData}" >
+</ig:{CategoryChartName}> 
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.CalloutsVisible = true;
+this.categoryChart1.CalloutsItemsSource = WeatherData;
+this.categoryChart1.CalloutsXMemberPath = "Index";
+this.categoryChart1.CalloutsYMemberPath = "Value";
+this.categoryChart1.CalloutsLabelMemberPath = "Info";
+----
+endif::xamarin[]
+
+
+ifdef::win-forms[]
+*C# の場合:*
+
+[source,csharp]
+----
+this.ultraCategoryChart1.CalloutsVisible = true;
+this.ultraCategoryChart1.CalloutsDataSource = WeatherData;
+this.ultraCategoryChart1.CalloutsXMemberPath = "Index";
+this.ultraCategoryChart1.CalloutsYMemberPath = "Value";
+this.ultraCategoryChart1.CalloutsLabelMemberPath = "Info";
+this.ultraCategoryChart1.CalloutsContentMemberPath = "Info";
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.ultraCategoryChart1.CalloutsVisible = True
+Me.ultraCategoryChart1.CalloutsDataSource = WeatherData
+Me.ultraCategoryChart1.CalloutsXMemberPath = "Index"
+Me.ultraCategoryChart1.CalloutsYMemberPath = "Value"
+Me.ultraCategoryChart1.CalloutsLabelMemberPath = "Info"
+Me.ultraCategoryChart1.CalloutsContentMemberPath = "Info"
+----
+endif::win-forms[]
+
+[[ValueLayer]]
+
+==== 値レイヤー
+
+link:{DataChartLink}.valuelayer.html[ValueLayer] は、link:{CategoryChartLink}.{DomainChartName}{ApiProp}ValueLines.html[ValueLines] プロパティを設定することで、{CategoryChartName} に追加できるシリーズ タイプです。このシリーズ タイプの目的は、最小値、最大値、平均値などのデータのさまざまな焦点に、それらの計算されたポイントに破線を描画することによって注釈を付けることです。
+
+link:{CategoryChartLink}.{DomainChartName}{ApiProp}ValueLines.html[ValueLines] コレクションは、link:{DataChartLink}.valuelayer.html[ValueLayerValueMode] 列挙体のリストを受け取ります。これらの列挙体について以下に説明します。
+
+- `Auto`: link:{DataChartLink}.valuelayer.html[ValueLayerValueMode] 列挙体のデフォルト値モード。
+- `Average`: 複数の値の線を適用して、チャートにプロットされた各系列の平均値を呼び出します。
+- `GlobalAverage`: 単一の値線を適用して、チャート内のすべての系列値の平均を呼び出します。
+- `GlobalMaximum`: 単一の値線を適用して、チャート内のすべての系列値の絶対最大値を呼び出します。
+- `GlobalMinimum`: 単一の値線を適用して、チャート内のすべての系列値の絶対最小値を呼び出します。
+- `Maximum`: チャートにプロットされた各系列の最大値を示すために、複数の値線を適用する可能性があります。
+- `Minimum`: チャートにプロットされた各系列の最小値を示すために、複数の値線を適用する可能性があります。
+
+次のコード例は、link:{CategoryChartLink}.{DomainChartName}{ApiProp}ValueLines.html[ValueLines] プロパティを使用して、link:{DataChartLink}.valuelayer.html[ValueLayer] を {CategoryChartName} に追加する方法を示しています。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{CategoryChartName}  
+    x:Name="Chart"                            
+    ChartType="Column"
+    IncludedProperties="Month, High, Low"
+    ItemsSource="{StaticResource WeatherData}"            
+    ValueLines="Maximum">
+</ig:{CategoryChartName}> 
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.categoryChart1.ValueLines.Add(ValueLayerValueMode.Maximum);
+----
+
+endif::wpf[]
+
+ifdef::win-forms[]
+
+*C# の場合:*
+
+[source, csharp]
+
+----
+this.ultraCategoryChart1.ValueLines.Add(ValueLayerValueMode.Maximum);
+----
+
+endif::win-forms[]
+
+[[RelatedContent]]
+
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせて参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:categorychart-overview.html[概要]
+|このトピックは、カテゴリ チャート コントロールの概要を提供します。
+
+| link:datachart-chartannotationlayers.html[チャート注釈レイヤー]
+|このトピックでは、{DataChartName}™ コントロール の注釈や pick:[wpf,sl,win-universal,win-forms="ホバー"]pick:[xamarin="タッチ"] 操作について説明します。
+
+|====

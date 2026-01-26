@@ -1,0 +1,162 @@
+﻿////
+|metadata|
+{
+    "controlName": ["{GeoMapName}"],
+    "tags": []
+}
+|metadata|
+////
+
+= 地理的シリーズを使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールの地理的シリーズのサポートされているタイプについての情報を提供します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックは、{GeoMapName} コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} の視覚要素]
+|このトピックは、{GeoMapName} コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックは、マップ、シェープ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェープ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックは、{GeoMapName} コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320659119, 概要 >>
+
+** <<_Ref320659122,地理的シリーズの概要>>
+** <<_Ref320659124,地理的シリーズのタイプ>>
+** <<_Ref320659125,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+[[_Ref320659119]]
+== 概要
+
+[[_Ref320659122]]
+
+=== 地理的シリーズの概要
+
+{GeoMapName} コントロールでは、地理的シリーズは、地理的コンテキストのポイント（たとえば、都市の位置）、ポリライン（たとえば、道路接続）、または多角形（国々の図形）として地理的データを表示する地図の視覚要素です。
+
+{GeoMapName} コントロールの link:{DataChartLinkBase}.seriesviewer~series.html[Series] プロパティは、地理的シリーズ オブジェクトのコレクションです。このプロパティは、同じプロット エリアで無制限の地理的シリーズの描画をサポートするために使用されます（ link:geographicmap-displaying-multiple-geographic-series.html[「複数の地理的シリーズを表示」]のトピックを参照）。複数の地理的シリーズ オブジェクトが link:{DataChartLinkBase}.seriesviewer~series.html[Series] プロパティに追加される場合、それぞれの連続するシリーズは、先頭から最後のシリーズに向かって開始する前のシリーズの上にレイヤーされます。したがって、地理的シリーズは、互いに重ねて、または地理的画像の上に重ねることができるマップ レイヤーとして理解できます（ link:geographicmap-using-geographic-imagery.html[「地理的画像を使用」]のトピックを参照）。
+
+[[_Ref320659124]]
+
+=== 地理的シリーズのタイプ
+
+以下の表で、{GeoMapName} コントロールでサポートされている地理的シリーズのタイプを簡単に説明します。
+
+[options="header", cols="a,a,a"]
+|====
+| *地理的シリーズ* | *プレビュー* | *説明* 
+
+|地理的シェイプ シリーズ
+|image::images/GeographicMap_Using_Geographic_Series_1.png[]
+| link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] は、地理的コンテキストで多角形を使用して地理的データを表示します。地理的シリーズのこのタイプは、地理的位置で定義される国々または領域の図形を描画するためにしばしば使用されます。
+
+|地理的ポリライン シリーズ
+|image::images/GeographicMap_Using_Geographic_Series_2.png[]
+| link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] は、地理的コンテキストでポリラインを使用して地理的データを表示します。地理的シリーズのこのタイプは、都市または空港などの地理的位置間の道路または接続を描画するためにしばしば使用されます。
+
+|地理的シンボル シリーズ
+|image::images/GeographicMap_Using_Geographic_Series_3.png[]
+| link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] は、地理的コンテキストでポイントまたはマーカーを使用して地理的データを表示します。地理的シリーズのこのタイプは、都市、空港、地震または興味のあるポイントなどの地理的位置のコレクションを描画するためにしばしば使用されます。
+
+|====
+
+以下は、地理的シリーズの個々のタイプおよび {GeoMapName} コントロールのユニークな特徴を使用する上でのタスクベースの情報を提供するトピックのリストです。
+
+* link:geographicmap-using-geographic-shape-series.html[地理的シェイプ シリーズを使用]
+* link:geographicmap-using-geographic-symbol-series.html[地理的シンボル シリーズを使用]
+* link:geographicmap-using-geographic-polyline-series.html[地理的ポリライン シリーズを使用]
+
+地理的シリーズのすべてのタイプは、常に地理的画像タイルの上に描画されます。ただし、場合によっては地理的シリーズ（たとえば、世界の詳細なシェープ ファイルがある）は、アプリケーションで十分な地理的コンテキストを提供しており、地理的画像は  {GeoMapName} コントロールで必要とはされません。地理的画像を非表示にする方法については、 link:geographicmap-hiding-geographic-imagery-in-map-background-content.html[「マップ背景コンテンツで地理的画像を非表示」]のトピックを参照してください。
+
+[[_Ref320659125]]
+
+=== 例
+
+このコードは、 {GeoMapName} コントロールに link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] をバインドすることで link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] を追加する方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.Series>
+        <ig:GeographicShapeSeries {ApiDataSource}="{StaticResource shapefileConverter}"
+                                   ShapeMemberPath="Points">
+        </ig:GeographicShapeSeries>
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' GeographicShapeSeries に作成してデータ バインディングを設定します
+Dim geoSeries = New GeographicShapeSeries()
+geoSeries.{ApiDataSource} = shapefileConverter
+geoSeries.ShapeMemberPath = "Points"
+' GeographicShapeSeries を {GeoMapName} に追加します
+Me.GeoMap.Series.Add(geoSeries)
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// GeographicShapeSeries に作成してデータ バインディングを設定します
+var geoSeries = new GeographicShapeSeries();
+geoSeries.{ApiDataSource} = shapefileConverter;
+geoSeries.ShapeMemberPath = "Points";
+// GeographicShapeSeries を {GeoMapName} に追加します
+this.GeoMap.Series.Add(geoSeries);
+----
+
+[[_Ref320185294]]
+== 関連コンテンツ
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+| *トピック* | *目的* 
+
+| link:geographicmap-using-geographic-symbol-series.html[地理的シンボル シリーズを使用]
+|このトピックは、 {GeoMapName} コントロールで link:{GeoMapLink}.geographicsymbolseries_members.html[GeographicSymbolSeries] 要素を使用する方法を提供します。
+
+| link:geographicmap-using-geographic-shape-series.html[地理的シェイプ シリーズを使用]
+|このトピックは、 {GeoMapName} コントロールで link:{GeoMapLink}.geographicshapeseries_members.html[GeographicShapeSeries] 要素を使用する方法を提供します。
+
+| link:geographicmap-using-geographic-polyline-series.html[地理的ポリライン シリーズを使用]
+|このトピックは、 {GeoMapName} コントロールで link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] 要素を使用する方法を提供します。
+
+ifdef::wpf[]
+| link:geographicmap-styling-shapes-in-geographic-series.html[地理的シリーズの図形をスタイル]
+|このトピックは、 {GeoMapName} コントロールで地理的シリーズの図形をスタイルする方法を提供します。
+endif::wpf[]
+
+|====

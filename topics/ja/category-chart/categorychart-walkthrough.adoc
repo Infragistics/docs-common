@@ -1,0 +1,233 @@
+﻿////
+|metadata|
+{
+    "name": "categorychart-walkthrough",
+    "controlName": ["{CategoryChartName}"],
+    "tags": [],
+    "buildFlags": []
+}
+|metadata|
+////
+
+= {CategoryChartName} を使用した作業の開始
+
+=== 目的
+
+このトピックではコード例を使用して、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] コントロールを {PlatformName} アプリケーションに追加する方法を説明します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<Adding,{CategoryChartName} を {PlatformName} アプリケーションへ追加>>
+
+** <<Introduction,概要>>
+** <<Preview,プレビュー>>
+** <<Prerequisites,要件>>
+** <<Overview,概要>>
+** <<Steps,手順>>
+
+* <<RelatedContent,関連コンテンツ>>
+
+[[Adding]]
+== {CategoryChartName} を {PlatformName} アプリケーションへ追加
+
+[[Introduction]]
+
+=== 概要
+
+以下の手順は、{CategoryChartName} を {PlatformName} アプリケーションに追加する方法を示します。
+
+[[Preview]]
+
+=== プレビュー
+
+以下は {CategoryChartName} のスクリーンショットです。
+
+image::images/categorychart_walkthrough_01.png[]
+
+[[Prerequisites]]
+== 要件
+
+以下は、{CategoryChartName} コントロールを追加するための一般要件です。
+
+ifdef::android[]
+以下の jars をプロジェクトに追加します。
+
+** Infragistics.Chart.jar
+** Infragistics.Core.jar
+** Infragistics.UI.jar
+** DV.Shared.jar
+endif::android[]
+
+ifdef::wpf[]
+
+以下の NuGet パッケージ参照をメイン プロジェクトに追加します。
+
+** Infragistics.WPF.Charts
+
+NuGet フィードのセットアップと NuGet パッケージの追加の詳細については、link:nuget-feeds.html[NuGet フィード] ドキュメントを参照してください。
+
+endif::wpf[]
+
+ifdef::win-forms[]
+以下のアセンブリ参照をプロジェクトに追加します。
+
+** {ApiPlatform}{CategoryChartAssembly}.{DllVersion}dll 
+** {ApiPlatform}{DataVizAssembly}.{DllVersion}dll 
+** {ApiPlatform}Win.Portable.Core.{DllVersion}dll 
+endif::win-forms[]
+
+ifdef::xamarin[]
+1. link:xamarin-project-with-infragistics-controls.html#NuGetPackages[「NuGet パッケージで参照を追加」]を参照してください。
+
+2. {CategoryChartName} を以下の方法で追加できます。
+* link:getting-started-with-toolbox.html[Infragistics ツールボックス]。
+* 以下のコード スニペット。
+endif::xamarin[]
+
+ifdef::xamarin[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="clr-namespace:{CategoryChartNamespace};assembly={ApiPlatform}Charts"
+---- 
+endif::xamarin[]
+
+ifdef::wpf[]
+*XAML の場合:*
+[source,xaml]
+----
+xmlns:ig="http://schemas.infragistics.com/xaml"
+----  
+endif::wpf[]
+ 
+ifdef::wpf,win-forms,xamarin[] 
+*C# の場合:* 
+[source,csharp]
+----
+using {CategoryChartNamespace};  
+----  
+endif::wpf,win-forms,xamarin[]
+ 
+ifdef::wpf,win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Imports {CategoryChartNamespace}
+---- 
+endif::wpf,win-forms[]
+ 
+ifdef::android[] 
+*Java の場合:* 
+[source,js]
+----
+import {CategoryChartNamespace}.{CategoryChartName};
+---- 
+endif::android[] 
+
+[[Overview]]
+
+=== 概要
+
+以下はプロセスの概念的概要です。
+
+*1. {CategoryChartName} を {PlatformName} アプリケーションへ追加*
+
+*2. 結果の検証*
+
+[[Steps]]
+
+=== 手順
+
+以下では {CategoryChartName} コントロールをページに追加するために必要な手順を示します。
+
+=== 1. {CategoryChartName} コントロールをページに追加します。
+
+以下のコードは、表示に必要な最小限のコードとプロパティ設定で {CategoryChartName} コントロールを追加します。以下のコード サンプルはlink:resources-sample-energy-data.html[サンプル エネルギー データ]のリソースを使用します。
+
+ifdef::xaml[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<Grid x:Name="LayoutRoot">
+ <ig:{CategoryChartName} ItemsSource="{Binding DataCollection}" />
+</Grid>
+----
+
+endif::xaml[]
+
+
+
+ifdef::wpf[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim categoryChart As New {CategoryChartName}()
+categoryChart.ItemsSource = data
+Me.LayoutRoot.Children.Add(categoryChart)  
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var categoryChart = new {CategoryChartName}();
+categoryChart.ItemsSource = data;
+this.LayoutRoot.Children.Add(categoryChart);  
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Dim categoryChart As New {CategoryChartName}()
+categoryChart.DataSource = data
+Me.Controls.Add(categoryChart)  
+----
+
+*C# の場合:*
+[source,csharp]
+----
+var categoryChart = new {CategoryChartName}();
+categoryChart.DataSource = data;
+this.Controls.Add(categoryChart);  
+----
+endif::win-forms[]
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+CategoryChartView categoryChart = new CategoryChartView(rootView.getContext());
+return (categoryChart);
+----
+
+endif::android[]
+
+=== 2. 結果を確認します。
+
+結果を確認するために、プロジェクトをビルドおよび実行します。手順を正しく実装した場合、{CategoryChartName} は上記のプレビュー セクションで示したように表示されます。
+
+[[RelatedContent]]
+== 関連コンテンツ
+
+=== トピック
+
+このトピックの追加情報については、以下のトピックも合わせてご参照ください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:categorychart-binding-to-data.html[データ バインド]
+|このトピックはコントロールにデータをバインドする方法を説明します。
+
+| link:categorychart-overview.html[概要]
+|このトピックは、カテゴリ チャート コントロールの概要を提供します。
+
+|====

@@ -1,0 +1,190 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-configuring-the-trend-line",
+    "controlName": ["{SparklineName}"],
+    "tags": ["Charting","How Do I","Layouts"],
+    "guid": "76dd1700-4a5a-4b0d-a4c5-00292523b2fa",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2293858Z"
+}
+|metadata|
+////
+
+= 近似曲線の構成
+
+== トピックの概要
+
+=== 目的
+
+このトピックはコード例を示して、 link:{ApiPlatform}{SparklineAssembly}{ApiVersion}.html[{SparklineName}]™ の近似曲線を構成し、ユーザー設定の外観と色を適用する方法を示します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} の構成]
+|このトピックは、 _{SparklineName}_ コントロールを構成するあらゆる方法の概要について説明します。構成の詳細情報へのリンク (別のトピックで参照可能) も記載されています。
+
+| link:sparkline-adding-a-trend-line.html[近似曲線の追加]
+|このトピックは、コード例を示して、 _{SparklineName}_ コントロールに近似曲線を追加する方法を説明します。
+
+|====
+
+== 近似曲線の構成 - 概念的概要
+
+=== 概要
+
+既定では、近似曲線はスパークライン チャートには表示されません。近似曲線を表示するには、最低でも TrendLineVisibiliy プロパティを `Visible` に設定して、近似曲線を有効にする必要があります。(選択された近似曲線のタイプに基づいて) 最低限の設定である線で構成された近似曲線は、色がグレーで、線の太さが 1 ピクセルの水平線です。
+
+近似曲線は、以下の点をカスタマイズできます。
+
+* タイプ - 近似曲線のタイプは多数サポートされています。詳細については、 link:sparkline-sparkline-features.html[{SparklineName} の機能]のトピックの link:sparkline-sparkline-features.html#Trend_Lines[サポート対象近似曲線] テキスト ブロックを参照してください。
+* 線の色
+* 線の太さ
+* 線の期間 - 近似曲線の移動平均値を計算する場合に使用します。(Fit 型ではなく) Average 型の近似曲線にのみ該当します。たとえば、Simple Average または Exponential Average 近似曲線の線の期間を設定できますが、Linear Fit または他の型の Fit 近似曲線の期間は設定できません。
+
+これらの点はそれぞれ、専用のプロパティで管理されます。詳細については、プロパティ設定のテキスト ブロックを参照してください。
+
+=== プロパティ設定
+
+以下の表では、構成タスクを対応する近似曲線プロパティ設定にマップしています。
+
+[options="header", cols="a,a,a"]
+|====
+|以下を行うために:|プロパティ|次に設定
+
+|[[_Hlk319427977]] 
+
+近似曲線タイプを指定する
+| link:sparkline-sparkline-property-reference.html#TrendLineType[TrendLineType]
+|任意の近似曲線タイプ
+
+|近似曲線の色を変更する
+| link:sparkline-sparkline-property-reference.html#TrendLineBrush[TrendLineBrush]
+|色名
+
+|近似曲線の太さを変更する
+| link:sparkline-sparkline-property-reference.html#TrendLineThickness[TrendLineThickness]
+|目的の数値
+
+|近似曲線の期間を変更する
+| link:sparkline-sparkline-property-reference.html#TrendLinePeriod[TrendLinePeriod]
+|目的の数値 (整数)
+
+|====
+
+== 近似曲線の構成 - コード例
+
+=== 説明
+
+以下のコードは、Simple Average 型で、太さが 3 ピクセル、期間が 2 ピクセルの赤い近似曲線を構成する方法を示しています。
+
+=== プレビュー
+
+image::images/Configuring_the_Trend_Line.png[]
+
+[[_Hlk319431233]]
+
+=== プロパティ設定
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|設定
+
+| link:{SparklineLink}.{SparklineName}~trendlinetype.html[TrendLineType]
+| __SimpleAverage__ 
+
+| link:{SparklineLink}.{SparklineName}~trendlinebrush.html[TrendLineBrush]
+|Red
+
+| link:{SparklineLink}.{SparklineName}~trendlinethickness.html[TrendLineThickness]
+|3
+
+| link:{SparklineLink}.{SparklineName}~trendlineperiod.html[TrendLinePeriod]
+|2
+
+|====
+
+=== コード
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<igSparkline:{SparklineName}
+               TrendLineType="SimpleAverage"
+                TrendLineBrush="Red"
+                TrendLinePeriod="2"
+                TrendLineThickness="3"/>
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage;
+this.{SparklineName}1.TrendLineBrush = new SolidColorBrush(Colors.Red);
+this.{SparklineName}1.TrendLinePeriod = 2;
+this.{SparklineName}1.TrendLineThickness = 3;
+----
+
+ifdef::sl,wpf,win-phone,win-universal[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage
+Me.{SparklineName}1.TrendLineBrush = New SolidColorBrush(Colors.Red)
+Me.{SparklineName}1.TrendLinePeriod = 2
+Me.{SparklineName}1.TrendLineThickness = 3
+----
+endif::sl,wpf,win-phone,win-universal[] 
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+ifdef::win-forms[] 
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage;
+this.{SparklineName}1.TrendLineBrush = new SolidColorBrush(Color.Red);
+this.{SparklineName}1.TrendLinePeriod = 2;
+this.{SparklineName}1.TrendLineThickness = 3;
+----
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.TrendLineType = SparklineTrendType.SimpleAverage
+Me.{SparklineName}1.TrendLineBrush = New SolidColorBrush(Color.Red)
+Me.{SparklineName}1.TrendLinePeriod = 2
+Me.{SparklineName}1.TrendLineThickness = 3
+----
+endif::win-forms[] 
+
+[[_Ref317078582]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+|====

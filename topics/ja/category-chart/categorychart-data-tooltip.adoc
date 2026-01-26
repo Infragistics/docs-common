@@ -1,0 +1,215 @@
+﻿= チャートのデータ ツールチップ
+
+{ProductName} では、link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] のデータ ツールチップは、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示します。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための link:{DataChartLink}.{DataLegendName}.html[{DataLegendName}] の多くの構成プロパティを提供します。このツールチップ タイプは、link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] のプロット領域内でマウスを動かすと更新されます。
+
+== データ ツールチップの要素
+
+link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] のデータ ツールチップは、3 種類の行と 4 種類の列のセットを使用してコンテンツを表示します。
+
+=== データ ツールチップの行
+
+データ ツールチップの行には、ヘッダー行、シリーズ行、および集計行が含まれます。
+
+ヘッダー行には、ホバーされたポイントの軸ラベルが表示され、link:{CategoryChartLink}.{DomainChartName}~DataToolTipHeaderText.html[DataToolTipheaderText] プロパティを使用して変更できます。
+
+シリーズ行は、実際には、チャートにプロットされた各シリーズに対応する行のセットにすることができます。これらの行には、凡例バッジ、シリーズ タイトル、シリーズの実際の値 / 省略値、および指定されている場合は省略記号と単位が表示されます。
+
+最後に、すべてのシリーズ値の合計を表示する集計行があります。デフォルトの集計タイトルは、シリーズの link:{CategoryChartLink}.{DomainChartName}~DataToolTipSummaryTitleText.html[DataToolTipSummaryTitleText] プロパティを使用して変更できます。また、link:{CategoryChartLink}.{DomainChartName}~DataToolTipSummaryType.html[DataToolTipSummaryType] プロパティを使用して、シリーズ値の合計、最小、最大、または平均を集計行に表示するかどうかをカスタマイズできます。
+
+以下のコードス ニペットは、上記のプロパティを設定して、集計のカスタム タイトルとカスタム ヘッダーを持つ `Total` 集計タイプのデータ ツールチップを設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+
+[source, xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipHeaderText="My Custom Data Tooltip Header"
+                     DataToolTipSummaryType="Total"
+                     DataToolTipSummaryTitleText="Grand Total:"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipHeaderText = "My Custom Data Tooltip Header";
+categoryChart1.DataToolTipSummaryType = DataLegendSummaryType.Total;
+categoryChart1.DataToolTipSummaryTitleText = "Grand Total:";
+----
+
+endif::wpf,win-forms[]
+
+=== データ ツールチップの列
+
+データ ツールチップ の列には、タイトル、ラベル、値、および単位の列が含まれます。チャートの各シリーズには、チャートの link:{DataChartLink}.{DomainChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] または link:{DataChartLink}.{DomainChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
+
+タイトル列には、チャートにプロットされた各シリーズの `Title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
+
+ラベルの列には、チャートの link:{DataChartLink}.{DomainChartName}~DataToolTipIncludedColumns.html[DataToolTipIncludedColumns] または link:{DataChartLink}.{DomainChartName}~DataToolTipExcludedColumns.html[DataToolTipExcludedColumns] コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
+
+値の列には、一連の値が省略形のテキストとして表示されます。この省略形は、link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] プロパティを使用して書式設定でき、このプロパティを `Auto` または `Shared` に設定することですべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の精度は、最小桁数と最大桁数にそれぞれ link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] と link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions] を使用して制御されます。
+
+単位の列には、省略記号や単位テキストが表示されます。これらは、link:{CategoryChartLink}.{DomainChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText] を設定することでツールチップに設定できます。
+    
+以下のコードスニペットは、link:{CategoryChartLink}.{DomainChartName}~DataToolTipUnitsText.html[DataToolTipUnitsText] と link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] のデータ ツールチップに設定された最小/最大の端数を示しています。
+    
+ifdef::wpf[]
+
+*XAML の場合*:
+[source, xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipUnitsText="K"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipUnitsText = "K";
+categoryChart1.DataToolTipValueFormatMinFractions = 2;
+categoryChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+
+== データ ツールチップのスタイル設定
+
+link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] は、データ ツールチップの各タイプの列をスタイル設定するためのプロパティを提供します。これらの各プロパティ名は、Title、Label、Value、Units で始まり、テキストの色、フォント、およびマージンのスタイルを設定できます。たとえば、これらのそれぞれのテキストの色を設定する場合は、link:{CategoryChartLink}.{DomainChartName}~DataToolTipTitleTextColor.html[DataToolTipTitleTextColor]、link:{CategoryChartLink}.{DomainChartName}~DataToolTipLabelTextColor.html[DataToolTipLabelTextColor]、link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueTextColor.html[DataToolTipValueTextColor] および link:{CategoryChartLink}.{DomainChartName}~DataToolTipUnitsTextColor.html[DataToolTipUnitsTextColor] プロパティを設定します。
+
+以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipTitleTextColor="LightGray"
+                     DataToolTipLabelTextColor="LightGray"
+                     DataToolTipValueTextColor="Green"
+                     DataToolTipUnitsTextColor="Green"
+                     DataToolTipUnitsText="K"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipTitleTextColor = Brushes.LightGray;
+categoryChart1.DataToolTipLabelTextColor = Brushes.LightGray;
+categoryChart1.DataToolTipValueTextColor = Brushes.Green;
+categoryChart1.DataToolTipUnitsTextColor = Brushes.Green;
+categoryChart1.DataToolTipUnitsText = "K";
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップのグループ化と配置
+
+link:{CategoryChartLink}.{DomainChartName}~DataToolTipGroupingMode.html[DataToolTipGroupingMode] プロパティを` Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、link:{CategoryChartLink}.{DomainChartName}~DataToolTipGroupedPositionModeX.html[DataToolTipGroupedPositionModeX] プロパティと link:{CategoryChartLink}.{DomainChartName}~DataToolTipGroupedPositionModeY.html[DataToolTipGroupedPositionModeY] プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+
+以下のコード スニペットは、スクロールすると link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] の左上にピン固定されるデータ ツールチップを示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipGroupingMode="Grouped"
+                     DataToolTipGroupedPositionModeX="PinLeft"
+                     DataToolTipGroupedPositionModeY="PinTop"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipGroupingMode = DataToolTipLayerGroupingMode.Grouped;
+categoryChart1.DataToolTipGroupedPositionModeX = DataTooltipGroupedPositionX.PinLeft;
+categoryChart1.DataToolTipGroupedPositionModeY = DataTooltipGroupedPositionY.PinTop;
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップ値の書式設定
+
+link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] は、その link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatAbbreviation.html[DataToolTipValueFormatAbbreviation] プロパティを使用して、データ ツールチップに大きな数の自動省略形を提供します。これにより、単位の列に kilo、million、billion などの乗数が追加されます。link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMinFractions.html[DataToolTipValueFormatMinFractions] および link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMaxFractions.html[DataToolTipValueFormatMaxFractions] を設定することにより、表示される小数桁数をカスタマイズできます。これにより、小数点以下に表示される最小桁数と最大桁数をそれぞれ決定できます。
+
+以下のコード スニペットは、link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}]の データ ツールチップの最小部分と最大部分を設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatMinFractions="2"
+                     DataToolTipValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipValueFormatMinFractions = 2;
+categoryChart1.DataToolTipValueFormatMaxFractions = 4;
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップの値モード
+
+チャートの link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] プロパティを変更することにより、データ ツールチップ内の値のデフォルトの 10 進表示を通貨表示に変更できます。link:{DataChartLink}.{CategoryChartName}.html[{CategoryChartName}] は、link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] プロパティを使用し、対応するカルチャ タグに設定することにより、ツールチップに表示されている通貨記号のカルチャを変更する機能も公開します。
+
+たとえば、以下のコード スニペットは、link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatCulture.html[DataToolTipValueFormatCulture] が "en-GB" に設定され、link:{CategoryChartLink}.{DomainChartName}~DataToolTipValueFormatMode.html[DataToolTipValueFormatMode] が "Currency" に設定されたチャートを作成します。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:{CategoryChartName} ItemsSource="{Binding Data}"
+                     DataToolTipValueFormatCulture="en-GB"
+                     DataToolTipValueFormatMode="Currency"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+categoryChart1.DataToolTipValueFormatCulture = "en-GB";
+categoryChart1.DataToolTipValueFormatMode = DataLegendValueMode.Currency;
+----
+
+endif::wpf,win-forms[]

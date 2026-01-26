@@ -1,0 +1,264 @@
+﻿////
+|metadata|
+{
+    "tags": ["Charting","How Do I"],
+    "controlName": ["{DataChartName}"]
+}
+|metadata|
+////
+
+= Callout Layer
+
+== Topic Overview
+
+=== Purpose
+
+This topic provides information about the callout layer used for pick:[wpf="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the callout layer and provides an example of its implementation.
+
+=== Required background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-getting-started-with-datachart.html[Getting Started with Data Chart]
+|The _{DataChartName}_ control requires a data object model to be mapped to control's DataContext property. This article will provide a simple data object model but you can create your own and use it with this sample code instead.
+
+| link:datachart-category-series-overview.html[Category Series]
+|This topic explains various types of Category Series in the _{DataChartName}_ control.
+
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<Overview,Overview>>
+* <<Preview,Preview>>
+* <<Properties,Properties>>
+* <<Example,Example>>
+* <<Related,Related Content>>
+
+[[Overview]]
+== Overview
+
+=== Callout Layer Overview
+
+The link:{DataChartLink}.calloutlayer.html[CalloutLayer] displays annotations from existing or new data on the _{DataChartName}_ control.  The annotations appear next to the given data values in the datasource.
+
+The callout layer supports being used with all series types in the {DataChartName}.
+
+Use the callout annotations to display additional information, such as notes or specific details about datapoints, that you would like to point out to your users.
+
+You can configure the callouts to target a specific series if you want to have multiple callouts layers present with different configurations. This can be done be setting the link:{DataChartLink}.calloutlayer{ApiProp}TargetSeries.html[TargetSeries] property.
+
+[[Preview]]
+== Preview
+
+The following image is a preview of the _{DataChartName}_ control with the link:{DataChartLink}.calloutlayer.html[CalloutLayer] added.
+
+pick:[win-forms="image::images/datachart_calloutlayer_winforms.png[]"]
+pick:[wpf="image::images/datachart_calloutlayer_wpf.png[]"]
+pick:[xamarin="image::images/datachart_calloutlayer_xamarin.png[]"]
+
+[[Properties]]
+== Properties
+
+=== Callout Layer Summary
+
+The following table summarizes the properties of the link:{DataChartLink}.calloutlayer.html[CalloutLayer] layer.
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{DataChartLink}.calloutlayer{ApiProp}LabelMemberPath.html[LabelMemberPath]
+|`String`
+|The member path in the data source for what will be displayed in the annotation on the chart.
+
+| link:{DataChartLink}.calloutlayer{ApiProp}XMemberPath.html[XMemberPath]
+|`String`
+|The member path in the data source for the x-value of the annotation.
+
+| link:{DataChartLink}.calloutlayer{ApiProp}YMemberPath.html[YMemberPath]
+|`String`
+|The member path in the data source for the y-value of the annotation.
+
+| link:{DataChartLink}.calloutlayer{ApiProp}IsCalloutOffsettingEnabled.html[IsCalloutOffsettingEnabled]
+|`Boolean`
+|Set to true if callouts will be offset based on collision resolution.  _True_ by default.
+
+|====
+
+[[Example]]
+== Example
+
+Following is the code used in the screenshot above.
+
+ifdef::wpf[]
+
+*In XAML:*
+
+[source,xaml]
+----
+
+<ig:{DataChartName} x:Name="DataChart" Grid.Column="1"
+                 HorizontalZoomable="True" 
+                 VerticalZoomable="True"  
+                 DataContext="{StaticResource VM}" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="XAxis" ItemsSource="{Binding USA}"
+                          Label="{}{Year}"  Interval="1"/>
+        <ig:NumericYAxis x:Name="YAxis" MinimumValue="0" Label="{}{} M"
+                         Title="{Binding XWDC_WorldData_Types_Population, Source={StaticResource Strings}}">
+            <ig:NumericYAxis.LabelSettings>
+                <ig:AxisLabelSettings Location="OutsideRight" Margin="5 0 5 0" />
+            </ig:NumericYAxis.LabelSettings>
+        </ig:NumericYAxis>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:LineSeries ValueMemberPath="ValueInMln"
+                       DataContext="{Binding USA}"
+                       ItemsSource="{Binding}"
+                       Title="{Binding Country}"
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}" >
+        </ig:LineSeries>
+        <ig:LineSeries ValueMemberPath="ValueInMln"
+                       DataContext="{Binding RUS}"
+                       ItemsSource="{Binding}"
+                       Title="{Binding Country}"
+                       XAxis="{Binding ElementName=XAxis}"
+                       YAxis="{Binding ElementName=YAxis}" >
+        </ig:LineSeries>      
+        <!-- this single callout layer is targeting ItemsSource of multiple series: -->
+        <ig:CalloutLayer x:Name="AutoCallout" 
+                         IsAutoCalloutBehaviorEnabled="True"
+                         UseValueForAutoCalloutLabels="True"
+                         AutoCalloutLabelPrecision="1"
+                         XMemberPath="Index"
+                         YMemberPath="ValueInMln"
+                         LabelMemberPath="ChangePercentage"
+                         CalloutLeaderBrush="Gray"
+                         CalloutOutline="Gray"
+                         CalloutBackground="DodgerBlue"
+                         CalloutTextColor="White"
+                         CalloutStrokeThickness="1.5">
+        </ig:CalloutLayer>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::xamarin[]
+
+*In XAML:*
+
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart" IsHorizontalZoomEnabled="True" IsVerticalZoomEnabled="True" >
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis" ItemsSource="{Binding USA}" Label="Year" Interval="1"/>
+        <ig:NumericYAxis x:Name="yAxis" MinimumValue="0" Title="Population (M)" LabelLocation="OutsideRight"/>
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesUSA"
+                           BindingContext="{Binding USA}"
+                           ItemsSource="{Binding}"
+                           Title="{Binding Country}"
+                           XAxis="{x:Reference xAxis}"
+                           YAxis="{x:Reference yAxis}" >
+        </ig:LineSeries>
+        <ig:LineSeries ValueMemberPath="ValueInMln" x:Name="SeriesRUS"
+                           BindingContext="{Binding RUS}"
+                           ItemsSource="{Binding}"
+                           Title="{Binding Country}"
+                           XAxis="{x:Reference xAxis}"
+                           YAxis="{x:Reference yAxis}" >
+        </ig:LineSeries>
+        <!-- these two callout layers are targeting ItemsSource for each series: -->
+        <ig:CalloutLayer  
+                CollisionChannel="MultipleCallouts"
+                TargetSeries="{x:Reference SeriesUSA}"
+                ItemsSource="{Binding CalloutsUSA}"
+                IsAutoCalloutBehaviorEnabled="False"
+                UseValueForAutoCalloutLabels="False" 
+                XMemberPath="DataItem.Index"
+                YMemberPath="DataItem.ValueInMln"
+                LabelMemberPath="Label"
+                ContentMemberPath="Content"
+                CalloutLeaderBrush="{Binding Source={x:Reference SeriesUSA}, Path=Brush}"
+                CalloutOutline="{Binding Source={x:Reference SeriesUSA}, Path=Brush}"
+                CalloutBackground="{Binding Source={x:Reference SeriesUSA}, Path=Brush}"
+                CalloutTextColor="White"
+                CalloutStrokeThickness="1.5">
+        </ig:CalloutLayer>
+        <ig:CalloutLayer  
+                CollisionChannel="MultipleCallouts"
+                TargetSeries="{x:Reference SeriesRUS}"
+                ItemsSource="{Binding CalloutsRUS}"
+                IsAutoCalloutBehaviorEnabled="False"
+                UseValueForAutoCalloutLabels="False"
+                AutoCalloutLabelPrecision="1"
+                XMemberPath="DataItem.Index"
+                YMemberPath="DataItem.ValueInMln"
+                LabelMemberPath="Label"
+                ContentMemberPath="Content"
+                CalloutLeaderBrush="{Binding Source={x:Reference SeriesRUS}, Path=Brush}"
+                CalloutOutline="{Binding Source={x:Reference SeriesRUS}, Path=Brush}"
+                CalloutBackground="{Binding Source={x:Reference SeriesRUS}, Path=Brush}"
+                CalloutTextColor="White"
+                CalloutStrokeThickness="1.5">
+        </ig:CalloutLayer>
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::xamarin[]
+
+ifdef::wpf[]
+*In C#:*
+[source,cs]
+----
+var callout = new CalloutLayer();
+callout.IsAutoCalloutBehaviorEnabled = true;
+callout.UseValueForAutoCalloutLabels = true;
+callout.AutoCalloutLabelPrecision = 1;
+callout.XMemberPath = "Index";
+callout.YMemberPath = "ValueInMln";
+callout.LabelMemberPath = "ChangePercentage";
+callout.CalloutLeaderBrush = new SolidColorBrush(Colors.Gray);
+callout.CalloutOutline = new SolidColorBrush(Colors.Gray);
+callout.CalloutBackground = new SolidColorBrush(Colors.DodgerBlue);
+callout.CalloutTextColor = new SolidColorBrush(Colors.White);
+callout.CalloutStrokeThickness = 1.5;
+DataChart.Series.Add(callout);
+----
+endif::wpf[]
+
+[[Related]]
+== Related Content
+
+[options="header", cols="a,a"]
+|====
+|Topic|Purpose
+
+| link:datachart-commonproperties.html[Common Properties]
+|This topic provides information about the properties and methods that the pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interaction feature uses for highlighting, pick:[wpf,win-universal="hovering"]pick:[xamarin="touch"] and interacting with the tooltip interactions inherited from the link:{DataChartLink}.series_members.html[Series] class.
+
+| link:datachart-crosshairlayer.html[Crosshair Layer]
+|This topic provides information about the crosshair layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the crosshair layer and provides an implementation example.
+
+| link:datachart-categoryitemhighlightlayer.html[Category Item Highlight Layer]
+|This topic provides information about the category item highlight layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category item highlight layer and provides an example of its implementation.
+
+| link:datachart-categorytooltiplayer.html[Category Tooltip Layer]
+|This topic provides information about the category tooltip layer used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the category tooltip layer and provides an example of its implementation.
+
+| link:datachart-itemtooltiplayer.html[Item Tooltip Layer]
+|This topic provides information about the item tooltip layer which is used for pick:[wpf,win-universal="hover"]pick:[xamarin="touch"] interactions. It describes the properties of the item tooltip layer and also provides an example of its implementation.
+
+|====

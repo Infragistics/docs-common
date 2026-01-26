@@ -1,0 +1,272 @@
+﻿////
+|metadata|
+{
+    "name": "sparkline-defining-the-sparkline-type",
+    "controlName": ["{SparklineName}"],
+    "tags": ["API","Charting","How Do I"],
+    "guid": "2ff3fb45-379f-4f86-a3b2-b2ef6ee36b04",
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:59.2433513Z"
+}
+|metadata|
+////
+
+= {SparklineName} タイプの定義
+
+== トピックの概要
+
+=== 目的
+
+このトピックは、コード例を示して、 link:{ApiPlatform}{SparklineAssembly}{ApiVersion}.html[{SparklineName}]™ タイプを定義する方法を説明します。このスパークライン タイプの要件は特殊なため、Win/Loss 型の指定については個々のセクションで説明します。
+
+=== 前提条件
+
+以下の表に、このトピックを理解するための前提条件として求められるトピックをリストします。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} の構成]
+|このトピックは、コード例を示して、 _{SparklineName}_ でヒントを構成し、カスタマイズする方法を説明します。
+
+|====
+
+=== このトピックの構成
+
+このトピックには次のセクションがあります。
+
+* <<_Ref317092856,Sparkline タイプの定義>>
+
+** <<_Ref317164782,概要>>
+** <<_Ref317164795,プロパティ設定>>
+** <<_Ref317164807,例>>
+** <<_Ref317165117,コード>>
+
+* <<_Ref317186415,Win/Loss 型のスパークラインの定義>>
+
+** <<_Ref317165227,概要>>
+** <<_Ref317165233,プロパティ設定>>
+** <<_Ref317165239,例>>
+** <<_Ref317165392,コード>>
+
+* <<_Ref317164828,関連コンテンツ>>
+
+** <<_Topics,トピック>>
+
+[[_Ref317092856]]
+== Sparkline タイプの定義
+
+[[_Ref317164782]]
+
+=== 概要
+
+{SparklineName} コントロールは、以下のタイプのスパークラインをサポートしています。
+
+*  折れ線  
+*  エリア  
+*  柱状  
+*  Win/Loss
+
+タイプは pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] プロパティの設定により定義されます。 pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] プロパティが指定されていない場合は、既定では pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Line]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Line]"] 型が表示されます。
+
+[[_Ref317164795]]
+
+=== プロパティ設定
+
+以下の表は、スパークライン タイプとそれらを構成するプロパティ設定の関係を示しています。
+
+[options="header", cols="a,a"]
+|====
+|{SparklineName} タイプ|_DisplayType_ プロパティを以下に設定:
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[折れ線]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[折れ線]"]
+| _Line_ 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[エリア]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[エリア]"]
+| _Area_ 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[柱状]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[柱状]"]
+| _Column_ 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[WinLoss]"] pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[WinLoss]"]
+| _WinLoss_ 
+
+|====
+
+[[_Ref317164807]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定で定義されたスパークラインを示します。
+
+[options="header", cols="a,a"]
+|====
+| *プロパティ* | *値* 
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"]
+| _Column_ 
+
+|====
+
+image::images/Define_Sparkline_Types_1.png[]
+
+[[_Ref317165117]]
+
+=== コード
+
+以下のコードは、Sparkline の表示タイプを pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[Column]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[Column]"] に設定するコードを示しています。
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{SparklineName} Name="{SparklineName}1" DisplayType="Column"/>
+----
+
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.DisplayType = SparklineDisplayType.Column;
+----
+
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.DisplayType = SparklineDisplayType.Column
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[[_Ref317186415]]
+== Win/Loss 型のスパークラインの定義
+
+[[_Ref317165227]]
+
+=== 概要
+
+Win/Loss 型は、柱状チャート タイプです。ここでは、各列の値はデータ セットの正の最大値 (正の値の場合) または負の最小値 (負の最小値の場合) に等しくなり、ウィンまたはロス (または似たような相反する概念) を意味することが多いです。Win/Loss チャートを正しく表示するには、データ セットには正の値と負の値がなければなりません。
+
+Win/Loss 型が (数値のコレクションにバインドできる) Line 型 など他のタイプと同じデータにバインドされている場合、 _{SparklineName}_   はコレクションから最高値と最低値という 2 つの値を選択し、それらの値に基づいてスパークラインをレンダリングします。
+
+たとえば、次のようにすべてのスパークライン タイプが同じデータ ソースにバインドされている場合:
+
+[options="header", cols="a,a"]
+|====
+|*レコード*|*値*
+
+|レコード 1
+|2
+
+|レコード 2
+|5
+
+|レコード 3
+|-1
+
+|レコード 4
+|4
+
+|レコード 5
+|-3
+
+|====
+
+_Win/Loss_   型は、データ ソース全体から最高値  _(5)_   および最低値  _(-3)_   という 2 つの値のみ選択し、最高値と同一のすべての正のデータ ポイントと最低値と同一のすべての負のデータ ポイントをプロットします。
+
+[[_Ref317165233]]
+
+=== プロパティ設定
+
+以下の表は、Win/Loss 型の Sparkline をそれを指定するプロパティ設定に設定するプロパティ設定を示しています。
+
+[options="header", cols="a,a,a"]
+|====
+|以下を行うために:|プロパティ|次に設定
+
+|Sparkline タイプを Win/Loss に設定する
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] 
+| _WinLoss_ 
+
+|====
+
+[[_Ref317165239]]
+
+=== 例
+
+以下のスクリーンショットは、以下の設定の結果、スパークラインがどのように表示されるかを示しています。
+
+[options="header", cols="a,a"]
+|====
+|プロパティ|値
+
+| pick:[sl,wpf,win-universal="link:{SparklineLink}.sparklinedisplaytype.html[DisplayType]"]pick:[xamarin,win-forms,android="link:{SparklineLink}.{SparklineName}~displaytype.html[DisplayType]"] 
+| _WinLoss_ 
+
+|====
+
+image::images/sparkline_overview_4.png[]
+
+[[_Ref317165392]]
+
+=== コード
+
+以下のコードは、{SparklineName} の表示タイプを  _WinLoss_   に設定するコードを示しています。
+
+ifdef::sl,wpf,win-phone,win-universal,xamarin[]
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:{SparklineName} Name="{SparklineName}1" DisplayType="WinLoss"/>
+----
+
+endif::sl,wpf,win-phone,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+this.{SparklineName}1.DisplayType = SparklineDisplayType.WinLoss;
+----
+
+ifdef::sl,wpf,win-phone,win-universal,win-forms[] 
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Me.{SparklineName}1.DisplayType = SparklineDisplayType.WinLoss
+----
+endif::sl,wpf,win-phone,win-universal,win-forms[] 
+
+[[_Ref317164828]]
+== 関連コンテンツ
+
+=== トピック
+
+以下のトピックでは、このトピックに関連する情報を提供しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:sparkline-sparkline-overview.html[{SparklineName} の概要]
+|このトピックは、 _{SparklineName}_ コントロールの概要、その利点、およびサポートされるチャート タイプを提供します。
+
+| link:sparkline-configuring-sparkline.html[{SparklineName} を構成]
+|このトピックは、コード例を示して、 _{SparklineName}_ でヒントを構成し、カスタマイズする方法を説明します。
+
+| link:sparkline-sparkline-property-reference.html[{SparklineName} プロパティ参照]
+|このトピックは、 _{SparklineName}_ コントロールの主なプロパティを説明します。
+
+|====

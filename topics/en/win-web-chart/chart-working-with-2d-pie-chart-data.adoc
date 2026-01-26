@@ -1,0 +1,88 @@
+﻿////
+
+|metadata|
+{
+    "name": "chart-working-with-2d-pie-chart-data",
+    "controlName": ["{WawChartName}"],
+    "tags": [],
+    "guid": "{27A300A9-A568-4938-AF50-7154744E04A4}",  
+    "buildFlags": [],
+    "createdOn": "2006-02-03T00:00:00Z"
+}
+|metadata|
+////
+
+= Working with 2D Pie Chart Data
+
+This topic discusses useful information that will help you to ensure that your data is rendered properly in the 2D pie chart.
+
+== Data Requirements
+
+While the Chart control allows you to easily point the chart to your own custom data, it is important that you are supplying the appropriate amount and type of data that the chart requires. If the data does not meet the minimum requirements based on the type of chart that you are using, an error will be generated.
+
+The following is a list of data requirements for 2D pie charts:
+
+* The data set contains one numeric column. A numeric column is any DataColumn containing only values that can be interpreted as numbers.
+* The data set contains one numeric row.
+* The column that you want to use for wedges in the chart must be specified by setting the  pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.piechartappearance~columnindex.html[ColumnIndex]"]  property to 0 (see the code below). To automatically search the data, set this property to -1. In this case, the first numeric column encountered will be used for the wedge values.
+
+[source]
+----
+UltraChart.PieChart.ColumnIndex = 0
+----
+
+* If you are binding the 2D pie chart to a series object, see link:chart-requirements-for-series-binding.html[Requirements for Series Binding] for information on the series binding requirements.
+
+.Note
+[NOTE]
+====
+If the data available is in a format where there is one row and many columns, then you should swap the rows and columns. For information on how to do this, see link:chart-swap-rows-and-columns.html[Swap Rows and Columns].
+====
+
+== Mapping Data to 2D Pie Charts
+
+The chart data is rendered using the following rules:
+
+* Only one numeric column is displayed in the chart.
+* Each row represents a wedge in the chart. The value for this row in the correct column (the column matching the ColumnIndex property) will be assigned to the corresponding wedge in the chart.
+* The first string column encountered in the data will be used for row labels.
+* The column specified through the ColumnIndex property is the only column used for values in the chart. If the ColumnIndex property is not set, the first filtered column (or row) will be used.
+* Optionally, a labels column can be included in the data source to associate wedges with names or descriptions. These labels can be displayed in the chart legend or in the labels displayed next to each wedge:
+
+[source]
+----
+UltraChart.PieChart.Labels.FormatString = "<ITEM_LABEL>: <DATA_VALUE:#> (<PERCENT_VALUE:#>%)"
+----
+* The data values do not need to be percentages, as the sum of the data values in the column is used to calculate the percentage applicable to each row. Negative data values are treated as non-negative (by taking their absolute value) for this purpose.
+* You can include or exclude any column from the chart using the UltraChart.Data. pick:[win-forms=" link:{ApiPlatform}win.ultrawinchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  pick:[asp-net=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.resources.appearance.dataappearance~includecolumn.html[IncludeColumn]"]  pick:[aspnet-old=" link:{ApiPlatform}webui.ultrawebchart{ApiVersion}~infragistics.ultrachart.data.chartdatafilter~includecolumn.html[IncludeColumn]"]  method.
+
+See below for an example data set, along with the rendered 2D pie chart.
+
+[options="header", cols="a,a"]
+|====
+|Product|Units Sold
+
+|Java
+|225
+
+|ActiveX
+|653
+
+|$$.NET$$1
+|335
+
+|Misc
+|132
+
+|Native
+|56
+
+|$$.NET$$2
+|62
+
+|Apple
+|42
+
+|====
+
+image::Images/Chart_Pie_Chart_02.png[Shows a 2D Pie Chart based on the data listed in the table above.]

@@ -1,0 +1,352 @@
+﻿= チャートのデータ ツールチップ
+
+{ProductName} では、link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] は、シリーズの値とタイトル、およびシリーズの凡例バッジをツールチップに表示します。さらに、シリーズの行と値の列をフィルタリングし、値をスタイル設定し、書式を設定するための link:datachart-data-legend.html[DataLegend] の多くの構成プロパティを提供します。このツールチップ タイプは、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}]、link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}]、および link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コンポーネントのプロット領域内でマウスを動かすと更新されます。
+
+== データ ツールチップのプロパティ
+
+link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] のすべてのプロパティには *DataToolTip* のプレフィックスが付けられ、link:{CategoryChartLink}.{CategoryChartName}.html[{CategoryChartName}] および link:{FinancialChartLink}.{FinancialChartName}.html[{FinancialChartName}] コンポーネントの API で公開されます。ただし、ラジアル チャート、極座標チャート、散布図で使用する場合は、link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] のインスタンスを作成し、それを link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コンポーネントのシリーズ コレクションに追加する必要があります。
+
+== データ ツールチップの要素
+
+link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] は、3 種類の行と 4 種類の列のセットを使用してコンテンツを表示します。
+
+=== データ ツールチップの行
+
+link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] の行には、ヘッダー行、シリーズ行、および集計行が含まれます。
+
+ヘッダー行には、ホバーされたポイントの軸ラベルが表示され、link:{DataChartLink}.DataToolTipLayer~HeaderText.html[HeaderText] プロパティを使用して変更できます。
+
+シリーズ行は、実際には、チャートにプロットされた各シリーズに対応する行のセットにすることができます。これらの行には、凡例バッジ、シリーズ タイトル、シリーズの実際の値 / 省略値、および指定されている場合は省略記号と単位が表示されます。
+
+最後に、すべてのシリーズ値の合計を表示する集計行があります。デフォルトの集計タイトルは、シリーズの link:{DataChartLink}.DataToolTipLayer~SummaryTitleText.html[SummaryTitleText] プロパティを使用して変更できます。また、link:{DataChartLink}.DataToolTipLayer~SummaryType.html[SummaryType] プロパティを使用して、シリーズ値の合計、最小、最大、または平均を集計行に表示するかどうかをカスタマイズできます。
+
+以下のコードス ニペットは、上記のプロパティを設定して、集計のカスタム タイトルとカスタム ヘッダーを持つ `Total` 集計タイプの  link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer]  を設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+
+[source, xaml]
+----
+<ig:DataToolTipLayer HeaderText="My Custom Data Tooltip Header"
+                     SummaryType="Total"
+                     SummaryTitleText="Grand Total:"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+DataToolTipLayer tooltipLayer = new DataToolTipLayer()
+{
+    HeaderText = "My Custom Data Tooltip Header",
+    SummaryType = DataLegendSummaryType.Total,
+    SummaryTitleText = "Grand Total:"
+};
+
+dataChart1.Series.Add(tooltipLayer);            
+----
+
+endif::wpf,win-forms[]
+
+=== データ ツールチップの列
+
+データ ツールチップ の列には、タイトル、ラベル、値、および単位の列が含まれます。チャートの各シリーズには、ツールチップ レイヤーの link:{DataChartLink}.DataToolTipLayer~IncludedColumns.html[IncludedColumns] または link:{DataChartLink}.DataToolTipLayer~ExcludedColumns.html[ExcludedColumns] コレクションに応じて、ラベル、値、および単位の複数の列を含めることができます。
+
+タイトルの列には、チャートにプロットされた各 `Series` の `Title` プロパティに由来する凡例バッジとシリーズ タイトルが表示されます。
+
+ラベルの列には、ツールチップ レイヤーの link:{DataChartLink}.DataTooltipLayer~IncludedColumns.html[IncludedColumns] または link:{DataChartLink}.DataTooltipLayer~ExcludedColumns.html[ExcludedColumns] コレクション内のさまざまなプロパティパスの名前または省略形が表示されます。
+
+値の列には、一連の値が省略形のテキストとして表示されます。この省略形は、link:{DataChartLink}.DataToolTipLayer~ValueFormatAbbreviation.html[ValueFormatAbbreviation] プロパティを使用して書式設定でき、このプロパティを `Auto` または `Shared` に設定することですべての数値に同じ省略形を適用できます。または、ユーザーは `Independent`、`Kilo`、`Million` などの他の省略形を選択できます。省略値の精度は、最小桁数と最大桁数にそれぞれ link:{DataChartLink}.DataToolTipLayer~ValueFormatMinFractions.html[ValueFormatMinFractions] と link:{DataChartLink}.DataToolTipLayer~ValueFormatMaxFractions.html[ValueFormatMaxFractions] を使用して制御されます。
+
+単位の列には、省略記号や単位テキストが表示されます。これらは、すべての列に link:{DataChartLink}.DataToolTipLayer~UnitsText.html[UnitsText] を設定するか、チャートの各シリーズで次のプロパティを使用して、link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] で設定できます:
+
+* カテゴリ シリーズ (例: ColumnSeries):
+    ** ValueMemberAsLegendUnit="K"
+
+* 財務物価シリーズ:
+    ** OpenMemberAsLegendUnit="K"
+    ** LowMemberAsLegendUnit="K"
+    ** HighMemberAsLegendUnit="K"
+    ** CloseMemberAsLegendUnit="K"
+    
+* 範囲シリーズ:
+    ** LowMemberAsLegendUnit="K"
+    ** HighMemberAsLegendUnit="K"
+        
+* ラジアル シリーズ:
+    ** ValueMemberAsLegendUnit="km"
+
+* 極座標シリーズ:
+    ** RadiusMemberAsLegendUnit="km"
+    ** AngleMemberAsLegendUnit="degrees"
+    
+上記の各プロパティには、前述のラベル列のテキストを判別するための対応する `MemberAsLegendLabel` プロパティもあります。
+
+link:{DataChartLink}.DataToolTipLayer~IncludedColumns.html[IncludedColumns] および link:{DataChartLink}.DataToolTipLayer~ExcludedColumns.html[ExcludedColumns] に含まれる列は、通常、基になるデータ項目の値パスに対応しますが、ファイナンシャル シリーズには、正しくプロットするために必要な `High`、`Low`、`Open`、`Close` パス、および、いくつかの特別なパスを含めるオプションがあります 。凡例内に `TypicalPrice`、`Change`、および `Volume` オプションを表示することができます。
+    
+以下のコード スニペットは、link:{DataChartLink}.AnchoredCategorySeries~ValueMemberAsLegendUnit.html[ValueMemberAsLegendUnit] プロパティが設定された `ColumnSeries` のペアと、ink:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] に設定された最小/最大の分数を示しています。
+    
+ifdef::wpf[]
+
+*XAML の場合*:
+[source, xaml]
+----
+<ig:{DataChartName}>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="xAxis"
+                          ItemsSource="{Binding EnergySourceData}"
+                          Label="{}{Location}" />
+        <ig:NumericYAxis x:Name="yAxis" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:ColumnSeries XAxis="{Binding ElementName=xAxis}"
+                         YAxis="{Binding ElementName=yAxis}"
+                         ItemsSource="{Binding EnergySourceData}"
+                         ValueMemberPath="Coal"
+                         Title="Coal"
+                         ValueMemberAsLegendUnit="K" />
+        <ig:ColumnSeries XAxis="{Binding ElementName=xAxis}"
+                         YAxis="{Binding ElementName=yAxis}"
+                         ItemsSource="{Binding EnergySourceData}"
+                         ValueMemberPath="Solar" 
+                         Title="Solar"
+                         ValueMemberAsLegendUnit="K"/>
+
+        <ig:DataToolTipLayer ValueFormatMinFractions="2" 
+                             ValueFormatMaxFractions="4"/>
+
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+EnergyData energyDataSource = new EnergyData();
+
+CategoryXAxis xAxis = new CategoryXAxis()
+{
+    ItemsSource = energyDataSource,
+    Label = "Location"
+};
+
+NumericYAxis yAxis = new NumericYAxis();
+
+ColumnSeries series1 = new ColumnSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis,
+    ItemsSource = energyDataSource,
+    ValueMemberPath = "Coal",
+    ValueMemberAsLegendUnit = "K"
+};
+
+ColumnSeries series2 = new ColumnSeries()
+{
+    XAxis = xAxis,
+    YAxis = yAxis,
+    ItemsSource = energyDataSource,
+    ValueMemberPath = "Solar",
+    ValueMemberAsLegendUnit = "K"
+};
+
+DataToolTipLayer tooltipLayer = new DataToolTipLayer()
+{
+    ValueFormatMinFractions = 2,
+    ValueFormatMaxFractions = 4
+};
+
+dataChart1.Axes.Add(xAxis);
+dataChart1.Axes.Add(yAxis);
+
+dataChart1.Series.Add(series1);
+dataChart1.Series.Add(series2);
+dataChart1.Series.Add(tooltipLayer);  
+----
+
+endif::wpf,win-forms[]
+
+== レイアウト モード
+
+凡例項目は、link:{DataChartLink}.DataToolTipLayer~LayoutMode.html[LayoutMode] プロパティを使って垂直または表形式の構造に配置できます。デフォルト値は `Table` で、以前のリリースと同じ外観と操作性を維持します。
+
+eg.
+
+image::images/Layout_Mode.png[]
+
+== データ ツールチップのスタイル設定
+
+link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] は、各タイプの列をスタイル設定するためのプロパティを提供します。これらの各プロパティ名は、Title、Label、Value、Units で始まり、テキストの色、フォント、およびマージンのスタイルを設定できます。たとえば、これらのそれぞれのテキストの色を設定する場合は、link:{DataChartLink}.DataToolTipLayer~TitleTextColor.html[TitleTextColor]、link:{DataChartLink}.DataToolTipLayer~LabelTextColor.html[LabelTextColor]、link:{DataChartLink}.DataToolTipLayer~ValueTextColor.html[ValueTextColor]、および link:{DataChartLink}.DataToolTipLayer~UnitsTextColor.html[UnitsTextColor] プロパティを設定します。
+
+以下のコード スニペットは、上記のスタイル設定プロパティを設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:DataToolTipLayer TitleTextColor="LightGray"
+                     LabelTextColor="LightGray"
+                     ValueTextColor="Green"
+                     UnitsTextColor="Green"
+                     UnitsText="K"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+DataToolTipLayer tooltipLayer = new DataToolTipLayer()
+{
+    TitleTextColor = Brushes.LightGray,
+    LabelTextColor = Brushes.LightGray,
+    ValueTextColor = Brushes.Green,
+    UnitsTextColor = Brushes.Green,
+    UnitsText = "K"
+};
+
+dataChart1.Series.Add(tooltipLayer);
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップのグループ化と配置
+
+link:{DataChartLink}.DataToolTipLayer~GroupingMode.html[GroupingMode] プロパティを` Grouped` または `Individual` に設定して、複数のシリーズのコンテンツを 1 つのツールチップにグループ化するか、各シリーズのコンテンツを複数のツールチップに分割することができます。`Grouped` モードでは、link:{DataChartLink}.DataToolTipLayer~GroupedPositionModeX.html[GroupedPositionModeX] プロパティと link:{DataChartLink}.DataToolTipLayer~GroupedPositionModeY.html[GroupedPositionModeY] プロパティを設定することにより、ツールチップが表示される場所をカスタマイズできます。これにより、ツールチップの水平方向と垂直方向の配置を、マウス位置に最も近いシリーズ ポイントに追従させるか、プロット領域の端に固定するかをカスタマイズできます。
+
+以下のコード スニペットは、スクロールするとチャートの左上にピン固定される link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:DataToolTipLayer GroupingMode="Grouped"
+                     GroupedPositionModeX="PinLeft"
+                     GroupedPositionModeY="PinTop"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+DataToolTipLayer tooltipLayer = new DataToolTipLayer()
+{
+    GroupingMode = DataToolTipLayerGroupingMode.Grouped,
+    GroupedPositionModeX = DataTooltipGroupedPositionX.PinLeft,
+    GroupedPositionModeY = DataTooltipGroupedPositionY.PinTop
+};
+
+dataChart1.Series.Add(tooltipLayer);
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップ値の書式設定
+
+link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] は、link:{DataChartLink}.DataToolTipLayer~ValueFormatAbbreviation.html[ValueFormatAbbreviation] プロパティを使用して、大きな数値の自動省略形を提供します。これにより、単位の列に kilo、million、billion などの乗数が追加されます。link:{DataChartLink}.DataToolTipLayer~ValueFormatMinFractions.html[ValueFormatMinFractions] および link:{DataChartLink}.DataToolTipLayer~ValueFormatMaxFractions.html[ValueFormatMaxFractions] を設定することにより、表示される小数桁数をカスタマイズできます。これにより、小数点以下に表示される最小桁数と最大桁数をそれぞれ決定できます。
+
+以下のコード スニペットは、link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] の最小分数と最大分数を設定する方法を示しています。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:DataToolTipLayer ValueFormatMinFractions="2" 
+                     ValueFormatMaxFractions="4"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+DataToolTipLayer tooltipLayer = new DataToolTipLayer()
+{
+    ValueFormatMinFractions = 2,
+    ValueFormatMaxFractions = 4
+};
+
+dataChart1.Series.Add(tooltipLayer);
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップの値モード
+
+レイヤーの link:{DataChartLink}.DataToolTipLayer~ValueFormatMode.html[ValueFormatMode] プロパティを変更することにより、link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] 内の値のデフォルトの 10 進表示を通貨表示に変更できます。link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] は、その link:{DataChartLink}.DataToolTipLayer~ValueFormatCulture.html[ValueFormatCulture] プロパティに対応するカルチャ タグを設定することにより、表示されている通貨記号のカルチャを変更する機能も公開します。
+
+たとえば、以下のコード スニペットは、link:{DataChartLink}.DataToolTipLayer~ValueFormatCulture.html[ValueFormatCulture] が "en-GB" に設定され、link:{DataChartLink}.DataToolTipLayer~ValueFormatMode.html[ValueFormatMode] が "Currency" に設定された link:{DataChartLink}.DataToolTipLayer.html[DataTooltipLayer] を作成します。
+
+ifdef::wpf[]
+
+*XAML の場合*:
+[source,xaml]
+----
+<ig:DataToolTipLayer ValueFormatCulture="en-GB"
+                     ValueFormatMode="Currency"/>
+----
+
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+
+*C# の場合*:
+
+[source, cs]
+----
+DataToolTipLayer tooltipLayer = new DataToolTipLayer()
+{
+    ValueFormatCulture = "en-GB",
+    ValueFormatMode = DataLegendValueMode.Currency
+};
+
+dataChart1.Series.Add(tooltipLayer);
+----
+
+endif::wpf,win-forms[]
+
+== データ ツールチップのグループ化
+
+link:{DataChartLink}.AnchoredCategorySeries~DataLegendGroup.html[DataLegendGroup] は、すべてのタイプのシリーズで、データ凡例内のシリーズ グループを分類する文字列に設定できます。
+各グループには、別のシリーズ グループが表示される前に、独自の集計行が表示されます。
+デフォルトでは、DataLegend はグループ名を非表示にしますが、link:{DataChartLink}.{DataToolTipLayer}~grouprowvisible.html[GroupRowVisible] プロパティを true に設定するとグループ名を表示できます。データ ツールチップ レイヤーで link:{DataChartLink}.{DataToolTipLayer}~groupingmode.html[GroupingMode] および link:{DataChartLink}.{DataToolTipLayer}~labeldisplaymode.html[LabelDisplayMode] を 「Visible」 に設定する必要があります。
+
+凡例のグループ化部分を含むいくつかのプロパティが公開されています。
+
+- link:{DataChartLink}.{DataLegendName}~GroupRowMargin.html[GroupRowMargin]
+- link:{DataChartLink}.{DataLegendName}~GroupTextMargin.html[GroupTextMargin]
+- link:{DataChartLink}.{DataLegendName}~GroupTextColor.html[GroupTextColor]
+- link:{DataChartLink}.{DataLegendName}~GroupTextFontSize.html[GroupTextFontSize]
+- link:{DataChartLink}.{DataLegendName}~GroupTextFontStyle.html[GroupTextFontStyle]
+- link:{DataChartLink}.{DataLegendName}~GroupTextFontStretch.html[GroupTextFontStretch]
+- link:{DataChartLink}.{DataLegendName}~GroupTextFontWeight.html[GroupTextFontWeight]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextMargin.html[HeaderTextMargin]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextColor.html[HeaderTextColor]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextFontSize.html[HeaderTextFontSize]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextFontFamily.html[HeaderTextFontFamily]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextFontStyle.html[HeaderTextFontStyle]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextFontStretch.html[HeaderTextFontStretch]
+- link:{DataChartLink}.{DataLegendName}~HeaderTextFontWeight.html[HeaderTextFontWeight]

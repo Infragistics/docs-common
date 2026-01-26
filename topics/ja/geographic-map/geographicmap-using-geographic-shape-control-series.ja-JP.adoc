@@ -1,0 +1,232 @@
+﻿////
+
+|metadata|
+{
+    "name": "xamgeographicmap-using-geographic-shape-control-series",
+    "controlName": ["{GeoMapName}"],
+    "tags": ["Getting Started","How Do I"],
+    "guid": "79690046-4d44-4ad8-9320-bbfd309df52e",  
+    "buildFlags": [],
+    "createdOn": "2016-05-25T18:21:56.8472194Z"
+}
+|metadata|
+////
+
+= 地理的シェイプ コントロール シリーズを使用
+
+== トピックの概要
+
+=== 目的
+
+このトピックでは、 link:{GeoMapLink}.{GeoMapName}_members.html[{GeoMapName}]™ コントロールで link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] 要素を使用する方法を提供します。
+
+=== 前提条件
+
+以下の表は、このトピックを理解するための前提条件として必要なトピックを示しています。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックでは、`{GeoMapName}` コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} のビジュアル要素]
+|このトピックでは、`{GeoMapName}` コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックでは、マップ、シェイプ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェイプ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックでは、`{GeoMapName}` コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+|====
+
+=== 本トピックの内容
+
+このトピックには次のセクションがあります。
+
+* <<_Ref320651776, 地理的シェイプ コントロール シリーズ >>
+
+** <<_Ref320193474,概要>>
+** <<_Ref320651783,プレビュー>>
+** <<_Ref320651786,データ要件>>
+** <<_Ref335249132,データ バインディング>>
+** <<_Ref320651790,例>>
+
+* <<_Ref320185294,関連コンテンツ>>
+
+== 地理的シェイプ コントロール シリーズ
+
+[[_Ref320193474]]
+
+=== 概要
+
+{GeoMapName} コントロールでは、 link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] は、地理的コンテキストで link:{DataChartLink}.shapecontrol_members.html[ShapeControl] テンプレートを使用して地理的データの図形を描画する視覚地図要素です。これは、地理的シリーズを描画する時にある程度パフォーマンスを犠牲にしますが、 link:http://msdn.microsoft.com/ja-jp/library/system.windows.visualstatemanager(v=vs.95).aspx[VisualStateManager] など link:http://msdn.microsoft.com/ja-jp/library/system.windows.forms.control.aspx[Control] 要素に一意の特定の機能を追加します。
+
+地理的シリーズのこのタイプは、地理的位置で定義される国々または領域の図形を描画するためにしばしば使用されます。 link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] は、ポリラインの代わりに多角形で描画されることを除いて、 link:{GeoMapLink}.geographicpolylineseries_members.html[GeographicPolylineSeries] とほどんど同様に機能します。
+
+[[_Ref320651783]]
+
+=== プレビュー
+
+以下は、世界の国々を表す図形の表示状態の上のカスタム ホバーを提供する link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] を使用した {GeoMapName} コントロールのプレビューです。
+
+image::images/GeoMap_Using_Geographic_Shape_Control_Series_1.png[]
+
+[[_Ref320651786]]
+
+=== データ要件
+
+`{GeoMapName}` コントロールの地理的シリーズの他のタイプと同様、 link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] には、データ バインディングのための link:{GeoMapLink}.geographicshapecontrolseries~{ApiDataSource}.html[{ApiDataSource}] プロパティがあります。このプロパティは、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable] インターフェイスを実装するオブジェクトにバインドできます。さらに、このオブジェクトの各項目には、 link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.windows.point.aspx[Point]> または link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.collections.ienumerable.aspx[IEnumerable]< link:http://msdn.microsoft.com/ja-jp/library/system.windows.point.aspx[Point]>> 構造を使用して図形の地理的位置（経度と緯度）を保存するデータ列が 1 つ必要です。後者は、シェイプ ファイルおよび link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] クラスで使用される標準的なデータ構造です。このデータ列は、 link:{GeoMapLink}.geographicshapeseriesbase~shapememberpath.html[ShapeMemberPath] プロパティにマップされます。 link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] は、`{GeoMapName}` コントロールで多角形をプロットするために、このマップされたデータ列のポイントを使用します。
+
+[[_Ref335249132]]
+
+=== データ バインディング
+
+以下の表は、データ バインドに使用される link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] のプロパティをまとめています。
+
+[options="header", cols="a,a,a"]
+|====
+|プロパティ名|プロパティ タイプ|説明
+
+| link:{GeoMapLink}.geographicshapecontrolseries~{ApiDataSource}.html[{ApiDataSource}]
+|IEnumerable
+|シェイプ パスが描画される項目のソースを取得または設定します。
+
+| link:{GeoMapLink}.geographicshapeseriesbase~shapememberpath.html[ShapeMemberPath]
+|String
+| {ApiDataSource} の各項目の図形のポイントを取得するプロパティの名前。
+
+|====
+
+[[_Ref320651790]]
+
+=== 例
+
+以下のコードは、 link:{DataVizMapsLink}.shapefileconverter_members.html[ShapefileConverter] を使用してシェイプ ファイルからロードした世界の国々の図形に link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] をバインドする方法を示します。
+
+ifdef::wpf[]
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:ShapefileConverter x:Key="shapefileConverter"
+                        ShapefileSource="ShapeFiles/world_countries.shp"
+                        DatabaseSource="ShapeFiles/world_countries.dbf" >
+</ig:ShapefileConverter>
+<ig:XamGeographicMap x:Name="GeoMap">
+    <ig:XamGeographicMap.Series>
+        <ig:GeographicShapeControlSeries  {ApiDataSource}="{StaticResource shapefileConverter}"
+                                         ShapeMemberPath="Points">
+        </ig:GeographicShapeControlSeries>
+    </ig:XamGeographicMap.Series>
+</ig:XamGeographicMap>
+----
+endif::wpf[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+' GeographicShapeControlSeries を作成して、データ バインディングを設定する
+Dim geoSeries = New GeographicShapeControlSeries()
+geoSeries. {ApiDataSource} = shapefileConverter
+geoSeries.ShapeMemberPath = "Points"
+' GeographicShapeControlSeries を {GeoMapName} に追加する
+Me.GeoMap.Series.Add(geoSeries)
+----
+
+*C# の場合:*
+
+[source,csharp]
+----
+// GeographicShapeControlSeries を作成して、データ バインディングを設定する
+var geoSeries = new GeographicShapeControlSeries();
+geoSeries. {ApiDataSource} = shapefileConverter;
+geoSeries.ShapeMemberPath = "Points";
+// GeographicShapeControlSeries を {GeoMapName} に追加する
+this.GeoMap.Series.Add(geoSeries);
+----
+
+デフォルトで、 link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] は、マウス カーソルをホバーする時必ず図形を一時的に厚くする表示状態を提供します。この動作を変更して図形要素をアニメーション化するためにその他の表示状態を追加できます。 link:http://msdn.microsoft.com/ja-jp/library/system.windows.visualstatemanager(v=vs.95).aspx[VisualStateManager] の link:http://msdn.microsoft.com/ja-jp/library/system.windows.visualstategroup(v=vs.95).aspx[VisualStateGroups] 内の希望の表示状態で link:{DataChartLink}.shapecontrol_members.html[ShapeControl] のスタイルを作成し、次にこのスタイルを link:{GeoMapLink}.geographicshapecontrolseries_members.html[GeographicShapeControlSeries] の link:{GeoMapLink}.geographicshapeseries~shapestyle.html[ShapeStyle] プロパティに設定することによって達成できます。
+
+ifdef::wpf[]
+以下のコードは、マウス カーソルをホバーした時に必ず図形の色を変更する表示状態をスタイルに提供する方法を示します。
+
+*XAML の場合:*
+
+[source,xaml]
+----
+<ig:GeographicShapeControlSeries>
+   <ig:GeographicShapeControlSeries.ShapeStyle>
+        <Style TargetType="ig:ShapeControl" x:Key="ShapeControlStyle" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ig:ShapeControl">
+                        <ContentControl>
+                            <ContentControl.Resources>
+                                <LinearGradientBrush x:Key="HighlightFillBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFF5716A" />
+                                        <GradientStop Color="#FFB13626" Offset="1"/>
+                                </LinearGradientBrush>
+                                <LinearGradientBrush x:Key="NormalFillBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF3bb7eb"/>
+                                        <GradientStop Color="#FF2788B1" Offset="1"/>
+                                </LinearGradientBrush>
+                            </ContentControl.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="RootElement" 
+                                                        Storyboard.TargetProperty="StrokeThickness" 
+                                                        AutoReverse="True" By="3" Duration="0:00:00.25" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootElement" 
+                                                        Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                        Value="{StaticResource HighlightFillBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Path x:Name="RootElement" Fill="{StaticResource NormalFillBrush}" 
+                                  Stroke="{TemplateBinding BorderBrush}" 
+                                  StrokeThickness="{TemplateBinding BorderThickness}" />
+                        </ContentControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+   </ig:GeographicShapeControlSeries.ShapeStyle>
+</ig:GeographicShapeControlSeries>
+----
+endif::wpf[]
+
+[[_Ref320185294]]
+
+== 関連コンテンツ
+
+=== トピック
+
+このトピックについては、以下のトピックも参照してください。
+
+[options="header", cols="a,a"]
+|====
+|トピック|目的
+
+| link:geographicmap-adding-geographicmap-to-a-page.html[{GeoMapName} をページに追加]
+|このトピックでは、`{GeoMapName}` コントロールをアプリケーション ページに追加する方法を示します。
+
+| link:geographicmap-visual-elements-of-geographicmap.html[{GeoMapName} のビジュアル要素]
+|このトピックでは、`{GeoMapName}` コントロールのマップ要素のレイアウトについての情報を提供します。
+
+| link:geographicmap-shape-files-reference.html[シェープ ファイルの参照]
+|このトピックでは、マップ、シェイプ ファイル、および地理的な関連資料についての情報を提供します。これらのリソースを使用して、地理的シェイプ ファイルおよび編集のためのツールの詳細を学習し入手します。
+
+| link:geographicmap-binding-shape-files-with-geospatial-data.html[シェープ ファイルを地理的データにバインディング]
+|このトピックでは、`{GeoMapName}` コントロールに地理的データがあるシェープ ファイルをバインドする方法を提供します。
+
+|====

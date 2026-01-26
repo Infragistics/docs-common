@@ -1,0 +1,267 @@
+﻿////
+
+|metadata|
+{
+    "name": "resources-sample-bubble-data",
+    "controlName": [],
+    "tags": [],
+    "guid": "a9472e91-ce35-4df7-857e-0833df4b66fd",  
+    "buildFlags": [],
+    "createdOn": "2014-09-24T17:07:35.7366657Z"
+}
+|metadata|
+////
+
+= サンプル バブル データ
+
+=== 目的
+
+このトピックでは、link:{DataChartLink}.{DataChartName}.html[{DataChartName}] コントロールおよびそのlink:datachart-bubble-series.html[散布バブル シリーズ] タイプで使用するデータおよびデータ モデルを提供します。
+
+=== このトピックの内容
+
+このトピックは、以下のセクションで構成されます。
+
+* <<RequiredNamespaces,必須の名前空間>>
+* <<DataModel,データ モデル>>
+* <<DataSource,データ ソース>> 
+
+[[RequiredNamespaces]]
+=== 必須の名前空間
+
+ifdef::wpf,win-forms,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel; 
+using System.ComponentModel;
+using System.Linq;
+namespace Infragistics.Models
+{
+  // TODO add data model
+  // TODO add data source 
+}
+----
+
+endif::wpf,win-forms,win-universal,xamarin[]
+
+ifdef::wpf,win-forms,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Imports System
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+Imports System.Linq 
+Namespace Infragistics.Models
+   ' TODO add sample data model
+   ' TODO add sample data source
+End Namespace
+----
+
+endif::wpf,win-forms,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// TODO add data model
+// TODO add data source 
+----
+
+endif::android[]
+
+[[DataModel]]
+=== データ モデル
+
+ifdef::wpf,win-forms,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class BubbleDataPoint  
+{
+    public string Label { get; set; }
+    public double Radius { get; set; }
+    public double X { get; set; }
+    public double Y { get; set; }
+}
+----
+endif::wpf,win-forms,win-universal,xamarin[]
+
+ifdef::wpf,win-forms,win-universal[]
+*Visual Basic の場合:*
+[source,vb]
+----
+Public Class BubbleDataPoint
+    Public Property Label As String
+    Public Property Radius As Double
+    Public Property X As Double
+    Public Property Y As Double
+End Class
+----
+
+endif::wpf,win-forms,win-universal[]
+ 
+
+ifdef::android[]
+*Java の場合:*
+[source,java]
+----
+public class BubbleDataPoint 
+{
+    private String _label;
+    public String getLabel() {return _label;}
+    public String setLabel(String label) {
+        _label = label;
+        return label;
+    }
+    private double _radius;
+    public double getRadius(){return _radius;}
+    public double setRadius(double value) {
+        _radius = value;
+        return _radius;
+    }
+    private double _x;
+    public double getX(){return _x;}
+    public double setX(double value) {
+        _x = value;
+        return _x;
+    }
+    private double _y;
+    public double getY(){return _y;}
+    public double setY(double value) {
+        _y = value;
+        return _y;
+    }
+    public BubbleDataPoint(String label, double value, double x, double y){
+        _label = label;
+        _radius = value;
+        _x = x;
+        _y = y;
+    }
+}
+----
+endif::android[]
+
+[[DataSource]]
+=== データ ソース
+
+ifdef::wpf,win-forms,win-universal,xamarin[]
+
+*C# の場合:*
+
+[source,csharp]
+----
+public class BubbleDataSource : List<BubbleDataPoint>
+{
+    public static Random Rand = new Random();
+    public BubbleDataSource()
+    {
+        int value = 50;
+        for (int i = 0; i < 100; i++)
+        {
+            double change = Rand.NextDouble();
+            if (change > .5)
+            {
+                value += (int)(change * 20);
+            }
+            else
+            {
+                value -= (int)(change * 20);
+            }
+            value %= 100;
+            this.Add(new BubbleDataPoint
+            {
+                Label = "Item " + i.ToString(),
+                Radius = Rand.Next(10, 50),
+                X = Rand.Next(i, i + 5),
+                Y = Rand.Next(value - 50, value + 50)
+            });
+        }
+    }
+}
+----
+
+endif::wpf,win-forms,win-universal,xamarin[]
+
+ifdef::wpf,win-forms,win-universal[]
+
+*Visual Basic の場合:*
+
+[source,vb]
+----
+Public Class BubbleDataSource Inherits List(Of BubbleDataPoint)
+    Public Shared Rand As New Random()
+    Public Sub New()
+        Dim value As Integer = 50
+        For i As Integer = 0 To 99
+            Dim change As Double = Rand.NextDouble()
+            If change > 0.5 Then
+                value += CInt(Math.Truncate(change * 20))
+            Else
+                value -= CInt(Math.Truncate(change * 20))
+            End If
+            value = value Mod 100
+            Me.Add(New BubbleDataPoint() With { _
+                .Label = "Item " + i.ToString(), _
+                .Radius = Rand.Next(10, 50), _
+                .X = Rand.Next(i, i + 5), _
+                .Y = Rand.Next(value - 50, value + 50) _
+            })
+        Next
+    End Sub
+End Class
+----
+endif::wpf,win-forms,win-universal[]
+
+ifdef::android[]
+
+*Java の場合:*
+
+[source,js]
+----
+public class BubbleDataSource extends extends ArrayList<BubbleDataPoint> 
+{
+    public static Random rand = new Random();
+    public BubbleDataSource()
+    {
+        int value = 50;
+        for(int i=0; i<100; i++)
+        {
+            double change = rand.nextDouble();
+            if(change > .5)
+            {
+                value += (int)(change*20);
+            }
+            else
+            {
+                value -= (int)(change*20);
+            }
+            value %= 100;
+            double x = (rand.nextInt(i+5-i)+i);
+            double y = (rand.nextInt((value+50) - (value - 50)) + Math.abs(value-50));
+            // using Java Random within specified range:  rand.nextInt(upperbound-lowerbound) + lowerbound;
+            double radius = (rand.nextInt(50-10)+10);
+            this.add(new BubbleDataPoint(("Item " + i), radius, x, y));
+        }
+    }
+}
+----
+
+endif::android[]

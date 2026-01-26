@@ -1,0 +1,185 @@
+﻿= Chart Title and Subtitle
+
+=== Topic Overview
+
+=== Purpose
+
+The title and subtitle feature of the link:{ShapeChartLink}.{ShapeChartName}.html[{ShapeChartName}] control allows you to add information to the top section of the chart.
+
+When adding a title or subtitle to the chart control, the content of the chart automatically resizes, allowing for the title and subtitle information.
+
+=== Required Background
+
+The following topics are prerequisites to understanding this topic:
+
+[options="header", cols="a,a"]
+|====
+Topic|Purpose
+
+|link:shapechart-overview.html[{ShapeChartName} Overview]
+|This topic provides conceptual information about the {ShapeChartName} control including its main features, minimum requirements, and user functionality.
+
+|link:shapechart-getting-started-with-shapechart.html[Getting Started with {ShapeChartName}]
+|This topic explains how to bind data to the {ShapeChartName} control.
+|====
+
+=== In this topic
+
+This topic contains the following sections:
+
+* <<PropertySettings, Property Settings>>
+* <<CodeSnippet, Code Snippet>>
+* <<Related, Related Content>>
+
+[[PropertySettings]]
+== Property Settings
+
+You can customize the look and feel of the `{ShapeChartName}` control's title and subtitle in many different ways, such as applying different font styles, margins, and alignment. This can be achieved by using the following properties:
+
+[options="header", cols="a,a,a"]
+|====
+|Property Name|Property Type|Description
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}Title.html[Title]
+|`string`
+|Title’s text content.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleAlignment.html[TitleAlignment]
+|`HorizontalAlignment`
+|Title’s horizontal alignment.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleFontFamily.html[TitleFontFamily]
+|`FontFamily`
+|Title’s font name.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleFontSize.html[TitleFontSize]
+|`double`
+|Title’s font size
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleFontStyle.html[TitleFontStyle] 
+|`FontStyle`
+|Title’s font style such as italic.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleFontStretch.html[TitleFontStretch]
+|`FontStretch`
+|Title’s font stretch
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleFontWeight.html[TitleFontWeight]
+|`FontWeight` 
+|Title’s font weight such as bold.
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleForeGround.html[TitleForeGround]
+|`Brush` 
+|Title’s text color.
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}TitleMargin.html[TitleMargin] 
+|`Thickness` 
+|Title’s margin.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}Subtitle.html[Subtitle] 
+|`string`
+|Subtitle’s text content.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleForeground.html[SubtitleForeground] 
+|`Brush`
+|Subtitle’s text color.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleFontFamily.html[SubtitleFontFamily]
+|`FontFamily`
+|Subtitle’s font name.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleFontSize.html[SubtitleFontSize] 
+|`double`
+|Subtitle’s text size.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleFontStyle.html[SubtitleFontStyle] 
+|`FontStyle`
+|Subtitle’s font style such as italic.
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleFontWeight.html[SubtitleFontWeight]
+|`FontWeight` 
+|Subtitle’s font weight such as bold.
+
+| link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleAlignment.html[SubtitleAlignment]
+|`HorizontalAlignment`
+|Subtitle’s horizontal alignment.
+
+|link:{ShapeChartLink}.{ShapeChartDomain}{ApiProp}SubtitleMargin.html[SubtitleMargin] 
+|`Thickness` 
+|Subtitle’s margin.
+
+|====
+
+
+[[CodeSnippet]]
+== Code Snippet
+
+The following code examples show how to customize the title and subtitle in the `{ShapeChartName}` control. The following code examples use the link:resources-sample-scatter-data.html[Sample Scatter Data] resource. 
+
+ifdef::wpf,xamarin[]
+*In XAML*
+[source, xaml]
+----
+<Grid x:Name="layoutRoot">
+    <ig:{ShapeChartName} ItemsSource="{Binding}"
+                      Title="Scatter Data"
+                      TitleForeground="Red"
+                      TitleFontFamily="Verdana"
+                      TitleFontSize="24"
+                      Subtitle="One Hundred Random Points"
+                      SubtitleForeground="Red"
+                      SubtitleFontFamily="Verdana"
+                      SubtitleFontSize="16" />
+
+</Grid>
+----
+endif::wpf,xamarin[]
+
+*In C#*
+[source, csharp]
+----
+var data = new ScatterDataSource();
+
+var chart = new {ShapeChartName}();
+chart.ItemsSource = data;
+chart.Title = "Scatter Data";
+chart.TitleForeground = Brushes.Red;
+chart.TitleFontFamily = new FontFamily("Verdana");
+chart.TitleFontSize = 24;
+chart.Subtitle = "One Hundred Random Points";
+chart.SubtitleForeground = Brushes.Red;
+chart.SubtitleFontFamily = new FontFamily("Verdana");
+chart.SubtitleFontSize = 16;
+
+layoutRoot.Children.Add(chart);
+----
+
+ifdef::wpf,win-forms[]
+*In Visual Basic*
+[source, vb]
+----
+Dim data = New ScatterDataSource()
+
+Dim chart = New {ShapeChartName}()
+chart.ItemsSource = data
+chart.Title = "Scatter Data"
+chart.TitleForeground = Brushes.Red
+chart.TitleFontFamily = New FontFamily("Verdana")
+chart.TitleFontSize = 24
+chart.Subtitle = "One Hundred Random Points"
+chart.SubtitleForeground = Brushes.Red
+chart.SubtitleFontFamily = New FontFamily("Verdana")
+chart.SubtitleFontSize = 16
+
+layoutRoot.Children.Add(chart)
+----
+endif::wpf,win-forms[]
+
+The above code will result in a `{ShapeChartName}` that looks like the following:
+
+image::images/shapechart_title_subtitle.png[]
+
+[[Related]]
+=== Related Content
+
+* link:shapechart-using-legend.html[Using Legend with {ShapeChartName}]
