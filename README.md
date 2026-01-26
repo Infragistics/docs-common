@@ -1,5 +1,22 @@
-# docs-common
-docs-common
+# Common Files for Help Documentation
+
+This repo is to store the common files for help documentation. 
+
+## Documentation Configuration File
+
+The DocsConfig.xml file contains configuration for all IG help docs:
+- Products section contains definitions of products used for generating final product tables
+- Variable section contains definitions of variables used in titles and content of topics (EN/JP locals)
+- BuildFlags section contains definitions of build flags used for filtering nodes in TableWire and build flagging topic content in LiveWire
+
+
+## Types of Table of Content (TOC) files:
+
+There are three types of TOC files:
+- master*.toc file - table of content for each IG product
+- shared*.toc file - table of content shared between IG product, e.g. cross-platform controls
+- waw*.toc file - table of content shared between WinForms and Web products
+
 
 ## Topics Ported from IG DevOps Repositories
 
@@ -43,3 +60,4 @@ docs-common
 - https://infragistics.visualstudio.com/NetAdvantage/_git/surfacechart-docs-ja             
 - https://infragistics.visualstudio.com/NetAdvantage/_git/winweb-chart-docs-en   
 - https://infragistics.visualstudio.com/NetAdvantage/_git/winweb-chart-docs-ja   
+
