@@ -1,10 +1,13 @@
 <div style="display: flex; flex-flow: row; margin-bottom: 1rem; font-family: 'Titillium Web'">
-    <img style="border-radius: 0.25rem; align-self: center; justify-content: left; " alt="Infragistics" src="https://www.infragistics.com/media/441501/horz_logo.png"/>
+    <!-- <img style="border-radius: 0.25rem; align-self: center; justify-content: left; " alt="Infragistics" src="https://www.infragistics.com/media/441501/horz_logo.png"/> -->
+    <!-- <img style="border-radius: 0.25rem; align-self: center; justify-content: left; " alt="Infragistics" src="https://raw.githubusercontent.com/Infragistics/docs-common/refs/heads/main/img/ig-title.svg"/> -->
 </div>
+
+![Infragistics repository title](./ig-title.svg)
 
 # Infragistics Common Docs
 
-This repo stores common files shared between the following help documentations:
+This repository stores common files shared between the following help documentations:
 
 - [Infragistics ASP-NET](https://github.com/Infragistics/docs-asp-net) repository
 - [Infragistics WPF](https://github.com/Infragistics/docs-wpf) repository
@@ -55,7 +58,7 @@ The this repository contains shared topics for these components:
 - [spreadsheet](./topics/en/spreadsheet)
 - [surface-chart](./topics/en/surface-chart)
 - [win-web-chart](./topics/en/win-web-chart           )
-
+<!-- 
 ## Topics Ported from IG DevOps Repositories
 
 The following Azure DevOps repositories were ported to [topics](./topics/) folder:
@@ -100,4 +103,4 @@ The following Azure DevOps repositories were ported to [topics](./topics/) folde
 - https://infragistics.visualstudio.com/NetAdvantage/_git/surfacechart-docs-ja             
 - https://infragistics.visualstudio.com/NetAdvantage/_git/winweb-chart-docs-en   
 - https://infragistics.visualstudio.com/NetAdvantage/_git/winweb-chart-docs-ja   
-
+ -->
