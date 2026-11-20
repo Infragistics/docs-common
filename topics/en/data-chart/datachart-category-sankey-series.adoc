@@ -1,0 +1,742 @@
+////
+|metadata|
+{
+    "name": "datachart-category-sankey-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "47bf7c1e-5b47-44f7-bc70-50f21a7d1895",
+    "buildFlags": [],
+    "createdOn": "2026-11-19T00:00:00Z"
+}
+|metadata|
+////
+
+= Sankey Series
+
+This topic explains, with code examples, how to use the link:{DataChartLink}.SankeySeries.html[SankeySeries] and the link:{DataChartLink}.RadialSankeySeries.html[RadialSankeySeries] in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+== Overview
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<SeriesRecommendations,Series Recommendations>>
+* <<DataRequirements,Data Requirements>>
+* <<DataRenderingRules,Data Rendering Rules>>
+* <<DataBindingExample,Data Binding Example>>
+* <<LinksOnly,Binding to Links Only>>
+* <<Alluvial,Binding to Rows of Categories (Alluvial Chart)>>
+* <<RadialSankey,Radial Sankey Series>>
+* <<SeriesProperties,Series Properties>>
+* <<RelatedContent,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+A Sankey chart shows how a quantity flows from one stage to the next. Each stage contains nodes, which are drawn as bands whose height represents the amount that passes through them. Nodes are connected by links, which are drawn as ribbons whose width represents the amount of the flow they carry. The link:{DataChartLink}.SankeySeries.html[SankeySeries] is hosted in the {DataChartName} control, so it works with the chart's axes, tooltips, highlighting, callouts, and animations in the same way as the other link:datachart-category-series-overview.html[Category Series].
+
+The stages of the Sankey chart are placed along a link:{DataChartLink}.CategoryXAxis.html[CategoryXAxis], and the stacked node values are measured along a link:{DataChartLink}.NumericYAxis.html[NumericYAxis]. The link:{DataChartLink}.RadialSankeySeries.html[RadialSankeySeries] draws the same data around a circle, using a link:{DataChartLink}.CategoryAngleAxis.html[CategoryAngleAxis] for the stages and a link:{DataChartLink}.NumericRadiusAxis.html[NumericRadiusAxis] for the values.
+
+[[SeriesRecommendations]]
+== Series Recommendations
+
+Use the Sankey Series when your data moves through a series of stages and the size of each movement is important. Common scenarios include:
+
+* Budgets and cash flow, such as income split into spending categories.
+* Energy, material, or resource balances.
+* Customer journeys and conversion funnels that branch into several paths.
+* Breakdowns of records across several categorical dimensions, such as region, product, and sales channel (an alluvial chart).
+
+The Sankey Series is not recommended when:
+
+* The data has no stages or direction. Consider the link:data-pie-chart.html[Data Pie Chart] or a treemap instead.
+* The exact values need to be compared. Consider the link:datachart-category-bar-series.html[Bar Series] or link:datachart-category-column-series.html[Column Series] instead.
+* The data contains many small flows of similar size, which produce a cluttered chart.
+
+The Sankey Series is not intended to be combined with other types of series in the same chart; however, it can be combined with chart layers such as the link:datachart-calloutlayer.html[Callout Layer] and the link:datachart-data-tooltip.html[Data Tooltip Layer].
+
+[[DataRequirements]]
+== Data Requirements
+
+While the {DataChartName} control allows you to easily bind it to your own data model, make sure to supply the appropriate amount and type of data that the series requires. Refer to the link:datachart-series-requirements.html[Series Requirements] topic for more information on the axes and data members that each series requires.
+
+The `SankeySeries` uses two kinds of data items:
+
+* *Links* (required) - Each link item must contain a source node identifier, a target node identifier, and a numeric value for the size of the flow. Links are assigned to the `LinkSource` property of the series.
+ifdef::wpf[]
+* *Nodes* (optional) - Each node item contains a unique identifier, a label, and the zero-based index of the stage (layer) in which the node is placed. Nodes are assigned to the `ItemsSource` property of the series.
+endif::wpf[]
+ifdef::win-forms[]
+* *Nodes* (optional) - Each node item contains a unique identifier, a label, and the zero-based index of the stage (layer) in which the node is placed. Nodes are assigned to the `DataSource` property of the series.
+endif::win-forms[]
+
+If the node data is not provided, the series creates the nodes from the distinct source and target identifiers of the links.
+
+The link:{DataChartLink}.CategoryXAxis.html[CategoryXAxis] should be bound to a collection that contains one item for each stage of the chart. The `Label` of the axis is used for the stage names.
+
+[[DataRenderingRules]]
+== Data Rendering Rules
+
+The `SankeySeries` renders data using the following rules:
+
+* Each node is drawn as a band in the stage specified by its layer. The layer is the zero-based index of the stage on the link:{DataChartLink}.CategoryXAxis.html[CategoryXAxis].
+* The value of a node is the larger of the total of its incoming links and the total of its outgoing links.
+* Each link is drawn as a ribbon from its source node to its target node. The width of the ribbon is proportional to the value of the link.
+* Links whose value is not a finite number are skipped.
+* Node values are stacked along the link:{DataChartLink}.NumericYAxis.html[NumericYAxis] within each stage, separated by the gap specified by the `NodeGap` property.
+
+[[DataBindingExample]]
+== Data Binding Example
+
+The following code example demonstrates how to bind the link:{DataChartLink}.SankeySeries.html[SankeySeries] to a household budget that flows from income, through spending categories, to individual expenses. The example uses separate collections for the stages, nodes, and links.
+
+The data model for the example is shown below:
+
+ifdef::wpf,win-forms[]
+*In C#:*
+[source,csharp]
+----
+public class BudgetStage
+{
+    public string Stage { get; set; }
+}
+
+public class BudgetNode
+{
+    public string Id { get; set; }
+    public string Label { get; set; }
+    public double Layer { get; set; }
+}
+
+public class BudgetLink
+{
+    public string Source { get; set; }
+    public string Target { get; set; }
+    public double Value { get; set; }
+}
+
+public class BudgetStages : List<BudgetStage>
+{
+    public BudgetStages()
+    {
+        this.Add(new BudgetStage() { Stage = "Income" });
+        this.Add(new BudgetStage() { Stage = "Category" });
+        this.Add(new BudgetStage() { Stage = "Detail" });
+    }
+}
+
+public class BudgetNodes : List<BudgetNode>
+{
+    public BudgetNodes()
+    {
+        this.Add(new BudgetNode() { Id = "income", Label = "Income", Layer = 0 });
+        this.Add(new BudgetNode() { Id = "housing", Label = "Housing", Layer = 1 });
+        this.Add(new BudgetNode() { Id = "food", Label = "Food", Layer = 1 });
+        this.Add(new BudgetNode() { Id = "savings", Label = "Savings", Layer = 1 });
+        this.Add(new BudgetNode() { Id = "rent", Label = "Rent", Layer = 2 });
+        this.Add(new BudgetNode() { Id = "utilities", Label = "Utilities", Layer = 2 });
+        this.Add(new BudgetNode() { Id = "groceries", Label = "Groceries", Layer = 2 });
+        this.Add(new BudgetNode() { Id = "dining", Label = "Dining Out", Layer = 2 });
+        this.Add(new BudgetNode() { Id = "retirement", Label = "Retirement", Layer = 2 });
+        this.Add(new BudgetNode() { Id = "emergency", Label = "Emergency Fund", Layer = 2 });
+    }
+}
+
+public class BudgetLinks : List<BudgetLink>
+{
+    public BudgetLinks()
+    {
+        this.Add(new BudgetLink() { Source = "income", Target = "housing", Value = 2137 });
+        this.Add(new BudgetLink() { Source = "income", Target = "food", Value = 812 });
+        this.Add(new BudgetLink() { Source = "income", Target = "savings", Value = 1243 });
+        this.Add(new BudgetLink() { Source = "housing", Target = "rent", Value = 1592 });
+        this.Add(new BudgetLink() { Source = "housing", Target = "utilities", Value = 545 });
+        this.Add(new BudgetLink() { Source = "food", Target = "groceries", Value = 517 });
+        this.Add(new BudgetLink() { Source = "food", Target = "dining", Value = 295 });
+        this.Add(new BudgetLink() { Source = "savings", Target = "retirement", Value = 831 });
+        this.Add(new BudgetLink() { Source = "savings", Target = "emergency", Value = 412 });
+    }
+}
+----
+endif::wpf,win-forms[]
+
+The following code creates the chart, the axes, and the `SankeySeries`. A link:{DataChartLink}.CalloutLayer.html[CalloutLayer] is added to label each node, and the axis lines and labels of the numeric axis are hidden because the node values are already represented by the size of the bands.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <local:BudgetStages x:Key="stages" />
+        <local:BudgetNodes x:Key="nodes" />
+        <local:BudgetLinks x:Key="links" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryXAxis x:Name="XAxis"
+                          ItemsSource="{StaticResource stages}"
+                          Label="Stage"
+                          TickLength="0" />
+        <ig:NumericYAxis x:Name="YAxis"
+                         AreLabelsVisible="False"
+                         TickLength="0" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:SankeySeries x:Name="SankeySeries"
+                         Title="Budget"
+                         XAxis="{Binding ElementName=XAxis}"
+                         YAxis="{Binding ElementName=YAxis}"
+                         ItemsSource="{StaticResource nodes}"
+                         NodeIdMemberPath="Id"
+                         NodeLabelMemberPath="Label"
+                         NodeLayerMemberPath="Layer"
+                         LinkSource="{StaticResource links}"
+                         LinkSourceMemberPath="Source"
+                         LinkTargetMemberPath="Target"
+                         LinkValueMemberPath="Value"
+                         UseItemWiseColors="True" />
+        <ig:CalloutLayer TargetSeries="{Binding ElementName=SankeySeries}"
+                         IsAutoCalloutBehaviorEnabled="True" />
+        <ig:DataToolTipLayer />
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+*In C#:*
+[source,csharp]
+----
+var xAxis = new CategoryXAxis();
+xAxis.ItemsSource = new BudgetStages();
+xAxis.Label = "Stage";
+xAxis.TickLength = 0;
+
+var yAxis = new NumericYAxis();
+yAxis.AreLabelsVisible = false;
+yAxis.TickLength = 0;
+
+var series = new SankeySeries();
+series.Title = "Budget";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+
+// nodes
+series.ItemsSource = new BudgetNodes();
+series.NodeIdMemberPath = "Id";
+series.NodeLabelMemberPath = "Label";
+series.NodeLayerMemberPath = "Layer";
+
+// links
+series.LinkSource = new BudgetLinks();
+series.LinkSourceMemberPath = "Source";
+series.LinkTargetMemberPath = "Target";
+series.LinkValueMemberPath = "Value";
+
+series.UseItemWiseColors = true;
+
+var callout = new CalloutLayer();
+callout.TargetSeries = series;
+callout.IsAutoCalloutBehaviorEnabled = true;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+chart.Series.Add(callout);
+chart.Series.Add(new DataToolTipLayer());
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim xAxis As New CategoryXAxis()
+xAxis.ItemsSource = New BudgetStages()
+xAxis.Label = "Stage"
+xAxis.TickLength = 0
+
+Dim yAxis As New NumericYAxis()
+yAxis.AreLabelsVisible = False
+yAxis.TickLength = 0
+
+Dim series As New SankeySeries()
+series.Title = "Budget"
+series.XAxis = xAxis
+series.YAxis = yAxis
+
+' nodes
+series.ItemsSource = New BudgetNodes()
+series.NodeIdMemberPath = "Id"
+series.NodeLabelMemberPath = "Label"
+series.NodeLayerMemberPath = "Layer"
+
+' links
+series.LinkSource = New BudgetLinks()
+series.LinkSourceMemberPath = "Source"
+series.LinkTargetMemberPath = "Target"
+series.LinkValueMemberPath = "Value"
+
+series.UseItemWiseColors = True
+
+Dim callout As New CalloutLayer()
+callout.TargetSeries = series
+callout.IsAutoCalloutBehaviorEnabled = True
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+chart.Series.Add(callout)
+chart.Series.Add(New DataToolTipLayer())
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+*In C#:*
+[source,csharp]
+----
+var xAxis = new CategoryXAxis();
+xAxis.DataSource = new BudgetStages();
+xAxis.Label = "Stage";
+xAxis.TickLength = 0;
+
+var yAxis = new NumericYAxis();
+yAxis.AreLabelsVisible = false;
+yAxis.TickLength = 0;
+
+var series = new SankeySeries();
+series.Title = "Budget";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+
+// nodes
+series.DataSource = new BudgetNodes();
+series.NodeIdMemberPath = "Id";
+series.NodeLabelMemberPath = "Label";
+series.NodeLayerMemberPath = "Layer";
+
+// links
+series.LinkSource = new BudgetLinks();
+series.LinkSourceMemberPath = "Source";
+series.LinkTargetMemberPath = "Target";
+series.LinkValueMemberPath = "Value";
+
+series.UseItemWiseColors = true;
+
+var callout = new CalloutLayer();
+callout.TargetSeries = series;
+callout.IsAutoCalloutBehaviorEnabled = true;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+chart.Series.Add(callout);
+chart.Series.Add(new DataToolTipLayer());
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim xAxis As New CategoryXAxis()
+xAxis.DataSource = New BudgetStages()
+xAxis.Label = "Stage"
+xAxis.TickLength = 0
+
+Dim yAxis As New NumericYAxis()
+yAxis.AreLabelsVisible = False
+yAxis.TickLength = 0
+
+Dim series As New SankeySeries()
+series.Title = "Budget"
+series.XAxis = xAxis
+series.YAxis = yAxis
+
+' nodes
+series.DataSource = New BudgetNodes()
+series.NodeIdMemberPath = "Id"
+series.NodeLabelMemberPath = "Label"
+series.NodeLayerMemberPath = "Layer"
+
+' links
+series.LinkSource = New BudgetLinks()
+series.LinkSourceMemberPath = "Source"
+series.LinkTargetMemberPath = "Target"
+series.LinkValueMemberPath = "Value"
+
+series.UseItemWiseColors = True
+
+Dim callout As New CalloutLayer()
+callout.TargetSeries = series
+callout.IsAutoCalloutBehaviorEnabled = True
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+chart.Series.Add(callout)
+chart.Series.Add(New DataToolTipLayer())
+----
+endif::win-forms[]
+
+[[LinksOnly]]
+== Binding to Links Only
+
+The node collection is optional. When the series has links but no nodes, or when the nodes do not specify a layer, the series creates the nodes from the distinct source and target identifiers of the links, assigns each node to a stage, and uses the node identifiers as the node labels.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:SankeySeries XAxis="{Binding ElementName=XAxis}"
+                 YAxis="{Binding ElementName=YAxis}"
+                 LinkSource="{StaticResource links}"
+                 LinkSourceMemberPath="Source"
+                 LinkTargetMemberPath="Target"
+                 LinkValueMemberPath="Value" />
+----
+endif::wpf[]
+
+ifdef::wpf,win-forms[]
+*In C#:*
+[source,csharp]
+----
+var series = new SankeySeries();
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.LinkSource = new BudgetLinks();
+series.LinkSourceMemberPath = "Source";
+series.LinkTargetMemberPath = "Target";
+series.LinkValueMemberPath = "Value";
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim series As New SankeySeries()
+series.XAxis = xAxis
+series.YAxis = yAxis
+series.LinkSource = New BudgetLinks()
+series.LinkSourceMemberPath = "Source"
+series.LinkTargetMemberPath = "Target"
+series.LinkValueMemberPath = "Value"
+----
+endif::wpf,win-forms[]
+
+When the stages are assigned automatically, the following properties control the layout of the nodes:
+
+[options="header", cols="a,a"]
+|====
+|Property |Description
+
+|`NodeAlignment`
+|Specifies how nodes are assigned to stages. `Left` (default) places each node in the earliest possible stage. `Right` places each node in the latest possible stage. `Justify` keeps the source nodes in the first stage and moves the nodes that have no outgoing links to the last stage. `Center` places each node midway between its sources and targets.
+
+|`LinkAggregation`
+|Specifies how multiple link items with the same source and target are drawn. `Aggregate` (default) combines them into a single ribbon whose value is their total. `Separate` draws a separate ribbon for each item.
+|====
+
+[[Alluvial]]
+== Binding to Rows of Categories (Alluvial Chart)
+
+When your data is a flat table of records, such as orders with a region, a product, and a sales channel, you do not need to build the nodes and links yourself. Instead, assign a link:{DataChartLink}.SankeyLayoutAdapter.html[SankeyLayoutAdapter] to the `LayoutAdapter` property of the series. Set the `LinkItemsSource` of the adapter to the table, list the category columns in the order of the stages in the `DimensionMemberPaths` property, and set the `LinkValueMemberPath` to the numeric column that is used for the size of each flow. The adapter creates a node for each distinct value in each column and a link for each pair of neighboring columns.
+
+ifdef::wpf,win-forms[]
+*In C#:*
+[source,csharp]
+----
+public class OrderStage
+{
+    public string Stage { get; set; }
+}
+
+public class OrderChannel
+{
+    public string Region { get; set; }
+    public string Product { get; set; }
+    public string Channel { get; set; }
+    public double Orders { get; set; }
+}
+...
+var stages = new List<OrderStage>
+{
+    new OrderStage() { Stage = "Region" },
+    new OrderStage() { Stage = "Product" },
+    new OrderStage() { Stage = "Channel" }
+};
+
+var orders = new List<OrderChannel>
+{
+    new OrderChannel() { Region = "North", Product = "Laptops", Channel = "Online", Orders = 412 },
+    new OrderChannel() { Region = "North", Product = "Tablets", Channel = "Online", Orders = 233 },
+    new OrderChannel() { Region = "South", Product = "Phones", Channel = "Online", Orders = 361 },
+    new OrderChannel() { Region = "South", Product = "Tablets", Channel = "Retail", Orders = 274 },
+    new OrderChannel() { Region = "West", Product = "Laptops", Channel = "Online", Orders = 297 },
+    new OrderChannel() { Region = "West", Product = "Phones", Channel = "Retail", Orders = 174 }
+};
+
+var xAxis = new CategoryXAxis();
+endif::wpf,win-forms[]
+ifdef::wpf[]
+xAxis.ItemsSource = stages;
+endif::wpf[]
+ifdef::win-forms[]
+xAxis.DataSource = stages;
+endif::win-forms[]
+ifdef::wpf,win-forms[]
+xAxis.Label = "Stage";
+
+var yAxis = new NumericYAxis();
+yAxis.AreLabelsVisible = false;
+
+var series = new SankeySeries();
+series.Title = "Orders";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+series.UseItemWiseColors = true;
+series.NodeGap = 60;
+series.LayoutAdapter = new SankeyLayoutAdapter()
+{
+    LinkItemsSource = orders,
+    LinkValueMemberPath = "Orders",
+    DimensionMemberPaths = new string[] { "Region", "Product", "Channel" }
+};
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim xAxis As New CategoryXAxis()
+endif::wpf,win-forms[]
+ifdef::wpf[]
+xAxis.ItemsSource = stages
+endif::wpf[]
+ifdef::win-forms[]
+xAxis.DataSource = stages
+endif::win-forms[]
+ifdef::wpf,win-forms[]
+xAxis.Label = "Stage"
+
+Dim yAxis As New NumericYAxis()
+yAxis.AreLabelsVisible = False
+
+Dim adapter As New SankeyLayoutAdapter()
+adapter.LinkItemsSource = orders
+adapter.LinkValueMemberPath = "Orders"
+adapter.DimensionMemberPaths = New String() {"Region", "Product", "Channel"}
+
+Dim series As New SankeySeries()
+series.Title = "Orders"
+series.XAxis = xAxis
+series.YAxis = yAxis
+series.UseItemWiseColors = True
+series.NodeGap = 60
+series.LayoutAdapter = adapter
+----
+endif::wpf,win-forms[]
+
+[[RadialSankey]]
+== Radial Sankey Series
+
+The link:{DataChartLink}.RadialSankeySeries.html[RadialSankeySeries] supports the same nodes and links as the `SankeySeries`, but it draws the stages around a circle. Use a link:{DataChartLink}.CategoryAngleAxis.html[CategoryAngleAxis] for the stages and a link:{DataChartLink}.NumericRadiusAxis.html[NumericRadiusAxis] for the node values, and assign them to the `AngleAxis` and `RadiusAxis` properties of the series.
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <local:BudgetStages x:Key="stages" />
+        <local:BudgetNodes x:Key="nodes" />
+        <local:BudgetLinks x:Key="links" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryAngleAxis x:Name="AngleAxis"
+                              ItemsSource="{StaticResource stages}"
+                              Label="Stage" />
+        <ig:NumericRadiusAxis x:Name="RadiusAxis"
+                              AreLabelsVisible="False" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:RadialSankeySeries Title="Budget"
+                               AngleAxis="{Binding ElementName=AngleAxis}"
+                               RadiusAxis="{Binding ElementName=RadiusAxis}"
+                               ItemsSource="{StaticResource nodes}"
+                               NodeIdMemberPath="Id"
+                               NodeLabelMemberPath="Label"
+                               NodeLayerMemberPath="Layer"
+                               LinkSource="{StaticResource links}"
+                               LinkSourceMemberPath="Source"
+                               LinkTargetMemberPath="Target"
+                               LinkValueMemberPath="Value"
+                               UseItemWiseColors="True" />
+        <ig:DataToolTipLayer />
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+*In C#:*
+[source,csharp]
+----
+var angleAxis = new CategoryAngleAxis();
+angleAxis.ItemsSource = new BudgetStages();
+angleAxis.Label = "Stage";
+
+var radiusAxis = new NumericRadiusAxis();
+radiusAxis.AreLabelsVisible = false;
+
+var series = new RadialSankeySeries();
+series.Title = "Budget";
+series.AngleAxis = angleAxis;
+series.RadiusAxis = radiusAxis;
+series.ItemsSource = new BudgetNodes();
+series.NodeIdMemberPath = "Id";
+series.NodeLabelMemberPath = "Label";
+series.NodeLayerMemberPath = "Layer";
+series.LinkSource = new BudgetLinks();
+series.LinkSourceMemberPath = "Source";
+series.LinkTargetMemberPath = "Target";
+series.LinkValueMemberPath = "Value";
+series.UseItemWiseColors = true;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(angleAxis);
+chart.Axes.Add(radiusAxis);
+chart.Series.Add(series);
+chart.Series.Add(new DataToolTipLayer());
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+*In C#:*
+[source,csharp]
+----
+var angleAxis = new CategoryAngleAxis();
+angleAxis.DataSource = new BudgetStages();
+angleAxis.Label = "Stage";
+
+var radiusAxis = new NumericRadiusAxis();
+radiusAxis.AreLabelsVisible = false;
+
+var series = new RadialSankeySeries();
+series.Title = "Budget";
+series.AngleAxis = angleAxis;
+series.RadiusAxis = radiusAxis;
+series.DataSource = new BudgetNodes();
+series.NodeIdMemberPath = "Id";
+series.NodeLabelMemberPath = "Label";
+series.NodeLayerMemberPath = "Layer";
+series.LinkSource = new BudgetLinks();
+series.LinkSourceMemberPath = "Source";
+series.LinkTargetMemberPath = "Target";
+series.LinkValueMemberPath = "Value";
+series.UseItemWiseColors = true;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(angleAxis);
+chart.Axes.Add(radiusAxis);
+chart.Series.Add(series);
+chart.Series.Add(new DataToolTipLayer());
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim angleAxis As New CategoryAngleAxis()
+angleAxis.DataSource = New BudgetStages()
+angleAxis.Label = "Stage"
+
+Dim radiusAxis As New NumericRadiusAxis()
+radiusAxis.AreLabelsVisible = False
+
+Dim series As New RadialSankeySeries()
+series.Title = "Budget"
+series.AngleAxis = angleAxis
+series.RadiusAxis = radiusAxis
+series.DataSource = New BudgetNodes()
+series.NodeIdMemberPath = "Id"
+series.NodeLabelMemberPath = "Label"
+series.NodeLayerMemberPath = "Layer"
+series.LinkSource = New BudgetLinks()
+series.LinkSourceMemberPath = "Source"
+series.LinkTargetMemberPath = "Target"
+series.LinkValueMemberPath = "Value"
+series.UseItemWiseColors = True
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(angleAxis)
+chart.Axes.Add(radiusAxis)
+chart.Series.Add(series)
+chart.Series.Add(New DataToolTipLayer())
+----
+endif::win-forms[]
+
+[[SeriesProperties]]
+== Series Properties
+
+The following table lists the commonly used properties of the `SankeySeries` and `RadialSankeySeries`:
+
+[options="header", cols="a,a"]
+|====
+|Property |Description
+
+ifdef::wpf[]
+|`ItemsSource`
+|Specifies the collection of node items. This collection is optional.
+endif::wpf[]
+
+ifdef::win-forms[]
+|`DataSource`
+|Specifies the collection of node items. This collection is optional.
+endif::win-forms[]
+
+|`NodeIdMemberPath`
+|Specifies the data column that contains the unique identifier of each node. Links refer to nodes by this identifier.
+
+|`NodeLabelMemberPath`
+|Specifies the data column that contains the display label of each node.
+
+|`NodeLayerMemberPath`
+|Specifies the data column that contains the zero-based index of the stage in which the node is placed.
+
+|`LinkSource`
+|Specifies the collection of link items.
+
+|`LinkSourceMemberPath`
+|Specifies the data column that contains the identifier of the node where the link starts.
+
+|`LinkTargetMemberPath`
+|Specifies the data column that contains the identifier of the node where the link ends.
+
+|`LinkValueMemberPath`
+|Specifies the data column that contains the numeric value of the link, which determines the width of the ribbon.
+
+|`LinkIdMemberPath`
+|Specifies the data column that contains a unique identifier of each link. When set, the series matches links by this identifier when the data changes, so an updated link animates from its previous shape to its new shape.
+
+|`LayoutAdapter`
+|Specifies a `SankeyLayoutAdapter` that creates the nodes and links from a flat table of categorical records.
+
+|`NodeGap`
+|Specifies the gap between neighboring nodes in the same stage.
+
+|`NodeAlignment`
+|Specifies how nodes are assigned to stages when the node layer is not provided.
+
+|`LinkAggregation`
+|Specifies whether link items with the same source and target are combined into one ribbon or drawn separately.
+
+|`UseItemWiseColors`
+|Specifies whether each node and its outgoing links are drawn with a different color from the palette of the chart.
+
+|`AreaFillOpacity`
+|Specifies the opacity of the link ribbons.
+|====
+
+[[RelatedContent]]
+== Related Content
+
+* link:datachart-category-series-overview.html[Category Series]
+* link:datachart-calloutlayer.html[Callout Layer]
+* link:datachart-axes.html[Axes]
+* link:datachart-series-requirements.html[Series Requirements]

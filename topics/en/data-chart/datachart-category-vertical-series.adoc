@@ -1,0 +1,473 @@
+////
+|metadata|
+{
+    "name": "datachart-category-vertical-series",
+    "controlName": ["{DataChartName}"],
+    "tags": ["Application Scenarios","Charting","How Do I"],
+    "guid": "100bb0db-b547-4ad7-8725-28869e02a5cb",
+    "buildFlags": [],
+    "createdOn": "2026-11-19T00:00:00Z"
+}
+|metadata|
+////
+
+= Vertical Series
+
+This topic explains, with code examples, how to use the vertical category series in the link:{DataChartLink}.{DataChartName}.html[{DataChartName}]™ control.
+
+== Overview
+
+The topic is organized as follows:
+
+* <<Introduction,Introduction>>
+* <<SeriesTypes,Vertical Series Types>>
+* <<SeriesRecommendations,Series Recommendations>>
+* <<DataRequirements,Data Requirements>>
+* <<DataRenderingRules,Data Rendering Rules>>
+* <<DataBindingExample,Data Binding Example>>
+* <<WaterfallExample,Vertical Waterfall Series Example>>
+* <<RelatedContent,Related Content>>
+
+[[Introduction]]
+== Introduction
+
+The vertical series belong to a group of link:datachart-category-series-overview.html[Category Series] and draw line, spline, point, step, area, and waterfall charts rotated on their side. The categories run down the y-axis (link:{DataChartLink}.CategoryYAxis.html[CategoryYAxis]) and the values run across the x-axis (link:{DataChartLink}.NumericXAxis.html[NumericXAxis]), in the same way as in the link:datachart-category-bar-series.html[Bar Series].
+
+Each vertical series is the vertical counterpart of a horizontal category series and supports the same options, such as markers, thickness, brushes, and area fill opacity. For more conceptual information and supported types of axes, refer to the link:datachart-category-series-overview.html[Category Series] and link:datachart-axes.html[Chart Axes] topics.
+
+[[SeriesTypes]]
+== Vertical Series Types
+
+The following table lists the vertical series and the horizontal series that each one corresponds to:
+
+[options="header", cols="a,a,a"]
+|====
+|Vertical Series |Horizontal Counterpart |Description
+
+|link:{DataChartLink}.VerticalLineSeries.html[VerticalLineSeries]
+|link:datachart-category-line-series.html[Line Series]
+|Connects neighboring values with straight lines.
+
+|link:{DataChartLink}.VerticalSplineSeries.html[VerticalSplineSeries]
+|link:datachart-category-spline-series.html[Spline Series]
+|Connects neighboring values with smooth curves.
+
+|link:{DataChartLink}.VerticalPointSeries.html[VerticalPointSeries]
+|link:datachart-category-point-series.html[Point Series]
+|Draws a marker for each value without connecting lines. Suitable for categories that have no natural order.
+
+|link:{DataChartLink}.VerticalStepLineSeries.html[VerticalStepLineSeries]
+|link:datachart-category-step-line-series.html[Step Line Series]
+|Holds each value until the next category and then steps to the next value. Suitable for values that change at set times, such as interest rates.
+
+|link:{DataChartLink}.VerticalAreaSeries.html[VerticalAreaSeries]
+|link:datachart-category-area-series.html[Area Series]
+|Fills the area between the line and the value axis.
+
+|link:{DataChartLink}.VerticalSplineAreaSeries.html[VerticalSplineAreaSeries]
+|link:datachart-category-spline-area-series.html[Spline Area Series]
+|Fills the area under a smooth curve.
+
+|link:{DataChartLink}.VerticalStepAreaSeries.html[VerticalStepAreaSeries]
+|link:datachart-category-step-area-series.html[Step Area Series]
+|Fills the area under a stepped line.
+
+|link:{DataChartLink}.VerticalWaterfallSeries.html[VerticalWaterfallSeries]
+|link:datachart-category-waterfall-series.html[Waterfall Series]
+|Draws each category as a bar that spans from the previous value to the value of the category.
+|====
+
+[[SeriesRecommendations]]
+== Series Recommendations
+
+Use the vertical series when:
+
+* The categories represent a physical vertical dimension, such as depth, altitude, or the floors of a building.
+* The category labels are long, such as survey questions or product names.
+* The chart has many categories, such as the hours of a day.
+* The chart is placed next to a table or a bar chart whose rows it should line up with.
+
+Common scenarios include ocean, soil, or atmosphere profiles, survey and ranking results, timelines that read from top to bottom, and profit bridges with long step names.
+
+The vertical series are not recommended for time series that read from left to right; use the link:datachart-category-line-series.html[Line Series] or link:datachart-category-area-series.html[Area Series] instead. To compare the magnitude of separate categories, use the link:datachart-category-bar-series.html[Bar Series] instead.
+
+Vertical series can be combined with each other and with the link:datachart-category-bar-series.html[Bar Series] in the same chart, because they all use the link:{DataChartLink}.NumericXAxis.html[NumericXAxis] and link:{DataChartLink}.CategoryYAxis.html[CategoryYAxis]. For example, a `VerticalLineSeries` can show a target value over a `BarSeries` that shows the actual values. Refer to the link:datachart-multiple-series.html[Multiple Series] topic for more information.
+
+[[DataRequirements]]
+== Data Requirements
+
+While the {DataChartName} control allows you to easily bind it to your own data model, make sure to supply the appropriate amount and type of data that the series requires. Refer to the link:datachart-series-requirements.html[Series Requirements] and link:datachart-category-series-overview.html[Category Series] topics for more information on data series requirements.
+
+The following is a list of data requirements for the vertical series types:
+
+* The data source must be a collection of data items, and it should contain at least one data item.
+* Each data item should contain a string or date time field that is used as the category label on the link:{DataChartLink}.CategoryYAxis.html[CategoryYAxis].
+* Each series reads one numeric field, specified by the `ValueMemberPath` property.
+
+[[DataRenderingRules]]
+== Data Rendering Rules
+
+The vertical series render data using the following rules:
+
+* Each data item is drawn as a point on a separate row of the link:{DataChartLink}.CategoryYAxis.html[CategoryYAxis].
+* The numeric value that is mapped to the `ValueMemberPath` property is drawn on the link:{DataChartLink}.NumericXAxis.html[NumericXAxis].
+* The string or date time column that is mapped to the `Label` property of the y-axis is used as the category labels. If the `Label` is not specified, default labels are used.
+* By default, the first data item is drawn at the bottom of the y-axis. Set the `IsInverted` property of the link:{DataChartLink}.CategoryYAxis.html[CategoryYAxis] to `true` to draw the first data item at the top of the axis, so that the categories read from top to bottom.
+* For the `VerticalWaterfallSeries`, each value is the running total and not the change from the previous category. Bars that fall from the previous value are drawn using the `NegativeBrush` and `NegativeOutline` properties.
+
+[[DataBindingExample]]
+== Data Binding Example
+
+The following code example shows how to bind two link:{DataChartLink}.VerticalLineSeries.html[VerticalLineSeries] objects to the sea temperature at different depths for a summer day and a winter day. The `IsInverted` property of the y-axis is set to `true` so that the surface is shown at the top of the chart.
+
+The data model for the example is shown below:
+
+ifdef::wpf,win-forms[]
+*In C#:*
+[source,csharp]
+----
+public class OceanTemperature
+{
+    public string Depth { get; set; }
+    public double Summer { get; set; }
+    public double Winter { get; set; }
+}
+
+public class OceanTemperatureByDepth : List<OceanTemperature>
+{
+    public OceanTemperatureByDepth()
+    {
+        this.Add(new OceanTemperature() { Depth = "0 m", Summer = 24.1, Winter = 12.3 });
+        this.Add(new OceanTemperature() { Depth = "10 m", Summer = 23.6, Winter = 12.2 });
+        this.Add(new OceanTemperature() { Depth = "20 m", Summer = 22, Winter = 12.1 });
+        this.Add(new OceanTemperature() { Depth = "30 m", Summer = 18.9, Winter = 12 });
+        this.Add(new OceanTemperature() { Depth = "50 m", Summer = 15.2, Winter = 11.7 });
+        this.Add(new OceanTemperature() { Depth = "75 m", Summer = 12.4, Winter = 11.2 });
+        this.Add(new OceanTemperature() { Depth = "100 m", Summer = 10.8, Winter = 10.5 });
+        this.Add(new OceanTemperature() { Depth = "150 m", Summer = 9.4, Winter = 9.3 });
+        this.Add(new OceanTemperature() { Depth = "200 m", Summer = 8.3, Winter = 8.3 });
+        this.Add(new OceanTemperature() { Depth = "300 m", Summer = 7.1, Winter = 7.1 });
+    }
+}
+----
+endif::wpf,win-forms[]
+
+The following code creates the chart, the axes, and the series:
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <local:OceanTemperatureByDepth x:Key="data" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryYAxis x:Name="YAxis"
+                          ItemsSource="{StaticResource data}"
+                          Label="Depth"
+                          Interval="1"
+                          IsInverted="True" />
+        <ig:NumericXAxis x:Name="XAxis"
+                         Title="Temperature (°C)" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:VerticalLineSeries Title="Summer"
+                               ItemsSource="{StaticResource data}"
+                               ValueMemberPath="Summer"
+                               MarkerType="Circle"
+                               Thickness="2"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" />
+        <ig:VerticalLineSeries Title="Winter"
+                               ItemsSource="{StaticResource data}"
+                               ValueMemberPath="Winter"
+                               MarkerType="Circle"
+                               Thickness="2"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" />
+        <ig:DataToolTipLayer />
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+*In C#:*
+[source,csharp]
+----
+var data = new OceanTemperatureByDepth();
+
+var yAxis = new CategoryYAxis();
+yAxis.ItemsSource = data;
+yAxis.Label = "Depth";
+yAxis.Interval = 1;
+yAxis.IsInverted = true;
+
+var xAxis = new NumericXAxis();
+xAxis.Title = "Temperature (°C)";
+
+var series1 = new VerticalLineSeries();
+series1.Title = "Summer";
+series1.ItemsSource = data;
+series1.ValueMemberPath = "Summer";
+series1.MarkerType = MarkerType.Circle;
+series1.Thickness = 2;
+series1.XAxis = xAxis;
+series1.YAxis = yAxis;
+
+var series2 = new VerticalLineSeries();
+series2.Title = "Winter";
+series2.ItemsSource = data;
+series2.ValueMemberPath = "Winter";
+series2.MarkerType = MarkerType.Circle;
+series2.Thickness = 2;
+series2.XAxis = xAxis;
+series2.YAxis = yAxis;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series1);
+chart.Series.Add(series2);
+chart.Series.Add(new DataToolTipLayer());
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New OceanTemperatureByDepth()
+
+Dim yAxis As New CategoryYAxis()
+yAxis.ItemsSource = data
+yAxis.Label = "Depth"
+yAxis.Interval = 1
+yAxis.IsInverted = True
+
+Dim xAxis As New NumericXAxis()
+xAxis.Title = "Temperature (°C)"
+
+Dim series1 As New VerticalLineSeries()
+series1.Title = "Summer"
+series1.ItemsSource = data
+series1.ValueMemberPath = "Summer"
+series1.MarkerType = MarkerType.Circle
+series1.Thickness = 2
+series1.XAxis = xAxis
+series1.YAxis = yAxis
+
+Dim series2 As New VerticalLineSeries()
+series2.Title = "Winter"
+series2.ItemsSource = data
+series2.ValueMemberPath = "Winter"
+series2.MarkerType = MarkerType.Circle
+series2.Thickness = 2
+series2.XAxis = xAxis
+series2.YAxis = yAxis
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series1)
+chart.Series.Add(series2)
+chart.Series.Add(New DataToolTipLayer())
+----
+endif::wpf[]
+
+ifdef::win-forms[]
+*In C#:*
+[source,csharp]
+----
+var data = new OceanTemperatureByDepth();
+
+var yAxis = new CategoryYAxis();
+yAxis.DataSource = data;
+yAxis.Label = "Depth";
+yAxis.Interval = 1;
+yAxis.IsInverted = true;
+
+var xAxis = new NumericXAxis();
+xAxis.Title = "Temperature (°C)";
+
+var series1 = new VerticalLineSeries();
+series1.Title = "Summer";
+series1.DataSource = data;
+series1.ValueMemberPath = "Summer";
+series1.MarkerType = MarkerType.Circle;
+series1.Thickness = 2;
+series1.XAxis = xAxis;
+series1.YAxis = yAxis;
+
+var series2 = new VerticalLineSeries();
+series2.Title = "Winter";
+series2.DataSource = data;
+series2.ValueMemberPath = "Winter";
+series2.MarkerType = MarkerType.Circle;
+series2.Thickness = 2;
+series2.XAxis = xAxis;
+series2.YAxis = yAxis;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series1);
+chart.Series.Add(series2);
+chart.Series.Add(new DataToolTipLayer());
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New OceanTemperatureByDepth()
+
+Dim yAxis As New CategoryYAxis()
+yAxis.DataSource = data
+yAxis.Label = "Depth"
+yAxis.Interval = 1
+yAxis.IsInverted = True
+
+Dim xAxis As New NumericXAxis()
+xAxis.Title = "Temperature (°C)"
+
+Dim series1 As New VerticalLineSeries()
+series1.Title = "Summer"
+series1.DataSource = data
+series1.ValueMemberPath = "Summer"
+series1.MarkerType = MarkerType.Circle
+series1.Thickness = 2
+series1.XAxis = xAxis
+series1.YAxis = yAxis
+
+Dim series2 As New VerticalLineSeries()
+series2.Title = "Winter"
+series2.DataSource = data
+series2.ValueMemberPath = "Winter"
+series2.MarkerType = MarkerType.Circle
+series2.Thickness = 2
+series2.XAxis = xAxis
+series2.YAxis = yAxis
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series1)
+chart.Series.Add(series2)
+chart.Series.Add(New DataToolTipLayer())
+----
+endif::win-forms[]
+
+The other vertical series types are bound in the same way. For example, replace `VerticalLineSeries` with `VerticalAreaSeries`, `VerticalSplineAreaSeries`, or `VerticalStepAreaSeries` and set the `AreaFillOpacity` property to a value such as `0.5` so that overlapping areas remain visible.
+
+[[WaterfallExample]]
+== Vertical Waterfall Series Example
+
+The following code example shows how to use the link:{DataChartLink}.VerticalWaterfallSeries.html[VerticalWaterfallSeries] to display a profit bridge. Each value in the `Total` column is the running total after the step, and the `IsInverted` property of the y-axis is set to `true` so that the steps read from top to bottom.
+
+ifdef::wpf,win-forms[]
+*In C#:*
+[source,csharp]
+----
+public class ProfitStep
+{
+    public string Step { get; set; }
+    public double Total { get; set; }
+}
+...
+var data = new List<ProfitStep>
+{
+    new ProfitStep() { Step = "Revenue", Total = 1200 },
+    new ProfitStep() { Step = "Cost of sales", Total = 720 },
+    new ProfitStep() { Step = "Operating expenses", Total = 410 },
+    new ProfitStep() { Step = "Research", Total = 260 },
+    new ProfitStep() { Step = "Other income", Total = 300 },
+    new ProfitStep() { Step = "Taxes", Total = 230 }
+};
+
+var yAxis = new CategoryYAxis();
+endif::wpf,win-forms[]
+ifdef::wpf[]
+yAxis.ItemsSource = data;
+endif::wpf[]
+ifdef::win-forms[]
+yAxis.DataSource = data;
+endif::win-forms[]
+ifdef::wpf,win-forms[]
+yAxis.Label = "Step";
+yAxis.Interval = 1;
+yAxis.IsInverted = true;
+
+var xAxis = new NumericXAxis();
+xAxis.Title = "Thousands of Dollars";
+xAxis.MinimumValue = 0;
+
+var series = new VerticalWaterfallSeries();
+series.Title = "Running Total";
+endif::wpf,win-forms[]
+ifdef::wpf[]
+series.ItemsSource = data;
+endif::wpf[]
+ifdef::win-forms[]
+series.DataSource = data;
+endif::win-forms[]
+ifdef::wpf,win-forms[]
+series.ValueMemberPath = "Total";
+series.XAxis = xAxis;
+series.YAxis = yAxis;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series);
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim yAxis As New CategoryYAxis()
+endif::wpf,win-forms[]
+ifdef::wpf[]
+yAxis.ItemsSource = data
+endif::wpf[]
+ifdef::win-forms[]
+yAxis.DataSource = data
+endif::win-forms[]
+ifdef::wpf,win-forms[]
+yAxis.Label = "Step"
+yAxis.Interval = 1
+yAxis.IsInverted = True
+
+Dim xAxis As New NumericXAxis()
+xAxis.Title = "Thousands of Dollars"
+xAxis.MinimumValue = 0
+
+Dim series As New VerticalWaterfallSeries()
+series.Title = "Running Total"
+endif::wpf,win-forms[]
+ifdef::wpf[]
+series.ItemsSource = data
+endif::wpf[]
+ifdef::win-forms[]
+series.DataSource = data
+endif::win-forms[]
+ifdef::wpf,win-forms[]
+series.ValueMemberPath = "Total"
+series.XAxis = xAxis
+series.YAxis = yAxis
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series)
+----
+endif::wpf,win-forms[]
+
+[[RelatedContent]]
+== Related Content
+
+* link:datachart-category-series-overview.html[Category Series]
+* link:datachart-category-bar-series.html[Bar Series]
+* link:datachart-category-line-series.html[Line Series]
+* link:datachart-category-area-series.html[Area Series]
+* link:datachart-category-waterfall-series.html[Waterfall Series]
+* link:datachart-axes.html[Axes]
+* link:datachart-series-requirements.html[Series Requirements]
