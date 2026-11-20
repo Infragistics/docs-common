@@ -122,7 +122,7 @@ The following code example shows how to bind two link:{DataChartLink}.VerticalLi
 
 The data model for the example is shown below:
 
-ifdef::win-forms[]
+ifdef::wpf,win-forms[]
 *In C#:*
 [source,csharp]
 ----
@@ -150,9 +150,129 @@ public class OceanTemperatureByDepth : List<OceanTemperature>
     }
 }
 ----
-endif::win-forms[]
+endif::wpf,win-forms[]
 
 The following code creates the chart, the axes, and the series:
+
+ifdef::wpf[]
+*In XAML:*
+[source,xaml]
+----
+xmlns:local="clr-namespace:Infragistics.Models;assembly=YourAppName"
+...
+<ig:{DataChartName} x:Name="DataChart">
+    <ig:{DataChartName}.Resources>
+        <local:OceanTemperatureByDepth x:Key="data" />
+    </ig:{DataChartName}.Resources>
+    <ig:{DataChartName}.Axes>
+        <ig:CategoryYAxis x:Name="YAxis"
+                          ItemsSource="{StaticResource data}"
+                          Label="Depth"
+                          Interval="1"
+                          IsInverted="True" />
+        <ig:NumericXAxis x:Name="XAxis"
+                         Title="Temperature (°C)" />
+    </ig:{DataChartName}.Axes>
+    <ig:{DataChartName}.Series>
+        <ig:VerticalLineSeries Title="Summer"
+                               ItemsSource="{StaticResource data}"
+                               ValueMemberPath="Summer"
+                               MarkerType="Circle"
+                               Thickness="2"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" />
+        <ig:VerticalLineSeries Title="Winter"
+                               ItemsSource="{StaticResource data}"
+                               ValueMemberPath="Winter"
+                               MarkerType="Circle"
+                               Thickness="2"
+                               XAxis="{Binding ElementName=XAxis}"
+                               YAxis="{Binding ElementName=YAxis}" />
+        <ig:DataToolTipLayer />
+    </ig:{DataChartName}.Series>
+</ig:{DataChartName}>
+----
+
+*In C#:*
+[source,csharp]
+----
+var data = new OceanTemperatureByDepth();
+
+var yAxis = new CategoryYAxis();
+yAxis.ItemsSource = data;
+yAxis.Label = "Depth";
+yAxis.Interval = 1;
+yAxis.IsInverted = true;
+
+var xAxis = new NumericXAxis();
+xAxis.Title = "Temperature (°C)";
+
+var series1 = new VerticalLineSeries();
+series1.Title = "Summer";
+series1.ItemsSource = data;
+series1.ValueMemberPath = "Summer";
+series1.MarkerType = MarkerType.Circle;
+series1.Thickness = 2;
+series1.XAxis = xAxis;
+series1.YAxis = yAxis;
+
+var series2 = new VerticalLineSeries();
+series2.Title = "Winter";
+series2.ItemsSource = data;
+series2.ValueMemberPath = "Winter";
+series2.MarkerType = MarkerType.Circle;
+series2.Thickness = 2;
+series2.XAxis = xAxis;
+series2.YAxis = yAxis;
+
+var chart = new {DataChartName}();
+chart.Axes.Add(xAxis);
+chart.Axes.Add(yAxis);
+chart.Series.Add(series1);
+chart.Series.Add(series2);
+chart.Series.Add(new DataToolTipLayer());
+----
+
+*In Visual Basic:*
+[source,vb]
+----
+Dim data As New OceanTemperatureByDepth()
+
+Dim yAxis As New CategoryYAxis()
+yAxis.ItemsSource = data
+yAxis.Label = "Depth"
+yAxis.Interval = 1
+yAxis.IsInverted = True
+
+Dim xAxis As New NumericXAxis()
+xAxis.Title = "Temperature (°C)"
+
+Dim series1 As New VerticalLineSeries()
+series1.Title = "Summer"
+series1.ItemsSource = data
+series1.ValueMemberPath = "Summer"
+series1.MarkerType = MarkerType.Circle
+series1.Thickness = 2
+series1.XAxis = xAxis
+series1.YAxis = yAxis
+
+Dim series2 As New VerticalLineSeries()
+series2.Title = "Winter"
+series2.ItemsSource = data
+series2.ValueMemberPath = "Winter"
+series2.MarkerType = MarkerType.Circle
+series2.Thickness = 2
+series2.XAxis = xAxis
+series2.YAxis = yAxis
+
+Dim chart As New {DataChartName}()
+chart.Axes.Add(xAxis)
+chart.Axes.Add(yAxis)
+chart.Series.Add(series1)
+chart.Series.Add(series2)
+chart.Series.Add(New DataToolTipLayer())
+----
+endif::wpf[]
 
 ifdef::win-forms[]
 *In C#:*
@@ -243,7 +363,7 @@ The other vertical series types are bound in the same way. For example, replace 
 
 The following code example shows how to use the link:{DataChartLink}.VerticalWaterfallSeries.html[VerticalWaterfallSeries] to display a profit bridge. Each value in the `Total` column is the running total after the step, and the `IsInverted` property of the y-axis is set to `true` so that the steps read from top to bottom.
 
-ifdef::win-forms[]
+ifdef::wpf,win-forms[]
 *In C#:*
 [source,csharp]
 ----
@@ -264,7 +384,14 @@ var data = new List<ProfitStep>
 };
 
 var yAxis = new CategoryYAxis();
+endif::wpf,win-forms[]
+ifdef::wpf[]
+yAxis.ItemsSource = data;
+endif::wpf[]
+ifdef::win-forms[]
 yAxis.DataSource = data;
+endif::win-forms[]
+ifdef::wpf,win-forms[]
 yAxis.Label = "Step";
 yAxis.Interval = 1;
 yAxis.IsInverted = true;
@@ -275,7 +402,14 @@ xAxis.MinimumValue = 0;
 
 var series = new VerticalWaterfallSeries();
 series.Title = "Running Total";
+endif::wpf,win-forms[]
+ifdef::wpf[]
+series.ItemsSource = data;
+endif::wpf[]
+ifdef::win-forms[]
 series.DataSource = data;
+endif::win-forms[]
+ifdef::wpf,win-forms[]
 series.ValueMemberPath = "Total";
 series.XAxis = xAxis;
 series.YAxis = yAxis;
@@ -290,7 +424,14 @@ chart.Series.Add(series);
 [source,vb]
 ----
 Dim yAxis As New CategoryYAxis()
+endif::wpf,win-forms[]
+ifdef::wpf[]
+yAxis.ItemsSource = data
+endif::wpf[]
+ifdef::win-forms[]
 yAxis.DataSource = data
+endif::win-forms[]
+ifdef::wpf,win-forms[]
 yAxis.Label = "Step"
 yAxis.Interval = 1
 yAxis.IsInverted = True
@@ -301,7 +442,14 @@ xAxis.MinimumValue = 0
 
 Dim series As New VerticalWaterfallSeries()
 series.Title = "Running Total"
+endif::wpf,win-forms[]
+ifdef::wpf[]
+series.ItemsSource = data
+endif::wpf[]
+ifdef::win-forms[]
 series.DataSource = data
+endif::win-forms[]
+ifdef::wpf,win-forms[]
 series.ValueMemberPath = "Total"
 series.XAxis = xAxis
 series.YAxis = yAxis
@@ -311,7 +459,7 @@ chart.Axes.Add(xAxis)
 chart.Axes.Add(yAxis)
 chart.Series.Add(series)
 ----
-endif::win-forms[]
+endif::wpf,win-forms[]
 
 [[RelatedContent]]
 == Related Content
